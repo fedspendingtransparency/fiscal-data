@@ -1,4 +1,4 @@
-import { formateCellGenerativeValue } from './format-cell-generative-value';
+import { formatCellGenerativeValue } from './format-cell-generative-value';
 
 describe('formatCellValue', () => {
   const currencyConfig = [
@@ -7,11 +7,11 @@ describe('formatCellValue', () => {
   ];
 
   it('formats eff_date to MM/DD/YYYY when value is a valid date', () => {
-    expect(formateCellGenerativeValue('2024-01-15', { columnName: 'eff_date' }, currencyConfig)).toBe('01/14/2024');
+    expect(formatCellGenerativeValue('2024-01-15', { columnName: 'eff_date' }, currencyConfig)).toBe('01/14/2024');
   });
 
   it('formats currency when field is listed with NUMBER+currency', () => {
-    expect(formateCellGenerativeValue(1234.5, { columnName: 'shares_per_par' }, currencyConfig)).toBe('$1,234.50');
-    expect(formateCellGenerativeValue('9876543.2', { columnName: 'shares_per_par' }, currencyConfig)).toBe('$9,876,543.20');
+    expect(formatCellGenerativeValue(1234.5, { columnName: 'shares_per_par' }, currencyConfig)).toBe('$1,234.50');
+    expect(formatCellGenerativeValue('9876543.2', { columnName: 'shares_per_par' }, currencyConfig)).toBe('$9,876,543.20');
   });
 });
