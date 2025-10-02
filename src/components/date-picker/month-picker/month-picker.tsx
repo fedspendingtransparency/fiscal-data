@@ -16,7 +16,6 @@ interface IMonthPickerDropdown {
   ignoreDisabled?: boolean;
   latestDate: Date;
   earliestDate: Date;
-  label?: string;
 }
 const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   setSelectedDate,
@@ -28,7 +27,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
   ignoreDisabled,
   latestDate,
   earliestDate,
-  label,
 }: IMonthPickerDropdown) => {
   const [showYears, setShowYears] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
@@ -77,7 +75,6 @@ const MonthPicker: FunctionComponent<IMonthPickerDropdown> = ({
           selectedDate={selectedMonth + ' ' + selectedYear}
           fromDate={earliestDate}
           toDate={latestDate}
-          label={label}
         >
           <>
             <button className={yearButton} onClick={() => setShowYears(!showYears)} aria-label="Toggle Year Dropdown">

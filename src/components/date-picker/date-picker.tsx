@@ -31,7 +31,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   selectedDate,
   setSelectedDate,
   ignoreDisabled,
-  label,
+  label = 'Published Date',
+  searchLabel,
   ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
@@ -83,7 +84,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             ignoreDisabled={ignoreDisabled}
             latestDate={latestDate}
             earliestDate={earliestDate}
-            label={`${label} (Example: May 1998 or 05/1998)`}
+            label={searchLabel}
           />
         )}
         {active && isDaily && (
@@ -93,9 +94,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             setSelectedDate={setSelectedDate}
             latestDate={latestDate}
             earliestDate={earliestDate}
-            // allDates={allDates}
+            allDates={allDates}
             active={active}
-            label={label}
             ariaLabel={ariaLabel}
             minDateErrorMessage={minDateErrorMessage}
             maxDateErrorMessage={maxDateErrorMessage}

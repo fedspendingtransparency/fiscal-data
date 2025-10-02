@@ -99,7 +99,8 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
                 allYears={allReportYears}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
-                label="Published Date (Example: May 1, 1998 or 05/01/1998)"
+                label="Published Date"
+                searchLabel="Published Date (Example: May 1, 1998 or 05/01/1998)"
                 ariaLabel="Enter report date"
               />
             )}
