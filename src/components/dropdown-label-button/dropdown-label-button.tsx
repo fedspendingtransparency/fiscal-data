@@ -25,7 +25,7 @@ interface IDropdownLabelButton {
   dropdownWidth?: string;
   name?: string;
   filtersAreSelected?: boolean;
-  openDialog?: boolean;
+  openDialog?: (open: boolean) => void;
 }
 
 const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
