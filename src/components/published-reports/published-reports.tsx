@@ -19,12 +19,10 @@ const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ p
       <ReportsSection dataset={pageConfig} />
       {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && (
         <Experimental featureId="fipReportsSection">
-          <FilterReportsSection reportConfig={pageConfig.runTimeReportConfig} apis={pageConfig.apis} />
+          <FilterReportsSection dataset={pageConfig} />
         </Experimental>
       )}
-      {pageConfig.runTimeReportConfig && !pageConfig.runTimeReportConfig?.experimental && (
-        <FilterReportsSection reportConfig={pageConfig.runTimeReportConfig} apis={pageConfig.apis} />
-      )}
+      {pageConfig.runTimeReportConfig && !pageConfig.runTimeReportConfig?.experimental && <FilterReportsSection dataset={pageConfig} />}
     </>
   );
 };

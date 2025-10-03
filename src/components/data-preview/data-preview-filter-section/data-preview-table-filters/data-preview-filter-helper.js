@@ -15,11 +15,11 @@ export const customPreset = { label: 'Custom', key: 'custom', years: null };
 // by default.
 export const fallbackPresets = ['1yr', 'current', 'all'];
 
-export const initializeFilterConfigMap = (selectedTable, datePreset) => {
+export const initializeFilterConfigMap = (selectedTable, datePreset, visibleOptions, pivotView) => {
   const filterMap = {};
   const { fields: fieldsArray, dateField } = selectedTable;
-
-  fieldsArray?.forEach(field => {
+  const arr = pivotView ? visibleOptions : fieldsArray;
+  arr?.forEach(field => {
     const { dataType, columnName } = field;
     if (dataType === 'DATE') {
       const dateConfig = {};

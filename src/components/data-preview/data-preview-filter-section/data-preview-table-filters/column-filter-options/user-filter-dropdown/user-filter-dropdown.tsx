@@ -55,6 +55,7 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
 }) => {
   const [active, setActive] = useState(false);
   const emptySelection = { label: '(None selected)', value: null };
+
   const getDefaultSelected = () => {
     const defaultFilterMap = JSON.parse(JSON.stringify(filterMap));
     const currentFilter = defaultFilterMap[columnConfig.columnName].filterValue;
@@ -87,9 +88,7 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
       });
       options.unshift(emptySelection);
       setUserFilterOptions(options);
-    }
-    // TODO determine if this can be removed in FDG-10504
-    else if (selectedTable?.apiFilter?.optionValues) {
+    } else if (selectedTable?.apiFilter?.optionValues) {
       if (selectedTable.apiFilter.fieldFilter?.value) {
         const filterOptions = selectedTable.apiFilter.fieldFilter.value;
         nestedOptions = [{ default: true, children: [emptySelection] }];
@@ -121,7 +120,6 @@ const UserFilterDropdown: FunctionComponent<UserFilterProps> = ({
     establishOptions();
   }, [apiData]);
 
-  // TODO determine if this can be removed in FDG-10504
   useEffect(() => {
     establishOptions();
     if (!sharedApiFilterOptions) {

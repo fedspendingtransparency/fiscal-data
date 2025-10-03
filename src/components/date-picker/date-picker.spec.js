@@ -162,7 +162,7 @@ describe('Month Picker', () => {
         allDates={[]}
         allYears={yearDropdownList}
         selectedDate={mockSelectedDate}
-        label={'Published Date (Example: May 1998 or 05/1998)'}
+        label={'Published Date'}
       />
     );
     const button = getByRole('button');

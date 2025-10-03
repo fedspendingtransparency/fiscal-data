@@ -24,9 +24,15 @@ input.optionCheckbox {
   cursor: pointer;
 }
 
+.disabledField {
+  cursor: default;
+  opacity: 0.5;
+}
+
 .label {
   max-width: 95%;
   font-size: $font-size-14;
+
   &:focus-within .optionCheckbox + span {
     border: 1px solid $primary;
   }
@@ -58,6 +64,11 @@ input.optionCheckbox {
   cursor: pointer;
   margin-right: 0.5rem;
   border-radius: 0.125rem;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
 .label_checkmark_container {

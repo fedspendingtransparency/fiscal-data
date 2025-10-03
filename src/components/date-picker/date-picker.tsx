@@ -31,7 +31,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   selectedDate,
   setSelectedDate,
   ignoreDisabled,
-  label,
+  label = 'Published Date',
+  searchLabel,
   ariaLabel,
   minDateErrorMessage,
   maxDateErrorMessage,
@@ -41,7 +42,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
 
   const dropdownButton = (
     <DropdownLabelButton
-      label="Published Date"
+      label={label}
       selectedOption={formatReportDate(selectedDate, true, isDaily)}
       icon={faCalendar}
       setActive={setActive}
@@ -83,6 +84,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             ignoreDisabled={ignoreDisabled}
             latestDate={latestDate}
             earliestDate={earliestDate}
+            label={searchLabel}
           />
         )}
         {active && isDaily && (
@@ -94,7 +96,6 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             earliestDate={earliestDate}
             allDates={allDates}
             active={active}
-            label={label}
             ariaLabel={ariaLabel}
             minDateErrorMessage={minDateErrorMessage}
             maxDateErrorMessage={maxDateErrorMessage}
