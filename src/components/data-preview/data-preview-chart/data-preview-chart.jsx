@@ -38,8 +38,8 @@ import { DataTableContext } from '../data-preview-context';
 
 export let chartHooks;
 
-const DataPreviewChart = ({ slug, currentTable, selectedPivot, dateField }) => {
-  const { tableState: table, reactTableData: data } = useContext(DataTableContext);
+const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }) => {
+  const { tableState: table } = useContext(DataTableContext);
 
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
