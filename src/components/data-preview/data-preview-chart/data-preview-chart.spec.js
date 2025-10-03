@@ -14,6 +14,7 @@ import {
   mockSlug,
   mockTable,
 } from './chart-test-helper';
+import { DataTableContext } from '../data-preview-context';
 
 jest.mock('../../charts/chart-primary', () => () => {
   return {
@@ -185,8 +186,19 @@ describe('Dataset Chart', () => {
   });
 
   it('should use set of colors for the legend checkboxes', async () => {
+    const mockContextValues = {
+      tableState: {
+        getVisibleFlatColumns: jest.fn(), //.mockImplementation(() => [{ id: 'a' }, { id: 'c' }, { id: 'd' }, { id: 'e' }]),
+      },
+    };
     const { getAllByTestId } = render(
-      <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
+      <DataTableContext.Provider
+        value={{
+          ...mockContextValues,
+        }}
+      >
+        <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
+      </DataTableContext.Provider>
     );
     const checkboxes = getAllByTestId('checkboxLabelContainer');
     checkboxes.forEach((box, i) => {

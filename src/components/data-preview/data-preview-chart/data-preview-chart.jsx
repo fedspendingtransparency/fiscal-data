@@ -49,13 +49,13 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const [showLegend, setShowLegend] = useState(true);
   const viz = useRef();
   const [colorMap, setColorMap] = useState({});
-
+  const columns = table?.getVisibleFlatColumns();
   const buildLegendConfig = fields => {
     setChartFields(
       fields.map(f => {
         return {
           field: f,
-          active: table?.getVisibleFlatColumns().filter(x => x.id === f).length > 0,
+          active: columns ? columns.filter(x => x.id === f).length > 0 : true,
           label: data.meta.labels[f],
         };
       })
