@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DataPreview correctly prepares pivoted data with aggregation and summing and handles non-numeric values 1`] = `
+exports[`DataPreview pivot functionality correctly prepares pivoted data with aggregation and summing and handles non-numeric values 1`] = `
 {
   "data": [
     {
@@ -32,7 +32,7 @@ exports[`DataPreview correctly prepares pivoted data with aggregation and summin
 }
 `;
 
-exports[`DataPreview correctly prepares pivoted data without aggregation 1`] = `
+exports[`DataPreview pivot functionality correctly prepares pivoted data without aggregation 1`] = `
 {
   "data": [
     {

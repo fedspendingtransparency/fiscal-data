@@ -13,12 +13,16 @@ import ColumnSelectionList from './column-selection-list/column-selection-list';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
+  dateField: string;
   isDisabled: boolean;
   width?: number;
+  pivotView;
+  dropdownWidth;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView, dropdownWidth }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, dateField, isDisabled, width, pivotView, dropdownWidth }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
+
   const [dropdownActive, setDropdownActive] = useState(false);
   const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotDisplay;
@@ -69,6 +73,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           table={table}
+          disabledFields={pivotDisplay ? [dateField, 'Time Period'] : []}
         />
       </div>
     </>

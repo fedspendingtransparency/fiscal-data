@@ -223,7 +223,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (activeFields && allFields) {
       if (pivotView?.title !== 'Complete Table' && pivotView?.dimensionField) {
         visibleCols = [];
-        activeFields.forEach(field => visibleCols.push({ id: field.id, prettyName: field.columnDef.header }));
+        activeFields.forEach(field =>
+          visibleCols.push({ id: field.id, prettyName: field.columnDef.header, dataType: 'string', columnName: field.id })
+        );
       } else {
         visibleCols = allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
       }
@@ -287,11 +289,14 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (!active) {
       if (filterMap) {
         const map = JSON.parse(JSON.stringify(filterMap));
-        selectedTable.fields.forEach(field => {
-          const { columnName } = field;
-          map[columnName].pendingValue = map[columnName].filterValue;
-        });
-        setFiltersMap(map);
+
+        if (!pivotView) {
+          selectedTable.fields.forEach(field => {
+            const { columnName } = field;
+            map[columnName].pendingValue = map[columnName].filterValue;
+          });
+          setFiltersMap(map);
+        }
       }
     }
   }, [active]);
@@ -336,9 +341,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   // }, [active]);
 
   useEffect(() => {
-    setFiltersMap(initializeFilterConfigMap(selectedTable, null));
+    setFiltersMap(initializeFilterConfigMap(selectedTable, null, visibleOptions, pivotView));
     setAppliedFilters([]);
-  }, [selectedTable, pivotView]);
+  }, [selectedTable, pivotView, visibleOptions]);
 
   useEffect(() => {
     const search = filter.toLowerCase();
