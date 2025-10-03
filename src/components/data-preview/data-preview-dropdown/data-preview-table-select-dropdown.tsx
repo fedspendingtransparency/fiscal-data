@@ -10,6 +10,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../data-preview.module.scss';
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import DataPreviewMobileFilterList from '../data-preview-filter-section/data-preview-mobile-filter-list/data-preview-mobile-filter-list';
+import { useScrollLock } from 'usehooks-ts';
 
 const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = ({
   apis,
@@ -40,8 +41,11 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
   const [filter, setFilter] = useState('');
+  const [openMobileTableSelect, setOpenMobileTableSelect] = useState(false);
+
   // 54px comes from subtracting the padding and margins on both sides of the container
   const containerWdith = 'calc(100vw - 54px)';
+  const { lock, unlock } = useScrollLock({ autoLock: false });
   const options = disableAllTables
     ? apis
     : [
@@ -60,6 +64,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       active={active}
       setActive={setActive}
       dropdownWidth={width < pxToNumber(breakpointLg) ? '100%' : '30rem'}
+      openDialog={setOpenMobileTableSelect}
     />
   );
 
@@ -81,6 +86,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       setSelectedPivot(pivot);
     }
     setActive(false);
+    setOpenMobileTableSelect(false);
     if (isDataTableSelected) {
       setIsDataTableSelected(false);
     }
@@ -88,6 +94,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleCancel = () => {
     setActive(false);
+    setOpenMobileTableSelect(false);
     if (isDataTableSelected) {
       setIsDataTableSelected(false);
     }
@@ -124,6 +131,17 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   }, [active]);
 
   useEffect(() => {
+    if (openMobileTableSelect) {
+      lock();
+    } else {
+      unlock();
+    }
+    return () => {
+      unlock();
+    };
+  }, [openMobileTableSelect]);
+
+  useEffect(() => {
     //initialize pivot options
     if (selectedTable && !selectedTable.allDataTables && !selectedPivot) {
       const localPivotFields = getPivotFields(selectedTable);
@@ -144,6 +162,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       filterName={tableToApply.tableName}
       hasSearch={false}
       backButtonText="Data Tables"
+      dialogState={openMobileTableSelect}
       filterComponent={
         <DataPreviewPivotSelect
           table={tableToApply}
@@ -166,6 +185,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       searchText="Search data tables"
       filter={filter}
       setFilter={setFilter}
+      dialogState={openMobileTableSelect}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={options}
@@ -216,7 +236,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       {!hideDropdown && width < pxToNumber(breakpointLg) && (
         <>
           {dropdownButton}
-          {active && mobileFilterComponent}
+          {mobileFilterComponent}
         </>
       )}
     </>

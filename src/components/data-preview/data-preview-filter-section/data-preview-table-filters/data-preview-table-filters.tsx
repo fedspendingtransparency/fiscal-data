@@ -17,6 +17,7 @@ import { fitDateRangeToTable } from '../../../filter-download-container/range-pr
 import { monthNames } from '../../../../utils/api-utils';
 import { DataTableContext } from '../../data-preview-context';
 import { basePreset, customPreset, fallbackPresets, initializeFilterConfigMap } from './data-preview-filter-helper';
+import { useScrollLock } from 'usehooks-ts';
 
 const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   selectedTable,
@@ -51,10 +52,12 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [curDateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [openMobileFilters, setOpenMobileFilters] = useState(false);
 
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
 
+  const { lock, unlock } = useScrollLock({ autoLock: false });
   const possiblePresets = [
     { label: '1 Year', key: '1yr', years: 1 },
     { label: '5 Years', key: '5yr', years: 5 },
@@ -271,6 +274,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
     setTimeout(() => {
       setActive(false);
+      setOpenMobileFilters(false);
     });
     setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
@@ -280,6 +284,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   const handleCancel = () => {
     setActive(false);
+    setOpenMobileFilters(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
@@ -322,6 +327,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       active={active}
       setActive={setActive}
       dropdownWidth={dropdownWidth}
+      openDialog={setOpenMobileFilters}
     />
   );
 
@@ -331,14 +337,16 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  // Need to find a way to prevent background scrolling for mobile users
-  // useEffect(() => {
-  //   if (active) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = '';
-  //   }
-  // }, [active]);
+  useEffect(() => {
+    if (openMobileFilters) {
+      lock();
+    } else {
+      unlock();
+    }
+    return () => {
+      unlock();
+    };
+  }, [openMobileFilters]);
 
   useEffect(() => {
     setFiltersMap(initializeFilterConfigMap(selectedTable, null, visibleOptions, pivotView));
@@ -418,6 +426,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       backButtonText="Filters"
       searchText="Search filters"
       filterComponent={columnFilter}
+      dialogState={openMobileFilters}
     />
   ) : (
     // Shows the different filters to select
@@ -431,6 +440,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilter={setFilter}
       setNoSearchResults={setNoResults}
       filterComponent={filterSelectList}
+      dialogState={openMobileFilters}
     />
   );
 
@@ -462,7 +472,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {active && mobileFilterComponent}
+          {mobileFilterComponent}
         </>
       )}
     </>

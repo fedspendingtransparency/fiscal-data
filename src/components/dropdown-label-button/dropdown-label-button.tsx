@@ -25,6 +25,7 @@ interface IDropdownLabelButton {
   dropdownWidth?: string;
   name?: string;
   filtersAreSelected?: boolean;
+  openDialog?: boolean;
 }
 
 const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
@@ -39,14 +40,22 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   disabled,
   name,
   filtersAreSelected,
+  openDialog,
 }: IDropdownLabelButton) => {
+  const handleClick = () => {
+    setActive(!active);
+    if (openDialog) {
+      openDialog(true);
+    }
+  };
+
   return (
     <>
       <div className={`${active ? glow : null} ${filtersAreSelected ? backgroundHighlight : null}`}>
         <button
           style={{ width: dropdownWidth }}
           className={`${dropdownButton} ${buttonEnabled}`}
-          onClick={() => setActive(!active)}
+          onClick={handleClick}
           aria-label={ariaLabel}
           disabled={disabled}
           name={name}
