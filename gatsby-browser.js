@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { queryClient } from './react-query-client';
+import { config } from '@fortawesome/fontawesome-svg-core';
+config.autoAddCss = false;
 
 const isBrowser = () => typeof window !== 'undefined';
 
