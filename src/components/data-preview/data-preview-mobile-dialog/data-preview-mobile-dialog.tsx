@@ -9,6 +9,7 @@ import {
   dataPreviewHeader,
   filtersScrollContainer,
   mainContainer,
+  open,
   previewCaret,
   previewCaretButton,
   previewCaretContainer,
@@ -33,6 +34,7 @@ interface IDataPreviewMobileDialog {
   bottomButtonIcon?: IconProp;
   filter?: string;
   setFilter?: React.Dispatch<React.SetStateAction<string>>;
+  dialogState?: boolean;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
@@ -48,9 +50,8 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   hasSearch = true,
   bottomButton = 'Apply',
   bottomButtonIcon = faCheck,
+  dialogState,
 }) => {
-  const shouldTocShow = true;
-
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
@@ -64,41 +65,45 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   };
 
   return (
-    <div className={mainContainer}>
-      {shouldTocShow && (
-        <>
-          <div>
-            <div className={dataPreviewHeader}>
-              <button onClick={onBack} className={previewCaretButton}>
-                <div className={previewCaretContainer}>
-                  <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
-                </div>
-                {backButtonText}
-              </button>
-            </div>
-            <div className={topContainer}>
-              <div className={sectionHeader}>{filterName}</div>
-              {hasSearch && (
-                <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
-                </div>
-              )}
-            </div>
-          </div>
-          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {filterComponent}
-          </div>
-          <div className={bottomContainer}>
-            <button className={applyButton} onClick={onApply}>
-              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
-              {bottomButton}
-            </button>
-            <button className={cancelButton} onClick={onCancel}>
-              <u>Cancel</u>
+    <div
+      className={`${mainContainer} ${dialogState ? open : ''}`}
+      aria-hidden={!dialogState}
+      role="dialog"
+      inert={!dialogState ? '' : undefined}
+      tabIndex={-1}
+    >
+      <>
+        <div>
+          <div className={dataPreviewHeader}>
+            <button onClick={onBack} className={previewCaretButton}>
+              <div className={previewCaretContainer}>
+                <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
+              </div>
+              {backButtonText}
             </button>
           </div>
-        </>
-      )}
+          <div className={topContainer}>
+            <div className={sectionHeader}>{filterName}</div>
+            {hasSearch && (
+              <div data-testid="search-container" className={searchBarStyle}>
+                <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
+              </div>
+            )}
+          </div>
+        </div>
+        <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
+          {filterComponent}
+        </div>
+        <div className={bottomContainer}>
+          <button className={applyButton} onClick={onApply}>
+            <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
+            {bottomButton}
+          </button>
+          <button className={cancelButton} onClick={onCancel}>
+            <u>Cancel</u>
+          </button>
+        </div>
+      </>
     </div>
   );
 };
