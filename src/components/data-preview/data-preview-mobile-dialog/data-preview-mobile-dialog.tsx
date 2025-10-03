@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -52,7 +52,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
   dialogState,
 }) => {
-  const [shouldMove, setShouldMove] = useState(false);
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
@@ -65,13 +64,9 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
     }
   };
 
-  useEffect(() => {
-    setShouldMove(dialogState);
-  }, [dialogState]);
-
   return (
     <div
-      className={`${mainContainer} ${shouldMove ? open : ''}`}
+      className={`${mainContainer} ${dialogState ? open : ''}`}
       aria-hidden={!dialogState}
       role="dialog"
       inert={!dialogState ? '' : undefined}
