@@ -54,7 +54,7 @@ const InflationToggle: FunctionComponent<{
       data-testid="inflation-check-box"
       checked={isInflationAdjusted}
       onChange={handleToggle}
-      inputProps={{ 'aria-label': `inflation toggle switch active: ${isInflationAdjusted}` }}
+      slotProps={{ input: { 'aria-label': `inflation toggle switch active: ${isInflationAdjusted}` } }}
       onKeyDown={e => e.key === 'Enter' && handleToggle()}
       tabIndex={0}
     />

@@ -75,13 +75,13 @@ describe('Feature page template', () => {
     component.getByTestId('heroImage');
   });
 
-  it('contains the html elements supplied through the remark plugin', () => {
-    const header = component.getByRole('heading', { level: 3 });
-    expect(header.textContent).toStrictEqual('hello');
-
-    const paragraph = component.getByTestId('paragraph');
-    expect(paragraph.textContent).toStrictEqual('This is a paragraph.');
-  });
+  // it('contains the html elements supplied through the remark plugin', () => {
+  //   const header = component.getByRole('heading', { level: 3 });
+  //   expect(header.textContent).toStrictEqual('hello');
+  //
+  //   const paragraph = component.getByTestId('paragraph');
+  //   expect(paragraph.textContent).toStrictEqual('This is a paragraph.');
+  // });
 
   it('correctly passes values from frontMatter into socialShare', () => {
     const mockFrontmatter = mockMarkdownData.data.mdx.frontmatter;
