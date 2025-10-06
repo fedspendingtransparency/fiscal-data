@@ -38,6 +38,7 @@ describe('Data preview filter section', () => {
             setIsCustomDateRange={setIsCustomDateRange}
             handleDateRangeChange={handleDateRangeChange}
             setIsFiltered={setIsFiltered}
+            width={2000}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
@@ -68,6 +69,7 @@ describe('Data preview filter section', () => {
             setIsCustomDateRange={setIsCustomDateRange}
             handleDateRangeChange={handleDateRangeChange}
             setIsFiltered={setIsFiltered}
+            width={2000}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
@@ -98,6 +100,7 @@ describe('Data preview filter section', () => {
             setIsCustomDateRange={setIsCustomDateRange}
             handleDateRangeChange={handleDateRangeChange}
             setIsFiltered={setIsFiltered}
+            width={2000}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
@@ -132,6 +135,7 @@ describe('Data preview filter section', () => {
             setIsCustomDateRange={setIsCustomDateRange}
             handleDateRangeChange={handleDateRangeChange}
             setIsFiltered={setIsFiltered}
+            width={2000}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
@@ -167,6 +171,7 @@ describe('Data preview filter section', () => {
             setIsCustomDateRange={setIsCustomDateRange}
             handleDateRangeChange={handleDateRangeChange}
             setIsFiltered={setIsFiltered}
+            width={2000}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
