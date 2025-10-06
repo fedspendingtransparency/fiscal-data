@@ -51,7 +51,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
   const [curDateRange, setCurDateRange] = useState(null);
   const [presets, setPresets] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [openMobileFilters, setOpenMobileFilters] = useState(false);
 
   // Not all datasets will have 5 years of information; but, this is the ideal default preset.
   let idealDefaultPreset = { key: '5yr', years: 5 };
@@ -270,10 +269,11 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         }
       });
     }
+
     setTimeout(() => {
       setActive(false);
-      setOpenMobileFilters(false);
     });
+
     setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
       setIsFilterSelected(false);
@@ -282,7 +282,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
 
   const handleCancel = () => {
     setActive(false);
-    setOpenMobileFilters(false);
     if (isFilterSelected) {
       setIsFilterSelected(false);
     }
@@ -325,7 +324,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       active={active}
       setActive={setActive}
       dropdownWidth={dropdownWidth}
-      openDialog={setOpenMobileFilters}
     />
   );
 
@@ -422,7 +420,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       backButtonText="Filters"
       searchText="Search filters"
       filterComponent={columnFilter}
-      dialogState={openMobileFilters}
+      active={active}
     />
   ) : (
     // Shows the different filters to select
@@ -436,7 +434,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilter={setFilter}
       setNoSearchResults={setNoResults}
       filterComponent={filterSelectList}
-      dialogState={openMobileFilters}
+      active={active}
     />
   );
 

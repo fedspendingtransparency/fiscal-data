@@ -40,7 +40,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
   const [tableViewSelection, setTableViewSelection] = useState(appliedTableView);
   const [isDataTableSelected, setIsDataTableSelected] = useState(false);
   const [filter, setFilter] = useState('');
-  const [openMobileTableSelect, setOpenMobileTableSelect] = useState(false);
 
   // 54px comes from subtracting the padding and margins on both sides of the container
   const containerWdith = 'calc(100vw - 54px)';
@@ -62,7 +61,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       active={active}
       setActive={setActive}
       dropdownWidth={width < pxToNumber(breakpointLg) ? '100%' : '30rem'}
-      openDialog={setOpenMobileTableSelect}
     />
   );
 
@@ -84,7 +82,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       setSelectedPivot(pivot);
     }
     setActive(false);
-    setOpenMobileTableSelect(false);
     if (isDataTableSelected) {
       setIsDataTableSelected(false);
     }
@@ -92,7 +89,6 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
 
   const handleCancel = () => {
     setActive(false);
-    setOpenMobileTableSelect(false);
     if (isDataTableSelected) {
       setIsDataTableSelected(false);
     }
@@ -149,7 +145,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       filterName={tableToApply.tableName}
       hasSearch={false}
       backButtonText="Data Tables"
-      dialogState={openMobileTableSelect}
+      active={active}
       filterComponent={
         <DataPreviewPivotSelect
           table={tableToApply}
@@ -172,7 +168,7 @@ const DataPreviewTableSelectDropdown: FunctionComponent<ITableSelectDropdown> = 
       searchText="Search data tables"
       filter={filter}
       setFilter={setFilter}
-      dialogState={openMobileTableSelect}
+      active={active}
       filterComponent={
         <DataPreviewMobileFilterList
           filterOptions={options}

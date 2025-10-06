@@ -30,7 +30,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
-  const [openMobileColumns, setOpenMobileColumns] = useState(false);
   const searchLabel = 'Search columns';
 
   const handleApply = () => {
@@ -40,13 +39,11 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
-    setOpenMobileColumns(false);
   };
 
   const handleCancel = () => {
     setDropdownActive(false);
     setPendingColumnSelection([]);
-    setOpenMobileColumns(false);
   };
 
   const filterDropdownButton = (
@@ -58,7 +55,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       setActive={setDropdownActive}
       disabled={allTablesSelected || isDisabled}
       dropdownWidth={dropdownWidth}
-      openDialog={setOpenMobileColumns}
     />
   );
 
@@ -123,7 +119,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
             filter={filter}
             setFilter={setFilter}
             filterComponent={columnSelectList}
-            dialogState={openMobileColumns}
+            active={dropdownActive}
           />
         </>
       )}

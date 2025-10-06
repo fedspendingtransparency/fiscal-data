@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -34,7 +34,7 @@ interface IDataPreviewMobileDialog {
   bottomButtonIcon?: IconProp;
   filter?: string;
   setFilter?: React.Dispatch<React.SetStateAction<string>>;
-  dialogState?: boolean;
+  active?: boolean;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
@@ -50,8 +50,11 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   hasSearch = true,
   bottomButton = 'Apply',
   bottomButtonIcon = faCheck,
-  dialogState,
+  active,
 }) => {
+  const [hide, setHide] = useState(false);
+  const [startAnimation, setStartAnimation] = useState(false);
+
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
     setFilter(val);
@@ -64,47 +67,57 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
     }
   };
 
+  useEffect(() => {
+    if (active) {
+      setHide(active);
+      setTimeout(() => {
+        setStartAnimation(active);
+      }, 100);
+    } else {
+      setStartAnimation(active);
+      setTimeout(() => {
+        setHide(active);
+      }, 800);
+    }
+  }, [active]);
+
   return (
-    <div
-      className={`${mainContainer} ${dialogState ? open : ''}`}
-      aria-hidden={!dialogState}
-      role="dialog"
-      inert={!dialogState ? '' : undefined}
-      tabIndex={-1}
-    >
-      <>
-        <div>
-          <div className={dataPreviewHeader}>
-            <button onClick={onBack} className={previewCaretButton}>
-              <div className={previewCaretContainer}>
-                <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
-              </div>
-              {backButtonText}
+    <>
+      <div className={`${mainContainer} ${startAnimation ? open : ''}`} style={hide ? null : { display: 'none' }} role="dialog">
+        <>
+          <div>
+            <div className={dataPreviewHeader}>
+              <button onClick={onBack} className={previewCaretButton}>
+                <div className={previewCaretContainer}>
+                  <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
+                </div>
+                {backButtonText}
+              </button>
+            </div>
+            <div className={topContainer}>
+              <div className={sectionHeader}>{filterName}</div>
+              {hasSearch && (
+                <div data-testid="search-container" className={searchBarStyle}>
+                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
+                </div>
+              )}
+            </div>
+          </div>
+          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
+            {filterComponent}
+          </div>
+          <div className={bottomContainer}>
+            <button className={applyButton} onClick={onApply}>
+              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
+              {bottomButton}
+            </button>
+            <button className={cancelButton} onClick={onCancel}>
+              <u>Cancel</u>
             </button>
           </div>
-          <div className={topContainer}>
-            <div className={sectionHeader}>{filterName}</div>
-            {hasSearch && (
-              <div data-testid="search-container" className={searchBarStyle}>
-                <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
-              </div>
-            )}
-          </div>
-        </div>
-        <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-          {filterComponent}
-        </div>
-        <div className={bottomContainer}>
-          <button className={applyButton} onClick={onApply}>
-            <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
-            {bottomButton}
-          </button>
-          <button className={cancelButton} onClick={onCancel}>
-            <u>Cancel</u>
-          </button>
-        </div>
-      </>
-    </div>
+        </>
+      </div>
+    </>
   );
 };
 
