@@ -17,6 +17,9 @@
 .mainContainer.open {
   left: 0;
 }
+.mainContainer.hide {
+  display: none;
+}
 
 .dataPreviewHeaderContainer {
   border-bottom: 1px solid $light-grey-border;

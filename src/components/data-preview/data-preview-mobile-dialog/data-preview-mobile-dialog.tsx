@@ -8,6 +8,7 @@ import {
   checkIcon,
   dataPreviewHeader,
   filtersScrollContainer,
+  hide,
   mainContainer,
   open,
   previewCaret,
@@ -34,7 +35,7 @@ interface IDataPreviewMobileDialog {
   bottomButtonIcon?: IconProp;
   filter?: string;
   setFilter?: React.Dispatch<React.SetStateAction<string>>;
-  active?: boolean;
+  active: boolean;
 }
 const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   onCancel,
@@ -52,7 +53,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
   active,
 }) => {
-  const [hide, setHide] = useState(false);
+  const [hideDialog, setHideDialog] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
 
   const onSearchBarChange = event => {
@@ -69,21 +70,21 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
 
   useEffect(() => {
     if (active) {
-      setHide(active);
+      setHideDialog(active);
       setTimeout(() => {
         setStartAnimation(active);
       }, 100);
     } else {
       setStartAnimation(active);
       setTimeout(() => {
-        setHide(active);
+        setHideDialog(active);
       }, 800);
     }
   }, [active]);
 
   return (
     <>
-      <div className={`${mainContainer} ${startAnimation ? open : ''}`} style={hide ? null : { display: 'none' }} role="dialog">
+      <div className={`${mainContainer} ${startAnimation ? open : ''} ${startAnimation ? hide : ''}`} role="dialog">
         <>
           <div>
             <div className={dataPreviewHeader}>
