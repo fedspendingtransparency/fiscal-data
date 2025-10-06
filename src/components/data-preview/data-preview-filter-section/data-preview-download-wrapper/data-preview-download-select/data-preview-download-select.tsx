@@ -27,7 +27,6 @@ import { IDatasetApi } from '../../../../../models/IDatasetApi';
 import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
-import { useScrollLock } from 'usehooks-ts';
 
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
@@ -56,7 +55,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
-  const { lock, unlock } = useScrollLock();
 
   const metadataDownloader = async () => {
     Analytics.event({
@@ -88,17 +86,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       // TODO: Create Big table data download file size
     }
   }, [tableSize, allTablesSelected, selectedTable, smallTableCSVData, smallTableJSONData, smallTableXMLData]);
-
-  useEffect(() => {
-    if (openMobileDownload) {
-      lock();
-    } else {
-      unlock();
-    }
-    return () => {
-      unlock();
-    };
-  }, [openMobileDownload]);
 
   const getDownloadOptions = () => {
     return [
@@ -191,7 +178,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
 
   const handleCancelBack = () => {
     setActive(!active);
-    setOpenMobileDownload(false);
   };
 
   const downloadButtonElement = (
