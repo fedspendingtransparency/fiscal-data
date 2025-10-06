@@ -20,6 +20,7 @@ import {
 } from '../../data-preview/data-preview-mobile-dialog/data-preview-mobile-dialog.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import SearchBar from '../../search-bar/search-bar';
+import { useScrollLock } from 'usehooks-ts';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -56,6 +57,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   const animationTime = 800;
   const [hideDialog, setHideDialog] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
+  const { lock, unlock } = useScrollLock({ autoLock: false });
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -71,16 +73,22 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
 
   useEffect(() => {
     if (active) {
+      lock();
       setHideDialog(false);
       setTimeout(() => {
         setStartAnimation(true);
       }, 100);
     } else {
+      unlock();
+
       setStartAnimation(false);
       setTimeout(() => {
         setHideDialog(true);
       }, animationTime);
     }
+    return () => {
+      unlock();
+    };
   }, [active]);
 
   return (

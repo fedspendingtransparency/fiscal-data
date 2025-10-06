@@ -333,15 +333,6 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  // Need to find a way to prevent background scrolling for mobile users
-  // useEffect(() => {
-  //   if (active) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = '';
-  //   }
-  // }, [active]);
-
   useEffect(() => {
     setFiltersMap(initializeFilterConfigMap(selectedTable, null, visibleOptions, pivotView));
     setAppliedFilters([]);

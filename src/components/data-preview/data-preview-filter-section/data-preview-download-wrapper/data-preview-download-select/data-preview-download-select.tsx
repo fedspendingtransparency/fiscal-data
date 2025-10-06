@@ -86,6 +86,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       // TODO: Create Big table data download file size
     }
   }, [tableSize, allTablesSelected, selectedTable, smallTableCSVData, smallTableJSONData, smallTableXMLData]);
+
   const getDownloadOptions = () => {
     return [
       {

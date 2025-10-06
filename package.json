@@ -155,6 +155,7 @@
     "typeface-roboto": "0.0.75",
     "typeface-roboto-mono": "0.0.75",
     "use-onclickoutside": "^0.4.1",
+    "usehooks-ts": "^3.1.1",
     "whatwg-fetch": "^3.6.19",
     "xml-js": "^1.6.11"
   },
