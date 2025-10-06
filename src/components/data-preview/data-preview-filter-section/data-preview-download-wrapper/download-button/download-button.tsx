@@ -23,7 +23,6 @@ const DownloadItemButton: FunctionComponent = ({
   gaDownloadCSVEvent,
   formatDownloadDate = true,
   smallTableDownloadData,
-  openDialog,
 }) => {
   const [downloadName, setDownloadName] = useState(null);
 
@@ -34,10 +33,6 @@ const DownloadItemButton: FunctionComponent = ({
   const clickFunction = directDownload => {
     if (handleClick && !directDownload) {
       handleClick();
-    }
-
-    if (openDialog) {
-      openDialog(true);
     }
 
     if (download) {
