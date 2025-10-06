@@ -4,7 +4,6 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
 import { breakpointXl } from '../data-preview.module.scss';
-import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
 import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
@@ -110,4 +109,4 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   );
 };
 
-export default withWindowSize(DataPreviewFilterSection);
+export default DataPreviewFilterSection;
