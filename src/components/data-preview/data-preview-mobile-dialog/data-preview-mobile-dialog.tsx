@@ -74,7 +74,6 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   useEffect(() => {
     if (active) {
       lock();
-      console.log(active);
       setHideDialog(false);
       setTimeout(() => {
         setStartAnimation(true);
