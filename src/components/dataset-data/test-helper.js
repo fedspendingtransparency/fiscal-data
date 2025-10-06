@@ -121,7 +121,13 @@ export const config = {
           dataType: 'DATE',
           prettyName: 'Record Date',
         },
+        {
+          columnName: 'open_today_bal',
+          dataType: 'NUMBER',
+          prettyName: 'Opening Balance Today',
+        },
       ],
+      valueFieldOptions: ['open_today_bal'],
     },
     {
       tableName: 'Table 2',

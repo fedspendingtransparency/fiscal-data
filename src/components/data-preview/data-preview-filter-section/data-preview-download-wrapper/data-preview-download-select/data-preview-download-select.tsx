@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
@@ -18,8 +18,8 @@ import Analytics from '../../../../../utils/analytics/analytics';
 import {
   calcDictionaryDownloadSize,
   convertDataDictionaryToCsv,
-  triggerDataDictionaryDownload,
   prettySize,
+  triggerDataDictionaryDownload,
 } from '../../../../download-wrapper/data-dictionary-download-helper';
 import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-helper';
 import { IDataset } from '../../../../../models/IDataset';
@@ -28,6 +28,7 @@ import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
 import { useScrollLock } from 'usehooks-ts';
+
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
   selectedTable: IDatasetApi;
@@ -52,7 +53,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
   const [active, setActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>('csv');
   const [sizes, setSizes] = useState<{ csv?: string; json?: string; xml?: string }>({});
-  const [openMobileDownload, setOpenMobileDownload] = useState(false);
 
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
@@ -99,6 +99,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       unlock();
     };
   }, [openMobileDownload]);
+
   const getDownloadOptions = () => {
     return [
       {
@@ -186,7 +187,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
 
   const clickHandlerDownloadButton = () => {
     setActive(!active);
-    setOpenMobileDownload(true);
   };
 
   const handleCancelBack = () => {
@@ -231,7 +231,6 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
                       downloadTimestamp={dataset.downloadTimestamp}
                       selectedPivot={selectedPivot}
                       smallTableDownloadData={downloadData}
-                      openDialog={setOpenMobileDownload}
                     />
                   </React.Fragment>
                 );
@@ -253,7 +252,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
           bottomButton="Download"
           bottomButtonIcon={faCloudDownload}
           hasSearch={false}
-          dialogState={openMobileDownload}
+          active={active}
           filterComponent={
             <DataPreviewMobileDownloadOptions
               options={mobileOptions}

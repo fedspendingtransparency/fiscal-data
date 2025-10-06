@@ -23,7 +23,8 @@ const ColumnFilterOptions: FunctionComponent<IColumnFilterOptions> = ({
   apiData,
 }) => {
   const { userFilter, apiFilter } = selectedTable;
-  const userFilterDropdown = selectedColumn.columnName === userFilter?.field || selectedColumn.columnName === apiFilter?.field;
+  const userFilterDropdown =
+    (userFilter?.field || apiFilter?.field) && (selectedColumn.columnName === userFilter?.field || selectedColumn.columnName === apiFilter?.field);
   const monthYearCustomFilter = selectedTable?.dateField === selectedColumn?.columnName && selectedTable?.apiFilter?.disableDateRangeFilter;
   const applyDateRange = () => {
     // Apply date range to table

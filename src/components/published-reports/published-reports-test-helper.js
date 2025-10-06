@@ -38,6 +38,8 @@ export const runTimeFilterDatasetConfig = {
     unmatchedMessage: 'Unmatched Message',
     defaultHeader: 'Default Header',
     defaultMessage: 'Default Message',
+    filterField: 'account',
+    filterLabel: 'Account',
   },
 };
 export const runTimeFilterDatasetConfigCustomFilter = {

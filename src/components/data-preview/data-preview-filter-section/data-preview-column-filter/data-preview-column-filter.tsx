@@ -14,12 +14,16 @@ import { useScrollLock } from 'usehooks-ts';
 
 interface iColumnFilter {
   allTablesSelected: boolean;
+  dateField: string;
   isDisabled: boolean;
   width?: number;
+  pivotView;
+  dropdownWidth;
 }
 
-const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, isDisabled, width, pivotView, dropdownWidth }) => {
+const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSelected, dateField, isDisabled, width, pivotView, dropdownWidth }) => {
   const { defaultColumns, additionalColumns, allColumns: fields, defaultSelectedColumns, tableState: table } = useContext(DataTableContext);
+
   const [dropdownActive, setDropdownActive] = useState(false);
   const pivotDisplay = pivotView?.title !== 'Complete Table' && pivotView?.dimensionField;
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotDisplay;
@@ -27,7 +31,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
   const [noResults, setNoResults] = useState(false);
   const [pendingColumnSelection, setPendingColumnSelection] = useState([]);
   const [filteredColumns, setFilteredColumns] = useState();
-  const [openMobileColumns, setOpenMobileColumns] = useState(false);
   const searchLabel = 'Search columns';
   const { lock, unlock } = useScrollLock({ autoLock: false });
 
@@ -38,13 +41,11 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
     });
     setPendingColumnSelection([]);
     setDropdownActive(false);
-    setOpenMobileColumns(false);
   };
 
   const handleCancel = () => {
     setDropdownActive(false);
     setPendingColumnSelection([]);
-    setOpenMobileColumns(false);
   };
 
   useEffect(() => {
@@ -67,7 +68,6 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       setActive={setDropdownActive}
       disabled={allTablesSelected || isDisabled}
       dropdownWidth={dropdownWidth}
-      openDialog={setOpenMobileColumns}
     />
   );
 
@@ -86,6 +86,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
           setPendingColumnSelection={setPendingColumnSelection}
           pendingColumnSelection={pendingColumnSelection}
           table={table}
+          disabledFields={pivotDisplay ? [dateField, 'Time Period'] : []}
         />
       </div>
     </>
@@ -131,7 +132,7 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
             filter={filter}
             setFilter={setFilter}
             filterComponent={columnSelectList}
-            dialogState={openMobileColumns}
+            active={dropdownActive}
           />
         </>
       )}

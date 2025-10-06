@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import drawChart from '../../charts/chart-primary';
 import ChartLegend from './chart-legend/chart-legend';
 import { thinDataAsNeededForChart } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
@@ -34,10 +34,13 @@ import {
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { DataTableContext } from '../data-preview-context';
 
 export let chartHooks;
 
 const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }) => {
+  const { tableState: table } = useContext(DataTableContext);
+
   const [chartFields, setChartFields] = useState([]);
   const [chartNotes, setChartNotes] = useState(null);
   const [hasUpdate, setHasUpdate] = useState(true);
@@ -46,13 +49,13 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
   const [showLegend, setShowLegend] = useState(true);
   const viz = useRef();
   const [colorMap, setColorMap] = useState({});
-
+  const columns = table?.getVisibleFlatColumns();
   const buildLegendConfig = fields => {
     setChartFields(
       fields.map(f => {
         return {
           field: f,
-          active: true,
+          active: columns ? columns.filter(x => x.id === f).length > 0 : true,
           label: data.meta.labels[f],
         };
       })
@@ -66,7 +69,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
 
   useEffect(() => {
     chartHooks = undefined;
-  }, [data]);
+  }, [data, table?.getVisibleFlatColumns()]);
 
   useEffect(() => {
     // There might be more chart notes in the future;
@@ -136,7 +139,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
         );
       }
     }
-  }, [data]);
+  }, [data, table?.getVisibleFlatColumns()]);
 
   useEffect(() => {
     if (selectedPivot && selectedPivot.pivotView?.roundingDenomination) {

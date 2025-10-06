@@ -5,6 +5,7 @@ import { IReportGenerator } from '../../../models/report-generator/IReportGenera
 import { getTableColumnConfig } from '../../../helpers/report-generator/report-generator-helper';
 import ReportTable from './report-table/report-table';
 import { View } from '@react-pdf/renderer/lib/react-pdf.browser';
+import { formatCellGenerativeValue } from './format-cell-geneartive-value/format-cell-generative-value';
 
 const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport }) => {
   const { config, data, colConfig, summaryData } = generatedReport;
@@ -29,11 +30,11 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
         {reportSummary?.map((line, index) => {
           const { name, value, field, type } = line;
 
-          // const formattedValue = formatCellValue(value, type, '', field, customFormatting);
+          const formattedValue = formatCellGenerativeValue(value, { columnName: field, dataType: type }, customFormatting);
           return (
             <Text style={styles.documentHeader} id={name} key={index}>
               <Text style={headerFieldName}>{`${name}${!!value ? ': ' : ''}`}</Text>
-              {value}
+              {formattedValue}
             </Text>
           );
         })}

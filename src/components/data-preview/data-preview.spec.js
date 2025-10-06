@@ -14,7 +14,7 @@ import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { DataPreview } from './data-preview';
 import userEvent from '@testing-library/user-event';
@@ -71,17 +71,16 @@ describe('DataPreview', () => {
     fetchSpy.mockClear();
     global.fetch.mockClear();
     analyticsSpy.mockClear();
-    // global.console.error.mockClear();
   });
 
   it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <RecoilRoot>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
-    const title = getByTestId('sectionHeader');
-    expect(title.innerHTML).toBe('');
+    const title = getByRole('heading', { level: 2 });
+    expect(title.innerHTML).toBe('Data Preview');
   });
 
   it(`contains a DataPreviewFilterSection component`, async () => {
@@ -180,34 +179,7 @@ describe('DataPreview', () => {
   //   });
   // });
 
-  it(`correctly prepares pivoted data without aggregation`, () => {
-    const pivotedData = pivotData(
-      mockPivotableData,
-      'reporting_date',
-      {
-        dimensionField: 'security_desc',
-        title: 'by sec type',
-      },
-      'avg_interest_rate_amt',
-      null,
-      '2016-03-25',
-      '2021-03-25'
-    );
-    expect(pivotedData).toMatchSnapshot();
-
-    // ensure that when some columns are not populated on some rows,
-    // all columns are still captured in the meta.dataTypes & meta.labels
-    const dataTypes = Object.keys(pivotedData.meta.dataTypes);
-    expect(dataTypes.length).toEqual(9);
-    expect(dataTypes.includes('Treasury Nickels')).toBeTruthy();
-    expect(pivotedData.meta.labels['Treasury Nickels']).toEqual('Treasury Nickels');
-    expect(dataTypes.includes('Treasury Notes')).toBeTruthy();
-    expect(pivotedData.meta.labels['Treasury Notes']).toEqual('Treasury Notes');
-  });
-
-  it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric values`, () => {
-    const mockPivotView = { dimensionField: 'class_desc', title: 'By Classification' };
-
+  describe('pivot functionality', () => {
     const mockAggregation = [
       {
         field: 'record_calendar_year',
@@ -219,39 +191,78 @@ describe('DataPreview', () => {
       },
     ];
 
-    const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
-    expect(pivotedData).toMatchSnapshot();
+    it('display selected pivot with the table name', () => {
+      const { getByRole } = render(
+        <RecoilRoot>
+          <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+        </RecoilRoot>
+      );
 
-    // ensure that the summing operation occurs instead of using lastRow snapshots
-    expect(pivotedData.data[0]['Federal Bank'].toFixed(4)).toEqual('1010.1010');
-    expect(pivotedData.data[1]['Medical Safe'].toFixed(4)).toEqual('3000000.7000');
-  });
+      const tableSelect = getByRole('button', { name: `Data Table: ${config.apis[0].tableName}` });
+      fireEvent.click(tableSelect);
 
-  it(`correctly prepares pivoted data with aggregation when configured with lastRowSnapshot=true`, () => {
-    const mockPivotView = {
-      dimensionField: 'class_desc',
-      title: 'By Classification',
-      lastRowSnapshot: true,
-    };
+      const pivotSelect = getByRole('radio', { name: 'Pivot Data' });
+      fireEvent.click(pivotSelect);
 
-    const mockAggregation = [
-      {
-        field: 'record_calendar_year',
-        type: 'YEAR',
-      },
-      {
-        field: 'record_calendar_month',
-        type: 'MONTH',
-      },
-    ];
+      const apply = getByRole('button', { name: 'Apply' });
+      fireEvent.click(apply);
 
-    const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
+      const tableName = getByRole('heading', { level: 3 });
 
-    // ensure that last Row values are used, rather that cross-row summing
-    const lastRowForMayFedBankVal = mockAccumulableData.data[0]['cost']; // '1000.0000'
-    expect(pivotedData.data[0]['Federal Bank']).toStrictEqual(lastRowForMayFedBankVal);
-    const lastRowForAprilMedSafeVal = mockAccumulableData.data[11]['cost']; // '2000000'
-    expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
+      expect(within(tableName).getByText('Table 1: Opening Balance Today (By Facility)')).toBeInTheDocument();
+    });
+
+    it(`correctly prepares pivoted data without aggregation`, () => {
+      const pivotedData = pivotData(
+        mockPivotableData,
+        'reporting_date',
+        {
+          dimensionField: 'security_desc',
+          title: 'by sec type',
+        },
+        'avg_interest_rate_amt',
+        null,
+        '2016-03-25',
+        '2021-03-25'
+      );
+      expect(pivotedData).toMatchSnapshot();
+
+      // ensure that when some columns are not populated on some rows,
+      // all columns are still captured in the meta.dataTypes & meta.labels
+      const dataTypes = Object.keys(pivotedData.meta.dataTypes);
+      expect(dataTypes.length).toEqual(9);
+      expect(dataTypes.includes('Treasury Nickels')).toBeTruthy();
+      expect(pivotedData.meta.labels['Treasury Nickels']).toEqual('Treasury Nickels');
+      expect(dataTypes.includes('Treasury Notes')).toBeTruthy();
+      expect(pivotedData.meta.labels['Treasury Notes']).toEqual('Treasury Notes');
+    });
+
+    it(`correctly prepares pivoted data with aggregation and summing and handles non-numeric values`, () => {
+      const mockPivotView = { dimensionField: 'class_desc', title: 'By Classification' };
+
+      const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
+      expect(pivotedData).toMatchSnapshot();
+
+      // ensure that the summing operation occurs instead of using lastRow snapshots
+      expect(pivotedData.data[0]['Federal Bank'].toFixed(4)).toEqual('1010.1010');
+      expect(pivotedData.data[1]['Medical Safe'].toFixed(4)).toEqual('3000000.7000');
+    });
+
+    it(`correctly prepares pivoted data with aggregation when configured with lastRowSnapshot=true`, () => {
+      const mockPivotView = {
+        dimensionField: 'class_desc',
+        title: 'By Classification',
+        lastRowSnapshot: true,
+      };
+
+      const pivotedData = pivotData(mockAccumulableData, 'reporting_date', mockPivotView, 'cost', mockAggregation, '2020-01-01', '2021-03-25');
+
+      // ensure that last Row values are used, rather that cross-row summing
+      const lastRowForMayFedBankVal = mockAccumulableData.data[0]['cost']; // '1000.0000'
+      expect(pivotedData.data[0]['Federal Bank']).toStrictEqual(lastRowForMayFedBankVal);
+      const lastRowForAprilMedSafeVal = mockAccumulableData.data[11]['cost']; // '2000000'
+      expect(pivotedData.data[1]['Medical Safe']).toStrictEqual(lastRowForAprilMedSafeVal);
+    });
   });
 
   //TODO: Adjust unit tests to fit new design

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import {
+  backgroundHighlight,
   buttonContent,
   buttonEnabled,
   dropdownButton,
@@ -11,7 +12,6 @@ import {
   muiButtonContent,
   publishedDateLabel,
   selectedOptionText,
-  backgroundHighlight,
 } from './dropdown-label-button.module.scss';
 
 interface IDropdownLabelButton {
@@ -25,7 +25,6 @@ interface IDropdownLabelButton {
   dropdownWidth?: string;
   name?: string;
   filtersAreSelected?: boolean;
-  openDialog?: boolean;
 }
 
 const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
@@ -40,22 +39,14 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
   disabled,
   name,
   filtersAreSelected,
-  openDialog,
 }: IDropdownLabelButton) => {
-  const handleClick = () => {
-    setActive(!active);
-    if (openDialog) {
-      openDialog(true);
-    }
-  };
-
   return (
     <>
       <div className={`${active ? glow : null} ${filtersAreSelected ? backgroundHighlight : null}`}>
         <button
           style={{ width: dropdownWidth }}
           className={`${dropdownButton} ${buttonEnabled}`}
-          onClick={handleClick}
+          onClick={() => setActive(!active)}
           aria-label={ariaLabel}
           disabled={disabled}
           name={name}

@@ -5,6 +5,7 @@ import {
   checkbox_wrapper,
   columnButtonContainer,
   columnSelectContainer,
+  disabledField,
   label_checkmark_container,
   label_checkmark_text,
   optionCheckbox,
@@ -25,6 +26,7 @@ interface IColumnSelectionList {
   pendingColumnSelection;
   setPendingColumnSelection;
   table;
+  disabledFields: string[];
 }
 
 const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
@@ -36,6 +38,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   pendingColumnSelection,
   setPendingColumnSelection,
   table,
+  disabledFields = [],
 }) => {
   if (!table) {
     return null;
@@ -74,20 +77,26 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
     }
   };
 
+  const isChecked = (col, disabled) => {
+    return disabled || checkboxesSelected.findIndex(x => x.id === col.id) >= 0;
+  };
+
   const CheckBoxList = columnList => (
     <>
       {columnList?.map(col => {
         const { id, columnDef } = col;
+        const disabled = disabledFields.includes(id) || disabledFields.includes(columnDef?.header);
         return (
-          <label className={checkbox_label} key={id}>
+          <label className={`${checkbox_label} ${disabled && disabledField}`} key={id}>
             <div className={checkbox_wrapper}>
               <input
                 type="checkbox"
-                checked={checkboxesSelected.findIndex(x => x.id === col.id) >= 0}
+                checked={isChecked(col, disabled)}
                 onClick={() => checkboxClick(col)}
                 onChange={() => handleChange(col)}
                 onKeyDown={e => handleKeyDown(e, col)}
                 className={optionCheckbox}
+                disabled={disabled}
               />
               <span className={label_checkmark_container}>
                 <span className={label_checkmark_text}>
@@ -113,6 +122,7 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
           setCheckboxesSelected={setCheckboxesSelected}
           pendingColumnSelection={pendingColumnSelection}
           setPendingColumnSelection={setPendingColumnSelection}
+          disabledFields={disabledFields}
         />
       )}
       <div className={columnButtonContainer}>

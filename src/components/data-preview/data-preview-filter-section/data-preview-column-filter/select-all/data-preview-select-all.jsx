@@ -11,20 +11,23 @@ const SelectAll = ({
   setCheckboxesSelected,
   pendingColumnSelection,
   setPendingColumnSelection,
+  disabledFields = [],
 }) => {
   const updateColumnSelection = selectAll => {
     const selectAllUpdates = pendingColumnSelection;
     allColumns.forEach(col => {
-      const columnVisibility = selectAll ? col.getIsVisible() : !col.getIsVisible();
-      const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
-      if (pendingColumnIndex >= 0) {
-        if (columnVisibility) {
-          //remove from pending updates if column is already selected / deselected
-          selectAllUpdates.splice(pendingColumnIndex, 1);
+      if (!disabledFields.includes(col.id)) {
+        const columnVisibility = selectAll ? col.getIsVisible() : !col.getIsVisible();
+        const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
+        if (pendingColumnIndex >= 0) {
+          if (columnVisibility) {
+            //remove from pending updates if column is already selected / deselected
+            selectAllUpdates.splice(pendingColumnIndex, 1);
+          }
+        } else if (!columnVisibility) {
+          //add to pending updates if column will need to be selected / deselected
+          selectAllUpdates.push(col);
         }
-      } else if (!columnVisibility) {
-        //add to pending updates if column will need to be selected / deselected
-        selectAllUpdates.push(col);
       }
     });
     return selectAllUpdates;
@@ -34,7 +37,7 @@ const SelectAll = ({
     const updatedValue = !allColumnsSelected;
     setAllColumnsSelected(updatedValue);
     setPendingColumnSelection(updateColumnSelection(updatedValue));
-    setCheckboxesSelected(updatedValue ? allColumns : []);
+    setCheckboxesSelected(updatedValue ? allColumns : disabledFields);
   };
 
   return (
