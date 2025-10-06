@@ -12,13 +12,12 @@
   height: 100%;
   width: 100%;
   transition: left 0.8s ease-in-out;
-}
-
-.mainContainer.open {
-  left: 0;
-}
-.mainContainer.hide {
-  display: none;
+  &.open {
+    left: 0;
+  }
+  &.hide {
+    display: none;
+  }
 }
 
 .dataPreviewHeaderContainer {

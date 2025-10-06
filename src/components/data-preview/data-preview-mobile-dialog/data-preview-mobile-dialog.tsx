@@ -53,6 +53,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   bottomButtonIcon = faCheck,
   active,
 }) => {
+  const animationTime = 800;
   const [hideDialog, setHideDialog] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
 
@@ -70,55 +71,51 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
 
   useEffect(() => {
     if (active) {
-      setHideDialog(active);
+      setHideDialog(false);
       setTimeout(() => {
-        setStartAnimation(active);
+        setStartAnimation(true);
       }, 100);
     } else {
-      setStartAnimation(active);
+      setStartAnimation(false);
       setTimeout(() => {
-        setHideDialog(active);
-      }, 800);
+        setHideDialog(true);
+      }, animationTime);
     }
   }, [active]);
 
   return (
-    <>
-      <div className={`${mainContainer} ${startAnimation ? open : ''} ${startAnimation ? hide : ''}`} role="dialog">
-        <>
-          <div>
-            <div className={dataPreviewHeader}>
-              <button onClick={onBack} className={previewCaretButton}>
-                <div className={previewCaretContainer}>
-                  <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
-                </div>
-                {backButtonText}
-              </button>
+    <div className={`${mainContainer} ${startAnimation ? open : ''} ${hideDialog ? hide : ''}`} role="dialog">
+      <div>
+        <div className={dataPreviewHeader}>
+          <button onClick={onBack} className={previewCaretButton}>
+            <div className={previewCaretContainer}>
+              <FontAwesomeIcon icon={faCaretLeft} className={previewCaret} />
             </div>
-            <div className={topContainer}>
-              <div className={sectionHeader}>{filterName}</div>
-              {hasSearch && (
-                <div data-testid="search-container" className={searchBarStyle}>
-                  <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
-                </div>
-              )}
+            {backButtonText}
+          </button>
+        </div>
+        <div className={topContainer}>
+          <div className={sectionHeader}>{filterName}</div>
+          {hasSearch && (
+            <div data-testid="search-container" className={searchBarStyle}>
+              <SearchBar onChange={onSearchBarChange} filter={filter} label={searchText} handleClear={onClear} setFilter={setFilter} />
             </div>
-          </div>
-          <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
-            {filterComponent}
-          </div>
-          <div className={bottomContainer}>
-            <button className={applyButton} onClick={onApply}>
-              <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
-              {bottomButton}
-            </button>
-            <button className={cancelButton} onClick={onCancel}>
-              <u>Cancel</u>
-            </button>
-          </div>
-        </>
+          )}
+        </div>
       </div>
-    </>
+      <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
+        {filterComponent}
+      </div>
+      <div className={bottomContainer}>
+        <button className={applyButton} onClick={onApply}>
+          <FontAwesomeIcon icon={bottomButtonIcon} className={checkIcon} />
+          {bottomButton}
+        </button>
+        <button className={cancelButton} onClick={onCancel}>
+          <u>Cancel</u>
+        </button>
+      </div>
+    </div>
   );
 };
 
