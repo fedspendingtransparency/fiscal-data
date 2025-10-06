@@ -319,7 +319,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
         <div>
           {tableColumnSortData && selectedTable && (
             <DataPreviewFilterSection
-              data-testid="filterAndDownload"
+              width={width}
               dateRange={dateRange}
               setDateRange={setDateRange}
               isFiltered={isFiltered}

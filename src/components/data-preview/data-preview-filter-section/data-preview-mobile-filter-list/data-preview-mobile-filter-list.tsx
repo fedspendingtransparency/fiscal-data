@@ -37,32 +37,33 @@ const DataPreviewMobileFilterList: FunctionComponent<IMobileFilterList> = ({
 }) => {
   return (
     <>
-      {filterOptions.map((filterOption, index) => {
-        const displayName = filterOption[optionLabelKey];
-        const subHeader = filterOption[secondaryLabelKey];
-        const activeFilter = secondaryLabelKey && filterOption[secondaryLabelKey];
-        return (
-          <div key={index}>
-            <button
-              className={`${buttonSleeve} ${displayName === selectedTable ? selected : ''} ${activeFilter ? active : ''}`}
-              onClick={() => {
-                onDataTableSelected?.(filterOption);
-                onTableSelected?.(filterOption);
-                onIsFilterSelected?.(filterOption);
-                onWhichFilterSelected?.(filterOption);
-              }}
-            >
-              <div className={left}>
-                <span className={optionName}>{filter !== undefined ? underlineMatchedString(displayName, filter) : displayName}</span>
-                {secondaryLabelKey && <span className={optionSecondary}>{subHeader || 'No filter selected'}</span>}
-              </div>
-              <div className={right}>
-                <FontAwesomeIcon icon={faCaretRight} />
-              </div>
-            </button>
-          </div>
-        );
-      })}
+      {filterOptions &&
+        filterOptions.map((filterOption, index) => {
+          const displayName = filterOption[optionLabelKey];
+          const subHeader = filterOption[secondaryLabelKey];
+          const activeFilter = secondaryLabelKey && filterOption[secondaryLabelKey];
+          return (
+            <div key={index}>
+              <button
+                className={`${buttonSleeve} ${displayName === selectedTable ? selected : ''} ${activeFilter ? active : ''}`}
+                onClick={() => {
+                  onDataTableSelected?.(filterOption);
+                  onTableSelected?.(filterOption);
+                  onIsFilterSelected?.(filterOption);
+                  onWhichFilterSelected?.(filterOption);
+                }}
+              >
+                <div className={left}>
+                  <span className={optionName}>{filter !== undefined ? underlineMatchedString(displayName, filter) : displayName}</span>
+                  {secondaryLabelKey && <span className={optionSecondary}>{subHeader || 'No filter selected'}</span>}
+                </div>
+                <div className={right}>
+                  <FontAwesomeIcon icon={faCaretRight} />
+                </div>
+              </button>
+            </div>
+          );
+        })}
     </>
   );
 };

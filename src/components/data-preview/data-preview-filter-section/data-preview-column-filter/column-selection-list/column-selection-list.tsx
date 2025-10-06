@@ -40,6 +40,10 @@ const ColumnSelectionList: FunctionComponent<IColumnSelectionList> = ({
   table,
   disabledFields = [],
 }) => {
+  if (!table) {
+    return null;
+  }
+
   const [allColumnsSelected, setAllColumnsSelected] = useState(table?.getAllLeafColumns().length === table?.getVisibleFlatColumns().length);
   const [checkboxesSelected, setCheckboxesSelected] = useState([...table?.getVisibleFlatColumns()]);
 

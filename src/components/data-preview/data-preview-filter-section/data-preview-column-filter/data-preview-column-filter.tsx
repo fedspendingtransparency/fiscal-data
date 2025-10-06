@@ -109,19 +109,18 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {dropdownActive && (
-            <DataPreviewMobileDialog
-              onCancel={handleCancel}
-              onApply={handleApply}
-              onBack={handleCancel}
-              setNoSearchResults={setNoResults}
-              filterName="Columns"
-              searchText={searchLabel}
-              filter={filter}
-              setFilter={setFilter}
-              filterComponent={columnSelectList}
-            />
-          )}
+          <DataPreviewMobileDialog
+            onCancel={handleCancel}
+            onApply={handleApply}
+            onBack={handleCancel}
+            setNoSearchResults={setNoResults}
+            filterName="Columns"
+            searchText={searchLabel}
+            filter={filter}
+            setFilter={setFilter}
+            filterComponent={columnSelectList}
+            active={dropdownActive}
+          />
         </>
       )}
     </>

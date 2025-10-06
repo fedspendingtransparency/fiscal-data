@@ -269,9 +269,11 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         }
       });
     }
+
     setTimeout(() => {
       setActive(false);
     });
+
     setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
       setIsFilterSelected(false);
@@ -418,6 +420,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       backButtonText="Filters"
       searchText="Search filters"
       filterComponent={columnFilter}
+      active={active}
     />
   ) : (
     // Shows the different filters to select
@@ -431,6 +434,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilter={setFilter}
       setNoSearchResults={setNoResults}
       filterComponent={filterSelectList}
+      active={active}
     />
   );
 
@@ -462,7 +466,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {active && mobileFilterComponent}
+          {mobileFilterComponent}
         </>
       )}
     </>
