@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { a11yProps } from '../datasets/filters/dateFilterTabs/dateFilterTabs';
-import { MuiThemeProvider, withStyles } from '@material-ui/core';
-import { theme } from '../../theme';
-import Tabs from '@material-ui/core/Tabs';
+// import { withStyles } from '@mui/material';
 import DataDictionary from '../data-dictionary/data-dictionary';
 import NotesAndLimitations from './notes-and-limitations/notes-and-limitations';
 import MetadataTab from '../metadata-tab/metadata-tab';
 import DataTablesTab from '../datatables-tab/datatables-tab';
-import Box from '@material-ui/core/Box';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -30,7 +29,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     </Typography>
   );
 
-  const AntTabDatasetDetail = withStyles({
+  /* const AntTabDatasetDetail = withStyles({
     root: {
       marginBottom: -2,
       borderBottom: '2px solid #dddddd',
@@ -53,7 +52,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
       fontSize: 16,
     },
     selected: {},
-  })(Tab);
+  })(Tab);*/
 
   const SCROLL_TYPE = {
     AUTO: 'auto',
@@ -98,26 +97,26 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
 
   return (
     <div data-testid="tabsContainer">
-      <MuiThemeProvider theme={theme}>
-        <div style={{ marginBottom: '0.875rem' }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant={test ? 'standard' : 'scrollable'}
-            scrollButtons={scrollButton}
-            aria-label="Dataset properties tabs"
-          >
-            {tabs.map((tab, index) => (
-              <AntTabDatasetDetail key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
-            ))}
-          </Tabs>
-        </div>
-        {tabs.map((c, index) => (
-          <TabPanel key={index} index={index} value={value}>
-            {c.content}
-          </TabPanel>
-        ))}
-      </MuiThemeProvider>
+      {/*<MuiThemeProvider theme={theme}>*/}
+      <div style={{ marginBottom: '0.875rem' }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant={test ? 'standard' : 'scrollable'}
+          scrollButtons={scrollButton}
+          aria-label="Dataset properties tabs"
+        >
+          {tabs.map((tab, index) => (
+            <Tab key={index} label={tab.label} {...a11yProps(index)} data-testid={tab.label} />
+          ))}
+        </Tabs>
+      </div>
+      {tabs.map((c, index) => (
+        <TabPanel key={index} index={index} value={value}>
+          {c.content}
+        </TabPanel>
+      ))}
+      {/*</MuiThemeProvider>*/}
     </div>
   );
 };

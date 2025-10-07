@@ -34,6 +34,12 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-styled-components`,
+      options: {
+        // Add any options here
+      },
+    },
+    {
       resolve: 'gatsby-plugin-exclude',
       options: { paths: EXCLUDED_PAGE_PATHS },
     },
