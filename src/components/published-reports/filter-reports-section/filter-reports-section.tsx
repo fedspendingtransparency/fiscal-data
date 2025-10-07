@@ -95,7 +95,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       });
     } catch (e) {
       setApiError(true);
-      return [];
+      return null;
     }
   };
 
@@ -115,7 +115,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return firstMatch ? matchingReports[0] : matchingReports;
       });
     } catch (e) {
-      return [];
+      return null;
     }
   };
 
@@ -137,7 +137,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
           const formattedDate = format(selectedDate, 'yyyyMM');
           allReports = await fetchPublishedReports(`${selectedOption.value}${formattedDate}`);
         }
-        Promise.all(allReports).then(reports => setReports(reports));
+        if (allReports) {
+          Promise.all(allReports).then(reports => setReports(reports));
+        } else {
+          setReports([]);
+        }
         setApiError(allReports.length === 0);
       } catch {
         setApiError(true);
