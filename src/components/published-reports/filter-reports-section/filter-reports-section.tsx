@@ -77,37 +77,46 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${filterValue}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
     //Get report names from raw data table
-    return await basicFetch(url).then(res => {
-      const matchingReports = res.data;
-      const allReports = [];
-      if (matchingReports?.length > 0) {
-        //Then get all matching reports from published report api
-        reportFields.map(async file => {
-          const reportName = matchingReports[0][file];
-          if (reportName && reportName !== 'null') {
-            const curReport = fetchPublishedReports('/' + reportName, null, true);
-            allReports.push(curReport);
-          }
-        });
-      }
-      return allReports;
-    });
+    try {
+      return await basicFetch(url).then(res => {
+        const matchingReports = res.data;
+        const allReports = [];
+        if (matchingReports?.length > 0) {
+          //Then get all matching reports from published report api
+          reportFields.map(async file => {
+            const reportName = matchingReports[0][file];
+            if (reportName && reportName !== 'null') {
+              const curReport = fetchPublishedReports('/' + reportName, null, true);
+              allReports.push(curReport);
+            }
+          });
+        }
+        return allReports;
+      });
+    } catch (e) {
+      setApiError(true);
+      return null;
+    }
   };
 
   const fetchPublishedReports = async (fileName, date = null, firstMatch = false) => {
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
-    return await basicFetch(url).then(res => {
-      let matchingReports = res;
-      if (date) {
-        const formattedDate = format(date, 'yyyy-MM-dd');
-        matchingReports = res.filter(report => report.report_date === formattedDate);
-      }
-      matchingReports.forEach(report => {
-        const date = report.report_date;
-        report.report_date = convertDate(date);
+    try {
+      return await basicFetch(url).then(res => {
+        let matchingReports = res;
+        if (date) {
+          const formattedDate = format(date, 'yyyy-MM-dd');
+          matchingReports = res.filter(report => report.report_date === formattedDate);
+        }
+        matchingReports.forEach(report => {
+          const date = report.report_date;
+          report.report_date = convertDate(date);
+        });
+        return firstMatch ? matchingReports[0] : matchingReports;
       });
-      return firstMatch ? matchingReports[0] : matchingReports;
-    });
+    } catch (e) {
+      return null;
+    }
   };
 
   useEffect(() => {
@@ -128,7 +137,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
           const formattedDate = format(selectedDate, 'yyyyMM');
           allReports = await fetchPublishedReports(`${selectedOption.value}${formattedDate}`);
         }
-        Promise.all(allReports).then(reports => setReports(reports));
+        if (allReports) {
+          Promise.all(allReports).then(reports => setReports(reports));
+        } else {
+          setReports([]);
+        }
         setApiError(allReports.length === 0);
       } catch {
         setApiError(true);
