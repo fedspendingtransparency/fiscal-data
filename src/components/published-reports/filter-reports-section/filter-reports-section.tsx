@@ -95,7 +95,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       });
     } catch (e) {
       setApiError(true);
-      return null;
+      return [];
     }
   };
 
@@ -115,7 +115,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return firstMatch ? matchingReports[0] : matchingReports;
       });
     } catch (e) {
-      return null;
+      return [];
     }
   };
 
