@@ -16,7 +16,7 @@ const SelectAll = ({
   const updateColumnSelection = selectAll => {
     const selectAllUpdates = pendingColumnSelection;
     allColumns.forEach(col => {
-      if (!disabledFields.includes(col.id)) {
+      if (!disabledFields.includes(col.id) && !disabledFields.includes(col.columnDef.header)) {
         const columnVisibility = selectAll ? col.getIsVisible() : !col.getIsVisible();
         const pendingColumnIndex = pendingColumnSelection.findIndex(pendingCol => pendingCol.id === col.id);
         if (pendingColumnIndex >= 0) {
