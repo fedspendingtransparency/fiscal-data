@@ -13,11 +13,13 @@ import {
   secondaryLabel,
   sectionLabel,
   unmatchedTerm,
+  bannerContainer,
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
+import BannerCallout from '../../../banner-callout/banner-callout';
 
 /**
  * @param active {boolean}
@@ -77,6 +79,7 @@ const ComboSelectDropdown = ({
   const [noResults, setNoResults] = useState(false);
 
   const dropdownContainerRef = useRef();
+  const filteringBanner = { banner: 'TextFilterDisabled' };
 
   const filterOptionsByEntry = (opts, entry) => {
     let filteredList = [];
@@ -235,6 +238,7 @@ const ComboSelectDropdown = ({
               />
             </div>
           )}
+          <div className={bannerContainer}>{true && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" />}</div>
           <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
             {noResults ? (
               <div className={noMatch}>

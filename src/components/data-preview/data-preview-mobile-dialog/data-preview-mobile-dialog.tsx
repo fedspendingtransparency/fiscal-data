@@ -21,6 +21,7 @@ import {
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import SearchBar from '../../search-bar/search-bar';
 import { useScrollLock } from 'usehooks-ts';
+import BannerCallout from '../../banner-callout/banner-callout';
 
 interface IDataPreviewMobileDialog {
   onCancel: () => void;
@@ -58,6 +59,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
   const [hideDialog, setHideDialog] = useState(false);
   const [startAnimation, setStartAnimation] = useState(false);
   const { lock, unlock } = useScrollLock({ autoLock: false });
+  const filteringBanner = { banner: 'TextFilterDisabled' };
 
   const onSearchBarChange = event => {
     const val = event && event.target ? event.target.value : '';
@@ -110,6 +112,7 @@ const DataPreviewMobileDialog: FunctionComponent<IDataPreviewMobileDialog> = ({
             </div>
           )}
         </div>
+        {true && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" />}
       </div>
       <div data-testid="filters-scroll-container" className={filtersScrollContainer}>
         {filterComponent}
