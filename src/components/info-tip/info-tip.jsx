@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -8,35 +7,14 @@ import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgSt
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import Button from '@material-ui/core/Button';
 
 const style = {
-  button: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    boxShadow: 'none',
-    height: '20px',
-    marginLeft: '3px',
-    minWidth: '20px',
-    width: '20px',
-    padding: 0,
-    '&:hover, &.Mui-focusVisible, &:active': {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-    },
-  },
   popOver: {
     '& .MuiPopover-paper': {
       backgroundColor: 'rgba(255, 253, 253, 0.96)',
       boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
       maxWidth: '90%',
       width: '17rem',
-    },
-  },
-  secondarySvgColor: {
-    '& path': {
-      fill: '#000',
     },
   },
 };
@@ -50,17 +28,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
-  const useStyles = makeStyles(theme => ({
-    ...style,
-    popupContainer: {
-      padding: theme.spacing(2),
-    },
-    primarySvgColor: {
-      '& path': {
-        fill: iconStyle?.color ? iconStyle.color : '#aeb0b5',
-      },
-    },
-  }));
   const handleScroll = () => {
     const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
@@ -79,7 +46,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     };
   }, [scrollPosition]);
 
-  const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   let timeout;
@@ -123,22 +89,28 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
       );
     }
   };
+
+  const getIconColor = () => {
+    if (secondary) return '#000';
+    return iconStyle?.color ? iconStyle.color : '#aeb0b5';
+  };
+
   return (
     <span data-testid="infoTipContainer">
-      <Button
+      <button
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
-        className={`${button} ${infoIcon} infoTipIcon`}
+        className={`${infoIcon} infoTipIcon`}
         onClick={handleClick}
         onMouseLeave={handleMouseLeave}
         onMouseEnter={hover ? handleClick : null}
       >
-        <FontAwesomeIcon icon={faInfoCircle} className={`${svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
-      </Button>
+        <FontAwesomeIcon icon={faInfoCircle} className={svgStyle} style={{ ...iconStyle, color: getIconColor() }} />
+      </button>
       <Popover
         id={id}
-        className={popOver}
+        sx={style.popOver}
         disableScrollLock={true}
         open={open}
         anchorEl={anchorEl}
@@ -152,7 +124,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
           horizontal: 'center',
         }}
       >
-        <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
+        <div className={` ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role="presentation">
           {getHeader()}
           <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>
         </div>
