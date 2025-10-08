@@ -59,7 +59,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
     handleApplyGa4Click();
     handleApply();
   };
-  
+
   return (
     <>
       <div className={dropdownContainer}>
