@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import {
   arrowIcon,
+  bookIcon,
   glossaryButton,
+  glossaryHover,
   glossaryLink,
   glossaryText,
   header,
   mobileFA,
+  popupContainerStyle,
   termNameText,
-  bookIcon,
-  glossaryHover,
 } from './glossary-popover-definition.module.scss';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightLong, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong, faBook, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -63,14 +64,14 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
 
-  const useStyles = makeStyles(theme => ({
-    ...style,
-    popupContainer: {
-      padding: theme.spacing(2),
-    },
-  }));
+  // const useStyles = makeStyles(theme => ({
+  //   ...style,
+  //   popupContainer: {
+  //     padding: theme.spacing(2),
+  //   },
+  // }));
 
-  const { popOver, popupContainer } = useStyles();
+  // const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
     const position = window.pageYOffset;
     const previousPosition = scrollPosition;
@@ -133,7 +134,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
       </span>
       <Popover
         id={id}
-        className={popOver}
+        sx={style.popOver}
         disableScrollLock={true}
         open={open}
         anchorEl={anchorEl}
@@ -147,7 +148,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
           horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
         }}
       >
-        <div className={popupContainer} data-testid="popupContainer" role="presentation">
+        <div className={popupContainerStyle} data-testid="popupContainer" role="presentation">
           <div className={glossaryText}>
             <div className={header}>
               <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />

@@ -21,6 +21,7 @@
   margin-top: 0.063rem !important;
   margin-bottom: 0.063rem !important;
   font-family: 'Source Sans Pro', sans-serif;
+  text-align: left;
 
   span {
     line-height: 2.25rem !important;
@@ -90,6 +91,13 @@
   position: fixed;
   top: 0;
   z-index: $mobile-menu-sticky;
+  border-color: white;
+  background-color: transparent !important;
+  :global(.MuiList-padding) {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border: none;
+  }
 }
 .carrot {
   padding-right: 1rem;
@@ -101,14 +109,4 @@
 
 .overview {
   margin: 1.5rem 0;
-}
-
-.stylingStyledMenu {
-  border-color: white;
-
-  :global(.MuiList-padding) {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    border: none;
-  }
 }
