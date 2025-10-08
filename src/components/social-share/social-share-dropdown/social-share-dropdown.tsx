@@ -1,11 +1,10 @@
-import { icon, shareButton, listContainer } from './social-share-dropdown.module.scss';
+import { icon, listContainer, shareButton } from './social-share-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { SocialShareComponent } from '../social-share';
-import Popover from '@material-ui/core/Popover';
-import { makeStyles } from '@material-ui/core/styles';
+import Popover from '@mui/material/Popover';
 import { withWindowSize } from 'react-fns';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -26,7 +25,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
     }
   };
 
-  const useStyles = makeStyles(theme => ({
+  const style = {
     popOver: {
       '& .MuiPopover-paper': {
         backgroundColor: 'rgba(255, 253, 253, 0.96)',
@@ -37,13 +36,11 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         border: 'solid 1px var(--d-6-d-7-d-9-background-grey-lighter)',
       },
     },
-  }));
+  };
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-
-  const { popOver } = useStyles();
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -79,7 +76,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         disableScrollLock={true}
         anchorEl={anchorEl}
         onClose={handleClose}
-        className={popOver}
+        sx={style.popOver}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
