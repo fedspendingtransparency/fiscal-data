@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/material/styles';
 import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
@@ -8,7 +8,7 @@ import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgSt
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import Button from '@mui/material/Button';
+import Button from '@material-ui/core/Button';
 
 const style = {
   button: {
@@ -50,7 +50,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
 
-  const useStyles = styled(theme => ({
+  const useStyles = makeStyles(theme => ({
     ...style,
     popupContainer: {
       padding: theme.spacing(2),
