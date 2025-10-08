@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import { Menu, MenuItem } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { Menu, MenuItem } from '@mui/material';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
@@ -37,6 +37,8 @@ const PagingOptionsMenu = ({ menuProps }) => {
     ));
   };
 
+  //Todo: button turns blue on click
+
   return (
     <div className={pageOptions} data-testid="paginationMenu">
       <span className={perPageLabel}>{label}</span>
@@ -46,6 +48,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
         variant="outlined"
         endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         disabled={disabled}
+        sx={{ borderColor: 'rgba(0, 0, 0, 0.23)', fontWeight: '400' }}
       >
         {selectedOption}
       </Button>

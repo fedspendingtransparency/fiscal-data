@@ -1,24 +1,24 @@
 import React from 'react';
 import {
+  afgBookIcon,
+  breakpointSm,
+  comingSoon,
+  explainerImage,
+  explainerImageContainer,
+  grid,
+  iconTitle,
+  leftTile,
   mainContent,
   mainTitle,
-  secondaryTitle,
-  comingSoon,
-  breakpointSm,
-  explainerImageContainer,
-  explainerImage,
-  grid,
   rightTile,
-  leftTile,
-  afgBookIcon,
-  iconTitle,
+  secondaryTitle,
 } from './homepage-tile.module.scss';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
 import Link from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import { Grid } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
