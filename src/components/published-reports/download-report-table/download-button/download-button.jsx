@@ -24,7 +24,7 @@ const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fil
   const fileTypeImage = getFileTypeImage(fileType);
 
   const onDownloadClick = () => {
-    const eventLabel = fileName;
+    const eventLabel = 'TEST';
     const eventAction = 'Published Report Download';
     analyticsEventHandler('Data Download', eventLabel, eventAction);
     ga4DataLayerPush({
