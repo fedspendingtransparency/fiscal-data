@@ -88,7 +88,13 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
             <button className={cancelButton} onClick={handleClose}>
               Cancel
             </button>
-            <button className={applyButton} onClick={handleDropdownApply} aria-label="Apply Selected Date" disabled={inputFocus && !validInput}>
+            <button
+              className={applyButton}
+              id="apply-date-publish-report"
+              onClick={handleDropdownApply}
+              aria-label="Apply Selected Date"
+              disabled={inputFocus && !validInput}
+            >
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
               Apply
             </button>

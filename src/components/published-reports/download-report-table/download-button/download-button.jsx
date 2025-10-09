@@ -24,7 +24,7 @@ const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fil
   const fileTypeImage = getFileTypeImage(fileType);
 
   const onDownloadClick = () => {
-    const eventLabel = 'TEST';
+    const eventLabel = fileName;
     const eventAction = 'Published Report Download';
     analyticsEventHandler('Data Download', eventLabel, eventAction);
     ga4DataLayerPush({
@@ -56,7 +56,15 @@ const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fil
 
   return (
     <>
-      <a href={url} download={fileName} onClick={onDownloadClick} target="_blank" rel="noreferrer noopener" aria-label={`Download ${fileName}`}>
+      <a
+        href={url}
+        id="download-publish-report"
+        download={fileName}
+        onClick={onDownloadClick}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={`Download ${fileName}`}
+      >
         <div className={downloadFileContainer}>
           {!mobileView && (
             <>
