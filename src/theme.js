@@ -12,23 +12,39 @@ const baseTheme = {
     // does not have a corresponding variable in variable.modules.scss
     background: 'rgba(0, 113, 188, 0.1)',
   },
-  overrides: {
+  components: {
     MuiTabs: {
-      root: {
-        minHeight: 0,
-      },
-      flexContainer: {
-        borderBottomColor: variables.borderColor,
-        borderBottomWidth: 2,
-        borderBottomStyle: 'solid',
-      },
-      indicator: {
-        height: 4,
-      },
-      fixed: {
-        marginBottom: variables.fontSize_14,
+      styleOverrides: {
+        root: {
+          minHeight: 0,
+          marginBottom: variables.fontSize_14,
+        },
+        flexContainer: {
+          borderBottomColor: variables.borderColor,
+          borderBottomWidth: 2,
+          borderBottomStyle: 'solid',
+        },
+        indicator: {
+          height: 4,
+        },
       },
     },
+    // MuiTab: {
+    //   styleOverrides: {
+    //     root: {
+    //       fontSize: 16,
+    //       minHeight: 0,
+    //       padding: '9px 12px',
+    //       fontFamily: 'Source Sans Pro',
+    //       letterSpacing: 'normal',
+    //       textTransform: 'none',
+    //       fontWeight: 600,
+    //     },
+    //   },
+    // },
+  },
+
+  overrides: {
     MuiPaper: {
       root: {
         color: variables.fontBodyCopy,
@@ -80,7 +96,27 @@ const baseTheme = {
 };
 
 const datasetSearchTheme = {
-  ...baseTheme,
+  ...baseTheme.palette,
+  components: {
+    ...baseTheme.components,
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: 16,
+          minHeight: 0,
+          padding: '9px 12px',
+          fontFamily: 'Source Sans Pro',
+          letterSpacing: 'normal',
+          textTransform: 'none',
+          fontWeight: 600,
+        },
+        hover: {
+          // does not have a corresponding variable in variable.modules.scss
+          backgroundColor: 'rgba(0, 113, 188, 0.1)',
+        },
+      },
+    },
+  },
   overrides: {
     ...baseTheme.overrides,
     MuiTab: {

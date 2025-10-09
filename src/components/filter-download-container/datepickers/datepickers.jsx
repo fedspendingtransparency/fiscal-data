@@ -5,7 +5,7 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import DateFnsUtils from '@date-io/date-fns';
 import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 import { theme } from '../../../theme';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
 
@@ -80,7 +80,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   }, []);
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <div className={time_range_filter} data-testid="time-range-filter">
           <div className={time_range_filter_datePicker}>
@@ -153,7 +153,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
           </div>
         </div>
       </MuiPickersUtilsProvider>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 export default DatePickers;

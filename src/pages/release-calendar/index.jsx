@@ -1,5 +1,5 @@
 import React from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 import { theme } from '../../theme';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -22,7 +22,7 @@ const ReleaseCalendar = () => {
   return (
     <SiteLayout>
       <PageHelmet pageTitle="Fiscal Data Release Calendar" description={tagLineText} keywords="" />
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <div className="pageHeader">
           <div className="content">
             <BreadCrumbs links={breadCrumbLinks} />
@@ -35,7 +35,7 @@ const ReleaseCalendar = () => {
           </div>
         </div>
         <CalendarEntriesList />
-      </MuiThemeProvider>
+      </ThemeProvider>
     </SiteLayout>
   );
 };

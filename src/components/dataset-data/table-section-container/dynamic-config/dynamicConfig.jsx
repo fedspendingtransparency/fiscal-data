@@ -4,20 +4,20 @@
  */
 import React, { useEffect, useState } from 'react';
 import {
-  dropzone,
-  fieldOption,
-  edit,
-  pivotViewOnly,
-  editButton,
-  snapshotToggler,
-  filtersContainer,
   configButton,
+  dropzone,
+  edit,
+  editButton,
+  fieldOption,
+  filtersContainer,
   modal,
   pivotDnd,
+  pivotViewOnly,
+  snapshotToggler,
   successfulMessage,
   unsuccessfulMessage,
 } from './dynamicConfig.module.scss';
-import { Modal, Popover } from '@material-ui/core';
+import { Modal, Popover } from '@mui/material';
 import { makeStyles } from '@material-ui/core/styles';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
