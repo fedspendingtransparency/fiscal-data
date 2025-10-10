@@ -31,7 +31,10 @@
     }
   }
 }
-
+.popupContainerStyle {
+  color: $font-body-copy;
+  padding: 1rem;
+}
 .popoverContents {
   p:last-child,
   ul:last-child {

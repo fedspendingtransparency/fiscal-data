@@ -10,7 +10,7 @@ import { IDatasetApi } from '../../../models/IDatasetApi';
 import { sectionTitle } from '../published-reports';
 import { filterContainer } from './filter-report-section.module.scss';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
-import AccountBox from '@material-ui/icons/AccountBox';
+import AccountBox from '@mui/icons-material/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
