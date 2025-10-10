@@ -50,19 +50,19 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
 
   const card =
     layout === 'two-col' && isDesktop ? (
-      <Grid container spacing={0}>
-        <div className={mainContent} data-testid="tile" style={{ display: 'flex' }}>
-          <Grid item lg={4} className={isMobile ? null : grid}>
+      <div className={mainContent} data-testid="tile">
+        <Grid container spacing={0}>
+          <Grid size={{ lg: 4 }} className={isMobile ? null : grid}>
             <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
           </Grid>
-          <Grid item lg={8}>
+          <Grid size={{ lg: 8, md: 6 }}>
             <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
               <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
               <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
             </div>
           </Grid>
-        </div>
-      </Grid>
+        </Grid>
+      </div>
     ) : (
       <div className={mainContent} data-testid="tile">
         <div className={isMobile && explainerTile ? explainerImageContainer : null}>{isMobile ? mobile : desktop}</div>
@@ -105,7 +105,7 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
       {content.path ? (
         <Link
           to={content.path}
-          data-testid={'tile-link'}
+          data-testid="tile-link"
           onClick={() => analyticsHandler('Citation Click', content.analyticsName)}
           onMouseEnter={() => handleMouseEnter(content.analyticsName)}
           onMouseLeave={handleMouseLeave}
