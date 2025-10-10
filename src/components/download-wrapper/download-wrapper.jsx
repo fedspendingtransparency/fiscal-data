@@ -58,6 +58,7 @@ const DownloadWrapper = ({
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
   const tableSize = useRecoilValue(tableRowLengthState);
+  const [activeState, setActiveState] = useState('csv');
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -140,11 +141,11 @@ const DownloadWrapper = ({
     if (allTablesSelected && inProgress) {
       return `Downloading Files`;
     } else if (allTablesSelected && !inProgress) {
-      return `Download ${dataset.apis.length} ${selectedFileType.toUpperCase()} Files`;
+      return `Download ${dataset.apis.length} ${activeState.toUpperCase()} Files`;
     } else if (!allTablesSelected && inProgress) {
       return `Downloading File`;
     } else if (!allTablesSelected && !inProgress) {
-      return `Download ${selectedFileType.toUpperCase()} File`;
+      return `Download ${activeState.toUpperCase()} File`;
     }
   };
 
@@ -159,7 +160,7 @@ const DownloadWrapper = ({
   useEffect(() => {
     makeDownloadButtonAvailable();
     setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
-  }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
+  }, [allTablesSelected, selectedFileType, selectedTable, dateRange, activeState]);
 
   useEffect(() => {
     if (dateRange?.from && dateRange?.to) {
@@ -210,7 +211,7 @@ const DownloadWrapper = ({
             handleClick={downloadClickHandler}
             selectedTable={selectedTable}
             dateRange={dateRange}
-            selectedFileType={selectedFileType}
+            selectedFileType={activeState}
             dapGaEventLabel={gaEventLabel}
             downloadTimestamp={dataset.downloadTimestamp}
             selectedPivot={selectedPivot}
@@ -269,6 +270,8 @@ const DownloadWrapper = ({
         downloadLimit={selectedTable?.downloadLimit}
         dateRange={dateRange}
         setDisableDownloadBanner={setDisableDownloadBanner}
+        activeState={activeState}
+        setActiveState={setActiveState}
       />
       <div>
         <>{determineDirectDownload()}</>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { buttonGroup, radio, toggleButton, selected, disabled, disabledBorderRight } from './download-toggle.module.scss';
 
-const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner }) => {
-  const [activeState, setActiveState] = useState('csv');
+const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner, activeState, setActiveState }) => {
   const [disableCSV, setDisableCSV] = useState();
   const [disableJSON, setDisableJSON] = useState();
   const [disableXML, setDisableXML] = useState();
