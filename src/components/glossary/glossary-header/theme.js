@@ -30,6 +30,17 @@ const theme = {
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 253, 253, 0.96)',
+          boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
+          maxWidth: '90%',
+          width: '17rem',
+          margin: '0.5rem 0',
+        },
+      },
+    },
   },
 };
 

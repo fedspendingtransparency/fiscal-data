@@ -110,7 +110,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
       </button>
       <Popover
         id={id}
-        sx={style.popOver}
+        sx={{ ...style.popOver, opacity: open ? 1 : 0 }}
         disableScrollLock={true}
         open={open}
         anchorEl={anchorEl}

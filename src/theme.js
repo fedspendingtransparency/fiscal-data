@@ -34,7 +34,6 @@ const baseTheme = {
         root: {
           color: variables.fontBodyCopy,
           backgroundColor: 'white',
-          // display: 'initial',
         },
       },
     },
@@ -141,14 +140,6 @@ const datasetPropertiesTheme = {
   ...baseTheme.palette,
   components: {
     ...baseTheme.components,
-
-    // MuiTabs: {
-    //   styleOverrides: {
-    //     root: {
-    //       minHeight: 0,
-    //     },
-    //   },
-    // },
     MuiTab: {
       styleOverrides: {
         root: {

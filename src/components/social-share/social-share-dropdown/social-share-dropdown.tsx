@@ -76,7 +76,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         disableScrollLock={true}
         anchorEl={anchorEl}
         onClose={handleClose}
-        sx={style.popOver}
+        sx={{ ...style.popOver, opacity: open ? 1 : 0 }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
