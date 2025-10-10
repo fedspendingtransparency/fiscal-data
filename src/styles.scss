@@ -1,6 +1,7 @@
 @use './section.scss' as *;
 @use './variables.module' as *;
 @use './chartStyles.scss' as *;
+@use "sass:color";
 @import '~typeface-roboto/index.css';
 @import '~typeface-roboto-mono/index.css';
 
@@ -61,7 +62,7 @@ code {
   * {
     font-family: 'Roboto mono', monospace;
     background-color: $body-background;
-    color: darken($dark-pink, 4%);
+    color: color.adjust($dark-pink, $lightness: -4%);
     line-height: 1.38;
   }
 
