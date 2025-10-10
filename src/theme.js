@@ -29,69 +29,73 @@ const baseTheme = {
         },
       },
     },
-    // MuiTab: {
-    //   styleOverrides: {
-    //     root: {
-    //       fontSize: 16,
-    //       minHeight: 0,
-    //       padding: '9px 12px',
-    //       fontFamily: 'Source Sans Pro',
-    //       letterSpacing: 'normal',
-    //       textTransform: 'none',
-    //       fontWeight: 600,
-    //     },
-    //   },
-    // },
-  },
-
-  overrides: {
     MuiPaper: {
-      root: {
-        color: variables.fontBodyCopy,
-        backgroundColor: 'white',
+      styleOverrides: {
+        root: {
+          color: variables.fontBodyCopy,
+          backgroundColor: 'white',
+          // display: 'initial',
+        },
       },
     },
     MuiFormControl: {
-      root: {
-        width: '100%',
+      styleOverrides: {
+        root: {
+          width: '100%',
+        },
       },
     },
     MuiInputBase: {
-      root: {
-        color: variables.fontBodyCopy,
-        fontSize: variables.fontSize_15,
-      },
-      input: {
-        color: variables.fontBodyCopy,
+      styleOverrides: {
+        root: {
+          color: variables.fontBodyCopy,
+          fontSize: variables.fontSize_15,
+        },
+        input: {
+          color: variables.fontBodyCopy,
+        },
       },
     },
     MuiOutlinedInput: {
-      root: {
-        borderRadius: 3,
-        borderColor: variables.borderColor,
-      },
-      input: {
-        padding: 10,
-      },
-      adornedEnd: {
-        paddingRight: 0,
+      styleOverrides: {
+        root: {
+          borderRadius: 3,
+          borderColor: variables.borderColor,
+        },
+        input: {
+          padding: 10,
+        },
+        adornedEnd: {
+          paddingRight: 0,
+        },
       },
     },
     MuiCard: {
-      root: {
-        border: `1px solid ${variables.ddBorderColor}`,
-        boxShadow: 'none',
-        fontSize: variables.fontSize_16,
+      styleOverrides: {
+        root: {
+          border: `1px solid ${variables.ddBorderColor}`,
+          boxShadow: 'none',
+          fontSize: variables.fontSize_16,
+        },
       },
     },
     MuiCardActionArea: {
-      root: {
-        padding: variables.fontSize_16,
-      },
-      focusHighlight: {
-        backgroundColor: variables.contentSectionBackground,
+      styleOverrides: {
+        root: {
+          padding: variables.fontSize_16,
+        },
+        focusHighlight: {
+          backgroundColor: variables.contentSectionBackground,
+        },
       },
     },
+    // MuiButtonBase: {
+    //   styleOverrides: {
+    //     root: {
+    //       display: 'unset',
+    //     },
+    //   },
+    // },
   },
 };
 
@@ -106,48 +110,140 @@ const datasetSearchTheme = {
           minHeight: 0,
           padding: '9px 12px',
           fontFamily: 'Source Sans Pro',
-          letterSpacing: 'normal',
           textTransform: 'none',
-          fontWeight: 600,
+          lineHeight: 'normal',
+          minWidth: 0,
+          letterSpacing: 0,
+          fontWeight: variables.semiBoldWeight,
+          opacity: 1,
+          '@media (min-width: 0px)': {
+            minWidth: 0,
+          },
+          '&$selected': {
+            color: variables.primary,
+          },
+          '&:hover': {
+            // does not have a corresponding variable in variable.modules.scss
+            backgroundColor: 'rgba(0, 113, 188, 0.1)',
+          },
         },
-        hover: {
-          // does not have a corresponding variable in variable.modules.scss
-          backgroundColor: 'rgba(0, 113, 188, 0.1)',
+        wrapper: {
+          flexDirection: 'row',
+          fontSize: variables.fontSize_16,
+        },
+        selected: {},
+      },
+    },
+  },
+};
+
+const datasetPropertiesTheme = {
+  ...baseTheme.palette,
+  components: {
+    ...baseTheme.components,
+
+    // MuiTabs: {
+    //   styleOverrides: {
+    //     root: {
+    //       minHeight: 0,
+    //     },
+    //   },
+    // },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          fontSize: 16,
+          marginBottom: -2,
+          borderBottom: '2px solid #dddddd',
+          padding: '9px 12px',
+          fontFamily: 'Source Sans Pro',
+          textTransform: 'none',
+          lineHeight: 'normal',
+          minWidth: 0,
+          letterSpacing: 0,
+          fontWeight: variables.semiBoldWeight,
+          opacity: 1,
+          '@media (min-width: 0px)': {
+            minWidth: 0,
+          },
+          '&$selected': {
+            color: variables.primary,
+          },
+          '&:hover': {
+            // does not have a corresponding variable in variable.modules.scss
+            backgroundColor: 'rgba(0, 113, 188, 0.1)',
+          },
         },
       },
     },
   },
-  overrides: {
-    ...baseTheme.overrides,
+};
+
+const chartTableToggleTheme = {
+  components: {
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          minHeight: 0,
+          '&:focus-visible': {
+            backgroundColor: '#dff2f7',
+          },
+          '&:focus': {
+            backgroundColor: '#dff2f7',
+          },
+        },
+        indicator: {
+          backgroundColor: '#0071bc',
+          height: 4,
+        },
+        flexContainer: {
+          borderWidth: '1px',
+          borderBottom: 'none',
+        },
+      },
+    },
     MuiTab: {
-      root: {
-        '@media (min-width: 0px)': {
-          minWidth: 0,
+      styleOverrides: {
+        root: {
+          marginBottom: -2,
+          borderBottom: '2px solid #dddddd',
+          borderRight: '1px solid #dddddd',
+          textTransform: 'none',
+          fontSize: '14px',
+          fontFamily: 'Source Sans Pro',
+          minHeight: 0,
+          minWidth: '160px',
+          opacity: 1,
+          letterSpacing: 'normal',
+          display: 'flex',
+          flexDirection: 'row',
+          // TODO mobile width ???
+          // '@media (min-width: 0px)': {
+          //   minWidth: 0,
+          // },
+          '&.Mui-selected': {
+            color: '#0071bc',
+            fontWeight: 600,
+          },
+          '&:hover': {
+            backgroundColor: 'rgba(0, 113, 188, 0.1)',
+          },
+
+          '&:focus': {
+            backgroundColor: '#dff2f7',
+          },
         },
-        textTransform: 'none',
-        lineHeight: 'normal',
-        minWidth: 0,
-        minHeight: 0,
-        letterSpacing: 0,
-        fontWeight: variables.semiBoldWeight,
-        padding: '9px 12px',
-        opacity: 1,
-        '&$selected': {
-          color: variables.primary,
+        wrapper: {
+          flexDirection: 'row',
+          fontSize: variables.fontSize_16,
         },
-        '&:hover': {
-          // does not have a corresponding variable in variable.modules.scss
-          backgroundColor: 'rgba(0, 113, 188, 0.1)',
-        },
+        selected: {},
       },
-      wrapper: {
-        flexDirection: 'row',
-        fontSize: variables.fontSize_16,
-      },
-      selected: {},
     },
   },
 };
 
 export const theme = createTheme(baseTheme);
 export const dsTheme = createTheme(datasetSearchTheme);
+export const dpTheme = createTheme(datasetPropertiesTheme);
+export const chartToggleTheme = createTheme(chartTableToggleTheme);

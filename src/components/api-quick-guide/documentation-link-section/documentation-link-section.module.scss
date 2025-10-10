@@ -17,6 +17,10 @@ $remaining-container-width: calc(100% - 1rem - 20px);
     width: 20px;
     vertical-align: top;
     float: left;
+
+    //'& path': {
+    //  fill: #00a5d4;
+    //}
   }
 }
 

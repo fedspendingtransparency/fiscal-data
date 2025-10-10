@@ -19,8 +19,7 @@ import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from 
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { getColumnFilter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@mui/material/Tooltip';
 import { IDataTableHeader } from '../../../models/IDataTableHeader';
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
@@ -33,19 +32,19 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   disableDateRangeFilter,
   chartTable = true,
 }) => {
-  const LightTooltip = withStyles(() => ({
-    tooltip: {
-      color: '#555555',
-      fontSize: 16,
-      fontWeight: 600,
-      fontFamily: 'Source Sans Pro',
-      marginLeft: '1.25rem',
-      marginTop: '0.25rem',
-      borderRadius: '0.25rem',
-      background: '#FFF',
-      boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
-    },
-  }))(Tooltip);
+  // const LightTooltip = withStyles(() => ({
+  //   tooltip: {
+  //     color: '#555555',
+  //     fontSize: 16,
+  //     fontWeight: 600,
+  //     fontFamily: 'Source Sans Pro',
+  //     marginLeft: '1.25rem',
+  //     marginTop: '0.25rem',
+  //     borderRadius: '0.25rem',
+  //     background: '#FFF',
+  //     boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
+  //   },
+  // }))(Tooltip);
 
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -91,9 +90,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   {header.isPlaceholder ? null : (
                     <>
                       <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
-                        <LightTooltip title={header.column.columnDef.header} placement="bottom-start">
+                        <Tooltip title={header.column.columnDef.header} placement="bottom-start">
                           <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                        </LightTooltip>
+                        </Tooltip>
                         {{
                           asc: (
                             <div

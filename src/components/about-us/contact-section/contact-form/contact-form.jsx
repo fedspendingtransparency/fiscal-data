@@ -27,7 +27,7 @@ import SelectControl from '../../../select-control/select-control';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { postAPI } from '../../../../utils/api-utils';
-// import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import GLOBALS from '../../../../helpers/constants';
@@ -294,7 +294,7 @@ const ContactForm = ({ onUnsupportedSubject = () => {} }) => {
           </button>
         ) : (
           <button disabled={true} className={`${submit} ${loading}`}>
-            {/*<CircularProgress size={17} />*/}
+            <CircularProgress size={17} />
           </button>
         )}
       </form>

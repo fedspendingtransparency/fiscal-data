@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Card from '@mui/material/Card';
 import { ThemeProvider } from '@mui/material';
-import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faTable } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
@@ -40,12 +39,6 @@ import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import LoadingIndicator from '../../../components/loading-indicator/loading-indicator';
-
-const cardStyles = {
-  root: {
-    fontSize: '1rem',
-  },
-};
 
 interface ApiData {
   data?: [{ [key: string]: string }];
@@ -306,7 +299,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
+                role="presentation"
               >
                 {isLoading ? (
                   <LoadingIndicator />
@@ -319,14 +312,14 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               </div>
             )}
             {graphType === 'LINE' && (
-              <div role={'figure'} aria-label={ariaLabels.find(element => element.title === title)?.label}>
+              <div role="figure" aria-label={ariaLabels.find(element => element.title === title)?.label}>
                 <div
                   id={`chart-${displayOrder}`}
                   data-testid="highlight-chart"
                   className={sparkLine}
                   onMouseEnter={handleCardMouseOver}
                   onMouseLeave={handleChartMouseLeave}
-                  role={'presentation'}
+                  role="presentation"
                 >
                   {apiError && <p>API Error</p>}
                   {isLoading && <LoadingIndicator />}
@@ -341,7 +334,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
+                role="presentation"
               >
                 <BarGraph
                   cardId={cardId}
@@ -402,4 +395,4 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   );
 };
 
-export default withStyles(cardStyles)(HomeHighlightCard);
+export default HomeHighlightCard;

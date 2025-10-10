@@ -103,7 +103,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   return (
     <ThemeProvider theme={theme}>
       <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
-        <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
+        <CardActionArea style={{ padding: 0, display: 'unset' }} onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)}>
           <div>
             <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
             <div className={datasetName}>{dataset.name}</div>

@@ -61,7 +61,7 @@
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@mui/icons-material": "^7.3.4",
-    "@mui/material": "^5.18.0",
+    "@mui/material": "^7.3.4",
     "@mui/x-date-pickers": "^6.12.1",
     "@nivo/bar": "0.99.0",
     "@nivo/circle-packing": "0.99.0",

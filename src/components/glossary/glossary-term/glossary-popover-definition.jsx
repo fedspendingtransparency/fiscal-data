@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
 import {
   arrowIcon,
   bookIcon,
@@ -64,14 +63,6 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
 
-  // const useStyles = makeStyles(theme => ({
-  //   ...style,
-  //   popupContainer: {
-  //     padding: theme.spacing(2),
-  //   },
-  // }));
-
-  // const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
     const position = window.pageYOffset;
     const previousPosition = scrollPosition;

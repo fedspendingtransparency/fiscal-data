@@ -1,6 +1,6 @@
-import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground, clearButton } from './search-bar.module.scss';
+import { clearButton, disabledBackground, glow, search, searchIcon, searchIconHover, searchLabel } from './search-bar.module.scss';
 import { InputAdornment, ThemeProvider } from '@mui/material';
-import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
+import { searchBarTheme } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -90,7 +90,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
               ref={inputRef}
-              className={useStyles().root}
+              // className={useStyles().root}
               variant="outlined"
               fullWidth
               onChange={onChange}
