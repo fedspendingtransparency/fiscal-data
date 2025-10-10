@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { buttonGroup, radio, toggleButton, selected, disabled, disabledBorderRight } from './download-toggle.module.scss';
 
-const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner }) => {
-  const [activeState, setActiveState] = useState('csv');
+const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownloadBanner, selectedFileType, setSelectedFileType }) => {
   const [disableCSV, setDisableCSV] = useState();
   const [disableJSON, setDisableJSON] = useState();
   const [disableXML, setDisableXML] = useState();
@@ -17,7 +16,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
   };
 
   const changeState = value => {
-    setActiveState(value);
+    setSelectedFileType(value);
     onChange(value);
   };
 
@@ -25,12 +24,12 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
     const csvDisabled = disableDownload('csv');
     const jsonDisabled = disableDownload('json');
     const xmlDisabled = disableDownload('xml');
-    if (xmlDisabled && activeState === 'xml') {
-      setActiveState('csv');
-    } else if (jsonDisabled && activeState === 'json') {
-      setActiveState('csv');
-    } else if (csvDisabled && activeState === 'csv') {
-      setActiveState('json');
+    if (xmlDisabled && selectedFileType === 'xml') {
+      setSelectedFileType('csv');
+    } else if (jsonDisabled && selectedFileType === 'json') {
+      setSelectedFileType('csv');
+    } else if (csvDisabled && selectedFileType === 'csv') {
+      setSelectedFileType('json');
     }
     setDisableCSV(csvDisabled);
     setDisableJSON(jsonDisabled);
@@ -42,7 +41,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
     <div className={buttonGroup} data-toggle="buttons">
       <input
         type="radio"
-        checked={activeState === 'csv' ? 'checked' : ''}
+        checked={selectedFileType === 'csv' ? 'checked' : ''}
         className={radio}
         value="csv"
         id="csv"
@@ -50,12 +49,12 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
         disabled={disableCSV}
         onChange={() => changeState('csv')}
       />
-      <label className={`${toggleButton} ${activeState === 'csv' ? selected : ''} ${disableCSV ? disabled : ''}`} htmlFor="csv">
+      <label className={`${toggleButton} ${selectedFileType === 'csv' ? selected : ''} ${disableCSV ? disabled : ''}`} htmlFor="csv">
         CSV
       </label>
       <input
         type="radio"
-        checked={activeState === 'json' ? 'checked' : ''}
+        checked={selectedFileType === 'json' ? 'checked' : ''}
         className={radio}
         value="json"
         id="json"
@@ -64,7 +63,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
         onChange={() => changeState('json')}
       />
       <label
-        className={`${toggleButton} ${activeState === 'json' ? selected : ''} ${disableJSON ? disabled : ''} ${
+        className={`${toggleButton} ${selectedFileType === 'json' ? selected : ''} ${disableJSON ? disabled : ''} ${
           disableXML ? disabledBorderRight : ''
         }`}
         htmlFor="json"
@@ -73,7 +72,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
       </label>
       <input
         type="radio"
-        checked={activeState === 'xml' ? 'checked' : ''}
+        checked={selectedFileType === 'xml' ? 'checked' : ''}
         className={radio}
         value="xml"
         id="xml"
@@ -81,7 +80,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
         disabled={disableXML}
         onChange={() => changeState('xml')}
       />
-      <label className={`${toggleButton} ${activeState === 'xml' ? selected : ''} ${disableXML ? disabled : ''}`} htmlFor="xml">
+      <label className={`${toggleButton} ${selectedFileType === 'xml' ? selected : ''} ${disableXML ? disabled : ''}`} htmlFor="xml">
         XML
       </label>
     </div>

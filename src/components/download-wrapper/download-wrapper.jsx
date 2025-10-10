@@ -70,7 +70,6 @@ const DownloadWrapper = ({
       setChangeMadeToCriteria(true);
     }
   };
-
   const toggleButtonChange = value => {
     setSelectedFileType(value);
     makeDownloadButtonAvailable();
@@ -269,6 +268,8 @@ const DownloadWrapper = ({
         downloadLimit={selectedTable?.downloadLimit}
         dateRange={dateRange}
         setDisableDownloadBanner={setDisableDownloadBanner}
+        selectedFileType={selectedFileType}
+        setSelectedFileType={setSelectedFileType}
       />
       <div>
         <>{determineDirectDownload()}</>
