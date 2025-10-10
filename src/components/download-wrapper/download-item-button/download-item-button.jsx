@@ -96,6 +96,7 @@ const DownloadItemButton = ({
                 tabIndex={0}
               >
                 {children}
+                <h1>15</h1>
               </div>
 
               <CSVLink
@@ -119,6 +120,7 @@ const DownloadItemButton = ({
               enclosingCharacter=""
             >
               {children}
+              <h1>14</h1>
             </CSVLink>
           )}
         </>
@@ -133,6 +135,7 @@ const DownloadItemButton = ({
           onClick={() => clickFunction(true)}
         >
           {children}
+          <h1>13</h1>
         </a>
       );
     } else if (selectedFileType === 'xml' && smallTableXMLData.length > 0) {
@@ -145,6 +148,7 @@ const DownloadItemButton = ({
           onClick={() => clickFunction(true)}
         >
           {children}
+          <h1>1</h1>
         </a>
       );
     } else {
@@ -159,10 +163,13 @@ const DownloadItemButton = ({
           data-testid="download-button"
         >
           {children}
+          <h1>12</h1>
         </a>
       );
     }
   };
+
+  console.log('selectedFileType: ', selectedFileType);
 
   return (
     <div>

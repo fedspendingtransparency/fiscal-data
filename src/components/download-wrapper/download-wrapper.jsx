@@ -71,8 +71,8 @@ const DownloadWrapper = ({
       setChangeMadeToCriteria(true);
     }
   };
-
   const toggleButtonChange = value => {
+    console.log('fire');
     setSelectedFileType(value);
     makeDownloadButtonAvailable();
   };
@@ -141,11 +141,11 @@ const DownloadWrapper = ({
     if (allTablesSelected && inProgress) {
       return `Downloading Files`;
     } else if (allTablesSelected && !inProgress) {
-      return `Download ${dataset.apis.length} ${activeState.toUpperCase()} Files`;
+      return `Download ${dataset.apis.length} ${selectedFileType.toUpperCase()} Files`;
     } else if (!allTablesSelected && inProgress) {
       return `Downloading File`;
     } else if (!allTablesSelected && !inProgress) {
-      return `Download ${activeState.toUpperCase()} File`;
+      return `Download ${selectedFileType.toUpperCase()} File`;
     }
   };
 
@@ -160,7 +160,7 @@ const DownloadWrapper = ({
   useEffect(() => {
     makeDownloadButtonAvailable();
     setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
-  }, [allTablesSelected, selectedFileType, selectedTable, dateRange, activeState]);
+  }, [allTablesSelected, selectedFileType, selectedTable, dateRange, selectedFileType]);
 
   useEffect(() => {
     if (dateRange?.from && dateRange?.to) {
@@ -207,11 +207,12 @@ const DownloadWrapper = ({
           <DownloadItemButton
             icon={icon}
             label={downloadLabel}
+            // label="12"
             disabled={disableButton}
             handleClick={downloadClickHandler}
             selectedTable={selectedTable}
             dateRange={dateRange}
-            selectedFileType={activeState}
+            selectedFileType={selectedFileType}
             dapGaEventLabel={gaEventLabel}
             downloadTimestamp={dataset.downloadTimestamp}
             selectedPivot={selectedPivot}
@@ -223,14 +224,17 @@ const DownloadWrapper = ({
         <DownloadItemButton
           icon={icon}
           label={downloadLabel}
+          // label="34"
           disabled={disableButton}
           handleClick={downloadClickHandler}
           dapGaEventLabel={gaEventLabel}
-          selectedFileType={activeState}
+          selectedFileType={selectedFileType}
         />
       );
     }
   };
+
+  // console.log('selectedfiletype: ', selectedFileType);
 
   return (
     <div className={wrapper} data-testid="wrapper">
@@ -271,8 +275,10 @@ const DownloadWrapper = ({
         downloadLimit={selectedTable?.downloadLimit}
         dateRange={dateRange}
         setDisableDownloadBanner={setDisableDownloadBanner}
-        activeState={activeState}
-        setActiveState={setActiveState}
+        // activeState={activeState}
+        // setActiveState={setActiveState}
+        selectedFileType={selectedFileType}
+        setSelectedFileType={setSelectedFileType}
       />
       <div>
         <>{determineDirectDownload()}</>
