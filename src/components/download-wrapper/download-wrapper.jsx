@@ -58,7 +58,6 @@ const DownloadWrapper = ({
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
   const tableSize = useRecoilValue(tableRowLengthState);
-  const [activeState, setActiveState] = useState('csv');
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -72,7 +71,6 @@ const DownloadWrapper = ({
     }
   };
   const toggleButtonChange = value => {
-    console.log('fire');
     setSelectedFileType(value);
     makeDownloadButtonAvailable();
   };
@@ -160,7 +158,7 @@ const DownloadWrapper = ({
   useEffect(() => {
     makeDownloadButtonAvailable();
     setDownloadLabel(generateDownloadLabel(datasetDownloadInProgress));
-  }, [allTablesSelected, selectedFileType, selectedTable, dateRange, selectedFileType]);
+  }, [allTablesSelected, selectedFileType, selectedTable, dateRange]);
 
   useEffect(() => {
     if (dateRange?.from && dateRange?.to) {
@@ -207,7 +205,6 @@ const DownloadWrapper = ({
           <DownloadItemButton
             icon={icon}
             label={downloadLabel}
-            // label="12"
             disabled={disableButton}
             handleClick={downloadClickHandler}
             selectedTable={selectedTable}
@@ -224,17 +221,13 @@ const DownloadWrapper = ({
         <DownloadItemButton
           icon={icon}
           label={downloadLabel}
-          // label="34"
           disabled={disableButton}
           handleClick={downloadClickHandler}
           dapGaEventLabel={gaEventLabel}
-          selectedFileType={selectedFileType}
         />
       );
     }
   };
-
-  // console.log('selectedfiletype: ', selectedFileType);
 
   return (
     <div className={wrapper} data-testid="wrapper">
@@ -275,8 +268,6 @@ const DownloadWrapper = ({
         downloadLimit={selectedTable?.downloadLimit}
         dateRange={dateRange}
         setDisableDownloadBanner={setDisableDownloadBanner}
-        // activeState={activeState}
-        // setActiveState={setActiveState}
         selectedFileType={selectedFileType}
         setSelectedFileType={setSelectedFileType}
       />
