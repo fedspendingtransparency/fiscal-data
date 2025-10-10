@@ -16,12 +16,22 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { getFileTypeImage } from '../../util/util';
+import { analyticsEventHandler } from '../../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
 const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fileName, fileType = '.pdf' }) => {
   const [downloaded, setDownloaded] = useState(false);
   const fileTypeImage = getFileTypeImage(fileType);
 
   const onDownloadClick = () => {
+    const eventLabel = fileName;
+    const eventAction = 'Published Report Download';
+    analyticsEventHandler('Data Download', eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
+
     setTimeout(() => {
       if (!downloaded) {
         setDownloaded(true);
@@ -46,7 +56,15 @@ const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fil
 
   return (
     <>
-      <a href={url} download={fileName} onClick={onDownloadClick} target="_blank" rel="noreferrer noopener" aria-label={`Download ${fileName}`}>
+      <a
+        href={url}
+        id="download-publish-report"
+        download={fileName}
+        onClick={onDownloadClick}
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label={`Download ${fileName}`}
+      >
         <div className={downloadFileContainer}>
           {!mobileView && (
             <>
