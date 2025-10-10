@@ -226,6 +226,7 @@ const DownloadWrapper = ({
           disabled={disableButton}
           handleClick={downloadClickHandler}
           dapGaEventLabel={gaEventLabel}
+          selectedFileType={activeState}
         />
       );
     }
