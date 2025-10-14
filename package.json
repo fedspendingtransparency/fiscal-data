@@ -90,6 +90,7 @@
     "d3-selection-multi": "^1.0.1",
     "date-fns": "^2.30.0",
     "date-fns-tz": "^2.0.0",
+    "dayjs": "^1.11.18",
     "fuse.js": "^7.0.0",
     "gatsby": "^4.25.7",
     "gatsby-env-variables": "^2.0.0",

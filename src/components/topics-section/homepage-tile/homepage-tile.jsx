@@ -55,7 +55,7 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
           <Grid size={{ lg: 4 }} className={isMobile ? null : grid}>
             <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
           </Grid>
-          <Grid size={{ lg: 8, md: 6 }}>
+          <Grid size={{ lg: 8 }}>
             <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
               <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
               <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
