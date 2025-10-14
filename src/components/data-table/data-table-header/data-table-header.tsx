@@ -32,19 +32,17 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   disableDateRangeFilter,
   chartTable = true,
 }) => {
-  // const LightTooltip = withStyles(() => ({
-  //   tooltip: {
-  //     color: '#555555',
-  //     fontSize: 16,
-  //     fontWeight: 600,
-  //     fontFamily: 'Source Sans Pro',
-  //     marginLeft: '1.25rem',
-  //     marginTop: '0.25rem',
-  //     borderRadius: '0.25rem',
-  //     background: '#FFF',
-  //     boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
-  //   },
-  // }))(Tooltip);
+  const tooltipStyle = {
+    color: '#555555',
+    fontSize: 16,
+    fontWeight: 600,
+    fontFamily: 'Source Sans Pro',
+    marginLeft: '1.25rem',
+    marginTop: '0.25rem',
+    borderRadius: '0.25rem',
+    background: '#FFF',
+    boxShadow: '0.25rem 0.25rem 1rem 0 rgba(0, 0, 0, 0.15), 0 0 0.125rem 0 rgba(0, 0, 0, 0.20)',
+  };
 
   const iconClick = (state, header, e) => {
     if (e.key === undefined || e.key === 'Enter') {
@@ -90,7 +88,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   {header.isPlaceholder ? null : (
                     <>
                       <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
-                        <Tooltip title={header.column.columnDef.header} placement="bottom-start">
+                        <Tooltip title={header.column.columnDef.header} placement="bottom-start" slotProps={{ tooltip: { sx: { ...tooltipStyle } } }}>
                           <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
                         </Tooltip>
                         {{
