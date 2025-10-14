@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { isBefore, isValid } from 'date-fns';
+import { isBefore } from 'date-fns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import DateFnsUtils from '@date-io/date-fns';
 import { siteContext } from '../../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../../info-tip/info-tip';
 import Checkbox from '../../../checkbox/checkbox';
@@ -49,11 +48,11 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const handleBeginDate = date => {
     setBeginDate(date);
-    context.setBeginDate(date);
+    context.setBeginDate(date?.toDate());
   };
   const handleEndDate = date => {
     setEndDate(date);
-    context.setEndDate(date);
+    context.setEndDate(date?.toDate());
   };
 
   const swapDates = () => {
@@ -83,11 +82,11 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
         setSelecting(true);
         swapDates();
       } else {
-        if (isValid(beginDate) && isValid(endDate)) {
+        if (beginDate.isValid() && endDate.isValid()) {
           dateRangeFilter(
             {
-              endDate: endDate,
-              startDate: beginDate,
+              endDate: endDate?.toDate(),
+              startDate: beginDate?.toDate(),
               exactRange: checked,
               active: true,
             },
@@ -153,7 +152,6 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   ];
 
   const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
-  console.log(beginDate);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className={time_range_filter} data-testid="time-range-filter">
@@ -162,7 +160,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
           <div className={time_range_filter_datePicker}>
             <DatePicker
               value={beginDate ? dayjs(beginDate) : beginDate}
-              onViewChange={handleBeginDate}
+              onChange={handleBeginDate}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
               inputFormat="MM/dd/yyyy"
@@ -172,7 +170,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' } },
+                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
                     ...props.inputProps,
                     'aria-label': 'From Date',
@@ -199,7 +197,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
           <div className={time_range_filter_datePicker}>
             <DatePicker
               value={endDate ? dayjs(endDate) : endDate}
-              onViewChage={handleEndDate}
+              onChange={handleEndDate}
               inputVariant="outlined"
               inputFormat="MM/dd/yyyy"
               minDate={dayjs(minAllowedDate)}
@@ -213,7 +211,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' } },
+                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
                     ...props.inputProps,
                     'aria-label': 'To Date',
