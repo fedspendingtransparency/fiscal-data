@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { isBefore } from 'date-fns';
+import { isBefore, isValid } from 'date-fns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -78,15 +78,17 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const prepDateFilterValue = onlyCheckboxChange => {
     if (!selecting && endDate !== null && beginDate !== null) {
-      if (isBefore(endDate, beginDate)) {
+      const start = beginDate.toDate();
+      const end = endDate.toDate();
+      if (isBefore(end, start)) {
         setSelecting(true);
         swapDates();
       } else {
-        if (beginDate.isValid() && endDate.isValid()) {
+        if (isValid(start) && isValid(end)) {
           dateRangeFilter(
             {
-              endDate: endDate?.toDate(),
-              startDate: beginDate?.toDate(),
+              endDate: end,
+              startDate: start,
               exactRange: checked,
               active: true,
             },
@@ -159,7 +161,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
           <p className={time_range_filter_label_text}>From</p>
           <div className={time_range_filter_datePicker}>
             <DatePicker
-              value={beginDate ? dayjs(beginDate) : beginDate}
+              value={beginDate}
               onChange={handleBeginDate}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
@@ -196,7 +198,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
           <p className={time_range_filter_label_text}>To</p>
           <div className={time_range_filter_datePicker}>
             <DatePicker
-              value={endDate ? dayjs(endDate) : endDate}
+              value={endDate}
               onChange={handleEndDate}
               inputVariant="outlined"
               inputFormat="MM/dd/yyyy"
