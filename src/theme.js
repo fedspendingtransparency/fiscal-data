@@ -109,12 +109,12 @@ const datasetSearchTheme = {
           minWidth: 0,
           letterSpacing: 0,
           fontWeight: variables.semiBoldWeight,
-          opacity: 1,
+          opacity: 0.7,
           '@media (min-width: 0px)': {
             minWidth: 0,
           },
-          '&$selected': {
-            color: variables.primary,
+          '&.Mui-selected': {
+            opacity: 1,
           },
           '&:hover': {
             // does not have a corresponding variable in variable.modules.scss
@@ -205,10 +205,9 @@ const chartTableToggleTheme = {
           letterSpacing: 'normal',
           display: 'flex',
           flexDirection: 'row',
-          // TODO mobile width ???
-          // '@media (min-width: 0px)': {
-          //   minWidth: 0,
-          // },
+          '@media (min-width: 0px)': {
+            minWidth: 0,
+          },
           '&.Mui-selected': {
             color: '#0071bc',
             fontWeight: 600,

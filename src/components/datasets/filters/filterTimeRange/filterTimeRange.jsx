@@ -37,9 +37,8 @@ export const timeRangeInfoTipAnalyticsObject = {
 
 const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   const context = useContext(siteContext);
-
-  const [beginDate, setBeginDate] = useState(context && context.beginDate ? context.beginDate : null);
-  const [endDate, setEndDate] = useState(context && context.endDate ? context.endDate : null);
+  const [beginDate, setBeginDate] = useState(context && context.beginDate ? dayjs(context.beginDate) : null);
+  const [endDate, setEndDate] = useState(context && context.endDate ? dayjs(context.endDate) : null);
   const [checked, setChecked] = useState((context && context.exactRange) || false);
   const [selecting, setSelecting] = useState(false);
 

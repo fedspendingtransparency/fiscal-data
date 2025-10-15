@@ -72,6 +72,7 @@ const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table
                   style={{
                     minWidth: header.getSize(),
                   }}
+                  aria-label={header.column.columnDef.header}
                   className={`${tableHeader} ${(activeFilterStyle || appliedFilterStyle) && filtersActive}`}
                 >
                   {!header.isPlaceholder && (

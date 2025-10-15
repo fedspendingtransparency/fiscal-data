@@ -94,18 +94,10 @@ const ChartTableToggle = ({
     <ThemeProvider theme={chartToggleTheme}>
       <div className={chartTableToggleContainer}>
         <Tabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
-          <Tab
-            label="Table"
-            role="tab"
-            data-testid="tableTab"
-            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
-            {...a11yProps(0)}
-            disableRipple
-          />
+          <Tab label="Table" role="tab" icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />} {...a11yProps(0)} disableRipple />
           <Tab
             label="Chart"
             role="tab"
-            data-testid="chartTab"
             className="datasetChartEnabled"
             icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)}

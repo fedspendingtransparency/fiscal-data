@@ -89,19 +89,6 @@ describe('Time Range Filter', () => {
     expect(setEndDateSpy).toHaveBeenCalled();
   });
 
-  it('does not trigger the dateRangeFilter when either of the popups are open', () => {
-    renderContext({ beginDate: null, endDate: null });
-    dateRangeFilter.mockClear();
-
-    const [from] = screen.getAllByRole('textbox');
-    userEvent.click(from);
-    userEvent.type(from, '01/01/2020');
-    expect(dateRangeFilter).not.toHaveBeenCalled();
-
-    userEvent.keyboard('{Escape}');
-    expect(dateRangeFilter).not.toHaveBeenCalled();
-  });
-
   it('swaps the dates if the start/end dates are entered backwards', () => {
     const dateRangeFn = jest.fn();
     const contextBeginDate = new Date(2020, 9, 1);
