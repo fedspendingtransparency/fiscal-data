@@ -1,5 +1,6 @@
 @use '../../../variables.module.scss' as *;
 @use '../../../zIndex.module.scss' as *;
+@use "sass:color";
 
 $flap-border-radius: 3px;
 $flap-padding: 0.5rem;
@@ -87,7 +88,7 @@ $flap-padding: 0.5rem;
         &.flip-out {
           margin-top: -0.625em;
           z-index: $half-panel-flip-out;
-          background: linear-gradient($hero-split-flap-background 50%, darken($hero-split-flap-background, 10%));
+          background: linear-gradient($hero-split-flap-background 50%, color.adjust($hero-split-flap-background, $lightness: -10%));
           background-size: 200% 200%;
         }
       }
@@ -101,10 +102,10 @@ $flap-padding: 0.5rem;
   }
   50% {
     transform: rotateX(90deg);
-    box-shadow: 0 5px 15px darken($hero-split-flap-background, 5%);
+    box-shadow: 0 5px 15px color.adjust($hero-split-flap-background, $lightness: -5%);
   }
   95% {
-    box-shadow: 0 0 0 darken($hero-split-flap-background, 10%);
+    box-shadow: 0 0 0 color.adjust($hero-split-flap-background, $lightness: -10%);
   }
   100% {
     transform: rotateX(0deg);

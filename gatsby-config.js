@@ -83,6 +83,10 @@ module.exports = {
       resolve: 'gatsby-plugin-sass',
       options: {
         useResolveUrlLoader: true,
+        sassOptions: {
+          api: 'modern',
+          silenceDeprecations: ['legacy-js-api'],
+        },
       },
     },
     'gatsby-plugin-dts-css-modules',
