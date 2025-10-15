@@ -28,9 +28,7 @@ const CustomTooltip = (currentSlice, totalRevByYear) => {
   };
 
   const determineIfZeroNeeded = value => {
-    if (value === undefined) {
-      return `$0`;
-    } else if (value.toString().split('.')[1].length < 2) {
+    if (value.toString().split('.')[1].length < 2) {
       return `${value}0`;
     }
     return value;
@@ -43,7 +41,7 @@ const CustomTooltip = (currentSlice, totalRevByYear) => {
         <div className={tooltipItem}>
           <div className={estateRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}>{slice.points[0].serieId}: </div> ${determineIfZeroNeeded(slice.points[0].data.y)}T (
+            <div className={tooltipItemCategory}>{slice.points[0].serieId}: </div>${determineIfZeroNeeded(slice.points[0].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[0].data.raw, slice.points[0].data.x)}%)
           </div>
         </div>
