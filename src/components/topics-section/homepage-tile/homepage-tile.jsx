@@ -51,8 +51,8 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
   const card =
     layout === 'two-col' && isDesktop ? (
       <div className={mainContent} data-testid="tile">
-        <Grid container spacing={0}>
-          <Grid size={{ lg: 4 }} className={isMobile ? null : grid}>
+        <Grid container spacing={0} sx={{ flexWrap: 'nowrap' }}>
+          <Grid className={isMobile ? null : grid}>
             <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
           </Grid>
           <Grid size={{ lg: 8 }}>

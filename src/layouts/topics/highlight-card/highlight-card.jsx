@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from '../../../theme';
 import { card, card_headerLink } from '../../../components/dataset-card/dataset-card.module.scss';
 
-const HighlightCard = ({ classes, dataset }) => {
+const HighlightCard = ({ dataset }) => {
   const cardLink = `/datasets${dataset.slug}`;
 
   const clickHandler = () => {
@@ -16,7 +16,7 @@ const HighlightCard = ({ classes, dataset }) => {
   return (
     <ThemeProvider theme={theme}>
       <Card className={card} onClick={() => clickHandler()} data-test-id="highlight-card">
-        <CardActionArea classes={{ root: classes.root }}>
+        <CardActionArea sx={{ fontSize: 16 }}>
           <p className={card_headerLink}>What is the average interest rate on the Federal Debt?</p>
         </CardActionArea>
       </Card>
