@@ -68,10 +68,13 @@
 .tooltipItemText {
   font-size: 14px;
   max-width: 128px;
+  display: flex;
+  flex-direction: row;
 }
 
 .tooltipItemCategory {
   font-weight: 600;
+  white-space: pre;
 }
 
 .estateRectTooltip {
