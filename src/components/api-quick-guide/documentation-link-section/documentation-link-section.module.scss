@@ -13,14 +13,11 @@ $remaining-container-width: calc(100% - 1rem - 20px);
   color: $font-title;
   svg.infoIcon {
     margin-right: 1rem;
-    height: 20px;
-    width: 20px;
+    height: 1.25rem;
+    width: 1.25rem;
     vertical-align: top;
     float: left;
-
-    //'& path': {
-    //  fill: #00a5d4;
-    //}
+    color: #00a5d4;
   }
 }
 

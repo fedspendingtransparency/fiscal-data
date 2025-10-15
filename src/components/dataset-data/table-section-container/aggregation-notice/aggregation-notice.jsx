@@ -11,7 +11,7 @@ const AggregationNotice = () => {
       <div className={container}>
         <div className={infoBox}>
           <div className={iconContainer}>
-            <FontAwesomeIcon icon={faInfoCircle} className={infoIcon} style={{ color: '#00a5d4' }} />
+            <FontAwesomeIcon icon={faInfoCircle} className={infoIcon} />
           </div>
           <div className={infoText} data-testid="message-text">
             {dataAggregationNotice}

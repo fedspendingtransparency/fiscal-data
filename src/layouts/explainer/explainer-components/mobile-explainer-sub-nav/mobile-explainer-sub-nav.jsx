@@ -133,6 +133,7 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
           disableScrollLock={true}
           open={defaultOpen || Boolean(anchorEl)}
           onClose={handleClose}
+          sx={{ opacity: Boolean(anchorEl) ? 1 : 0 }}
           className={mainListSticky}
           id="styled-menu"
           elevation={0}

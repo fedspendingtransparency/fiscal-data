@@ -88,18 +88,13 @@ const baseTheme = {
         },
       },
     },
-    // MuiButtonBase: {
-    //   styleOverrides: {
-    //     root: {
-    //       display: 'unset',
-    //     },
-    //   },
-    // },
   },
 };
 
 const datasetSearchTheme = {
-  ...baseTheme.palette,
+  palette: {
+    ...baseTheme.palette,
+  },
   components: {
     ...baseTheme.components,
     MuiTab: {
@@ -137,7 +132,9 @@ const datasetSearchTheme = {
 };
 
 const datasetPropertiesTheme = {
-  ...baseTheme.palette,
+  palette: {
+    ...baseTheme.palette,
+  },
   components: {
     ...baseTheme.components,
     MuiTab: {

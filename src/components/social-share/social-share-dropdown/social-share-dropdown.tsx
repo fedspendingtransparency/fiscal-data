@@ -26,15 +26,13 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
   };
 
   const style = {
-    popOver: {
-      '& .MuiPopover-paper': {
-        backgroundColor: 'rgba(255, 253, 253, 0.96)',
-        width: '144px',
-        marginTop: width >= pxToNumber(breakpointLg) ? '11px' : '0px',
-        borderRadius: '2px',
-        boxShadow: '1px 1px 2px 0 rgba(0, 0, 0, 0.5)',
-        border: 'solid 1px var(--d-6-d-7-d-9-background-grey-lighter)',
-      },
+    '& .MuiPopover-paper': {
+      backgroundColor: 'rgba(255, 253, 253, 0.96)',
+      width: '144px',
+      marginTop: width >= pxToNumber(breakpointLg) ? '11px' : '0px',
+      borderRadius: '2px',
+      boxShadow: '1px 1px 2px 0 rgba(0, 0, 0, 0.5)',
+      border: 'solid 1px var(--d-6-d-7-d-9-background-grey-lighter)',
     },
   };
 
@@ -76,7 +74,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         disableScrollLock={true}
         anchorEl={anchorEl}
         onClose={handleClose}
-        sx={{ ...style.popOver, opacity: open ? 1 : 0 }}
+        sx={{ ...style, opacity: open ? 1 : 0 }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
@@ -87,7 +85,7 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         }}
       >
         <div className={listContainer}>
-          <SocialShareComponent copy={copy} pageName={pageName} displayStyle={'list'} clickEvent={handleSocialButtonClick} />
+          <SocialShareComponent copy={copy} pageName={pageName} displayStyle="list" clickEvent={handleSocialButtonClick} />
         </div>
       </Popover>
     </>

@@ -17,7 +17,7 @@ import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { DataTableContext } from '../../../data-preview/data-preview-context';
+import { DataTableContext } from '../../data-preview-context';
 
 const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
   const { appliedFilters } = useContext(DataTableContext);

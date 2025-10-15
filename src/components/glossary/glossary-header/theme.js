@@ -44,15 +44,4 @@ const theme = {
   },
 };
 
-// export const useStyles = makeStyles({
-//   root: {
-//     '& .MuiOutlinedInput-root': {
-//       height: variables.fontSize_36,
-//     },
-//     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-//       borderColor: '#d9d9d9',
-//     },
-//   },
-// });
-
 export const searchBarTheme = createTheme(theme);

@@ -90,21 +90,22 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
               ref={inputRef}
-              // className={useStyles().root}
               variant="outlined"
               fullWidth
               onChange={onChange}
               size="small"
               value={filter}
               aria-label={label}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,
-                style: {
-                  height: height,
+              slotProps={{
+                input: {
+                  endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,
+                  style: {
+                    height: height,
+                  },
                 },
-              }}
-              inputProps={{
-                'aria-label': ariaLabel ? ariaLabel : label,
+                htmlInput: {
+                  'aria-label': ariaLabel ? ariaLabel : label,
+                },
               }}
               disabled={disabled}
             />

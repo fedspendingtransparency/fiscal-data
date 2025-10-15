@@ -141,7 +141,7 @@ const ChartTableToggle = ({
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>
       <TabPanel index={1} value={tabState}>
-        {emptyChartMessage ? emptyChartMessage : chart}
+        {emptyChartMessage ? emptyChartMessage : chart()}
       </TabPanel>
     </ThemeProvider>
   );

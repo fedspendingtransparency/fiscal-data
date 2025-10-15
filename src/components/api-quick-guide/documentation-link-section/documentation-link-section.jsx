@@ -14,14 +14,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'gatsby';
 
-// const useStyles = makeStyles(theme => ({
-//   iconColor: {
-//     '& path': {
-//       fill: '#00a5d4',
-//     },
-//   },
-// }));
-
 const DocumentationLinkSection = ({ type: typeProp }) => {
   const infoIcon = <FontAwesomeIcon icon={faInfoCircle} className={infoIconStyle} alt="info icon" />;
 

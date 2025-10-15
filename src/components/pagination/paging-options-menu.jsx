@@ -37,8 +37,6 @@ const PagingOptionsMenu = ({ menuProps }) => {
     ));
   };
 
-  //Todo: button turns blue on click
-
   return (
     <div className={pageOptions} data-testid="paginationMenu">
       <span className={perPageLabel}>{label}</span>
@@ -48,7 +46,6 @@ const PagingOptionsMenu = ({ menuProps }) => {
         variant="outlined"
         endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         disabled={disabled}
-        sx={{ borderColor: 'rgba(0, 0, 0, 0.23)', fontWeight: '400' }}
       >
         {selectedOption}
       </Button>

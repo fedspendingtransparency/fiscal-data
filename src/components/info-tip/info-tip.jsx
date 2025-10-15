@@ -3,7 +3,7 @@ import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
+import { buttonContainer, header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -96,7 +96,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   };
 
   return (
-    <span data-testid="infoTipContainer">
+    <span data-testid="infoTipContainer" className={buttonContainer}>
       <button
         aria-describedby={id}
         aria-label={title ? label : null}
