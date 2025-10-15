@@ -1,4 +1,6 @@
 @use 'src/variables.module' as *;
+@use "sass:color";
+
 $SelectAllWidth: 261px;
 
 .row {
@@ -20,7 +22,7 @@ $SelectAllWidth: 261px;
     position: relative;
 
     &:hover {
-      color: darken($font-body-copy, 40%);
+      color: color.adjust($font-body-copy, $lightness: -40%);
     }
   }
 
