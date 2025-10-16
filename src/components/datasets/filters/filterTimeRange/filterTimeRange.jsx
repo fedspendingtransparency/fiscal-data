@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { isBefore, isValid } from 'date-fns';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DateFnsUtils from '@date-io/date-fns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { siteContext } from '../../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../../info-tip/info-tip';
 import Checkbox from '../../../checkbox/checkbox';
 import {
+  checkBoxDiv,
   time_range_filter,
+  time_range_filter_datePicker,
   time_range_filter_label,
   time_range_filter_label_text,
-  time_range_filter_datePicker,
-  checkBoxDiv,
 } from './filterTimeRange.module.scss';
 import Analytics from '../../../../utils/analytics/analytics';
+import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 export const timeRangeCompleteAnalyticsObject = {
   category: 'Dataset Search Page',
@@ -35,22 +37,27 @@ export const timeRangeInfoTipAnalyticsObject = {
 
 const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   const context = useContext(siteContext);
-
-  const [beginDate, setBeginDate] = useState(context && context.beginDate ? context.beginDate : null);
-  const [endDate, setEndDate] = useState(context && context.endDate ? context.endDate : null);
+  const [beginDate, setBeginDate] = useState(context && context.beginDate ? dayjs(context.beginDate) : null);
+  const [endDate, setEndDate] = useState(context && context.endDate ? dayjs(context.endDate) : null);
   const [checked, setChecked] = useState((context && context.exactRange) || false);
   const [selecting, setSelecting] = useState(false);
+  const [beginErrorMessage, setBeginErrorMessage] = useState('');
+  const [endErrorMessage, setEndErrorMessage] = useState('');
 
   const minAllowedDate = new Date(1790, 0, 1);
   minAllowedDate.setHours(0, 0, 0, 0);
 
   const handleBeginDate = date => {
-    setBeginDate(date);
-    context.setBeginDate(date);
+    if (date?.year() >= 1000 || date === null) {
+      setBeginDate(date);
+      context.setBeginDate(date ? date.toDate() : null);
+    }
   };
   const handleEndDate = date => {
-    setEndDate(date);
-    context.setEndDate(date);
+    if (date?.year() >= 1000 || date === null) {
+      setEndDate(date);
+      context.setEndDate(date ? date.toDate() : null);
+    }
   };
 
   const swapDates = () => {
@@ -76,15 +83,17 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const prepDateFilterValue = onlyCheckboxChange => {
     if (!selecting && endDate !== null && beginDate !== null) {
-      if (isBefore(endDate, beginDate)) {
+      const start = beginDate.toDate();
+      const end = endDate.toDate();
+      if (isBefore(end, start)) {
         setSelecting(true);
         swapDates();
       } else {
-        if (isValid(beginDate) && isValid(endDate)) {
+        if (isValid(start) && isValid(end)) {
           dateRangeFilter(
             {
-              endDate: endDate,
-              startDate: beginDate,
+              endDate: end,
+              startDate: start,
               exactRange: checked,
               active: true,
             },
@@ -113,7 +122,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'Time Range Entry',
-        eventLabel: `${beginDate} - ${endDate}`,
+        eventLabel: `${beginDate.toDate()} - ${endDate.toDate()}`,
       });
     }
   }, [selecting, endDate, beginDate]);
@@ -149,78 +158,109 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
     },
   ];
 
+  const handleError = error => {
+    switch (error) {
+      case 'minDate':
+        return 'Date should not be before minimal date';
+      case 'maxDate':
+        return 'Date should not be after maximal date';
+      case 'invalidDate':
+        return 'Invalid Date Format';
+      default:
+        return '';
+    }
+  };
+
+  const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className={time_range_filter} data-testid="time-range-filter">
         <div className={time_range_filter_label} data-testid="time_range_filter_label">
           <p className={time_range_filter_label_text}>From</p>
           <div className={time_range_filter_datePicker}>
-            <KeyboardDatePicker
+            <DatePicker
               value={beginDate}
               onChange={handleBeginDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
-              format="MM/dd/yyyy"
-              minDate={minAllowedDate}
-              maxDate={maxAllowedDate}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-              KeyboardButtonProps={{
-                'aria-label': 'Open calendar view to pick date',
-              }}
-              inputProps={{ 'aria-label': 'From Date' }}
-              PopoverProps={{
-                anchorOrigin: {
-                  vertical: 'bottom',
-                  horizontal: 'center',
+              onError={error => setBeginErrorMessage(handleError(error))}
+              inputFormat="MM/dd/yyyy"
+              minDate={dayjs(minAllowedDate)}
+              maxDate={dayjs(maxAllowedDate)}
+              slotProps={{
+                textField: props => ({
+                  variant: 'outlined',
+                  placeholder: 'MM/DD/YYYY',
+                  helperText: beginErrorMessage,
+                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                  inputProps: {
+                    ...props.inputProps,
+                    'aria-label': 'From Date',
+                  },
+                }),
+                popover: {
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  },
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                  },
                 },
-                transformOrigin: {
-                  vertical: 'top',
-                  horizontal: 'center',
-                },
               }}
+              slots={{ openPickerIcon: pickerIcon }}
+              views={['year', 'month', 'day']}
             />
           </div>
         </div>
         <div className={time_range_filter_label}>
           <p className={time_range_filter_label_text}>To</p>
           <div className={time_range_filter_datePicker}>
-            <KeyboardDatePicker
+            <DatePicker
               value={endDate}
               onChange={handleEndDate}
-              variant="inline"
-              inputVariant="outlined"
-              placeholder="MM / DD / YYYY"
-              format="MM/dd/yyyy"
-              minDate={minAllowedDate}
-              maxDate={maxAllowedDate}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
-              keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
+              onError={error => setEndErrorMessage(handleError(error))}
+              inputFormat="MM/dd/yyyy"
+              inputVariant="outlined"
+              minDate={dayjs(minAllowedDate)}
+              maxDate={dayjs(maxAllowedDate)}
               KeyboardButtonProps={{
                 'aria-label': 'Open calendar view to pick date',
               }}
-              inputProps={{ 'aria-label': 'To Date' }}
-              PopoverProps={{
-                anchorOrigin: {
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                },
-                transformOrigin: {
-                  vertical: 'top',
-                  horizontal: 'right',
+              slotProps={{
+                textField: props => ({
+                  variant: 'outlined',
+                  placeholder: 'MM/DD/YYYY',
+                  helperText: endErrorMessage,
+                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                  inputProps: {
+                    ...props.inputProps,
+                    'aria-label': 'To Date',
+                  },
+                }),
+                popover: {
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  },
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                  },
                 },
               }}
+              slots={{ openPickerIcon: pickerIcon }}
             />
           </div>
         </div>
-        <div className={checkBoxDiv} data-testid={'checkbox'}>
+        <div className={checkBoxDiv} data-testid="checkbox">
           <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
         </div>
       </div>
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

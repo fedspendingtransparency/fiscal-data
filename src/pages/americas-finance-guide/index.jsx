@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import DataSourcesMethodologies from '../../layouts/explainer/data-sources-methodologies/data-sources-methodologies';
 import {
   bottomContainer,

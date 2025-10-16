@@ -1,5 +1,5 @@
 import * as variables from '../../../variables.module.scss';
-import { createTheme, makeStyles } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
 const theme = {
   components: {
@@ -30,18 +30,18 @@ const theme = {
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 253, 253, 0.96)',
+          boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
+          maxWidth: '90%',
+          width: '17rem',
+          margin: '0.5rem 0',
+        },
+      },
+    },
   },
 };
-
-export const useStyles = makeStyles({
-  root: {
-    '& .MuiOutlinedInput-root': {
-      height: variables.fontSize_36,
-    },
-    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-      borderColor: '#d9d9d9',
-    },
-  },
-});
 
 export const searchBarTheme = createTheme(theme);

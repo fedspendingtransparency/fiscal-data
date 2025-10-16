@@ -1,8 +1,9 @@
 import React from 'react';
-import { createTheme, Grid, ThemeProvider } from '@material-ui/core';
+import { Grid, Stack, ThemeProvider } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import HomePageTile from './homepage-tile/homepage-tile';
-import { tileContainer, sectionHeader, topicsSectionContainer, line, insightsSectionContainer } from './topics-section.module.scss';
-import { breakpointLg } from '../../variables.module.scss';
+import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsSectionContainer } from './topics-section.module.scss';
+import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
 
@@ -14,6 +15,7 @@ export const TopicsSection = ({ images, width }) => {
     breakpoints: {
       values: {
         lg: pxToNumber(breakpointLg),
+        md: pxToNumber(breakpointMd),
       },
     },
   });
@@ -25,19 +27,21 @@ export const TopicsSection = ({ images, width }) => {
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
           <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? 'column-reverse' : 'row'}>
-            <Grid item lg={mainWidth}>
-              <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
-              <HomePageTile content={pageTileMap['americas-finance-guide']} images={images} width={width} hasMobileImage hasIcon />
-              {explainerTiles.map(tile => {
-                return (
-                  <React.Fragment key={tile}>
-                    <div className={line} />
-                    <HomePageTile content={pageTileMap[tile]} images={images} width={width} layout={'two-col'} explainerTile />
-                  </React.Fragment>
-                );
-              })}
+            <Grid size={{ lg: mainWidth }}>
+              <Stack>
+                <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
+                <HomePageTile content={pageTileMap['americas-finance-guide']} images={images} width={width} hasMobileImage hasIcon />
+                {explainerTiles.map(tile => {
+                  return (
+                    <React.Fragment key={tile}>
+                      <div className={line} />
+                      <HomePageTile content={pageTileMap[tile]} images={images} width={width} layout="two-col" explainerTile />
+                    </React.Fragment>
+                  );
+                })}
+              </Stack>
             </Grid>
-            <Grid item lg={secondaryWidth}>
+            <Grid container size={{ lg: secondaryWidth }}>
               <div className={insightsSectionContainer}>
                 <div className={sectionHeader}>FEATURED TOPICS</div>
                 <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} width={width} />

@@ -22,18 +22,19 @@ describe('Chart Table Toggle 0', () => {
     },
   };
   const mockTable = 'table contents';
-  const mockChart = 'chart contents';
+  const chartContents = 'chart contents';
+  const mockChart = () => chartContents;
 
   it('creates tabs for the table and chart', () => {
-    const { getByTestId } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
-    expect(getByTestId('tableTab')).toBeDefined();
-    expect(getByTestId('chartTab')).toBeDefined();
+    const { getByRole } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
+    expect(getByRole('tab', { name: 'Table' })).toBeDefined();
+    expect(getByRole('tab', { name: 'Chart' })).toBeDefined();
   });
 
   it('renders tab contents as expected', () => {
     const { getByText } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
     expect(getByText(mockTable)).toBeDefined();
-    expect(getByText(mockChart)).toBeDefined();
+    expect(getByText(chartContents)).toBeDefined();
   });
 
   it('does not display a table or chart when the All Data Tables option is selected', () => {
@@ -45,7 +46,7 @@ describe('Chart Table Toggle 0', () => {
   });
 
   it('tracks when the chart is enabled', () => {
-    const { getByTestId } = render(
+    const { getByRole } = render(
       <ChartTableToggle
         datasetName={dummyDatasetName}
         currentTab={0}
@@ -58,8 +59,8 @@ describe('Chart Table Toggle 0', () => {
 
     const tabSpy = jest.spyOn(spyProps, 'onTabChange');
 
-    const chartTab = getByTestId('chartTab').firstChild;
-    chartTab.click();
+    const chartTab = getByRole('tab', { name: 'Chart' });
+    userEvent.click(chartTab);
 
     expect(tabSpy).toHaveBeenCalledWith(1);
     expect(gaSpy).toHaveBeenCalledWith({
