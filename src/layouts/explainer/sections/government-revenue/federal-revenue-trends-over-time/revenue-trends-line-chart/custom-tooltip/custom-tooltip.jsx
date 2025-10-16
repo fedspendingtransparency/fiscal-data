@@ -41,49 +41,49 @@ const CustomTooltip = (currentSlice, totalRevByYear) => {
         <div className={tooltipItem}>
           <div className={estateRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[0].serieId}: </div>${determineIfZeroNeeded(slice.points[0].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[0].seriesId}: </div>${determineIfZeroNeeded(slice.points[0].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[0].data.raw, slice.points[0].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={customsRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[1].serieId}: </div>${determineIfZeroNeeded(slice.points[1].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[1].seriesId}: </div>${determineIfZeroNeeded(slice.points[1].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[1].data.raw, slice.points[1].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={exciseRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[2].serieId}: </div>${determineIfZeroNeeded(slice.points[2].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[2].seriesId}: </div>${determineIfZeroNeeded(slice.points[2].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[2].data.raw, slice.points[2].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={miscRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[3].serieId}: </div>${determineIfZeroNeeded(slice.points[3].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[3].seriesId}: </div>${determineIfZeroNeeded(slice.points[3].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[3].data.raw, slice.points[3].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={corpRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[4].serieId}: </div>${determineIfZeroNeeded(slice.points[4].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[4].seriesId}: </div>${determineIfZeroNeeded(slice.points[4].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[4].data.raw, slice.points[4].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={socialSecRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[5].serieId}: </div>${determineIfZeroNeeded(slice.points[5].data.y)}T (
+            <div className={tooltipItemCategory}> {slice.points[5].seriesId}: </div>${determineIfZeroNeeded(slice.points[5].data.y)}T (
             {getPercentofTotalRevByYear(slice.points[5].data.raw, slice.points[5].data.x)}%)
           </div>
         </div>
         <div className={tooltipItem}>
           <div className={indvRectTooltip} />
           <div className={tooltipItemText}>
-            <div className={tooltipItemCategory}> {slice.points[6].serieId}: </div>${determineIfZeroNeeded(slice.points[6].data.y.toFixed(2))}T (
+            <div className={tooltipItemCategory}> {slice.points[6].seriesId}: </div>${determineIfZeroNeeded(slice.points[6].data.y.toFixed(2))}T (
             {getPercentofTotalRevByYear(slice.points[6].data.raw, slice.points[6].data.x)}%)
           </div>
         </div>

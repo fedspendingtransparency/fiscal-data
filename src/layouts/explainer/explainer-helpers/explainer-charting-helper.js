@@ -116,20 +116,20 @@ export const nivoCommonLineChartProps = {
 
 const getLastValue = (values, name) =>
   values
-    .filter(g => g.serieId === name)
+    .filter(g => g.seriesId === name)
     .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
     .pop();
 
-export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
-  const lastPoint = getLastValue(points, serieId);
+export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, points, seriesId }) => {
+  const lastPoint = getLastValue(points, seriesId);
   const currentPoint = currentSlice?.points?.length ? currentSlice.points[0] : lastPoint;
   return (
     <g data-testid="customPoints">{!!currentPoint && <Point borderColor={borderColor} borderWidth={borderWidth} currentPoint={currentPoint} />}</g>
   );
 };
 
-export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
-  const lastPrimaryPoint = getLastValue(points, serieId);
+export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, seriesId }) => {
+  const lastPrimaryPoint = getLastValue(points, seriesId);
 
   const lastGdpPoint = getLastValue(points, 'GDP');
 
