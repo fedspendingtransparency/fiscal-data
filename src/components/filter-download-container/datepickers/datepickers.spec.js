@@ -6,8 +6,8 @@ import { formatDate } from '../../download-wrapper/helpers';
 import userEvent from '@testing-library/user-event';
 
 export const updateDatePicker = (datePicker, stringEntry) => {
+  userEvent.clear(datePicker);
   userEvent.click(datePicker);
-  userEvent.keyboard('{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}');
   userEvent.keyboard(stringEntry);
   userEvent.keyboard('{Enter}');
   act(() => {

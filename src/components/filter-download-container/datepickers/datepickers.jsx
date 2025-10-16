@@ -18,6 +18,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   const [latestDate, setLatestDate] = useState(null);
   const [selecting, setSelecting] = useState(false);
   const [isPristine, setIsPristine] = useState(true);
+  const [beginErrorMessage, setBeginErrorMessage] = useState('');
+  const [endErrorMessage, setEndErrorMessage] = useState('');
 
   const handleSelectingDates = (dateVal, callback) => {
     if (callback && typeof callback === 'function') {
@@ -85,6 +87,19 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
 
   const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
 
+  const handleError = error => {
+    switch (error) {
+      case 'minDate':
+        return 'Date should not be before minimal date';
+      case 'maxDate':
+        return 'Date should not be after maximal date';
+      case 'invalidDate':
+        return 'Invalid Date Format';
+      default:
+        return '';
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -99,13 +114,17 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 autoOk={true}
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
+                onError={error => setBeginErrorMessage(handleError(error))}
                 inputFormat="MM/dd/yyyy"
                 minDate={dayjs(earliestDate)}
                 maxDate={dayjs(latestDate)}
+                // disableFuture={true}
                 slotProps={{
                   textField: props => ({
+                    ...props,
                     variant: 'outlined',
-                    placeholder: 'MM/DD/YYYY',
+                    // placeholder: 'MM/DD/YYYY',
+                    helperText: beginErrorMessage,
                     sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                     inputProps: {
                       ...props.inputProps,
@@ -137,13 +156,15 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
+                onError={error => setEndErrorMessage(handleError(error))}
                 inputFormat="MM/dd/yyyy"
                 minDate={dayjs(earliestDate)}
                 maxDate={dayjs(latestDate)}
                 slotProps={{
                   textField: props => ({
                     variant: 'outlined',
-                    placeholder: 'MM/DD/YYYY',
+                    // placeholder: 'MM/DD/YYYY',
+                    helperText: endErrorMessage,
                     sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                     inputProps: {
                       ...props.inputProps,

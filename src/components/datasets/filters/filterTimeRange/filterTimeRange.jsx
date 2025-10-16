@@ -41,6 +41,8 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   const [endDate, setEndDate] = useState(context && context.endDate ? dayjs(context.endDate) : null);
   const [checked, setChecked] = useState((context && context.exactRange) || false);
   const [selecting, setSelecting] = useState(false);
+  const [beginErrorMessage, setBeginErrorMessage] = useState('');
+  const [endErrorMessage, setEndErrorMessage] = useState('');
 
   const minAllowedDate = new Date(1790, 0, 1);
   minAllowedDate.setHours(0, 0, 0, 0);
@@ -152,6 +154,19 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
     },
   ];
 
+  const handleError = error => {
+    switch (error) {
+      case 'minDate':
+        return 'Date should not be before minimal date';
+      case 'maxDate':
+        return 'Date should not be after maximal date';
+      case 'invalidDate':
+        return 'Invalid Date Format';
+      default:
+        return '';
+    }
+  };
+
   const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -164,6 +179,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
               onChange={handleBeginDate}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
+              onError={error => setBeginErrorMessage(handleError(error))}
               inputFormat="MM/dd/yyyy"
               minDate={dayjs(minAllowedDate)}
               maxDate={dayjs(maxAllowedDate)}
@@ -171,6 +187,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
+                  helperText: beginErrorMessage,
                   sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
                     ...props.inputProps,
@@ -199,12 +216,13 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             <DatePicker
               value={endDate}
               onChange={handleEndDate}
-              inputVariant="outlined"
-              inputFormat="MM/dd/yyyy"
-              minDate={dayjs(minAllowedDate)}
-              maxDate={dayjs(maxAllowedDate)}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
+              onError={error => setEndErrorMessage(handleError(error))}
+              inputFormat="MM/dd/yyyy"
+              inputVariant="outlined"
+              minDate={dayjs(minAllowedDate)}
+              maxDate={dayjs(maxAllowedDate)}
               KeyboardButtonProps={{
                 'aria-label': 'Open calendar view to pick date',
               }}
@@ -212,6 +230,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
+                  helperText: endErrorMessage,
                   sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
                     ...props.inputProps,

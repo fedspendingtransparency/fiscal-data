@@ -205,7 +205,7 @@ const chartTableToggleTheme = {
           letterSpacing: 'normal',
           display: 'flex',
           flexDirection: 'row',
-          '@media (min-width: 0px)': {
+          '@media (max-width: 599px)': {
             minWidth: 0,
           },
           '&.Mui-selected': {
