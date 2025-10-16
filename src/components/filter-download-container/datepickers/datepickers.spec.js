@@ -7,8 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 export const updateDatePicker = (datePicker, stringEntry) => {
   userEvent.clear(datePicker);
-  userEvent.click(datePicker);
-  userEvent.keyboard(stringEntry);
+  userEvent.type(datePicker, stringEntry);
   userEvent.keyboard('{Enter}');
   act(() => {
     jest.runAllTimers();

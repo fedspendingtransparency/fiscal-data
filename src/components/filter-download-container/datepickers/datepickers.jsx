@@ -22,7 +22,7 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   const [endErrorMessage, setEndErrorMessage] = useState('');
 
   const handleSelectingDates = (dateVal, callback) => {
-    if (callback && typeof callback === 'function') {
+    if (dateVal?.year() >= 1000 && callback && typeof callback === 'function') {
       callback(dateVal);
     }
     if (isPristine) {
@@ -72,16 +72,16 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
       setLatestDate(availableDateRange.to || null);
 
       if (selectedDateRange) {
-        setBeginDate(dayjs(selectedDateRange.from) || null);
-        setEndDate(dayjs(selectedDateRange.to) || null);
+        setBeginDate(selectedDateRange.from ? dayjs(selectedDateRange.from) : null);
+        setEndDate(selectedDateRange.to ? dayjs(selectedDateRange.to) : null);
       }
     }
   }, [availableDateRange]);
 
   useEffect(() => {
     if (selectedDateRange) {
-      setBeginDate(dayjs(selectedDateRange.from) || null);
-      setEndDate(dayjs(selectedDateRange.to) || null);
+      setBeginDate(selectedDateRange.from ? dayjs(selectedDateRange.from) : null);
+      setEndDate(selectedDateRange.to ? dayjs(selectedDateRange.to) : null);
     }
   }, []);
 

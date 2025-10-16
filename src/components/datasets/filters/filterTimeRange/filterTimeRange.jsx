@@ -48,12 +48,16 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   minAllowedDate.setHours(0, 0, 0, 0);
 
   const handleBeginDate = date => {
-    setBeginDate(date);
-    context.setBeginDate(date?.toDate());
+    if (date?.year() >= 1000 || date === null) {
+      setBeginDate(date);
+      context.setBeginDate(date ? date.toDate() : null);
+    }
   };
   const handleEndDate = date => {
-    setEndDate(date);
-    context.setEndDate(date?.toDate());
+    if (date?.year() >= 1000 || date === null) {
+      setEndDate(date);
+      context.setEndDate(date ? date.toDate() : null);
+    }
   };
 
   const swapDates = () => {
@@ -118,7 +122,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'Time Range Entry',
-        eventLabel: `${beginDate} - ${endDate}`,
+        eventLabel: `${beginDate.toDate()} - ${endDate.toDate()}`,
       });
     }
   }, [selecting, endDate, beginDate]);

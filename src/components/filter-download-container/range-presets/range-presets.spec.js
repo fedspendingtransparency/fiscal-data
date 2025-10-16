@@ -25,7 +25,7 @@ describe('Range Presets Component, without the current report radio option', () 
 
   it(`displays an h3 element that reads "Date Range:" and includes the correct label from the
     selectedTable object`, () => {
-    const { getByRole, getByTestId, getByText } = render(
+    const { getByRole, getByTestId } = render(
       <RangePresets
         selectedTable={selectedTable}
         setIsFiltered={setIsFilteredMock}
@@ -284,19 +284,20 @@ describe('Range Presets Component, without the current report radio option', () 
 
     jest.runAllTimers();
 
-    const datePickers = getAllByRole('textbox');
+    const [from, to] = getAllByRole('textbox');
     //Displays error message for out of range dates
-    updateDatePicker(datePickers[0], '01/01/2001');
+    updateDatePicker(from, '01/01/2001');
     expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
 
-    updateDatePicker(datePickers[0], '01/01/2025');
+    updateDatePicker(from, '01/01/2025');
     expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
 
     setDateRangeMock.mockClear();
 
-    updateDatePicker(datePickers[0], '01/01/2005');
+    updateDatePicker(from, '01/01/2006');
     setDateRangeMock.mockClear();
-    updateDatePicker(datePickers[1], '01/01/2019');
+    updateDatePicker(to, '01/01/2019');
+    expect(setDateRangeMock).toHaveBeenCalledWith();
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2019-01-01');
   });
 

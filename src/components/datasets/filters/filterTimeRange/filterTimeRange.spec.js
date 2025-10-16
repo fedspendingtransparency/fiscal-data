@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, within, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FilterTimeRange, { spanTimeRangeAnalyticsObject } from './filterTimeRange';
 import { siteContext } from '../../../persist/persist';
@@ -80,9 +80,9 @@ describe('Time Range Filter', () => {
 
     const [from, to] = screen.getAllByRole('textbox');
     await userEvent.clear(from);
-    await userEvent.type(from, '01/01/2020');
+    await userEvent.type(from, '01/02/2020');
     await userEvent.clear(to);
-    await userEvent.type(to, '06/01/2020');
+    await userEvent.type(to, '06/02/2020');
 
     expect(dateRangeFilter).toHaveBeenCalledTimes(2);
     expect(setBeginDateSpy).toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('Time Range Filter', () => {
     const contextEndDate = new Date(2020, 8, 1);
     const setBeginDateSpy = jest.fn();
     const setEndDateSpy = jest.fn();
-    const { getByRole } = render(
+    render(
       <siteContext.Provider
         value={{ beginDate: contextBeginDate, setBeginDate: setBeginDateSpy, endDate: contextEndDate, setEndDate: setEndDateSpy }}
       >
