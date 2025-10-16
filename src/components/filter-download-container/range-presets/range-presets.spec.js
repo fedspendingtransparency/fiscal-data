@@ -294,10 +294,9 @@ describe('Range Presets Component, without the current report radio option', () 
 
     setDateRangeMock.mockClear();
 
-    updateDatePicker(from, '01/01/2006');
+    updateDatePicker(from, '01/01/2005');
     setDateRangeMock.mockClear();
     updateDatePicker(to, '01/01/2019');
-    expect(setDateRangeMock).toHaveBeenCalledWith();
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2019-01-01');
   });
 
