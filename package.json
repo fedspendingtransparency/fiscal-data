@@ -93,6 +93,7 @@
     "gatsby": "^4.25.7",
     "gatsby-env-variables": "^2.0.0",
     "gatsby-plugin-client-side-redirect": "^1.1.0",
+    "gatsby-plugin-eslint": "^4.0.4",
     "gatsby-plugin-exclude": "^1.0.2",
     "gatsby-plugin-google-analytics": "^4.25.0",
     "gatsby-plugin-image": "^2.25.0",
@@ -197,7 +198,6 @@
     "esm": "^3.2.25",
     "fetch-mock": "^9.11.0",
     "gatsby-plugin-dts-css-modules": "^3.0.0",
-    "gatsby-plugin-eslint": "^4.0.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-config": "^29.7.0",
@@ -219,4 +219,5 @@
     "webpack": "^5.96.1",
     "yargs": "^17.0.1"
   }
+
 }
