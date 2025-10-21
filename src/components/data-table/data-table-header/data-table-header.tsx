@@ -21,6 +21,7 @@ import { getColumnFilter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { IDataTableHeader } from '../../../models/IDataTableHeader';
+import { fontTitle } from '../../../variables.module.scss';
 
 const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   table,
@@ -33,7 +34,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   chartTable = true,
 }) => {
   const tooltipStyle = {
-    color: '#555555',
+    color: fontTitle,
     fontSize: 16,
     fontWeight: 600,
     fontFamily: 'Source Sans Pro',
