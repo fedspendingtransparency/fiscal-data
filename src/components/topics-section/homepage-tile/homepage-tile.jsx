@@ -16,14 +16,14 @@ import {
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
-import Link from 'gatsby-link';
+import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import Grid from '@mui/material/Grid';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let homepageTile;
-const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explainerTile }) => {
+const HomePageTile = ({ content, images, width, layout, hasMobileImage, explainerTile }) => {
   let desktopImage, mobileImage;
   if (images) {
     desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
@@ -119,4 +119,4 @@ const ExplainerTile = ({ content, images, width, layout, hasMobileImage, explain
   );
 };
 
-export default ExplainerTile;
+export default HomePageTile;
