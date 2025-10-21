@@ -6,18 +6,15 @@ import {
   byLine,
   dateStamp,
   dateValue,
+  heroSocialShare,
   mainVis,
+  relatedDatasetsStyle,
   templateContainer,
   templateContent,
-  heroSocialShare,
-  relatedDatasetsStyle,
 } from './feature.module.scss';
-import FDGMdxProvider from '../../components/mdx/FDGMdxProvider';
 import InsightsDownload from '../../components/insights-download/insights-download';
 import Footnote from '../../components/footnote/footnote';
 import AnchorText from '../../components/anchor-text/anchor-text';
-import { MDXRenderer } from 'gatsby-plugin-mdx';
-import { MDXProvider } from '@mdx-js/react';
 import dsmComponents from './dsm/dsm';
 import { format } from 'date-fns';
 import SocialShare from '../../components/social-share/social-share';
@@ -109,11 +106,11 @@ const Feature: FunctionComponent<FeaturePageProps> = ({ data, pageContext }) => 
             }
             style={{ backgroundImage: `url(${frontMatter.heroImagePath})` }}
           />
-          <FDGMdxProvider>
-            <MDXProvider components={featuresComponents}>
-              <MDXRenderer children={post.body} />
-            </MDXProvider>
-          </FDGMdxProvider>
+          {/*<FDGMdxProvider>*/}
+          {/*  <MDXProvider components={featuresComponents}>*/}
+          {/*    <MDXRenderer children={post.body} />*/}
+          {/*  </MDXProvider>*/}
+          {/*</FDGMdxProvider>*/}
         </div>
       </div>
       <div className={relatedDatasetsStyle}>
