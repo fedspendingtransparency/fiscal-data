@@ -1,76 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   arrowIcon,
+  bookIcon,
   glossaryButton,
+  glossaryHover,
   glossaryLink,
   glossaryText,
   header,
   mobileFA,
+  popupContainerStyle,
   termNameText,
-  bookIcon,
-  glossaryHover,
 } from './glossary-popover-definition.module.scss';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightLong, faXmark, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong, faBook, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { GlossaryContext } from '../glossary-context/glossary-context';
-
-const style = {
-  button: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    boxShadow: 'none',
-    height: '20px',
-    marginLeft: '3px',
-    minWidth: '20px',
-    top: '-2px',
-    width: '20px',
-    padding: 0,
-    '&:hover, &.Mui-focusVisible, &:active': {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-    },
-  },
-  popOver: {
-    '& .MuiPopover-paper': {
-      backgroundColor: 'rgba(255, 253, 253, 0.96)',
-      boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
-      maxWidth: '90%',
-      width: '17rem',
-      margin: '0.5rem 0',
-    },
-  },
-  secondarySvgColor: {
-    '& path': {
-      fill: '#000',
-    },
-  },
-};
+import { searchBarTheme } from '../glossary-header/theme';
+import { ThemeProvider } from '@mui/material';
 
 const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, handleClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
-
+  const parentContainer = useRef(null);
   const { setGlossaryClickEvent, glossary } = useContext(GlossaryContext);
 
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
 
-  const useStyles = makeStyles(theme => ({
-    ...style,
-    popupContainer: {
-      padding: theme.spacing(2),
-    },
-  }));
-
-  const { popOver, popupContainer } = useStyles();
   const handleScroll = () => {
     const position = window.pageYOffset;
     const previousPosition = scrollPosition;
@@ -120,49 +81,51 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   };
 
   return (
-    <span data-testid="infoTipContainer">
-      <span
-        className={`${buttonFocus ? glossaryHover : glossaryLink}`}
-        onClick={handleGlossaryClick}
-        onKeyDown={handleGlossaryClick}
-        role="button"
-        tabIndex={0}
-      >
-        <span>{displayText}</span>
-        <FontAwesomeIcon icon={faBook} className={bookIcon} />
-      </span>
-      <Popover
-        id={id}
-        className={popOver}
-        disableScrollLock={true}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-        }}
-      >
-        <div className={popupContainer} data-testid="popupContainer" role="presentation">
-          <div className={glossaryText}>
-            <div className={header}>
-              <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
-              <span>Definition</span>
-            </div>
-            <div className={termNameText}>{termName}</div>
-            <div>{definition}</div>
-            <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
-              <div>View in glossary</div>
-              <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
+    <ThemeProvider theme={searchBarTheme}>
+      <span data-testid="infoTipContainer" ref={parentContainer}>
+        <span
+          className={`${buttonFocus ? glossaryHover : glossaryLink}`}
+          onClick={handleGlossaryClick}
+          onKeyDown={handleGlossaryClick}
+          role="button"
+          tabIndex={0}
+        >
+          <span>{displayText}</span>
+          <FontAwesomeIcon icon={faBook} className={bookIcon} />
+        </span>
+        <Popover
+          id={id}
+          sx={{ opacity: open ? 1 : 0 }}
+          disableScrollLock={true}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
+          }}
+        >
+          <div className={popupContainerStyle} data-testid="popupContainer" role="presentation">
+            <div className={glossaryText}>
+              <div className={header}>
+                <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
+                <span>Definition</span>
+              </div>
+              <div className={termNameText}>{termName}</div>
+              <div>{definition}</div>
+              <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
+                <div>View in glossary</div>
+                <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
+              </div>
             </div>
           </div>
-        </div>
-      </Popover>
-    </span>
+        </Popover>
+      </span>
+    </ThemeProvider>
   );
 };
 

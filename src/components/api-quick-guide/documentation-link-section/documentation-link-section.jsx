@@ -12,27 +12,17 @@ import {
   infoIcon as infoIconStyle,
 } from './documentation-link-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'gatsby';
 
-const useStyles = makeStyles(theme => ({
-  iconColor: {
-    '& path': {
-      fill: '#00a5d4',
-    },
-  },
-}));
-
 const DocumentationLinkSection = ({ type: typeProp }) => {
-  const classes = useStyles();
-  const infoIcon = <FontAwesomeIcon icon={faInfoCircle} className={`${infoIconStyle} ${classes.iconColor}`} alt="info icon" />;
+  const infoIcon = <FontAwesomeIcon icon={faInfoCircle} className={infoIconStyle} alt="info icon" />;
 
   const renderContent = () => {
     let html = <></>;
     const type = typeProp ? typeProp.toUpperCase() : 'HEADER';
     if (type === 'HEADER') {
       html = (
-        <div className={header} data-testid={'header'}>
+        <div className={header} data-testid="header">
           <div className={headerLeft}>
             {infoIcon}
             <div className={headerText}>Check out our more detailed API Documentation.</div>

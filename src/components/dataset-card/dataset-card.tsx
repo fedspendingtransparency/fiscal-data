@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { navigate } from 'gatsby';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { MuiThemeProvider } from '@material-ui/core';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import { ThemeProvider } from '@mui/material';
 import { theme } from '../../theme';
 import { IDataset } from '../../models/IDataset';
 import { card, card_withFocus, card_withFocus_FireFox, cardHeroImage, datasetName } from './dataset-card.module.scss';
@@ -101,7 +101,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
         <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
           <div>
@@ -111,7 +111,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           <DatasetStats dataset={dataset} />
         </CardActionArea>
       </Card>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 

@@ -1,22 +1,23 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { ThemeProvider } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar, faCrosshairs, faSlidersH, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
 import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
-import { tabIcon, chartTableToggleContainer } from './chart-table-toggle.module.scss';
+import { chartTableToggleContainer, tabIcon } from './chart-table-toggle.module.scss';
 import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
-import { faSlidersH, faCrosshairs } from '@fortawesome/free-solid-svg-icons';
 import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
+import { chartToggleTheme } from '../../../theme';
 
 export const allTablesSelectedBody =
   'With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.';
 export const emptyDataMessageBody = 'With the current Date Range selected we are unable to render a preview at this time.';
+
 const TabPanel = ({ children, value, index, ...other }) => {
   return (
     <Typography
@@ -38,46 +39,6 @@ const a11yProps = index => {
     'aria-controls': `preview-tabpanel-${index}`,
   };
 };
-
-const AntTabs = withStyles({
-  root: {
-    marginBottom: '-0.875rem',
-  },
-  indicator: {
-    backgroundColor: '#0071bc',
-    height: 4,
-  },
-  flexContainer: {
-    borderWidth: '1px',
-    borderBottom: 'none',
-  },
-})(Tabs);
-
-const AntTab = withStyles({
-  root: {
-    borderRight: '1px solid #dddddd',
-    textTransform: 'none',
-    fontSize: '14px',
-    fontFamily: 'Source Sans Pro',
-    minHeight: 0,
-    opacity: 1,
-    letterSpacing: 'normal',
-    '&$selected': {
-      color: '#0071bc',
-      fontWeight: 600,
-    },
-    '&:hover': {
-      backgroundColor: 'rgba(0, 113, 188, 0.1)',
-    },
-    '&:focus': {
-      backgroundColor: '#dff2f7',
-    },
-  },
-  wrapper: {
-    flexDirection: 'row',
-  },
-  selected: {},
-})(Tab);
 
 const ChartTableToggle = ({
   currentTab,
@@ -130,27 +91,19 @@ const ChartTableToggle = ({
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
   return (
-    <div>
+    <ThemeProvider theme={chartToggleTheme}>
       <div className={chartTableToggleContainer}>
-        <AntTabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
-          <AntTab
-            label="Table"
-            role="tab"
-            data-testid="tableTab"
-            icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />}
-            {...a11yProps(0)}
-            disableRipple
-          />
-          <AntTab
+        <Tabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
+          <Tab label="Table" role="tab" icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />} {...a11yProps(0)} disableRipple />
+          <Tab
             label="Chart"
             role="tab"
-            data-testid="chartTab"
             className="datasetChartEnabled"
             icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
             {...a11yProps(1)}
             disableRipple
           />
-        </AntTabs>
+        </Tabs>
         <>
           {selectedTab === 1 ? (
             <HideLegendToggle
@@ -173,7 +126,6 @@ const ChartTableToggle = ({
           )}
         </>
       </div>
-
       {selectedTab === 0 && (
         <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
       )}
@@ -181,9 +133,9 @@ const ChartTableToggle = ({
         {emptyDataMessage ? emptyDataMessage : table}
       </TabPanel>
       <TabPanel index={1} value={tabState}>
-        {emptyChartMessage ? emptyChartMessage : chart}
+        {emptyChartMessage ? emptyChartMessage : chart()}
       </TabPanel>
-    </div>
+    </ThemeProvider>
   );
 };
 

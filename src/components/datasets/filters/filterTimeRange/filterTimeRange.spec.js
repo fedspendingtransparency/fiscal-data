@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, within, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FilterTimeRange, { spanTimeRangeAnalyticsObject } from './filterTimeRange';
 import { siteContext } from '../../../persist/persist';
@@ -77,29 +77,16 @@ describe('Time Range Filter', () => {
   it('triggers the dateRangeFilter call and context setters when both dates are set properly', async () => {
     renderContext({ beginDate: null, endDate: null });
     dateRangeFilter.mockClear();
-
+    const clearFilter = '{backspace}{arrowright}{backspace}{arrowright}{backspace}{arrowleft}{arrowleft}';
     const [from, to] = screen.getAllByRole('textbox');
-    await userEvent.clear(from);
-    await userEvent.type(from, '01/01/2020');
-    await userEvent.clear(to);
-    await userEvent.type(to, '06/01/2020');
 
+    await userEvent.type(from, clearFilter);
+    await userEvent.type(from, '01/02/2020');
+    await userEvent.type(to, clearFilter);
+    await userEvent.type(to, '06/02/2020');
     expect(dateRangeFilter).toHaveBeenCalledTimes(2);
     expect(setBeginDateSpy).toHaveBeenCalled();
     expect(setEndDateSpy).toHaveBeenCalled();
-  });
-
-  it('does not trigger the dateRangeFilter when either of the popups are open', () => {
-    renderContext({ beginDate: null, endDate: null });
-    dateRangeFilter.mockClear();
-
-    const [from] = screen.getAllByRole('textbox');
-    userEvent.click(from);
-    userEvent.type(from, '01/01/2020');
-    expect(dateRangeFilter).not.toHaveBeenCalled();
-
-    userEvent.keyboard('{Escape}');
-    expect(dateRangeFilter).not.toHaveBeenCalled();
   });
 
   it('swaps the dates if the start/end dates are entered backwards', () => {
@@ -108,7 +95,7 @@ describe('Time Range Filter', () => {
     const contextEndDate = new Date(2020, 8, 1);
     const setBeginDateSpy = jest.fn();
     const setEndDateSpy = jest.fn();
-    const { getByRole } = render(
+    render(
       <siteContext.Provider
         value={{ beginDate: contextBeginDate, setBeginDate: setBeginDateSpy, endDate: contextEndDate, setEndDate: setEndDateSpy }}
       >

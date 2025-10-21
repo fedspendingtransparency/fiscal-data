@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material';
 import { theme } from '../../../theme';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
+import dayjs from 'dayjs';
 
 const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }) => {
   const [beginDate, setBeginDate] = useState(null);
@@ -16,9 +18,11 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   const [latestDate, setLatestDate] = useState(null);
   const [selecting, setSelecting] = useState(false);
   const [isPristine, setIsPristine] = useState(true);
+  const [beginErrorMessage, setBeginErrorMessage] = useState('');
+  const [endErrorMessage, setEndErrorMessage] = useState('');
 
   const handleSelectingDates = (dateVal, callback) => {
-    if (callback && typeof callback === 'function') {
+    if (dateVal?.year() >= 1000 && callback && typeof callback === 'function') {
       callback(dateVal);
     }
     if (isPristine) {
@@ -35,14 +39,16 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
 
   const prepDateFilterValue = () => {
     if (!isPristine && !selecting && endDate !== null && beginDate !== null) {
-      if (isBefore(endDate, beginDate)) {
+      const start = beginDate.toDate();
+      const end = endDate.toDate();
+      if (isBefore(end, start)) {
         setSelecting(true);
         swapDates();
       } else {
-        if (isValid(beginDate) && isValid(endDate)) {
+        if (isValid(start) && isValid(end)) {
           const curDateRange = {
-            from: beginDate,
-            to: endDate,
+            from: start,
+            to: end,
           };
           generateAnalyticsEvent(generateFormattedDate(curDateRange));
           setSelectedDates(Object.assign({}, selectedDateRange, curDateRange));
@@ -66,94 +72,123 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
       setLatestDate(availableDateRange.to || null);
 
       if (selectedDateRange) {
-        setBeginDate(selectedDateRange.from || null);
-        setEndDate(selectedDateRange.to || null);
+        setBeginDate(selectedDateRange.from ? dayjs(selectedDateRange.from) : null);
+        setEndDate(selectedDateRange.to ? dayjs(selectedDateRange.to) : null);
       }
     }
   }, [availableDateRange]);
 
   useEffect(() => {
     if (selectedDateRange) {
-      setBeginDate(selectedDateRange.from || null);
-      setEndDate(selectedDateRange.to || null);
+      setBeginDate(selectedDateRange.from ? dayjs(selectedDateRange.from) : null);
+      setEndDate(selectedDateRange.to ? dayjs(selectedDateRange.to) : null);
     }
   }, []);
 
+  const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
+
+  const handleError = error => {
+    switch (error) {
+      case 'minDate':
+        return 'Date should not be before minimal date';
+      case 'maxDate':
+        return 'Date should not be after maximal date';
+      case 'invalidDate':
+        return 'Invalid Date Format';
+      default:
+        return '';
+    }
+  };
+
   return (
-    <MuiThemeProvider theme={theme}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className={time_range_filter} data-testid="time-range-filter">
           <div className={time_range_filter_datePicker}>
             <label htmlFor="date-picker-from">
               From:
-              <KeyboardDatePicker
+              <DatePicker
                 id="date-picker-from"
                 value={beginDate}
                 onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
                 autoOk={true}
-                variant="inline"
-                inputVariant="outlined"
-                placeholder="MM / DD / YYYY"
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
-                format="MM/dd/yyyy"
-                minDate={earliestDate}
-                maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-                KeyboardButtonProps={{
-                  'aria-label': 'Open calendar view to pick date',
-                }}
-                inputProps={{ 'aria-label': 'From Date' }}
-                PopoverProps={{
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
+                onError={error => setBeginErrorMessage(handleError(error))}
+                inputFormat="MM/dd/yyyy"
+                minDate={dayjs(earliestDate)}
+                maxDate={dayjs(latestDate)}
+                // disableFuture={true}
+                slotProps={{
+                  textField: props => ({
+                    ...props,
+                    variant: 'outlined',
+                    // placeholder: 'MM/DD/YYYY',
+                    helperText: beginErrorMessage,
+                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    inputProps: {
+                      ...props.inputProps,
+                      'aria-label': 'From Date',
+                    },
+                  }),
+                  popover: {
+                    anchorOrigin: {
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    },
+                    transformOrigin: {
+                      vertical: 'top',
+                      horizontal: 'center',
+                    },
                   },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
                 }}
+                slots={{ openPickerIcon: pickerIcon }}
               />
             </label>
           </div>
           <div className={time_range_filter_datePicker}>
             <label htmlFor="date-picker-to">
               To:
-              <KeyboardDatePicker
+              <DatePicker
                 id="date-picker-to"
                 autoOk={true}
                 value={endDate}
                 onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
-                variant="inline"
-                inputVariant="outlined"
-                placeholder="MM / DD / YYYY"
                 onOpen={() => setSelecting(true)}
                 onClose={() => setSelecting(false)}
-                format="MM/dd/yyyy"
-                minDate={earliestDate}
-                maxDate={latestDate}
-                keyboardIcon={<FontAwesomeIcon icon={faCalendar} size="xs" />}
-                KeyboardButtonProps={{
-                  'aria-label': 'Open calendar view to pick date',
-                }}
-                inputProps={{ 'aria-label': 'To Date' }}
-                PopoverProps={{
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
+                onError={error => setEndErrorMessage(handleError(error))}
+                inputFormat="MM/dd/yyyy"
+                minDate={dayjs(earliestDate)}
+                maxDate={dayjs(latestDate)}
+                slotProps={{
+                  textField: props => ({
+                    variant: 'outlined',
+                    // placeholder: 'MM/DD/YYYY',
+                    helperText: endErrorMessage,
+                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    inputProps: {
+                      ...props.inputProps,
+                      'aria-label': 'To Date',
+                    },
+                  }),
+                  popover: {
+                    anchorOrigin: {
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    },
+                    transformOrigin: {
+                      vertical: 'top',
+                      horizontal: 'center',
+                    },
                   },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
                 }}
+                slots={{ openPickerIcon: pickerIcon }}
               />
             </label>
           </div>
         </div>
-      </MuiPickersUtilsProvider>
-    </MuiThemeProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
   );
 };
 export default DatePickers;

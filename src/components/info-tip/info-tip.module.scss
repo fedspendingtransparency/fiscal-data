@@ -1,6 +1,19 @@
 @use 'src/variables.module' as *;
 
+.buttonContainer {
+  margin-top: 0.125rem;
+}
+
 .infoIcon {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  height: 1.25rem;
+  font-size: 15px;
+  margin-left: 3px;
+  min-width: 1.25rem;
+  width: 1.25rem;
+  padding: 0;
   .svgStyle {
     width: 15px;
     height: 15px;
@@ -17,7 +30,8 @@
 }
 
 .popupContainerStyle {
-  color: #666666;
+  color: $font-body-copy;
+  padding: 1rem;
 }
 
 .popoverContents {
