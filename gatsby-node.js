@@ -512,6 +512,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       optionValues: [String!],
       experimental: Boolean,
       specialAnnouncement: SpecialAnnouncement,
+      cusipFirst: Boolean,
       dataTableRequest: DataTableRequest,
     }
     type Datasets implements Node {
@@ -617,6 +618,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             defaultMessage
             optionValues
             experimental
+            cusipFirst
             specialAnnouncement {
               label
               value

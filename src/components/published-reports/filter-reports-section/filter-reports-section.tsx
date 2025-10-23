@@ -8,7 +8,7 @@ import { API_BASE_URL } from 'gatsby-env-variables';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { sectionTitle } from '../published-reports';
-import { filterContainer } from './filter-report-section.module.scss';
+import { filterContainer, cusipOrder } from './filter-report-section.module.scss';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@mui/icons-material/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
@@ -54,6 +54,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     defaultHeader,
     specialAnnouncement,
     dataTableRequest,
+    cusipFirst,
   } = reportConfig;
   const reportFields = dataTableRequest?.fields && dataTableRequest.fields.split(',');
 
@@ -184,7 +185,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   return (
     <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
-      <div className={filterContainer}>
+      <div className={`${filterContainer} ${cusipFirst ? cusipOrder : ''}`}>
         {latestDate && (
           <DatePicker
             isDaily={dateFilterType === 'byDay'}
@@ -194,6 +195,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
             allYears={allYears}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
+            buttonDisabled={cusipFirst && !selectedOption.value}
             ignoreDisabled
             label={dateFilterLabel || 'Published Date'}
             ariaLabel={dateFilterType === 'byDay' ? 'Select a date' : 'Select month/year'}
