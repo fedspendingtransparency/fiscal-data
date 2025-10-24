@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState, useRef } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
@@ -27,20 +27,25 @@ type Props = {
 };
 
 export const defaultSelection = { label: '(None selected)', value: '' };
+const RUNTIME_OPTIONS_CACHE_VERSION = 'v2-all-cusips';
+type Option = { label: string; value: string };
 
-const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
+const FilterReportsSection: FunctionComponent<Props & { width?: number }> = ({ dataset, width }) => {
   const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
-  const [selectedOption, setSelectedOption] = useState(defaultSelection);
+  const [selectedOption, setSelectedOption] = useState<Option>(defaultSelection);
   const [earliestDate, setEarliest] = useState<Date>();
   const [latestDate, setLatest] = useState<Date>();
   const [selectedDate, setSelectedDate] = useState<Date>();
-  const [filterOptions, setFilterOptions] = useState([defaultSelection]);
+  const [filterOptions, setFilterOptions] = useState<Option[]>([defaultSelection]);
   const [allDates, setAllDates] = useState<string[]>([]);
   const [allYears, setAllYears] = useState<string[]>([]);
   const [filterDropdownActive, setFilterDropdownActive] = useState(false);
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
+  const [optionsLoading, setOptionsLoading] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
+
   const {
     filterLabel = 'Account',
     dateFilterLabel = 'Published Date',
@@ -55,6 +60,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     specialAnnouncement,
     dataTableRequest,
   } = reportConfig;
+
   const reportFields = dataTableRequest?.fields && dataTableRequest.fields.split(',');
 
   useEffect(() => {
@@ -70,9 +76,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     setAllYears(yrs);
   }, [apis]);
 
-  const fetchReportsFromDataTable = async (filterValue, date) => {
+  const fetchReportsFromDataTable = async (filterValue: string, date: Date) => {
     const { endpoint } = apis[0];
-    const { dateField, fields } = dataTableRequest;
+    const { dateField, fields } = dataTableRequest!;
     const formattedDate = format(date, 'yyyy-MM-dd');
     const filters = `${dateField}:eq:${formattedDate},${filterField}:eq:${filterValue}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
@@ -81,9 +87,10 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       return await basicFetch(url).then(res => {
         const matchingReports = res.data;
         const allReports = [];
+
         if (matchingReports?.length > 0) {
           //Then get all matching reports from published report api
-          reportFields.map(async file => {
+          reportFields?.forEach((file: string) => {
             const reportName = matchingReports[0][file];
             if (reportName && reportName !== 'null') {
               const curReport = fetchPublishedReports('/' + reportName, null, true);
@@ -93,16 +100,16 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         }
         return allReports;
       });
-    } catch (e) {
+    } catch {
       setApiError(true);
       return null;
     }
   };
 
-  const fetchPublishedReports = async (fileName, date = null, firstMatch = false) => {
+  const fetchPublishedReports = async (fileName: string, date: Date | null = null, firstMatch = false) => {
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
     try {
-      return await basicFetch(url).then(res => {
+      return await basicFetch(url).then((res: any[]) => {
         let matchingReports = res;
         if (date) {
           const formattedDate = format(date, 'yyyy-MM-dd');
@@ -114,10 +121,87 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         });
         return firstMatch ? matchingReports[0] : matchingReports;
       });
-    } catch (e) {
+    } catch {
       return null;
     }
   };
+
+  const cacheKeyAll = `runtime-options:${RUNTIME_OPTIONS_CACHE_VERSION}:${datasetId}:${filterField}:ALL`;
+
+  const readCachedAll = (): Option[] | null => {
+    try {
+      const raw = sessionStorage.getItem(cacheKeyAll);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const writeCachedAll = (opts: Option[]) => {
+    try {
+      sessionStorage.setItem(cacheKeyAll, JSON.stringify(opts));
+    } catch {}
+  };
+
+  const fetchAllOptions = async (): Promise<Option[]> => {
+    if (!apis?.length || !filterField) return [defaultSelection];
+
+    const { endpoint } = apis[0];
+    const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?fields=${filterField}&page[size]=5000`;
+
+    try {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      const res = await basicFetch(url, { signal: controller.signal } as any);
+      const rows: any[] = res?.data || [];
+
+      const uniq = Array.from(new Set(rows.map(r => (r?.[filterField] ?? '').toString().trim()).filter(Boolean)));
+      uniq.sort();
+
+      const base: Option[] = [defaultSelection];
+      if (specialAnnouncement) base.push(specialAnnouncement);
+      const runtime = uniq.map(v => ({ label: v, value: v }));
+      const finalOpts = [...base, ...runtime];
+
+      writeCachedAll(finalOpts);
+      return finalOpts;
+    } catch {
+      const base: Option[] = [defaultSelection];
+      if (specialAnnouncement) base.push(specialAnnouncement);
+      const seeds = optionValues?.map((o: string) => ({ label: o, value: o })) || [];
+      return [...base, ...seeds];
+    } finally {
+      setOptionsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      setOptionsLoading(true);
+      const cached = readCachedAll();
+      if (cached?.length) {
+        setFilterOptions(cached);
+        setOptionsLoading(false);
+        return;
+      }
+
+      const seed: Option[] = [defaultSelection];
+      if (specialAnnouncement) seed.push(specialAnnouncement);
+      optionValues?.forEach((opt: string) => seed.push({ label: opt, value: opt }));
+      if (seed.length > 1) setFilterOptions(seed);
+
+      const fresh = await fetchAllOptions();
+      setFilterOptions(fresh);
+      // if current selection not in new list, reset
+      const exists = fresh.some(o => o.value === selectedOption.value);
+      if (!exists) setSelectedOption(defaultSelection);
+    };
+    init();
+  }, [apis, filterField, datasetId]);
 
   useEffect(() => {
     (async () => {
@@ -127,7 +211,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
       try {
-        let allReports = [];
+        let allReports: any[] | null = [];
         if (specialAnnouncement && selectedOption.label === specialAnnouncement.label) {
           allReports = await fetchPublishedReports(specialAnnouncement.value, selectedDate);
         } else if (dataTableRequest) {
@@ -142,24 +226,13 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         } else {
           setReports([]);
         }
-        setApiError(allReports.length === 0);
+        setApiError((allReports?.length || 0) === 0);
       } catch {
         setApiError(true);
         setReports([]);
       }
     })();
-  }, [selectedOption, selectedDate, apis, filterField]);
-
-  useEffect(() => {
-    const allOptions = [defaultSelection];
-    if (specialAnnouncement) {
-      allOptions.push(specialAnnouncement);
-    }
-    optionValues?.forEach(option => {
-      allOptions.push({ label: option, value: option });
-    });
-    setFilterOptions(allOptions);
-  }, []);
+  }, [selectedOption, selectedDate, apis, filterField, specialAnnouncement, dataTableRequest]);
 
   const showTable = reports.length > 0 && !apiError;
 
@@ -170,15 +243,14 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       active={filterDropdownActive}
       setActive={setFilterDropdownActive}
       muiIcon={<AccountBox />}
+      badgeText={optionsLoading ? '...' : undefined}
     />
   );
 
-  const onFilterChange = option => {
+  const onFilterChange = (option: Option | null) => {
     if (option !== null) {
       setSelectedOption(option);
-      setTimeout(() => {
-        setFilterDropdownActive(false);
-      });
+      setTimeout(() => setFilterDropdownActive(false));
     }
   };
 
@@ -212,9 +284,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
           />
         </DropdownContainer>
       </div>
+
       {!showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
+
       {showTable && (
         <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
       )}
