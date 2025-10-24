@@ -1,8 +1,3 @@
 .datePickerContainer {
   width: fit-content;
 }
-
-&:disabled {
-  cursor: default;
-  opacity: 0.5;
-}
