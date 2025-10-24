@@ -188,12 +188,12 @@ const FilterReportsSection: FunctionComponent<Props & { width?: number }> = ({ d
         setOptionsLoading(false);
         return;
       }
-
       const seed: Option[] = [defaultSelection];
       if (specialAnnouncement) seed.push(specialAnnouncement);
       optionValues?.forEach((opt: string) => seed.push({ label: opt, value: opt }));
       if (seed.length > 1) setFilterOptions(seed);
 
+      // fetch full list
       const fresh = await fetchAllOptions();
       setFilterOptions(fresh);
       // if current selection not in new list, reset
