@@ -25,9 +25,6 @@ const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEs
     closeAfterTransition
     slotProps={{ backdrop: { 'data-testid': 'backdrop', timeout: 500 } }}
     slots={{ backdrop: Backdrop }}
-    sx={{
-      zIndex: 1,
-    }}
   >
     <Fade in={open} timeout={500}>
       <div className={`${content} ${contentClass} ${open ? slideIn : slideOut}`} data-testid="content">
