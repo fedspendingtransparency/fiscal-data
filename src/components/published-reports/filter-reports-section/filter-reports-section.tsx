@@ -3,6 +3,7 @@ import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 import { API_BASE_URL } from 'gatsby-env-variables';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
@@ -129,7 +130,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     try {
       const res = await basicFetch(url);
       //Then get all matching reports from published report api
-      const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map((r: any) => r[dateField]).filter(Boolean))) : [];
+      const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map(report => report[dateField]).filter(Boolean))) : [];
       return dates;
     } catch {
       return [];
@@ -206,14 +207,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       }
       const isoDates = dataTableRequest ? await fetchAvailableDatesForCusip(selectedOption.value) : [];
       setDateOptionsNested(buildNestedDateOptions(isoDates));
-      if (isoDates.length) {
-        const newest = isoDates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime())[0];
-        setSelectedDateStr(newest);
-        setSelectedDate(new Date(`${newest}T00:00:00`));
-      } else {
-        setSelectedDateStr('');
-        setSelectedDate(undefined);
-      }
     })();
   }, [selectedOption?.value, cusipFirst]);
 
@@ -281,6 +274,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       setActive={setDateDropdownActive}
       dropdownWidth="20rem"
       disabled={!!cusipFirst && !selectedOption.value}
+      icon={faCalendar}
     />
   );
 
@@ -306,13 +300,12 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                     : defaultSelection
                 }
                 updateSelection={onDateChange}
-                searchBarLabel="Search dates"
+                disableSearchBar
                 options={dateOptionsNested}
                 searchBarActive={dateSearchActive}
                 setSearchBarActive={setDateSearchActive}
                 hasChildren
                 isFilter
-                disableSearchBar={false}
               />
             </DropdownContainer>
             <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
