@@ -185,9 +185,10 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     const next = option ?? defaultSelection;
     setSelectedOption(next);
     setFilterDropdownActive(false);
-
-    setSelectedDate(undefined);
-    setSelectedDateStr('');
+    if (cusipFirst) {
+      setSelectedDate(undefined);
+      setSelectedDateStr('');
+    }
   };
 
   const onDateChange = (option: { label: string; value: string } | null) => {
