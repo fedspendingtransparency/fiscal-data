@@ -47,7 +47,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const [selectedDateStr, setSelectedDateStr] = useState<string>('');
   const [dateDropdownActive, setDateDropdownActive] = useState(false);
-  const [dateSearchActive, setDateSearchActive] = useState(false);
   const [dateOptionsNested, setDateOptionsNested] = useState<
     Array<{ label: string; isLabel?: boolean; children?: Array<{ label: string; value: string }> }>
   >([]);
@@ -303,10 +302,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                 updateSelection={onDateChange}
                 disableSearchBar
                 options={dateOptionsNested}
-                searchBarActive={dateSearchActive}
-                setSearchBarActive={setDateSearchActive}
                 hasChildren
-                // isFilter
               />
             </DropdownContainer>
             <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
