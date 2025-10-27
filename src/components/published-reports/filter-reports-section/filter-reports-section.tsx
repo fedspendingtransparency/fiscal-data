@@ -158,6 +158,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const fetchReportsFromDataTable = async (filterValue: string, dateStr: string) => {
     const { endpoint } = apis[0];
+    console.log(apis[0]);
     const { dateField, fields } = dataTableRequest!;
     const filters = `${dateField}:eq:${dateStr},${filterField}:eq:${filterValue}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
