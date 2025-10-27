@@ -37,6 +37,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
   minDateErrorMessage,
   maxDateErrorMessage,
   generatedReport,
+  buttonDisabled,
 }: IDatePicker) => {
   const [active, setActive] = useState(false);
 
@@ -48,6 +49,7 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
       setActive={setActive}
       active={active}
       ariaLabel="Select Published Date"
+      disabled={buttonDisabled}
     />
   );
 

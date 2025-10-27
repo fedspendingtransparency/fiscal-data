@@ -79,6 +79,14 @@ describe('Run Time Filter Report Section', () => {
       report_group_sort_order_nbr: '5',
     },
   ]);
+  fetchMock.get(
+    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=account:eq:1234&fields=auction_date&sort=-auction_date&page[size]=10000`,
+    [
+      {
+        data: [{ auction_date: '2024-06-30' }, { auction_date: '2024-09-30' }],
+      },
+    ]
+  );
   fetchMock.head(`/static-data/published-reports/auctions-query/results/A_20251027_1.pdf`, [{}]);
   fetchMock.head(`/static-data/published-reports/auctions-query/results/R_20251027_1.pdf`, [{}]);
   fetchMock.head(`/static-data/published-reports/auctions-query/results/R_20251027_1.xml`, [{}]);
@@ -103,6 +111,69 @@ describe('Run Time Filter Report Section', () => {
     await waitFor(() => {
       expect(ApiUtils.basicFetch).toHaveBeenCalledTimes(1);
     });
+  });
+  it('CusipFirst selecting a cusip does not auto pick a date and only loads available dates', async () => {
+    jest.spyOn(ApiUtils, 'basicFetch').mockClear();
+
+    render(
+      <FilterReportsSection
+        dataset={{
+          runTimeReportConfig: {
+            ...runTimeFilterDatasetConfig.runTimeReportConfig,
+            optionValues: ['1234'],
+            cusipFirst: true,
+            dataTableRequest: {
+              fields: 'pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results',
+              dateField: 'auction_date',
+            },
+            filterField: 'account',
+          },
+          apis: [apiMock],
+          datasetId: '015-BFS-2014Q3-051',
+        }}
+        width={1024}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+
+    expect(screen.getByRole('button', { name: /Published Date: \(None Selected\)/i })).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(ApiUtils.basicFetch).toHaveBeenCalledTimes(1);
+      const cusipURL = ApiUtils.basicFetch.mock.calls[0][0];
+      expect(cusipURL).toMatch(/fields=auction_date/);
+    });
+  });
+
+  it('cusipFirst date dropdown is disabled before cusip', async () => {
+    render(
+      <FilterReportsSection
+        dataset={{
+          runTimeReportConfig: {
+            ...runTimeFilterDatasetConfig.runTimeReportConfig,
+            optionValues: ['1234'],
+            cusipFirst: true,
+            dataTableRequest: {
+              fields: 'pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results',
+              dateField: 'auction_date',
+            },
+            dateFilterLabel: 'Auction Date',
+            filterField: 'account',
+          },
+          apis: [apiMock],
+          datasetId: '015-BFS-2014Q3-051',
+        }}
+        width={1024}
+      />
+    );
+    const dateButton = screen.getByRole('button', { name: /Auction Date:/i });
+    expect(dateButton).toHaveAttribute('disabled');
+    fireEvent.click(screen.getByRole('button', { name: /Account/i }));
+    fireEvent.click(screen.getByText('1234'));
+
+    expect(dateButton).not.toHaveAttribute('disabled');
   });
 
   it('should render an empty table by default', () => {
@@ -143,7 +214,7 @@ describe('Run Time Filter Report Section', () => {
     expect(screen.getByRole('button', { name: /\(None selected\)/i })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /Account/i }));
     fireEvent.click(screen.getByText('1234'));
-    expect(screen.getByRole('button', { name: '1234' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Account: 1234' })).toBeInTheDocument();
   });
 
   it('should render an unmatched message when no filters match', async () => {

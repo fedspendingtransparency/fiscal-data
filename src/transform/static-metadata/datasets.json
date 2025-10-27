@@ -490,6 +490,7 @@
       "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
       "defaultHeader": "This table requires additional filters.",
       "defaultMessage": "Select a CUSIP in the filter section above to display the reports.",
+      "cusipFirst": true,
       "experimental": true
     }
   },
