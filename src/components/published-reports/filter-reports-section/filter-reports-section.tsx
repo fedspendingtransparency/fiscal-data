@@ -248,7 +248,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     })();
   }, [selectedOption, selectedDate, selectedDateStr, apis, filterField, cusipFirst]);
 
-  const cusipDropdownButton = (
+  const accountDropdownButton = (
     <DropdownLabelButton
       selectedOption={selectedOption?.label}
       label={filterLabel}
@@ -285,7 +285,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       <div className={filterContainer}>
         {cusipFirst ? (
           <>
-            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
+            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={accountDropdownButton}>
               <ComboSelectDropdown
                 active={filterDropdownActive}
                 setDropdownActive={setFilterDropdownActive}
@@ -334,7 +334,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                 ignoreDisabled
               />
             )}
-            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
+            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={accountDropdownButton}>
               <ComboSelectDropdown
                 active={filterDropdownActive}
                 setDropdownActive={setFilterDropdownActive}
