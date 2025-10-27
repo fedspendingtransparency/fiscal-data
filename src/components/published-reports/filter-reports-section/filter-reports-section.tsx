@@ -186,6 +186,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     const next = option ?? defaultSelection;
     setSelectedOption(next);
     setFilterDropdownActive(false);
+
+    setSelectedDate(undefined);
+    setSelectedDateStr('');
   };
 
   const onDateChange = (option: { label: string; value: string } | null) => {
@@ -200,8 +203,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     (async () => {
       if (!cusipFirst) return;
       if (!selectedOption.value) {
-        setSelectedDate(undefined);
-        setSelectedDateStr('');
         setDateOptionsNested([]);
         return;
       }
@@ -305,7 +306,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                 searchBarActive={dateSearchActive}
                 setSearchBarActive={setDateSearchActive}
                 hasChildren
-                isFilter
+                // isFilter
               />
             </DropdownContainer>
             <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
