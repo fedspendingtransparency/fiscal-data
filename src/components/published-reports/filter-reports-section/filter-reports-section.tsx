@@ -9,7 +9,7 @@ import { API_BASE_URL } from 'gatsby-env-variables';
 import { IRunTimeReportConfig } from '../../../models/IRunTimeReportConfig';
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { sectionTitle } from '../published-reports';
-import { filterContainer, cusipOrder } from './filter-report-section.module.scss';
+import { filterContainer } from './filter-report-section.module.scss';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@mui/icons-material/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
@@ -94,7 +94,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     setFilterOptions(allOptions);
   }, [optionValues, specialAnnouncement]);
 
-  // this can probably be a helper.. depending on how lazy I get..
   const buildNestedDateOptions = (isoDates: string[]) => {
     const groups: Record<string, { label: string; children: Array<{ label: string; value: string }> }> = {};
     isoDates.forEach(iso => {
@@ -283,9 +282,21 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   return (
     <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
-      <div className={`${filterContainer} ${cusipFirst ? cusipOrder : ''}`}>
+      <div className={filterContainer}>
         {cusipFirst ? (
           <>
+            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
+              <ComboSelectDropdown
+                active={filterDropdownActive}
+                setDropdownActive={setFilterDropdownActive}
+                selectedOption={selectedOption}
+                updateSelection={onCusipChange}
+                searchBarLabel={searchText || 'Search CUSIP'}
+                options={filterOptions}
+                searchBarActive={filterSearchBarActive}
+                setSearchBarActive={setFilterSearchBarActive}
+              />
+            </DropdownContainer>
             <DropdownContainer setActive={setDateDropdownActive} dropdownButton={dateDropdownButton}>
               <ComboSelectDropdown
                 active={dateDropdownActive}
@@ -304,18 +315,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                 disableSearchBar
                 options={dateOptionsNested}
                 hasChildren
-              />
-            </DropdownContainer>
-            <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={cusipDropdownButton}>
-              <ComboSelectDropdown
-                active={filterDropdownActive}
-                setDropdownActive={setFilterDropdownActive}
-                selectedOption={selectedOption}
-                updateSelection={onCusipChange}
-                searchBarLabel={searchText || 'Search CUSIP'}
-                options={filterOptions}
-                searchBarActive={filterSearchBarActive}
-                setSearchBarActive={setFilterSearchBarActive}
               />
             </DropdownContainer>
           </>
