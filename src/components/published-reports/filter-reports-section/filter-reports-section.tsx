@@ -19,6 +19,42 @@ import { basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 
+type CacheEntry<T> = { v: T; exp: number };
+const memoryCache = new Map<string, any>();
+
+const getCache = <T,>(key: string): T | null => {
+  if (memoryCache.has(key)) {
+    const { v, exp } = memoryCache.get(key) as CacheEntry<T>;
+    if (!exp || exp > Date.now()) return v;
+    memoryCache.delete(key);
+  }
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { v, exp } = JSON.parse(raw) as CacheEntry<T>;
+    if (exp && exp <= Date.now()) {
+      localStorage.removeItem(key);
+      return null;
+    }
+
+    memoryCache.set(key, { v, exp });
+    return v;
+  } catch {
+    return null;
+  }
+};
+
+const setCache = <T,>(key: string, value: T, ttlMs = 1000 * 60 * 60) => {
+  const exp = ttlMs ? Date.now() + ttlMs : 0;
+  const entry: CacheEntry<T> = { v: value, exp };
+  memoryCache.set(key, entry);
+  try {
+    localStorage.setItem(key, JSON.stringify(entry));
+  } catch {}
+};
+
+const makeKey = (...parts: string[]) => `frs:${parts.join('|')}`;
+
 type Props = {
   dataset: {
     runTimeReportConfig: IRunTimeReportConfig;
@@ -86,20 +122,69 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   }, [apis]);
 
   useEffect(() => {
-    const allOptions: Array<{ label: string; value: string }> = [defaultSelection];
-    if (specialAnnouncement) {
-      allOptions.push((specialAnnouncement as unknown) as { label: string; value: string });
-    }
-    optionValues?.forEach(opt => allOptions.push({ label: opt, value: opt }));
-    setFilterOptions(allOptions);
-  }, [optionValues, specialAnnouncement]);
+    const cacheSeed = async () => {
+      const base: Array<{ label: string; value: string }> = [defaultSelection];
+
+      if (specialAnnouncement) {
+        base.push((specialAnnouncement as unknown) as { label: string; value: string });
+      }
+
+      if (optionValues?.length) {
+        optionValues.forEach(v => base.push({ label: v, value: v }));
+        setFilterOptions(base);
+        return;
+      }
+
+      if (!apis?.length || !filterField) {
+        setFilterOptions(base);
+        return;
+      }
+
+      const { endpoint } = apis[0];
+      const url =
+        `${API_BASE_URL}/services/api/fiscal_service/${endpoint}` +
+        `?fields=${encodeURIComponent(filterField)}` +
+        `&sort=${encodeURIComponent(filterField)}` +
+        `&page[size]=10000`;
+      //Get report names from raw data table
+
+      const cacheKey = makeKey('opts', datasetId, endpoint, filterField);
+      const cached = getCache<Array<{ label: string; value: string }>>(cacheKey);
+      if (cached) {
+        setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...cached]);
+        return;
+      }
+
+      try {
+        const res = await basicFetch(url);
+        const vals = Array.isArray(res?.data)
+          ? Array.from(
+              new Set(
+                res.data
+                  .map((r: any) => r?.[filterField])
+                  .filter(Boolean)
+                  .map((s: string) => String(s).trim())
+              )
+            )
+          : [];
+
+        const opts = vals.map(v => ({ label: v, value: v }));
+        setCache(cacheKey, opts, 1000 * 60 * 60 * 24); // 24h TTL
+        setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...opts]);
+      } catch {
+        setFilterOptions(base);
+      }
+    };
+    cacheSeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
 
   const buildNestedDateOptions = (isoDates: string[]) => {
     const groups: Record<string, { label: string; children: Array<{ label: string; value: string }> }> = {};
     isoDates.forEach(iso => {
       const d = new Date(`${iso}T00:00:00`);
       const year = String(d.getFullYear());
-      const childLabel = dateFilterType === 'byDay' ? format(d, 'MMM d, yyyy') : format(d, 'MMMM yyyy');
+      const childLabel = dateFilterType === 'byDay' ? format(d, 'MMMM d, yyyy') : format(d, 'MMMM yyyy');
       if (!groups[year]) groups[year] = { label: year, children: [] };
       if (!groups[year].children.some(c => c.value === iso)) {
         groups[year].children.push({ label: childLabel, value: iso });
@@ -118,17 +203,23 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
     const { endpoint } = apis[0];
     const { dateField } = dataTableRequest!;
-    //Get report names from raw data table
+    const cacheKey = makeKey('dates', datasetId, endpoint, filterField, cusipValue);
+
+    const cached = getCache<string[]>(cacheKey);
+    if (cached) return cached;
+
     const url =
       `${API_BASE_URL}/services/api/fiscal_service/${endpoint}` +
-      `?filter=${filterField}:eq:${cusipValue}` +
-      `&fields=${dateField}` +
-      `&sort=-${dateField}` +
+      `?filter=${encodeURIComponent(`${filterField}:eq:${cusipValue}`)}` +
+      `&fields=${encodeURIComponent(dateField)}` +
+      `&sort=-${encodeURIComponent(dateField)}` +
       `&page[size]=10000`;
+
     try {
       const res = await basicFetch(url);
-      //Then get all matching reports from published report api
-      const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map(report => report[dateField]).filter(Boolean))) : [];
+      const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map((row: any) => row?.[dateField]).filter(Boolean))) : [];
+
+      setCache(cacheKey, dates, 1000 * 60 * 60); // 1h TTL
       return dates;
     } catch {
       return [];
@@ -208,7 +299,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       const isoDates = dataTableRequest ? await fetchAvailableDatesForCusip(selectedOption.value) : [];
       setDateOptionsNested(buildNestedDateOptions(isoDates));
     })();
-  }, [selectedOption?.value, cusipFirst]);
+  }, [selectedOption?.value, cusipFirst, dataTableRequest]);
 
   useEffect(() => {
     (async () => {
@@ -262,7 +353,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   ? selectedDateStr
   : selectedDate)
     ? dateFilterType === 'byDay'
-      ? format(new Date(`${cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMM d, yyyy')
+      ? format(new Date(`${cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM d, yyyy')
       : format(new Date(`${cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM yyyy')
     : '(None selected)';
 
