@@ -22,7 +22,7 @@ export const getCache = <T>(key: string): T | null => {
       return null;
     }
 
-    memory.set(key, parsed); // hydrate memory
+    memory.set(key, parsed);
     return parsed.value;
   } catch {
     return null;

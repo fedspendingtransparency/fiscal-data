@@ -72,7 +72,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
-  // Earliest/Latest dates
+  // Earliest Latest dates
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
