@@ -18,42 +18,8 @@ import { DownloadReportTable } from '../download-report-table/download-report-ta
 import { basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
-
-type CacheEntry<T> = { v: T; exp: number };
-const memoryCache = new Map<string, any>();
-
-const getCache = <T,>(key: string): T | null => {
-  if (memoryCache.has(key)) {
-    const { v, exp } = memoryCache.get(key) as CacheEntry<T>;
-    if (!exp || exp > Date.now()) return v;
-    memoryCache.delete(key);
-  }
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-    const { v, exp } = JSON.parse(raw) as CacheEntry<T>;
-    if (exp && exp <= Date.now()) {
-      localStorage.removeItem(key);
-      return null;
-    }
-
-    memoryCache.set(key, { v, exp });
-    return v;
-  } catch {
-    return null;
-  }
-};
-
-const setCache = <T,>(key: string, value: T, ttlMs = 1000 * 60 * 60) => {
-  const exp = ttlMs ? Date.now() + ttlMs : 0;
-  const entry: CacheEntry<T> = { v: value, exp };
-  memoryCache.set(key, entry);
-  try {
-    localStorage.setItem(key, JSON.stringify(entry));
-  } catch {}
-};
-
-const makeKey = (...parts: string[]) => `frs:${parts.join('|')}`;
+import { getCache, setCache, makeKey } from './filter-reports-section-helpers/filter-reports-cache';
+import { buildNestedDateOptions } from './filter-reports-section-helpers/date-options';
 
 type Props = {
   dataset: {
@@ -69,7 +35,6 @@ export const defaultSelection = { label: '(None selected)', value: '' };
 const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
 
-  // CUSIP/Filter selection
   const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>(defaultSelection);
   const [filterOptions, setFilterOptions] = useState<Array<{ label: string; value: string }>>([defaultSelection]);
   const [filterDropdownActive, setFilterDropdownActive] = useState(false);
@@ -80,7 +45,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [allDates, setAllDates] = useState<string[]>([]);
   const [allYears, setAllYears] = useState<string[]>([]);
-
   const [selectedDateStr, setSelectedDateStr] = useState<string>('');
   const [dateDropdownActive, setDateDropdownActive] = useState(false);
   const [dateOptionsNested, setDateOptionsNested] = useState<
@@ -108,6 +72,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
+  // Earliest/Latest dates
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
@@ -147,7 +112,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         `&sort=${encodeURIComponent(filterField)}` +
         `&page[size]=10000`;
       //Get report names from raw data table
-
       const cacheKey = makeKey('opts', datasetId, endpoint, filterField);
       const cached = getCache<Array<{ label: string; value: string }>>(cacheKey);
       if (cached) {
@@ -179,27 +143,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
 
-  const buildNestedDateOptions = (isoDates: string[]) => {
-    const groups: Record<string, { label: string; children: Array<{ label: string; value: string }> }> = {};
-    isoDates.forEach(iso => {
-      const d = new Date(`${iso}T00:00:00`);
-      const year = String(d.getFullYear());
-      const childLabel = dateFilterType === 'byDay' ? format(d, 'MMMM d, yyyy') : format(d, 'MMMM yyyy');
-      if (!groups[year]) groups[year] = { label: year, children: [] };
-      if (!groups[year].children.some(c => c.value === iso)) {
-        groups[year].children.push({ label: childLabel, value: iso });
-      }
-    });
-
-    return Object.values(groups)
-      .sort((a, b) => Number(b.label) - Number(a.label))
-      .map(group => ({
-        label: group.label,
-        isLabel: true,
-        children: group.children.sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
-      }));
-  };
-
+  // Fetch dates for selected CUSIP
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
     const { endpoint } = apis[0];
     const { dateField } = dataTableRequest!;
@@ -219,7 +163,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       const res = await basicFetch(url);
       const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map((row: any) => row?.[dateField]).filter(Boolean))) : [];
 
-      setCache(cacheKey, dates, 1000 * 60 * 60); // 1h TTL
+      setCache(cacheKey, dates, 1000 * 60 * 60);
       return dates;
     } catch {
       return [];
@@ -297,10 +241,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
       const isoDates = dataTableRequest ? await fetchAvailableDatesForCusip(selectedOption.value) : [];
-      setDateOptionsNested(buildNestedDateOptions(isoDates));
+      setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
     })();
   }, [selectedOption?.value, cusipFirst, dataTableRequest]);
 
+  // Fetch reports
   useEffect(() => {
     (async () => {
       const haveCusip = !!selectedOption.value;
