@@ -87,10 +87,26 @@ const RevenueKeyTakeaways = () => {
       });
 
       basicFetch(`${apiPrefix}${revenueConstants.CURRENT_FY}`).then(res => {
-        setCurrentFY(res.data[0]['record_fiscal_year']);
+        const latestRow = res.data?.[0];
+        if (!latestRow) return;
+
+        const apiFY = Number(res.data?.[0]?.record_fiscal_year);
+        const now = new Date();
+
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
+        let derivedFY = apiFY;
+        const isPostSeptember = currentMonth >= 9;
+        //Check to see if the current year is the same as this year and its past september.
+        const isCurrentYearJustCompleted = apiFY === currentYear && isPostSeptember;
+        if (isCurrentYearJustCompleted) {
+          derivedFY = apiFY + 1;
+        }
+        setCurrentFY(derivedFY);
       });
     });
   }, []);
+  console.log('latestCompleteFiscalYear', latestCompleteFiscalYear, 'currentFY', currentFY);
   const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear}, the largest source of federal revenue was
   ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
   So far in fiscal year ${currentFY}, the largest source of federal revenue is
