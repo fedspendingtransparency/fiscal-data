@@ -97,7 +97,8 @@ const RevenueKeyTakeaways = () => {
         const currentMonth = now.getMonth();
         let derivedFY = apiFY;
         const isPostSeptember = currentMonth >= 9;
-        //Check to see if the current year is the same as this year and its past september.
+        //Check to see if the current year is the same as api and its past september.
+        //This will help even if no data is dropped.
         const isCurrentYearJustCompleted = apiFY === currentYear && isPostSeptember;
         if (isCurrentYearJustCompleted) {
           derivedFY = apiFY + 1;
@@ -106,7 +107,7 @@ const RevenueKeyTakeaways = () => {
       });
     });
   }, []);
-  console.log('latestCompleteFiscalYear', latestCompleteFiscalYear, 'currentFY', currentFY);
+
   const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear}, the largest source of federal revenue was
   ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
   So far in fiscal year ${currentFY}, the largest source of federal revenue is

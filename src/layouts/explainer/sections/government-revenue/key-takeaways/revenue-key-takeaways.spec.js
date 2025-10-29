@@ -6,7 +6,7 @@ import RevenueKeyTakeaways from './revenue-key-takeaways';
 import revenueConstants from '../constants';
 import { beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
-describe('Spending Key Takeaways evergreen values', () => {
+describe('Revenue Key Takeaways evergreen values', () => {
   const mockData = {
     data: [
       {
@@ -104,7 +104,7 @@ describe('Spending Key Takeaways evergreen values', () => {
   });
 });
 
-describe('Spending Key Takeaways no GDP Q3 scenario', () => {
+describe('Revenue Key Takeaways no GDP Q3 scenario', () => {
   const mockNoQ3Data = {
     data: [
       {
@@ -140,7 +140,7 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
   });
 });
 
-describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
+describe('Revenue Key Takeaways containing GDP Q3 scenario', () => {
   const mockQ3Data = {
     data: [
       {
@@ -173,5 +173,70 @@ describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await findAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
     expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
+  });
+});
+describe('RevenueKeyTakeaways fiscal year label bridging', () => {
+  const baseUrl = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
+
+  const mockPriorFY = {
+    data: [
+      {
+        current_fytd_net_rcpt_amt: '123',
+        record_calendar_month: '09',
+        record_calendar_year: '2025',
+        record_date: '2025-09-30',
+        record_fiscal_year: '2025',
+      },
+    ],
+  };
+
+  const mockCurrentFYRow_StillSep2025 = {
+    data: [{ record_date: '2025-09-30', record_fiscal_year: '2025' }],
+  };
+
+  const mockCurrentFYRow_OctPosted = {
+    data: [{ record_date: '2025-10-31', record_fiscal_year: '2026' }],
+  };
+
+  const mockPriorSingle = { data: [{ current_fytd_rcpt_outly_amt: '100', classification_desc: 'Total' }] };
+  const mockPriorMulti = { data: [{ current_fytd_rcpt_outly_amt: '50', classification_desc: 'Individual Income Taxes' }] };
+  const mockCurrentSingle = { data: [{ current_fytd_rcpt_outly_amt: '60', classification_desc: 'Individual Income Taxes' }] };
+  const mockCurrentMulti = { data: [{ current_fytd_rcpt_outly_amt: '40', classification_desc: 'Individual Income Taxes' }] };
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    fetchMock.restore();
+
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_FY, mockPriorFY);
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT, mockPriorSingle);
+    fetchMock.get(baseUrl + revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT, mockPriorMulti);
+
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT, mockCurrentSingle);
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti);
+
+    fetchMock.get('begin:https://apps.bea.gov/api/', beaResponse);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    fetchMock.restore();
+  });
+
+  it('bridges to next FY (shows 2026) during Oct–Dec when API still shows FY 2025', async () => {
+    jest.setSystemTime(new Date('2025-10-15T12:00:00Z'));
+
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFYRow_StillSep2025, { overwriteRoutes: true });
+
+    const { findByText } = render(<RevenueKeyTakeaways />);
+    expect(await findByText(/So far in fiscal year\s+2026/i)).toBeInTheDocument();
+  });
+
+  it('does NOT bump in January (keeps 2026) once API also says 2026', async () => {
+    jest.setSystemTime(new Date('2026-01-10T12:00:00Z'));
+
+    fetchMock.get(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFYRow_OctPosted, { overwriteRoutes: true });
+
+    const { findByText } = render(<RevenueKeyTakeaways />);
+    expect(await findByText(/So far in fiscal year\s+2026/i)).toBeInTheDocument();
   });
 });
