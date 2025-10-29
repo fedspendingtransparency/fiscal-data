@@ -72,9 +72,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
-  const isSpecial = !!specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label;
-  const useCusipFirst = Boolean(cusipFirst) && Boolean(dataTableRequest);
-
+  // Earliest Latest dates
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
@@ -133,8 +131,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
               )
             )
           : [];
+
         const opts = vals.map(v => ({ label: v, value: v }));
-        setCache(cacheKey, opts, 1000 * 60 * 60 * 24);
+        setCache(cacheKey, opts, 1000 * 60 * 60 * 24); // 24h TTL
         setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...opts]);
       } catch {
         setFilterOptions(base);
@@ -144,6 +143,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
 
+  // Fetch dates for selected CUSIP
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
     const { endpoint } = apis[0];
     const { dateField } = dataTableRequest!;
@@ -162,25 +162,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     try {
       const res = await basicFetch(url);
       const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map((row: any) => row?.[dateField]).filter(Boolean))) : [];
-      setCache(cacheKey, dates, 1000 * 60 * 60);
-      return dates;
-    } catch {
-      return [];
-    }
-  };
 
-  const fetchAvailableDatesForAnnouncement = async (pathContains: string): Promise<string[]> => {
-    const { endpoint } = apis[0] || ({} as any);
-    const cacheKey = makeKey('ann_dates', datasetId, endpoint || 'pf', pathContains);
-
-    const cached = getCache<string[]>(cacheKey);
-    if (cached) return cached;
-
-    const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}` + `&path_contains=${encodeURIComponent(pathContains)}`;
-
-    try {
-      const res = await basicFetch(url);
-      const dates = Array.isArray(res) ? Array.from(new Set(res.map((r: any) => r?.report_date).filter(Boolean))) : [];
       setCache(cacheKey, dates, 1000 * 60 * 60);
       return dates;
     } catch {
@@ -237,7 +219,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     const next = option ?? defaultSelection;
     setSelectedOption(next);
     setFilterDropdownActive(false);
-    if (useCusipFirst) {
+    if (cusipFirst) {
       setSelectedDate(undefined);
       setSelectedDateStr('');
     }
@@ -253,28 +235,21 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   useEffect(() => {
     (async () => {
-      if (!useCusipFirst) return;
-
+      if (!cusipFirst) return;
       if (!selectedOption.value) {
         setDateOptionsNested([]);
         return;
       }
-
-      if (isSpecial) {
-        const isoDates = await fetchAvailableDatesForAnnouncement((specialAnnouncement as any).value);
-        setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
-        return;
-      }
-
-      const isoDates = await fetchAvailableDatesForCusip(selectedOption.value);
+      const isoDates = dataTableRequest ? await fetchAvailableDatesForCusip(selectedOption.value) : [];
       setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
     })();
-  }, [useCusipFirst, selectedOption?.value, isSpecial, dateFilterType, specialAnnouncement]);
+  }, [selectedOption?.value, cusipFirst, dataTableRequest]);
+
   // Fetch reports
   useEffect(() => {
     (async () => {
       const haveCusip = !!selectedOption.value;
-      const haveDate = useCusipFirst ? !!selectedDateStr : !!selectedDate;
+      const haveDate = cusipFirst ? !!selectedDateStr : !!selectedDate;
 
       if (!haveCusip || !haveDate) {
         setReports([]);
@@ -283,16 +258,15 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       }
 
       try {
-        let allReports: any[] | null = [];
-
-        if (isSpecial) {
-          const d = useCusipFirst ? (selectedDateStr ? new Date(`${selectedDateStr}T00:00:00`) : undefined) : selectedDate;
-          allReports = await fetchPublishedReports((specialAnnouncement as any).value, d || null);
+        let allReports: any = [];
+        if (specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label) {
+          const d = selectedDate ?? (selectedDateStr ? new Date(`${selectedDateStr}T00:00:00`) : undefined);
+          allReports = await fetchPublishedReports((specialAnnouncement as any).value, d);
         } else if (dataTableRequest) {
-          const dateStr = useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd');
+          const dateStr = cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd');
           allReports = await fetchReportsFromDataTable(selectedOption.value, dateStr);
         } else {
-          const dateStr = useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd');
+          const dateStr = cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd');
           const yyyymm = dateStr.replace(/-/g, '').slice(0, 6);
           allReports = await fetchPublishedReports(`${selectedOption.value}${yyyymm}`);
         }
@@ -308,7 +282,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         setReports([]);
       }
     })();
-  }, [useCusipFirst, selectedOption, selectedDate, selectedDateStr, isSpecial, dataTableRequest, specialAnnouncement]);
+  }, [selectedOption, selectedDate, selectedDateStr, apis, filterField, cusipFirst]);
 
   const accountDropdownButton = (
     <DropdownLabelButton
@@ -320,12 +294,12 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     />
   );
 
-  const dateSelectedLabel = (useCusipFirst
+  const dateSelectedLabel = (cusipFirst
   ? selectedDateStr
   : selectedDate)
     ? dateFilterType === 'byDay'
-      ? format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM d, yyyy')
-      : format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM yyyy')
+      ? format(new Date(`${cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM d, yyyy')
+      : format(new Date(`${cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM yyyy')
     : '(None selected)';
 
   const dateDropdownButton = (
@@ -335,7 +309,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       active={dateDropdownActive}
       setActive={setDateDropdownActive}
       dropdownWidth="20rem"
-      disabled={useCusipFirst && !selectedOption.value}
+      disabled={!!cusipFirst && !selectedOption.value}
       icon={faCalendar}
     />
   );
@@ -345,7 +319,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   return (
     <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
       <div className={filterContainer}>
-        {useCusipFirst ? (
+        {cusipFirst ? (
           <>
             <DropdownContainer setActive={setFilterDropdownActive} dropdownButton={accountDropdownButton}>
               <ComboSelectDropdown
@@ -359,18 +333,17 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
                 setSearchBarActive={setFilterSearchBarActive}
               />
             </DropdownContainer>
-
             <DropdownContainer setActive={setDateDropdownActive} dropdownButton={dateDropdownButton}>
               <ComboSelectDropdown
                 active={dateDropdownActive}
                 setDropdownActive={setDateDropdownActive}
                 selectedOption={
-                  (useCusipFirst
+                  (cusipFirst
                   ? selectedDateStr
                   : selectedDate)
                     ? {
                         label: dateSelectedLabel,
-                        value: useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd'),
+                        value: cusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd'),
                       }
                     : defaultSelection
                 }
@@ -416,7 +389,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       {!showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
-
       {showTable && (
         <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
       )}
