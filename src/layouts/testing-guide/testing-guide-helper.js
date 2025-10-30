@@ -28,7 +28,14 @@ export const datasetSpecs = {
       description: 'By default, the table will be empty. When a filter is selected, the value is used as a filter in the tables API call.',
     },
     { value: 'valueFieldOptions', label: 'Pivot Tables' },
-    { value: 'isLargeDataset', label: 'Large Dataset', description: '....Data maybe aggregated on pivot table..... ' },
+    {
+      value: 'isLargeDataset',
+      label: 'Large Dataset',
+      description:
+        'Large datasets contain at least one table with more than 8500 rows. ' +
+        'Data within any pivot tables for this dataset will be aggregated by the given Time Period for the selected pivot option' +
+        '\nNote: This is not the threshold used when determining if filtering is available for a given data table.',
+    },
   ],
 };
 

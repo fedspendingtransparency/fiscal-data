@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import ComboSelectDropdown from '../../components/combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { datasetSpecs, defaultSelection, getDatasets } from './testing-guide-helper';
-import { results, search, testingForm, testingGuide } from './testing-guide.module.scss';
+import { arrow, datasetLink, results, search, testingForm, testingGuide } from './testing-guide.module.scss';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import DropdownContainer from '../../components/dropdown-container/dropdown-container';
 import DropdownLabelButton from '../../components/dropdown-label-button/dropdown-label-button';
 import TestingGuideSection from './testing-guide-section';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 
 const TestingGuide = ({ pageContext }) => {
   const { config } = pageContext;
 
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
+  const [selectedOptionConfig, setSelectedOptionConfig] = useState(null);
   const [currentReportSpecs, setCurrentReportSpecs] = useState([]);
   const [currentTableSpecs, setCurrentTableSpecs] = useState([]);
   const [active, setActive] = useState(false);
@@ -28,12 +31,12 @@ const TestingGuide = ({ pageContext }) => {
     const testingNotes = [];
     currentSpecs?.forEach(spec => {
       const curNotes = spec;
-      const matches = datasetValues.filter(x => {
+      console.log(curNotes);
+      curNotes.matchingDatasets = datasetValues.filter(x => {
         const hasDatasetConfig = x[spec.value];
         const hasApiConfig = x.apis.filter(api => api[spec.value]).length > 0;
         return (hasDatasetConfig || hasApiConfig) && x.datasetId !== selectedOption.value;
       });
-      curNotes.matchingDatasets = matches;
       testingNotes.push(curNotes);
     });
     return testingNotes;
@@ -77,9 +80,11 @@ const TestingGuide = ({ pageContext }) => {
   useEffect(() => {
     const selectedConfig = config[selectedOption.value];
     if (selectedConfig) {
+      setSelectedOptionConfig(selectedConfig);
       setCurrentReportSpecs(getReportSpecs(selectedConfig));
       setCurrentTableSpecs(getTableSpecs(selectedConfig));
     } else {
+      setSelectedOptionConfig(null);
       setCurrentReportSpecs(null);
       setCurrentTableSpecs(null);
     }
@@ -99,6 +104,12 @@ const TestingGuide = ({ pageContext }) => {
               </div>
             )}
           </DropdownContainer>
+          {selectedOptionConfig && (
+            <a href={'/datasets' + selectedOptionConfig?.slug} className={datasetLink}>
+              View Dataset
+              <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+            </a>
+          )}
           <div className={results}>
             <TestingGuideSection header="Reports and Files" specs={currentReportSpecs} />
             <TestingGuideSection header="Data Preview" specs={currentTableSpecs} />

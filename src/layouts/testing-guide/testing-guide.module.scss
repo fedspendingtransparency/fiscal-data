@@ -1,8 +1,22 @@
+@use 'src/variables.module' as *;
+
 .testingGuide {
   margin: 2rem;
   .testingForm {
     display: flex;
     flex-direction: column;
+    .datasetLink {
+      @include columnLabelCopy7;
+      color: $primary;
+      display: block;
+      margin-top: 1rem !important;
+      &:hover {
+        color: $slate-blue;
+      }
+    }
+    .arrow {
+      margin-left: 1rem;
+    }
   }
 
   .accordionContainer {
@@ -43,6 +57,9 @@
       margin-left: 0.5rem;
       .matchingSpec,
       .matchingDatasets {
+        .link {
+          margin-bottom: 0.5rem;
+        }
         display: flex;
         flex-direction: column;
         margin-bottom: 0.5rem;
