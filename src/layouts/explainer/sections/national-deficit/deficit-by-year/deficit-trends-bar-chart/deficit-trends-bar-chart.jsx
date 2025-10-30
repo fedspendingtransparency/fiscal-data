@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { barChart, container, headerTitle, subHeader } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_16, fontTitle } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
@@ -48,15 +48,15 @@ export const DeficitTrendsBarChart = ({ width }) => {
     parent: 'deficitTrendsChartParent',
     width: 495,
     height: 388,
-    fontSize: desktop ? fontSize_16 : fontSize_12,
+    fontSize: desktop ? fontSize_14 : fontSize_12,
     theme: {
-      fontSize: fontSize_16,
+      fontSize: fontSize_14,
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
       axis: {
         ticks: {
           text: {
-            fontSize: desktop ? fontSize_16 : fontSize_12,
+            fontSize: desktop ? fontSize_14 : fontSize_12,
           },
         },
       },
