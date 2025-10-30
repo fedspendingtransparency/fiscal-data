@@ -67,3 +67,37 @@
     }
   }
 }
+.listRoot {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.25rem;
+  border-bottom: 1px solid #ececec;
+  transition: background 140ms ease;
+}
+
+.listRow:hover {
+  background: #fafafa;
+}
+
+.rowTitle {
+  font-weight: 600;
+  font-size: 1rem;
+
+  a {
+    color: rgb(0, 113, 188);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #0071bc;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
