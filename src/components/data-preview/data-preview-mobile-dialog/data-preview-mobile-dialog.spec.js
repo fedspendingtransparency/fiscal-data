@@ -16,7 +16,7 @@ describe('Data preview mobile dialog component', () => {
   it('Renders the optional search bar', () => {
     const { getByRole, getByText } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog searchText="Search filters" />
+        <DataPreviewMobileDialog searchText="Search filters" active={true} />
       </RecoilRoot>
     );
     expect(getByRole('textbox')).toBeInTheDocument();
@@ -26,7 +26,7 @@ describe('Data preview mobile dialog component', () => {
   it('Renders the data preview (back) button', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog />
+        <DataPreviewMobileDialog active={true} />
       </RecoilRoot>
     );
     expect(getByRole('button', { name: 'Data Preview' })).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('Data preview mobile dialog component', () => {
   it('Renders the apply button', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog />
+        <DataPreviewMobileDialog active={true} />
       </RecoilRoot>
     );
     expect(getByRole('button', { name: 'Apply' })).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('Data preview mobile dialog component', () => {
   it('Renders the cancel button', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DataPreviewMobileDialog />
+        <DataPreviewMobileDialog active={true} />
       </RecoilRoot>
     );
     expect(getByRole('button', { name: 'Cancel' })).toBeInTheDocument();

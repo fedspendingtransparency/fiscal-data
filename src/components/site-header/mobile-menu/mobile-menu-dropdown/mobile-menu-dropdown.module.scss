@@ -1,4 +1,4 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .sectionHeader {
   background-color: #f1f1f1;

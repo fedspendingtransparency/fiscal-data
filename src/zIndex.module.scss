@@ -81,3 +81,6 @@ $glossary-overlay: $below + $backdrop;
 
 // report
 $account-dropdown: $dtg-table-loading-icon + $above;
+
+//modal
+$modal: $above + $backdrop;

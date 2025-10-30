@@ -4,7 +4,6 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { filterAndDownloadContainer, filterContainer, toggleDownloadContainer } from './data-preview-filter-section.module.scss';
 import DataPreviewTableFilters from './data-preview-table-filters/data-preview-table-filters';
 import { breakpointXl } from '../data-preview.module.scss';
-import { withWindowSize } from 'react-fns';
 import ChartTableToggle from '../data-preview-chart-table-toggle/chart-table-toggle';
 import { differenceInHours } from 'date-fns';
 import { DataPreviewFilterSectionProps } from '../../../models/data-preview/IFilterSectionProps';
@@ -35,13 +34,12 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   customRangePreset,
   setIsFiltered,
   datasetDateRange,
-  dropdownWidth
-
+  dropdownWidth,
 }) => {
   const isDisabled = apiFilterDefault;
-
   const { dataDisplays, userFilter } = selectedTable;
   const { pivotView } = selectedPivot ?? {};
+
   const getChartingInfo = () => {
     const pivotCharting = selectedPivot && pivotView && pivotView.chartType === 'none';
     const dataDisplaysCharting = dataDisplays && dataDisplays.every(dd => dd.chartType === 'none');
@@ -88,7 +86,14 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
             pivotView={pivotView}
             dropdownWidth={dropdownWidth}
           />
-          <DataPreviewColumnFilter allTablesSelected={allTablesSelected} isDisabled={isDisabled} width={width} pivotView={pivotView} dropdownWidth={dropdownWidth} />
+          <DataPreviewColumnFilter
+            allTablesSelected={allTablesSelected}
+            isDisabled={isDisabled}
+            width={width}
+            pivotView={pivotView}
+            dropdownWidth={dropdownWidth}
+            dateField={selectedTable.dateField}
+          />
           {width < pxToNumber(breakpointXl) && getChartingInfo() && <ChartTableToggle onChange={setViewMode} />}
         </div>
         {width >= pxToNumber(breakpointXl) && (
@@ -104,4 +109,4 @@ const DataPreviewFilterSection: FunctionComponent<DataPreviewFilterSectionProps>
   );
 };
 
-export default withWindowSize(DataPreviewFilterSection);
+export default DataPreviewFilterSection;

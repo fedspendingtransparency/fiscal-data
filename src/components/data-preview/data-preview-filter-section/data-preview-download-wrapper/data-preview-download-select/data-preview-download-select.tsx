@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudDownload } from '@fortawesome/free-solid-svg-icons';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
@@ -18,8 +18,8 @@ import Analytics from '../../../../../utils/analytics/analytics';
 import {
   calcDictionaryDownloadSize,
   convertDataDictionaryToCsv,
-  triggerDataDictionaryDownload,
   prettySize,
+  triggerDataDictionaryDownload,
 } from '../../../../download-wrapper/data-dictionary-download-helper';
 import { getDownloadIcon, shouldUseDirectDownload } from '../download-wrapper-helper';
 import { IDataset } from '../../../../../models/IDataset';
@@ -27,6 +27,7 @@ import { IDatasetApi } from '../../../../../models/IDatasetApi';
 import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
 import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
+
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
   selectedTable: IDatasetApi;
@@ -85,6 +86,7 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
       // TODO: Create Big table data download file size
     }
   }, [tableSize, allTablesSelected, selectedTable, smallTableCSVData, smallTableJSONData, smallTableXMLData]);
+
   const getDownloadOptions = () => {
     return [
       {
@@ -170,8 +172,16 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     }
   };
 
+  const clickHandlerDownloadButton = () => {
+    setActive(!active);
+  };
+
+  const handleCancelBack = () => {
+    setActive(!active);
+  };
+
   const downloadButtonElement = (
-    <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={() => setActive(!active)}>
+    <button className={`${downloadButton} ${active ? buttonActive : ''}`} disabled={isDisabled} onClick={clickHandlerDownloadButton}>
       <div className={buttonText}>Download</div>
       <div className={icon}>
         <FontAwesomeIcon icon={getDownloadIcon(width, active)} />
@@ -220,26 +230,25 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     return (
       <div className={parent}>
         {downloadButtonElement}
-        {active && (
-          <DataPreviewMobileDialog
-            onCancel={() => setActive(false)}
-            onBack={() => setActive(false)}
-            backButtonTitle="Data Preview"
-            filterName="Download"
-            bottomButton="Download"
-            bottomButtonIcon={faCloudDownload}
-            hasSearch={false}
-            filterComponent={
-              <DataPreviewMobileDownloadOptions
-                options={mobileOptions}
-                selectedOption={selectedOption}
-                onSelect={setSelectedOption}
-                tableSize={tableSize}
-              />
-            }
-            onApply={handleMobileDownload}
-          />
-        )}
+        <DataPreviewMobileDialog
+          onCancel={handleCancelBack}
+          onBack={handleCancelBack}
+          backButtonTitle="Data Preview"
+          filterName="Download"
+          bottomButton="Download"
+          bottomButtonIcon={faCloudDownload}
+          hasSearch={false}
+          active={active}
+          filterComponent={
+            <DataPreviewMobileDownloadOptions
+              options={mobileOptions}
+              selectedOption={selectedOption}
+              onSelect={setSelectedOption}
+              tableSize={tableSize}
+            />
+          }
+          onApply={handleMobileDownload}
+        />
       </div>
     );
   }

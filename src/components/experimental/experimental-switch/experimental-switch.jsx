@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ENV_ID } from 'gatsby-env-variables';
-import { FormControlLabel, Switch } from '@material-ui/core';
-import { switchContainer, label } from './experimental-switch.module.scss';
+import { FormControlLabel, Switch } from '@mui/material';
+import { label, switchContainer } from './experimental-switch.module.scss';
 import { siteContext } from '../../persist/persist';
 
 const ExperimentalSwitch = () => {

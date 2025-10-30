@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import HighlightedDatasets from './highlighted-datasets-config';
 import { cardsContainer, cardWrapper, container } from './home-highlight-cards.module.scss';
 import HomeHighlightCard from './home-highlight-card/home-highlight-card';

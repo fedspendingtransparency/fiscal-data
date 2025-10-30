@@ -3,6 +3,8 @@ import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContaine
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import DateTextInput from '../date-text-input/date-text-input';
+import { analyticsEventHandler } from '../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 interface IDateDropdown {
   handleClose: () => void;
@@ -43,6 +45,21 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
 
+  const handleApplyGa4Click = () => {
+    const eventLabel = selectedDate;
+    const eventAction = 'Published Report Date Selection';
+    analyticsEventHandler('Data Download', eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
+  };
+
+  const handleDropdownApply = () => {
+    handleApplyGa4Click();
+    handleApply();
+  };
+
   return (
     <>
       <div className={dropdownContainer}>
@@ -71,7 +88,13 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
             <button className={cancelButton} onClick={handleClose}>
               Cancel
             </button>
-            <button className={applyButton} onClick={handleApply} aria-label="Apply Selected Date" disabled={inputFocus && !validInput}>
+            <button
+              className={applyButton}
+              id="apply-date-publish-report"
+              onClick={handleDropdownApply}
+              aria-label="Apply Selected Date"
+              disabled={inputFocus && !validInput}
+            >
               <FontAwesomeIcon icon={faCheck} className={checkIcon} />
               Apply
             </button>

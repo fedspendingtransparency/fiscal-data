@@ -477,13 +477,20 @@
       "filterField": "cusip",
       "filterLabel": "CUSIP",
       "searchText": "Search CUSIP",
-      "customFilterOption": "No CUSIP - Special Announcement",
+      "specialAnnouncement": {
+        "label": "No CUSIP - Special Announcement", "value": "spec-ann"
+      },
+      "dataTableRequest" : {
+        "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results",
+        "dateField": "auction_date"
+      },
       "dateFilterLabel": "Auction Date",
       "dateFilterType": "byDay",
       "unmatchedHeader": "There is no data to display based on the current filters selected.",
       "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
       "defaultHeader": "This table requires additional filters.",
       "defaultMessage": "Select a CUSIP in the filter section above to display the reports.",
+      "cusipFirst": true,
       "experimental": true
     }
   },

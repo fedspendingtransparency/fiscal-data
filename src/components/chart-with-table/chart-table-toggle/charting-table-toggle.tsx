@@ -44,7 +44,9 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         data-testid="toggleButtonLeft"
         onClick={() => {
           toggleClickHandler(leftId);
-          gaChartTableToggleEvent();
+          if (typeof gaChartTableToggleEvent === 'function') {
+            gaChartTableToggleEvent();
+          }
         }}
         style={{
           background: leftSelected ? primaryColor : '#FFF',
@@ -60,7 +62,9 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         data-testid="toggleButtonRight"
         onClick={() => {
           toggleClickHandler(rightId);
-          gaChartTableToggleEvent();
+          if (typeof gaChartTableToggleEvent === 'function') {
+            gaChartTableToggleEvent();
+          }
         }}
         style={{
           background: rightSelected ? primaryColor : '#FFF',

@@ -223,7 +223,9 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (activeFields && allFields) {
       if (pivotView?.title !== 'Complete Table' && pivotView?.dimensionField) {
         visibleCols = [];
-        activeFields.forEach(field => visibleCols.push({ id: field.id, prettyName: field.columnDef.header }));
+        activeFields.forEach(field =>
+          visibleCols.push({ id: field.id, prettyName: field.columnDef.header, dataType: 'string', columnName: field.id })
+        );
       } else {
         visibleCols = allFields.filter(field => activeFields.findIndex(x => x.id === field.columnName) >= 0);
       }
@@ -267,9 +269,11 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
         }
       });
     }
+
     setTimeout(() => {
       setActive(false);
     });
+
     setAppliedFilters(allAppliedFilters);
     if (isFilterSelected) {
       setIsFilterSelected(false);
@@ -287,11 +291,14 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     if (!active) {
       if (filterMap) {
         const map = JSON.parse(JSON.stringify(filterMap));
-        selectedTable.fields.forEach(field => {
-          const { columnName } = field;
-          map[columnName].pendingValue = map[columnName].filterValue;
-        });
-        setFiltersMap(map);
+
+        if (!pivotView) {
+          selectedTable.fields.forEach(field => {
+            const { columnName } = field;
+            map[columnName].pendingValue = map[columnName].filterValue;
+          });
+          setFiltersMap(map);
+        }
       }
     }
   }, [active]);
@@ -326,19 +333,10 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
     }
   };
 
-  // Need to find a way to prevent background scrolling for mobile users
-  // useEffect(() => {
-  //   if (active) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = '';
-  //   }
-  // }, [active]);
-
   useEffect(() => {
-    setFiltersMap(initializeFilterConfigMap(selectedTable, null));
+    setFiltersMap(initializeFilterConfigMap(selectedTable, null, visibleOptions, pivotView));
     setAppliedFilters([]);
-  }, [selectedTable, pivotView]);
+  }, [selectedTable, pivotView, visibleOptions]);
 
   useEffect(() => {
     const search = filter.toLowerCase();
@@ -413,6 +411,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       backButtonText="Filters"
       searchText="Search filters"
       filterComponent={columnFilter}
+      active={active}
     />
   ) : (
     // Shows the different filters to select
@@ -426,6 +425,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       setFilter={setFilter}
       setNoSearchResults={setNoResults}
       filterComponent={filterSelectList}
+      active={active}
     />
   );
 
@@ -457,7 +457,7 @@ const DataPreviewTableFilters: FunctionComponent<ITableFilters> = ({
       {width < pxToNumber(breakpointLg) && (
         <>
           {filterDropdownButton}
-          {active && mobileFilterComponent}
+          {mobileFilterComponent}
         </>
       )}
     </>

@@ -1,4 +1,6 @@
 @use 'src/variables.module' as *;
+@use "sass:color";
+
 .checkbox_container {
   position: relative;
 }
@@ -29,7 +31,7 @@
   }
 
   &:hover {
-    color: darken($font-body-copy, 40%);
+    color: color.adjust($font-body-copy, $lightness: -40%);
   }
 }
 
