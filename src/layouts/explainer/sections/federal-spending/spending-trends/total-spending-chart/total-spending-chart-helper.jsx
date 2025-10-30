@@ -122,6 +122,7 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
           ...markerStyle,
           legend: 'Total Spending',
           value: spendingValue - 3,
+          legendOffsetY: -12,
         },
       ];
 };
