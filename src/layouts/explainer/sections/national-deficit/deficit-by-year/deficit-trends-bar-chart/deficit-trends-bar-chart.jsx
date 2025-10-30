@@ -289,7 +289,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 data={chartData}
                 keys={['deficit']}
                 indexBy="year"
-                margin={{ top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55 }}
+                margin={{ top: desktop ? 15 : 10, right: 15, bottom: 25, left: 55 }}
                 padding={desktop ? 0.3 : 0.35}
                 colors={({ id, data }) => String(data[`${id}Color`])}
                 axisBottom={chartConfigs.axisBottom}
