@@ -1,7 +1,7 @@
 import React from 'react';
 import CustomLink from '../../components/links/custom-link/custom-link';
-import { accordionContainer, features, matchingDatasets, matchingSpec } from './testing-guide.module.scss';
 import Accordion from '../../components/accordion/accordion';
+import { accordionContainer, features, matchingSpec, matchingDatasets, listRoot, listRow, rowTitle } from './testing-guide.module.scss';
 
 const FeatureDisplay = ({ spec }) => {
   return (
@@ -17,9 +17,15 @@ const FeatureDisplay = ({ spec }) => {
         </div>
         <div className={matchingDatasets}>
           <b>Related Datasets to Test:</b>
-          {spec.matchingDatasets.map(dataset => (
-            <CustomLink url={'/datasets' + dataset.slug}>{dataset.name}</CustomLink>
-          ))}
+          <ul className={listRoot}>
+            {spec.matchingDatasets.map(d => (
+              <li key={d.slug} className={listRow}>
+                <span className={rowTitle}>
+                  <CustomLink url={`/datasets${d.slug}`}>{d.name}</CustomLink>
+                </span>
+              </li>
+            ))}
+          </ul>
           {spec.matchingDatasets.length === 0 && <>No matching datasets</>}
         </div>
       </Accordion>
