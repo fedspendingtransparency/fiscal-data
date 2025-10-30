@@ -2,7 +2,6 @@ import React from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import { fallback } from './experimental.module.scss';
 import { ErrorBoundary } from 'react-error-boundary';
-import TestingGuide from './testing-guide/testing-guide';
 
 const fallbackComponent = () => {
   return <div className={fallback}>Something went wrong. Please refresh the page to try again.</div>;
@@ -15,13 +14,9 @@ const fallbackComponent = () => {
  * @constructor
  */
 const ExperimentalPage = ({ pageContext }) => {
-  const { config } = pageContext;
-
   return (
     <ErrorBoundary FallbackComponent={fallbackComponent}>
-      <SiteLayout>
-        <TestingGuide config={config} />
-      </SiteLayout>
+      <SiteLayout></SiteLayout>
     </ErrorBoundary>
   );
 };

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import ComboSelectDropdown from '../../../components/combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+import ComboSelectDropdown from '../../components/combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { datasetSpecs, defaultSelection, getDatasets } from './testing-guide-helper';
-import { datasetName, results, search, section, testingForm, testingGuide } from './testing-guide.module.scss';
-import FeatureDisplay from './feature-display';
+import { results, search, testingForm, testingGuide } from './testing-guide.module.scss';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import DropdownContainer from '../../components/dropdown-container/dropdown-container';
+import DropdownLabelButton from '../../components/dropdown-label-button/dropdown-label-button';
+import TestingGuideSection from './testing-guide-section';
 
-const TestingGuide = ({ config }) => {
+const TestingGuide = ({ pageContext }) => {
+  const { config } = pageContext;
+
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [currentReportSpecs, setCurrentReportSpecs] = useState([]);
   const [currentTableSpecs, setCurrentTableSpecs] = useState([]);
+  const [active, setActive] = useState(false);
 
   const datasetKeys = Object.keys(config);
   const datasetValues = Object.values(config);
@@ -15,6 +21,7 @@ const TestingGuide = ({ config }) => {
 
   const updateSelection = option => {
     setSelectedOption(option);
+    setActive(false);
   };
 
   const getMatches = currentSpecs => {
@@ -72,33 +79,33 @@ const TestingGuide = ({ config }) => {
     if (selectedConfig) {
       setCurrentReportSpecs(getReportSpecs(selectedConfig));
       setCurrentTableSpecs(getTableSpecs(selectedConfig));
+    } else {
+      setCurrentReportSpecs(null);
+      setCurrentTableSpecs(null);
     }
   }, [selectedOption]);
 
+  const dropdownButton = <DropdownLabelButton selectedOption={selectedOption.label} active={active} setActive={setActive} dropdownWidth="400px" />;
+
   return (
-    <div className={testingGuide}>
-      <h2>Testing Guide</h2>
-      <div className={datasetName}>{selectedOption.label}</div>
-      <div className={testingForm}>
-        <div className={search}>
-          <ComboSelectDropdown active={true} selectedOption={selectedOption} options={dropdownOptions} updateSelection={updateSelection} />
-        </div>
-        <div className={results}>
-          <div className={section}>
-            <h3>Reports and Files</h3>
-            {currentReportSpecs?.map(spec => {
-              return <FeatureDisplay spec={spec} />;
-            })}
-          </div>
-          <div className={section}>
-            <h3>Data Preview</h3>
-            {currentTableSpecs?.map(spec => {
-              return <FeatureDisplay spec={spec} />;
-            })}
+    <SiteLayout>
+      <div className={testingGuide}>
+        <h2>Testing Guide</h2>
+        <div className={testingForm}>
+          <DropdownContainer dropdownButton={dropdownButton} setActive={setActive} active={active}>
+            {active && (
+              <div className={search}>
+                <ComboSelectDropdown active={true} selectedOption={selectedOption} options={dropdownOptions} updateSelection={updateSelection} />
+              </div>
+            )}
+          </DropdownContainer>
+          <div className={results}>
+            <TestingGuideSection header="Reports and Files" specs={currentReportSpecs} />
+            <TestingGuideSection header="Data Preview" specs={currentTableSpecs} />
           </div>
         </div>
       </div>
-    </div>
+    </SiteLayout>
   );
 };
 

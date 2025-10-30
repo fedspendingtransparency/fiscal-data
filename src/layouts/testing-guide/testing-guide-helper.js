@@ -15,15 +15,17 @@ export const datasetSpecs = {
   apis: [
     {
       value: 'userFilter',
-      label: 'User Filter',
+      label: 'Non-Required Table Filter',
       related: 'apiFilter',
-      description: 'Filters are not required. Data is filtered within the UI, and filters will not be used within the api calls.',
+      description:
+        'By default, the table will load with unfiltered data. When a filter is selected, the value is used to ' +
+        'filter the table within the UI (filter values will not be used within the tables API call).',
     },
     {
       value: 'apiFilter',
-      label: 'Api Filter',
+      label: 'Required Table Filter',
       related: 'userFilter',
-      description: 'Filters are required to view data in the table. Filter selections will be used in the api calls.',
+      description: 'By default, the table will be empty. When a filter is selected, the value is used as a filter in the tables API call.',
     },
     { value: 'valueFieldOptions', label: 'Pivot Tables' },
     { value: 'isLargeDataset', label: 'Large Dataset', description: '....Data maybe aggregated on pivot table..... ' },

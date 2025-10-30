@@ -2,6 +2,12 @@
   margin: 2rem;
   .testingForm {
     display: flex;
+    flex-direction: column;
+  }
+
+  .accordionContainer {
+    width: 100%;
+    margin: 0.5rem;
   }
 
   h2 {
@@ -14,39 +20,29 @@
     margin-bottom: 2rem;
   }
   .search {
-    width: 20rem;
-    :global(.dropdownContainerBorder) {
-      box-shadow: none;
-      border-radius: 0;
-      margin-top: 0;
-      position: inherit;
-    }
-
-    :global(.globalDropdownList) {
-      max-height: 40rem;
-    }
+    width: 400px;
   }
 
   .results {
     width: 100%;
-    margin-left: 1rem;
+    min-height: 200px;
   }
 
-  .search,
   .section {
-    margin-bottom: 2rem;
+    padding: 1rem;
+    margin: 1rem 0 1rem;
     h3 {
       margin-bottom: 0.5rem;
     }
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
 
     .features {
       display: flex;
       gap: 1.5rem;
       margin-left: 0.5rem;
-      border-bottom: 1px solid #666;
       .matchingSpec,
       .matchingDatasets {
-        width: 50%;
         display: flex;
         flex-direction: column;
         margin-bottom: 0.5rem;

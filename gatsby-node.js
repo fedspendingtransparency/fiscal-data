@@ -1073,6 +1073,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         config: allDatasetsConfig,
       },
     });
+    createPage({
+      path: `/testing-guide/`,
+      matchPath: '/testing-guide/',
+      component: path.resolve(`./src/layouts/testing-guide/testing-guide.jsx`),
+      context: {
+        config: allDatasetsConfig,
+      },
+    });
 
     // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     // const features = await graphql(`
