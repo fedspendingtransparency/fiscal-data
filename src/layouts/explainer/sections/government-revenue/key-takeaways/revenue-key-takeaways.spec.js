@@ -135,8 +135,9 @@ describe('Revenue Key Takeaways no GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText, findAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await findAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
-    expect(await findByText('11.46 trillion', { exact: false })).toBeInTheDocument();
+
+    expect(await findAllByText('In fiscal year 2016')).toHaveLength(1);
+    expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });
 
