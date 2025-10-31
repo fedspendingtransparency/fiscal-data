@@ -141,10 +141,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         setSpendingChartData(finalSpendingChartData);
 
         const spendingMinYear = finalSpendingChartData[0].x;
-        setMinYear(spendingMinYear);
+        const theMinYear = spendingMinYear;
+        setMinYear(theMinYear);
 
         const spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
-        setMaxYear(Math.min(gdpMaxYear, spendingMaxYear));
+        const theMaxYear = Math.min(gdpMaxYear, spendingMaxYear);
+        setMaxYear(theMaxYear);
 
         const spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => (max > spending.y ? max : spending.y));
 
@@ -210,10 +212,10 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
         addInnerChartAriaLabel(chartParent);
 
         copyPageData({
-          fiscalYear: Math.min(gdpMaxYear, spendingMaxYear),
+          fiscalYear: theMaxYear,
           totalSpending: getShortForm(chartLastSpendingValue, false),
           percentOfGDP: chartLastRatio,
-          numOfYearsInChart: maxYear - minYear + 1,
+          numOfYearsInChart: theMaxYear - theMinYear + 1,
         });
       }
     });
