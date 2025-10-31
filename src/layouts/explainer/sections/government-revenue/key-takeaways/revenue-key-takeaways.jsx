@@ -18,37 +18,35 @@ const RevenueKeyTakeaways = () => {
   const [currentFYLargestSourceTotPercent, setCurrentFYLargestSourceTotPercent] = useState(0);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_FY}`).then(res => {
-      if (res.data[0]) {
-        const fiscalYear = res.data[0].record_fiscal_year;
-        setLatestCompleteFiscalYear(fiscalYear);
-        basicFetch(revenueConstants.BEA_URL).then(bea_res => {
-          if (bea_res.BEAAPI.Results.Data) {
-            const gdpData = bea_res.BEAAPI.Results.Data.filter(entry => entry.LineDescription === 'Gross domestic product');
-            const allQuartersForGivenYear = gdpData.filter(
-              entry =>
-                entry.TimePeriod.includes(fiscalYear.toString() + 'Q1') ||
-                entry.TimePeriod.includes(fiscalYear.toString() + 'Q2') ||
-                entry.TimePeriod.includes(fiscalYear.toString() + 'Q3') ||
-                entry.TimePeriod.includes((fiscalYear - 1).toString() + 'Q4')
-            );
+    const hasBEAFYComplete = (fy, beaData) => {
+      const gdp = beaData.filter(data => data.LineDescription === 'Gross domestic product');
+      const needed = new Set([`${fy - 1}Q4`, `${fy}Q1`, `${fy}Q2`, `${fy}Q3`]);
+      for (const row of gdp) needed.delete(String(row.TimePeriod));
+      return needed.size === 0;
+    };
 
-            let totalGDP = 0;
-            allQuartersForGivenYear.forEach(quarter => {
-              totalGDP += parseFloat(quarter.DataValue.replace(/,/g, ''));
-            });
-            const totalQuarters =
-              allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q2')) &&
-              !allQuartersForGivenYear.find(entry => entry.TimePeriod.includes(fiscalYear.toString() + 'Q3'))
-                ? 3
-                : 4;
-            const averageGDP = (totalGDP / totalQuarters) * 1000000;
+    basicFetch(`${apiPrefix}${revenueConstants.PRIOR_FY}`).then(async res => {
+      if (!res?.data?.[0]) return;
 
-            setRevenuePercentGDP(Math.round((res.data[0].current_fytd_net_rcpt_amt / averageGDP) * 100));
-            setTotalGDP((averageGDP / 1000000000000).toFixed(2));
-          }
-        });
-      }
+      const candidateFY = Number(res.data[0].record_fiscal_year);
+      const bea = await basicFetch(revenueConstants.BEA_URL);
+      const beaData = bea?.BEAAPI?.Results?.Data || [];
+      const fyToDisplay = hasBEAFYComplete(candidateFY, beaData) ? candidateFY : candidateFY - 1;
+      setLatestCompleteFiscalYear(fyToDisplay);
+
+      const gdpRows = (beaData || []).filter(d => d.LineDescription === 'Gross domestic product');
+      const quarters = gdpRows.filter(entry =>
+        [`${fyToDisplay - 1}Q4`, `${fyToDisplay}Q1`, `${fyToDisplay}Q2`, `${fyToDisplay}Q3`].some(tag => String(entry.TimePeriod) === tag)
+      );
+
+      let totalGDP = 0;
+      quarters.forEach(q => {
+        totalGDP += parseFloat(String(q.DataValue).replace(/,/g, ''));
+      });
+      const averageGDP = (totalGDP / Math.max(quarters.length, 1)) * 1000000;
+
+      setRevenuePercentGDP(Math.round((res.data[0].current_fytd_net_rcpt_amt / averageGDP) * 100));
+      setTotalGDP((averageGDP / 1000000000000).toFixed(2));
     });
 
     // previous FY content
@@ -91,6 +89,7 @@ const RevenueKeyTakeaways = () => {
       });
     });
   }, []);
+
   const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear}, the largest source of federal revenue was
   ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
   So far in fiscal year ${currentFY}, the largest source of federal revenue is

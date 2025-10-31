@@ -6,7 +6,7 @@ import RevenueKeyTakeaways from './revenue-key-takeaways';
 import revenueConstants from '../constants';
 import { beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
-describe('Spending Key Takeaways evergreen values', () => {
+describe('Revenue Key Takeaways evergreen values', () => {
   const mockData = {
     data: [
       {
@@ -104,7 +104,7 @@ describe('Spending Key Takeaways evergreen values', () => {
   });
 });
 
-describe('Spending Key Takeaways no GDP Q3 scenario', () => {
+describe('Revenue Key Takeaways no GDP Q3 scenario', () => {
   const mockNoQ3Data = {
     data: [
       {
@@ -135,12 +135,14 @@ describe('Spending Key Takeaways no GDP Q3 scenario', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText, findAllByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    expect(await findAllByText('In fiscal year 2016', { exact: false })).toHaveLength(2);
-    expect(await findByText('11.46 trillion', { exact: false })).toBeInTheDocument();
+
+    expect(await findAllByText(/in fiscal year 2016/i)).toHaveLength(1);
+    expect(await findAllByText(/in fiscal year 2015/i)).toHaveLength(1);
+    expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });
 
-describe('Spending Key Takeaways containing GDP Q3 scenario', () => {
+describe('Revenue Key Takeaways containing GDP Q3 scenario', () => {
   const mockQ3Data = {
     data: [
       {
