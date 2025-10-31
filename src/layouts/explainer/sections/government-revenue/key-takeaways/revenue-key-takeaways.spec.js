@@ -137,6 +137,7 @@ describe('Revenue Key Takeaways no GDP Q3 scenario', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
 
     expect(await findAllByText(/in fiscal year 2016/i)).toHaveLength(1);
+    expect(await findAllByText(/in fiscal year 2015/i)).toHaveLength(1);
     expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
   });
 });
