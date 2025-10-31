@@ -19,8 +19,10 @@ const RevenueKeyTakeaways = () => {
 
   useEffect(() => {
     const hasBEAFYComplete = (fy, beaData) => {
-      const rows = (beaData || []).filter(data => data.LineDescription === 'Gross domestic product');
-      return rows.some(row => String(row.TimePeriod) === `${fy}Q3`);
+      const gdp = beaData.filter(data => data.LineDescription === 'Gross domestic product');
+      const needed = new Set([`${fy - 1}Q4`, `${fy}Q1`, `${fy}Q2`, `${fy}Q3`]);
+      for (const row of gdp) needed.delete(String(row.TimePeriod));
+      return needed.size === 0;
     };
 
     basicFetch(`${apiPrefix}${revenueConstants.PRIOR_FY}`).then(async res => {
