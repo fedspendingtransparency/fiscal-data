@@ -14,6 +14,8 @@ const TestingGuide = ({ pageContext }) => {
 
   const [selectedOption, setSelectedOption] = useState(defaultSelection);
   const [selectedOptionConfig, setSelectedOptionConfig] = useState(null);
+  const [reportMatches, setReportMatches] = useState([]);
+  const [tableMatches, setTableMatches] = useState([]);
   const [currentReportSpecs, setCurrentReportSpecs] = useState([]);
   const [currentTableSpecs, setCurrentTableSpecs] = useState([]);
   const [active, setActive] = useState(false);
@@ -28,35 +30,38 @@ const TestingGuide = ({ pageContext }) => {
   };
 
   const getMatches = currentSpecs => {
-    const testingNotes = [];
+    const matches = {};
     currentSpecs?.forEach(spec => {
       const curNotes = spec;
-      console.log(curNotes);
       curNotes.matchingDatasets = datasetValues.filter(x => {
         const hasDatasetConfig = x[spec.value];
         const hasApiConfig = x.apis.filter(api => api[spec.value]).length > 0;
         return (hasDatasetConfig || hasApiConfig) && x.datasetId !== selectedOption.value;
       });
-      testingNotes.push(curNotes);
+      curNotes.matchingDatasets.forEach(dataset => {
+        if (matches[dataset.name]) {
+          matches[dataset.name].matchingFeatures = [...matches[dataset.name].matchingFeatures, spec];
+        } else {
+          matches[dataset.name] = { dataset: dataset, matchingFeatures: [spec] };
+        }
+      });
     });
-    return testingNotes;
+    return matches;
   };
 
   const getReportSpecs = selectedConfig => {
-    console.log(selectedConfig);
     const reportSpecs = [];
+    console.log(datasetSpecs);
     datasetSpecs.report.forEach(spec => {
       if (!!selectedConfig[spec.value]) reportSpecs.push(spec);
     });
     if (reportSpecs.length === 0) {
       if (selectedConfig.publishedReports?.length > 0) {
         reportSpecs.push({ label: 'Standard report functionality' });
-      } else {
-        reportSpecs.push({ label: 'No published reports' });
       }
     }
 
-    return getMatches(reportSpecs);
+    return reportSpecs;
   };
 
   const getTableSpecs = selectedConfig => {
@@ -74,19 +79,23 @@ const TestingGuide = ({ pageContext }) => {
       }
     });
 
-    return getMatches([...new Set(tableSpecs)]);
+    return [...new Set(tableSpecs)];
   };
 
   useEffect(() => {
     const selectedConfig = config[selectedOption.value];
     if (selectedConfig) {
+      const reports = getReportSpecs(selectedConfig);
+      const tables = getTableSpecs(selectedConfig);
       setSelectedOptionConfig(selectedConfig);
-      setCurrentReportSpecs(getReportSpecs(selectedConfig));
-      setCurrentTableSpecs(getTableSpecs(selectedConfig));
+      setCurrentReportSpecs(reports);
+      setCurrentTableSpecs(tables);
+      setReportMatches(getMatches(reports));
+      setTableMatches(getMatches(tables));
     } else {
       setSelectedOptionConfig(null);
-      setCurrentReportSpecs(null);
-      setCurrentTableSpecs(null);
+      setReportMatches(null);
+      setTableMatches(null);
     }
   }, [selectedOption]);
 
@@ -111,8 +120,8 @@ const TestingGuide = ({ pageContext }) => {
             </a>
           )}
           <div className={results}>
-            <TestingGuideSection header="Reports and Files" specs={currentReportSpecs} />
-            <TestingGuideSection header="Data Preview" specs={currentTableSpecs} />
+            <TestingGuideSection header="Reports and Files" matches={reportMatches} specs={currentReportSpecs} />
+            <TestingGuideSection header="Data Preview" matches={tableMatches} specs={currentTableSpecs} />
           </div>
         </div>
       </div>

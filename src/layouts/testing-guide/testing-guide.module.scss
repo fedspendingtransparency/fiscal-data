@@ -89,7 +89,10 @@
 .rowTitle {
   font-weight: 600;
   font-size: 1rem;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
   a {
     color: rgb(0, 113, 188);
     text-decoration: none;
@@ -99,5 +102,17 @@
     color: #0071bc;
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  .tiles {
+    display: flex;
+    flex-direction: row;
+    .tile {
+      border: 1px solid #d9d9d9;
+      background-color: #f1f1f1;
+      border-radius: 1rem;
+      padding: 0.25rem 0.5rem;
+      margin-right: 1rem;
+    }
   }
 }

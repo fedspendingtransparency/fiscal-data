@@ -5,7 +5,7 @@ export const datasetSpecs = {
       label: 'Runtime Fetched Reports',
       description: 'Specific reports are fetched at runtime based on user input (filters).',
     },
-    { value: 'reportGenKey', label: 'Generated Reports', description: 'PDF reports created from api data.' },
+    { value: 'reportGenKey', label: 'Generated Reports', description: 'PDF reports are created using data from the API.' },
   ],
   table: [
     { value: 'disableAllTables', label: 'Hide "All Tables" option', description: '"All Tables" is not an option on the data table select dropdown.' },
