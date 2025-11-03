@@ -3,7 +3,7 @@ const insightPagesSource = {
     slug: '/interest-expense-avg-interest-rates/',
     breadCrumbLinkName: 'Interest Expense',
     seoConfig: {
-      pageTitle: 'Interest Expense and Average Interest Rates on the National Debt ',
+      pageTitle: 'Interest Expense and Interest Rates | U.S. Treasury Fiscal Data ',
       description: '',
       keywords: 'interest expense, interest cost, interest payments, U.S. debt interest, interest rates',
     },
