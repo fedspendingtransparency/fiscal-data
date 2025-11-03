@@ -108,4 +108,8 @@ describe('Reports Section component', () => {
       jest.resetModules();
     });
   });
+
+  it('does not render the date picker when datasetId is in hiddendatePickerDatesets', () => {
+    const dataConfig = {};
+  });
 });

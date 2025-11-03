@@ -10,7 +10,6 @@ import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJs
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
-import { hiddenDatePickerDatasets } from '../../../helpers/published-reports/published-reports';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { publishedReports: publishedReportsProp, hideReportDatePicker, reportSelection, publishedReportsTip } = dataset;
@@ -23,7 +22,6 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   const [allReportYears, setAllReportYears] = useState<string[]>();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [filterByReport, setFilterByReport] = useState<boolean>();
-  const shouldHideDatePicker = hiddenDatePickerDatasets?.includes(dataset?.datasetId);
   const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IPublishedReportDataJson[]) => {
     if (date) {
       const selectedDay = date.getDate();
@@ -88,7 +86,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   return (
     <div style={{ display: getDisplayStatus(publishedReportsProp) }}>
       <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
-        {!shouldHideDatePicker && !hideReportDatePicker && (
+        {!hideReportDatePicker && (
           <div className={filtersContainer}>
             {filterByReport && <ReportFilter reports={publishedReportsProp} setAllReports={setAllReports} />}
             {latestReportDate && (

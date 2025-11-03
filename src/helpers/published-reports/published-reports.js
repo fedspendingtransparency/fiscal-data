@@ -38,8 +38,6 @@ const whitelistDatasetIds = [
   '015-BFS-2025Q2-001',
 ];
 exports.whiteListIds = whitelistDatasetIds;
-const hiddenDatePickerDatasets = ['015-BFS-2025Q2-001'];
-exports.hiddenDatePickerDatasets = hiddenDatePickerDatasets;
 
 const whitelistedGroupsByDataset = {};
 
