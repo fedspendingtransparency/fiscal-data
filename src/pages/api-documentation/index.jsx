@@ -27,6 +27,7 @@ import {
   tocClosed,
   apiPageWrapper,
   apiPageSpacer,
+  sectionList,
 } from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
@@ -305,30 +306,32 @@ const ApiDocumentationPage = ({ location }) => {
       <div className={`pageWrapper ${apiPageWrapper}`}>
         <aside className={tocWrapper}>
           <nav id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
-            <h2 className={tocHeader}>Table of Contents</h2>
-            {tocList.map((d, i) => {
-              return (
-                <div key={`toc${i}`}>
-                  <Link
-                    className={`${link} ${d.headingLevel}`}
-                    data-testid={`tocLink`}
-                    tabIndex={0}
-                    activeClass={activeLink}
-                    to={d.id}
-                    smooth={true}
-                    spy={true}
-                    duration={600}
-                    delay={200}
-                    onClick={e => {
-                      handleToggle(e, d.id);
-                    }}
-                    offset={globalNavOffset - 3}
-                  >
-                    {d.title}
-                  </Link>
-                </div>
-              );
-            })}
+            <ul className={sectionList}>
+              <h2 className={tocHeader}>Table of Contents</h2>
+              {tocList.map((d, i) => {
+                return (
+                  <li key={`toc${i}`}>
+                    <Link
+                      className={`${link} ${d.headingLevel}`}
+                      data-testid={`tocLink`}
+                      tabIndex={0}
+                      activeClass={activeLink}
+                      to={d.id}
+                      smooth={true}
+                      spy={true}
+                      duration={600}
+                      delay={200}
+                      onClick={e => {
+                        handleToggle(e, d.id);
+                      }}
+                      offset={globalNavOffset - 3}
+                    >
+                      {d.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
         </aside>
         <div id={content} className={`${toggleStyles} ${apiPageSpacer}`} data-testid="componentWrapper">

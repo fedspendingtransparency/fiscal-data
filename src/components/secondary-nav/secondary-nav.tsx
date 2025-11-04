@@ -20,6 +20,7 @@ import {
   comingSoon,
   comingSoonContainer,
   comingSoonLink,
+  sectionList,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
@@ -170,53 +171,55 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     <div className={mainContainer}>
       <aside>
         <nav className={`${navContainer} secondaryNavContainer`}>
-          {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-          {shouldTocShow && headerComponent}
-          {shouldTocShow &&
-            sections.map(s => {
-              let headingClass = '';
-              if (s.headingLevel === 2) {
-                headingClass = headingLevel2;
-              } else if (s.headingLevel === 3) {
-                headingClass = headingLevel3;
-              }
+          <ul className={sectionList}>
+            {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+            {shouldTocShow && headerComponent}
+            {shouldTocShow &&
+              sections.map(s => {
+                let headingClass = '';
+                if (s.headingLevel === 2) {
+                  headingClass = headingLevel2;
+                } else if (s.headingLevel === 3) {
+                  headingClass = headingLevel3;
+                }
 
-              return (
-                <div key={s.index}>
-                  {s.comingSoon ? (
-                    <div className={comingSoonContainer}>
-                      <i className={comingSoon}>COMING SOON!</i>
-                    </div>
-                  ) : (
-                    undefined
-                  )}
-                  <div
-                    role="presentation"
-                    onMouseEnter={() => handleMouseEnter(s.index)}
-                    onMouseLeave={handleMouseLeave}
-                    className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
-                  >
-                    <Link
-                      className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
-                    ${s.comingSoon ? comingSoonLink : undefined}`}
-                      title={s.title}
-                      activeClass={activeClass}
-                      tabIndex={0}
-                      to={s.id}
-                      smooth
-                      spy
-                      duration={scrollDuration}
-                      delay={scrollDelay}
-                      onClick={() => handleInteraction(null, s.id, s.title)}
-                      onKeyUp={e => handleInteraction(e, s.id, s.title)}
-                      offset={globalNavOffset - 4}
+                return (
+                  <li key={s.index}>
+                    {s.comingSoon ? (
+                      <div className={comingSoonContainer}>
+                        <i className={comingSoon}>COMING SOON!</i>
+                      </div>
+                    ) : (
+                      undefined
+                    )}
+                    <div
+                      role="presentation"
+                      onMouseEnter={() => handleMouseEnter(s.index)}
+                      onMouseLeave={handleMouseLeave}
+                      className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
                     >
-                      {s.title}
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
+                      <Link
+                        className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
+                    ${s.comingSoon ? comingSoonLink : undefined}`}
+                        title={s.title}
+                        activeClass={activeClass}
+                        tabIndex={0}
+                        to={s.id}
+                        smooth
+                        spy
+                        duration={scrollDuration}
+                        delay={scrollDelay}
+                        onClick={() => handleInteraction(null, s.id, s.title)}
+                        onKeyUp={e => handleInteraction(e, s.id, s.title)}
+                        offset={globalNavOffset - 4}
+                      >
+                        {s.title}
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })}
+          </ul>
         </nav>
       </aside>
       <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
