@@ -21,24 +21,26 @@ interface ICitationList {
 const CitationList: FunctionComponent<ICitationList> = ({ header, citations, headingLevel = 'h2', pageName }: ICitationList) => {
   return (
     <>
-      <Heading headingLevel={headingLevel} className={listHeader}>
-        {header}
-      </Heading>
-      {citations.map((citation: ICitation, index: number) => {
-        const linkText = `${citation.text} ${!citation?.external ? '| U.S. Treasury Fiscal Data' : ''}`;
-        return (
-          <div className={citationContainer} key={index}>
-            <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
-              <div className={citationText} id={citation.text}>
-                <div className={iconContainer}>
-                  <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+      <nav>
+        <Heading headingLevel={headingLevel} className={listHeader}>
+          {header}
+        </Heading>
+        {citations.map((citation: ICitation, index: number) => {
+          const linkText = `${citation.text} ${!citation?.external ? '| U.S. Treasury Fiscal Data' : ''}`;
+          return (
+            <div className={citationContainer} key={index}>
+              <CustomLink url={citation.url} onClick={() => analyticsEventHandler(pageName, citation.text)}>
+                <div className={citationText} id={citation.text}>
+                  <div className={iconContainer}>
+                    <FontAwesomeIcon icon={citation?.external ? faExternalLink : faLink} />
+                  </div>
+                  <>{linkText}</>
                 </div>
-                <>{linkText}</>
-              </div>
-            </CustomLink>
-          </div>
-        );
-      })}
+              </CustomLink>
+            </div>
+          );
+        })}
+      </nav>
     </>
   );
 };

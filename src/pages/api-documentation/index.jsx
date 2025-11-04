@@ -303,8 +303,8 @@ const ApiDocumentationPage = ({ location }) => {
         </div>
       </div>
       <div className={`pageWrapper ${apiPageWrapper}`}>
-        <div className={tocWrapper}>
-          <div id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
+        <aside className={tocWrapper}>
+          <nav id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
             <h2 className={tocHeader}>Table of Contents</h2>
             {tocList.map((d, i) => {
               return (
@@ -329,8 +329,8 @@ const ApiDocumentationPage = ({ location }) => {
                 </div>
               );
             })}
-          </div>
-        </div>
+          </nav>
+        </aside>
         <div id={content} className={`${toggleStyles} ${apiPageSpacer}`} data-testid="componentWrapper">
           <GettingStarted location={location} />
           <Endpoints />

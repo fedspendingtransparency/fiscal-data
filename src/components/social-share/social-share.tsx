@@ -91,7 +91,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   return (
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
-      <div className={`${contentStyle} socialShareContent facebook`}>
+      <nav className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
             Share this page
@@ -157,7 +157,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
           </EmailShareButton>
         </div>
-      </div>
+      </nav>
     </>
   );
 };
