@@ -113,7 +113,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
        */}
       <div className={overlay} data-testid="overlay" onClick={toggleState} />
-      <div className={`${tray} ${activeState ? open : ''}`}>
+      <nav className={`${tray} ${activeState ? open : ''}`}>
         {!activeState && <MenuButton clickHandler={toggleState} isOpen={activeState} />}
         {activeState && (
           <>
@@ -134,7 +134,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
             </Link>
           </>
         )}
-      </div>
+      </nav>
     </div>
   );
 };
