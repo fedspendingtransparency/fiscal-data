@@ -32,12 +32,12 @@ const DeficitByYear = () => {
           From FY 2019 to FY 2021, {federalSpendingLink} increased by about 50 percent {USAsCovidResponse}.
         </p>
       </div>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <DeficitTrendsBarChart />
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>The last surplus for the federal government was in 2001.</p>
         </VisualizationCallout>
-      </div>
+      </figure>
     </>
   );
 };

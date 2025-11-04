@@ -59,7 +59,7 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
 
   return (
     <div>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <div className={textContent} data-testid="textContent">
           <p>
             The majority of federal revenue comes from individual and corporate income taxes as well as social insurance taxes (such as the Social
@@ -75,16 +75,16 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
         <VisualizationCallout color={revenueExplainerPrimary} customTopMargin="2.8%">
           <p>Individual income tax has remained the top source of income for the U.S. government since {firstChartYear}.</p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <p>The chart below shows how federal revenue has changed over time, broken out by the various source categories.</p>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
             Total revenue has {revenueTag} from ${firstRevenue} in {firstChartYear} to ${lastRevenue} in {lastChartYear}.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
     </div>
   );
 };

@@ -296,7 +296,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   };
   return (
     <>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <ChartContainer
           title={title + fiscalYear}
           subTitle={subTitle}
@@ -357,7 +357,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
             , making up {combinedIncomePercent.toFixed()}% of total revenue.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
     </>
   );
 };

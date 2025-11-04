@@ -88,7 +88,7 @@ export const SpendingOverview = () => {
 
   return (
     <>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <div>
           <p>
             The federal government spends money on a variety of goods, programs, and services that support the economy and people of the United
@@ -121,7 +121,7 @@ export const SpendingOverview = () => {
             interchangeably to describe spending by the federal government.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <QuoteBox icon={faFlagUsa} primaryColor={spendingExplainerSecondary} secondaryColor={spendingExplainerLightSecondary} customTopMargin="-1rem">
         <p>
           According to the Constitution’s Preamble, the purpose of the federal government is “…to establish Justice, insure domestic Tranquility,

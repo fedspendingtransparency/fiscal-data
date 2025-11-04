@@ -104,7 +104,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
   );
 
   return (
-    <div className={chartContainer} role="figure" aria-label={altText}>
+    <figure className={chartContainer} role="figure" aria-label={altText}>
       <div className={chartTitleHeaderContainer}>
         <div className={chartTitle}>{title}</div>
         <div className={headerContainer}>{toggle}</div>
@@ -159,7 +159,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           />
         )}
       </div>
-    </div>
+    </figure>
   );
 };
 

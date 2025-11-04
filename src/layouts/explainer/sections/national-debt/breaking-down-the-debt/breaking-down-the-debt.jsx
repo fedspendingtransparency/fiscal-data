@@ -319,7 +319,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           stable due to low interest rates and investors’ judgement that the U.S. Government has a very low risk of default. However, recent increases
           in interest rates and inflation are now resulting in an increase in interest expense.
         </p>
-        <div className={visWithCallout}>
+        <figure className={visWithCallout}>
           {multichartDataLoaded && (
             <div
               className={multichartWrapper}
@@ -383,7 +383,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
               federal debt increases. As interest rates increase, the cost of maintaining the national debt also increases.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
         <div className={postGraphAccordionContainer}>
           <div className={debtAccordion}>
             <Accordion

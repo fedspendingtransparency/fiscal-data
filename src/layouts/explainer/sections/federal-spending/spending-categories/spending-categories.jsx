@@ -33,7 +33,7 @@ export const SpendingCategories = () => {
         maintenance equipment, buildings, and livestock, to research, education, and training. The chart below shows the top 10 categories and
         agencies for federal spending in FY {latestCompleteFiscalYear}.
       </p>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <HowMuchDoesTheGovtSpend />
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
@@ -41,7 +41,7 @@ export const SpendingCategories = () => {
             pages.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <div className={spendingAccordion}>
         <Accordion
           title="What does the future of Social Security and Medicare look like?"

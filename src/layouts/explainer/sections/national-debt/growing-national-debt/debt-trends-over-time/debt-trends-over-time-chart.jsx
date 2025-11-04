@@ -164,7 +164,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     <>
       {isLoadingDebtTrends && <LoadingIndicator />}
       {!isLoadingDebtTrends && debtTrendsData && (
-        <div className={visWithCallout} ref={ref}>
+        <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
               title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x}`}
@@ -254,7 +254,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
       )}
     </>
   );

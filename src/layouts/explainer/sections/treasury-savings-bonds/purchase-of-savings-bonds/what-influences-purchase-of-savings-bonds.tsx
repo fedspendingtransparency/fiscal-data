@@ -149,7 +149,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         <img src={PresidentKennedy} alt="President John F. Kennedy holds a U.S. savings bond." />
       </ImageContainer>
       <p>The chart below shows savings bond sales over time for all savings bond types.</p>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} inflationChartData={inflationChartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
@@ -157,7 +157,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
             {getShortForm(secondMostBondSales)} bonds were sold, respectively.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <h5 className={subsectionHeader}>Interest Rates and Inflation</h5>
       <p>
         The economy can also influence the popularity of investing in savings bonds. In times of heightened economic uncertainty, individual investors
@@ -171,12 +171,12 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         percent by September 2022. In response, the American public invested heavily in Series I bonds, purchasing nearly $153 billion of Series I
         bonds between April 2021 and February 2023. The chart below shows inflation data and I bond purchases from the last 15 years.
       </p>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <IBondSalesChart cpi12MonthPercentChange={cpi12MonthPercentChange} curFy={curFy} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>Generally, higher inflation rates are correlated with an increase in demand for inflation-protected securities like I bonds.</p>
         </VisualizationCallout>
-      </div>
+      </figure>
     </>
   );
 };

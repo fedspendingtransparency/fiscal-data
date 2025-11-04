@@ -88,7 +88,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
 
   return (
     <>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         {!data && <LoadingIndicator />}
         {data && (
           <>
@@ -178,7 +178,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
             </VisualizationCallout>
           </>
         )}
-      </div>
+      </figure>
     </>
   );
 };

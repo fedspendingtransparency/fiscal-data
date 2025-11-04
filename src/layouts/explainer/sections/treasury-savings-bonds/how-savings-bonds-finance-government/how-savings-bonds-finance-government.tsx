@@ -310,7 +310,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         {stateLocalGovSeries}, which can be purchased by state and local governments. Use the chart below to explore how different types of loans make
         up the total {debtHeldByPublic}.
       </span>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <HowSavingsBondsSoldChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
@@ -318,7 +318,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
             percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
       <span>
         Over the course of American history, the U.S. government has issued savings bonds to help fund certain programs and special projects like the
