@@ -56,9 +56,9 @@ const InsightPageLayout = ({ pageContext, width }) => {
                   <section className={sectionContainer}>{section.component}</section>
                 </React.Fragment>
               ))}
-              <div>
+              <section>
                 <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
-              </div>
+              </section>
             </div>
             <div className={relatedContent}>
               <div data-testid="social-share-desktop" className={socialShareDesktop}>
