@@ -86,14 +86,14 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               tocScrollOffset={-32}
             >
               <div className={socialShareContainer}>
-                <div className={socialShare}>
+                <aside className={socialShare}>
                   <SocialShare
                     copy={explainerSocialShareMap[pageName]}
                     pageName={explainerAnalyticsLabelMap[pageName]}
                     displayStyle="responsive"
                     explainer
                   />
-                </div>
+                </aside>
                 <div className={mainContent}>
                   {explainerSections[pageName].map(s => (
                     <React.Fragment key={s.index}>

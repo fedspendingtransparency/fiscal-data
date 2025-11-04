@@ -103,7 +103,7 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
 
   return (
     <div className={`${currentPage('Overview') ? [mainContainer, overview].join(' ') : mainContainer}`} data-testid="mobileSubNav">
-      <div className={navBlockStyle} data-testid="mobileSubNavBlock">
+      <nav className={navBlockStyle} data-testid="mobileSubNavBlock">
         <button
           aria-controls="customized-menu"
           aria-haspopup="true"
@@ -184,7 +184,7 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
             />
           </MenuItem>
         </Menu>
-      </div>
+      </nav>
     </div>
   );
 };
