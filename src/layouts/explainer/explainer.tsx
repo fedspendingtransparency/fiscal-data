@@ -121,14 +121,14 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               </div>
             </SecondaryNav>
           </div>
-          <div className={relatedDatasetsStyle}>
+          <section className={relatedDatasetsStyle}>
             <ExplainerRelatedDatasets
               datasets={relatedDatasets}
               referrer={explainerAnalyticsLabelMap[pageName]}
               header={explainerRelatedDatasetMap[pageName]}
               explainer={true}
             />
-          </div>
+          </section>
         </div>
       </SiteLayout>
     </GlossaryProvider>
