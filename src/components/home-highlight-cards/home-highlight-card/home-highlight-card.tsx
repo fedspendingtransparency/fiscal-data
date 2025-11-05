@@ -287,7 +287,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
     <ThemeProvider theme={theme}>
       <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
-          <div className={cardContent}>
+          <figure className={cardContent}>
             <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
               {title}
             </div>
@@ -372,7 +372,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
             <div data-testid="highlight-hero-value-date" className={statDate}>
               {date}
             </div>
-          </div>
+          </figure>
         </div>
         <Link
           to={cardSlug}
