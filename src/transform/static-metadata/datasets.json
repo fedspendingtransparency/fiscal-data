@@ -708,7 +708,6 @@
       "keywords": "Debt, Interest Exchange Rates, Savings Bonds"
     },
     "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
-    "hideReportDatePicker": true,
     "relatedDatasets": [
       "015-BFS-2014Q3-096",
       "015-BFS-2014Q3-080",
