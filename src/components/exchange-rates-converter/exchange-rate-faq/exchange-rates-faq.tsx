@@ -8,6 +8,7 @@ import {
   headTitle,
   linkText,
   relatedResource,
+  resourceList,
   title,
 } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
@@ -97,7 +98,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
   ];
 
   return (
-    <div className={container}>
+    <aside className={container}>
       <div>
         <h2 className={headTitle}>Frequently Asked Questions</h2>
         <div className={exchangeRateFAQ}>
@@ -108,21 +109,21 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
           ))}
         </div>
       </div>
-      <div>
+      <nav>
         <h2 className={title}>Related Resources</h2>
-        <div>
+        <ul className={resourceList}>
           {relatedResources.map((resource, index) => (
-            <div className={relatedResource} key={index}>
+            <li className={relatedResource} key={index}>
               <CustomLink external url={resource.url} id={resource.text}>
                 <div className={linkText}>
                   <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
                   <span>{resource.text}</span>
                 </div>
               </CustomLink>
-            </div>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      </nav>
       <div>
         <h2 className={title}>Data Source</h2>
         <span className={footer}>
@@ -137,7 +138,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
           dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
         </span>
       </div>
-    </div>
+    </aside>
   );
 };
 
