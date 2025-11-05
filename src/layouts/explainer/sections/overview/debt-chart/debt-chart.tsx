@@ -110,7 +110,7 @@ const AFGDebtChart = (): ReactElement => {
   }, []);
 
   return (
-    <div className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
@@ -178,7 +178,7 @@ const AFGDebtChart = (): ReactElement => {
           </div>
         </>
       )}
-    </div>
+    </figure>
   );
 };
 

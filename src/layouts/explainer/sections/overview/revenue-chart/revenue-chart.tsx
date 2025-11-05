@@ -96,7 +96,7 @@ const AFGRevenueChart = (): ReactElement => {
     '.';
 
   return (
-    <div className={deficitChart} data-testid="AFGRevenueChart" role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} data-testid="AFGRevenueChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Revenue by Month in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && finalChartData && (
@@ -159,7 +159,7 @@ const AFGRevenueChart = (): ReactElement => {
           </div>
         </>
       )}
-    </div>
+    </figure>
   );
 };
 
