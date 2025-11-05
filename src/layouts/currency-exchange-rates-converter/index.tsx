@@ -37,7 +37,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
         <CurrencyExchangeRateTool />
         <CurrencyExchangeFAQ />
       </div>
-      <div className={legalDisclaimer}>
+      <section className={legalDisclaimer}>
         <div>
           <span> Important Legal Disclosures and Information</span>
           <p>
@@ -54,7 +54,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
             reporting purposes.
           </p>
         </div>
-      </div>
+      </section>
     </SiteLayout>
   );
 };
