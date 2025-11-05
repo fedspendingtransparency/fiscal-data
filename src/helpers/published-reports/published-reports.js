@@ -5,7 +5,21 @@
 
 //const whitelistDatasetIds = globalConstants.config.publishedReports.datasets;
 // TODO - Update Node/Gatsby-Node to ES6 vs CommonJS
+
 const { getDateWithoutTimeZoneAdjust } = require('../../utils/date-utils');
+
+// Map BUILD_ENV -> env file name (matches your gatsby-node)
+const varToEnvironmentConfig = {
+  preprod: 'qat',
+  qat: 'qat',
+  uat: 'uat',
+  dev: 'dev',
+  stg: 'stg',
+  prod: 'prod',
+};
+
+const activeEnv = varToEnvironmentConfig[process.env.BUILD_ENV] || 'index';
+const { ENV_ID } = require(`../../env/${activeEnv}.js`);
 
 /**
  * **********************************************************
@@ -15,7 +29,7 @@ const { getDateWithoutTimeZoneAdjust } = require('../../utils/date-utils');
  * **********************************************************
  * @type {string[]}
  */
-const whitelistDatasetIds = [
+const baseWhitelistDatasetIds = [
   '015-BFS-2014Q1-13',
   '015-BFS-2014Q3-076',
   '015-BFS-2014Q1-11',
@@ -35,11 +49,16 @@ const whitelistDatasetIds = [
   '015-BFS-2014Q3-052',
   '015-BFS-2024Q1-001',
   '015-BFS-2025Q2-002',
-  '015-BFS-2025Q2-001',
 ];
+
+const uatOnlyPublishedReports = ['015-BFS-2025Q2-001'];
+
+const whitelistDatasetIds = ENV_ID === 'uat' ? [...baseWhitelistDatasetIds, ...uatOnlyPublishedReports] : baseWhitelistDatasetIds;
+
 exports.whiteListIds = whitelistDatasetIds;
 
 const whitelistedGroupsByDataset = {};
+exports.whitelistedGroupsByDataset = whitelistedGroupsByDataset;
 
 const getPublishedReports = async (datasetId, baseUrl, requestUtil) => {
   // Todo - Remove all references to whiteListIds when every dataset is approved for use from the
@@ -62,7 +81,7 @@ const getPublishedReports = async (datasetId, baseUrl, requestUtil) => {
         return reports;
       })
       .catch(async err => {
-        console.warn(`Failed to get build-time published files.  Msg: ${err}`);
+        console.warn(`Failed to get build-time published files. Msg: ${err}`);
       });
   }
   return publishedReports;
