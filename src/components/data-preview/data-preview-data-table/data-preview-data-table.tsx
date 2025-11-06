@@ -50,6 +50,17 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     DataTableContext
   );
 
+  // console.log('rawData: ', rawData.data);
+
+  // rawData.data.forEach(item => {
+  //   console.log(item.cusip);
+  // });
+
+  // cusipList should be used the value that optionValues gets set to (for TSAD instances)
+  const cusipList = rawData.data.map(item => item.cusip);
+
+  console.log(cusipList);
+
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);

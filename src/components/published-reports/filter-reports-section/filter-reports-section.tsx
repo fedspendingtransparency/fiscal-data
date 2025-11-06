@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
@@ -20,6 +20,7 @@ import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { getCache, setCache, makeKey } from './filter-reports-section-helpers/filter-reports-cache';
 import { buildNestedDateOptions } from './filter-reports-section-helpers/date-options';
+import { DataTableContext } from '../../data-preview/data-preview-context';
 
 type Props = {
   dataset: {
@@ -34,6 +35,9 @@ export const defaultSelection = { label: '(None selected)', value: '' };
 
 const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const { runTimeReportConfig: reportConfig, apis, datasetId } = dataset;
+
+  // const { reactTableData: rawData } = useContext(DataTableContext);
+  // console.log('rawData: XL ', rawData);
 
   const [selectedOption, setSelectedOption] = useState<{ label: string; value: string }>(defaultSelection);
   const [filterOptions, setFilterOptions] = useState<Array<{ label: string; value: string }>>([defaultSelection]);
@@ -69,6 +73,8 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     dataTableRequest,
     cusipFirst,
   } = reportConfig;
+
+  console.log('reportConfig.optionValues: ', optionValues);
 
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
@@ -158,6 +164,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       `&fields=${encodeURIComponent(dateField)}` +
       `&sort=-${encodeURIComponent(dateField)}` +
       `&page[size]=10000`;
+    console.log('url: ', url);
 
     try {
       const res = await basicFetch(url);
