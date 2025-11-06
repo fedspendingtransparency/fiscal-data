@@ -139,11 +139,16 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     }
   }, [isVisible]);
 
-  const determineIfAxisWillHaveBillions = data => {
-    const valueArrays = data.map(v => Object.values(v));
-    const filtered = valueArrays.map(v => v.filter(e => !isNaN(Number(e))));
-    const values = Array.prototype.concat.call(...filtered);
-    const max = Math.max(...values);
+  const determineIfAxisWillHaveBillions = rows => {
+    let max = 0;
+    for (const row of rows) {
+      for (const value of Object.values(row)) {
+        if (typeof value === 'number') {
+          if (value > max) max = value;
+          if (max >= 1000000000) return true;
+        }
+      }
+    }
     return max >= 1000000000;
   };
 
