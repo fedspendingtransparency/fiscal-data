@@ -400,7 +400,7 @@
   "015-BFS-2014Q3-039": {
     "seoConfig": {
       "pageTitle": "Federal Credit Similar Maturity Rates",
-      "description": "The annual rates for outstanding fixed-rate Treasury securities, categorized on the basis of their remaining maturity.",
+      "description": "Interest rates for time deposit securities with a maturity of one month up to 40 years and a daily rate for demand deposits.",
       "keywords": "Debt, Interest and Exchange Rates"
     },
     "topics": ["debt", "interest-exchange-rates"],
@@ -422,7 +422,7 @@
   "015-BFS-2014Q3-042": {
     "seoConfig": {
       "pageTitle": "Semi-Annual Interest Rate Certification",
-      "description": "Interest rates certified semi-annually by the U.S. Department of the Treasury for various statutory purposes.",
+      "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
       "keywords": "Interest and Exchange Rates"
     },
     "topics": ["interest-exchange-rates"],
@@ -433,7 +433,7 @@
   "015-BFS-2014Q3-043": {
     "seoConfig": {
       "pageTitle": "Quarterly Interest Rate Certification",
-      "description": "Interest rates certified quarterly by the U.S. Department of the Treasury for various statutory purposes.",
+      "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
       "keywords": "Interest and Exchange Rates"
     },
     "topics": ["interest-exchange-rates"],
@@ -455,7 +455,7 @@
   "015-BFS-2014Q3-041": {
     "seoConfig": {
       "pageTitle": "Annual Interest Rate Certification",
-      "description": "Interest rates certified annually by the U.S. Department of the Treasury for various statutory purposes.",
+      "description": "Interest rates certified by the U.S. Department of the Treasury for various statutory purposes.",
       "keywords": "Interest and Exchange Rates"
     },
     "topics": ["interest-exchange-rates"],
