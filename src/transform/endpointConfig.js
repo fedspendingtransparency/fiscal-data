@@ -648,8 +648,65 @@ const endpointConfig = {
           },
         ],
       },
+      {
+        title: 'Outlays by Sub-Function',
+        dimensionField: 'sub_function_desc',
+        filters: [
+          {
+            key: 'sub_function_desc',
+            value: 'null',
+            operator: 'nin',
+          },
+        ],
+      },
     ],
     valueFieldOptions: ['current_month_rcpt_outly_amt'],
+  },
+  '323': {
+    endpoint: 'v1/accounting/mts/mts_table_10',
+    dateField: 'record_date',
+    downloadName: 'MTS_RcptOutlyDfctSur_Series',
+    dataDisplays: [
+      {
+        title: 'Receipt and Outlay Amounts',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Receipts,Outlays',
+            operator: 'in',
+          },
+        ],
+      },
+      {
+        title: 'Deficit/Surplus (-) Amount',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Deficit/Surplus (-)',
+            operator: 'in',
+          },
+        ],
+      },
+      {
+        title: 'Financing the Deficit or Disposal of a Surplus',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Borrowing from the Public,Reduction of Operating Cash,By Other Means',
+            operator: 'in',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['mil_amt'],
+  },
+  '324': {
+    endpoint: '/v1/accounting/mts/mts_distributed_offsetting_receipts',
+    dateField: 'record_date',
+    downloadName: 'MTS_DstOffstgRcpt',
   },
   '123': {
     endpoint: 'v1/debt/mspd/mspd_table_4',
