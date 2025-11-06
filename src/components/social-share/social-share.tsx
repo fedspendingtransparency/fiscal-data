@@ -90,76 +90,74 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
 
   return (
     <>
-      <nav>
-        <SocialMetaData image={image} title={title} description={description} url={url} />
-        <ul className={`${contentStyle} socialShareContent`}>
-          {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
-            <Heading headingLevel={headerLevel} className={headerText}>
-              Share this page
-            </Heading>
-          )}
-          <li className={containerStyle}>
-            <button
-              className={`${buttonStyle} ${customShareButton} facebookShare`}
-              aria-label={'facebook'}
-              onClick={e => {
-                handleClick('Facebook');
-                openModal(e, getFacebookParams('facebook', url));
-              }}
-            >
-              <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
-            </button>
-          </li>
-          <li className={containerStyle}>
-            <button
-              className={`${buttonStyle} ${customShareButton} twitterShare`}
-              aria-label={'twitter'}
-              onClick={e => {
-                handleClick('Twitter');
-                openModal(e, getTwitterParams('twitter', url, title));
-              }}
-            >
-              <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
-            </button>
-          </li>
-          <li className={containerStyle}>
-            <button
-              className={`${buttonStyle} ${customShareButton} linkedInShare`}
-              aria-label={'linkedin'}
-              onClick={e => {
-                handleClick('LinkedIn');
-                openModal(e, getLinkedInParams('linkedin', url, title));
-              }}
-            >
-              <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
-            </button>
-          </li>
-          <li className={containerStyle}>
-            <button
-              className={`${buttonStyle} ${customShareButton} redditShare`}
-              aria-label={'reddit'}
-              onClick={e => {
-                handleClick('Reddit');
-                openModal(e, getRedditParams('reddit', url, title));
-              }}
-            >
-              <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
-            </button>
-          </li>
-          <li className={containerStyle}>
-            <EmailShareButton
-              className={`${buttonStyle} emailShare`}
-              url={url}
-              subject={emailSubject}
-              body={emailBody}
-              separator={emailSeparator}
-              beforeOnClick={() => handleClick('Email')}
-            >
-              <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
-            </EmailShareButton>
-          </li>
-        </ul>
-      </nav>
+      <SocialMetaData image={image} title={title} description={description} url={url} />
+      <ul className={`${contentStyle} socialShareContent`}>
+        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
+          <Heading headingLevel={headerLevel} className={headerText}>
+            Share this page
+          </Heading>
+        )}
+        <li className={containerStyle}>
+          <button
+            className={`${buttonStyle} ${customShareButton} facebookShare`}
+            aria-label={'facebook'}
+            onClick={e => {
+              handleClick('Facebook');
+              openModal(e, getFacebookParams('facebook', url));
+            }}
+          >
+            <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
+          </button>
+        </li>
+        <li className={containerStyle}>
+          <button
+            className={`${buttonStyle} ${customShareButton} twitterShare`}
+            aria-label={'twitter'}
+            onClick={e => {
+              handleClick('Twitter');
+              openModal(e, getTwitterParams('twitter', url, title));
+            }}
+          >
+            <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
+          </button>
+        </li>
+        <li className={containerStyle}>
+          <button
+            className={`${buttonStyle} ${customShareButton} linkedInShare`}
+            aria-label={'linkedin'}
+            onClick={e => {
+              handleClick('LinkedIn');
+              openModal(e, getLinkedInParams('linkedin', url, title));
+            }}
+          >
+            <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
+          </button>
+        </li>
+        <li className={containerStyle}>
+          <button
+            className={`${buttonStyle} ${customShareButton} redditShare`}
+            aria-label={'reddit'}
+            onClick={e => {
+              handleClick('Reddit');
+              openModal(e, getRedditParams('reddit', url, title));
+            }}
+          >
+            <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
+          </button>
+        </li>
+        <li className={containerStyle}>
+          <EmailShareButton
+            className={`${buttonStyle} emailShare`}
+            url={url}
+            subject={emailSubject}
+            body={emailBody}
+            separator={emailSeparator}
+            beforeOnClick={() => handleClick('Email')}
+          >
+            <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
+          </EmailShareButton>
+        </li>
+      </ul>
     </>
   );
 };

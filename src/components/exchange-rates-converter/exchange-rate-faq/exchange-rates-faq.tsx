@@ -109,7 +109,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
           ))}
         </div>
       </div>
-      <nav>
+      <div>
         <h2 className={title}>Related Resources</h2>
         <ul className={resourceList}>
           {relatedResources.map((resource, index) => (
@@ -123,7 +123,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
             </li>
           ))}
         </ul>
-      </nav>
+      </div>
       <div>
         <h2 className={title}>Data Source</h2>
         <span className={footer}>
