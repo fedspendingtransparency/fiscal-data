@@ -169,8 +169,8 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
 
   return (
     <div className={mainContainer}>
-      <aside>
-        <nav className={`${navContainer} secondaryNavContainer`}>
+      <aside className={`${navContainer} secondaryNavContainer`}>
+        <nav>
           <ul className={sectionList}>
             {!scrollToTop && <ScrollTarget name="table-of-contents" />}
             {shouldTocShow && headerComponent}
