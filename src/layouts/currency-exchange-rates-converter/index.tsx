@@ -17,7 +17,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   return (
     <SiteLayout isPreProd={false}>
       <PageHelmet
-        pageTitle="Currency Exchange Rates Converter Tool"
+        pageTitle="Currency Exchange Rates Converter"
         description={
           'Fiscal Data’s Currency Exchange Rates Converter Tool gives accurate and reliable currency ' +
           'exchange rates based on trusted U.S. Treasury data. This tool can be used for the IRS Report of Foreign ' +
