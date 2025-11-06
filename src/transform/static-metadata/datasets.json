@@ -707,8 +707,8 @@
       "description": "The I Bonds Rates Table contains all fixed rates, inflation rates, and composite rates for all Series I savings bonds issued.",
       "keywords": "Debt, Interest Exchange Rates, Savings Bonds"
     },
-    "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
     "hideReportDatePicker": true,
+    "topics": ["debt", "interest-exchange-rates", "savings-bonds"],
     "relatedDatasets": [
       "015-BFS-2014Q3-096",
       "015-BFS-2014Q3-080",

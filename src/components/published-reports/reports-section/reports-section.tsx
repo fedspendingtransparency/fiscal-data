@@ -22,6 +22,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   const [allReportYears, setAllReportYears] = useState<string[]>();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [filterByReport, setFilterByReport] = useState<boolean>();
+
   const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IPublishedReportDataJson[]) => {
     if (date) {
       const selectedDay = date.getDate();
