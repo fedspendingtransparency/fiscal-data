@@ -330,7 +330,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     <>
       {isLoading && <LoadingIndicator />}
       {!isLoading && chartToggleConfig && (
-        <div className={visWithCallout}>
+        <figure className={visWithCallout}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
@@ -409,7 +409,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               Since {callOutYear}, {calloutCopy}.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
       )}
     </>
   );

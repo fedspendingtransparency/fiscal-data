@@ -101,7 +101,7 @@ const AFGSpendingChart = () => {
     '.';
 
   return (
-    <div className={deficitChart} role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Spending by Month in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
@@ -166,7 +166,7 @@ const AFGSpendingChart = () => {
           </div>
         </>
       )}
-    </div>
+    </figure>
   );
 };
 

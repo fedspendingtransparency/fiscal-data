@@ -56,11 +56,11 @@ const InsightPageLayout = ({ pageContext, width }) => {
                   <section className={sectionContainer}>{section.component}</section>
                 </React.Fragment>
               ))}
-              <div>
+              <section>
                 <h2>Data Sources and Methodologies:</h2> {insightsDataSources[pageName]}
-              </div>
+              </section>
             </div>
-            <div className={relatedContent}>
+            <aside className={relatedContent}>
               <div data-testid="social-share-desktop" className={socialShareDesktop}>
                 <SocialShare
                   copy={insightSocialShareMap[pageName]}
@@ -71,7 +71,7 @@ const InsightPageLayout = ({ pageContext, width }) => {
               </div>
               <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
               <CitationList header="Discover Datasets" citations={discoverDatasetsCitationsMap[pageName]} pageName={insightsPageName[pageName]} />
-            </div>
+            </aside>
           </div>
         </div>
       </SiteLayout>

@@ -157,7 +157,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const { ref, inView } = useInView(chartInViewProps);
 
   return (
-    <div className={visWithCallout}>
+    <figure className={visWithCallout}>
       {!data && <LoadingIndicator />}
       {data && (
         <>
@@ -202,7 +202,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
           </VisualizationCallout>
         </>
       )}
-    </div>
+    </figure>
   );
 };
 

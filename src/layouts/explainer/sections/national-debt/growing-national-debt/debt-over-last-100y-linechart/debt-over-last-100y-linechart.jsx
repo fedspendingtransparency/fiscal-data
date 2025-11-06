@@ -174,7 +174,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     <>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
-        <div className={visWithCallout}>
+        <figure className={visWithCallout}>
           <div className={container}>
             <ChartContainer
               title={chartTitle}
@@ -249,7 +249,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
               Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
       )}
     </>
   );

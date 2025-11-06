@@ -91,13 +91,13 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   return (
     <>
       <SocialMetaData image={image} title={title} description={description} url={url} />
-      <div className={`${contentStyle} socialShareContent facebook`}>
+      <ul className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
             Share this page
           </Heading>
         )}
-        <div className={containerStyle}>
+        <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} facebookShare`}
             aria-label={'facebook'}
@@ -108,8 +108,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           >
             <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
           </button>
-        </div>
-        <div className={containerStyle}>
+        </li>
+        <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} twitterShare`}
             aria-label={'twitter'}
@@ -120,8 +120,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           >
             <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
           </button>
-        </div>
-        <div className={containerStyle}>
+        </li>
+        <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} linkedInShare`}
             aria-label={'linkedin'}
@@ -132,8 +132,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           >
             <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
           </button>
-        </div>
-        <div className={containerStyle}>
+        </li>
+        <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} redditShare`}
             aria-label={'reddit'}
@@ -144,8 +144,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           >
             <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
           </button>
-        </div>
-        <div className={containerStyle}>
+        </li>
+        <li className={containerStyle}>
           <EmailShareButton
             className={`${buttonStyle} emailShare`}
             url={url}
@@ -156,8 +156,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           >
             <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
           </EmailShareButton>
-        </div>
-      </div>
+        </li>
+      </ul>
     </>
   );
 };

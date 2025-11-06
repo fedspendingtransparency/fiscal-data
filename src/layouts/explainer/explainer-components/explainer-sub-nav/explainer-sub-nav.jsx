@@ -63,7 +63,7 @@ export default function ExplainerSubNav({ hidePosition }) {
     };
   }, [scrollPosition]);
   return (
-    <div className={navContainer} data-testid="explainerSubNav">
+    <nav className={navContainer} data-testid="explainerSubNav">
       <ul className={navBlockStyle} data-testid="explainerSubNavList">
         <li className={navItem}>
           <Link to="/americas-finance-guide/" className={navLink} activeClassName={active} onClick={() => analyticsEvent('Overview')}>
@@ -110,6 +110,6 @@ export default function ExplainerSubNav({ hidePosition }) {
           </Link>
         </li>
       </ul>
-    </div>
+    </nav>
   );
 }

@@ -75,6 +75,12 @@
   }
 }
 
+.resourceList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
     max-width: none;

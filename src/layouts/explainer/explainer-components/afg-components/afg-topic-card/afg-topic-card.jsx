@@ -57,36 +57,38 @@ const AfgTopicCard = ({
 
   return (
     <>
-      <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
-      {width >= pxToNumber(breakpointLg) ? (
-        <div className={topicSection}>
-          <div className={textContainer}>
-            <h5 className={topicHeading}>{heading}</h5>
-            <div className={body}>{body}</div>
-            <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
-              {linkText}
-              <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
-            </a>
-          </div>
-          <div className={imageContainer}>
-            <div>{chart}</div>
-          </div>
-        </div>
-      ) : (
-        <div className={topicSection}>
-          <div className={textContainer}>
-            <h5 className={topicHeading}>{heading}</h5>
+      <section>
+        <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />
+        {width >= pxToNumber(breakpointLg) ? (
+          <div className={topicSection}>
+            <div className={textContainer}>
+              <h5 className={topicHeading}>{heading}</h5>
+              <div className={body}>{body}</div>
+              <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
+                {linkText}
+                <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+              </a>
+            </div>
             <div className={imageContainer}>
               <div>{chart}</div>
             </div>
-            <div className={body}>{body}</div>
-            <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
-              {linkText}
-              <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
-            </a>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className={topicSection}>
+            <div className={textContainer}>
+              <h5 className={topicHeading}>{heading}</h5>
+              <div className={imageContainer}>
+                <div>{chart}</div>
+              </div>
+              <div className={body}>{body}</div>
+              <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
+                {linkText}
+                <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+              </a>
+            </div>
+          </div>
+        )}
+      </section>
     </>
   );
 };

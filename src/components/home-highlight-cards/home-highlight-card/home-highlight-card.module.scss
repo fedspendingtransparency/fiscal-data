@@ -112,6 +112,7 @@ a {
   @include bodyStyleRegular;
   max-width: 100%;
   align-self: flex-start;
+  margin: 0;
 }
 
 .cardActionArea {

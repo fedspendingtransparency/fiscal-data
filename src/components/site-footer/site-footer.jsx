@@ -96,50 +96,52 @@ const SiteFooter = () => {
     <>
       <ResumeDownloadModal />
       <DownloadSticky />
-      <div className={footerMain}>
-        <div className={content}>
-          <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
-            <StaticImage
-              src="../../images/logos/fd-logo-ko.svg"
-              alt="Fiscal Data logo"
-              height={49}
-              width={171}
-              placeholder="dominantColor"
-              layout="fixed"
-              aria-label="Fiscal Data logo"
-            />
-          </Link>
-          <div className={pageLinks}>
-            {siteFooterColumns.map(columnContent => {
-              return (
-                <div className={column} key={columnContent.title}>
-                  <div className={columnTitle}>{columnContent.title}</div>
-                  {columnContent.links.map(link => (
-                    <CustomLink
-                      key={link.testId}
-                      href={link.to}
-                      onClick={() => clickHandler(link.actionTitle || link.title)}
-                      skipExternalModal={true}
-                    >
-                      {link.title}
-                    </CustomLink>
-                  ))}
-                </div>
-              );
-            })}
+      <footer>
+        <div className={footerMain}>
+          <div className={content}>
+            <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
+              <StaticImage
+                src="../../images/logos/fd-logo-ko.svg"
+                alt="Fiscal Data logo"
+                height={49}
+                width={171}
+                placeholder="dominantColor"
+                layout="fixed"
+                aria-label="Fiscal Data logo"
+              />
+            </Link>
+            <div className={pageLinks}>
+              {siteFooterColumns.map(columnContent => {
+                return (
+                  <div className={column} key={columnContent.title}>
+                    <div className={columnTitle}>{columnContent.title}</div>
+                    {columnContent.links.map(link => (
+                      <CustomLink
+                        key={link.testId}
+                        href={link.to}
+                        onClick={() => clickHandler(link.actionTitle || link.title)}
+                        skipExternalModal={true}
+                      >
+                        {link.title}
+                      </CustomLink>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-      <div className={footerBottom}>
-        <div className={bottomContent}>
-          <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
-          <div className={footerBottomLinks}>
-            <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
-            <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>
-            <CustomLink href={`${fiscalURL}/foia.html`}>Freedom of Information Act</CustomLink>
+        <div className={footerBottom}>
+          <div className={bottomContent}>
+            <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
+            <div className={footerBottomLinks}>
+              <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
+              <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>
+              <CustomLink href={`${fiscalURL}/foia.html`}>Freedom of Information Act</CustomLink>
+            </div>
           </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 };

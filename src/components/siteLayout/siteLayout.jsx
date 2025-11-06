@@ -18,7 +18,9 @@ const SiteLayout = ({ children, isPreProd }) => {
   return (
     <div data-testid="siteLayout">
       <SiteHeader lowerEnvMsg={lowerEnvMsg} />
-      <ErrorBoundary FallbackComponent={() => <NotFound fallback="true" />}>{children}</ErrorBoundary>
+      <ErrorBoundary FallbackComponent={() => <NotFound fallback="true" />}>
+        <main>{children}</main>
+      </ErrorBoundary>
       <SiteFooter style={{}} />
       <RedirectModalRenderer />
     </div>

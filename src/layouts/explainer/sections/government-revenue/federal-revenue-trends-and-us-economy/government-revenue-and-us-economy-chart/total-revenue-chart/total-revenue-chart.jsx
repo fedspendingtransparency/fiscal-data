@@ -313,7 +313,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     <>
       {isLoading && <LoadingIndicator />}
       {!isLoading && chartToggleConfig && (
-        <div className={visWithCallout}>
+        <figure className={visWithCallout}>
           <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
             <ChartContainer
               title={chartTitle}
@@ -382,7 +382,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
               Since {callOutYear}, {calloutCopy}.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
       )}
     </>
   );

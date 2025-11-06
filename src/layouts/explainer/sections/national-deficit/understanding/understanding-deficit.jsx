@@ -82,7 +82,7 @@ const UnderstandingDeficit = ({ sectionId }) => {
 
   return (
     <div className={understandingDeficitContainer}>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <div className={textContent} data-testid="textContent">
           <p>
             A budget deficit occurs when money going out ({spending}) exceeds money coming in ({revenue}) during a defined period. In FY{' '}
@@ -101,7 +101,7 @@ const UnderstandingDeficit = ({ sectionId }) => {
             Treasury.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <SurplusIllustration />
       <p>The chart below shows a breakdown of how the U.S. deficit compares to the corresponding revenue and spending.</p>
       <DeficitComparisonBarChart sectionId={sectionId} />

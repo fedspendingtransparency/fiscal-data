@@ -78,9 +78,9 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
         recently? Did you know your national park entry is included in government revenue? Other agencies generate revenue from leases, the sale of
         natural resources, and various usage and licensing fees.
       </p>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <SourcesOfRevenueCircleChart />
-      </div>
+      </figure>
       <div className={revenueAccordion}>
         <Accordion
           title="Why does the Federal Reserve send money to the federal government?"
