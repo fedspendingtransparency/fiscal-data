@@ -648,22 +648,11 @@ const endpointConfig = {
           },
         ],
       },
-      {
-        title: 'Outlays by Sub-Function',
-        dimensionField: 'sub_function_desc',
-        filters: [
-          {
-            key: 'sub_function_desc',
-            value: 'null',
-            operator: 'nin',
-          },
-        ],
-      },
     ],
     valueFieldOptions: ['current_month_rcpt_outly_amt'],
   },
   '323': {
-    endpoint: 'v1/accounting/mts/mts_table_10',
+    endpoint: 'v1/accounting/mts/mts_receipts_outlays_deficit_surplus',
     dateField: 'record_date',
     downloadName: 'MTS_RcptOutlyDfctSur_Series',
     dataDisplays: [
