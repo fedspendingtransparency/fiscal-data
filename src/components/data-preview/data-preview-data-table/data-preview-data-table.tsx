@@ -50,16 +50,19 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     DataTableContext
   );
 
-  // console.log('rawData: ', rawData.data);
+  console.log('rawData: ', rawData.data);
 
   // rawData.data.forEach(item => {
   //   console.log(item.cusip);
   // });
 
   // cusipList should be used the value that optionValues gets set to (for TSAD instances)
-  const cusipList = rawData.data.map(item => item.cusip);
+  // this is also only pulling ones from the data table... aka only within 5 years I think
+  // const cusipList = rawData.data.map(item => item.cusip);
 
-  console.log(cusipList);
+  const cusipList = rawData.data.filter(item => item.auction_date !== null).map(item => item.cusip);
+
+  console.log('cusipList I made: ', cusipList);
 
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
