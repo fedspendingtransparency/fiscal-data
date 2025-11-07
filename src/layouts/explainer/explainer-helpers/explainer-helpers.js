@@ -11,8 +11,6 @@ import {
   revenueHover,
   treasurySavingsBondsActive,
   treasurySavingsBondsHover,
-  treasuryFraudSpendingActive,
-  treasuryFraudSpendingHover,
 } from './explainer-helpers.module.scss';
 import NationalDebtHero from '../heros/national-debt/national-debt-hero';
 import {
@@ -37,19 +35,12 @@ import {
   treasurySavingsBondsExplainerLightSecondary,
   treasurySavingsBondsExplainerHero,
 } from '../sections/treasury-savings-bonds/treasury-savings-bonds.module.scss';
-import {
-  treasuryFraudSpendingExplainerPrimary,
-  treasuryFraudSpendingExplainerSecondary,
-  treasuryFraudSpendingExplainerLightSecondary,
-  treasuryFraudSpendingExplainerHero,
-} from '../sections/treasury-fraud-spending/treasury-fraud-spending.module.scss';
 import FederalSpendingHero from '../heros/federal-spending/federal-spending-hero';
 import GovernmentRevenueHero from '../heros/government-revenue/government-revenue-hero';
 import { BASE_URL } from 'gatsby-env-variables';
 import TreasurySavingsBondsHero from '../heros/treasury-savings-bonds/treasury-savings-bonds-hero';
 import Analytics from '../../../utils/analytics/analytics';
 import CustomLink from '../../../components/links/custom-link/custom-link';
-import TreasuryFraudSpendingHero from '../heros/treasury-fraud-spending/treasury-fraud-spending-hero';
 
 const envBaseUrl = BASE_URL;
 
@@ -370,12 +361,6 @@ export const explainerColorMap = {
     secondaryLight: treasurySavingsBondsExplainerLightSecondary,
     hero: treasurySavingsBondsExplainerHero,
   },
-  'treasury-fraud-spending': {
-    primary: treasuryFraudSpendingExplainerPrimary,
-    secondary: treasuryFraudSpendingExplainerSecondary,
-    secondaryLight: treasuryFraudSpendingExplainerLightSecondary,
-    hero: treasuryFraudSpendingExplainerHero,
-  },
 };
 
 export const explainerClassMap = {
@@ -398,10 +383,6 @@ export const explainerClassMap = {
   'treasury-savings-bonds': {
     active: treasurySavingsBondsActive,
     hover: treasurySavingsBondsHover,
-  },
-  'treasury-fraud-spending': {
-    active: treasuryFraudSpendingActive,
-    hover: treasuryFraudSpendingHover,
   },
 };
 
@@ -467,15 +448,6 @@ export const explainerSocialShareMap = {
     url: envBaseUrl + '/treasury-savings-bonds/',
     image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
   },
-  'treasury-fraud-spending': {
-    title: 'Fiscal Data Explains U.S. Treasury Fraud Spending',
-    description: 'CHANGE',
-    body: 'CHANGE',
-    emailSubject: 'CHANGE',
-    emailBody: 'CHANGE',
-    url: envBaseUrl + '/treasury-fraud-spending/',
-    image: envBaseUrl + '/images/Savings-Bonds-Social-Share-w-Illustration_1200x630.png',
-  },
 };
 
 export const explainerHeroMap = {
@@ -493,9 +465,6 @@ export const explainerHeroMap = {
   },
   'treasury-savings-bonds': {
     component: () => <TreasurySavingsBondsHero />,
-  },
-  'treasury-fraud-spending': {
-    component: () => <TreasuryFraudSpendingHero />,
   },
 };
 

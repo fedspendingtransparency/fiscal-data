@@ -87,22 +87,6 @@ const explainerPagesSource = {
     relatedDatasets: ['015-BFS-2014Q3-080', '015-BFS-2014Q3-096', '015-BFS-2014Q1-11', '015-BFS-2014Q3-056'],
     isAFG: false,
   },
-  'treasury-fraud-spending': {
-    slug: '/treasury-fraud-spending/',
-    breadCrumbLinkName: 'Treasury Fraud Spending Explained',
-    seoConfig: {
-      pageTitle: 'Treasury Fraud Spending Explained',
-      description: `CHANGE THIS`,
-      keywords: 'CHANGE THIS',
-    },
-    prodReady: false,
-    heroImage: {
-      heading: 'How much did the federal government spend on financial fraud in FY {YYYY (latest completed fiscal year)}?',
-      subHeading: '',
-    },
-    relatedDatasets: [],
-    isAFG: false,
-  },
 };
 
 const freshExplainerPages = () => {
