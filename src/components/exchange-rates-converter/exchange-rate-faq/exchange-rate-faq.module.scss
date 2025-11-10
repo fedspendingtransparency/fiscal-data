@@ -45,14 +45,14 @@
     }
     :global(.accordionHeading) {
       font-size: $font-size-16;
-      color: #0071bc;
+      color: $primary;
       border: none;
       padding: 0.75rem 1rem;
     }
 
     :global(.accordionToggle) {
       svg path {
-        color: #0071bc;
+        color: $primary;
       }
     }
 

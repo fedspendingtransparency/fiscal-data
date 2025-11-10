@@ -52,7 +52,7 @@
     z-index: $menu-dropdown;
 
     link {
-      color: #0071bc;
+      color: $primary;
 
       &:hover {
         font-weight: $semi-bold-weight;
