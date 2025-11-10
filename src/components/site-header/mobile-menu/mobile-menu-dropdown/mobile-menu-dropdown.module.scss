@@ -1,7 +1,7 @@
 @use 'src/variables.module' as *;
 
 .sectionHeader {
-  background-color: #f1f1f1;
+  background-color: $body-background;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;

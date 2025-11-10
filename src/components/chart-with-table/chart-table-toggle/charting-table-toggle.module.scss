@@ -29,7 +29,7 @@
   }
   &.selected {
     color: #ffffff;
-    background: #f1f1f1;
+    background: $body-background;
     box-shadow: 0 0.25rem 1rem 0 #00000026;
   }
 }

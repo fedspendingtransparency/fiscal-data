@@ -1,7 +1,7 @@
 @use 'src/variables.module' as *;
 
 .sectionBorder {
-  border-bottom: #dddddd solid 1px;
+  border-bottom: $border-color solid 1px;
   padding: 0.5rem 1rem;
   display: flex;
   justify-content: center;
@@ -16,7 +16,7 @@
   font-size: $font-size-16;
   color: $font-body-copy;
   font-weight: $semi-bold-weight;
-  background-color: #f1f1f1;
+  background-color: $body-background;
   border: none;
   display: flex;
   align-items: center;
