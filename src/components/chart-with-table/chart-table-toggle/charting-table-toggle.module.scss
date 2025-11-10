@@ -28,7 +28,7 @@
     border-color: #dfe1e2;
   }
   &.selected {
-    color: #ffffff;
+    color: $content-section-background;
     background: $body-background;
     box-shadow: 0 0.25rem 1rem 0 #00000026;
   }

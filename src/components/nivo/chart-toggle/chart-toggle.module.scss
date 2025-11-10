@@ -28,7 +28,7 @@
   }
 
   &.selected {
-    color: #ffffff;
+    color: $content-section-background;
     background: $body-background;
   }
 }

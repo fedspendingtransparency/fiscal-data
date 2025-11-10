@@ -2,7 +2,7 @@
 
 .sectionContainer {
   border-bottom: 1px solid $dd-border-color;
-  background-color: #ffffff;
+  background-color: $content-section-background;
   width: 100%;
   max-width: $main-width;
   margin: 1rem auto 1rem auto;
