@@ -40,7 +40,7 @@ $dropdown-width: 13.5rem;
   gap: 10px;
   justify-content: space-between;
   border-radius: 3px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid $light-grey-border;
   background: #fff;
   width: $dropdown-width;
   color: $font-body-copy;

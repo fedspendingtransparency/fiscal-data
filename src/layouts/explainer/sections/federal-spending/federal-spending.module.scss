@@ -1,9 +1,5 @@
 @use 'src/variables.module' as *;
 
-$spending-explainer-primary: #00766c;
-$spending-explainer-secondary: #005e56;
-$spending-explainer-light-secondary: #99c8c4;
-
 .spendingAccordion {
   :global(.accordionHeading) {
     font-size: $font-size-18;
@@ -40,10 +36,4 @@ $spending-explainer-light-secondary: #99c8c4;
     border: solid 0.06rem $spending-explainer-primary;
     border-radius: 0.13rem;
   }
-}
-
-:export {
-  spendingExplainerPrimary: $spending-explainer-primary;
-  spendingExplainerSecondary: $spending-explainer-secondary;
-  spendingExplainerLightSecondary: $spending-explainer-light-secondary;
 }

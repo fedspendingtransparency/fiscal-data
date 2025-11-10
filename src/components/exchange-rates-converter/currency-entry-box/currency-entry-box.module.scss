@@ -1,7 +1,5 @@
 @use 'src/variables.module' as *;
 
-$border-color: #d9d9d9;
-
 .currencyBox {
   width: 20rem;
   margin: 0;
@@ -64,7 +62,7 @@ $border-color: #d9d9d9;
   }
 
   .currencyText {
-    border: solid 1px $border-color;
+    border: solid 1px $light-grey-border;
     height: 2.75rem;
     display: flex;
     align-items: center;
