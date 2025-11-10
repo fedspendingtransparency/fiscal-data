@@ -27,14 +27,14 @@
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
-    color: #555555;
+    color: $font-title;
   }
   .headTitle {
     margin: 0 0 0.5rem 0;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
-    color: #555555;
+    color: $font-title;
     @media screen and (max-width: $breakpoint-lg - 1) {
       margin: 1.5rem 0 0.5rem 0;
     }
