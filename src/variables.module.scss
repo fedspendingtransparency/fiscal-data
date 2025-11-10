@@ -73,6 +73,13 @@ $hero-split-flap-background: #f1f1f1;
 $info-header-focal: $deep-blue;
 $info-header: $near-black;
 $table-notice-color: #eff6fb;
+$focus: #2b71b8;
+$card-body: #555555;
+$main-width: 1140px;
+$dd-border-color: #d6d7d9;
+$alt-button-active-bg: #eff4fb;
+$info-icon: #00a5d4;
+$pale-bg: #f8f8f8;
 
 // Explainer pages
 $debt-explainer-primary: #4a0072;
@@ -94,13 +101,10 @@ $treasury-savings-bonds-explainer-darker-secondary: #864381;
 $treasury-savings-bonds-explainer-light-secondary: #f8f0f9;
 $treasury-savings-bonds-explainer-hero: #b699c6;
 
-$focus: #2b71b8;
-$card-body: #555555;
-$main-width: 1140px;
-$dd-border-color: #d6d7d9;
-$alt-button-active-bg: #eff4fb;
-$info-icon: #00a5d4;
-$pale-bg: #f8f8f8;
+// Insights pages
+$interest-expense-primary: #00796b;
+$state-and-local-government-series-primary: #a4bcfd;
+$state-and-local-government-series-light: #a4bcfd66;
 
 //Data table
 $table-border-style: 1px solid $light-grey-border;
@@ -445,4 +449,7 @@ $table-border-style: 1px solid $light-grey-border;
   treasurySavingsBondsExplainerDarkerSecondary: $treasury-savings-bonds-explainer-darker-secondary;
   treasurySavingsBondsExplainerLightSecondary: $treasury-savings-bonds-explainer-light-secondary;
   treasurySavingsBondsExplainerHero: $treasury-savings-bonds-explainer-hero;
+  interestExpensePrimary: $interest-expense-primary;
+  stateAndLocalGovernmentSeriesPrimary: $state-and-local-government-series-primary;
+  stateAndLocalGovernmentSeriesLight: $state-and-local-government-series-light;
 }

@@ -1,7 +1,7 @@
 import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect, useState } from 'react';
-import { interestExpensePrimary } from '../../../insight.module.scss';
+import { interestExpensePrimary } from '../../../../../variables.module.scss';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import ChartDataHeader from '../../../../explainer/explainer-components/chart-data-header/chart-data-header';
 import { useWindowSize } from '../../../../../hooks/windowResize';
