@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { faCommentDollar, faHandHoldingDollar, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
-import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
+import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../../../../../variables.module.scss';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import reactStringReplace from 'react-string-replace';

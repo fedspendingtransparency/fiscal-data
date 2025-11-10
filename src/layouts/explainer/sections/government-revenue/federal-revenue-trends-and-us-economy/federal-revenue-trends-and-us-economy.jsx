@@ -3,7 +3,7 @@ import TotalRevenueChart from './government-revenue-and-us-economy-chart/total-r
 import useBeaGDP from '../../../../../hooks/useBeaGDP';
 import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
-import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
+import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../../../../../variables.module.scss';
 import { quoteBoxContent } from '../../../explainer.module.scss';
 import { section } from './federal-revenue-trends-and-us-economy.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';

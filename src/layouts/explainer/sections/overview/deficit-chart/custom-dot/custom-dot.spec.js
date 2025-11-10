@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import CustomDotNoAnimation from './custom-dot';
-import { spendingExplainerPrimary } from '../../../federal-spending/federal-spending.module.scss';
-import { revenueExplainerPrimary } from '../../../government-revenue/revenue.module.scss';
+import { spendingExplainerPrimary, revenueExplainerPrimary } from '../../../../../../variables.module.scss';
+
 describe('AFG Deficit Tooltip', () => {
   const mockPayloadSpending = {
     type: 'spending',

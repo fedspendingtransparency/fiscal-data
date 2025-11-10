@@ -2,9 +2,14 @@
 
 import React from 'react';
 import { Area, ComposedChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../../explainer/sections/national-deficit/national-deficit.module.scss';
-import { spendingExplainerLightSecondary, spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
-import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';
+import {
+  deficitExplainerLightSecondary,
+  deficitExplainerPrimary,
+  spendingExplainerLightSecondary,
+  spendingExplainerPrimary,
+  revenueExplainerLightSecondary,
+  revenueExplainerPrimary,
+} from '../../../variables.module.scss';
 import { dot, toolTip } from '../experimental.module.scss';
 
 const ReChartsLine = () => {

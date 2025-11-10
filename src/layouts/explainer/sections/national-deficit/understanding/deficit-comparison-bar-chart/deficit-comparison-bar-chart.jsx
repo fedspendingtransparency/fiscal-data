@@ -6,7 +6,7 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { withWindowSize } from 'react-fns';
 import { barChart, container } from './deficit-comparison-bar-chart.module.scss';
-import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
+import { deficitExplainerPrimary } from '../../../../../../variables.module.scss';
 import { breakpointLg, fontBodyCopy } from '../../../../../../variables.module.scss';
 import { barChartColors, desktopHeight, mobileHeight, layers, theme } from './deficit-comparison-bar-chart-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
