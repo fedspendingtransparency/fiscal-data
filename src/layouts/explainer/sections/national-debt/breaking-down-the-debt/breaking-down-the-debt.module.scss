@@ -86,7 +86,7 @@
 
   .multichartContainer {
     :global(.tick) line {
-      stroke: #666666;
+      stroke: $font-body-copy;
     }
   }
 

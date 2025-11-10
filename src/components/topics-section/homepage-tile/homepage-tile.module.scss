@@ -1,12 +1,7 @@
 @use 'src/variables.module' as *;
 
-$main-feature-title: $font-size-32;
-$main-feature-body: $font-size-16;
-$secondary-feature-title: $font-size-24;
-$secondary-feature-body: $font-size-16;
-
 .mainContent {
-  color: #666666;
+  color: $font-body-copy;
 
   .grid {
     max-width: 16.25rem;
@@ -27,14 +22,14 @@ $secondary-feature-body: $font-size-16;
     margin: 0;
 
     &.mainTitle {
-      font-size: $main-feature-title;
+      font-size: $font-size-32;
       padding: 1rem 0 0.5rem;
       display: flex;
       align-items: flex-start;
     }
 
     &.secondaryTitle {
-      font-size: $secondary-feature-title;
+      font-size: $font-size-24;
       padding-bottom: 0.5rem;
     }
 

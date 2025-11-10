@@ -15,7 +15,7 @@
     display: block;
     text-decoration: none;
     padding: 0.875rem 0 0.875rem 2rem;
-    color: #666666;
+    color: $font-body-copy;
     white-space: nowrap;
     font-size: $font-size-16;
   }
@@ -53,7 +53,7 @@
   }
 }
 .resourceLink {
-  color: #666666;
+  color: $font-body-copy;
   font-weight: normal;
   &:hover {
     color: $primary;

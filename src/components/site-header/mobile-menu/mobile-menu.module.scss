@@ -74,7 +74,7 @@ $menuWidth: 318px;
 .pageLinks {
   display: block;
   text-decoration: none;
-  color: #666666;
+  color: $font-body-copy;
   white-space: nowrap;
   padding: 0.875rem 0 0.875rem 1rem;
   font-size: $font-size-16;

@@ -1,7 +1,7 @@
 @use 'src/variables.module' as *;
 
 .glow {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
 
   .dateEntryBox {
@@ -65,11 +65,11 @@
 }
 
 .datePickerSelected:hover {
-  color: #666666;
+  color: $font-body-copy;
 }
 
 .datePickerRangeMiddle {
-  background-color: #e8f5ff;
+  background-color: $primary-blue;
   color: $font-title;
   border-radius: 0;
 }

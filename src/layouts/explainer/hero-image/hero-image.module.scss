@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #666666;
+  color: $hero-primary-text;
   text-align: center;
   padding: 2.25rem 0.625rem 2.813rem;
   .heroImageHeading {
@@ -133,7 +133,7 @@
     width: 4rem;
     font-size: $font-size-14;
     font-weight: 600;
-    color: #666666;
+    color: $hero-primary-text;
     padding-top: 0.25rem;
   }
 
@@ -143,7 +143,7 @@
     width: 4rem;
     font-size: $font-size-14;
     font-weight: 600;
-    color: #666666;
+    color: $hero-primary-text;
     padding-top: 0.25rem;
   }
 }
