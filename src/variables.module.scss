@@ -88,6 +88,11 @@ $spending-explainer-light-secondary: #99c8c4;
 $deficit-explainer-primary: #b3532d;
 $deficit-explainer-secondary: #9f4224;
 $deficit-explainer-light-secondary: #e0baab;
+$treasury-savings-bonds-explainer-primary: #3b005b;
+$treasury-savings-bonds-explainer-secondary: #b04abd;
+$treasury-savings-bonds-explainer-darker-secondary: #864381;
+$treasury-savings-bonds-explainer-light-secondary: #f8f0f9;
+$treasury-savings-bonds-explainer-hero: #b699c6;
 
 $focus: #2b71b8;
 $card-body: #555555;
@@ -435,4 +440,9 @@ $table-border-style: 1px solid $light-grey-border;
   deficitExplainerPrimary: $deficit-explainer-primary;
   deficitExplainerSecondary: $deficit-explainer-secondary;
   deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
+  treasurySavingsBondsExplainerPrimary: $treasury-savings-bonds-explainer-primary;
+  treasurySavingsBondsExplainerSecondary: $treasury-savings-bonds-explainer-secondary;
+  treasurySavingsBondsExplainerDarkerSecondary: $treasury-savings-bonds-explainer-darker-secondary;
+  treasurySavingsBondsExplainerLightSecondary: $treasury-savings-bonds-explainer-light-secondary;
+  treasurySavingsBondsExplainerHero: $treasury-savings-bonds-explainer-hero;
 }

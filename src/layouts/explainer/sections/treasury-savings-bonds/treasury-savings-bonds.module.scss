@@ -1,19 +1,5 @@
 @use 'src/variables.module' as *;
 
-$treasury-savings-bonds-explainer-primary: #3b005b;
-$treasury-savings-bonds-explainer-secondary: #b04abd;
-$treasury-savings-bonds-explainer-darker-secondary: #864381;
-$treasury-savings-bonds-explainer-light-secondary: #f8f0f9;
-$treasury-savings-bonds-explainer-hero: #b699c6;
-
-:export {
-  treasurySavingsBondsExplainerPrimary: $treasury-savings-bonds-explainer-primary;
-  treasurySavingsBondsExplainerSecondary: $treasury-savings-bonds-explainer-secondary;
-  treasurySavingsBondsExplainerDarkerSecondary: $treasury-savings-bonds-explainer-darker-secondary;
-  treasurySavingsBondsExplainerLightSecondary: $treasury-savings-bonds-explainer-light-secondary;
-  treasurySavingsBondsExplainerHero: $treasury-savings-bonds-explainer-hero;
-}
-
 .postQuoteBoxAccordionContainer {
   margin-top: 2rem;
 }
