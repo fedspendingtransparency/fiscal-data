@@ -655,6 +655,7 @@ const endpointConfig = {
     endpoint: 'v1/accounting/mts/mts_receipts_outlays_deficit_surplus',
     dateField: 'record_date',
     downloadName: 'MTS_RcptOutlyDfctSur_Series',
+    alwaysSortWith: ['record_date', 'src_line_nbr'],
     dataDisplays: [
       {
         title: 'Receipt and Outlay Amounts',
