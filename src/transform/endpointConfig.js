@@ -696,6 +696,7 @@ const endpointConfig = {
     endpoint: '/v1/accounting/mts/mts_distributed_offsetting_receipts',
     dateField: 'record_date',
     downloadName: 'MTS_DstOffstgRcpt',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
   },
   '123': {
     endpoint: 'v1/debt/mspd/mspd_table_4',
