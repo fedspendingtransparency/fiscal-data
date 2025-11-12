@@ -18,7 +18,6 @@ import { DownloadReportTable } from '../download-report-table/download-report-ta
 import { basicFetch } from '../../../utils/api-utils';
 import { format } from 'date-fns';
 import { convertDate } from '../../dataset-data/dataset-data-helper/dataset-data-helper';
-import { getCache, setCache, makeKey } from './filter-reports-section-helpers/filter-reports-cache';
 import { buildNestedDateOptions } from './filter-reports-section-helpers/date-options';
 
 type Props = {
@@ -39,6 +38,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [filterOptions, setFilterOptions] = useState<Array<{ label: string; value: string }>>([defaultSelection]);
   const [filterDropdownActive, setFilterDropdownActive] = useState(false);
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
+  const [isLoadingFilterOptions, setIsLoadingFilterOptions] = useState(false);
 
   const [earliestDate, setEarliest] = useState<Date | undefined>();
   const [latestDate, setLatest] = useState<Date | undefined>();
@@ -50,9 +50,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [dateOptionsNested, setDateOptionsNested] = useState<
     Array<{ label: string; isLabel?: boolean; children?: Array<{ label: string; value: string }> }>
   >([]);
+  const [isLoadingDates, setIsLoadingDates] = useState(false);
 
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
+  const [isLoadingReports, setIsLoadingReports] = useState(false);
 
   const {
     filterLabel = 'Account',
@@ -75,6 +77,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const isSpecial = !!specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label;
   const useCusipFirst = Boolean(cusipFirst) && Boolean(dataTableRequest);
 
+  // Set up date ranges from APIs
   useEffect(() => {
     if (!apis?.length) return;
     const e = new Date(Math.min(...apis.map(a => +new Date(a.earliestDate))));
@@ -89,7 +92,8 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   }, [apis]);
 
   useEffect(() => {
-    const cacheSeed = async () => {
+    const loadFilterOptions = async () => {
+      setIsLoadingFilterOptions(true);
       const base: Array<{ label: string; value: string }> = [defaultSelection];
 
       if (specialAnnouncement) {
@@ -99,11 +103,13 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       if (optionValues?.length) {
         optionValues.forEach(v => base.push({ label: v, value: v }));
         setFilterOptions(base);
+        setIsLoadingFilterOptions(false);
         return;
       }
 
       if (!apis?.length || !filterField) {
         setFilterOptions(base);
+        setIsLoadingFilterOptions(false);
         return;
       }
 
@@ -113,13 +119,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         `?fields=${encodeURIComponent(filterField)}` +
         `&sort=${encodeURIComponent(filterField)}` +
         `&page[size]=10000`;
-      //Get report names from raw data table
-      const cacheKey = makeKey('opts', datasetId, endpoint, filterField);
-      const cached = getCache<Array<{ label: string; value: string }>>(cacheKey);
-      if (cached) {
-        setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...cached]);
-        return;
-      }
 
       try {
         const res = await basicFetch(url);
@@ -134,23 +133,20 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
             )
           : [];
         const opts = vals.map(v => ({ label: v, value: v }));
-        setCache(cacheKey, opts, 1000 * 60 * 60 * 24);
         setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...opts]);
       } catch {
         setFilterOptions(base);
+      } finally {
+        setIsLoadingFilterOptions(false);
       }
     };
-    cacheSeed();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    loadFilterOptions();
   }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
-  // Fetch dates for selected CUSIP
+
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
     const { endpoint } = apis[0];
     const { dateField } = dataTableRequest!;
-    const cacheKey = makeKey('dates', datasetId, endpoint, filterField, cusipValue);
-
-    const cached = getCache<string[]>(cacheKey);
-    if (cached) return cached;
 
     const url =
       `${API_BASE_URL}/services/api/fiscal_service/${endpoint}` +
@@ -162,7 +158,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     try {
       const res = await basicFetch(url);
       const dates: string[] = Array.isArray(res?.data) ? Array.from(new Set(res.data.map((row: any) => row?.[dateField]).filter(Boolean))) : [];
-      setCache(cacheKey, dates, 1000 * 60 * 60);
       return dates;
     } catch {
       return [];
@@ -170,18 +165,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   };
 
   const fetchAvailableDatesForAnnouncement = async (pathContains: string): Promise<string[]> => {
-    const { endpoint } = apis[0] || ({} as any);
-    const cacheKey = makeKey('ann_dates', datasetId, endpoint || 'pf', pathContains);
-
-    const cached = getCache<string[]>(cacheKey);
-    if (cached) return cached;
-
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}` + `&path_contains=${encodeURIComponent(pathContains)}`;
 
     try {
       const res = await basicFetch(url);
       const dates = Array.isArray(res) ? Array.from(new Set(res.map((r: any) => r?.report_date).filter(Boolean))) : [];
-      setCache(cacheKey, dates, 1000 * 60 * 60);
       return dates;
     } catch {
       return [];
@@ -191,18 +179,17 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const fetchPublishedReports = async (fileName: string, date: Date | null = null, firstMatch = false) => {
     const url = `${API_BASE_URL}/services/dtg/publishedfiles?dataset_id=${datasetId}&path_contains=${fileName}`;
     try {
-      return await basicFetch(url).then((res: any[]) => {
-        let matchingReports = res;
-        if (date) {
-          const formatted = format(date, 'yyyy-MM-dd');
-          matchingReports = res.filter(r => r.report_date === formatted);
-        }
-        matchingReports.forEach(r => {
-          const d = r.report_date;
-          r.report_date = convertDate(d);
-        });
-        return firstMatch ? matchingReports[0] : matchingReports;
+      const res = await basicFetch(url);
+      let matchingReports = res;
+      if (date) {
+        const formatted = format(date, 'yyyy-MM-dd');
+        matchingReports = res.filter((r: any) => r.report_date === formatted);
+      }
+      matchingReports.forEach((r: any) => {
+        const d = r.report_date;
+        r.report_date = convertDate(d);
       });
+      return firstMatch ? matchingReports[0] : matchingReports;
     } catch {
       return null;
     }
@@ -213,20 +200,21 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     const { dateField, fields } = dataTableRequest!;
     const filters = `${dateField}:eq:${dateStr},${filterField}:eq:${filterValue}`;
     const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${filters}&fields=${fields}`;
+
     try {
-      return await basicFetch(url).then((res: any) => {
-        const matching = res?.data;
-        const all: Array<Promise<any>> = [];
-        if (matching?.length > 0) {
-          reportFields.forEach(fileKey => {
-            const reportName = matching[0][fileKey];
-            if (reportName && reportName !== 'null') {
-              all.push(fetchPublishedReports('/' + reportName, null, true));
-            }
-          });
+      const res = await basicFetch(url);
+      const matching = res?.data;
+      const all: Array<Promise<any>> = [];
+
+      if (matching?.length > 0) {
+        for (const fileKey of reportFields) {
+          const reportName = matching[0][fileKey];
+          if (reportName && reportName !== 'null') {
+            all.push(fetchPublishedReports('/' + reportName, null, true));
+          }
         }
-        return all;
-      });
+      }
+      return all;
     } catch {
       setApiError(true);
       return null;
@@ -240,6 +228,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     if (useCusipFirst) {
       setSelectedDate(undefined);
       setSelectedDateStr('');
+      setDateOptionsNested([]);
     }
   };
 
@@ -252,27 +241,36 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   };
 
   useEffect(() => {
-    (async () => {
-      if (!useCusipFirst) return;
+    if (!useCusipFirst || !selectedOption.value) {
+      setDateOptionsNested([]);
+      return;
+    }
 
-      if (!selectedOption.value) {
-        setDateOptionsNested([]);
-        return;
-      }
+    const loadDates = async () => {
+      setIsLoadingDates(true);
+      try {
+        let isoDates: string[] = [];
 
-      if (isSpecial) {
-        const isoDates = await fetchAvailableDatesForAnnouncement((specialAnnouncement as any).value);
+        if (isSpecial) {
+          isoDates = await fetchAvailableDatesForAnnouncement((specialAnnouncement as any).value);
+        } else {
+          isoDates = await fetchAvailableDatesForCusip(selectedOption.value);
+        }
+
         setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
-        return;
+      } catch (error) {
+        console.error('Error loading dates:', error);
+        setDateOptionsNested([]);
+      } finally {
+        setIsLoadingDates(false);
       }
+    };
 
-      const isoDates = await fetchAvailableDatesForCusip(selectedOption.value);
-      setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
-    })();
-  }, [useCusipFirst, selectedOption?.value, isSpecial, dateFilterType, specialAnnouncement]);
-  // Fetch reports
+    loadDates();
+  }, [useCusipFirst, selectedOption.value, isSpecial, dateFilterType, specialAnnouncement]);
+
   useEffect(() => {
-    (async () => {
+    const loadReports = async () => {
       const haveCusip = !!selectedOption.value;
       const haveDate = useCusipFirst ? !!selectedDateStr : !!selectedDate;
 
@@ -282,6 +280,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
 
+      setIsLoadingReports(true);
       try {
         let allReports: any[] | null = [];
 
@@ -298,16 +297,23 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         }
 
         if (allReports) {
-          Promise.all(allReports).then(setReports);
+          const resolvedReports = await Promise.all(allReports);
+          setReports(resolvedReports.filter(Boolean));
+          setApiError(resolvedReports.filter(Boolean).length === 0);
         } else {
           setReports([]);
+          setApiError(true);
         }
-        setApiError(!allReports || allReports.length === 0);
-      } catch {
+      } catch (error) {
+        console.error('Error loading reports:', error);
         setApiError(true);
         setReports([]);
+      } finally {
+        setIsLoadingReports(false);
       }
-    })();
+    };
+
+    loadReports();
   }, [useCusipFirst, selectedOption, selectedDate, selectedDateStr, isSpecial, dataTableRequest, specialAnnouncement]);
 
   const accountDropdownButton = (
@@ -317,6 +323,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       active={filterDropdownActive}
       setActive={setFilterDropdownActive}
       muiIcon={<AccountBox />}
+      loading={isLoadingFilterOptions}
     />
   );
 
@@ -337,6 +344,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       dropdownWidth="20rem"
       disabled={useCusipFirst && !selectedOption.value}
       icon={faCalendar}
+      loading={isLoadingDates}
     />
   );
 
@@ -413,11 +421,13 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         )}
       </div>
 
-      {!showTable && (
+      {isLoadingReports && <div>Loading reports...</div>}
+
+      {!isLoadingReports && !showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
 
-      {showTable && (
+      {!isLoadingReports && showTable && (
         <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
       )}
     </DatasetSectionContainer>

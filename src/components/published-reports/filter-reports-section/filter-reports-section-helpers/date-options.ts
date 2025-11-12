@@ -1,17 +1,20 @@
 import { format } from 'date-fns';
 
 export const buildNestedDateOptions = (
-  isDates: string[],
+  isoDates: string[],
   isByDay: boolean
-): Array<{ label: string; isLabel: true; children: Array<{ label: string; value: string }> }> => {
+): Array<{ label: string; isLabel?: boolean; children?: Array<{ label: string; value: string }> }> => {
   const groups: Record<string, { label: string; children: Array<{ label: string; value: string }> }> = {};
 
-  isDates.forEach(iso => {
+  isoDates.forEach(iso => {
     const d = new Date(`${iso}T00:00:00`);
     const year = String(d.getFullYear());
     const childLabel = isByDay ? format(d, 'MMMM d, yyyy') : format(d, 'MMMM yyyy');
 
-    if (!groups[year]) groups[year] = { label: year, children: [] };
+    if (!groups[year]) {
+      groups[year] = { label: year, children: [] };
+    }
+
     if (!groups[year].children.some(c => c.value === iso)) {
       groups[year].children.push({ label: childLabel, value: iso });
     }
