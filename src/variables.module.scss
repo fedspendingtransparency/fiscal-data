@@ -11,6 +11,7 @@ $explainer-page-width: 1400px;
 
 $font-title: #555555;
 $font-body-copy: #666666;
+
 // The most common font sizes and their appropriate rem conversions are seen below
 $font-size-10: 0.625rem;
 $font-size-12: 0.75rem;
@@ -31,6 +32,7 @@ $font-size-56: 3.5rem;
 $font-size-64: 4rem;
 $loading-icon-size: 4rem;
 
+// Colors that have been reused across our project
 $api-header: #f6f6f6;
 $placeholder: #a8a8a8;
 $dark-slate-blue: #112e51;
@@ -102,12 +104,12 @@ $treasury-savings-bonds-explainer-darker-secondary: #864381;
 $treasury-savings-bonds-explainer-light-secondary: #f8f0f9;
 $treasury-savings-bonds-explainer-hero: #b699c6;
 
-// Insights pages
+// Insight pages
 $interest-expense-primary: #00796b;
 $state-and-local-government-series-primary: #a4bcfd;
 $state-and-local-government-series-light: #a4bcfd66;
 
-//Data table
+// Data table
 $table-border-style: 1px solid $light-grey-border;
 
 @mixin focus-outline {

@@ -1,7 +1,7 @@
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import Point from '../../../components/nivo/custom-point/point';
-import { fontSize_10, fontSize_14 } from '../explainer.module.scss';
+import { fontSize_10, fontSize_14 } from '../../../variables.module.scss';
 import React from 'react';
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   // this function rewrites some element attribs after render to ensure Chart scales with container
