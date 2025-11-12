@@ -38,7 +38,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [filterOptions, setFilterOptions] = useState<Array<{ label: string; value: string }>>([defaultSelection]);
   const [filterDropdownActive, setFilterDropdownActive] = useState(false);
   const [filterSearchBarActive, setFilterSearchBarActive] = useState(false);
-  const [isLoadingFilterOptions, setIsLoadingFilterOptions] = useState(false);
 
   const [earliestDate, setEarliest] = useState<Date | undefined>();
   const [latestDate, setLatest] = useState<Date | undefined>();
@@ -50,11 +49,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
   const [dateOptionsNested, setDateOptionsNested] = useState<
     Array<{ label: string; isLabel?: boolean; children?: Array<{ label: string; value: string }> }>
   >([]);
-  const [isLoadingDates, setIsLoadingDates] = useState(false);
 
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
-  const [isLoadingReports, setIsLoadingReports] = useState(false);
 
   const {
     filterLabel = 'Account',
@@ -93,7 +90,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   useEffect(() => {
     const loadFilterOptions = async () => {
-      setIsLoadingFilterOptions(true);
       const base: Array<{ label: string; value: string }> = [defaultSelection];
 
       if (specialAnnouncement) {
@@ -103,13 +99,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       if (optionValues?.length) {
         optionValues.forEach(v => base.push({ label: v, value: v }));
         setFilterOptions(base);
-        setIsLoadingFilterOptions(false);
         return;
       }
 
       if (!apis?.length || !filterField) {
         setFilterOptions(base);
-        setIsLoadingFilterOptions(false);
         return;
       }
 
@@ -136,8 +130,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         setFilterOptions([defaultSelection, ...(specialAnnouncement ? [specialAnnouncement as any] : []), ...opts]);
       } catch {
         setFilterOptions(base);
-      } finally {
-        setIsLoadingFilterOptions(false);
       }
     };
 
@@ -247,7 +239,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     }
 
     const loadDates = async () => {
-      setIsLoadingDates(true);
       try {
         let isoDates: string[] = [];
 
@@ -261,8 +252,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       } catch (error) {
         console.error('Error loading dates:', error);
         setDateOptionsNested([]);
-      } finally {
-        setIsLoadingDates(false);
       }
     };
 
@@ -280,7 +269,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         return;
       }
 
-      setIsLoadingReports(true);
       try {
         let allReports: any[] | null = [];
 
@@ -308,8 +296,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         console.error('Error loading reports:', error);
         setApiError(true);
         setReports([]);
-      } finally {
-        setIsLoadingReports(false);
       }
     };
 
@@ -323,7 +309,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       active={filterDropdownActive}
       setActive={setFilterDropdownActive}
       muiIcon={<AccountBox />}
-      loading={isLoadingFilterOptions}
     />
   );
 
@@ -344,7 +329,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       dropdownWidth="20rem"
       disabled={useCusipFirst && !selectedOption.value}
       icon={faCalendar}
-      loading={isLoadingDates}
     />
   );
 
@@ -421,13 +405,11 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
         )}
       </div>
 
-      {isLoadingReports && <div>Loading reports...</div>}
-
-      {!isLoadingReports && !showTable && (
+      {!showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
 
-      {!isLoadingReports && showTable && (
+      {showTable && (
         <DownloadReportTable isDailyReport={dateFilterType === 'byDay'} reports={reports} setApiErrorMessage={setApiError} width={width} />
       )}
     </DatasetSectionContainer>
