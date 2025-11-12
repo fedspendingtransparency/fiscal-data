@@ -1,5 +1,4 @@
-import { fontBodyCopy } from '../../../../../../variables.module.scss';
-import { deficitExplainerSecondary } from '../../../../../../variables.module.scss';
+import { fontBodyCopy, deficitExplainerSecondary } from '../../../../../../variables.module.scss';
 
 export const desktopHeight = 288;
 export const mobileHeight = 208;
