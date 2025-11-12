@@ -655,7 +655,6 @@ const endpointConfig = {
     endpoint: 'v1/accounting/mts/mts_receipts_outlays_deficit_surplus',
     dateField: 'record_date',
     downloadName: 'MTS_RcptOutlyDfctSur_Series',
-    alwaysSortWith: ['record_date', 'src_line_nbr'],
     dataDisplays: [
       {
         title: 'Receipt and Outlay Amounts',
@@ -697,6 +696,7 @@ const endpointConfig = {
     endpoint: '/v1/accounting/mts/mts_distributed_offsetting_receipts',
     dateField: 'record_date',
     downloadName: 'MTS_DstOffstgRcpt',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
   },
   '123': {
     endpoint: 'v1/debt/mspd/mspd_table_4',
