@@ -1,5 +1,4 @@
 @use 'src/variables.module' as *;
-$border-color: #d9d9d9;
 
 .dropdownContainer {
   width: 100%;
@@ -20,7 +19,7 @@ $border-color: #d9d9d9;
 }
 
 .fullBorderContainer {
-  border: solid 1px $border-color;
+  border: solid 1px $light-grey-border;
 }
 
 .hoverContainer {
@@ -57,10 +56,10 @@ $border-color: #d9d9d9;
 }
 
 .activeDropdown {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  box-shadow: 0 0 0 0.25rem $primary-blue;
 }
 
 .activeSearchBar,
 .activeDropdown {
-  border: solid 1px #0071bc;
+  border: solid 1px $primary;
 }

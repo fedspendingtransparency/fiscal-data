@@ -7,12 +7,12 @@
 .publisher_count {
   font-style: italic;
   font-size: 12px;
-  color: #555555;
+  color: $font-title;
 }
 
 .publisher_chevron {
   transform: translate(-4px);
-  color: #0071bc;
+  color: $primary;
 }
 
 .publisher_outer_container {

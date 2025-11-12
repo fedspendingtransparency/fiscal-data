@@ -21,10 +21,10 @@
   padding: 1rem;
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid $light-grey-border;
 
   .applyButton {
-    background-color: #0071bc;
+    background-color: $primary;
     border-radius: 3px;
     border: none;
     color: white;

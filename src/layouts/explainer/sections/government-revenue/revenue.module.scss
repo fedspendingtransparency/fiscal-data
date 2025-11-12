@@ -1,9 +1,5 @@
 @use 'src/variables.module' as *;
 
-$revenue-explainer-primary: #0a2f5a;
-$revenue-explainer-secondary: #0a2f5a;
-$revenue-explainer-light-secondary: #9dabbd;
-
 .revenueAccordion {
   margin-top: 2rem;
 
@@ -38,10 +34,4 @@ $revenue-explainer-light-secondary: #9dabbd;
     border: solid 0.06rem $revenue-explainer-primary;
     border-radius: 0.13rem;
   }
-}
-
-:export {
-  revenueExplainerPrimary: $revenue-explainer-primary;
-  revenueExplainerSecondary: $revenue-explainer-secondary;
-  revenueExplainerLightSecondary: $revenue-explainer-light-secondary;
 }

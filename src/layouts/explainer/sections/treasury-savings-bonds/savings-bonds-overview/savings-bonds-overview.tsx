@@ -1,5 +1,5 @@
 import QuoteBox from '../../../quote-box/quote-box';
-import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../../../../../variables.module.scss';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons/faCalculator';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';

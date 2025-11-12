@@ -1,7 +1,7 @@
 @use 'src/variables.module' as *;
 
 .wrapper {
-  background-color: #ffffff;
+  background-color: $content-section-background;
   height: calc(100% - 2rem);
   box-shadow: 0 -10px 13px -8px rgba(0, 0, 0, 0.2);
   text-align: center;

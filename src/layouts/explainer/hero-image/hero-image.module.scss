@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #666666;
+  color: $hero-primary-text;
   text-align: center;
   padding: 2.25rem 0.625rem 2.813rem;
   .heroImageHeading {
@@ -34,13 +34,13 @@
     margin-top: 1rem;
     display: flex;
     align-items: flex-start;
-    border: solid 0.063rem #f1f1f1;
-    box-shadow: 0.25rem 0.25rem #f1f1f1;
+    border: solid 0.063rem $hero-split-flap-background;
+    box-shadow: 0.25rem 0.25rem $hero-split-flap-background;
     padding: 0.7rem 2rem 0.7rem 2rem;
     max-width: 71.25rem;
 
     .icon {
-      color: #0071bc;
+      color: $primary;
       height: 2.5rem;
       width: 2.25rem;
       padding-right: 1rem;
@@ -133,7 +133,7 @@
     width: 4rem;
     font-size: $font-size-14;
     font-weight: 600;
-    color: #666666;
+    color: $hero-primary-text;
     padding-top: 0.25rem;
   }
 
@@ -143,7 +143,7 @@
     width: 4rem;
     font-size: $font-size-14;
     font-weight: 600;
-    color: #666666;
+    color: $hero-primary-text;
     padding-top: 0.25rem;
   }
 }

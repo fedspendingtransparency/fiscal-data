@@ -1,6 +1,5 @@
-@use '../../../../../../variables.module.scss' as *;
-@use '../../../../../../zIndex.module.scss' as *;
-@use '../../national-deficit.module' as *;
+@use 'src/variables.module' as *;
+@use 'src/zIndex.module' as *;
 
 .tabEdgeLeft {
   position: absolute;
@@ -53,7 +52,7 @@
   left: -4.9px;
   right: -4.8px;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: $content-section-background;
   z-index: $illustration-whiteout;
 }
 
@@ -65,7 +64,7 @@
   top: 2.25rem;
   position: absolute;
   max-width: 542px;
-  background-color: #ffffff;
+  background-color: $content-section-background;
   z-index: $illustration-whiteout;
   min-height: 1.5rem;
   min-width: 1rem;

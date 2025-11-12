@@ -28,8 +28,8 @@
   }
 
   &.selected {
-    color: #ffffff;
-    background: #f1f1f1;
+    color: $content-section-background;
+    background: $body-background;
   }
 }
 

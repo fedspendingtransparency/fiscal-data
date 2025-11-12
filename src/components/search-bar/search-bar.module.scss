@@ -35,17 +35,17 @@
     &.searchIconHover {
       cursor: pointer;
       &:hover {
-        border-color: #d9d9d9;
+        border-color: $light-grey-border;
       }
     }
   }
 }
 
 .glow {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
 }
 
 .disabledBackground {
-  background-color: #f1f1f1;
+  background-color: $body-background;
 }

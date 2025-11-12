@@ -26,7 +26,7 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValueLoadable } from 'recoil';
 import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-import { debtExplainerPrimary } from '../../national-debt.module.scss';
+import { debtExplainerPrimary } from '../../../../../../variables.module.scss';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerDebt100Yrs;

@@ -17,7 +17,7 @@
     background-color: inherit;
     border-bottom: 0.125rem solid transparent;
     font-size: $font-size-16;
-    color: #666666;
+    color: $font-body-copy;
     height: 100%;
   }
 
@@ -52,7 +52,7 @@
     z-index: $menu-dropdown;
 
     link {
-      color: #0071bc;
+      color: $primary;
 
       &:hover {
         font-weight: $semi-bold-weight;

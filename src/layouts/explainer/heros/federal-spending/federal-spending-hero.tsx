@@ -1,7 +1,7 @@
 import { flapWrapper, footNotes, footNotesPillData, heroImageSubHeading } from '../../hero-image/hero-image.module.scss';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { getChangeLabel, getFootNotesDateRange, getPillData, spendingUrl } from '../hero-helper';
-import { spendingExplainerPrimary } from '../../sections/federal-spending/federal-spending.module.scss';
+import { spendingExplainerPrimary } from '../../../../variables.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';

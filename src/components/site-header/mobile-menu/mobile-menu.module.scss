@@ -42,7 +42,7 @@ $menuWidth: 318px;
     top: 0;
     position: fixed;
     overflow-y: scroll;
-    border-left: 4px solid #0071bc;
+    border-left: 4px solid $primary;
   }
 }
 
@@ -52,7 +52,7 @@ $menuWidth: 318px;
   top: 0;
   height: 100vh;
   width: 100vw;
-  background-color: #dddddd;
+  background-color: $border-color;
   opacity: 0;
   transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
   z-index: $mobile-menu-overlay;
@@ -74,7 +74,7 @@ $menuWidth: 318px;
 .pageLinks {
   display: block;
   text-decoration: none;
-  color: #666666;
+  color: $font-body-copy;
   white-space: nowrap;
   padding: 0.875rem 0 0.875rem 1rem;
   font-size: $font-size-16;

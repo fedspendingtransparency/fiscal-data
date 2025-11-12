@@ -1,5 +1,4 @@
 @use 'src/variables.module.scss' as *;
-$interest-expense-primary: #00796b;
 
 .legendContainer {
   padding: 0 0.5rem;
@@ -25,7 +24,7 @@ $interest-expense-primary: #00796b;
   margin-right: 0.2rem;
   display: inline-block;
   width: 20px;
-  border-top: 2px solid #555555;
+  border-top: 2px solid $font-title;
 }
 
 .rectangle {

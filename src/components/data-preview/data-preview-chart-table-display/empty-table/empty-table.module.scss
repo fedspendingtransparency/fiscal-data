@@ -19,7 +19,7 @@ $cell-height: 2.125rem;
   }
 
   th {
-    background-color: #f1f1f1;
+    background-color: $body-background;
     border-bottom: $table-border-style;
   }
 }

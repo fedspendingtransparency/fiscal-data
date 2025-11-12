@@ -2,7 +2,7 @@
 
 .chartContainer {
   margin: 1rem 0 0 0;
-  border: 1px solid #d9d9d9;
+  border: 1px solid $light-grey-border;
   border-radius: 0.25rem;
   width: 100%;
 
@@ -62,7 +62,7 @@
 }
 
 .tableBoarder {
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid $light-grey-border;
 }
 
 .downloadLabelContainer {

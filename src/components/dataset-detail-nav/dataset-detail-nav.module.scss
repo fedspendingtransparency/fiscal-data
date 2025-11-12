@@ -3,7 +3,7 @@
 
 #container {
   background-color: $dark-slate-blue;
-  color: #ffffff;
+  color: $content-section-background;
   box-sizing: border-box;
   position: sticky;
   top: 5.5rem;
@@ -34,7 +34,7 @@
   align-items: center;
 
   a {
-    color: #ffffff;
+    color: $content-section-background;
     text-decoration: none;
     padding: 0.5rem 0.75rem;
     overflow-x: hidden;
@@ -46,7 +46,7 @@
   }
 
   .hoverMenu {
-    background-color: #d9d9d9;
+    background-color: $light-grey-border;
     color: $font-title;
   }
 }
@@ -55,7 +55,7 @@
 }
 
 .mobileIcon {
-  border: 0.125rem solid #ffffff;
+  border: 0.125rem solid $content-section-background;
   border-radius: 6.25rem;
   padding: 0.2rem 0.285rem;
 }

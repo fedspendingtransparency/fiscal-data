@@ -1,7 +1,7 @@
 @use 'src/variables.module' as *;
 
 .glow {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
 
   .dateEntryBox {
@@ -28,12 +28,12 @@
   padding-right: 2.5px;
 }
 .disableDisplay {
-  background-color: #f1f1f1;
+  background-color: $body-background;
   pointer-events: none;
 }
 
 .dateEntryBox {
-  border: 1px solid #d9d9d9;
+  border: 1px solid $light-grey-border;
   min-width: 146px;
   height: 26.4px;
   border-radius: 0.25rem;
@@ -65,12 +65,12 @@
 }
 
 .datePickerSelected:hover {
-  color: #666666;
+  color: $font-body-copy;
 }
 
 .datePickerRangeMiddle {
-  background-color: #e8f5ff;
-  color: #555555;
+  background-color: $primary-blue;
+  color: $font-title;
   border-radius: 0;
 }
 

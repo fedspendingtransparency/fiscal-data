@@ -11,7 +11,7 @@ $buttonWidth: 57px;
   border: none;
   padding: 0.3rem 0.5rem 0;
   cursor: pointer;
-  color: #666666;
+  color: $font-body-copy;
 }
 
 .buttonActivated {
@@ -21,12 +21,12 @@ $buttonWidth: 57px;
   border: none;
   padding: 0 0.5rem 0.625rem;
   cursor: pointer;
-  color: #666666;
+  color: $font-body-copy;
   font-size: 18px;
   margin-left: 1rem;
 }
 
 .menuText {
   @include bodySmallStyle;
-  color: #666666;
+  color: $font-body-copy;
 }

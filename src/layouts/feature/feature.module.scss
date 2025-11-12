@@ -59,11 +59,11 @@
   h5,
   h6 {
     font-weight: $semi-bold-weight;
-    color: #555555;
+    color: $font-title;
   }
 
   p {
-    color: #666666;
+    color: $font-body-copy;
     font-size: 1rem;
     line-height: 1.5;
     margin: 1.5rem auto 1.5rem;
@@ -101,7 +101,7 @@
     }
     .dateStamp {
       display: inline-block;
-      color: #666666;
+      color: $font-body-copy;
 
       .dateValue {
         font-weight: normal;

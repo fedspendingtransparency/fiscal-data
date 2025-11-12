@@ -27,14 +27,14 @@
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
-    color: #555555;
+    color: $font-title;
   }
   .headTitle {
     margin: 0 0 0.5rem 0;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
-    color: #555555;
+    color: $font-title;
     @media screen and (max-width: $breakpoint-lg - 1) {
       margin: 1.5rem 0 0.5rem 0;
     }
@@ -45,14 +45,14 @@
     }
     :global(.accordionHeading) {
       font-size: $font-size-16;
-      color: #0071bc;
+      color: $primary;
       border: none;
       padding: 0.75rem 1rem;
     }
 
     :global(.accordionToggle) {
       svg path {
-        color: #0071bc;
+        color: $primary;
       }
     }
 
@@ -63,7 +63,7 @@
 
     :global(.accordionOpen),
     :global(.accordionClosed) {
-      border: solid 0.06rem #d9d9d9;
+      border: solid 0.06rem $light-grey-border;
       border-radius: 0.13rem;
     }
   }

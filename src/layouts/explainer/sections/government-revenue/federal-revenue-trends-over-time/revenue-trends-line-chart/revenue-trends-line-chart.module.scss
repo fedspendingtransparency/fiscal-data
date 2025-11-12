@@ -127,7 +127,7 @@
   width: 1rem;
   height: 1rem;
   margin-right: 0.5rem;
-  background: #0a2f5a;
+  background: $revenue-explainer-primary;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -201,5 +201,5 @@
   display: inline-block;
   width: 1.5rem;
   height: 1.125rem;
-  background: #0a2f5a;
+  background: $revenue-explainer-primary;
 }

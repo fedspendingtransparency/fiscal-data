@@ -22,7 +22,7 @@ $filter-width: calc($dropdown-width - $search-width - 1px);
     display: flex;
     .search {
       width: $search-width;
-      border-right: 1px solid #d9d9d9;
+      border-right: 1px solid $light-grey-border;
       overflow-y: auto;
     }
 
@@ -37,6 +37,6 @@ $filter-width: calc($dropdown-width - $search-width - 1px);
   }
 
   .footer {
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid $light-grey-border;
   }
 }

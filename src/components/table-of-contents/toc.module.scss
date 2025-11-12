@@ -3,7 +3,7 @@
 .tocHeader {
   @include headingStyle6;
   margin: 0;
-  box-shadow: 0 1px 0 0 #dddddd;
+  box-shadow: 0 1px 0 0 $border-color;
   padding-bottom: 0.6875rem;
   line-height: 1rem;
 }

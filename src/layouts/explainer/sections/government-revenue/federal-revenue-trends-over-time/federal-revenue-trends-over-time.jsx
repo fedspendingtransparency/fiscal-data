@@ -2,7 +2,7 @@ import { textContent } from '../../national-deficit/understanding/understanding-
 import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import React, { useEffect, useState } from 'react';
-import { revenueExplainerPrimary } from '../revenue.module.scss';
+import { revenueExplainerPrimary } from '../../../../../variables.module.scss';
 import RevenueTrendsLineChart from './revenue-trends-line-chart/revenue-trends-line-chart';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';

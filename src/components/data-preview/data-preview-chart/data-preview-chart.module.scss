@@ -122,7 +122,7 @@ $paddingOffset: 87px;
   }
   .legend {
     display: block;
-    background-color: #ffffff;
+    background-color: $content-section-background;
     border-bottom: 1px solid $border-color;
     position: absolute;
     right: 0;

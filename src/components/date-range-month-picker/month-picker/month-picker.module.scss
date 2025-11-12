@@ -4,7 +4,7 @@ $dropdown-width: 13.5rem;
 
 .header {
   display: flex;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid $body-background;
   justify-content: space-between;
   align-items: center;
 }
@@ -40,7 +40,7 @@ $dropdown-width: 13.5rem;
   gap: 10px;
   justify-content: space-between;
   border-radius: 3px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid $light-grey-border;
   background: #fff;
   width: $dropdown-width;
   color: $font-body-copy;
@@ -57,7 +57,7 @@ $dropdown-width: 13.5rem;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
   margin-top: 0.125rem;
   width: $dropdown-width;
-  border: 1px solid #f1f1f1;
+  border: 1px solid $body-background;
   border-radius: 0.25rem;
 }
 

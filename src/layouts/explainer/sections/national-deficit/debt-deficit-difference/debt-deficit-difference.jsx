@@ -1,4 +1,5 @@
-import { deficitExplainerPrimary, deficitAccordion } from '../national-deficit.module.scss';
+import { deficitExplainerPrimary } from '../../../../../variables.module.scss';
+import { deficitAccordion } from '../national-deficit.module.scss';
 import { deficitDebtDifferenceContent, deficitDebtDifferenceVisContainer, deficitDebtdifferenceImg } from './debt-deficit-difference.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
 import React from 'react';

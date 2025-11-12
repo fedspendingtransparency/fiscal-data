@@ -1,4 +1,4 @@
-import { deficitExplainerLightSecondary } from '../../national-deficit.module.scss';
+import { deficitExplainerLightSecondary } from '../../../../../../variables.module.scss';
 import {
   folderVis,
   folderVisContainer,

@@ -3,7 +3,7 @@ import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key
 import reactStringReplace from 'react-string-replace';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import { faChartColumn, faCoins, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
-import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../national-deficit.module.scss';
+import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../../../../../variables.module.scss';
 
 import useFetchSurplusCount from '../understanding/deficit-surplus-count-helper';
 import { numberToWord } from '../../../explainer-helpers/national-deficit/national-deficit-helper';

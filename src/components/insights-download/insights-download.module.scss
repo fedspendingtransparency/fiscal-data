@@ -15,9 +15,9 @@
 .downloadButton {
   font-size: 14px;
   text-align: left;
-  color: #0071bc;
+  color: $primary;
   border: none;
-  background-color: #ffffff;
+  background-color: $content-section-background;
   cursor: pointer;
   display: flex;
   flex-direction: row;

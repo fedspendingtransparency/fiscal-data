@@ -12,13 +12,13 @@
 }
 
 .headerStyle {
-  color: #555555;
+  color: $font-title;
   font-size: 18px;
   font-weight: 600;
 }
 
 .subHeader {
-  color: #666666;
+  color: $font-body-copy;
   font-size: 16px;
   margin-bottom: 16px;
   margin-right: 22px;
@@ -58,7 +58,7 @@
 }
 
 .percentOrDollarContainer {
-  color: #666666;
+  color: $font-body-copy;
   font-weight: 600;
   min-width: 50px;
   font-size: 14px;
@@ -93,7 +93,7 @@
   margin-bottom: 2%;
   cursor: pointer;
   height: 32px;
-  border: 2px solid #00766c;
+  border: 2px solid $spending-explainer-primary;
 }
 
 .loadingIcon {

@@ -11,6 +11,7 @@ $explainer-page-width: 1400px;
 
 $font-title: #555555;
 $font-body-copy: #666666;
+
 // The most common font sizes and their appropriate rem conversions are seen below
 $font-size-10: 0.625rem;
 $font-size-12: 0.75rem;
@@ -31,6 +32,7 @@ $font-size-56: 3.5rem;
 $font-size-64: 4rem;
 $loading-icon-size: 4rem;
 
+// Colors that have been reused across our project
 $api-header: #f6f6f6;
 $placeholder: #a8a8a8;
 $dark-slate-blue: #112e51;
@@ -73,12 +75,6 @@ $hero-split-flap-background: #f1f1f1;
 $info-header-focal: $deep-blue;
 $info-header: $near-black;
 $table-notice-color: #eff6fb;
-
-// Explainer pages
-$debt-explainer-primary: #4a0072;
-$debt-explainer-secondary: #3b005b;
-$debt-explainer-light-secondary: #b699c6;
-$debt-explainer-light-secondary-split-flap-background: #5355ad; // rgba($debt-explainer-light-secondary, .25);
 $focus: #2b71b8;
 $card-body: #555555;
 $main-width: 1140px;
@@ -86,8 +82,34 @@ $dd-border-color: #d6d7d9;
 $alt-button-active-bg: #eff4fb;
 $info-icon: #00a5d4;
 $pale-bg: #f8f8f8;
+$banner-background: #fff1d2;
 
-//Data table
+// Explainer pages
+$debt-explainer-primary: #4a0072;
+$debt-explainer-secondary: #3b005b;
+$debt-explainer-light-secondary: #b699c6;
+$debt-explainer-light-secondary-split-flap-background: #5355ad; // rgba($debt-explainer-light-secondary, .25);
+$revenue-explainer-primary: #0a2f5a;
+$revenue-explainer-secondary: #0a2f5a;
+$revenue-explainer-light-secondary: #9dabbd;
+$spending-explainer-primary: #00766c;
+$spending-explainer-secondary: #005e56;
+$spending-explainer-light-secondary: #99c8c4;
+$deficit-explainer-primary: #b3532d;
+$deficit-explainer-secondary: #9f4224;
+$deficit-explainer-light-secondary: #e0baab;
+$treasury-savings-bonds-explainer-primary: #3b005b;
+$treasury-savings-bonds-explainer-secondary: #b04abd;
+$treasury-savings-bonds-explainer-darker-secondary: #864381;
+$treasury-savings-bonds-explainer-light-secondary: #f8f0f9;
+$treasury-savings-bonds-explainer-hero: #b699c6;
+
+// Insight pages
+$interest-expense-primary: #00796b;
+$state-and-local-government-series-primary: #a4bcfd;
+$state-and-local-government-series-light: #a4bcfd66;
+
+// Data table
 $table-border-style: 1px solid $light-grey-border;
 
 @mixin focus-outline {
@@ -416,4 +438,21 @@ $table-border-style: 1px solid $light-grey-border;
   debtExplainerPrimary: $debt-explainer-primary;
   debtExplainerSecondary: $debt-explainer-secondary;
   debtExplainerLightSecondary: $debt-explainer-light-secondary;
+  revenueExplainerPrimary: $revenue-explainer-primary;
+  revenueExplainerSecondary: $revenue-explainer-secondary;
+  revenueExplainerLightSecondary: $revenue-explainer-light-secondary;
+  spendingExplainerPrimary: $spending-explainer-primary;
+  spendingExplainerSecondary: $spending-explainer-secondary;
+  spendingExplainerLightSecondary: $spending-explainer-light-secondary;
+  deficitExplainerPrimary: $deficit-explainer-primary;
+  deficitExplainerSecondary: $deficit-explainer-secondary;
+  deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
+  treasurySavingsBondsExplainerPrimary: $treasury-savings-bonds-explainer-primary;
+  treasurySavingsBondsExplainerSecondary: $treasury-savings-bonds-explainer-secondary;
+  treasurySavingsBondsExplainerDarkerSecondary: $treasury-savings-bonds-explainer-darker-secondary;
+  treasurySavingsBondsExplainerLightSecondary: $treasury-savings-bonds-explainer-light-secondary;
+  treasurySavingsBondsExplainerHero: $treasury-savings-bonds-explainer-hero;
+  interestExpensePrimary: $interest-expense-primary;
+  stateAndLocalGovernmentSeriesPrimary: $state-and-local-government-series-primary;
+  stateAndLocalGovernmentSeriesLight: $state-and-local-government-series-light;
 }

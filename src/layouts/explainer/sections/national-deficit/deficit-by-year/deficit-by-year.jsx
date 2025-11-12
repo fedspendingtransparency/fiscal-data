@@ -1,4 +1,4 @@
-import { deficitExplainerPrimary } from '../national-deficit.module.scss';
+import { deficitExplainerPrimary } from '../../../../../variables.module.scss';
 import React from 'react';
 import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';

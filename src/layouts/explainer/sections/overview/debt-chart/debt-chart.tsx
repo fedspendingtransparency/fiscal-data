@@ -1,11 +1,10 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
-import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import ChartLegend from '../chart-components/chart-legend';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { trillionAxisFormatter } from '../chart-helper';
-import { debtExplainerPrimary } from '../../../explainer.module.scss';
+import { debtExplainerPrimary, deficitExplainerPrimary } from '../../../../../variables.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 import { debtEndpointUrl, deficitEndpointUrl, legendItems, tickCountXAxis } from './debt-chart-helper';
