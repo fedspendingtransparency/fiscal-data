@@ -285,7 +285,7 @@ const explainerCitations = page => {
       </CustomLink>
     ),
     gps: (
-      <CustomLink url="https://www.gps.gov/policy/funding/" onClick={() => analyticsEventHandler('GPS.gov', `${page} Citation Click`)}>
+      <CustomLink url="https://www.gps.gov/program-funding-0" onClick={() => analyticsEventHandler('GPS.gov', `${page} Citation Click`)}>
         GPS.gov
       </CustomLink>
     ),
