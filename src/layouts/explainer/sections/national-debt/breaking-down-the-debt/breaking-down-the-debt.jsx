@@ -337,6 +337,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                 onMouseEnter={handleMouseEnterInterestChart}
                 onMouseLeave={handleMouseLeaveInterestChart}
                 role="presentation"
+                data-testid="bigChart"
               >
                 <p className={`${title} ${simple}`}>
                   Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}
