@@ -151,10 +151,11 @@ describe('Breaking Down the Debt', () => {
   });
 
   it('calls the appropriate analytics event when the mouse hovers over the chart', async () => {
+    jest.useFakeTimers();
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = await findByTestId('bigChart');
+    const chart = await findByTestId('debt-breakdown-section-graph');
     expect(chart).toBeInTheDocument();
     fireEvent.mouseOver(chart);
     jest.runAllTimers();
@@ -163,7 +164,8 @@ describe('Breaking Down the Debt', () => {
         event: 'chart-hover-interest-total-debt',
       })
     );
-    fireEvent.mouseLeave(chart);
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
