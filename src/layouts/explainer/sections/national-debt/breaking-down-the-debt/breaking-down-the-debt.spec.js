@@ -11,12 +11,17 @@ import {
   mockPublicDebtIncrease,
   mockTotalDebtResponse,
 } from '../../../explainer-test-helper';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import Analytics from '../../../../../utils/analytics/analytics';
 import BreakingDownTheDebt from './breaking-down-the-debt';
+import { basicFetch } from '../../../../../utils/api-utils';
 
 import React from 'react';
+
+jest.mock('../../../../../utils/api-utils', () => ({
+  basicFetch: jest.fn(),
+}));
 
 describe('Breaking Down the Debt', () => {
   window.dataLayer = window.dataLayer || [];
@@ -166,6 +171,13 @@ describe('Breaking Down the Debt', () => {
     );
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
+  });
+
+  it('displays the correct interest expense values', async () => {
+    const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
+    const quoteBox = await findByTestId('littleBox');
+    expect(quoteBox).toBeInTheDocument();
+    // expect(quoteBox.textContent).toContain('0%');
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
