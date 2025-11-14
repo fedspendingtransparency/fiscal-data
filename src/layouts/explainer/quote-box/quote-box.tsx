@@ -28,6 +28,7 @@ const QuoteBox: FunctionComponent<QuoteBoxProps> = ({ icon, primaryColor, second
           boxShadow: `.25rem .25rem ${secondaryColor}`,
           marginBottom: customBottomMargin,
         }}
+        data-testid="littleBox"
       >
         {children}
       </div>

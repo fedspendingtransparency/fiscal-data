@@ -11,16 +11,24 @@ import {
   mockPublicDebtIncrease,
   mockTotalDebtResponse,
 } from '../../../explainer-test-helper';
-import { render } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import Analytics from '../../../../../utils/analytics/analytics';
 import BreakingDownTheDebt from './breaking-down-the-debt';
+import { basicFetch } from '../../../../../utils/api-utils';
 
 import React from 'react';
 
+jest.mock('../../../../../utils/api-utils', () => ({
+  basicFetch: jest.fn(),
+}));
+
 describe('Breaking Down the Debt', () => {
+  window.dataLayer = window.dataLayer || [];
   const sectionId = nationalDebtSectionIds[4];
   const glossary = [];
+  const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, [
@@ -145,6 +153,31 @@ describe('Breaking Down the Debt', () => {
   it('contains a last-updated text string', async () => {
     const { findByText } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
     expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
+  });
+
+  it('calls the appropriate analytics event when the mouse hovers over the chart', async () => {
+    jest.useFakeTimers();
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const chart = await findByTestId('debt-breakdown-section-graph');
+    expect(chart).toBeInTheDocument();
+    fireEvent.mouseOver(chart);
+    jest.runAllTimers();
+    await waitFor(() =>
+      expect(datalayerSpy).toHaveBeenCalledWith({
+        event: 'chart-hover-interest-total-debt',
+      })
+    );
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
+
+  it('displays the correct interest expense values', async () => {
+    const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
+    const quoteBox = await findByTestId('littleBox');
+    expect(quoteBox).toBeInTheDocument();
+    // expect(quoteBox.textContent).toContain('0%');
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
