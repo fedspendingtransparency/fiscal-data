@@ -172,6 +172,7 @@ describe('Breaking Down the Debt', () => {
     );
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
+    fireEvent.mouseLeave(chart);
   });
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
