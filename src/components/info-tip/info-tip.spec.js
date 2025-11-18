@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import InfoTip from './info-tip';
 
 describe('InfoTip', () => {
@@ -9,7 +9,7 @@ describe('InfoTip', () => {
   const clickEvent = jest.fn();
 
   const InfoTipComponent = (
-    <InfoTip title={title} clickEvent={clickEvent}>
+    <InfoTip title={title} clickEvent={clickEvent} displayTitle={displayTitle} hover>
       {body}
     </InfoTip>
   );
@@ -28,45 +28,52 @@ describe('InfoTip', () => {
   it('shows the popup and calls the click event passed to it when clicked on', () => {
     const { getByTestId } = render(InfoTipComponent);
     const button = getByTestId('infoTipButton');
-
-    act(() => {
-      button.click();
-    });
-
+    fireEvent.click(button);
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     expect(clickEvent).toHaveBeenCalled();
   });
 
-  it('shows the popup on hover when hover is true', () => {
-    const { getByTestId } = render(
-      <InfoTip title={title} hover>
-        {body}
-      </InfoTip>
-    );
+  it('shows the popup when the user hovers over it', () => {
+    const { getByTestId } = render(InfoTipComponent);
     const button = getByTestId('infoTipButton');
-
-    act(() => {
-      fireEvent.mouseEnter(button);
-    });
-
+    fireEvent.mouseEnter(button);
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     fireEvent.mouseLeave(button);
   });
 
-  it('shows the popup on hover when hover is true AND shows a header if a title/displayTitle are present', () => {
-    const { getByTestId, getByRole } = render(
-      <InfoTip title={title} displayTitle={displayTitle} hover>
-        {body}
-      </InfoTip>
-    );
+  it('shows the pop up box when hover is true AND it shows a header if a title/displayTitle props are present', () => {
+    const { getByTestId, getByRole } = render(InfoTipComponent);
     const button = getByTestId('infoTipButton');
-
-    act(() => {
-      fireEvent.mouseEnter(button);
-    });
-
+    fireEvent.mouseEnter(button);
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     const header = getByRole('heading', { level: 6 });
     expect(header).toBeInTheDocument();
+  });
+
+  it('removes the pop up box after the mouse hover ends', async () => {
+    const { getByTestId } = render(InfoTipComponent);
+    const button = getByTestId('infoTipButton');
+    fireEvent.mouseEnter(button);
+    const popup = getByTestId('popupContainer');
+    expect(popup).toBeInTheDocument();
+    fireEvent.mouseLeave(popup);
+    await waitFor(() => {
+      expect(popup).not.toBeInTheDocument();
+    });
+  });
+
+  it('removes the pop up box after the user scrolls their mouse', async () => {
+    const { getByTestId } = render(InfoTipComponent);
+    const button = getByTestId('infoTipButton');
+    fireEvent.mouseEnter(button);
+    const popup = getByTestId('popupContainer');
+    expect(popup).toBeInTheDocument();
+    window.pageYOffset = 50;
+    fireEvent.scroll(window);
+    window.pageYOffset = 100;
+    fireEvent.scroll(window);
+    await waitFor(() => {
+      expect(popup).not.toBeInTheDocument();
+    });
   });
 });

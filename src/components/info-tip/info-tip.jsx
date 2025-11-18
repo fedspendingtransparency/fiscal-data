@@ -95,8 +95,6 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     return iconStyle?.color ? iconStyle.color : '#aeb0b5';
   };
 
-  console.log('openState: ', open);
-
   return (
     <span data-testid="infoTipContainer" className={buttonContainer}>
       <button
