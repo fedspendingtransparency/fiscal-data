@@ -15,7 +15,6 @@ import { findByTestId, fireEvent, render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import Analytics from '../../../../../utils/analytics/analytics';
 import BreakingDownTheDebt from './breaking-down-the-debt';
-import { basicFetch } from '../../../../../utils/api-utils';
 
 import React from 'react';
 
