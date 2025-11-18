@@ -5,6 +5,7 @@ import InfoTip from './info-tip';
 describe('InfoTip', () => {
   const title = 'Dataset Keyword Search';
   const body = 'Dataset Keyword Search body content.';
+  const displayTitle = 'Dataset Keyword Search Display Title';
   const clickEvent = jest.fn();
 
   const InfoTipComponent = (
@@ -49,5 +50,23 @@ describe('InfoTip', () => {
     });
 
     expect(getByTestId('popupContainer')).toBeInTheDocument();
+    fireEvent.mouseLeave(button);
+  });
+
+  it('shows the popup on hover when hover is true AND shows a header if a title/displayTitle are present', () => {
+    const { getByTestId, getByRole } = render(
+      <InfoTip title={title} displayTitle={displayTitle} hover>
+        {body}
+      </InfoTip>
+    );
+    const button = getByTestId('infoTipButton');
+
+    act(() => {
+      fireEvent.mouseEnter(button);
+    });
+
+    expect(getByTestId('popupContainer')).toBeInTheDocument();
+    const header = getByRole('heading', { level: 6 });
+    expect(header).toBeInTheDocument();
   });
 });
