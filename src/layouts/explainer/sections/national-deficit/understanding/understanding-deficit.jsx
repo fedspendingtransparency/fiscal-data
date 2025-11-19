@@ -1,5 +1,5 @@
 import { understandingDeficitContainer, textContent } from './understanding-deficit.module.scss';
-import { deficitExplainerPrimary } from '../../../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../national-deficit.module.scss';
 import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import React, { useEffect, useState } from 'react';

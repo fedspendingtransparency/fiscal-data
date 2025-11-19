@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { spendingExplainerPrimary, revenueExplainerPrimary } from '../../../../../../../src/variables.module.scss';
+import { spendingExplainerPrimary } from '../../../federal-spending/federal-spending.module.scss';
+import { revenueExplainerPrimary } from '../../../government-revenue/revenue.module.scss';
 
 interface ICustomDot {
   cx?: number;

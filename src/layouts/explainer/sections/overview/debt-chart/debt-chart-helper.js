@@ -1,4 +1,5 @@
-import { debtExplainerPrimary, deficitExplainerPrimary } from '../../../../../variables.module.scss';
+import { debtExplainerPrimary } from '../../../explainer.module.scss';
+import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 
 export const legendItems = [
   { title: 'Debt', color: debtExplainerPrimary },

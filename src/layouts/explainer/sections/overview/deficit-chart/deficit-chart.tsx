@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { deficitExplainerPrimary, spendingExplainerPrimary, revenueExplainerPrimary } from '../../../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
+import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
+import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
 import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
