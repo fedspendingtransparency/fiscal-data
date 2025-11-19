@@ -69,11 +69,7 @@ const AmericasFinanceGuidePage = ({ width }) => {
       <SiteLayout isPreProd={false}>
         <PageHelmet
           pageTitle="America’s Finance Guide"
-          description={
-            'Your Guide to America’s Finances makes federal financial information open ' +
-            'and accessible to all. Explore U.S. revenue, spending, deficit, and debt with this ' +
-            'open-source guide to federal finance data.'
-          }
+          description="Explore U.S. revenue, spending, deficit, and debt with this simple guide to federal financial data."
           keywords="america's finance guide, us treasury, fiscal data, us government financial data, debt, deficit, revenue, spending"
           image=""
           canonical=""
