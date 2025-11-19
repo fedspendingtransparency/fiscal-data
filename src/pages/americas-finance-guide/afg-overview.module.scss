@@ -1,4 +1,6 @@
 @use '../../variables.module.scss' as *;
+@use '../../layouts/explainer/sections/national-debt/national-debt.module.scss' as *;
+@use '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss' as *;
 
 .mainContainer {
   max-width: $site-content-width;

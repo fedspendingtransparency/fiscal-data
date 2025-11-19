@@ -1,5 +1,6 @@
 @use 'src/variables.module' as *;
 @use 'src/zIndex.module' as *;
+@use '../../national-deficit.module' as *;
 
 .tabEdgeLeft {
   position: absolute;

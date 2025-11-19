@@ -1,6 +1,11 @@
 @use 'src/variables.module' as *;
 @use '../../../../zIndex.module.scss' as *;
 
+$overviewPrimary: #0071bc;
+$revenuePrimary: #0a2f5a;
+$spendingPrimary: #00766c;
+$deficitPrimary: #b3532d;
+$debtPrimary: #4a0072;
 $chevronHeight: 1rem;
 $chevronWidth: calc($chevronHeight / 3);
 
@@ -120,61 +125,61 @@ li.navItem:last-child {
 li.navItem:first-child {
   border-start-start-radius: 1rem;
   border-end-start-radius: 1rem;
-  background-color: $primary;
+  background-color: $overviewPrimary;
 }
 
 .navItem.overview {
-  background-color: $primary;
+  background-color: $overviewPrimary;
 }
 
 .frontChevron.overview {
-  border-left: $chevronWidth solid $primary;
+  border-left: $chevronWidth solid $overviewPrimary;
 }
 
 .navItem.revenue {
-  background-color: $revenue-explainer-primary;
+  background-color: $revenuePrimary;
 }
 
 .backChevron.revenue {
-  border-top: $chevronHeight solid $revenue-explainer-primary;
-  border-bottom: $chevronHeight solid $revenue-explainer-primary;
+  border-top: $chevronHeight solid $revenuePrimary;
+  border-bottom: $chevronHeight solid $revenuePrimary;
 }
 
 .frontChevron.revenue {
-  border-left: $chevronWidth solid $revenue-explainer-primary;
+  border-left: $chevronWidth solid $revenuePrimary;
 }
 
 .navItem.spending {
-  background-color: $spending-explainer-primary;
+  background-color: $spendingPrimary;
 }
 
 .backChevron.spending {
-  border-top: $chevronHeight solid $spending-explainer-primary;
-  border-bottom: $chevronHeight solid $spending-explainer-primary;
+  border-top: $chevronHeight solid $spendingPrimary;
+  border-bottom: $chevronHeight solid $spendingPrimary;
 }
 
 .frontChevron.spending {
-  border-left: $chevronWidth solid $spending-explainer-primary;
+  border-left: $chevronWidth solid $spendingPrimary;
 }
 
 .navItem.deficit {
-  background-color: $deficit-explainer-primary;
+  background-color: $deficitPrimary;
 }
 
 .backChevron.deficit {
-  border-top: $chevronHeight solid $deficit-explainer-primary;
-  border-bottom: $chevronHeight solid $deficit-explainer-primary;
+  border-top: $chevronHeight solid $deficitPrimary;
+  border-bottom: $chevronHeight solid $deficitPrimary;
 }
 
 .frontChevron.deficit {
-  border-left: $chevronWidth solid $deficit-explainer-primary;
+  border-left: $chevronWidth solid $deficitPrimary;
 }
 
 .navItem.debt {
-  background-color: $debt-explainer-primary;
+  background-color: $debtPrimary;
 }
 
 .backChevron.debt {
-  border-top: $chevronHeight solid $debt-explainer-primary;
-  border-bottom: $chevronHeight solid $debt-explainer-primary;
+  border-top: $chevronHeight solid $debtPrimary;
+  border-bottom: $chevronHeight solid $debtPrimary;
 }
