@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { footNotes, heroImageSubHeading, footNotesPillData, flapWrapper } from '../../hero-image/hero-image.module.scss';
 import { getFootNotesDateRange, getPillData, revenueHeroUrl } from '../hero-helper';
-import { revenueExplainerLightSecondary } from '../../../../variables.module.scss';
+import { revenueExplainerLightSecondary } from '../../sections/government-revenue/revenue.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { getShortForm } from '../../../../utils/rounding-utils';

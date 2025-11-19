@@ -3,7 +3,7 @@
 // The initial deficit values were divided by 1 trillion, then rounded to the nearest tenth value
 // The empty entry for 2000 is to provide needed left margin on the chart
 
-import { deficitExplainerPrimary } from '../../../../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 
 const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
 const sort = 'sort=record_date';

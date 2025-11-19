@@ -8,7 +8,7 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { revenueExplainerPrimary } from '../../../../../../variables.module.scss';
+import { revenueExplainerPrimary } from '../../revenue.module.scss';
 import { title, subTitle, footer, dataHeader } from './sources-of-revenue-circle-chart-helper';
 import LabelComponent from './circle-chart-label';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
