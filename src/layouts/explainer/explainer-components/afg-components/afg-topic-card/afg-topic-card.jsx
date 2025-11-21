@@ -58,7 +58,7 @@ const AfgTopicCard = ({
   return (
     <>
       <section>
-        <HeaderChip text={explainerAnalyticsLabelMap[id] || 'test'} color={explainerColorMap[id].primary || 'white'} />
+        {id && <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />}
         {width >= pxToNumber(breakpointLg) ? (
           <div className={topicSection}>
             <div className={textContainer}>
