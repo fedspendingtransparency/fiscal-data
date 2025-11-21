@@ -28,7 +28,7 @@ const FAQ = ({ triggerHighlight = 0 }) => {
       </li>
       <li>
         For <b>Coronavirus Tax Relief and Economic Impact Payments</b> (stimulus payments), visit the Internal Revenue Service's{' '}
-        <CustomLink url="http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments">Economic Impact Payments Page</CustomLink>
+        <CustomLink url="https://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments">Economic Impact Payments Page</CustomLink>
       </li>
       <li>
         To get the status of your <b>tax refund</b>, visit the Internal Revenue Service's "
