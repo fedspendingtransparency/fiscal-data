@@ -128,7 +128,7 @@ describe('Release Calendar', () => {
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const pageTitle = await getByRole('heading', { level: 1, name: 'Release Calendar' });
-    const tagline = await getByText('This Fiscal Data Release Calendar', { exact: false });
+    const tagline = await getByText('The Fiscal Data Release Calendar', { exact: false });
     expect(pageTitle).toBeInTheDocument();
     expect(tagline).toBeInTheDocument();
   });
