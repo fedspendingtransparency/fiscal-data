@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { styled } from '@mui/material/styles';
 import { SwitchProps } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import { treasurySavingsBondsExplainerSecondary } from '../../../../../../../variables.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
 
 const StyledSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />)(() => ({
   width: '44px !important',

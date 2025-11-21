@@ -5,7 +5,7 @@ import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Too
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 import { chartLegend, chartStyle, headerContainer, label, leftLabel, leftLine, lengendItem, line, rightLine } from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
-import { treasurySavingsBondsExplainerSecondary } from '../../../../../../variables.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
 import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';

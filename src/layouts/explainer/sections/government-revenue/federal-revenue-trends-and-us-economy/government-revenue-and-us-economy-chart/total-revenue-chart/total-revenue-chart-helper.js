@@ -2,7 +2,7 @@ import React from 'react';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import { formatCurrency, formatPercentage } from '../../../../../explainer-helpers/explainer-charting-helper';
-import { revenueExplainerPrimary } from '../../../../../../../variables.module.scss';
+import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import ChartToggle from '../../../../../../../components/nivo/chart-toggle/chart-toggle';
 import ChartDataHeader from '../../../../../explainer-components/chart-data-header/chart-data-header';

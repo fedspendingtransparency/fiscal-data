@@ -1,4 +1,4 @@
-@use 'src/variables.module' as *;
+@use '../../treasury-savings-bonds.module.scss' as *;
 
 .tableContainer {
   display: flex;
@@ -16,7 +16,7 @@
   font-size: 14px;
   min-width: 115px;
   max-width: 115px;
-  background-color: $treasury-savings-bonds-explainer-secondary;
+  background-color: #b04abd;
   padding: 8px 8px 12px 8px;
   color: white;
 }
@@ -24,7 +24,7 @@
 .contentBox {
   width: 50%;
   font-size: 14px;
-  background-color: $treasury-savings-bonds-explainer-light-secondary;
+  background-color: #f8f0f9;
   padding: 8px 8px 12px 8px;
 }
 

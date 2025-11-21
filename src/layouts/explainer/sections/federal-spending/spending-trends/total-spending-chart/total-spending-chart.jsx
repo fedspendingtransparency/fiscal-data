@@ -7,7 +7,7 @@ import { withWindowSize } from 'react-fns';
 import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { spendingExplainerPrimary } from '../../../../../../variables.module.scss';
+import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
 import { container, lineChart } from './total-spending-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import numeral from 'numeral';

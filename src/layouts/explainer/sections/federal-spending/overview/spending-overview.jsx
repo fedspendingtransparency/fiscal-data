@@ -3,7 +3,7 @@ import CustomLink from '../../../../../components/links/custom-link/custom-link'
 import { visWithCallout } from '../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { spendingExplainerPrimary, spendingExplainerSecondary, spendingExplainerLightSecondary } from '../../../../../variables.module.scss';
+import { spendingExplainerPrimary, spendingExplainerSecondary, spendingExplainerLightSecondary } from '../federal-spending.module.scss';
 import QuoteBox from '../../../quote-box/quote-box';
 import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';

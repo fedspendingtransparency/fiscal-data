@@ -2,8 +2,8 @@
 @use '../../../../zIndex.module.scss' as *;
 
 .MenuList {
-  background-color: $revenue-explainer-primary;
-  color: $revenue-explainer-primary;
+  background-color: #0a2f5a;
+  color: #0a2f5a;
   min-height: 2.25rem !important;
   width: 18rem;
   text-align: right;
@@ -30,19 +30,19 @@
 }
 
 .revenue {
-  @include afg-menu-item($revenue-explainer-primary);
+  @include afg-menu-item(#0a2f5a);
 }
 
 .spending {
-  @include afg-menu-item($spending-explainer-primary);
+  @include afg-menu-item(#00766c);
 }
 
 .deficit {
-  @include afg-menu-item($deficit-explainer-primary);
+  @include afg-menu-item(#b3532d);
 }
 
 .debt {
-  @include afg-menu-item($debt-explainer-primary);
+  @include afg-menu-item(#4a0072);
 }
 
 .buttonOverview {

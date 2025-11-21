@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, ReferenceDot, Tooltip } from 'recharts';
-import { deficitExplainerPrimary, spendingExplainerPrimary, revenueExplainerPrimary } from '../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../../explainer/sections/national-deficit/national-deficit.module.scss';
+import { spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
+import { revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';
 import { toolTip, dot } from '../experimental.module.scss';
 
 const AFGDeficitPOC = () => {
