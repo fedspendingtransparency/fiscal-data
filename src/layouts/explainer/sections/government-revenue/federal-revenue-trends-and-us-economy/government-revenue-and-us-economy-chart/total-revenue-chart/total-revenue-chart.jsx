@@ -8,7 +8,7 @@ import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-reve
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart } from './total-revenue-chart.module.scss';
-import { revenueExplainerPrimary } from '../../../../../../../variables.module.scss';
+import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,

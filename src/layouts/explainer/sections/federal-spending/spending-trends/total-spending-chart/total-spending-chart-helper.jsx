@@ -3,7 +3,7 @@ import { dataHeaderContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
-import { spendingExplainerPrimary } from '../../../../../../variables.module.scss';
+import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
 import { formatCurrency, formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';

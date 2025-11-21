@@ -5,7 +5,7 @@ import { breakpointLg, visWithCallout } from '../../../explainer.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bond-Cropped.png';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
-import { treasurySavingsBondsExplainerSecondary } from '../../../../../variables.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';

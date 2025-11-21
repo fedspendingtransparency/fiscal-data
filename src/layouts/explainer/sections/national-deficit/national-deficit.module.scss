@@ -1,5 +1,9 @@
 @use 'src/variables.module' as *;
 
+$deficit-explainer-primary: #b3532d;
+$deficit-explainer-secondary: #9f4224;
+$deficit-explainer-light-secondary: #e0baab;
+
 .deficitAccordion {
   :global(.accordionHeading) {
     font-size: $font-size-18;
@@ -50,4 +54,10 @@
       padding: 1.25rem 1rem 1.75rem;
     }
   }
+}
+
+:export {
+  deficitExplainerPrimary: $deficit-explainer-primary;
+  deficitExplainerSecondary: $deficit-explainer-secondary;
+  deficitExplainerLightSecondary: $deficit-explainer-light-secondary;
 }

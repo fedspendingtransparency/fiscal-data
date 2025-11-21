@@ -1,5 +1,5 @@
 import { Bar } from '@nivo/bar';
-import { deficitExplainerPrimary } from '../../../../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import React, { useEffect, useState } from 'react';
 import { barChart, container, headerTitle, subHeader } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
