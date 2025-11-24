@@ -106,13 +106,13 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             Imagine you bought a series EE bond 30 years ago for $500. After 20 years, it doubled in value ($1,000) and continued to earn interest
             ($600) until reaching maturity after 30 years.
           </div>
-          <img src={illustration1} className={image1} alt="An image of a smiling woman with a new savings bond certificate and a few gold coins." />
+          <img src={illustration1} className={image1} alt="A smiling woman with a new savings bond certificate and a few gold coins." />
         </div>
         <div className={holdingBondsRight}>
           <img
             src={illustration2}
             alt={
-              'An image of the same woman, now unboxing more gold coins resulting from redeeming a fully matured ' +
+              'The same woman, now unboxing more gold coins resulting from redeeming a fully matured ' +
               'savings bond. She is smiling and clapping her hands.'
             }
           />
@@ -130,7 +130,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             src={illustration3}
             className={image3}
             alt={
-              'An image of the same woman with her hand on her chin as she is thinking. Some of the gold coins are ' +
+              'The same woman with her hand on her chin as she is thinking. Some of the gold coins are ' +
               'flying away, symbolizing how value disappears from fully matured savings bonds that go unredeemed.'
             }
           />

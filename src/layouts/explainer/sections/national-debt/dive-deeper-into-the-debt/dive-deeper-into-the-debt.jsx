@@ -20,7 +20,7 @@ const DiveDeeperIntoTheDebt = () => {
         <LearnMoreSection links={debtLearnMoreLinks} description={description} />
       </div>
       <div className={diveDeeperQuoteRight}>
-        <img src={benFranklin} alt="A picture of Benjamin Franklin with lines coming from his mouth to show he is speaking. " />
+        <img src={benFranklin} alt="Benjamin Franklin with lines coming from his mouth to show he is speaking. " />
         <div>
           <div className={diveDeeperQuote}>“Rather go to bed without dinner than to rise in debt.”</div>
           <div className={diveDeeperCitation}>Benjamin Franklin, statesman, civic leader, and diplomat</div>
@@ -34,7 +34,7 @@ const DiveDeeperIntoTheDebt = () => {
           </div>
           <div className={diveDeeperCitation}>Alexander Hamilton, 1st U.S. Treasury Secretary</div>
         </div>
-        <img src={alexanderHamilton} alt="A picture of Alexander Hamilton with lines coming from his mouth to show he is speaking. " />
+        <img src={alexanderHamilton} alt="Alexander Hamilton with lines coming from his mouth to show he is speaking. " />
       </div>
     </>
   );
