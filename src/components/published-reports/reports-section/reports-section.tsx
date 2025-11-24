@@ -4,7 +4,7 @@ import { filtersContainer } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import DatePicker from '../../../components/date-picker/date-picker';
-import { getAllReportDates, isReportGroupDailyFrequency } from '../util/util';
+import { getAllReportDates, isReportGroupDailyFrequency, isValidReportGroup } from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
@@ -45,7 +45,9 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
 
   useEffect(() => {
     if (publishedReportsProp?.length > 0 && !filterByReport) {
-      const sortedReports = getPublishedDates(publishedReportsProp).sort((a, b) => b.report_date - a.report_date);
+      const sortedReports = getPublishedDates(publishedReportsProp)
+        .filter(isValidReportGroup)
+        .sort((a, b) => b.report_date - a.report_date);
       setAllReports(sortedReports);
     }
   }, [publishedReportsProp]);
