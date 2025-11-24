@@ -15,7 +15,7 @@ const ExplainerRelatedDatasets: FunctionComponent<IExplainerRelatedDatasets> = (
 
   return (
     <div className={paddingAdjust}>
-      <h1 className={`${titleStyle} relatedDatasetTitle`}> {header} </h1>
+      <div className={`${titleStyle} relatedDatasetTitle`}> {header} </div>
       {datasets
         ? datasets.map((dataset, i) => (
             <div data-testid="cardWrapper" className={cardWrapper} key={i}>
