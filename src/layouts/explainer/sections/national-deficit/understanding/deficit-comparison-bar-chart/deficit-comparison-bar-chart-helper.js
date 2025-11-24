@@ -1,5 +1,5 @@
-import { fontBodyCopy, deficitExplainerSecondary } from '../../../../../../variables.module.scss';
-
+import { fontBodyCopy } from '../../../../../../variables.module.scss';
+import { deficitExplainerSecondary } from '../../national-deficit.module.scss';
 export const desktopHeight = 288;
 export const mobileHeight = 208;
 export const layers = ['axes', 'grid', 'markers', 'bars'];

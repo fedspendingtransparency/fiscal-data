@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { getOpacity } from '../debt-chart-helper';
-import { debtExplainerPrimary, deficitExplainerPrimary } from '../../../../../../variables.module.scss';
+import { debtExplainerPrimary } from '../../../../../../variables.module.scss';
+import { deficitExplainerPrimary } from '../../../national-deficit/national-deficit.module.scss';
 
 interface ICustomBarShape {
   height: number;

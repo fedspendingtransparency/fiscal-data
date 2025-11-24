@@ -23,7 +23,7 @@ export const deficitLearnMoreLinks = [
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
-    url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
+    url: 'https://www.congress.gov/crs-product/R46729',
     onClick: () => diveDeeperCitationClick('Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'),
   },
   {

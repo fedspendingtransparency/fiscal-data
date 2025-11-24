@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import SavingsBondsSoldByTypeChart, { ISavingBondsByTypeChartData } from './savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { visWithCallout } from '../../../explainer.module.scss';
-import { treasurySavingsBondsExplainerSecondary } from '../../../../../variables.module.scss';
+import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import { subsectionHeader } from './what-influences-purchase-of-savings-bonds.module.scss';
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import BondPoster from '../../../../../../static/images/savings-bonds/Bond-Poster.png';

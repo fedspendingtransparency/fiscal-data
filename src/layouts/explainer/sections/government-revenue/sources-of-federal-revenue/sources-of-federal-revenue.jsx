@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { visWithCallout, quoteBoxContent } from '../../../explainer.module.scss';
 import QuoteBox from '../../../quote-box/quote-box';
-import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../../../../../variables.module.scss';
+import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
 import { sourcesContent } from './sources-of-federal-revenue.module.scss';
 import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons';
 import SourcesOfRevenueCircleChart from './sources-of-revenue-circle-chart/sources-of-revenue-circle-chart';
