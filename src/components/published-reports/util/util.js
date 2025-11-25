@@ -5,11 +5,12 @@ import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.sv
 import { monthFullNames } from '../../../utils/api-utils';
 
 export const getYearReportOptions = reports => {
+  const validReports = reports.filter(r => Number(r.report_group_id) > -1);
   const yearsFound = [];
 
   const options = [];
 
-  reports.forEach(report => {
+  validReports.forEach(report => {
     const year = report.report_date.getFullYear();
 
     if (yearsFound.indexOf(year) === -1) {

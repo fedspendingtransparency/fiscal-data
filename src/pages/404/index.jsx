@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 import { siteNotFound, notFoundWrapper } from './notFound.module.scss';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
@@ -30,18 +29,5 @@ const NotFound = ({ pageContext, data, fallback }) => {
     </>
   );
 };
-
-export const pageQuery = graphql`
-  query MDXQuery {
-    mdx(frontmatter: { slug: { regex: "^API/" } }) {
-      frontmatter {
-        title
-        section_name
-        description
-      }
-      body
-    }
-  }
-`;
 
 export default NotFound;
