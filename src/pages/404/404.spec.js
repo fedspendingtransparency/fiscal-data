@@ -1,15 +1,7 @@
 import React from 'react';
 import NotFoundPage from './index';
 import { render, waitFor } from '@testing-library/react';
-import { RecoilRoot } from "recoil";
-
-jest.mock('gatsby-plugin-mdx', () => {
-  return {
-    MDXRenderer: ({ children }) => {
-      return <div>{children}</div>;
-    },
-  };
-});
+import { RecoilRoot } from 'recoil';
 
 describe('404 page', () => {
   it('renders page helmet with expected document title', async () => {
@@ -21,7 +13,7 @@ describe('404 page', () => {
         },
       },
     };
-    render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
+    render(<NotFoundPage pageContext={{}} data={data} />, { wrapper: RecoilRoot });
     await waitFor(() => expect(document.title).toContain('Page Not Found'));
   });
 
@@ -34,7 +26,7 @@ describe('404 page', () => {
         },
       },
     };
-    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, { wrapper: RecoilRoot });
     const notFound = getByTestId('notFoundWrapper');
     expect(notFound).toBeInTheDocument();
   });
@@ -50,7 +42,7 @@ describe('fallback page', () => {
         },
       },
     };
-    render(<NotFoundPage pageContext={{}} data={data} fallback={true} />, {wrapper: RecoilRoot});
+    render(<NotFoundPage pageContext={{}} data={data} fallback={true} />, { wrapper: RecoilRoot });
     await waitFor(() => expect(document.title).toContain('Content Currently Unavailable'));
   });
 
@@ -63,7 +55,7 @@ describe('fallback page', () => {
         },
       },
     };
-    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<NotFoundPage pageContext={{}} data={data} />, { wrapper: RecoilRoot });
     const notFound = getByTestId('notFoundWrapper');
     expect(notFound).toBeInTheDocument();
   });

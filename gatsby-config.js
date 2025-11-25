@@ -25,7 +25,6 @@ module.exports = {
         defer: true,
       },
     },
-    `gatsby-plugin-mdx`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -223,15 +222,7 @@ module.exports = {
       },
     },
     `gatsby-transformer-csv`,
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        extensions: [`.mdx`, `.md`],
-        defaultLayouts: {
-          default: require.resolve('./src/components/mdx/defaultLayout.jsx'),
-        },
-      },
-    },
+
     `gatsby-plugin-client-side-redirect`,
     // {
     //   resolve: 'gatsby-plugin-axe-core-react',
