@@ -69,7 +69,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     dataTableRequest,
     cusipFirst,
   } = reportConfig;
-  console.log('dateFilterLabeldateFilterLabel  ', reportConfig);
+
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
   const isSpecial = !!specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label;
@@ -326,7 +326,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       ? format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM d, yyyy')
       : format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM yyyy')
     : '(None selected)';
-  console.log(dateFilterLabel);
+
   const dateDropdownButton = (
     <DropdownLabelButton
       selectedOption={dateSelectedLabel}
