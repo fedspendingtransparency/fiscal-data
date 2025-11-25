@@ -30,7 +30,12 @@ export default function AfgHero() {
                 <h1>Understand the Basics of Federal Finances from the U.S. Treasury Department</h1>
               </div>
             </div>
-            <img src={'/images/AFG-Hero-Statue-of-Liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
+            <img
+              src={'/images/AFG-Hero-Statue-of-Liberty.png'}
+              aria-label="Statue of Liberty."
+              className={heroLibertyImage}
+              alt="Statue of Liberty with blue sky."
+            />
           </div>
         </div>
       </div>
