@@ -156,16 +156,18 @@ export const isReportGroupDailyFrequency = reports => {
   return isDaily;
 };
 
+export const isValidReportGroup = report => {
+  return report.report_group_id !== undefined && Number(report.report_group_id) > -1;
+};
+
 export const makeReportGroups = reports => {
   const tempObj = {};
-  reports
-    .filter(rep => rep.report_group_id !== undefined && Number(rep.report_group_id) > -1)
-    .forEach(report => {
-      if (!tempObj[report.report_group_desc]) {
-        tempObj[report.report_group_desc] = [];
-      }
-      tempObj[report.report_group_desc].push(report);
-    });
+  reports.filter(isValidReportGroup).forEach(report => {
+    if (!tempObj[report.report_group_desc]) {
+      tempObj[report.report_group_desc] = [];
+    }
+    tempObj[report.report_group_desc].push(report);
+  });
   const groups = [];
   Object.entries(tempObj).forEach(([key, val]) => {
     const label = getFileDisplay(val[0]).fullName;
