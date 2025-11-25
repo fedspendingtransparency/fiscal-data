@@ -43,10 +43,12 @@
       line-height: normal;
       margin: 1rem 0;
     }
-    .heroSubText {
+    .heroSubText h1 {
       font-style: italic;
       font-size: $font-size-20;
       font-weight: 400;
+      color: $content-section-background;
+      margin: 0;
     }
     .heroHeadText {
       font-weight: $semi-bold-weight;

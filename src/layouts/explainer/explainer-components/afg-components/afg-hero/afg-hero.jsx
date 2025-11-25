@@ -10,7 +10,7 @@ import {
   heroHeadText,
   heroIcon,
   heroInfoContainer,
-  heroContextContainer
+  heroContextContainer,
 } from './afg-hero.module.scss';
 
 export default function AfgHero() {
@@ -26,7 +26,9 @@ export default function AfgHero() {
                 <div className={heroHeadText}>YOUR GUIDE TO AMERICA’S FINANCES</div>
               </span>
               <div className={heroMainText}>The Latest Data on Federal Revenue, Spending, Deficit, and the National Debt</div>
-              <div className={heroSubText}>Understand the Basics of Federal Finances from the U.S. Treasury Department</div>
+              <div className={heroSubText}>
+                <h1>Understand the Basics of Federal Finances from the U.S. Treasury Department</h1>
+              </div>
             </div>
             <img src={'/images/AFG-Hero-Statue-of-Liberty.png'} aria-label="Statue of Liberty." className={heroLibertyImage} />
           </div>
