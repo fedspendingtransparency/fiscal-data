@@ -69,7 +69,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
     dataTableRequest,
     cusipFirst,
   } = reportConfig;
-
+  console.log('dateFilterLabeldateFilterLabel  ', reportConfig);
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
   const isSpecial = !!specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label;
@@ -141,7 +141,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       }
     };
     cacheSeed();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
   // Fetch dates for selected CUSIP
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
@@ -327,7 +326,7 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       ? format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM d, yyyy')
       : format(new Date(`${useCusipFirst ? selectedDateStr : format(selectedDate as Date, 'yyyy-MM-dd')}T00:00:00`), 'MMMM yyyy')
     : '(None selected)';
-
+  console.log(dateFilterLabel);
   const dateDropdownButton = (
     <DropdownLabelButton
       selectedOption={dateSelectedLabel}
