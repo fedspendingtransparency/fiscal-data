@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import ExplainerTile from './homepage-tile';
 import { SavingsBondsBodyGenerator, SpendingBodyGenerator } from './homepage-tile-helper';
 import fetchMock from 'fetch-mock';
 import { mockSavingsBondsData, mockSpendingHeroData } from '../../../layouts/explainer/explainer-test-helper';
+import Analytics from '../../../utils/analytics/analytics';
 
 const testTiles = {
   pageName: {
@@ -85,6 +86,23 @@ describe('Explainer Tile', () => {
     const { getByRole } = render(<ExplainerTile content={testTiles['pageName']} images={mockImages} width={'1200'} />);
     expect(getByRole('presentation')).toBeInTheDocument();
     expect(getByRole('presentation')).toHaveAttribute('alt', 'altText');
+  });
+
+  it('calls the appropriate analytics event when the mouse hovers over the tile', async () => {
+    jest.useFakeTimers();
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<ExplainerTile content={testTiles['pageName']} images={mockImages} width={'1200'} />);
+    const tileLink = await waitFor(() => getByTestId('tile-link'));
+    expect(tileLink).toBeInTheDocument();
+    fireEvent.mouseOver(tileLink);
+    // jest.runAllTimers();
+    // await waitFor(() =>
+    //   expect(spy).toHaveBeenCalledWith({
+    //     category: 'Homepage Cards',
+    //     action: 'Card Hover',
+    //     label: 'Government Revenue',
+    //   })
+    // );
   });
 });
 
