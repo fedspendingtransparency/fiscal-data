@@ -64,12 +64,11 @@
 .folderWhiteOutLine {
   top: 2.25rem;
   position: absolute;
-  max-width: 542px;
+  max-width: 551px;
   background-color: $content-section-background;
   z-index: $illustration-whiteout;
   min-height: 1.5rem;
   min-width: 1rem;
-  right: 3px;
   width: calc(100% - 10px);
 }
 
