@@ -141,7 +141,6 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       }
     };
     cacheSeed();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apis, datasetId, filterField, specialAnnouncement, optionValues]);
   // Fetch dates for selected CUSIP
   const fetchAvailableDatesForCusip = async (cusipValue: string): Promise<string[]> => {
