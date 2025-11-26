@@ -152,7 +152,7 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             id="Treasury Hunt"
             onClick={() => analyticsEventHandler('Treasury Hunt', 'Savings Bonds Citation Click')}
           >
-            Treasure Hunt
+            Treasury Hunt
           </CustomLink>{' '}
           and see what bonds might be waiting for you to cash in!
         </p>
