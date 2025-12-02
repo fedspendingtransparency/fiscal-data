@@ -146,7 +146,6 @@ const InterestExpenseChart = () => {
                           <line x1="0" y1="0" x2="0" y2="6" style={{ stroke: interestExpensePrimary, strokeWidth: 8 }} />
                         </pattern>
                       </defs>
-                      <CartesianGrid vertical={false} stroke="#d9d9d9" />
                       <XAxis dataKey="year" ticks={chartXAxisValues} />
                       <YAxis
                         dataKey="expense"
