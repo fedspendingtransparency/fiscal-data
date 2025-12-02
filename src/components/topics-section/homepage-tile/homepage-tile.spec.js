@@ -15,6 +15,7 @@ const testTiles = {
     mobileImage: 'testMobileImage',
     mainFeature: true,
     path: '/',
+    analyticsName: 'Page Analytics',
   },
   anotherPage: {
     title: 'Page title',
@@ -48,6 +49,11 @@ jest.mock('./variables.module.scss', content => ({
   ...content,
   breakpointLg: 992,
 }));
+
+global.___loader = {
+  enqueue: jest.fn(),
+  hovering: jest.fn(),
+};
 
 describe('Explainer Tile', () => {
   it('renders a topics tile, with the title, body and image', () => {
@@ -95,14 +101,33 @@ describe('Explainer Tile', () => {
     const tileLink = await waitFor(() => getByTestId('tile-link'));
     expect(tileLink).toBeInTheDocument();
     fireEvent.mouseOver(tileLink);
-    // jest.runAllTimers();
-    // await waitFor(() =>
-    //   expect(spy).toHaveBeenCalledWith({
-    //     category: 'Homepage Cards',
-    //     action: 'Card Hover',
-    //     label: 'Government Revenue',
-    //   })
-    // );
+    jest.runAllTimers();
+    await waitFor(() =>
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Homepage Cards',
+        action: 'Card Hover',
+        label: 'Page Analytics',
+      })
+    );
+    fireEvent.mouseLeave(tileLink);
+  });
+
+  it('calls the appropriate analytics event when the mouse clicks on the homepage tile', async () => {
+    jest.useFakeTimers();
+    window.___navigate = jest.fn();
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<ExplainerTile content={testTiles['pageName']} images={mockImages} width={'1200'} />);
+    const tileLink = await waitFor(() => getByTestId('tile-link'));
+    expect(tileLink).toBeInTheDocument();
+    fireEvent.click(tileLink);
+    jest.runAllTimers();
+    await waitFor(() =>
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Homepage Navigation',
+        action: 'Citation Click',
+        label: 'Page Analytics',
+      })
+    );
   });
 });
 
