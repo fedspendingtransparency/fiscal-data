@@ -325,8 +325,6 @@ export default function DtgTable({
     }
   }, [data]);
 
-  console.log('zaaaa: ', tableData.data);
-
   useEffect(() => {
     if (!tableProps.data) {
       setCurrentPage(1);
