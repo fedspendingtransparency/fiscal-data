@@ -63,7 +63,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
       if (res.data) {
-        console.log('First res of the first order  ', res.data);
         setLastChartYear(res.data[0].record_fiscal_year);
         setFirstChartYear(res.data[res.data.length - 1].record_fiscal_year);
         const chartDate = new Date(res.data[0].record_date);
@@ -80,11 +79,9 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
         filteredData.push(incomeTax);
         const combinedSocSecData = [];
         const socialSecurityData = res.data.filter(record => {
-          console.log(res.data);
           return record.line_code_nbr === '50' || record.line_code_nbr === '60' || record.line_code_nbr === '70';
         });
         const socSecYears = [...new Set(socialSecurityData.map(entry => entry.record_fiscal_year))];
-        console.log(socSecYears);
         setChartYears(socSecYears);
         socSecYears.forEach(year => {
           const forAGivenYear = socialSecurityData.filter(entry => entry.record_fiscal_year === year);
