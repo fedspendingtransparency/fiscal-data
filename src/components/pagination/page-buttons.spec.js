@@ -99,40 +99,40 @@ describe('PageButtons component', () => {
     expect(secondButton).toHaveClass('active');
   });
 
-  describe('Page button changes', () => {
-    const pages = [1, 2, 3, 4, 5, 6];
-    const pageButtonProps = {
-      maxPage: 5,
-      tableName: 'test',
-      currentPage: 1,
-      pagesArray: pages,
-      handleJump: () => {},
-    };
-    const { maxPage, tableName } = pageButtonProps;
+  it('correctly changes pages when clicking the next button', () => {
+    pageButtonProps.currentPage = 1;
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </RecoilRoot>
+    );
+    const nextButton = getByRole('button', { name: 'Next page' });
+    fireEvent.click(nextButton);
+    const secondButton = getByRole('button', { name: `${tableName}-page2` });
+    expect(secondButton).toHaveClass('active');
+  });
 
-    it('correctly changes pages when clicking the next button', () => {
-      const { getByRole } = render(
-        <RecoilRoot>
-          <PageButtons pageButtonProps={pageButtonProps} />
-        </RecoilRoot>
-      );
-      const nextButton = getByRole('button', { name: 'Next page' });
-      fireEvent.click(nextButton);
-      const secondButton = getByRole('button', { name: `${tableName}-page2` });
-      expect(secondButton).toHaveClass('active');
-    });
+  it('correctly changes pages when clicking the previous button', () => {
+    pageButtonProps.currentPage = 2;
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </RecoilRoot>
+    );
+    const prevButton = getByRole('button', { name: 'Previous page' });
+    fireEvent.click(prevButton);
+    const firstButton = getByRole('button', { name: `${tableName}-page1` });
+    expect(firstButton).toHaveClass('active');
+  });
 
-    it('correctly changes pages when clicking the previous button', () => {
-      pageButtonProps.currentPage = 2;
-      const { getByRole } = render(
-        <RecoilRoot>
-          <PageButtons pageButtonProps={pageButtonProps} />
-        </RecoilRoot>
-      );
-      const prevButton = getByRole('button', { name: 'Previous page' });
-      fireEvent.click(prevButton);
-      const firstButton = getByRole('button', { name: `${tableName}-page1` });
-      expect(firstButton).toHaveClass('active');
-    });
+  it('renders the correct page range and ellipsis (when range > 7)', () => {
+    pageButtonProps.maxPage = 8;
+    const { getByRole } = render(
+      <RecoilRoot>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </RecoilRoot>
+    );
+    const ellipsisButton = getByRole('button', { name: 'Page number overflow ellipsis' });
+    expect(ellipsisButton).toBeInTheDocument();
   });
 });
