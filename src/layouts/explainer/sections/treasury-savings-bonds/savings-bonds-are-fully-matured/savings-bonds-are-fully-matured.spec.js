@@ -45,7 +45,7 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
   it('calls citation click ga events', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsAreFullyMatured />);
-    const citation1 = getByRole('link', { name: 'Treasure Hunt' });
+    const citation1 = getByRole('link', { name: 'Treasury Hunt' });
     userEvent.click(citation1);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Glossary Term Click',
