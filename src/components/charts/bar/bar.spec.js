@@ -28,13 +28,7 @@ describe('BarGraph component - Custom bar graph', () => {
   const mouseEnterPropSpy = jest.fn();
 
   const barGraph = (
-    <BarGraph
-      graphData={staggeredData}
-      graphIndex="year"
-      valueKeys={['value']}
-      useCustomBarComponent
-      mouseEnter={mouseEnterPropSpy}
-    />
+    <BarGraph graphData={staggeredData} graphIndex="year" valueKeys={['value']} useCustomBarComponent mouseEnter={mouseEnterPropSpy} />
   );
   const mouseEnterSpy = jest.spyOn(helpers, 'mouseEnterEvent');
   const mouseLeaveSpy = jest.spyOn(helpers, 'mouseLeaveEvent');
