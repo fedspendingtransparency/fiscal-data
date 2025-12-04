@@ -310,7 +310,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                     for (let y = start; y <= end; y += 2) {
                       ticks.push(y);
                     }
-                    const MAX_TICKS = 6;
+                    const MAX_TICKS = 10;
 
                     if (ticks.length <= MAX_TICKS) {
                       return ticks;
