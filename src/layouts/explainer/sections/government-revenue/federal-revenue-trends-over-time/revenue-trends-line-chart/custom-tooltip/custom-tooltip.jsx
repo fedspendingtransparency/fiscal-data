@@ -28,7 +28,7 @@ const CustomTooltip = (currentSlice, totalRevByYear) => {
   };
 
   const determineIfZeroNeeded = value => {
-    if (value.toString().split('.')[1].length < 2) {
+    if (value.toString().split('.')[1]?.length < 2) {
       return `${value}0`;
     }
     return value;

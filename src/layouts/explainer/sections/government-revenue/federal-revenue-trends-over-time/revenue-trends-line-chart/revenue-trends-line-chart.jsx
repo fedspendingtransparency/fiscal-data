@@ -60,7 +60,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date';
+    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
       if (res.data) {
         setLastChartYear(res.data[0].record_fiscal_year);
@@ -303,7 +303,21 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                   tickSize: 6,
                   tickPadding: 5,
                   tickRotation: 0,
-                  tickValues: chartYears,
+                  tickValues: (() => {
+                    const start = 2016;
+                    const end = lastChartYear;
+                    const ticks = [];
+                    for (let y = start; y <= end; y += 2) {
+                      ticks.push(y);
+                    }
+                    const MAX_TICKS = 10;
+
+                    if (ticks.length <= MAX_TICKS) {
+                      return ticks;
+                    }
+                    const ratio = Math.ceil(ticks.length / MAX_TICKS);
+                    return ticks.filter((_, i) => i % ratio === 0);
+                  })(),
                 }}
                 axisLeft={{
                   format: formatCurrency,

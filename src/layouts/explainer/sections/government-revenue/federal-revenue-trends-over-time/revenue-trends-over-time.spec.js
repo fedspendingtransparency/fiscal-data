@@ -250,7 +250,7 @@ describe('revenue trends over time section', () => {
       { repeat: 1 }
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&sort=-record_date`,
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date`,
       mockDataChart,
       { overwriteRoutes: true },
       { repeat: 1 }
