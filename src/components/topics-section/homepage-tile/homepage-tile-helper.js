@@ -183,10 +183,10 @@ export const pageTileMap = {
   'state-and-local-government-series': {
     title: 'Explore How State and Local Governments invest in U.S. Treasury Securities',
     body:
-      'State and Local Government Series (SLGS) are non-marketable securities that help state and local '+
+      'State and Local Government Series (SLGS) are non-marketable securities that help state and local ' +
       'governments meet their financing needs. Learn more and explore monthly trends in outstanding SLGS securities. ',
     altText:
-      'Illustration with images including three buildings with the text, “Why do we invest in '+
+      'Illustration with images including three buildings with the text, “Why do we invest in ' +
       'State and Local Government Series Securities? Fiscal Data Explains”, and the Fiscal Data logo in the bottom right corner. ',
     desktopImage: 'State-and-local-government-series-1200_630',
     mobileImage: 'State-and-local-government-series-1200_630',
@@ -200,7 +200,7 @@ export const pageTileMap = {
       'In {YYYY (latest complete FY)}, U.S. citizens invested {$XXX million (total savings bonds purchased in latest ' +
       'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
       'these bonds offer to citizens who choose to invest in them.',
-    altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
+    altText: 'Savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
     desktopImage: 'Savings-Bonds-Homepage-Tile_1200x630',
     mobileImage: 'Savings-Bonds-Homepage-Tile_1200x630',
     path: '/treasury-savings-bonds/',
