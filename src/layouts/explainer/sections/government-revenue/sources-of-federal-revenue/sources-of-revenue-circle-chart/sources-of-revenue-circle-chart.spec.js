@@ -1,9 +1,15 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import SourcesOfRevenueCircleChart from './sources-of-revenue-circle-chart';
 import userEvent from '@testing-library/user-event';
 import { sourcesOfRevenueCircleChartMatcher } from '../../../../explainer-helpers/government-revenue/government-revenue-test-helper';
 import { setGlobalFetchMatchingResponse } from '../../../../../../utils/mock-utils';
+import Analytics from '../../../../../../utils/analytics/analytics';
+
+// Mock Analytics to track calls
+jest.mock('../../../../../../utils/analytics/analytics', () => ({
+  event: jest.fn(),
+}));
 
 class ResizeObserver {
   observe() {}
@@ -13,10 +19,12 @@ class ResizeObserver {
 
 describe('Circle chart', () => {
   window.ResizeObserver = ResizeObserver;
+
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, sourcesOfRevenueCircleChartMatcher);
   });
+
   afterAll(() => {
     jest.resetModules();
     global.fetch.mockReset();
@@ -65,5 +73,65 @@ describe('Circle chart', () => {
     await waitFor(() => expect(getByText('In FY 2015', { exact: false })).toBeInTheDocument());
     expect(await getByText('corporate income taxes is $2.43 T', { exact: false })).toBeInTheDocument();
     await waitFor(() => expect(getByText('making up 11%', { exact: false })).toBeInTheDocument());
+  });
+
+  it('ignores keyboard interaction if key is not "Enter"', async () => {
+    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
+
+    const labelText = getByText('Corporate').closest('text');
+    labelText.focus();
+
+    fireEvent.keyPress(labelText, { key: 'A', code: 'KeyA' });
+
+    expect(await getAllByText('Individual Income Taxes')).toHaveLength(2);
+  });
+
+  it('updates the header on keyboard "Enter" interaction with a label', async () => {
+    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
+
+    const labelText = getByText('Corporate').closest('text');
+
+    labelText.focus();
+    fireEvent.keyPress(labelText, { key: 'Enter', code: 'Enter', charCode: 13 });
+
+    expect(await getAllByText('Corporate Income Taxes', { exact: false })).toHaveLength(2);
+  });
+
+  it('resets the chart to default view when mouse leaves the chart area', async () => {
+    const { getAllByText, getByText, getByTestId, getByRole } = render(<SourcesOfRevenueCircleChart />);
+    await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
+
+    const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
+    userEvent.hover(corporateIncomeTaxesCircle);
+    expect(await getAllByText('Corporate Income Taxes', { exact: false })).toHaveLength(3);
+
+    const chartParent = getByTestId('chartParent');
+    userEvent.unhover(chartParent);
+
+    expect(await getAllByText('Individual Income Taxes')).toHaveLength(2);
+  });
+
+  it('tracks analytics event on chart hover', async () => {
+    jest.useFakeTimers();
+    const { getByTestId, getByText } = render(<SourcesOfRevenueCircleChart />);
+    await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
+
+    const chartParent = getByTestId('chartParent');
+
+    fireEvent.mouseEnter(chartParent);
+
+    act(() => {
+      jest.advanceTimersByTime(3100);
+    });
+
+    expect(Analytics.event).toHaveBeenCalledWith({
+      category: 'Explainers',
+      action: 'Chart Hover',
+      label: 'Revenue - Sources of Federal Revenue',
+    });
+
+    jest.useRealTimers();
   });
 });
