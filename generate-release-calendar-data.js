@@ -75,13 +75,6 @@ const dataSets = [
     lastDate: null,
   },
   {
-    datasetId: '015-BFS-2014Q1-xx',
-    dayOfWeek: 2, // 0 = Sunday, 6 = Saturday
-    timeOfDay: '0900',
-    frequency: 'm', // bw, m, bm, q
-    lastDate: null,
-  },
-  {
     datasetId: '015-BFS-2014Q1-11',
     dayOfWeek: 4, // 0 = Sunday, 6 = Saturday
     timeOfDay: '1159',

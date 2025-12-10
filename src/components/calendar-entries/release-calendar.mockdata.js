@@ -30,16 +30,6 @@ export const mockReleaseCalendarEntries = [
     released: false,
   },
   {
-    datasetId: '015-BFS-2014Q1-xx',
-    dataset: {
-      name: 'Test Dataset 2',
-      slug: '/test-dataset-2',
-    },
-    date: '2021-06-02',
-    time: '0900',
-    released: false,
-  },
-  {
     datasetId: '015-BFS-2014Q3-056',
     dataset: {
       name: 'Test Dataset 5',
@@ -116,11 +106,6 @@ export const mockDatasetsForReleaseCalendar = [
     datasetId: '015-BFS-2014Q3-056',
     name: 'Test Dataset 5',
     slug: '/test-dataset-5',
-  },
-  {
-    datasetId: '015-BFS-2014Q1-xx',
-    name: 'Test Dataset 6',
-    slug: '/test-dataset-6',
   },
   {
     datasetId: '015-BFS-2014Q3-074',
