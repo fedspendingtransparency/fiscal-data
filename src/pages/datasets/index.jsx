@@ -31,7 +31,6 @@ const DatasetsPage = ({ pageContext }) => {
               dataDisplays {
                 title
                 chartType
-                fields
                 dimensionField
                 filters {
                   key
