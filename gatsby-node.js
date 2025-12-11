@@ -508,6 +508,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       unmatchedMessage: String,
       defaultHeader: String,
       defaultMessage: String,
+      defaultMessage: String,
       searchText: String,
       optionValues: [String!],
       experimental: Boolean,
@@ -654,7 +655,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             banner
             startDate
             endDate
-            altBanner
           }
           datatableBanner
           relatedTopics

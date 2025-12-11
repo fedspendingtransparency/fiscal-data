@@ -67,21 +67,6 @@
     "topics": ["interest-exchange-rates", "savings-bonds"],
     "relatedDatasets": ["015-BFS-2014Q3-056", "015-BFS-2014Q3-103", "015-BFS-2014Q3-096", "015-BFS-2014Q3-yy"]
   },
-  "015-BFS-2014Q1-xx": {
-    "slug": "/treasury-offset-program/",
-    "seoConfig": {
-      "pageTitle": "Treasury Offset Program",
-      "description": "This dataset shows how Treasury offsets federal payments, such as tax refunds, to pay off delinquent debts such as unpaid child support.",
-      "keywords": "debt, income tax, child support, SNAP, government collections, offset, Treasury, delinquent debt, federal withholdings"
-    },
-    "topics": ["debt", "revenue"],
-    "relatedDatasets": ["015-BFS-2014Q1-03", "015-BFS-2014Q1-13", "015-BFS-2020Q4-xx"],
-    "currentDateButton": "byMonth",
-    "bannerCallout": {
-      "banner": "TOPLimitedData",
-      "altBanner": true
-    }
-  },
   "015-BFS-2014Q1-11": {
     "slug": "/monthly-statement-public-debt/",
     "seoConfig": {
@@ -329,7 +314,7 @@
       "keywords": "Debt"
     },
     "topics": ["debt"],
-    "relatedDatasets": ["015-BFS-2020Q4-xx", "015-BFS-2014Q1-xx"],
+    "relatedDatasets": ["015-BFS-2020Q4-xx"],
     "slug": "/treasury-report-on-receivables/",
     "currentDateButton": "byMonth"
   },

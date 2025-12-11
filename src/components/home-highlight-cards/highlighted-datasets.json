@@ -46,15 +46,5 @@
       "format": "CURRENCY",
       "number": -2794719749
     }
-  },
-  {
-    "datasetId": "015-BFS-2014Q1-xx",
-    "title": "How much delinquent debt does the government collect each month?",
-    "data": {
-      "api_id": 127,
-      "fields": ["net_amt"],
-      "format": "CURRENCY",
-      "number": 4600000027547
-    }
   }
 ]
