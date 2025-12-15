@@ -2,7 +2,7 @@ import { ENV_ID } from 'gatsby-env-variables';
 
 import React, { useState, useEffect } from 'react';
 import '../styles.scss';
-import { siteHome, loadingIcon } from './home.module.scss';
+import { siteHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
 import SiteLayout from '../components/siteLayout/siteLayout';
 import HomeMainContent from '../components/home-main-content/home-main-content';
@@ -11,7 +11,6 @@ import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
 import { withWindowSize } from 'react-fns';
-import LoadingIndicator from '../components/loading-indicator/loading-indicator';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
@@ -50,8 +49,8 @@ export const Index = ({ width }) => {
           financial data, debt, Treasury, US government"
           />
           <>
-            {loading && <LoadingIndicator loadingClass={loadingIcon} />}
-            {!loading && <TopicsSection images={allFile} width={width} />}
+            {/*{loading && <LoadingIndicator loadingClass={loadingIcon} />}*/}
+            <TopicsSection images={allFile} width={width} />
             <HomeMainContent />
             <HomeFeatures />
           </>

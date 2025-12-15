@@ -12,6 +12,8 @@ import {
   mainTitle,
   rightTile,
   secondaryTitle,
+  showOnDesktop,
+  showOnMobile,
 } from './homepage-tile.module.scss';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -32,7 +34,7 @@ const HomePageTile = ({ content, images, width, layout, hasMobileImage, explaine
 
   const afgIcon = '/images/AFG-icon.svg';
 
-  const isDesktop = width >= pxToNumber(breakpointLg);
+  const isDesktop = width === 0 || width >= pxToNumber(breakpointLg);
   // overwrite desktop-first styles with mobile-first styles, if we actually have a mobile image
   const isMobile = hasMobileImage ? width <= pxToNumber(breakpointSm) : width <= pxToNumber(breakpointLg);
 
@@ -47,13 +49,18 @@ const HomePageTile = ({ content, images, width, layout, hasMobileImage, explaine
   );
 
   const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content.altText} loading="eager" role="presentation" />;
-
+  const responsiveImage = (
+    <>
+      <div className={showOnDesktop}>{desktop}</div>
+      <div className={showOnMobile}>{mobile}</div>
+    </>
+  );
   const card =
     layout === 'two-col' && isDesktop ? (
       <div className={mainContent} data-testid="tile">
         <Grid container spacing={0} sx={{ flexWrap: 'nowrap' }}>
           <Grid className={isMobile ? null : grid}>
-            <div className={isMobile && explainerTile ? explainerImageContainer : null}>{desktop}</div>
+            <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>
           </Grid>
           <Grid size={{ lg: 8 }}>
             <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
@@ -65,7 +72,7 @@ const HomePageTile = ({ content, images, width, layout, hasMobileImage, explaine
       </div>
     ) : (
       <div className={mainContent} data-testid="tile">
-        <div className={isMobile && explainerTile ? explainerImageContainer : null}>{isMobile ? mobile : desktop}</div>
+        <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>
         <div className={content.path ? undefined : comingSoon}>
           <div className={content.mainFeature ? iconTitle : null}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
