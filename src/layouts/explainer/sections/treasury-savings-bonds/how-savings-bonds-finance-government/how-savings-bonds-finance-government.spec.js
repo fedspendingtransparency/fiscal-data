@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government';
 import { RecoilRoot } from 'recoil';
 import { useStaticQuery } from 'gatsby';
 import fetchMock from 'fetch-mock';
 import { mockSavingsBondTypesData } from '../../../explainer-test-helper';
+import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 
 const mockUseStaticQueryData = {
   allSavingsBondsByTypeHistoricalCsv: {
@@ -56,6 +57,8 @@ const mockMSPDData2 = {
   ],
 };
 
+jest.mock('../../../explainer-helpers/explainer-helpers');
+
 describe('How Savings Bonds Finance The Government Section', () => {
   class ResizeObserver {
     observe() {}
@@ -98,5 +101,21 @@ describe('How Savings Bonds Finance The Government Section', () => {
       )
     ).toBeInTheDocument();
     expect(screen.getByAltText('A paper Series E Savings Bond')).toBeInTheDocument();
+  });
+
+  it('fires an event when the user clicks on any of the four links', () => {
+    const { getByRole } = render(
+      <RecoilRoot>
+        <HowSavingsBondsFinanceGovernment />
+      </RecoilRoot>
+    );
+    fireEvent.click(getByRole('link', { name: 'revenue' }));
+    expect(analyticsEventHandler).toHaveBeenCalledWith('Government Revenue', 'Savings Bonds Citation Click');
+    fireEvent.click(getByRole('link', { name: 'spends' }));
+    expect(analyticsEventHandler).toHaveBeenCalledWith('Federal Spending', 'Savings Bonds Citation Click');
+    fireEvent.click(getByRole('link', { name: 'deficit' }));
+    expect(analyticsEventHandler).toHaveBeenCalledWith('National Deficit', 'Savings Bonds Citation Click');
+    fireEvent.click(getByRole('link', { name: 'debt' }));
+    expect(analyticsEventHandler).toHaveBeenCalledWith('National Debt', 'Savings Bonds Citation Click');
   });
 });
