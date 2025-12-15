@@ -149,4 +149,13 @@ describe('How Savings Bonds Finance The Government Section', () => {
     expect(glossaryGAEvent).toHaveBeenCalledWith('Series EE Bonds');
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
   });
+
+  it('returns the correct text for the percentage of total debt held by public chart', () => {
+    const { getByText } = render(
+      <RecoilRoot>
+        <HowSavingsBondsFinanceGovernment />
+      </RecoilRoot>
+    );
+    expect(getByText('lower than')).toBeInTheDocument();
+  });
 });
