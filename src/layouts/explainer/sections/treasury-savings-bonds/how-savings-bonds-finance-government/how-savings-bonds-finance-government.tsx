@@ -134,18 +134,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     });
   }, []);
 
-  const processTypesSavingsBondsData = res => {
-    const totalData = [...savingsBondsByTypeHistorical, ...res];
-    const types = totalData.map(element => {
-      if (element.security_class_desc) {
-        return element.security_class_desc;
-      } else if (element.bond_type) {
-        return element.bond_type;
-      }
-    });
-    return Array.from(new Set(types));
-  };
-
   const higherOrLowerOrSameAs = difference => {
     if (difference > 0) {
       return 'higher than';
