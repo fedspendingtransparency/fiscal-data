@@ -50,6 +50,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
+        output: '/sitemap',
         excludes: [
           `/buildtime-data-store/`,
           '/search-x/',
