@@ -49,7 +49,6 @@ export const Index = ({ width }) => {
           financial data, debt, Treasury, US government"
           />
           <>
-            {/*{loading && <LoadingIndicator loadingClass={loadingIcon} />}*/}
             <TopicsSection images={allFile} width={width} />
             <HomeMainContent />
             <HomeFeatures />
