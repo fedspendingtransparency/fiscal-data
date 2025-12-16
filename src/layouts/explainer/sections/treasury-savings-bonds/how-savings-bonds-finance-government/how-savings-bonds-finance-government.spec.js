@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HowSavingsBondsFinanceGovernment from './how-savings-bonds-finance-government';
+import HowSavingsBondsFinanceGovernment, { higherOrLowerOrSameAs } from './how-savings-bonds-finance-government';
 import { RecoilRoot } from 'recoil';
 import { useStaticQuery } from 'gatsby';
 import fetchMock from 'fetch-mock';
@@ -150,12 +150,20 @@ describe('How Savings Bonds Finance The Government Section', () => {
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
   });
 
-  it('returns the correct text for the percentage of total debt held by public chart', () => {
-    const { getByText } = render(
-      <RecoilRoot>
-        <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
-    );
-    expect(getByText('lower than')).toBeInTheDocument();
+  describe('tests for higherOrLowerOrSameAs function logic', () => {
+    it('returns "higher than" when the difference is greater than 0', () => {
+      const result = higherOrLowerOrSameAs(2.3);
+      expect(result).toBe('higher than');
+    });
+
+    it('returns "lower than" when the difference less than 0', () => {
+      const result = higherOrLowerOrSameAs(-0.4);
+      expect(result).toBe('lower than');
+    });
+
+    it('returns "the same as" when the difference equals 0', () => {
+      const result = higherOrLowerOrSameAs(0);
+      expect(result).toBe('the same as');
+    });
   });
 });

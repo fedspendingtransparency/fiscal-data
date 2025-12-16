@@ -37,6 +37,16 @@ interface ApiResponse {
   meta: { 'total-pages': number };
 }
 
+export const higherOrLowerOrSameAs = difference => {
+  if (difference > 0) {
+    return 'higher than';
+  } else if (difference < 0) {
+    return 'lower than';
+  } else {
+    return 'the same as';
+  }
+};
+
 const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
@@ -133,16 +143,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
       }
     });
   }, []);
-
-  const higherOrLowerOrSameAs = difference => {
-    if (difference > 0) {
-      return 'higher than';
-    } else if (difference < 0) {
-      return 'lower than';
-    } else {
-      return 'the same as';
-    }
-  };
 
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
