@@ -29,7 +29,7 @@ export const deficitLearnMoreLinks = [
   {
     title: 'FY 2024 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202409.pdf',
-    onClick: () => diveDeeperCitationClick('FY 2022 Final Monthly Treasury Statement'),
+    onClick: () => diveDeeperCitationClick('FY 2024 Final Monthly Treasury Statement'),
     id: 'Monthly Treasury Statement',
   },
 ];
