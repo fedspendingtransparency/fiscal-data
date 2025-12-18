@@ -208,6 +208,7 @@ const HowMuchDoesTheGovtSpend = () => {
         marginLeft: '0px',
         maxWidth: '100%',
         paddingLeft: '0px',
+        minHeight: '45.84rem',
       }}
       customFooterStyles={{ paddingLeft: '32px' }}
       customSpacing={{

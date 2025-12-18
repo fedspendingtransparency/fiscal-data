@@ -328,8 +328,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   return (
     <>
-      {isLoading && <LoadingIndicator />}
-      {!isLoading && chartToggleConfig && (
+      {chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container}>
             <ChartContainer
@@ -340,68 +339,80 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
               altText={chartAltText}
               customHeaderStyles={{ marginTop: '0.5rem', marginBottom: '0' }}
+              customContainerStyles={
+                {
+                  // minHeight: '45.84rem',
+                }
+              }
             >
-              <div
-                className={lineChart}
-                data-testid="chartParent"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={() => {
-                  clearTimeout(gaTimer);
-                  clearTimeout(ga4Timer);
-                }}
-                role="presentation"
-              >
-                {selectedChartView === 'totalSpending' && (
-                  <div ref={spendingRef}>
-                    <Line
-                      {...commonProps}
-                      theme={getChartTheme(width, true)}
-                      axisLeft={chartConfigs.axisLeftSpending}
-                      layers={[
-                        ...chartConfigs.layers,
-                        props =>
-                          LineChartCustomPoints_GDP({
-                            ...props,
-                            seriesId: 'Total Spending',
-                          }),
-                        props =>
-                          CustomSlices({
-                            ...props,
-                            groupMouseLeave: handleGroupOnMouseLeave,
-                            mouseMove: handleMouseLeave,
-                            inView: spendingInView,
-                            duration: 500,
-                            customAnimationTriggeredOnce: animationTriggeredOnce,
-                            setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
-                          }),
-                      ]}
-                    />
-                  </div>
-                )}
-                {selectedChartView === 'percentageGdp' && (
-                  <div ref={gdpRef}>
-                    <Line
-                      {...commonProps}
-                      theme={getChartTheme(width, true)}
-                      axisLeft={chartConfigs.axisLeftPercent}
-                      layers={[
-                        ...chartConfigs.layers,
-                        LineChartCustomPoints_GDP,
-                        props =>
-                          CustomSlices({
-                            ...props,
-                            groupMouseLeave: handleGroupOnMouseLeave,
-                            mouseMove: handleMouseLeave,
-                            inView: gdpInView,
-                            duration: 500,
-                            customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
-                            setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
-                          }),
-                      ]}
-                    />
-                  </div>
-                )}
-              </div>
+              {isLoading ? (
+                <LoadingIndicator />
+              ) : (
+                // <div>
+                //   {dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
+                <div
+                  className={lineChart}
+                  data-testid="chartParent"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={() => {
+                    clearTimeout(gaTimer);
+                    clearTimeout(ga4Timer);
+                  }}
+                  role="presentation"
+                >
+                  {selectedChartView === 'totalSpending' && (
+                    <div ref={spendingRef}>
+                      <Line
+                        {...commonProps}
+                        theme={getChartTheme(width, true)}
+                        axisLeft={chartConfigs.axisLeftSpending}
+                        layers={[
+                          ...chartConfigs.layers,
+                          props =>
+                            LineChartCustomPoints_GDP({
+                              ...props,
+                              seriesId: 'Total Spending',
+                            }),
+                          props =>
+                            CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: spendingInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: animationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                            }),
+                        ]}
+                      />
+                    </div>
+                  )}
+                  {selectedChartView === 'percentageGdp' && (
+                    <div ref={gdpRef}>
+                      <Line
+                        {...commonProps}
+                        theme={getChartTheme(width, true)}
+                        axisLeft={chartConfigs.axisLeftPercent}
+                        layers={[
+                          ...chartConfigs.layers,
+                          LineChartCustomPoints_GDP,
+                          props =>
+                            CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: gdpInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                            }),
+                        ]}
+                      />
+                    </div>
+                  )}
+                </div>
+                // </div>
+              )}
             </ChartContainer>
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
