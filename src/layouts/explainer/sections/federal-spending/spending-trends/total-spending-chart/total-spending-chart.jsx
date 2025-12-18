@@ -8,7 +8,7 @@ import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-spen
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
-import { container, lineChart } from './total-spending-chart.module.scss';
+import { container, lineChart, loadingIcon } from './total-spending-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import numeral from 'numeral';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
@@ -327,7 +327,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   };
 
   return (
-    <>
+    <di className={'test again'}>
       {chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container}>
@@ -342,7 +342,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               }}
             >
               {isLoading ? (
-                <LoadingIndicator />
+                <LoadingIndicator loadingClass={loadingIcon} />
               ) : (
                 <div>
                   {dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
@@ -418,7 +418,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </VisualizationCallout>
         </figure>
       )}
-    </>
+    </di>
   );
 };
 

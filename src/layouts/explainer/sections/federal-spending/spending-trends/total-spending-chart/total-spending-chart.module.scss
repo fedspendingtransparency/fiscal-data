@@ -43,3 +43,11 @@
     }
   }
 }
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  // TODO: Create a loading indicator mixin for all explainer charts
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

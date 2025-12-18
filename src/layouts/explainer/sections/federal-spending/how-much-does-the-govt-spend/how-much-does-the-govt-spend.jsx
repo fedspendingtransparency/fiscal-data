@@ -9,13 +9,10 @@ import {
   chartToggle,
   descContainer,
   footerStyle,
-  headerContainer,
-  headerStyle,
   loadingIcon,
   otherContainer,
   otherContainerInvisible,
   percentOrDollarContainer,
-  subHeader,
   toggleButton,
 } from './how-much-does-the-govt-spend.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
