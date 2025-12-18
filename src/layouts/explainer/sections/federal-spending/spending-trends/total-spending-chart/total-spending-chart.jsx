@@ -327,7 +327,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   };
 
   return (
-    <di className={'test again'}>
+    <>
       {chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container}>
@@ -418,7 +418,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </VisualizationCallout>
         </figure>
       )}
-    </di>
+    </>
   );
 };
 
