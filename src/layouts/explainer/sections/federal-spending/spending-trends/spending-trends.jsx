@@ -18,7 +18,7 @@ export const SpendingTrends = ({ cpiDataByYear }) => {
   };
 
   return (
-    <div className={'test'}>
+    <>
       <p>
         The federal government spent ${spendingTotal} in FY {fiscalYear}. This means federal spending was equal to {spendingPercent} of the total
         gross domestic product (GDP), or economic activity, of the United States that year. One of the reasons federal spending is compared to GDP is
@@ -31,6 +31,6 @@ export const SpendingTrends = ({ cpiDataByYear }) => {
       <div className={totalSpendingChartContainer}>
         {!beaGDPData.isGDPLoading && <TotalSpendingChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />}
       </div>
-    </div>
+    </>
   );
 };
