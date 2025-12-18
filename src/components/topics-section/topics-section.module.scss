@@ -29,10 +29,16 @@ $max-img-width-desktop: 48.219rem;
     }
   }
 }
-
+.topicsGrid {
+  display: flex;
+  flex-direction: column-reverse;
+}
 @media screen and (min-width: $breakpoint-lg) {
   .topicsSectionContainer {
     margin-top: 1rem;
+  }
+  .topicsGrid {
+    flex-direction: row;
   }
 
   .line {

@@ -55,7 +55,12 @@
     vertical-align: text-bottom;
   }
 }
-
+.showOnDesktop {
+  display: block;
+}
+.showOnMobile {
+  display: none;
+}
 @media screen and (min-width: $breakpoint-lg) {
   .mainContent {
     .explainerImageContainer {
@@ -82,5 +87,11 @@
     .afgBookIcon {
       padding-top: 1.03125rem;
     }
+  }
+  .showOnDesktop {
+    display: none;
+  }
+  .showOnMobile {
+    display: block;
   }
 }

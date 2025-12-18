@@ -57,21 +57,27 @@ global.___loader = {
 
 describe('Explainer Tile', () => {
   it('renders a topics tile, with the title, body and image', () => {
-    const { getByText, getByTestId, getByRole } = render(<ExplainerTile content={testTiles['pageName']} images={''} width={'1200'} />);
+    const { getByText, getByTestId, getAllByRole } = render(<ExplainerTile content={testTiles['pageName']} images={''} width={'1200'} />);
 
     expect(getByTestId('tile')).toBeInTheDocument();
     expect(getByText('Page title')).toBeInTheDocument();
     expect(getByText('Page description')).toBeInTheDocument();
-    expect(getByRole('presentation')).toBeInTheDocument();
+    const images = getAllByRole('presentation');
+
+    expect(images).toHaveLength(2);
+    expect(images[0]).toBeInTheDocument();
   });
 
   it('renders a topics tile for mobile view', () => {
-    const { getByText, getByTestId, getByRole } = render(<ExplainerTile content={testTiles['pageName']} images={''} width={'400'} />);
+    const { getByText, getByTestId, getAllByRole } = render(<ExplainerTile content={testTiles['pageName']} images={''} width={'400'} />);
 
     expect(getByTestId('tile')).toBeInTheDocument();
     expect(getByText('Page title')).toBeInTheDocument();
     expect(getByText('Page description')).toBeInTheDocument();
-    expect(getByRole('presentation')).toBeInTheDocument();
+    const images = getAllByRole('presentation');
+
+    expect(images).toHaveLength(2);
+    expect(images[0]).toBeInTheDocument();
   });
 
   it('wraps the tile in a link when a path is provided', () => {
@@ -89,9 +95,12 @@ describe('Explainer Tile', () => {
   });
 
   it('renders the tile images with the provided alternate text', () => {
-    const { getByRole } = render(<ExplainerTile content={testTiles['pageName']} images={mockImages} width={'1200'} />);
-    expect(getByRole('presentation')).toBeInTheDocument();
-    expect(getByRole('presentation')).toHaveAttribute('alt', 'altText');
+    const { getAllByRole } = render(<ExplainerTile content={testTiles['pageName']} images={mockImages} width={'1200'} />);
+    const images = getAllByRole('presentation');
+
+    expect(images).toHaveLength(2);
+    expect(images[0]).toHaveAttribute('alt', 'altText');
+    expect(images[1]).toHaveAttribute('alt', 'altText');
   });
 
   it('calls the appropriate analytics event when the mouse hovers over the tile', async () => {
