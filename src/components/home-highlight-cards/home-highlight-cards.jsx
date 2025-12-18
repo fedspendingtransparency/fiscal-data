@@ -4,8 +4,6 @@ import { Grid } from '@mui/material';
 import HighlightedDatasets from './highlighted-datasets-config';
 import { cardsContainer, cardWrapper, container } from './home-highlight-cards.module.scss';
 import HomeHighlightCard from './home-highlight-card/home-highlight-card';
-import { loadingIcon } from '../../pages/home.module.scss';
-import LoadingIndicator from '../loading-indicator/loading-indicator';
 
 export const baseCollapsedStyle = {
   overflow: 'hidden',
@@ -74,17 +72,13 @@ const HomeHighlightCards = () => {
 
   return (
     <div data-testid="highlight-cards-parent" className={container} ref={containerRef}>
-      {highlights.length ? (
-        <Grid container className={cardsContainer} data-testid="cards-container">
-          {highlights.map((dataset, i) => (
-            <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
-              <HomeHighlightCard cardId={`homepageCard-${i}`} className={cardWrapper} dataset={dataset} />
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <LoadingIndicator loadingClass={loadingIcon} />
-      )}
+      <Grid container className={cardsContainer} data-testid="cards-container">
+        {highlights.map((dataset, i) => (
+          <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
+            <HomeHighlightCard cardId={`homepageCard-${i}`} className={cardWrapper} dataset={dataset} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Stack, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import HomePageTile from './homepage-tile/homepage-tile';
-import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsSectionContainer } from './topics-section.module.scss';
+import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsSectionContainer, topicsGrid } from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
@@ -26,7 +26,7 @@ export const TopicsSection = ({ images, width }) => {
     <div className={topicsSectionContainer} data-testid="topics-section">
       <div className={tileContainer}>
         <ThemeProvider theme={theme}>
-          <Grid container spacing={4} direction={width < pxToNumber(breakpointLg) ? 'column-reverse' : 'row'}>
+          <Grid container spacing={4} className={topicsGrid}>
             <Grid size={{ lg: mainWidth }}>
               <Stack>
                 <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>

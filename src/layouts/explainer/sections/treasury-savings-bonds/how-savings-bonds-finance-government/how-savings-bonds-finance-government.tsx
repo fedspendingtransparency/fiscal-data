@@ -37,6 +37,16 @@ interface ApiResponse {
   meta: { 'total-pages': number };
 }
 
+export const higherOrLowerOrSameAs = difference => {
+  if (difference > 0) {
+    return 'higher than';
+  } else if (difference < 0) {
+    return 'lower than';
+  } else {
+    return 'the same as';
+  }
+};
+
 const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
@@ -133,28 +143,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
       }
     });
   }, []);
-
-  const processTypesSavingsBondsData = res => {
-    const totalData = [...savingsBondsByTypeHistorical, ...res];
-    const types = totalData.map(element => {
-      if (element.security_class_desc) {
-        return element.security_class_desc;
-      } else if (element.bond_type) {
-        return element.bond_type;
-      }
-    });
-    return Array.from(new Set(types));
-  };
-
-  const higherOrLowerOrSameAs = difference => {
-    if (difference > 0) {
-      return 'higher than';
-    } else if (difference < 0) {
-      return 'lower than';
-    } else {
-      return 'the same as';
-    }
-  };
 
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
