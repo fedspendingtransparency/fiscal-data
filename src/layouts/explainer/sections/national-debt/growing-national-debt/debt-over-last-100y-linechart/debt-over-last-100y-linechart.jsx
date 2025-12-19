@@ -172,20 +172,27 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   return (
     <>
-      {isLoading && <LoadingIndicator />}
-      {!isLoading && (
-        <figure className={visWithCallout}>
-          <div className={container}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              header={dataHeader(totalDebtHeadingValues)}
-              altText={chartAltText}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
-            >
+      <figure className={visWithCallout}>
+        <div className={container}>
+          <ChartContainer
+            title={chartTitle}
+            subTitle={chartSubtitle}
+            footer={chartFooter}
+            date={lastUpdatedDate}
+            header={dataHeader(totalDebtHeadingValues)}
+            altText={chartAltText}
+            customHeaderStyles={customHeaderStyles}
+            customFooterSpacing={customFooterSpacing}
+            // notes for monday:
+            // confirm spending charts are okay with their minHeights in mobile
+            // find out why this minHeight is whack
+            customContainerStyles={{
+              minHeight: '100.66rem',
+            }}
+          >
+            {isLoading ? (
+              <LoadingIndicator />
+            ) : (
               <div
                 className={lineChart}
                 data-testid="totalDebtChartParent"
@@ -242,15 +249,15 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   areaOpacity={1}
                 />
               </div>
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color="">
-            <p>
-              Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
-            </p>
-          </VisualizationCallout>
-        </figure>
-      )}
+            )}
+          </ChartContainer>
+        </div>
+        <VisualizationCallout color="">
+          <p>
+            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
   );
 };
