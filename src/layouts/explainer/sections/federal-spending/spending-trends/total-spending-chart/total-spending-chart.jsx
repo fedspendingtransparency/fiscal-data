@@ -326,9 +326,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     yScale: yScale,
   };
 
-  console.log('width: ', width);
-  console.log('breakpointLg: ', breakpointLg);
-
   return (
     <>
       {chartToggleConfig && (
@@ -341,7 +338,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               date={lastUpdatedDate}
               altText={chartAltText}
               customContainerStyles={{
-                // minHeight: width > breakpointLg ? '35.19rem' : '25.06rem',
                 minHeight: 'var(--chart-height)',
               }}
             >
