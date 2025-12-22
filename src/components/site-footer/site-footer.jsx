@@ -11,6 +11,9 @@ import {
   footerMain,
   logo,
   pageLinks,
+  topRow,
+  socialIcons,
+  socialIconLink,
 } from './site-footer.module.scss';
 import globalConstants from '../../helpers/constants';
 import DownloadSticky from '../download-sticky/download-sticky';
@@ -18,6 +21,10 @@ import ResumeDownloadModal from '../download-modal/resume-download-modal/resume-
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import CustomLink from '../links/custom-link/custom-link';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export const siteFooterColumns = [
   {
@@ -99,6 +106,7 @@ const SiteFooter = () => {
       <footer>
         <div className={footerMain}>
           <div className={content}>
+            <div className={topRow}>
             <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
               <StaticImage
                 src="../../images/logos/fd-logo-ko.svg"
@@ -110,6 +118,45 @@ const SiteFooter = () => {
                 aria-label="Fiscal Data logo"
               />
             </Link>
+              <div className={socialIcons}>
+                <a
+                  href="https://www.facebook.com/fiscalservice"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="facebook"
+                  className={socialIconLink}
+                >
+                  <FacebookIcon  />
+                </a>
+                <a
+                  href="https://x.com/FiscalService"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="x"
+                  className={ socialIconLink }
+                >
+                  <XIcon  fontSize="small" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/1722850/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="linkedin"
+                  className={socialIconLink}
+                >
+                  <LinkedInIcon />
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="youtube"
+                  className={ socialIconLink }
+                >
+                  <YouTubeIcon />
+                </a>
+              </div>
+            </div>
             <div className={pageLinks}>
               {siteFooterColumns.map(columnContent => {
                 return (
