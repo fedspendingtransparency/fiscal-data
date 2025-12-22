@@ -8,5 +8,9 @@
 }
 
 .totalSpendingChartContainer {
-  min-height: 49.63rem;
+  min-height: 45.69rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    min-height: 49.63rem;
+  }
 }
