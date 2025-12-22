@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { getByLabelText, render, screen } from '@testing-library/react';
 import SiteFooter, { siteFooterColumns } from './site-footer';
 import Analytics from '../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
+
 
 jest.mock('../download-sticky/download-sticky', () => () => <div data-testid="download-sticky" />);
 jest.mock('../download-modal/resume-download-modal/resume-download-modal', () => () => <div data-testid="resume-download-modal" />);
@@ -227,4 +228,26 @@ describe('SiteFooter', () => {
     });
     spy.mockClear();
   });
+
+  it('contains social links and navigates to profile', () => {
+    const { getByLabelText } = render(
+      <RecoilRoot>
+        <SiteFooter />
+      </RecoilRoot>
+    );
+    const socialLinks= [
+      { label: 'facebook', href: 'https://www.facebook.com/fiscalservice'},
+      { label: 'x', href: 'https://x.com/FiscalService'},
+      { label: 'linkedin', href:  'https://www.linkedin.com/company/1722850/'},
+      { label: 'youtube', href: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
+    ]
+    socialLinks.forEach(({label, href }) => {
+      const element = getByLabelText(label);
+      expect(element).toBeInTheDocument();
+      expect(element).toHaveAttribute('href', href);
+      expect(element).toHaveAttribute('target', '_blank');
+    });
+  });
 });
+
+
