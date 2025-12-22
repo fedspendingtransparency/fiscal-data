@@ -111,8 +111,8 @@ const SiteFooter = () => {
               <StaticImage
                 src="../../images/logos/fd-logo-ko.svg"
                 alt="Fiscal Data logo"
-                height={49}
-                width={171}
+                height={39.16}
+                width={141.32}
                 placeholder="dominantColor"
                 layout="fixed"
                 aria-label="Fiscal Data logo"
