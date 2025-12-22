@@ -128,7 +128,7 @@ const SiteFooter = () => {
                   aria-label="facebook"
                   className={socialIconLink}
                 >
-                  <FacebookIcon className={facebookIcon} fontSize="large" />
+                  <FacebookIcon  />
                 </a>
                 <a
                   href="https://x.com/FiscalService"
@@ -137,7 +137,7 @@ const SiteFooter = () => {
                   aria-label="x"
                   className={ socialIconLink }
                 >
-                  <XIcon className={xIcon} fontSize="medium" />
+                  <XIcon  fontSize="small" />
                 </a>
                 <a
                   href="https://www.linkedin.com/company/1722850/"
@@ -146,7 +146,7 @@ const SiteFooter = () => {
                   aria-label="linkedin"
                   className={socialIconLink}
                 >
-                  <LinkedInIcon className={facebookIcon} fontSize="large" />
+                  <LinkedInIcon />
                 </a>
                 <a
                   href="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
@@ -155,7 +155,7 @@ const SiteFooter = () => {
                   aria-label="youtube"
                   className={ socialIconLink }
                 >
-                  <YouTubeIcon className={xIcon} fontSize="medium" />
+                  <YouTubeIcon />
                 </a>
               </div>
             </div>

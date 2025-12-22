@@ -12,12 +12,6 @@
   display: flex;
   align-items: center;
 }
-.facebookIcon {
-  color: white;
-  width: 24px;
-  height: 24px;
-  background: transparent;
-}
 
 .socialIcons {
   margin-left: 200px;
@@ -27,18 +21,11 @@
   bottom: 20px;
 }
 
-.xIcon {
-  color: black;
-  background: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 4px
-}
-
 .socialIconLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: white;
 }
 
 .content {
