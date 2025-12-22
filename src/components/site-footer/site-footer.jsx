@@ -14,8 +14,6 @@ import {
   topRow,
   socialIcons,
   socialIconLink,
-  facebookIcon,
-  xIcon,
 } from './site-footer.module.scss';
 import globalConstants from '../../helpers/constants';
 import DownloadSticky from '../download-sticky/download-sticky';
