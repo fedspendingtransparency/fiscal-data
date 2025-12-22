@@ -326,11 +326,14 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     yScale: yScale,
   };
 
+  console.log('width: ', width);
+  console.log('breakpointLg: ', breakpointLg);
+
   return (
     <>
       {chartToggleConfig && (
         <figure className={visWithCallout}>
-          <div className={container}>
+          <div className={container} style={{}}>
             <ChartContainer
               title={chartTitle}
               subTitle={chartSubtitle}
@@ -338,7 +341,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
               date={lastUpdatedDate}
               altText={chartAltText}
               customContainerStyles={{
-                minHeight: '35.19rem',
+                // minHeight: width > breakpointLg ? '35.19rem' : '25.06rem',
+                minHeight: 'var(--chart-height)',
               }}
             >
               {isLoading ? (
