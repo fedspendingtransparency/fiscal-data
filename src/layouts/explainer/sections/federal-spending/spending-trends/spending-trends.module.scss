@@ -6,3 +6,11 @@
   font-style: italic;
   font-size: $font-size-16;
 }
+
+.totalSpendingChartContainer {
+  min-height: 45.69rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    min-height: 49.63rem;
+  }
+}
