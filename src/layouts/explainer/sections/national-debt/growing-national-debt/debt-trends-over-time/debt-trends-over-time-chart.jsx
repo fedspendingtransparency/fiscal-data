@@ -162,8 +162,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   return (
     <>
-      {isLoadingDebtTrends && <LoadingIndicator />}
-      {!isLoadingDebtTrends && debtTrendsData && (
+      {/*{isLoadingDebtTrends && <LoadingIndicator />}*/}
+      {/*{!isLoadingDebtTrends && debtTrendsData && (      */}
+
+      {debtTrendsData && (
         <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
@@ -172,78 +174,85 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               header={headerContent()}
               footer={footerContent}
               date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
+              // break for today - the below line is erroring out because I've removed the loadingDebtTrends var - which was serving as a catch
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData ? debtTrendsData[0].data[0].x : '-'} to ${
+                lastDebtValue.x
+              }.`}
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
             >
-              <div
-                className={lineChartContainer}
-                data-testid={`${chartParent}`}
-                onMouseEnter={handleMouseEnterLineChart}
-                onMouseLeave={handleMouseLeaveLineChart}
-                id="debt-trends"
-                role="presentation"
-              >
-                <Line
-                  {...nivoCommonLineChartProps}
-                  data={debtTrendsData}
-                  width={chartWidth}
-                  height={chartHeight}
-                  theme={getChartTheme(width)}
-                  layers={[
-                    'grid',
-                    'crosshair',
-                    'lines',
-                    'axes',
-                    props =>
-                      LineChartCustomPoint({
-                        ...props,
-                        seriesId: 'us',
-                      }),
-                    props =>
-                      CustomSlices({
-                        ...props,
-                        inView,
-                        mouseMove: handleMouseMove,
-                        groupMouseLeave: lineChartOnMouseLeave,
-                      }),
-                    'mesh',
-                  ]}
-                  margin={
-                    width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
-                  }
-                  xScale={{
-                    type: 'linear',
-                    min: 1948,
-                    max: lastDebtValue.x,
-                  }}
-                  yScale={{
-                    type: 'linear',
-                    min: 0,
-                    max: 140,
-                    stacked: true,
-                    reverse: false,
-                  }}
-                  yFormat=" >-.2f"
-                  axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 6,
-                    tickPadding: 8,
-                    tickRotation: 0,
-                    tickValues: 9,
-                  }}
-                  axisLeft={{
-                    format: formatPercentage,
-                    orient: 'left',
-                    tickSize: 6,
-                    tickPadding: 8,
-                    tickValues: 8,
-                  }}
-                  pointLabelYOffset={-12}
-                  colors={debtExplainerPrimary}
-                  onMouseLeave={lineChartOnMouseLeave}
-                />
-              </div>
+              {isLoadingDebtTrends ? (
+                <LoadingIndicator />
+              ) : (
+                <div
+                  className={lineChartContainer}
+                  data-testid={`${chartParent}`}
+                  onMouseEnter={handleMouseEnterLineChart}
+                  onMouseLeave={handleMouseLeaveLineChart}
+                  id="debt-trends"
+                  role="presentation"
+                >
+                  <Line
+                    {...nivoCommonLineChartProps}
+                    data={debtTrendsData}
+                    width={chartWidth}
+                    height={chartHeight}
+                    theme={getChartTheme(width)}
+                    layers={[
+                      'grid',
+                      'crosshair',
+                      'lines',
+                      'axes',
+                      props =>
+                        LineChartCustomPoint({
+                          ...props,
+                          seriesId: 'us',
+                        }),
+                      props =>
+                        CustomSlices({
+                          ...props,
+                          inView,
+                          mouseMove: handleMouseMove,
+                          groupMouseLeave: lineChartOnMouseLeave,
+                        }),
+                      'mesh',
+                    ]}
+                    margin={
+                      width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
+                    }
+                    xScale={{
+                      type: 'linear',
+                      min: 1948,
+                      max: lastDebtValue.x,
+                    }}
+                    yScale={{
+                      type: 'linear',
+                      min: 0,
+                      max: 140,
+                      stacked: true,
+                      reverse: false,
+                    }}
+                    yFormat=" >-.2f"
+                    axisBottom={{
+                      orient: 'bottom',
+                      tickSize: 6,
+                      tickPadding: 8,
+                      tickRotation: 0,
+                      tickValues: 9,
+                    }}
+                    axisLeft={{
+                      format: formatPercentage,
+                      orient: 'left',
+                      tickSize: 6,
+                      tickPadding: 8,
+                      tickValues: 8,
+                    }}
+                    pointLabelYOffset={-12}
+                    colors={debtExplainerPrimary}
+                    onMouseLeave={lineChartOnMouseLeave}
+                  />
+                </div>
+              )}
             </ChartContainer>
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
