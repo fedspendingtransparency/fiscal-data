@@ -72,7 +72,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
 
   const reportFields = dataTableRequest?.fields ? dataTableRequest.fields.split(',') : [];
 
-  const isSpecial = !!specialAnnouncement && selectedOption.label === (specialAnnouncement as any).label;
+  const isSpecial =
+    (!!specialAnnouncement && selectedOption.label === specialAnnouncement.label) ||
+    selectedOption.label === 'No CUSIP Or Issue Date - Special Announcement';
   const useCusipFirst = Boolean(cusipFirst) && Boolean(dataTableRequest);
 
   useEffect(() => {
@@ -93,11 +95,9 @@ const FilterReportsSection: FunctionComponent<Props> = ({ dataset, width }) => {
       const base: Array<{ label: string; value: string }> = [defaultSelection];
 
       if (specialAnnouncement) {
-        base.push((specialAnnouncement as unknown) as { label: string; value: string });
-        // base.push({
-        //   ...specialAnnouncement,
-        //   label: 'No CUSIP or ISSUE Date - special Annoucement',
-        // } as { label: string; value: string });
+        // base.push((specialAnnouncement as unknown) as { label: string; value: string });
+        const updatedSpecial = { ...specialAnnouncement, label: 'No CUSIP Or Issue Date - Special Announcement' };
+        base.push((updatedSpecial as unknown) as { label: string; value: string });
       }
 
       if (optionValues?.length) {
