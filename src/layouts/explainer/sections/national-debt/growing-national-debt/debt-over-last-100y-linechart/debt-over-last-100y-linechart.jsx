@@ -184,7 +184,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             customHeaderStyles={customHeaderStyles}
             customFooterSpacing={customFooterSpacing}
             customContainerStyles={{
-              minHeight: '26.71rem',
+              minHeight: 'var(--chart-height)',
             }}
           >
             {isLoading ? (
