@@ -2,7 +2,7 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { container, header, headerContainer, lineChartContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
+import { container, header, headerContainer, lineChartContainer, subHeader, loadingIcon } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
@@ -133,18 +133,22 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     setLineChartHoveredYear(lastDebtValue.x);
   };
 
-  const headerContent = () => (
-    <div className={headerContainer}>
-      <div>
-        <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
-        <span className={subHeader}>Fiscal Year</span>
+  const headerContent = () => {
+    const yearDisplay = lastDebtValue.x === undefined ? '-' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
+    const debtToGDPDisplay = lastDebtValue.y === undefined ? '-' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
+    return (
+      <div className={headerContainer}>
+        <div>
+          <div className={header}>{yearDisplay}</div>
+          <span className={subHeader}>Fiscal Year</span>
+        </div>
+        <div>
+          <div className={header}>{debtToGDPDisplay}</div>
+          <span className={subHeader}>Debt to GDP</span>
+        </div>
       </div>
-      <div>
-        <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
-        <span className={subHeader}>Debt to GDP</span>
-      </div>
-    </div>
-  );
+    );
+  };
 
   const footerContent = (
     <>
@@ -162,27 +166,26 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   return (
     <>
-      {/*{isLoadingDebtTrends && <LoadingIndicator />}*/}
-      {/*{!isLoadingDebtTrends && debtTrendsData && (      */}
-
       {debtTrendsData && (
         <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
-              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x}`}
+              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '-'}`}
               subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}
               date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
-              // break for today - the below line is erroring out because I've removed the loadingDebtTrends var - which was serving as a catch
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData ? debtTrendsData[0].data[0].x : '-'} to ${
-                lastDebtValue.x
-              }.`}
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${
+                debtTrendsData[0] ? debtTrendsData[0].data[0].x : '-'
+              } to ${lastDebtValue.x}.`}
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
+              customContainerStyles={{
+                minHeight: 'var(--chart-height)',
+              }}
             >
               {isLoadingDebtTrends ? (
-                <LoadingIndicator />
+                <LoadingIndicator loadingClass={loadingIcon} />
               ) : (
                 <div
                   className={lineChartContainer}

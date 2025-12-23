@@ -2,6 +2,7 @@
 
 .container {
   overflow: hidden;
+  --chart-height: 13.89rem;
   .lineChartContainer {
     width: 100%;
     margin: 0 auto;
@@ -65,9 +66,17 @@
   }
 }
 
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     margin-bottom: 2.75rem;
+    --chart-height: 26.11rem;
 
     .title {
       font-size: $font-size-18;
