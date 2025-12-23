@@ -7,7 +7,7 @@ import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.sc
 import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { container, lineChart } from './debt-over-last-100y-linechart.module.scss';
+import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
@@ -41,7 +41,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
+  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '-', totalDebt: '-' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
@@ -183,15 +183,12 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             altText={chartAltText}
             customHeaderStyles={customHeaderStyles}
             customFooterSpacing={customFooterSpacing}
-            // notes for monday:
-            // confirm spending charts are okay with their minHeights in mobile
-            // find out why this minHeight is whack
             customContainerStyles={{
-              minHeight: '100.66rem',
+              minHeight: '26.71rem',
             }}
           >
             {isLoading ? (
-              <LoadingIndicator />
+              <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
               <div
                 className={lineChart}
