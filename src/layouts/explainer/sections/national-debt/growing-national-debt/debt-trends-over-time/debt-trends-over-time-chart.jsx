@@ -175,9 +175,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               header={headerContent()}
               footer={footerContent}
               date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${
-                debtTrendsData[0] ? debtTrendsData[0].data[0].x : '-'
-              } to ${lastDebtValue.x}.`}
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '-'} to ${
+                lastDebtValue.x
+              }.`}
               customHeaderStyles={customHeaderStyles}
               customFooterSpacing={customFooterSpacing}
               customContainerStyles={{
