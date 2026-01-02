@@ -1,7 +1,8 @@
 @use 'src/variables.module' as *;
 
 .loadingIndicatorContainer {
-  min-height: 26.875rem;
+  min-height: 16.61rem;
+
   .loadingIcon {
     @include grayLargeLoadingIcon;
     display: flex;
@@ -19,6 +20,9 @@
       font-size: $font-size-24;
       min-width: 110px;
     }
+  }
+  .loadingIndicatorContainer {
+    min-height: 26.875rem;
   }
 }
 
