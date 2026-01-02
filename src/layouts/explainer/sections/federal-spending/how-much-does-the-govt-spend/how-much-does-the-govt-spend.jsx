@@ -9,13 +9,10 @@ import {
   chartToggle,
   descContainer,
   footerStyle,
-  headerContainer,
-  headerStyle,
   loadingIcon,
   otherContainer,
   otherContainerInvisible,
   percentOrDollarContainer,
-  subHeader,
   toggleButton,
 } from './how-much-does-the-govt-spend.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
@@ -144,13 +141,6 @@ const HowMuchDoesTheGovtSpend = () => {
     </div>
   );
 
-  const header = (
-    <div className={headerContainer}>
-      <div className={headerStyle}>U.S. Government Spending, FYTD {fiscalYear}</div>
-      <div className={subHeader}>Top 10 Spending by Category and Agency</div>
-    </div>
-  );
-
   const sortField = selectedChartView === 'category' ? 'current_fytd_rcpt_outly_amt' : 'current_fytd_net_outly_amt';
 
   let sortedItems =
@@ -208,17 +198,18 @@ const HowMuchDoesTheGovtSpend = () => {
         marginLeft: '0px',
         maxWidth: '100%',
         paddingLeft: '0px',
+        minHeight: '45.84rem',
       }}
       customFooterStyles={{ paddingLeft: '32px' }}
       customSpacing={{
         marginBottom: '32px',
         paddingLeft: '0px',
       }}
-      customHeaderStyles={{
-        marginTop: '0px',
-        justifyContent: 'flex-start',
-      }}
-      header={header}
+      // A lot of this styling code needs to be reworked for consistency across charts
+      customTitleStyles={{ paddingLeft: '1.5rem' }}
+      customSubTitleStyles={{ paddingLeft: '1.5rem' }}
+      title={`U.S. Government Spending, FYTD ${fiscalYear}`}
+      subTitle={'Top 10 Spending by Category and Agency'}
       footer={footer}
       date={lastUpdatedDate}
       customTestId="spending-bar-chart"
