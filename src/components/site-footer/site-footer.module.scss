@@ -8,6 +8,26 @@
   z-index: $main-sticky-footer; // positioned to overlap sticky footer during its exit transition
 }
 
+.topRow {
+  display: flex;
+  align-items: center;
+}
+
+.socialIcons {
+  margin-left: 200px;
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  bottom: 20px;
+}
+
+.socialIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
 .content {
   max-width: $main-width;
   margin: 0 auto;
@@ -45,7 +65,7 @@
   flex-direction: column;
   padding-right: 3rem;
   &:not(:last-of-type) {
-    padding-bottom: 3.625rem;
+    padding-bottom: 48px;
   }
 }
 
@@ -131,8 +151,19 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-lg) {
   .content {
-    padding-bottom: 6.75rem;
+    padding-bottom: 52px;
   }
+  .topRow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 36px;
+  }
+
+  .socialIcons {
+    margin-left: 0;
+  }
+
 }
