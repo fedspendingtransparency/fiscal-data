@@ -8,8 +8,6 @@ import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import supplementalSpendingDesktop from '../../../../../../static/images/supplemental-spending_desktop.png';
-import supplementalSpendingMobile from '../../../../../../static/images/supplemental-spending_mobile.png';
 import MandatorySpendingImgDesktop from '../../../../../../static/images/mandatory-spending_desktop.png';
 import MandatorySpendingImgMobile from '../../../../../../static/images/mandatory-spending_mobile.png';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
@@ -89,16 +87,19 @@ export const SpendingDifference = ({ width }) => {
         USAspending.gov’s {USAsCovidSpending} page.
       </p>
       <div className={mandatorySpendingContainer}>
-        <img
-          src={width < pxToNumber(breakpointLg) ? supplementalSpendingMobile : supplementalSpendingDesktop}
-          alt={
-            'Step 1: Congress proposes and votes on legislation for supplemental appropriations ' +
-            'Step 2: President enacts the law by signing it ' +
-            'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
-          }
-          data-testid="supplementalSpendingImg"
-          className={mandatorySpendingImgStyle}
-        />
+        <picture>
+          <source media={`(min-width: ${breakpointLg})`} srcSet={MandatorySpendingImgDesktop} />
+          <img
+            src={MandatorySpendingImgMobile}
+            alt={
+              'Step 1: Congress proposes and votes on legislation for supplemental appropriations ' +
+              'Step 2: President enacts the law by signing it ' +
+              'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
+            }
+            className={mandatorySpendingImgStyle}
+            data-testId="mandatorySpendingImg"
+          />
+        </picture>
       </div>
       <div className={spendingAccordion}>
         <Accordion
