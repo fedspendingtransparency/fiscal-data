@@ -1,5 +1,15 @@
 @use 'src/variables.module' as *;
 
+.loadingIndicatorContainer {
+  min-height: 26.875rem;
+  .loadingIcon {
+    @include grayLargeLoadingIcon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {
     .title.simple {

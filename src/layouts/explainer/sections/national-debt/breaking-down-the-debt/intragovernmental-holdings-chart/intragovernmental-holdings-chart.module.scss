@@ -4,6 +4,17 @@
   width: 100%;
 }
 
+.container {
+  --chart-height: 27.69rem;
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .title {
   margin-bottom: 18px;
 }
