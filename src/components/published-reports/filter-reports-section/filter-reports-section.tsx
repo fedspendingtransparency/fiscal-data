@@ -17,7 +17,7 @@ import { useFilterReports, SPECIAL_LABEL } from './filter-reports-section-helper
 const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
   const { runTimeReportConfig: reportConfig, apis } = dataset;
 
-  const { filterOptions, dateOptionsNested, reports, apiError, loading, setApiError, updateAvailableDates, getReports } = useFilterReports(
+  const { filterOptions, dateOptionsNested, reports, apiError, setApiError, updateAvailableDates, getReports } = useFilterReports(
     dataset,
     reportConfig
   );
@@ -161,7 +161,7 @@ const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
     )
   );
 
-  const showTable = reports.length > 0 && !apiError && !loading;
+  const showTable = reports.length > 0 && !apiError;
 
   return (
     <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
@@ -177,8 +177,7 @@ const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
           </>
         )}
       </div>
-      {loading && <div style={{ textAlign: 'center', padding: '2rem' }}>Loading reports...</div>}
-      {!showTable && !loading && (
+      {!showTable && (
         <ReportsEmptyTable width={width} heading={apiError ? unmatchedHeader : defaultHeader} body={apiError ? unmatchedMessage : defaultMessage} />
       )}
       {showTable && (

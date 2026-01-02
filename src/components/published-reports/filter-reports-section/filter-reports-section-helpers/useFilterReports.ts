@@ -16,7 +16,6 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
   const [dateOptionsNested, setDateOptionsNested] = useState<any[]>([]);
   const [reports, setReports] = useState<any[]>([]);
   const [apiError, setApiError] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const seed = async () => {
@@ -101,7 +100,6 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
         return;
       }
 
-      setLoading(true);
       setApiError(false);
       try {
         let allReports: any[] = [];
@@ -151,12 +149,10 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
       } catch {
         setApiError(true);
         setReports([]);
-      } finally {
-        setLoading(false);
       }
     },
     [apis, datasetId, filterField, dataTableRequest]
   );
 
-  return { filterOptions, dateOptionsNested, reports, apiError, loading, setApiError, updateAvailableDates, getReports };
+  return { filterOptions, dateOptionsNested, reports, apiError, setApiError, updateAvailableDates, getReports };
 };
