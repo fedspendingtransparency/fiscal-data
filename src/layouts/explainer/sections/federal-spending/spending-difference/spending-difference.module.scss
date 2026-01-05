@@ -18,8 +18,13 @@
     margin-bottom: 2rem;
     margin-top: 2rem;
     width: 100%;
+    picture {
+      width: 100%;
+    }
     img {
       width: 100%;
+      height: auto;
+      display: block;
     }
   }
   .mandatorySpendingImgStyle {
