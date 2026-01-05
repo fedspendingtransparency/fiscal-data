@@ -104,8 +104,8 @@ export const SpendingDifference = ({ width }) => {
               'Step 2: President enacts the law by signing it ' +
               'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
             }
+            data-testId="supplementalSpendingImg"
             className={mandatorySpendingImgStyle}
-            data-testId="mandatorySpendingImg"
           />
         </picture>
       </div>
