@@ -223,65 +223,63 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
       <ChartContainer title={chartCopy.title} altText={chartCopy.altText} date={historyChartDate} footer={footer}>
         <div className={chartStyle} data-testid="chartParent">
           <div className={chartContainer}>
-            <div data-testid="pie-chart-wrapper">
-              <PieChart width={chartWidth} height={chartHeight} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
-                <Pie
-                  data={data1WidthPercentage}
-                  dataKey="percent"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="40%"
-                  outerRadius="74.5%"
-                  startAngle={-270}
-                  endAngle={90}
-                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
-                >
-                  {data1WidthPercentage.map((entry: any, index) => (
-                    <Cell
-                      key={`cell-data01-${index}`}
-                      fill={entry.securityType === 'Nonmarketable' ? color2 : color}
-                      opacity={getOpacity('data01', index, entry)}
-                      aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent?.toFixed(2)}%`}
-                    />
-                  ))}
-                </Pie>
-                {/*This next Pie element is just to display the Savings Bonds top-notch */}
-                <Pie
-                  inactiveShape={getActiveShape}
-                  activeShape={getActiveShape}
-                  data={savingsBondCallOut}
-                  dataKey="percent"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="75%"
-                  outerRadius="90%"
-                  startAngle={-270}
-                  endAngle={90}
-                  opacity={0}
-                />
-                <Pie
-                  data={savingsBondCallOut}
-                  dataKey="percent"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius="75%"
-                  outerRadius="90%"
-                  startAngle={-270}
-                  endAngle={90}
-                  onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
-                >
-                  {consolidateDataArray.map((entry: any, index) => (
-                    <Cell
-                      key={`cell-data02-${index}`}
-                      fill={entry.securityType === 'Nonmarketable' ? color2 : color}
-                      opacity={getOpacity('data02', index, entry)}
-                      aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent?.toFixed(2)}%`}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip content={<CustomTooltip mouseInactive={mouseInactive} />} defaultIndex={actualActiveIndex} active={true} />
-              </PieChart>
-            </div>
+            <PieChart width={chartWidth} height={chartHeight} onMouseEnter={handleChartMouseEnter} onMouseLeave={handleChartMouseLeave}>
+              <Pie
+                data={data1WidthPercentage}
+                dataKey="percent"
+                cx="50%"
+                cy="50%"
+                innerRadius="40%"
+                outerRadius="74.5%"
+                startAngle={-270}
+                endAngle={90}
+                onMouseEnter={(data, index) => onPieEnter(data, index, 'data01')}
+              >
+                {data1WidthPercentage.map((entry: any, index) => (
+                  <Cell
+                    key={`cell-data01-${index}`}
+                    fill={entry.securityType === 'Nonmarketable' ? color2 : color}
+                    opacity={getOpacity('data01', index, entry)}
+                    aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent?.toFixed(2)}%`}
+                  />
+                ))}
+              </Pie>
+              {/*This next Pie element is just to display the Savings Bonds top-notch */}
+              <Pie
+                inactiveShape={getActiveShape}
+                activeShape={getActiveShape}
+                data={savingsBondCallOut}
+                dataKey="percent"
+                cx="50%"
+                cy="50%"
+                innerRadius="75%"
+                outerRadius="90%"
+                startAngle={-270}
+                endAngle={90}
+                opacity={0}
+              />
+              <Pie
+                data={savingsBondCallOut}
+                dataKey="percent"
+                cx="50%"
+                cy="50%"
+                innerRadius="75%"
+                outerRadius="90%"
+                startAngle={-270}
+                endAngle={90}
+                onMouseEnter={(data, index) => onPieEnter(data, index, 'data02')}
+              >
+                {consolidateDataArray.map((entry: any, index) => (
+                  <Cell
+                    key={`cell-data02-${index}`}
+                    fill={entry.securityType === 'Nonmarketable' ? color2 : color}
+                    opacity={getOpacity('data02', index, entry)}
+                    aria-label={`${entry.name}: Value: ${entry.value} Percent: ${entry.percent?.toFixed(2)}%`}
+                  />
+                ))}
+              </Pie>
+              <Tooltip content={<CustomTooltip mouseInactive={mouseInactive} />} defaultIndex={actualActiveIndex} active={true} />
+            </PieChart>
           </div>
           <CustomLegend onLegendEnter={onLegendEnter} onChartLeave={onChartLeave} primaryColor={color} secondaryColor={color2} />
         </div>
