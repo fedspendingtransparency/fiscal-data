@@ -194,6 +194,75 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
 
+  it('column sort asc keyboard accessibility', () => {
+    const mockSorting = jest.fn();
+    const mockSetSorting = jest.fn();
+
+    const { getAllByTestId, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          sorting={[{id:'record_date', desc: false}]}
+          setSorting={mockSetSorting}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
+
+        />
+      </RecoilRoot>
+    );
+    expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
+    expect(getAllByTestId('row').length).toEqual(6);
+    const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('sortArrow');
+    fireEvent.click(sortButton)
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    expect(sortButton).toHaveClass('sortArrow');
+  });
+
+  it('column sort desc keyboard accessibility', () => {
+    const mockSorting = jest.fn();
+    const mockSetSorting = jest.fn();
+
+    const { getAllByTestId, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          shouldPage
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          columnConfig={mockColumnConfig}
+          sorting={[{id:'record_date', desc: true}]}
+          setSorting={mockSetSorting}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
+
+        />
+      </RecoilRoot>
+    );
+    expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
+    expect(getAllByTestId('row').length).toEqual(6);
+
+    const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('sortArrow');
+    fireEvent.click(sortButton)
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    expect(sortButton).toHaveClass('sortArrow');
+  });
+
   it('Filter column by text search', () => {
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
