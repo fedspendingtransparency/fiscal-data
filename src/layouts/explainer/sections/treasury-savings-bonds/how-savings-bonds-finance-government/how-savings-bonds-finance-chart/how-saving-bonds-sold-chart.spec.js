@@ -66,4 +66,22 @@ describe('HowSavingsBondsSoldChart', () => {
     fireEvent.click(mspdLink);
     expect(analyticsEventHandler).toHaveBeenCalledWith('Summary of Treasury Securities Outstanding', 'Savings Bonds Citation Click');
   });
+
+  it('adjusts the chart height/width appropriately for small screens', () => {
+    window.innerWidth = 400;
+    fireEvent(window, new Event('resize'));
+    const chartParent = screen.getByTestId('chartParent');
+    const pieChart = chartParent.querySelector('svg');
+    expect(pieChart).toHaveAttribute('width', '335');
+    expect(pieChart).toHaveAttribute('height', '360');
+  });
+
+  it('adjusts the chart height/width appropriately for medium screens', () => {
+    window.innerWidth = 600;
+    fireEvent(window, new Event('resize'));
+    const chartParent = screen.getByTestId('chartParent');
+    const pieChart = chartParent.querySelector('svg');
+    expect(pieChart).toHaveAttribute('width', '382');
+    expect(pieChart).toHaveAttribute('height', '382');
+  });
 });
