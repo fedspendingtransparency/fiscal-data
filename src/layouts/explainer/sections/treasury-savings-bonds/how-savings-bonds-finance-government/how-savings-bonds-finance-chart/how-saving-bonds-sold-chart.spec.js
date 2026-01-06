@@ -4,8 +4,7 @@ import '@testing-library/jest-dom';
 import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart';
 import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } from './how-savings-bond-sold-chart-test-helper';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
-import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
-import { glossaryGAEvent } from '../../treasury-savings-bonds';
+import Analytics from '../../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -19,8 +18,7 @@ jest.mock('recharts', () => {
   };
 });
 
-jest.mock('../../treasury-savings-bonds');
-jest.mock('../../../../explainer-helpers/explainer-helpers');
+jest.useFakeTimers();
 
 describe('HowSavingsBondsSoldChart', () => {
   class ResizeObserver {
@@ -53,18 +51,28 @@ describe('HowSavingsBondsSoldChart', () => {
   });
 
   it('calls ga event when the glossary term is clicked', () => {
-    const glossaryTerm = screen.getByText('intragovernmental');
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const glossaryTerm = screen.getByRole('button', { name: 'intragovernmental' });
     fireEvent.click(glossaryTerm);
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Intragovernmental Holdings');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Intragovernmental Holdings',
+    });
   });
 
   it('calls the correct ga event when a custom link is clicked', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
     const nationalDebtLink = screen.getByRole('link', { name: 'National Debt explainer' });
     const mspdLink = screen.getByRole('link', { name: 'U.S. Treasury Monthly Statement of the Public Debt (MSPD)' });
     fireEvent.click(nationalDebtLink);
-    expect(analyticsEventHandler).toHaveBeenCalledWith('National Debt', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({ action: 'Savings Bonds Citation Click', category: 'Explainers', label: 'National Debt' });
     fireEvent.click(mspdLink);
-    expect(analyticsEventHandler).toHaveBeenCalledWith('Summary of Treasury Securities Outstanding', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Summary of Treasury Securities Outstanding',
+    });
   });
 
   it('adjusts the chart height/width appropriately for small screens', () => {
@@ -83,5 +91,19 @@ describe('HowSavingsBondsSoldChart', () => {
     const pieChart = chartParent.querySelector('svg');
     expect(pieChart).toHaveAttribute('width', '382');
     expect(pieChart).toHaveAttribute('height', '382');
+  });
+
+  it('tests ga hover event on the pie chart', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const chartParent = screen.getByTestId('chartParent');
+    const pieChart = chartParent.querySelector('svg');
+    fireEvent.mouseOver(pieChart);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Explainers',
+      label: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
+    });
+    fireEvent.mouseLeave(pieChart);
+    jest.runAllTimers();
   });
 });
