@@ -7,8 +7,6 @@ import { useStaticQuery } from 'gatsby';
 import fetchMock from 'fetch-mock';
 import { mockSavingsBondTypesData } from '../../../explainer-test-helper';
 import Analytics from '../../../../../utils/analytics/analytics';
-// import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
-// import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 const mockUseStaticQueryData = {
   allSavingsBondsByTypeHistoricalCsv: {
@@ -58,9 +56,6 @@ const mockMSPDData2 = {
     },
   ],
 };
-
-// jest.mock('../../../explainer-helpers/explainer-helpers');
-// jest.mock('../treasury-savings-bonds');
 
 describe('How Savings Bonds Finance The Government Section', () => {
   class ResizeObserver {

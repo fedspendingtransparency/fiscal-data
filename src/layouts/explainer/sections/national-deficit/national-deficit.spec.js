@@ -1,8 +1,6 @@
 import nationalDeficitSections from './national-deficit';
 import { deficitLearnMoreLinks } from '../../../../layouts/explainer/explainer-helpers/national-deficit/national-deficit-helper';
-import { analyticsEventHandler } from '../../explainer-helpers/explainer-helpers';
-
-jest.mock('../../explainer-helpers/explainer-helpers');
+import Analytics from '../../../../utils/analytics/analytics';
 
 describe('National Deficit explainer page sections', () => {
   it('returns 6 sections with headings and body components', () => {
@@ -12,11 +10,15 @@ describe('National Deficit explainer page sections', () => {
   });
 
   it('fires a citation click when the user clicks the learn more link', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
     expect(deficitLearnMoreLinks.length).toBe(5);
     deficitLearnMoreLinks.forEach(link => {
-      analyticsEventHandler.mockClear();
       link.onClick();
-      expect(analyticsEventHandler).toHaveBeenCalledWith(link.title, 'Deficit Citation Click');
+      expect(analyticsSpy).toHaveBeenCalledWith({
+        action: 'Deficit Citation Click',
+        category: 'Explainers',
+        label: link.title,
+      });
     });
   });
 });
