@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart';
 import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } from './how-savings-bond-sold-chart-test-helper';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import userEvent from '@testing-library/user-event';
+
+jest.useFakeTimers();
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -17,8 +19,6 @@ jest.mock('recharts', () => {
     ),
   };
 });
-
-jest.useFakeTimers();
 
 describe('HowSavingsBondsSoldChart', () => {
   class ResizeObserver {
@@ -97,13 +97,13 @@ describe('HowSavingsBondsSoldChart', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const chartParent = screen.getByTestId('chartParent');
     const pieChart = chartParent.querySelector('svg');
-    fireEvent.mouseOver(pieChart);
+    userEvent.hover(pieChart);
+    jest.runAllTimers();
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
       category: 'Explainers',
-      label: 'Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
+      label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
     });
-    fireEvent.mouseLeave(pieChart);
-    jest.runAllTimers();
+    userEvent.unhover(pieChart);
   });
 });
