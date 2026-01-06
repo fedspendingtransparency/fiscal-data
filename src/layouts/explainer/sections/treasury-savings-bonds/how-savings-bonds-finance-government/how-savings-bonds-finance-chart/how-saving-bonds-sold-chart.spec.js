@@ -5,6 +5,11 @@ import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } 
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
+import { basicFetch } from '../../../../../../utils/api-utils';
+
+jest.mock('../../../../../../utils/api-utils', () => ({
+  basicFetch: jest.fn(),
+}));
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -87,7 +92,7 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(pieChart).toHaveAttribute('height', '382');
   });
 
-  it('tests ga hover event on the pie chart', () => {
+  it('calls ga hover event on the pie chart', () => {
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const chartParent = screen.getByTestId('chartParent');
@@ -100,5 +105,17 @@ describe('HowSavingsBondsSoldChart', () => {
       label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
     });
     userEvent.unhover(pieChart);
+  });
+});
+
+describe('new test suite', () => {
+  it('sets historyDate when api returns with data', () => {
+    const mockApiResponse = {
+      data: [{ record_date: '2026-01-01' }],
+    };
+    basicFetch.mockResolvedValue(mockApiResponse);
+
+    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
+    expect(screen.findByText('January 2023')).toBeInTheDocument();
   });
 });
