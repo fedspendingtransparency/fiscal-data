@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart';
 import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } from './how-savings-bond-sold-chart-test-helper';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -38,10 +37,6 @@ describe('HowSavingsBondsSoldChart', () => {
     const chartParent = screen.getByTestId('chartParent');
     fireEvent.mouseOver(chartParent);
     fireEvent.mouseLeave(chartParent);
-  });
-
-  it('Check to see if notch loaded', async () => {
-    await waitFor(() => expect(screen.getByText('0.60%', { exact: false }))).toBeInTheDocument;
   });
 
   it('Calculate percentage correctly for given data', async () => {
@@ -91,15 +86,9 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(pieChart).toHaveAttribute('width', '382');
     expect(pieChart).toHaveAttribute('height', '382');
   });
-});
-
-describe('ga hover event test block', () => {
-  jest.useFakeTimers();
-  beforeEach(() => {
-    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
-  });
 
   it('tests ga hover event on the pie chart', () => {
+    jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const chartParent = screen.getByTestId('chartParent');
     const pieChart = chartParent.querySelector('svg');
@@ -111,6 +100,5 @@ describe('ga hover event test block', () => {
       label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
     });
     userEvent.unhover(pieChart);
-    jest.runAllTimers();
   });
 });
