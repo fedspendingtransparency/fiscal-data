@@ -7,7 +7,7 @@ import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.sc
 import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { container, lineChart } from './debt-over-last-100y-linechart.module.scss';
+import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
@@ -41,7 +41,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
+  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '-', totalDebt: '-' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
@@ -172,20 +172,24 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   return (
     <>
-      {isLoading && <LoadingIndicator />}
-      {!isLoading && (
-        <figure className={visWithCallout}>
-          <div className={container}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              header={dataHeader(totalDebtHeadingValues)}
-              altText={chartAltText}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
-            >
+      <figure className={visWithCallout}>
+        <div className={container}>
+          <ChartContainer
+            title={chartTitle}
+            subTitle={chartSubtitle}
+            footer={chartFooter}
+            date={lastUpdatedDate}
+            header={dataHeader(totalDebtHeadingValues)}
+            altText={chartAltText}
+            customHeaderStyles={customHeaderStyles}
+            customFooterSpacing={customFooterSpacing}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
+          >
+            {isLoading ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
               <div
                 className={lineChart}
                 data-testid="totalDebtChartParent"
@@ -242,15 +246,15 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   areaOpacity={1}
                 />
               </div>
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color="">
-            <p>
-              Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
-            </p>
-          </VisualizationCallout>
-        </figure>
-      )}
+            )}
+          </ChartContainer>
+        </div>
+        <VisualizationCallout color="">
+          <p>
+            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
   );
 };

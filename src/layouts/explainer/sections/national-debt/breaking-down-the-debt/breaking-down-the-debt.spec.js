@@ -177,12 +177,12 @@ describe('Breaking Down the Debt', () => {
 
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
+    const { getAllByText, getByText } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
 
-    const mspd = await waitFor(() => getByText('U.S. Treasury Monthly Statement of the Public Debt (MSPD)'));
+    const mspd = await waitFor(() => getAllByText('U.S. Treasury Monthly Statement of the Public Debt (MSPD)'));
     const averageInterestRates = await waitFor(() => getByText('Average Interest Rates on U.S. Treasury Securities'));
 
-    mspd.click();
+    mspd[0].click();
     expect(spy).toHaveBeenCalledWith({
       category: 'Explainers',
       action: `Debt Citation Click`,

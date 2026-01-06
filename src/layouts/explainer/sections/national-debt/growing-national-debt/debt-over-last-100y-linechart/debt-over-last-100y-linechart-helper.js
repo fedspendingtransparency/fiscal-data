@@ -14,7 +14,7 @@ const footer = (
 export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
     title: `U.S. National Debt Over the Last 100 Years`,
-    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
+    subtitle: `Inflation Adjusted - ${maxYear ?? '-'} Dollars`,
     footer: footer,
     altText:
       'Line graph displaying the amount of debt in trillions from 1922 to 2022. The graph shows a steady trend with an ' +
