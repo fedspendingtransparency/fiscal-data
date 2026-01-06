@@ -5,8 +5,7 @@ import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } 
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-
-jest.useFakeTimers();
+import '@testing-library/jest-dom';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -92,6 +91,13 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(pieChart).toHaveAttribute('width', '382');
     expect(pieChart).toHaveAttribute('height', '382');
   });
+});
+
+describe('ga hover event test block', () => {
+  jest.useFakeTimers();
+  beforeEach(() => {
+    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
+  });
 
   it('tests ga hover event on the pie chart', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
@@ -105,5 +111,6 @@ describe('HowSavingsBondsSoldChart', () => {
       label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
     });
     userEvent.unhover(pieChart);
+    jest.runAllTimers();
   });
 });
