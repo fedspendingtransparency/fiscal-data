@@ -114,8 +114,7 @@ describe('new test suite', () => {
       data: [{ record_date: '2026-01-01' }],
     };
     basicFetch.mockResolvedValue(mockApiResponse);
-
     render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
-    expect(screen.findByText('January 2023')).toBeInTheDocument();
+    expect(screen.findByText('January 2026')).toBeInTheDocument();
   });
 });
