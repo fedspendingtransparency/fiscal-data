@@ -6,7 +6,7 @@ import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-d
 import { getCache, setCache, makeKey } from './filter-reports-cache';
 import { buildNestedDateOptions } from './date-options';
 
-export const SPECIAL_LABEL = 'No CUSIP Or Issue Date - Special Announcement';
+export const SPECIAL_LABEL = 'No CUSIP or Issue Date - Special Announcement';
 
 export const useFilterReports = (dataset: any, reportConfig: any) => {
   const { datasetId, apis } = dataset;
