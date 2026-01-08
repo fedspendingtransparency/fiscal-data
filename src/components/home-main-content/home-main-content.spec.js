@@ -4,10 +4,6 @@ import userEvent from '@testing-library/user-event';
 import Analytics from '../../utils/analytics/analytics'
 import HomeMainContent from './home-main-content';
 
-jest.mock('../../utils/analytics/analytics', () => ({
-  __esModule: true,
-  default: { event: jest.fn() },
-}));
 
 describe('Home Main Content', () => {
   it('should render text for h2', () => {
@@ -24,13 +20,15 @@ describe('Home Main Content', () => {
   it('fires analytics when Dataset Search link is clicked', async () => {
     render(<HomeMainContent />);
 
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
     const link =
-      screen.queryByRole('link', { name: /dataset search page/i }) ??
+      screen.queryByRole('link', { name: /dataset search page/i })
       screen.getByText(/dataset search page/i);
 
     userEvent.click(link)
 
-    expect(Analytics.event).toHaveBeenCalledWith({
+    expect(analyticsSpy).toHaveBeenCalledWith({
       category: 'Homepage Navigation',
       action: 'Citation Click',
       label: 'Dataset Search',
