@@ -97,6 +97,10 @@ const GettingStarted = () => {
           R, or Python request below directly into a web browser (or script in a data analysis tool), which will return a JSON-formatted response. You
           can also request CSV- or XML-formatted data by using the format filter.
         </p>
+        <p>
+          Check out this short <CustomLink url={'https://www.youtube.com/watch?v=bMr4OFJ8H2Q/'}>tutorial video</CustomLink> to help you get started,
+          where we take you step-by-step through using a dataset’s API endpoint to connect to the data.
+        </p>
         <div className={codeTitle}>EXAMPLE API REQUEST USING GET:</div>
         <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
         <div className={codeTitle}>EXAMPLE RESPONSE:</div>
