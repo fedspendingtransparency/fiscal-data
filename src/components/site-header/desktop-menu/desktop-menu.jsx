@@ -44,7 +44,7 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
                 <span>{pageLink.title}</span>
               </div>
             ) : (
-              <div role="presentation" className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
+              <button className={pageLinkButton} onMouseEnter={() => setActiveDropdown(pageLink.title)}>
                 <Link
                   key={pageLink.title}
                   to={pageLink.to}
@@ -54,7 +54,7 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
                 >
                   {pageLink.title}
                 </Link>
-              </div>
+              </button>
             )}
           </div>
         );

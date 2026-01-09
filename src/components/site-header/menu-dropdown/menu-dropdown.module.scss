@@ -2,6 +2,11 @@
 @use '../../../zIndex.module.scss' as *;
 
 @media screen and (min-width: $breakpoint-lg) {
+  .dropdown {
+    transition: opacity 1s ease;
+    padding-top: 0.125rem;
+  }
+
   .dropdown .dropdownButton {
     padding: 0;
     transform: translateX(2rem);
@@ -21,11 +26,6 @@
     height: 100%;
   }
 
-  .dropdown {
-    transition: opacity 1s ease;
-    padding-top: 0.125rem;
-  }
-
   .dropdownButtonExpanded {
     color: $primary !important;
     font-weight: $semi-bold-weight;
@@ -40,7 +40,7 @@
   .dropdownContent {
     gap: 4rem;
     overflow: hidden;
-    transition: opacity 500ms ease;
+    transition: opacity 500ms ease, visibility 0ms linear 0ms;
     justify-content: center;
     display: flex;
     position: absolute;
@@ -50,6 +50,10 @@
     left: 0;
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
     z-index: $menu-dropdown;
+
+    pointer-events: auto;
+    visibility: visible;
+    opacity: 1;
 
     link {
       color: $primary;
@@ -61,6 +65,9 @@
 
     &.dropdownHidden {
       opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 500ms ease, visibility 0ms linear 500ms;
     }
 
     a,
@@ -103,14 +110,17 @@
       padding: 0;
     }
   }
+
   .resourcesDropDown .resourceLink {
     color: #666666;
     font-weight: normal;
+
     &:hover {
       color: $primary;
       font-weight: $semi-bold-weight;
     }
   }
+
   .dropdownColumnOne {
     flex-flow: column nowrap;
     justify-content: center;

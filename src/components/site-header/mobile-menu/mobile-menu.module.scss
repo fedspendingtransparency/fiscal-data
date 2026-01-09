@@ -1,96 +1,108 @@
 @use 'src/variables.module' as *;
 @use '../../../zIndex.module.scss' as *;
 
-$menuWidth: 318px;
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.75;
-  }
-}
-
 .menuContainer {
-  position: absolute;
-  width: 0;
-  right: 0;
-  margin-top: -43px;
-  transition: width 0.5s ease-in-out;
-  z-index: $mobile-menu;
-
-  &.open {
-    width: $menuWidth;
-    margin .overlay {
-      display: block;
-      animation: fadeIn 1s;
-      opacity: 0.75;
-    }
-  }
+  position: relative;
 }
 
-.tray {
-  z-index: $mobile-menu;
-  background-color: white;
-  height: 100vh;
-  box-sizing: border-box;
-  &.open {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-right: 0.75rem;
-    top: 0;
-    position: fixed;
-    overflow-y: scroll;
-    border-left: 4px solid $primary;
-  }
+.open {
 }
 
 .overlay {
   position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: $border-color;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+
   opacity: 0;
-  transition: opacity 0.5s 0.5s, left 0.5s ease-in-out;
-  z-index: $mobile-menu-overlay;
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
+
+  z-index: 9000;
+
+  transition: opacity 180ms ease, visibility 0ms linear 180ms;
 }
 
-.logo {
-  height: 2.5rem;
-  padding-bottom: 0.625rem;
+.tray {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+
+  width: min(22rem, 88vw);
+  background: white;
+
+  display: flex;
+  flex-direction: column;
+
+  transform: translateX(100%);
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 9001;
+
+  transition: transform 220ms ease, opacity 180ms ease;
+}
+
+.menuContainer.open .overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 180ms ease, visibility 0ms linear 0ms;
+}
+
+.menuContainer.open .tray {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .linkHeaderContainer {
   display: flex;
-  flex-direction: row;
-  gap: 72px;
-  padding-left: 1rem;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 1rem 0.75rem;
+
+  border-bottom: 1px solid $slate-blue;
+}
+
+.logo {
+  display: block;
+  width: 8.5rem;
+  height: auto;
 }
 
 .pageLinks {
   display: block;
-  text-decoration: none;
-  color: $font-body-copy;
-  white-space: nowrap;
-  padding: 0.875rem 0 0.875rem 1rem;
+  padding: 0.85rem 1rem;
   font-size: $font-size-16;
+  color: $font-body-copy;
+  text-decoration: none;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  &:hover,
+  &:focus {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+    outline: none;
+  }
 }
 
 .bottomMostLink {
-  padding-bottom: 6rem;
-}
-
-:global(body) {
-  max-width: 100%;
-  overflow-x: hidden;
+  border-bottom: none;
+  margin-top: auto;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .menuContainer {
+    pointer-events: none;
+  }
+
+  .tray,
+  .overlay {
     display: none;
   }
 }
