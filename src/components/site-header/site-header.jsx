@@ -18,6 +18,7 @@ import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
 import { dynamicBannerLastCachedState, dynamicBannerState } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
+import { useMediaQuery } from '@mui/material';
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
@@ -26,6 +27,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
+  const isDesktop = useMediaQuery(`(min-width:${breakpointLg})`, { noSsr: true });
 
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -137,17 +139,20 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
                 />
               </Link>
             </div>
-            <DesktopMenu
-              location={location}
-              glossaryClickHandler={setOpenGlossary}
-              clickHandler={clickHandler}
-              activeDropdown={activeDropdown}
-              setActiveDropdown={setActiveDropdown}
-              buttonHeight={getButtonHeight(imageWidth) + 4}
-            />
+            {isDesktop ? (
+              <DesktopMenu
+                location={location}
+                glossaryClickHandler={setOpenGlossary}
+                clickHandler={clickHandler}
+                activeDropdown={activeDropdown}
+                setActiveDropdown={setActiveDropdown}
+                buttonHeight={getButtonHeight(imageWidth) + 4}
+              />
+            ) : (
+              <MobileMenu setOpenGlossary={setOpenGlossary} />
+            )}
           </div>
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />
-          <MobileMenu setOpenGlossary={setOpenGlossary} />
         </div>
         {lowerEnvMsg && (
           <PageNotice>
