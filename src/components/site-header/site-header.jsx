@@ -21,6 +21,7 @@ import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCache
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const data = useRecoilValueLoadable(dynamicBannerState);
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
@@ -90,8 +91,8 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   };
 
   useEffect(() => {
+    setIsMounted(true);
     window.addEventListener('scroll', handleScroll, { passive: true });
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -111,7 +112,11 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
       <header className={stickyHeader}>
         <div className={container}>
           <div className={content}>
-            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null} className={logo} data-testid="logoContainer">
+            <div
+              style={isMounted && width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null}
+              className={logo}
+              data-testid="logoContainer"
+            >
               <Link
                 role="img"
                 title="Return to home page"
