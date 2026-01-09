@@ -1,51 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import MobileMenu from './mobile-menu/mobile-menu';
 import { withWindowSize } from 'react-fns';
+import { StaticImage } from 'gatsby-plugin-image';
+import { isIE } from 'react-device-detect';
+import { useRecoilValueLoadable } from 'recoil';
+
 import PageNotice from '../page-notice/page-notice';
 import OfficialBanner from './official-banner/official-banner';
-import { isIE } from 'react-device-detect';
-import { StaticImage } from 'gatsby-plugin-image';
-import Analytics from '../../utils/analytics/analytics';
-import LocationAware from '../location-aware/location-aware';
-import Glossary from '../glossary/glossary';
+import MobileMenu from './mobile-menu/mobile-menu';
 import DesktopMenu from './desktop-menu/desktop-menu';
-import BannerContent from './banner-content/banner-content';
+import Glossary from '../glossary/glossary';
+import LocationAware from '../location-aware/location-aware';
 import AnnouncementBanner from '../announcement-banner/announcement-banner';
-import { container, content, logo, stickyHeader } from './site-header.module.scss';
+import BannerContent from './banner-content/banner-content';
+
+import Analytics from '../../utils/analytics/analytics';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import { useRecoilValueLoadable } from 'recoil';
+
 import { dynamicBannerLastCachedState, dynamicBannerState } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
-import { useMediaQuery } from '@mui/material';
 
-//Additional export for page width testability
+import { container, content, logo, stickyHeader } from './site-header.module.scss';
+
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
-  // const [isMounted, setIsMounted] = useState(false);
   const data = useRecoilValueLoadable(dynamicBannerState);
+
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
-  const isDesktop = useMediaQuery(`(min-width:${breakpointLg})`, { noSsr: true });
 
   const [openGlossary, setOpenGlossary] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const [bannersContent, setBannersContent] = useState(null);
+
   useShouldRefreshCachedData(Date.now(), dynamicBannerState, dynamicBannerLastCachedState);
 
-  useEffect(() => {
-    if (data.state === 'hasValue') {
-      const res = data.contents.payload;
-      const refinedBanners = res.filter(
-        announcement =>
-          location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
-      );
-      setBannersContent(refinedBanners);
-    }
-  }, [data.state]);
-
+  const isDesktop = width > pxToNumber(breakpointLg);
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
   const glossaryCsv = useStaticQuery(
@@ -73,48 +65,79 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
       action: `Top ${title} Click`,
       label: document.title,
     });
+
     window.dataLayer = window.dataLayer || [];
+
     if (title === 'About Us') {
       window.dataLayer.push({
         event: `About-click`,
         eventLabel: document.title,
       });
     }
+
     window.dataLayer.push({
       event: `${title}-click`,
       eventLabel: document.title,
     });
   };
 
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    const newWidth = defaultLogoWidth - position;
-    setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
-  };
+  useEffect(() => {
+    if (data.state !== 'hasValue') return;
+
+    const res = data.contents?.payload || [];
+    const path = location?.pathname || '';
+
+    const refinedBanners = res.filter(announcement => {
+      if (!announcement?.path) return false;
+      if (path === announcement.path) return true;
+      if (announcement.recursive_path === 'true' && path.includes(announcement.path)) return true;
+      return false;
+    });
+
+    setBannersContent(refinedBanners);
+  }, [data.state, data.contents, location?.pathname]);
 
   useEffect(() => {
-    // setIsMounted(true);
+    if (!isDesktop) return;
+
+    const handleScroll = () => {
+      const position = window.pageYOffset;
+      const newWidth = defaultLogoWidth - position;
+      setImageWidth(newWidth > reducedImageSize ? newWidth : reducedImageSize);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isDesktop]);
+
+  useEffect(() => {
+    setActiveDropdown(null);
+  }, [isDesktop]);
+
+  const logoContainerStyle = useMemo(() => {
+    if (!isDesktop) return null;
+    return { width: `${imageWidth}px` };
+  }, [isDesktop, imageWidth]);
 
   return (
     <>
       {bannersContent &&
-        bannersContent.map(announcement => {
-          return (
-            <AnnouncementBanner closable={false} key={announcement.path}>
-              <BannerContent content={announcement.announcement_description} />
-            </AnnouncementBanner>
-          );
-        })}
+        bannersContent.map(announcement => (
+          <AnnouncementBanner closable={false} key={announcement.path}>
+            <BannerContent content={announcement.announcement_description} />
+          </AnnouncementBanner>
+        ))}
+
       <OfficialBanner data-testid="officialBanner" />
+
       <header className={stickyHeader}>
         <div className={container}>
           <div className={content}>
-            <div style={width > pxToNumber(breakpointLg) ? { width: imageWidth + 'px' } : null} className={logo} data-testid="logoContainer">
+            <div style={logoContainerStyle} className={logo} data-testid="logoContainer">
               <Link
                 role="img"
                 title="Return to home page"
@@ -135,21 +158,25 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
                 />
               </Link>
             </div>
-            {isDesktop ? (
-              <DesktopMenu
-                location={location}
-                glossaryClickHandler={setOpenGlossary}
-                clickHandler={clickHandler}
-                activeDropdown={activeDropdown}
-                setActiveDropdown={setActiveDropdown}
-                buttonHeight={getButtonHeight(imageWidth) + 4}
-              />
-            ) : (
-              <MobileMenu setOpenGlossary={setOpenGlossary} />
-            )}
+
+            {/* Desktop menu is always rendered; CSS controls visibility */}
+            <DesktopMenu
+              location={location}
+              glossaryClickHandler={setOpenGlossary}
+              clickHandler={clickHandler}
+              activeDropdown={activeDropdown}
+              setActiveDropdown={setActiveDropdown}
+              buttonHeight={getButtonHeight(imageWidth) + 4}
+            />
           </div>
+
           <Glossary termList={glossaryData} activeState={openGlossary} setActiveState={setOpenGlossary} />
+
+          {/* Mobile menu is always rendered; CSS controls visibility.
+              IMPORTANT: overlay must be pointer-events:none when closed (Fix A in SCSS) */}
+          <MobileMenu setOpenGlossary={setOpenGlossary} />
         </div>
+
         {lowerEnvMsg && (
           <PageNotice>
             <span data-testid="lowerEnvMessage">
@@ -158,6 +185,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
             </span>
           </PageNotice>
         )}
+
         {isIE && (
           <PageNotice warningLevel={1}>
             <strong data-testid="ieDetected">You seem to be using an unsupported browser</strong>
