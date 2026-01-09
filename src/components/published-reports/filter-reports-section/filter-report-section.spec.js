@@ -264,7 +264,7 @@ describe('Run Time Filter Report Section', () => {
             ...runTimeFilterDatasetConfig.runTimeReportConfig,
             optionValues: ['1234', '5678'],
             specialAnnouncement: {
-              label: 'No CUSIP Or Issue Date - Special Announcement',
+              label: 'No CUSIP or Issue Date - Special Announcement',
               value: 'spec-ann',
             },
           },
@@ -277,7 +277,7 @@ describe('Run Time Filter Report Section', () => {
     const accountDropdown = getByRole('button', { name: 'Account: (None selected)' });
     expect(accountDropdown).toBeInTheDocument();
     userEvent.click(accountDropdown);
-    expect(getByRole('button', { name: 'No CUSIP Or Issue Date - Special Announcement' })).toBeInTheDocument();
+    expect(getByRole('button', { name: 'No CUSIP or Issue Date - Special Announcement' })).toBeInTheDocument();
   });
 
   it('fetches special announcement reports', async () => {
@@ -288,7 +288,7 @@ describe('Run Time Filter Report Section', () => {
             ...runTimeFilterDatasetConfig.runTimeReportConfig,
             optionValues: ['1234', '5678'],
             specialAnnouncement: {
-              label: 'No CUSIP Or Issue Date - Special Announcement',
+              label: 'No CUSIP or Issue Date - Special Announcement',
               value: 'spec-ann',
             },
           },
@@ -299,7 +299,7 @@ describe('Run Time Filter Report Section', () => {
       />
     );
     userEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
-    userEvent.click(getByRole('button', { name: 'No CUSIP Or Issue Date - Special Announcement' }));
+    userEvent.click(getByRole('button', { name: 'No CUSIP or Issue Date - Special Announcement' }));
     await waitFor(() => {
       findByRole('cell', { name: 'Download A_20251027_1.pdf' });
     });
