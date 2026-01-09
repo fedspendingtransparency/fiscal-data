@@ -6,8 +6,7 @@ import { RecoilRoot } from 'recoil';
 import { useStaticQuery } from 'gatsby';
 import fetchMock from 'fetch-mock';
 import { mockSavingsBondTypesData } from '../../../explainer-test-helper';
-import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
-import { glossaryGAEvent } from '../treasury-savings-bonds';
+import Analytics from '../../../../../utils/analytics/analytics';
 
 const mockUseStaticQueryData = {
   allSavingsBondsByTypeHistoricalCsv: {
@@ -58,9 +57,6 @@ const mockMSPDData2 = {
   ],
 };
 
-jest.mock('../../../explainer-helpers/explainer-helpers');
-jest.mock('../treasury-savings-bonds');
-
 describe('How Savings Bonds Finance The Government Section', () => {
   class ResizeObserver {
     observe() {}
@@ -106,47 +102,99 @@ describe('How Savings Bonds Finance The Government Section', () => {
   });
 
   it('fires an event when the user clicks on any of the four links', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
       <RecoilRoot>
         <HowSavingsBondsFinanceGovernment />
       </RecoilRoot>
     );
     fireEvent.click(getByRole('link', { name: 'revenue' }));
-    expect(analyticsEventHandler).toHaveBeenCalledWith('Government Revenue', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Government Revenue',
+    });
     fireEvent.click(getByRole('link', { name: 'spends' }));
-    expect(analyticsEventHandler).toHaveBeenCalledWith('Federal Spending', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Federal Spending',
+    });
     fireEvent.click(getByRole('link', { name: 'deficit' }));
-    expect(analyticsEventHandler).toHaveBeenCalledWith('National Deficit', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'National Deficit',
+    });
     fireEvent.click(getByRole('link', { name: 'debt' }));
-    expect(analyticsEventHandler).toHaveBeenCalledWith('National Debt', 'Savings Bonds Citation Click');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'National Debt',
+    });
   });
 
   it('fires an event when the user clicks on any of glossary terms', () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
       <RecoilRoot>
         <HowSavingsBondsFinanceGovernment />
       </RecoilRoot>
     );
     fireEvent.click(getByRole('button', { name: 'marketable' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Marketable Securities');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Marketable Securities',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'non-marketable' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Non-Marketable Securities');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Non-Marketable Securities',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'Government Account Series' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Government Account Series');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Government Account Series',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'State and Local Government Series' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('State and Local Government Series');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - State and Local Government Series',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'debt held by the public' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Debt Held by the Public');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Debt Held by the Public',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'Series I bonds' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Series I Bonds');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Series I Bonds',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
+
     fireEvent.click(getByRole('button', { name: 'Series EE bonds' }));
-    expect(glossaryGAEvent).toHaveBeenCalledWith('Series EE Bonds');
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Glossary Term Click',
+      category: 'Explainers',
+      label: 'Savings Bonds - Series EE Bonds',
+    });
     fireEvent.keyDown(getByRole('button', { name: 'View in glossary' }), { key: 'Escape', code: 'Escape', charCode: 27 });
   });
 
