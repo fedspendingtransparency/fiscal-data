@@ -5,11 +5,7 @@ import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } 
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-import { basicFetch } from '../../../../../../utils/api-utils';
-
-jest.mock('../../../../../../utils/api-utils', () => ({
-  basicFetch: jest.fn(),
-}));
+import * as apiUtils from '../../../../../../utils/api-utils';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -108,13 +104,15 @@ describe('HowSavingsBondsSoldChart', () => {
   });
 });
 
-describe('new test suite', () => {
-  it('sets historyDate when api returns with data', () => {
+describe('HowSavingsBondsSoldChart api return test suite', () => {
+  it('sets historyDate when api returns with data', async () => {
+    const basicFetchSpy = jest.spyOn(apiUtils, 'basicFetch');
     const mockApiResponse = {
       data: [{ record_date: '2026-01-01' }],
     };
-    basicFetch.mockResolvedValue(mockApiResponse);
+    basicFetchSpy.mockResolvedValue(mockApiResponse);
     render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
-    expect(screen.findByText('January 2026')).toBeInTheDocument();
+    const dateElement = await screen.findByText(/January 2026/);
+    expect(dateElement).toBeInTheDocument();
   });
 });
