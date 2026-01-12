@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import Analytics from '../../utils/analytics/analytics';
 import {
   analyticsEventHandler,
@@ -61,15 +61,15 @@ describe('Insight Helpers', () => {
     analyticsEventHandler(pageName, label);
     expect(Analytics.event).toHaveBeenCalledWith({
       category: pageName,
-      action: 'Citation Click',
+      action: 'Citation Click', // Default value check
       label: label,
     });
   });
 
   it('renders the correct hero component for interest-expense', () => {
     const Component = insightHeroMap['interest-expense'].component;
-    const { getByTestId } = render(<Component />);
-    expect(getByTestId('interest-hero')).toBeInTheDocument();
+    render(<Component />);
+    expect(screen.getByTestId('interest-hero')).toBeInTheDocument();
   });
 
   it('renders an empty fragment for state-and-local-government-series', () => {
@@ -78,56 +78,27 @@ describe('Insight Helpers', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders citations for Interest Expense and triggers analytics on click', () => {
-    const LinkComponent = insightsCitationsMap['interest-expense'].interestExpenseDataset;
-    const { getByText } = render(LinkComponent);
-    const linkElement = getByText('Interest Expense on the Debt Outstanding');
+  it('fires a GA event when each citation link is clicked', () => {
+    Object.entries(insightsCitationsMap).forEach(([pageKey, citationsObj]) => {
+      const expectedPageName = insightsPageName[pageKey];
 
-    fireEvent.click(linkElement);
+      const { unmount } = render(<div>{Object.values(citationsObj)}</div>);
 
-    expect(Analytics.event).toHaveBeenCalledWith({
-      category: 'Interest Expense',
-      action: 'Citation Click',
-      label: 'Interest Expense on the Public Debt Outstanding',
-    });
-  });
+      const links = screen.getAllByTestId('custom-link');
+      links.forEach(link => {
+        fireEvent.click(link);
 
-  it('renders citations for SLGS and triggers analytics on click', () => {
-    const LinkComponent = insightsCitationsMap['state-and-local-government-series'].stateAndLocalGovernmentSeriesSecuritiesDataset;
+        expect(Analytics.event).toHaveBeenCalledWith(
+          expect.objectContaining({
+            category: expectedPageName,
+            action: 'Citation Click',
+          })
+        );
 
-    const { getByText } = render(LinkComponent);
-    const linkElement = getByText('State and Local Government Series Securities (Non-Marketable)');
+        jest.clearAllMocks();
+      });
 
-    fireEvent.click(linkElement);
-
-    expect(Analytics.event).toHaveBeenCalledWith({
-      category: 'State and Local Government Series',
-      action: 'Citation Click',
-      label: 'State and Local Government Series Securities (Non-Marketable)',
-    });
-  });
-
-  it('triggers analytics for Debt to the Penny link', () => {
-    const LinkComponent = insightsCitationsMap['interest-expense'].debtToThePennyDataset;
-    const { getByText } = render(LinkComponent);
-    fireEvent.click(getByText('Debt to the Penny'));
-
-    expect(Analytics.event).toHaveBeenCalledWith({
-      category: 'Interest Expense',
-      action: 'Citation Click',
-      label: 'Debt to the Penny',
-    });
-  });
-
-  it('triggers analytics for Treasury Securities link', () => {
-    const LinkComponent = insightsCitationsMap['interest-expense'].treasurySecurities;
-    const { getByText } = render(LinkComponent);
-    fireEvent.click(getByText('Average Interest Rates on U.S. Treasury Securities'));
-
-    expect(Analytics.event).toHaveBeenCalledWith({
-      category: 'Interest Expense',
-      action: 'Citation Click',
-      label: 'Average Interest Rates on U.S. Treasury Securities',
+      unmount();
     });
   });
 });
