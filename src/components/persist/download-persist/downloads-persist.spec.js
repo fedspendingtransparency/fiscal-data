@@ -45,7 +45,7 @@ describe('Downloads Persist', () => {
     <downloadsContext.Consumer>
       {ctx => {
         persistedsiteContext = ctx;
-        return null;
+        return null; // must return something
       }}
     </downloadsContext.Consumer>
   );
@@ -69,6 +69,7 @@ describe('Downloads Persist', () => {
   });
 
   it('initiates a download and subscribes to its progress with the download service', async () => {
+    // mock setting the window.location
     const locationMock = jest.fn();
     delete window.location;
     window.location = { assign: locationMock };
@@ -88,7 +89,7 @@ describe('Downloads Persist', () => {
     act(() => {
       persistedsiteContext.setDownloadRequest(downloadRequest);
     });
-
+    // should attempt to update download preparation progress at one second intervals
     act(() => {
       jest.advanceTimersByTime(3300);
     });
