@@ -1,7 +1,7 @@
 import { withWindowSize } from 'react-fns';
 import useBeaGDP from '../../../../../hooks/useBeaGDP';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { postGraphAccordionContainer } from '../national-debt.module.scss';
+import { postGraphAccordionContainer, last100YearContainer, trendsOverTimeContainer } from '../national-debt.module.scss';
 import DebtOverLast100y from './debt-over-last-100y-linechart/debt-over-last-100y-linechart';
 import { DebtTrendsOverTimeChart } from './debt-trends-over-time/debt-trends-over-time-chart';
 import React from 'react';
@@ -37,14 +37,18 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
         programs, increased government spending, and decreased tax revenue caused by widespread unemployment generally account for sharp rises in the
         national debt.
       </p>
-      {!beaGDPData.isGDPLoading && <DebtOverLast100y cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} />}
+      <div className={last100YearContainer}>
+        {!beaGDPData.isGDPLoading && <DebtOverLast100y cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} />}
+      </div>
       <p>
         Comparing a country’s debt to its {gdp} reveals the country’s ability to pay down its debt. This ratio is considered a better indicator of a
         country’s fiscal situation than just the national debt number because it shows the burden of debt relative to the country’s total economic
         output and therefore its ability to repay it. The U.S. debt to GDP ratio surpassed 100% in 2013 when both debt and GDP were approximately 16.7
         trillion.
       </p>
-      {!beaGDPData.isGDPLoading && <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />}
+      <div className={trendsOverTimeContainer}>
+        {!beaGDPData.isGDPLoading && <DebtTrendsOverTimeChart sectionId={sectionId} beaGDPData={beaGDPData} width={width} />}
+      </div>
       <div className={postGraphAccordionContainer}>
         <VisualizingTheDebtAccordion width={width} />
       </div>
