@@ -8,6 +8,11 @@
 
 .container {
   overflow: hidden;
+  --chart-height: 12.5rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    --chart-height: 26.71rem;
+  }
 
   .lineChart {
     width: 100%;
@@ -34,6 +39,13 @@
       }
     }
   }
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {

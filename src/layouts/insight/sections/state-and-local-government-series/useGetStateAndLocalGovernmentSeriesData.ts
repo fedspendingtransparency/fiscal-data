@@ -1,6 +1,6 @@
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { useEffect, useMemo, useState } from 'react';
-import { format, getMonth } from 'date-fns';
+import { format, getMonth, getYear } from 'date-fns';
 import { convertDate } from '../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { apiCalls, releaseCalendarUrl, slgsEndpoint } from './slgs-helper';
 
@@ -15,8 +15,11 @@ const getMonthDifference = (startDate, endDate) => {
 const getCurrentMonthData = async datasetId => {
   const todayDate = new Date();
   const currentMonth = todayDate.getMonth();
+  const currentYear = todayDate.getFullYear();
   return await basicFetch(releaseCalendarUrl).then(res => {
-    return res.filter(entry => entry.datasetId === datasetId && getMonth(convertDate(entry.date)) === currentMonth);
+    return res.filter(
+      entry => entry.datasetId === datasetId && getMonth(convertDate(entry.date)) === currentMonth && getYear(convertDate(entry.date)) === currentYear
+    );
   });
 };
 

@@ -117,6 +117,14 @@
     }
   }
 
+  .last100YearContainer {
+    min-height: 39.69rem;
+  }
+
+  .trendsOverTimeContainer {
+    min-height: 54.58rem;
+  }
+
   @media screen and (max-width: $breakpoint-sm - 1) {
     :global(.accordionToggle) {
       padding-left: 1.5rem;
@@ -192,6 +200,14 @@
 
   .debtAccordion {
     min-width: 508px;
+  }
+
+  .last100YearContainer {
+    min-height: 43.96rem;
+  }
+
+  .trendsOverTimeContainer {
+    min-height: 51.23rem;
   }
 }
 
