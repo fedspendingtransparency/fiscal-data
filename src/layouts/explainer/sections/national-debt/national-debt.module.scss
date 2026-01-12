@@ -1,5 +1,13 @@
 @use '../../../../variables.module.scss' as *;
 
+.last100YearContainer {
+  min-height: 39.69rem;
+}
+
+.trendsOverTimeContainer {
+  min-height: 54.58rem;
+}
+
 .keyTakeawaysContent {
   display: flex;
   align-items: center;
@@ -115,14 +123,6 @@
     svg path {
       color: $debt-explainer-primary;
     }
-  }
-
-  .last100YearContainer {
-    min-height: 39.69rem;
-  }
-
-  .trendsOverTimeContainer {
-    min-height: 54.58rem;
   }
 
   @media screen and (max-width: $breakpoint-sm - 1) {
