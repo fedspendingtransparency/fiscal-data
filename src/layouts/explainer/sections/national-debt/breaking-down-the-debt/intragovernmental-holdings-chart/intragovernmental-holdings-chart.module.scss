@@ -4,8 +4,25 @@
   width: 100%;
 }
 
+.container {
+  --chart-height: 16.44rem;
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .title {
   margin-bottom: 18px;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    --chart-height: 27.69rem;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
