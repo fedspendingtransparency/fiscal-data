@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
@@ -10,6 +10,9 @@ import { circleChartMockChartData, governmentRevenueMatchers } from './explainer
 import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
 import * as Gatsby from 'gatsby';
+import Analytics from '../../utils/analytics/analytics';
+import { datasetSectionConfig, explainerHeroMap, explainerCitations } from './explainer-helpers/explainer-helpers';
+
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
@@ -416,5 +419,63 @@ describe('Savings Bonds explainer', () => {
 
     const subNav = queryByTestId('explainerSubNav');
     expect(subNav).not.toBeInTheDocument();
+  });
+});
+
+describe('explainerHeroMap', () => {
+  it('renders a hero for every slug', () => {
+    Object.entries(explainerHeroMap).forEach(([, { component }]) => {
+      const el = component();
+      expect(React.isValidElement(el)).toBe(true);
+    });
+  });
+});
+
+describe('explainer citations', () => {
+  it('fires a GA event when each link is clicked', () => {
+    const pages = ['Debt', 'Deficit', 'Spending', 'Revenue', 'Savings Bonds', 'AFG Overview'];
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    pages.forEach(page => {
+      const citations = explainerCitations(page);
+      render(
+        <RecoilRoot>
+          <section>{Object.values(citations)}</section>
+        </RecoilRoot>
+      );
+      const links = screen.getAllByRole('link');
+      links.forEach(link => {
+        fireEvent.click(link);
+        expect(analyticsSpy).toHaveBeenCalled();
+      });
+    });
+  });
+
+  it('transforms historical debt records', () => {
+    const transformer = datasetSectionConfig['national-debt']['breaking-down-the-debt'].transformer;
+
+    const response = {
+      data: [
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2013',
+          debt_held_public_mil_amt: '15000000',
+          intragov_hold_mil_amt: '5000000',
+        },
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2023',
+          debt_held_public_mil_amt: '20000000',
+          intragov_hold_mil_amt: '8000000',
+        },
+      ],
+    };
+
+    const result = transformer(response);
+    expect(result).toHaveLength(2);
+    const [prior, latest] = result;
+
+    expect(prior.total).toBe(20);
+    expect(latest.total).toBe(28);
   });
 });
