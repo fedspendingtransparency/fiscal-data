@@ -11,12 +11,7 @@ import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
 import * as Gatsby from 'gatsby';
 import Analytics from '../../utils/analytics/analytics';
-import {
-  analyticsEventHandler,
-  datasetSectionConfig,
-  explainerCitationsMap,
-  explainerHeroMap,
-} from './explainer-helpers/explainer-helpers';
+import { datasetSectionConfig, explainerHeroMap, explainerCitations } from './explainer-helpers/explainer-helpers';
 
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
@@ -427,21 +422,7 @@ describe('Savings Bonds explainer', () => {
   });
 });
 
-describe('analyticsEventHandler', ()=> {
-  it('fires Analytics with correct data', () => {
-    const analyticsSpy = jest.spyOn(Analytics, 'event')
-
-    analyticsEventHandler('Bureau of Labor Statistics', 'Debt Citation Click')
-
-    expect(analyticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Bureau of Labor Statistics'
-    });
-  });
-});
-
-describe('explainerHeroMap', ()=> {
+describe('explainerHeroMap', () => {
   it('renders a hero for every slug', () => {
     Object.entries(explainerHeroMap).forEach(([, { component }]) => {
       const el = component();
@@ -450,378 +431,51 @@ describe('explainerHeroMap', ()=> {
   });
 });
 
+describe('explainer citations', () => {
+  it('fires a GA event when each link is clicked', () => {
+    const pages = ['Debt', 'Deficit', 'Spending', 'Revenue', 'Savings Bonds', 'AFG Overview'];
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-describe('explainer citations', ()=> {
-  it('fires analytics when BLS citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const blsCitations = explainerCitationsMap['national-debt'].bls;
-    render(<>{blsCitations}</>);
-
-    fireEvent.click(screen.getByText('Bureau of Labor Statistics'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Bureau of Labor Statistics'
-    })
-  });
-
-  it('fires analytics when BEA citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const beaCitations = explainerCitationsMap['national-debt'].bea;
-    render(<>{beaCitations}</>);
-
-    fireEvent.click(screen.getByText('Bureau of Economic Analysis'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Bureau of Economic Analysis'
+    pages.forEach(page => {
+      const citations = explainerCitations(page);
+      render(
+        <RecoilRoot>
+          <section>{Object.values(citations)}</section>
+        </RecoilRoot>
+      );
+      const links = screen.getAllByRole('link');
+      links.forEach(link => {
+        fireEvent.click(link);
+        expect(analyticsSpy).toHaveBeenCalled();
+      });
     });
-  });
-
-  it('fires analytics when BEA survey citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const beaSurveyCitations = explainerCitationsMap['national-debt'].beaSurvey;
-    render(<>{beaSurveyCitations}</>);
-
-    fireEvent.click(screen.getByText('Bureau of Economic Analysis'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Bureau of Economic Analysis'
-    });
-  });
-
-  it('fires analytics when MTS summary citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mtsSummaryCitations = explainerCitationsMap['national-debt'].mtsSummary;
-    render(<>{mtsSummaryCitations}</>);
-
-    fireEvent.click(screen.getByText('Monthly Treasury Statement (MTS)'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Monthly Treasury Statement (MTS)'
-    });
-  });
-
-  it('fires analytics when MTS outlays citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mtsOutlaysCitations = explainerCitationsMap['national-debt'].mtsOutlays;
-    render(<>{mtsOutlaysCitations}</>);
-
-    fireEvent.click(screen.getByText('Monthly Treasury Statement (MTS)'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Monthly Treasury Statement (MTS)'
-    })
-
-  });
-
-  it('fires analytics when MTS receipts citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mtsReceiptsCitations = explainerCitationsMap['national-debt'].mtsReceipts;
-    render(<>{mtsReceiptsCitations}</>);
-
-    fireEvent.click(screen.getByText('Monthly Treasury Statement (MTS)'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Monthly Treasury Statement (MTS)'
-    });
-  });
-
-  it('fires analytics when MTS summary receipts citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mtsSummaryReceiptsCitations = explainerCitationsMap['national-debt'].mtsSummaryReceipts;
-    render(<>{mtsSummaryReceiptsCitations}</>);
-
-    fireEvent.click(screen.getByText('Monthly Treasury Statement (MTS)'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Monthly Treasury Statement (MTS)'
-    });
-  });
-
-
-  it('fires analytics when MSPD citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mspdCitations = explainerCitationsMap['national-debt'].mspd;
-    render(<>{mspdCitations}</>);
-
-    fireEvent.click(screen.getByText('Monthly Statement of the Public Debt (MSPD)'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Monthly Statement of the Public Debt (MSPD)'
-    });
-  });
-
-  it('fires analytics when debtToThePenny citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const debtToThePennyCitations = explainerCitationsMap['national-debt'].debtToThePenny;
-    render(<>{debtToThePennyCitations}</>);
-
-    fireEvent.click(screen.getByText('Debt to the Penny'));
-
-    expect(anlayticsSpy).toHaveBeenCalledWith({
-      category: 'Explainers',
-      action: 'Debt Citation Click',
-      label: 'Debt to the Penny'
-    });
-  });
-
-  it('fires analytics when github citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const githubCitation = explainerCitationsMap['national-debt'].github;
-
-    githubCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when mspdSummary citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mspdSummaryCitation = explainerCitationsMap['national-debt'].mspdSummary;
-
-    mspdSummaryCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when mspdOutstanding citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const mspdOutstandingCitation = explainerCitationsMap['national-debt'].mspdOutstanding;
-
-    mspdOutstandingCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when historicalDebt citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const historicalDebtCitation = explainerCitationsMap['national-debt'].historicalDebt;
-
-    historicalDebtCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when treasuryDirectHistoricalDebt citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const treasuryDirectHistoricalDebtCitation = explainerCitationsMap['national-debt'].treasuryDirectHistoricalDebt;
-
-    treasuryDirectHistoricalDebtCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAs citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsCitation = explainerCitationsMap['national-debt'].USAs;
-
-    USAsCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsGov citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsGovCitation = explainerCitationsMap['national-debt'].USAsGov;
-
-    USAsGovCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsExplorer citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsExplorerCitation = explainerCitationsMap['national-debt'].USAsExplorer;
-
-    USAsExplorerCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsExplorerPage citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsExplorerPageCitation = explainerCitationsMap['national-debt'].USAsExplorerPage;
-
-    USAsExplorerPageCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsAgencyPage citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsAgencyPageCitation = explainerCitationsMap['national-debt'].USAsAgencyPage;
-
-    USAsAgencyPageCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsObjectClass citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsObjectClassCitation = explainerCitationsMap['national-debt'].USAsObjectClass;
-
-    USAsObjectClassCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsBudgetFunction citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsBudgetFunctionCitation = explainerCitationsMap['national-debt'].USAsBudgetFunction;
-
-    USAsBudgetFunctionCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsCovidSpending citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsCovidSpendingCitation = explainerCitationsMap['national-debt'].USAsCovidSpending;
-
-    USAsCovidSpendingCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsCovidResponse citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsCovidResponseCitation = explainerCitationsMap['national-debt'].USAsCovidResponse;
-
-    USAsCovidResponseCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when USAsCovidFederalResponse citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const USAsCovidFederalResponseCitation = explainerCitationsMap['national-debt'].USAsCovidFederalResponse;
-
-    USAsCovidFederalResponseCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when fiscalService citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const fiscalServiceCitation = explainerCitationsMap['national-debt'].fiscalService;
-
-    fiscalServiceCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when treasurySecurities citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const treasurySecuritiesCitation = explainerCitationsMap['national-debt'].treasurySecurities;
-
-    treasurySecuritiesCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when ssaAnnualReports citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const ssaAnnualReportCitation = explainerCitationsMap['national-debt'].ssaAnnualReport;
-
-    ssaAnnualReportCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when ssa citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const ssaCitation = explainerCitationsMap['national-debt'].ssa;
-
-    ssaCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when monetaryPolicy citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const monetaryPolicyCitation = explainerCitationsMap['national-debt'].monetaryPolicy;
-
-    monetaryPolicyCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when gps citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const gpsCitation = explainerCitationsMap['national-debt'].gps;
-
-    gpsCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when irs citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const irsCitation = explainerCitationsMap['national-debt'].irs;
-
-    irsCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
-  });
-
-  it('fires analytics when federalReserveAct citation is clicked', () => {
-    const anlayticsSpy = jest.spyOn(Analytics, 'event')
-
-    const federalReserveActCitation = explainerCitationsMap['national-debt'].federalReserveAct;
-
-    federalReserveActCitation.props.onClick();
-    expect(anlayticsSpy).toHaveBeenCalled();
   });
 
   it('transforms historical debt records', () => {
     const transformer = datasetSectionConfig['national-debt']['breaking-down-the-debt'].transformer;
 
     const response = {
-     data: [
-       {
-         record_calendar_month: '09',
-         record_calendar_year: '2013',
-         debt_held_public_mil_amt: '15000000',
-         intragov_hold_mil_amt: '5000000',
-       },
-       {
-         record_calendar_month: '09',
-         record_calendar_year: '2023',
-         debt_held_public_mil_amt: '20000000',
-         intragov_hold_mil_amt: '8000000',
-       },
-     ],
+      data: [
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2013',
+          debt_held_public_mil_amt: '15000000',
+          intragov_hold_mil_amt: '5000000',
+        },
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2023',
+          debt_held_public_mil_amt: '20000000',
+          intragov_hold_mil_amt: '8000000',
+        },
+      ],
     };
 
     const result = transformer(response);
     expect(result).toHaveLength(2);
-    const [prior, latest] = result
+    const [prior, latest] = result;
 
     expect(prior.total).toBe(20);
-    expect(latest.total).toBe(28)
+    expect(latest.total).toBe(28);
   });
-
 });
