@@ -52,7 +52,7 @@ export const analyticsEventHandler = (eventLabel, eventAction) => {
   });
 };
 
-const explainerCitations = page => {
+export const explainerCitations = page => {
   return {
     bls: (
       <CustomLink url="https://www.bls.gov/developers/" onClick={() => analyticsEventHandler('Bureau of Labor Statistics', `${page} Citation Click`)}>
