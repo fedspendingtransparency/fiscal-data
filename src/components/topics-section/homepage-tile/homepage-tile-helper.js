@@ -58,19 +58,24 @@ export const SavingsBondsBodyGenerator = () => {
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
   const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
 
+  const sumSavingsBondsAmount = data => {
+    return data.reduce((n, { net_sales_amt }) => n + parseInt(net_sales_amt), 0);
+  };
+
   useEffect(() => {
     basicFetch(`${apiPrefix}${sbUrl}&sort=-record_date&page[size]=1`).then(res => {
       if (res.data) {
         const currentFY = res.data[0].record_fiscal_year;
         setCurrentFiscalYear(currentFY);
-
-        const data = res.data;
-
-        let savingsBondsTotal = 0;
-        data.map(index => {
-          savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
+        const filterCurrentFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${currentFY}`;
+        const currentFYEndPoint = `v1/accounting/od/securities_sales?${filterCurrentFY}`;
+        const currentFYReqUrl = `${apiPrefix}${currentFYEndPoint}`;
+        basicFetch(`${currentFYReqUrl}`).then(res2 => {
+          if (res2.data) {
+            const currentTotalSavingsBonds = sumSavingsBondsAmount(res2.data);
+            setSavingsBondsAmount(currentTotalSavingsBonds);
+          }
         });
-        setSavingsBondsAmount(savingsBondsTotal);
       }
     });
   }, []);
