@@ -1,5 +1,8 @@
 export const getShortForm = (value: string, abbreviate: boolean = true, round: boolean = true, fractionDigits: number = 0): string => {
-  const trimmed = Math.abs(Number(value)).toFixed();
+  const num = Number(value);
+  const isNegative = num < 0;
+  const abs = Math.abs(num);
+  const trimmed = abs.toFixed();
   const inTrillions = trimmed.length > 12;
   const inBillions = trimmed.length > 9;
   let divisor;
@@ -23,9 +26,9 @@ export const getShortForm = (value: string, abbreviate: boolean = true, round: b
   }
   const digits = round ? (inTrillions ? 2 : 0) : fractionDigits;
 
-  const numberShortened = Math.abs(parseFloat(value) / divisor).toFixed(digits);
+  const numberShortened = (abs / divisor).toFixed(digits);
 
   const removedTrailingZero = numberShortened.replace(/\.0+$/, '');
-
-  return removedTrailingZero + appendix;
+  const sign = isNegative ? '-' : '';
+  return `${sign}${removedTrailingZero}${appendix}`;
 };
