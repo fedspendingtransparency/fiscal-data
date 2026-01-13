@@ -67,9 +67,7 @@ export const SavingsBondsBodyGenerator = () => {
       if (res.data) {
         const currentFY = res.data[0].record_fiscal_year;
         setCurrentFiscalYear(currentFY);
-        const filterCurrentFY = `filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:${currentFY}`;
-        const currentFYEndPoint = `v1/accounting/od/securities_sales?${filterCurrentFY}`;
-        const currentFYReqUrl = `${apiPrefix}${currentFYEndPoint}`;
+        const currentFYReqUrl = `${apiPrefix}${sbUrl},record_fiscal_year:eq:${currentFY}`;
         basicFetch(`${currentFYReqUrl}`).then(res2 => {
           if (res2.data) {
             const currentTotalSavingsBonds = sumSavingsBondsAmount(res2.data);
