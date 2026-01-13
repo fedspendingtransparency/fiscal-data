@@ -1,3 +1,6 @@
+/* istanbul ignore file */
+// This component never made it to prod - keeping around in case of future use but excluding from coverage report
+
 import React, { useEffect, useState } from 'react';
 import { completeDate, dateFilterMaxYear, dateFilterMinYear } from '../date-range-helper';
 import { format, isValid, isAfter } from 'date-fns';
