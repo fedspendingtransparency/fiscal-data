@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { chartTableToggleContainer, icon, selected, toggleButton, toggleButtonLeft, toggleButtonRight } from './charting-table-toggle.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { chartTableToggleContainer, selected, toggleButton, toggleButtonLeft, toggleButtonRight } from './charting-table-toggle.module.scss';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
 interface LeftButtonConfig {
@@ -55,7 +54,7 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         id={chartId || undefined}
         aria-label={leftLabel}
       >
-        <FontAwesomeIcon className={icon} icon={leftIcon} />
+        X{/*<FontAwesomeIcon className={icon} icon={leftIcon} />*/}
       </button>
       <button
         className={`${toggleButton} ${toggleButtonLeft} ${rightSelected ? selected : ''}`}
@@ -73,7 +72,8 @@ const ChartingTableToggle: FunctionComponent<InterestExpenseChartToggleProps> = 
         id={chartId || undefined}
         aria-label={rightLabel}
       >
-        <FontAwesomeIcon className={icon} icon={rightIcon} />
+        !!!!
+        {/*<FontAwesomeIcon className={icon} icon={rightIcon} />*/}
       </button>
     </div>
   );
