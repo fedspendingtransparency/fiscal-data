@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { getShortForm } from '../../../../../utils/rounding-utils';
 
 describe('Federal spending explainer page sections', () => {
   const mockCategoryData = {
@@ -214,6 +215,29 @@ describe('Federal spending explainer page sections', () => {
       },
     ],
   };
+  const mockNegative = {
+    data: [
+      ...mockCategoryData.data.slice(0, 10),
+      {
+        ...mockCategoryData.data[10],
+        classification_desc: 'Administration of Justice',
+        current_fytd_rcpt_outly_amt: '-72090892981.50',
+      },
+      {
+        record_date: '2022-09-30',
+        classification_desc: 'Refunds and Adjustments',
+        current_month_rcpt_outly_amt: '-1000000000.00',
+        current_fytd_rcpt_outly_amt: '-100000000000.00',
+        prior_fytd_rcpt_outly_amt: '0.00',
+        record_fiscal_year: '2022',
+        record_fiscal_quarter: '4',
+        record_calendar_year: '2022',
+        record_calendar_quarter: '3',
+        record_calendar_month: '09',
+        record_calendar_day: '30',
+      },
+    ],
+  };
 
   beforeAll(() => {
     fetchMock.get(
@@ -280,5 +304,21 @@ describe('Federal spending explainer page sections', () => {
     expect(getByText('$1.22 T')).toBeInTheDocument();
     fireEvent.click(getByTestId('switch'));
     expect(getByText('19 %')).toBeInTheDocument();
+  });
+
+  it('formats the Other dollars value using formatDollars showing negative values', async () => {
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19`,
+      mockNegative,
+      { overwriteRoutes: true }
+    );
+    const { getByTestId, getByText } = render(<HowMuchDoesTheGovtSpend />);
+    await waitFor(() => {
+      expect(getByTestId('switch')).toBeInTheDocument();
+    });
+    fireEvent.click(getByTestId('switch'));
+    expect(getByText('Other')).toBeInTheDocument();
+    const otherTotal = -72090892981 + -100000000000;
+    expect(getByText(`-$${getShortForm(Math.abs(otherTotal))}`)).toBeInTheDocument();
   });
 });
