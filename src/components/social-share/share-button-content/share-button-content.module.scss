@@ -54,6 +54,13 @@
   }
 }
 
+.responsiveStyle {
+}
+
+.hideText {
+  display: none;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .shareButtonContent {
     .facebookIcon,
@@ -65,6 +72,9 @@
     }
     .listShareButtonText {
       margin-left: 0.5rem;
+    }
+    .responsiveStyle {
+      display: none;
     }
   }
 }

@@ -1,19 +1,19 @@
 import React, { FunctionComponent, useState } from 'react';
-import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faXTwitter, faLinkedin, faReddit } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faLinkedin, faReddit, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 import {
-  shareButtonContent,
-  facebookIcon,
-  xTwitterIcon,
-  linkedInIcon,
-  redditIcon,
   emailIcon,
-  shareButtonText,
+  facebookIcon,
+  hideText,
+  linkedInIcon,
   listShareButtonText,
+  redditIcon,
+  responsiveStyle,
+  shareButtonContent,
+  shareButtonText,
+  xTwitterIcon,
 } from './share-button-content.module.scss';
 import { IShareButtonContent } from '../../../models/IShareButtonContent';
 
@@ -48,7 +48,7 @@ const shareButtonContentMap = {
 const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, width, displayStyle }) => {
   const [hovered, setHovered] = useState(false);
 
-  const displayText = displayStyle === 'list' || (displayStyle === 'responsive' && width >= pxToNumber(breakpointLg));
+  // const displayText = displayStyle === 'list' || (displayStyle === 'responsive' && width >= pxToNumber(breakpointLg));
   const handleMouseEnter = () => {
     setHovered(true);
   };
@@ -70,11 +70,14 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, widt
         data-testid={`${name} content`}
       >
         <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
-        {displayText && (
-          <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
-            {text}
-          </span>
-        )}
+        <span
+          className={`${displayStyle === 'responsive' && responsiveStyle} ${displayStyle === 'horizontal' && hideText} ${
+            displayStyle === 'list' ? listShareButtonText : shareButtonText
+          }`}
+          style={style}
+        >
+          {text}
+        </span>
       </div>
     </>
   );

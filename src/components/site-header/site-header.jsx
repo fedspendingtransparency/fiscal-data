@@ -43,6 +43,10 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
     }
   }, [data.state]);
 
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
+
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
   const glossaryCsv = useStaticQuery(
