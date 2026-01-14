@@ -35,7 +35,7 @@ describe('Federal Spending Overview', () => {
       ],
     };
 
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/`, mockData, { overwriteRoute: true });
+    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/`, mockData, { overwriteRoute: true }, { repeat: 1 });
 
     // const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<SpendingCategories />);
