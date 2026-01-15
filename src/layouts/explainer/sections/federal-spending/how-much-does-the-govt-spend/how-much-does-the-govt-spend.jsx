@@ -17,6 +17,7 @@ import {
 } from './how-much-does-the-govt-spend.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
 import moment from 'moment';
+import { max } from 'date-fns';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { getShortForm } from '../../../../../utils/rounding-utils';
@@ -123,8 +124,8 @@ const HowMuchDoesTheGovtSpend = () => {
       const dataItems = chartData.category.data;
       const dates = dataItems.map(item => moment(item.record_date));
       const fiscalYears = dataItems.map(item => moment(item.record_fiscal_year));
-      const maxDate = moment.max(dates);
-      const upToDateFiscalYear = moment.max(fiscalYears);
+      const maxDate = max(dates);
+      const upToDateFiscalYear = max(fiscalYears);
       const updatedDate = getDateWithoutOffset(maxDate);
       setLastUpdatedDate(updatedDate);
       setFiscalYear(upToDateFiscalYear.year());

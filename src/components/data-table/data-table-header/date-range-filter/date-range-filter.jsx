@@ -25,6 +25,7 @@ import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import { format } from 'date-fns';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn, disableDateRangeFilter }) => {
@@ -75,8 +76,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
+      const start = format(Date.now(), 'M/dd/yyyy');
+      const end = format(Date.now(), 'M/dd/yyyy');
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);

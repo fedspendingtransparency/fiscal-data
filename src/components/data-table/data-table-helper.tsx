@@ -1,6 +1,7 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import moment from 'moment';
+import { format } from 'date-fns';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
@@ -226,9 +227,9 @@ export const columnsConstructorData = (
                     formattedValue = '';
                     dates.forEach((date, index) => {
                       if (index > 0) {
-                        formattedValue = formattedValue + ', ' + moment(date).format('M/D/YYYY');
+                        formattedValue = formattedValue + ', ' + format(date, 'M/d/yyyy');
                       } else {
-                        formattedValue = formattedValue + moment(date).format('M/D/YYYY');
+                        formattedValue = formattedValue + format(date, 'M/d/yyyy');
                       }
                     });
                   } else {
@@ -266,6 +267,7 @@ export const columnsConstructorGeneric = (
           filterFn: 'arrIncludesSome',
           cell: ({ getValue }) => {
             const customFormat = customFormatting?.find(config => config.type === 'DATE' && config.fields.includes(property));
+            console.log('customFormat: ', customFormat);
             return moment(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
           },
         } as ColumnDef<string, Date>;
