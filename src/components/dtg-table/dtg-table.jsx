@@ -20,10 +20,10 @@ import {
 import DataTable from '../data-table/data-table';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import moment from 'moment/moment';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
+import dayjs from 'dayjs';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -160,11 +160,11 @@ export default function DtgTable({
     const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
     if (recordDateColumnFilter) {
       from =
-        recordDateColumnFilter?.from && moment(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
+        recordDateColumnFilter?.from && dayjs(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
           ? recordDateColumnFilter?.from.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.from);
       to =
-        recordDateColumnFilter?.from && moment(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
+        recordDateColumnFilter?.from && dayjs(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
           ? recordDateColumnFilter?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
     } else {

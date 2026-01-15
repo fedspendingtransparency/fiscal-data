@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import moment from 'moment/moment';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import './day-picker-overrides.css';
@@ -25,6 +24,7 @@ import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import dayjs from 'dayjs';
 
 let mouseOverDropdown = null;
 const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveFilters, isLastColumn, disableDateRangeFilter }) => {
@@ -64,7 +64,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const getDaysArray = (start, end) => {
     const arr = [];
     for (let dt = convertDate(start); dt <= convertDate(end); dt.setDate(dt.getDate() + 1)) {
-      arr.push(moment(new Date(dt)).format('YYYY-MM-DD'));
+      arr.push(dayjs(new Date(dt)).format('YYYY-MM-DD'));
     }
     return arr;
   };
@@ -75,8 +75,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
         from: Date.now(),
         to: Date.now(),
       });
-      const start = moment(Date.now()).format('M/DD/YYYY');
-      const end = moment(Date.now()).format('M/DD/YYYY');
+      const start = dayjs(Date.now()).format('M/DD/YYYY');
+      const end = dayjs(Date.now()).format('M/DD/YYYY');
       onFilterChange(`${start} - ${end}`);
       setFilterDisplayBeginDate(start);
       setFilterDisplayEndDate(end);
@@ -142,8 +142,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
 
   useEffect(() => {
     if (selected?.from && selected?.to) {
-      const start = moment(selected?.from);
-      const end = moment(selected?.to);
+      const start = dayjs(selected?.from);
+      const end = dayjs(selected?.to);
       let updatedFilteredDates = filteredDateRange;
       if (filteredDateRange?.length > 0) {
         updatedFilteredDates = updatedFilteredDates.filter(elem => elem.fieldName !== column.id);
@@ -160,7 +160,7 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
       setEndTextStyle(noTextHighLight);
       setActive(false);
     } else if (selected?.from && !selected?.to) {
-      const start = moment(selected?.from);
+      const start = dayjs(selected?.from);
       setEndTextStyle(textHighlighted);
       setBeginTextStyle(noTextHighLight);
       setFilterDisplayBeginDate(start.format('M/DD/YYYY'));

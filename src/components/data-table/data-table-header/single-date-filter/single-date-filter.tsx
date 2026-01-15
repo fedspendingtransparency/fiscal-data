@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Column } from '@tanstack/react-table';
-import moment from 'moment/moment';
 import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -11,7 +10,7 @@ const SingleDateFilter: FunctionComponent<any> = ({ column }: { column: Column<a
   useEffect(() => {
     if (date) {
       if (!isNaN(date.toDate().getTime())) {
-        column.setFilterValue(moment(date.toDate()).format('YYYY-MM-DD'));
+        column.setFilterValue(dayjs(date.toDate()).format('YYYY-MM-DD'));
       } else {
         column.setFilterValue('');
       }
