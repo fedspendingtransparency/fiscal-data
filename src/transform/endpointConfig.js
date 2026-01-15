@@ -5,7 +5,7 @@ const endpointConfig = {
     downloadName: 'MSPD_SumSecty',
     dataDisplays: [
       {
-        title: 'By Security Type',
+        title: 'Security Type',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -26,7 +26,7 @@ const endpointConfig = {
     downloadName: 'MSPD_DetailSecty',
     dataDisplays: [
       {
-        title: 'By Marketable',
+        title: 'Marketable',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -284,7 +284,7 @@ const endpointConfig = {
     downloadName: 'MSPD_DebtLim',
     dataDisplays: [
       {
-        title: 'By Debt Limit Class 1',
+        title: 'Debt Limit Class 1',
         dimensionField: 'debt_limit_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -324,7 +324,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Receipt Category',
+        title: 'Receipt Category',
         dimensionField: 'classification_desc',
         filters: [
           {
@@ -346,7 +346,7 @@ const endpointConfig = {
     downloadName: 'MTS_OutlyAgcy',
     dataDisplays: [
       {
-        title: 'By Federal Program Agency',
+        title: 'Federal Program Agency',
         dimensionField: 'classification_desc',
         filters: [
           {
@@ -704,7 +704,7 @@ const endpointConfig = {
     downloadName: 'MSPD_HstSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -734,7 +734,7 @@ const endpointConfig = {
     downloadName: 'MSPD_StripSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'thousands',
         filters: [
@@ -866,7 +866,7 @@ const endpointConfig = {
     downloadName: 'MSPD_MktSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -952,7 +952,7 @@ const endpointConfig = {
     downloadName: 'MSPD_NonmktSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -1241,15 +1241,15 @@ const endpointConfig = {
     downloadName: 'TreasGold',
     dataDisplays: [
       {
-        title: 'By Facility',
+        title: 'Facility',
         dimensionField: 'facility_desc',
       },
       {
-        title: 'By Form',
+        title: 'Form',
         dimensionField: 'form_desc',
       },
       {
-        title: 'By Location',
+        title: 'Location',
         dimensionField: 'location_desc',
       },
     ],
@@ -1267,7 +1267,7 @@ const endpointConfig = {
     downloadName: 'AvgInterestRate',
     dataDisplays: [
       {
-        title: 'By Marketable',
+        title: 'Marketable',
         dimensionField: 'security_desc',
         valueFieldOptions: ['avg_interest_rate_amt'],
         filters: [
@@ -1310,11 +1310,11 @@ const endpointConfig = {
     dateField: 'record_date',
     dataDisplays: [
       {
-        title: 'By Fund ID',
+        title: 'Fund ID',
         dimensionField: 'fund_id',
       },
       {
-        title: 'By Department ID',
+        title: 'Department ID',
         dimensionField: 'department_id',
       },
     ],
@@ -1337,15 +1337,15 @@ const endpointConfig = {
     downloadName: 'IntExp',
     dataDisplays: [
       {
-        title: 'By Expense Category',
+        title: 'Expense Category',
         dimensionField: 'expense_catg_desc',
       },
       {
-        title: 'By Expense Group',
+        title: 'Expense Group',
         dimensionField: 'expense_group_desc',
       },
       {
-        title: 'By Expense Type',
+        title: 'Expense Type',
         dimensionField: 'expense_type_desc',
       },
     ],
@@ -1368,7 +1368,7 @@ const endpointConfig = {
     downloadName: 'MthlySlgsSecty',
     dataDisplays: [
       {
-        title: 'By Security Description',
+        title: 'Security Description',
         dimensionField: 'security_type_desc',
       },
     ],
@@ -1379,7 +1379,7 @@ const endpointConfig = {
     downloadName: 'AdvStateUnempFundsTitleXII',
     dataDisplays: [
       {
-        title: 'By State',
+        title: 'State',
         dimensionField: 'state_nm',
         lastRowSnapshot: true,
       },
@@ -1683,11 +1683,11 @@ const endpointConfig = {
     downloadName: 'FBP_SummaryGeneralLedgerBorrowingBalances',
     dataDisplays: [
       {
-        title: 'By Account',
+        title: 'Account Code',
         dimensionField: 'account_cd',
       },
       {
-        title: 'By Department',
+        title: 'Department Code',
         dimensionField: 'dept_cd',
       },
     ],
@@ -1706,11 +1706,11 @@ const endpointConfig = {
     downloadName: 'FBP_SummaryGeneralLedgerRepayableAdvanceBalances',
     dataDisplays: [
       {
-        title: 'By Account',
+        title: 'Account Code',
         dimensionField: 'account_cd',
       },
       {
-        title: 'By Department',
+        title: 'Department Code',
         dimensionField: 'dept_cd',
       },
     ],
@@ -2065,7 +2065,7 @@ const endpointConfig = {
     downloadName: 'DTS_OpCashBal',
     dataDisplays: [
       {
-        title: 'By Type of Account',
+        title: 'Type of Account',
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
@@ -2103,12 +2103,12 @@ const endpointConfig = {
     downloadName: 'DTS_OpCashDpstWdrl',
     dataDisplays: [
       {
-        title: 'By Type of Account',
+        title: 'Type of Account',
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2139,7 +2139,7 @@ const endpointConfig = {
     downloadName: 'DTS_PubDebtTrans',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2152,12 +2152,12 @@ const endpointConfig = {
     downloadName: 'DTS_PubDebtCashAdj',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Adjustment Type',
+        title: 'Adjustment Type',
         dimensionField: 'adj_type',
         roundingDenomination: 'millions',
       },
@@ -2170,7 +2170,7 @@ const endpointConfig = {
     downloadName: 'DTS_DebtSubjLim',
     dataDisplays: [
       {
-        title: 'By Debt Category',
+        title: 'Debt Category',
         dimensionField: 'debt_catg',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
@@ -2184,7 +2184,7 @@ const endpointConfig = {
     downloadName: 'DTS_FedTaxDpst',
     dataDisplays: [
       {
-        title: 'By Federal Tax Deposit Type',
+        title: 'Federal Tax Deposit Type',
         dimensionField: 'tax_deposit_type',
         roundingDenomination: 'millions',
       },
@@ -2197,7 +2197,7 @@ const endpointConfig = {
     downloadName: 'DTS_StCashInvest',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2210,12 +2210,12 @@ const endpointConfig = {
     downloadName: 'DTS_IncmTaxRfnd',
     dataDisplays: [
       {
-        title: 'By Federal Tax Refund Type',
+        title: 'Federal Tax Refund Type',
         dimensionField: 'tax_refund_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Federal Tax Refund Type Description',
+        title: 'Federal Tax Refund Type Description',
         dimensionField: 'tax_refund_type_desc',
       },
     ],
@@ -2244,7 +2244,7 @@ const endpointConfig = {
     downloadName: 'DTS_InterAgencyTaxTransfers',
     dataDisplays: [
       {
-        title: 'By Classification',
+        title: 'Classification',
         dimensionField: 'classification',
         roundingDenomination: 'millions',
       },
