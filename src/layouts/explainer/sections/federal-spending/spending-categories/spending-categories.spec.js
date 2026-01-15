@@ -2,12 +2,8 @@ import { SpendingCategories } from './spending-categories';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
-import fetchMock from 'fetch-mock';
 
 describe('Federal Spending Overview', () => {
-  afterEach(() => {
-    fetchMock.restore();
-  });
   it('renders the subcategory header', () => {
     const { getByRole } = render(<SpendingCategories />);
     expect(getByRole('heading', { name: 'What does the government buy?' })).toBeInTheDocument();
