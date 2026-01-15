@@ -119,42 +119,42 @@ const SiteFooter = () => {
               />
             </Link>
               <div className={socialIcons}>
-                <a
-                  href="https://www.facebook.com/fiscalservice"
+                <CustomLink
+                  url="https://www.facebook.com/fiscalservice"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="facebook"
                   className={socialIconLink}
                 >
                   <FacebookIcon  />
-                </a>
-                <a
-                  href="https://x.com/FiscalService"
+                </CustomLink>
+                <CustomLink
+                  url="https://x.com/FiscalService"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="x"
                   className={ socialIconLink }
                 >
                   <XIcon  fontSize="small" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/company/1722850/"
+                </CustomLink>
+                <CustomLink
+                  url="https://www.linkedin.com/company/1722850/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="linkedin"
                   className={socialIconLink}
                 >
                   <LinkedInIcon />
-                </a>
-                <a
-                  href="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
+                </CustomLink>
+                <CustomLink
+                  url="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="youtube"
                   className={ socialIconLink }
                 >
                   <YouTubeIcon />
-                </a>
+                </CustomLink>
               </div>
             </div>
             <div className={pageLinks}>

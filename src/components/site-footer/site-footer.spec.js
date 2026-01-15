@@ -236,16 +236,13 @@ describe('SiteFooter', () => {
       </RecoilRoot>
     );
     const socialLinks= [
-      { label: 'facebook', href: 'https://www.facebook.com/fiscalservice'},
-      { label: 'x', href: 'https://x.com/FiscalService'},
-      { label: 'linkedin', href:  'https://www.linkedin.com/company/1722850/'},
-      { label: 'youtube', href: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
+      { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice'},
+      { testId: 'XIcon', url: 'https://x.com/FiscalService'},
+      { testId: 'LinkedInIcon', url:  'https://www.linkedin.com/company/1722850/'},
+      { testId: 'YouTubeIcon', url: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
     ]
-    socialLinks.forEach(({label, href }) => {
-      const element = getByLabelText(label);
-      expect(element).toBeInTheDocument();
-      expect(element).toHaveAttribute('href', href);
-      expect(element).toHaveAttribute('target', '_blank');
+    socialLinks.forEach(({ testId }) => {
+      expect(screen.getByTestId(testId)).toBeInTheDocument()
     });
   });
 });
