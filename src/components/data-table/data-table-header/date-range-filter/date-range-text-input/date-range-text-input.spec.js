@@ -2,6 +2,7 @@ import DateRangeTextInput from './date-range-text-input';
 import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+
 describe('date range input', () => {
   const mockSetInputDisplay = jest.fn();
   const mockSetSelected = jest.fn();

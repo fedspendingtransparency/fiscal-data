@@ -693,7 +693,7 @@ const endpointConfig = {
     valueFieldOptions: ['mil_amt'],
   },
   '324': {
-    endpoint: '/v1/accounting/mts/mts_distributed_offsetting_receipts',
+    endpoint: 'v1/accounting/mts/mts_distributed_offsetting_receipts',
     dateField: 'record_date',
     downloadName: 'MTS_DstOffstgRcpt',
     alwaysSortWith: ['-record_date', 'src_line_nbr'],

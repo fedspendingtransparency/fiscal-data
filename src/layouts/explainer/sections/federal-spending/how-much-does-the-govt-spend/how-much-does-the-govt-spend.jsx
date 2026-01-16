@@ -184,6 +184,7 @@ const HowMuchDoesTheGovtSpend = () => {
     ?.reduce((item, nextItem) => {
       return item + nextItem;
     }, 0);
+  const formatDollars = number => `${number < 0 ? '-' : ''}$${getShortForm(Math.abs(number))}`;
   const otherPercentage = Math.round((otherTotal / total) * 100);
 
   const animationEndHandler = useCallback(() => {
@@ -359,7 +360,7 @@ const HowMuchDoesTheGovtSpend = () => {
             <div className={animationComplete ? active : undefined}>
               <div className={chartsContainer} key={otherPercentage}>
                 <GrowDivBar percent={otherPercentage} animateTime={0.6} animate={animateBars} isMobile={isMobile} />
-                <div className={percentOrDollarContainer}>{percentDollarToggleChecked ? `$${getShortForm(otherTotal)}` : `${otherPercentage} %`}</div>
+                <div className={percentOrDollarContainer}>{percentDollarToggleChecked ? formatDollars(otherTotal) : `${otherPercentage} %`}</div>
                 <div className={descContainer}>Other</div>
               </div>
             </div>
