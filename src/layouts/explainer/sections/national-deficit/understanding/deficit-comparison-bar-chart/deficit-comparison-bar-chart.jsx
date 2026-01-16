@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { withWindowSize } from 'react-fns';
-import { barChart, container } from './deficit-comparison-bar-chart.module.scss';
+import { barChart, container, loadingIcon } from './deficit-comparison-bar-chart.module.scss';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { breakpointLg, fontBodyCopy } from '../../../../../../variables.module.scss';
 import { barChartColors, desktopHeight, mobileHeight, layers, theme } from './deficit-comparison-bar-chart-helper';
@@ -158,16 +158,20 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
 
   return (
     <figure className={visWithCallout}>
-      {!data && <LoadingIndicator />}
-      {data && (
-        <>
-          <div data-testid="deficitComparisonChart" className={container}>
-            <ChartContainer
-              title={`${chartCopy.title}${lastFiscalYear}`}
-              altText={`${chartCopy.altText}${lastFiscalYear}.`}
-              footer={chartCopy.footer}
-              date={date}
-            >
+      <>
+        <div data-testid="deficitComparisonChart" className={container}>
+          <ChartContainer
+            title={`${chartCopy.title}${lastFiscalYear}`}
+            altText={`${chartCopy.altText}${lastFiscalYear}.`}
+            footer={chartCopy.footer}
+            date={date}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
+          >
+            {!data ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
               <div className={barChart} data-testid="chartParentDiv" ref={ref}>
                 <Bar
                   barComponent={props => CustomBar({ ...props, inView })}
@@ -192,16 +196,16 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
                   theme={theme}
                 />
               </div>
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color={deficitExplainerPrimary}>
-            <p>
-              In FY {lastFiscalYear} total government spending was ${spendingLabel} trillion and total revenue was ${revenueLabel} trillion, resulting
-              in a deficit of ${deficitLabel} trillion, {deficitChangeLabel} from the previous fiscal year.
-            </p>
-          </VisualizationCallout>
-        </>
-      )}
+            )}
+          </ChartContainer>
+        </div>
+        <VisualizationCallout color={deficitExplainerPrimary}>
+          <p>
+            In FY {lastFiscalYear} total government spending was ${spendingLabel} trillion and total revenue was ${revenueLabel} trillion, resulting
+            in a deficit of ${deficitLabel} trillion, {deficitChangeLabel} from the previous fiscal year.
+          </p>
+        </VisualizationCallout>
+      </>
     </figure>
   );
 };

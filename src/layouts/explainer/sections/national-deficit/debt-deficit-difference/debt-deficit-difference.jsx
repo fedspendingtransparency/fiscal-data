@@ -46,15 +46,18 @@ export const DebtDeficitDifference = ({ width }) => {
           debt. This interest expense increases spending each year, increasing spending (and thus, deficits) as the debt grows.
         </p>
         <div className={deficitDebtDifferenceVisContainer}>
-          <img
-            src={width < pxToNumber(breakpointLg) ? DeficitMobile : DeficitDesktop}
-            alt={
-              'A visualization depicting deficit vs. debt that adds ' +
-              'previous years deficits to the current year’s deficit equaling the total debt.'
-            }
-            data-testid="deficitDifferenceChart"
-            className={deficitDebtdifferenceImg}
-          />
+          <picture>
+            <source media={`(min-width: ${breakpointLg})`} srcSet={DeficitDesktop} />
+            <img
+              src={DeficitMobile}
+              alt={
+                'A visualization depicting deficit vs. debt that adds ' +
+                'previous years deficits to the current year’s deficit equaling the total debt.'
+              }
+              data-testid="deficitDifferenceChart"
+              className={deficitDebtdifferenceImg}
+            />
+          </picture>
         </div>
         <div className={deficitAccordion}>
           <Accordion
