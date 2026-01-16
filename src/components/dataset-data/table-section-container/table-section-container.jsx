@@ -35,9 +35,9 @@ import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { queryClient } from '../../../../react-query-client';
-import moment from 'moment/moment';
 import Analytics from '../../../utils/analytics/analytics';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
+import dayjs from 'dayjs';
 
 const TableSectionContainer = ({
   config,
@@ -95,7 +95,7 @@ const TableSectionContainer = ({
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
+    return customFormat?.dateFormat && fieldType === 'DATE' ? dayjs(detailDate).format(customFormat.dateFormat) : detailDate;
   };
 
   const formattedDetailViewState = formatDate(detailViewState?.value);

@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
-import moment from 'moment';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
@@ -13,6 +12,7 @@ import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
 import { DataTableContext } from '../data-preview-context';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
+import dayjs from 'dayjs';
 
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
@@ -198,11 +198,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
-        filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
+        filteredDateRange?.from && dayjs(dateRange.from).diff(filteredDateRange?.from) <= 0
           ? filteredDateRange?.from.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.from);
       const to =
-        filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
+        filteredDateRange?.from && dayjs(dateRange.to).diff(filteredDateRange?.to) >= 0
           ? filteredDateRange?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;

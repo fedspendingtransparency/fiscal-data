@@ -1,6 +1,5 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
-import moment from 'moment';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from './data-table-header/text-filter/text-filter';
 import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
@@ -8,6 +7,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import { downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import dayjs from 'dayjs';
 
 const customFormat = (stringValue, decimalPlaces) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
@@ -138,7 +138,7 @@ export const columnsConstructorData = (
               filterFn: 'arrIncludesSome',
               cell: ({ getValue }) => {
                 const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
-                return moment(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
+                return dayjs(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
               },
             } as ColumnDef<string, Date>;
           } else if (rawData.meta.dataTypes[property] === 'NUMBER') {
@@ -226,9 +226,9 @@ export const columnsConstructorData = (
                     formattedValue = '';
                     dates.forEach((date, index) => {
                       if (index > 0) {
-                        formattedValue = formattedValue + ', ' + moment(date).format('M/D/YYYY');
+                        formattedValue = formattedValue + ', ' + dayjs(date).format('M/D/YYYY');
                       } else {
-                        formattedValue = formattedValue + moment(date).format('M/D/YYYY');
+                        formattedValue = formattedValue + dayjs(date).format('M/D/YYYY');
                       }
                     });
                   } else {
@@ -266,7 +266,7 @@ export const columnsConstructorGeneric = (
           filterFn: 'arrIncludesSome',
           cell: ({ getValue }) => {
             const customFormat = customFormatting?.find(config => config.type === 'DATE' && config.fields.includes(property));
-            return moment(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
+            return dayjs(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
           },
         } as ColumnDef<string, Date>;
       } else {
