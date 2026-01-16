@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
+import { chartStyle, loadingIcon, container } from './savings-bonds-sold-by-type-chart.module.scss';
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, getXAxisValues, savingsBonds, savingsBondsMap, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
@@ -10,6 +10,7 @@ import ChartDescription from './chart-description/chart-description';
 import { analyticsEventHandler } from '../../../../explainer-helpers/explainer-helpers';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../../helpers/constants';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 export interface ISavingBondsByTypeChartData {
   year: string;
@@ -108,59 +109,71 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
 
   return (
     <>
-      <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
-        {selectedChartView === 'amounts' && (
-          <div className={chartStyle} data-testid="chartParent">
-            <div
-              role="presentation"
-              onBlur={() => setChartFocus(false)}
-              onFocus={() => setChartFocus(true)}
-              onMouseEnter={handleChartMouseEnter}
-              onMouseLeave={handleChartMouseLeave}
-            >
-              {chartData && sortedBonds && (
-                <ResponsiveContainer height={377} width="99%">
-                  <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
-                    <CartesianGrid vertical={false} stroke="#d9d9d9" />
-                    <ReferenceLine y={0} stroke="#555555" />
-                    <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tickFormatter={value => `${yAxisFormatter(parseFloat(value))}`}
-                      domain={['auto', 'dataMax']}
-                      tickCount={8}
-                    />
-                    {sortedBonds.map((id, index) => {
-                      return (
-                        <Area
-                          dataKey={id}
-                          key={index}
-                          fill={savingsBondsMap[id].color}
-                          fillOpacity={0.8}
-                          stroke={savingsBondsMap[id].color}
-                          strokeOpacity={0.8}
-                          hide={hiddenFields.includes(id)}
-                          isAnimationActive={false}
-                          activeDot={false}
-                        />
-                      );
-                    })}
-                    <Tooltip
-                      content={<CustomTooltip hiddenFields={hiddenFields} />}
-                      cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
-                      isAnimationActive={false}
-                      active={chartFocus || chartHover}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              )}
-            </div>
-            <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
-          </div>
-        )}
-        {selectedChartView === 'description' && <ChartDescription />}
-      </ChartContainer>
+      <div className={container}>
+        <ChartContainer
+          title={chartTitle}
+          altText={chartCopy.altText}
+          date={chartDate}
+          footer={chartCopy.footer}
+          header={header}
+          customContainerStyles={{
+            minHeight: 'var(--chart-height)',
+          }}
+        >
+          {selectedChartView === 'amounts' &&
+            (!chartData || !sortedBonds ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
+              <div className={chartStyle} data-testid="chartParent">
+                <div
+                  role="presentation"
+                  onBlur={() => setChartFocus(false)}
+                  onFocus={() => setChartFocus(true)}
+                  onMouseEnter={handleChartMouseEnter}
+                  onMouseLeave={handleChartMouseLeave}
+                >
+                  <ResponsiveContainer height={377} width="99%">
+                    <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
+                      <CartesianGrid vertical={false} stroke="#d9d9d9" />
+                      <ReferenceLine y={0} stroke="#555555" />
+                      <XAxis dataKey="year" type="number" domain={[1935, maxYear]} ticks={xAxis} minTickGap={3} />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={value => `${yAxisFormatter(parseFloat(value))}`}
+                        domain={['auto', 'dataMax']}
+                        tickCount={8}
+                      />
+                      {sortedBonds.map((id, index) => {
+                        return (
+                          <Area
+                            dataKey={id}
+                            key={index}
+                            fill={savingsBondsMap[id].color}
+                            fillOpacity={0.8}
+                            stroke={savingsBondsMap[id].color}
+                            strokeOpacity={0.8}
+                            hide={hiddenFields.includes(id)}
+                            isAnimationActive={false}
+                            activeDot={false}
+                          />
+                        );
+                      })}
+                      <Tooltip
+                        content={<CustomTooltip hiddenFields={hiddenFields} />}
+                        cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+                        isAnimationActive={false}
+                        active={chartFocus || chartHover}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+                <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
+              </div>
+            ))}
+          {selectedChartView === 'description' && <ChartDescription />}
+        </ChartContainer>
+      </div>
     </>
   );
 };
