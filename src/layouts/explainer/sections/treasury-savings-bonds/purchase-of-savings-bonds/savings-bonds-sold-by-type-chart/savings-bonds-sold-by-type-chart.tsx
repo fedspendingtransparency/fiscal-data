@@ -120,18 +120,18 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
             minHeight: 'var(--chart-height)',
           }}
         >
-          {selectedChartView === 'amounts' && (
-            <div className={chartStyle} data-testid="chartParent">
-              <div
-                role="presentation"
-                onBlur={() => setChartFocus(false)}
-                onFocus={() => setChartFocus(true)}
-                onMouseEnter={handleChartMouseEnter}
-                onMouseLeave={handleChartMouseLeave}
-              >
-                {!chartData || !sortedBonds ? (
-                  <LoadingIndicator loadingClass={loadingIcon} />
-                ) : (
+          {selectedChartView === 'amounts' &&
+            (!chartData || !sortedBonds ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
+              <div className={chartStyle} data-testid="chartParent">
+                <div
+                  role="presentation"
+                  onBlur={() => setChartFocus(false)}
+                  onFocus={() => setChartFocus(true)}
+                  onMouseEnter={handleChartMouseEnter}
+                  onMouseLeave={handleChartMouseLeave}
+                >
                   <ResponsiveContainer height={377} width="99%">
                     <AreaChart data={activeChartData} margin={{ top: 16, bottom: 0, left: -4, right: 16 }} accessibilityLayer>
                       <CartesianGrid vertical={false} stroke="#d9d9d9" />
@@ -167,11 +167,10 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
                       />
                     </AreaChart>
                   </ResponsiveContainer>
-                )}
+                </div>
+                <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
               </div>
-              <ChartLegend lines={savingsBonds} lineMap={savingsBondsMap} setHiddenFields={setHiddenFields} hiddenFields={hiddenFields} />
-            </div>
-          )}
+            ))}
           {selectedChartView === 'description' && <ChartDescription />}
         </ChartContainer>
       </div>
