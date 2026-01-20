@@ -1,6 +1,6 @@
 import { ENV_ID } from 'gatsby-env-variables';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles.scss';
 import { siteHome } from './home.module.scss';
 import PageHelmet from '../components/page-helmet/page-helmet';
@@ -14,6 +14,11 @@ import { withWindowSize } from 'react-fns';
 
 export const Index = ({ width }) => {
   const [loading, setLoading] = useState(true);
+  const [isClient, setClient] = useState(false);
+
+  useEffect(() => {
+    setClient(true);
+  }, []);
 
   useEffect(() => {
     if (width > 0) {
@@ -49,6 +54,8 @@ export const Index = ({ width }) => {
           financial data, debt, Treasury, US government"
           />
           <>
+            <div>I am in the {isClient ? 'client' : 'server'}</div>
+            <div>Loading ? {loading}</div>
             <TopicsSection images={allFile} width={width} />
             <HomeMainContent />
             <HomeFeatures />
