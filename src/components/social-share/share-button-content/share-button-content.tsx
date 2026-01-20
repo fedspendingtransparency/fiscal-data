@@ -1,7 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faLinkedin, faReddit, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 import {
   emailIcon,
@@ -16,32 +13,35 @@ import {
   xTwitterIcon,
 } from './share-button-content.module.scss';
 import { IShareButtonContent } from '../../../models/IShareButtonContent';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import XIcon from '@mui/icons-material/X';
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const shareButtonContentMap = {
   facebook: {
     className: facebookIcon,
     text: 'Facebook',
-    icon: faFacebook,
+    icon: <FacebookIcon />,
   },
   twitter: {
     className: xTwitterIcon,
     text: 'X (Twitter)',
-    icon: faXTwitter,
+    icon: <XIcon />,
   },
   linkedin: {
     className: linkedInIcon,
     text: 'LinkedIn',
-    icon: faLinkedin,
+    icon: <LinkedInIcon />,
   },
   reddit: {
     className: redditIcon,
     text: 'Reddit',
-    icon: faReddit,
+    icon: <XIcon />,
   },
   email: {
     className: emailIcon,
     text: 'Email',
-    icon: faEnvelope,
+    icon: <XIcon />,
   },
 };
 
@@ -69,7 +69,7 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, widt
         role="presentation"
         data-testid={`${name} content`}
       >
-        <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
+        {shareButtonContentMap[name].icon}
         <span
           className={`${displayStyle === 'responsive' && responsiveStyle} ${displayStyle === 'horizontal' && hideText} ${
             displayStyle === 'list' ? listShareButtonText : shareButtonText
