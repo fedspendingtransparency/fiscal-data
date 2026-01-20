@@ -1,8 +1,8 @@
 import React from 'react';
 import { currencyFormatter, customNumberFormatter, dateFormatter, numberFormatter } from '../../../helpers/text-format/text-format';
 import { formattedCell, markdownRow } from '../dtg-table.module.scss';
-import moment from 'moment/moment';
 import { MarkdownTransform } from '../../markdown-transform/markdown-transform';
+import dayjs from 'dayjs';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
@@ -47,7 +47,7 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
     // .replace() resolves weird -1 day issue
     const date = new Date(cellData.replace(/-/g, '/'));
     const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
-    formattedData = customFormat?.dateFormat ? moment(date).format(customFormat?.dateFormat) : dateFormatter.format(date);
+    formattedData = customFormat?.dateFormat ? dayjs(date).format(customFormat?.dateFormat) : dateFormatter.format(date);
   } else if (type === 'SMALL_FRACTION') {
     formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
   } else if (type === 'STRING') {
@@ -61,9 +61,9 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
       formattedData = '';
       dates.forEach((date, index) => {
         if (index > 0) {
-          formattedData = formattedData + ', ' + moment(date).format('M/D/YYYY');
+          formattedData = formattedData + ', ' + dayjs(date).format('M/D/YYYY');
         } else {
-          formattedData = formattedData + moment(date).format('M/D/YYYY');
+          formattedData = formattedData + dayjs(date).format('M/D/YYYY');
         }
       });
     }

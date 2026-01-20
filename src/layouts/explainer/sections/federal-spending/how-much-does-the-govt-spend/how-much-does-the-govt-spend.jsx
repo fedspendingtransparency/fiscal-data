@@ -16,7 +16,8 @@ import {
   toggleButton,
 } from './how-much-does-the-govt-spend.module.scss';
 import { useWindowSize } from '../../../../../hooks/windowResize';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../utils/analytics/analytics';
 import { getShortForm } from '../../../../../utils/rounding-utils';
@@ -25,6 +26,8 @@ import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+
+dayjs.extend(minMax);
 
 const breakpoint = {
   desktop: 1015,
@@ -121,10 +124,10 @@ const HowMuchDoesTheGovtSpend = () => {
   useEffect(() => {
     if (chartData) {
       const dataItems = chartData.category.data;
-      const dates = dataItems.map(item => moment(item.record_date));
-      const fiscalYears = dataItems.map(item => moment(item.record_fiscal_year));
-      const maxDate = moment.max(dates);
-      const upToDateFiscalYear = moment.max(fiscalYears);
+      const dates = dataItems.map(item => dayjs(item.record_date));
+      const fiscalYears = dataItems.map(item => dayjs(item.record_fiscal_year));
+      const maxDate = dayjs.max(dates);
+      const upToDateFiscalYear = dayjs.max(fiscalYears);
       const updatedDate = getDateWithoutOffset(maxDate);
       setLastUpdatedDate(updatedDate);
       setFiscalYear(upToDateFiscalYear.year());
