@@ -36,7 +36,7 @@ let gaTimer;
 const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange, curFy }) => {
   const [curInflation, setCurInflation] = useState('');
   const [curSales, setCurSales] = useState('');
-  const [curYear, setCurYear] = useState('');
+  const [curYear, setCurYear] = useState('-');
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
   const [latestData, setLatestData] = useState<{
