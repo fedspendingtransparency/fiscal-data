@@ -329,6 +329,57 @@ describe('Filter Main', () => {
     const mobileToggle = getByTestId('mobile-filter-toggle');
     expect(mobileToggle).toBeDefined();
   });
+
+    it('captures clicks on filter info tips', () => {
+      window.dataLayer = window.dataLayer || [];
+      const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+
+      const { getAllByTestId } = render(
+        <siteContext.Provider
+          value={{
+            beginDate: new Date(2019, 9, 1),
+            setBeginDate: setBeginDateSpy,
+            endDate: new Date(2021, 10, 1),
+            setEndDate: setEndDateSpy,
+            exactRange: true,
+            setExactRange: setExactRangeSpy,
+            dateRangeTab: 1,
+            setDateRangeTab: setDateRangeTabSpy,
+          }}
+        >
+          <FilterSection
+            searchResults={mockDatasets}
+            allDatasets={mockDatasets}
+            topicIcons={[]}
+            availableFilters={filters}
+            searchIsActive={true}
+            searchQuery={[]}
+            isHandheld={isHandheld}
+          />
+        </siteContext.Provider>
+      );
+
+      const infoButtons = getAllByTestId('infoTipButton')
+
+      const expectedLabels = [
+        'Last Updated',
+        'Date Range',
+        'Time Range',
+        'Dataset Publisher',
+        'Data Format'
+      ];
+
+      expectedLabels.forEach((label, i) => {
+        fireEvent.click(infoButtons[i]);
+
+        expect(datalayerSpy).toHaveBeenCalledWith({
+          event: 'Info Button Click',
+          eventLabel: 'Last Updated',
+        });
+      })
+
+      console.log(infoButtons.map(b => b.getAttribute('aria-label')));
+    });
 });
 
 describe('GA4 test of datalayer push', () => {
