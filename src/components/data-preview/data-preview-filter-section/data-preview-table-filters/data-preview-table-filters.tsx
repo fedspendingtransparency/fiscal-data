@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons/faFilter';
 import DropdownLabelButton from '../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogContainer from '../../data-preview-dropdown-dialog/data-preview-dropdown-dialog';

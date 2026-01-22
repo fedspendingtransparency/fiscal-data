@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 // TODO: move shared button styles to a site-wide style variable or mixin
 import { buttonContainer, icon, flipped } from '../download-wrapper/download-button.module.scss';

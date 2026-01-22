@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCloudDownload } from '@fortawesome/free-solid-svg-icons/faCloudDownload';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointXl } from '../../../../../variables.module.scss';
 import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';

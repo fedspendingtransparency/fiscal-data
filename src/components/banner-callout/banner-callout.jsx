@@ -11,7 +11,8 @@ import {
   altInfoColor,
   infoBannerYellow,
 } from './banner-callout.module.scss';
-import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons/faTriangleExclamation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';

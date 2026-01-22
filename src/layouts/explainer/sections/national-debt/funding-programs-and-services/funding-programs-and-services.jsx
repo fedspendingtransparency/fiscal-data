@@ -1,5 +1,5 @@
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
-import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
+import { faFlagUsa } from '@fortawesome/free-solid-svg-icons/faFlagUsa';
 import QuoteBox from '../../../quote-box/quote-box';
 import React from 'react';
 import { deficitLink, spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';

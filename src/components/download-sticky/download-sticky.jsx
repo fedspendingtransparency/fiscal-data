@@ -30,7 +30,12 @@ import {
   completed,
 } from './download-sticky.module.scss';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import { faAngleDoubleDown, faAngleDoubleUp, faCheckCircle, faMinus, faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons/faAngleDoubleDown';
+import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons/faAngleDoubleUp';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import buttons from '../buttons/buttons';
 import globalConstants from '../../helpers/constants';

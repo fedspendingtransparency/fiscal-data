@@ -1,6 +1,8 @@
 import { container, row, checkmarkText, labelCheckmarkContainer } from '../../../select-all/select-all.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faMinus, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
+import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
 import React from 'react';
 import { resetIcon, reset, selectAllContainer, selectAll } from '../data-table-column-selector.module.scss';
 

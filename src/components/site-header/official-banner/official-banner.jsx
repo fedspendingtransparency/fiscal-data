@@ -18,7 +18,9 @@ import {
 import ExperimentalSwitch from '../../experimental/experimental-switch/experimental-switch';
 import { StaticImage } from 'gatsby-plugin-image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 const OfficialBanner = () => {
   const [bannerToggle, setBannerToggle] = useState(false);

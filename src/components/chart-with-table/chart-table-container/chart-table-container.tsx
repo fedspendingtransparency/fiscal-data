@@ -19,7 +19,8 @@ import {
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
 import { Skeleton } from '@mui/material';
 import ChartingTableToggle from '../chart-table-toggle/charting-table-toggle';
-import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faChartColumn } from '@fortawesome/free-solid-svg-icons/faChartColumn';
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 import InfoTip from '../../info-tip/info-tip';
 
 interface IChartTableContainer {

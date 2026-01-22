@@ -11,7 +11,8 @@ import {
   activeLabel,
 } from './currency-entry-box.module.scss';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
-import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';

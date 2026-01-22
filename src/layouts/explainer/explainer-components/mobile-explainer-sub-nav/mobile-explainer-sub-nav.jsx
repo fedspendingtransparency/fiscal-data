@@ -3,7 +3,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight, faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
+import { faHouseChimney } from '@fortawesome/free-solid-svg-icons/faHouseChimney';
 import { navigate } from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 import {

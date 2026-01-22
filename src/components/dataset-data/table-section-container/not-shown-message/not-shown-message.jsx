@@ -1,6 +1,6 @@
 import React from 'react';
 import { container, icon, info, notShownBodyText, notShownHeading } from './not-shown-message.module.scss';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NotShownMessage = ({ heading, bodyText }) => {

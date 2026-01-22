@@ -10,7 +10,8 @@ import {
   clear_all_title_hidden,
   undo_icon,
 } from './searchFilterSummary.module.scss';
-import { faTimes, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { isValid, format } from 'date-fns';
@@ -81,10 +82,9 @@ export default function SearchFilterSummary({ searchQuery, activeFilters, allFil
                         isValid(option.active.startDate) &&
                         option.active.endDate &&
                         isValid(option.active.endDate) ? (
-                          <label aria-labelledby={'filter-label'}>{`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(
-                            option.active.endDate,
-                            ['MM/dd/yyyy']
-                          )}`}</label>
+                          <label aria-labelledby={'filter-label'}>
+                            {`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(option.active.endDate, ['MM/dd/yyyy'])}`}
+                          </label>
                         ) : (
                           <label>{option.label}</label>
                         )}

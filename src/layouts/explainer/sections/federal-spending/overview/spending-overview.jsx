@@ -5,7 +5,7 @@ import VisualizationCallout from '../../../../../components/visualization-callou
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { spendingExplainerPrimary, spendingExplainerSecondary, spendingExplainerLightSecondary } from '../federal-spending.module.scss';
 import QuoteBox from '../../../quote-box/quote-box';
-import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
+import { faFlagUsa } from '@fortawesome/free-solid-svg-icons/faFlagUsa';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';

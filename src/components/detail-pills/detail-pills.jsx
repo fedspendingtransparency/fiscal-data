@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { futureDateIconStyle, icon, materialIcon, pill, pillWrapper } from './detail-pills.module.scss';
-import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons/faCalendarWeek';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
+import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AccessAlarm from '@mui/icons-material/AccessAlarm';
 import { format, isAfter } from 'date-fns';

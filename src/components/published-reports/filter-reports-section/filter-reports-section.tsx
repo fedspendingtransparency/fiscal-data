@@ -3,7 +3,7 @@ import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
 import { format } from 'date-fns';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@mui/icons-material/AccountBox';

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useLayoutEffect, useState } from 'react';
 import DropdownLabelButton from '../../../../../../dropdown-label-button/dropdown-label-button';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
 import DropdownContainer from '../../../../../../dropdown-container/dropdown-container';
 import { formatReportDate } from '../../../../../../../helpers/dataset-detail/report-helpers';
 import { customDatesContainer } from './custom-date-filter.module.scss';

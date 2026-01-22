@@ -15,7 +15,8 @@ import { filterYearOptions } from '../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { analyticsHandler } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 export default function ComboSelect({

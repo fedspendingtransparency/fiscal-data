@@ -20,7 +20,8 @@ import {
   disableDisplay,
 } from './date-range-filter.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons/faCircleXmark';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';

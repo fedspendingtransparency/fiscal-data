@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 
-import { faHandshakeAlt, faHourglassHalf, faLineChart } from '@fortawesome/free-solid-svg-icons';
+import { faHandshakeAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHourglassHalf } from '@fortawesome/free-solid-svg-icons/faHourglassHalf';
+import { faLineChart } from '@fortawesome/free-solid-svg-icons/faLineChart';
 import { treasurySavingsBondsExplainerSecondary, treasurySavingsBondsExplainerLightSecondary } from '../treasury-savings-bonds.module.scss';
 const SavingBondsKeyTakeaway: FunctionComponent = () => {
   const savingBondsKeyTakeaways = [

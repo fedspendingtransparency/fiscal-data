@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { checkbox_wrapper, labelCheckmarkContainer, labelCheckmarkText, row } from './filterRow.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import FilterCount from './filterCount/filterCount';
 import Analytics from '../../../../utils/analytics/analytics';
 

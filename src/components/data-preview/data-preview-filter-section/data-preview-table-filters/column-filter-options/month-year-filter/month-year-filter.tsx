@@ -4,7 +4,7 @@ import { monthFullNames } from '../../../../../../utils/api-utils';
 import DropdownLabelButton from '../../../../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../../../../dropdown-container/dropdown-container';
 import DataPreviewDropdownDialogSearch from '../../../../data-preview-dropdown-search/data-preview-dropdown-dialog-search';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
 
 const generateYearOptions = (earliestDate: Date, latestDate: Date) => {
   const startYear = new Date(earliestDate).getFullYear();

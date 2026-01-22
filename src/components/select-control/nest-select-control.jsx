@@ -12,7 +12,9 @@ import {
   yearTitle,
   dropdown_open,
 } from './select-control.module.scss';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 

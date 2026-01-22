@@ -24,7 +24,8 @@ import {
   copyLinkButton,
   readyForDownload,
 } from './download-modal-item.module.scss';
-import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDate } from '../../download-wrapper/helpers';
 import { useRecoilValue } from 'recoil';

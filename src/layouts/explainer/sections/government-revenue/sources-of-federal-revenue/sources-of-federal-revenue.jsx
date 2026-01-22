@@ -3,7 +3,7 @@ import { visWithCallout, quoteBoxContent } from '../../../explainer.module.scss'
 import QuoteBox from '../../../quote-box/quote-box';
 import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
 import { sourcesContent } from './sources-of-federal-revenue.module.scss';
-import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons';
+import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons/faMartiniGlassCitrus';
 import SourcesOfRevenueCircleChart from './sources-of-revenue-circle-chart/sources-of-revenue-circle-chart';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';

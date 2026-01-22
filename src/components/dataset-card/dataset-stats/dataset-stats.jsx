@@ -3,7 +3,10 @@ import { list, statItem, futureDateIconStyle, icon, statHeaderText, stateSubHead
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../../images/futureDateIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons/faCalendarWeek';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
+import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat';
 
 const DatasetStats = ({ dataset }) => {
   // TODO: clean some of these up a little

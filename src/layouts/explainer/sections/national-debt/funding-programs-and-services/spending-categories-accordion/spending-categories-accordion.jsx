@@ -1,6 +1,10 @@
 import Accordion from '../../../../../../components/accordion/accordion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDollarSign, faHandHoldingMedical, faHeartbeat, faShieldAlt, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
+import { faHandHoldingMedical } from '@fortawesome/free-solid-svg-icons/faHandHoldingMedical';
+import { faHeartbeat } from '@fortawesome/free-solid-svg-icons/faHeartbeat';
+import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt';
+import { faUserFriends } from '@fortawesome/free-solid-svg-icons/faUserFriends';
 import React from 'react';
 import { debtAccordion } from '../../national-debt.module.scss';
 import {

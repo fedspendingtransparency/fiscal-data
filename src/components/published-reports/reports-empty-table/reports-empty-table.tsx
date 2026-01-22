@@ -4,7 +4,7 @@ import ReportsTableNotice from '../reports-table-notice/reports-table-notice';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const ReportsEmptyTable: FunctionComponent = ({ width, apiErrorMessage, heading, body, isLoading }) => {

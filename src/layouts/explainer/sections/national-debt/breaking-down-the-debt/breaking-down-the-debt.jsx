@@ -1,5 +1,5 @@
 import { withWindowSize } from 'react-fns';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';

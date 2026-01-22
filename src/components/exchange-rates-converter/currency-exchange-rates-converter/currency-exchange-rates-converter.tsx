@@ -23,7 +23,7 @@ import {
 import BannerCallout from '../../banner-callout/banner-callout';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;

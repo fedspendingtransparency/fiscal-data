@@ -1,7 +1,7 @@
 import React from 'react';
 import { sectionBorder, resetButton, arrowIcon, activeButton, resetButtonContainer, bannerContainer } from './reset-table-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons/faArrowRotateRight';
 import classnames from 'classnames';
 import BannerCallout from '../../banner-callout/banner-callout';
 

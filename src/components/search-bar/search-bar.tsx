@@ -4,7 +4,8 @@ import { searchBarTheme } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import React, { ChangeEventHandler, FocusEventHandler, FunctionComponent, Ref } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 

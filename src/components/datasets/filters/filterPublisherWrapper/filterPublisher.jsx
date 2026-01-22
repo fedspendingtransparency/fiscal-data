@@ -12,7 +12,7 @@ import {
 } from './filterPublisher.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 export default function FilterPublisher({ filterList, children }) {
   const publisherCount = `${filterList.filter(r => r.groupId === 'publisher').length} Publishers`;

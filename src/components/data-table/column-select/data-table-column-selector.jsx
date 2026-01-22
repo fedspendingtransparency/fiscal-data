@@ -10,7 +10,8 @@ import {
   buttonContainer,
 } from './data-table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import {
   additionalSection,
   checkbox_label,

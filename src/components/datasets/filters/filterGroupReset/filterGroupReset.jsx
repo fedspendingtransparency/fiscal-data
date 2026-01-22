@@ -1,7 +1,7 @@
 import React from 'react';
 import { filtersByGroupId } from '../../../../transform/filters/filterDefinitions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
 import { filterReset, icon } from './filterGroupReset.module.scss';
 
 const FilterGroupReset = ({ groupId, activeFilters, onGroupReset, filters }) => {

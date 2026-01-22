@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface ILoadingIndicator {

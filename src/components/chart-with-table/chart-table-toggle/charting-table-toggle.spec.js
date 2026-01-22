@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ChartTableToggle from './charting-table-toggle';
-import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons/faChartBar';
 
 describe('ChartTableToggle', () => {
   const dummyToggleClickHandler = jest.fn();

@@ -18,7 +18,7 @@ import {
   debt,
 } from './explainer-sub-nav.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { faHouseChimney } from '@fortawesome/free-solid-svg-icons/faHouseChimney';
 import Analytics from '../../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 
