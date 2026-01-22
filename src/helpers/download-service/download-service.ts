@@ -794,7 +794,7 @@ const downloadService = {
 };
 
 // run this as early as possible. (when download-service.js gets initiated)
-purgeOldRequests();
+// purgeOldRequests();
 
 export const exportsForUnitTests = {
   baseSiteUrl,
