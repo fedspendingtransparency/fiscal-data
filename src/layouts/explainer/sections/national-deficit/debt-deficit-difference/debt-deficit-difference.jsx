@@ -5,12 +5,10 @@ import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import DeficitMobile from '../../../../../../static/images/deficit-vs-debt_mobile.svg';
 import DeficitDesktop from '../../../../../../static/images/deficit-vs-debt_desktop.svg';
-import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
-export const DebtDeficitDifference = ({ width }) => {
+export const DebtDeficitDifference = () => {
   const nationalDebtLink = (
     <CustomLink url="/americas-finance-guide/national-debt/" id="National Debt">
       National Debt Explainer
@@ -79,4 +77,4 @@ export const DebtDeficitDifference = ({ width }) => {
   );
 };
 
-export default withWindowSize(DebtDeficitDifference);
+export default DebtDeficitDifference;
