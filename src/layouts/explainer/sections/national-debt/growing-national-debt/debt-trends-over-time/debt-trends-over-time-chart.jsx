@@ -2,7 +2,7 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { container, header, headerContainer, lineChartContainer, subHeader, loadingIcon } from './debt-trends-over-time-chart.module.scss';
+import { container, header, headerContainer, lineChartContainer, loadingIcon, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
@@ -174,7 +174,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}
-              date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
+              date={lastDebtValue?.x ? getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`) : new Date()}
               altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '-'} to ${
                 lastDebtValue.x
               }.`}
