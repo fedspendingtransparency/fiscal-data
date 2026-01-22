@@ -55,7 +55,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
     "@mui/x-date-pickers": "^6.12.1",
@@ -68,6 +67,7 @@
     "@react-pdf/renderer": "^4.2.2",
     "@react-spring/web": "^9.7.3",
     "@tanstack/match-sorter-utils": "^8.8.4",
+    "@tanstack/query-async-storage-persister": "^5.90.21",
     "@tanstack/query-sync-storage-persister": "^4.33.0",
     "@tanstack/react-query": "^4.33.0",
     "@tanstack/react-query-persist-client": "^4.33.0",
@@ -97,7 +97,6 @@
     "gatsby-plugin-image": "^3.15.0",
     "gatsby-plugin-manifest": "^5.15.0",
     "gatsby-plugin-material-ui": "^4.1.0",
-
     "gatsby-plugin-postcss": "^6.15.0",
     "gatsby-plugin-react-helmet": "^6.15.0",
     "gatsby-plugin-robots-txt": "^1.7.1",
