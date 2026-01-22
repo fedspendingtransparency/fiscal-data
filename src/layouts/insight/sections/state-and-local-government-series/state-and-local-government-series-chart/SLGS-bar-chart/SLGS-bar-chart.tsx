@@ -1,4 +1,12 @@
-import { Area, Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { ComposedChart } from 'recharts/es6/chart/ComposedChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { Cell } from 'recharts/es6/component/Cell';
+import { Bar } from 'recharts/es6/cartesian/Bar';
+import { Area } from 'recharts/es6/cartesian/Area';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { stateAndLocalGovernmentSeriesLight, stateAndLocalGovernmentSeriesPrimary } from '../../../../insight.module.scss';
 import { CustomTooltip, formatDate, formatXAxis } from '../state-and-local-government-series-chart-helper';

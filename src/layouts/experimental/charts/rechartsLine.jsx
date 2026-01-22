@@ -1,7 +1,12 @@
 /* istanbul ignore file */
 
 import React from 'react';
-import { Area, ComposedChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { ComposedChart } from 'recharts/es6/chart/ComposedChart';
+import { Area } from 'recharts/es6/cartesian/Area';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../../explainer/sections/national-deficit/national-deficit.module.scss';
 import { spendingExplainerLightSecondary, spendingExplainerPrimary } from '../../explainer/sections/federal-spending/federal-spending.module.scss';
 import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../../explainer/sections/government-revenue/revenue.module.scss';

@@ -223,7 +223,7 @@ module.exports = {
       },
     },
     `gatsby-transformer-csv`,
-
+    `gatsby-plugin-webpack-bundle-analyser-v2`,
     `gatsby-plugin-client-side-redirect`,
     // {
     //   resolve: 'gatsby-plugin-axe-core-react',

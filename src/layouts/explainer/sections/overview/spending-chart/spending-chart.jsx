@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
-import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
+import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';

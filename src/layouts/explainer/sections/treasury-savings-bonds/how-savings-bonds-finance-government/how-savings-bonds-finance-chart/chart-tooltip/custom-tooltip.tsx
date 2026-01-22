@@ -1,12 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { TooltipProps } from 'recharts';
-import {
-  tooltipColorBox,
-  tooltipContainer,
-  tooltipPercent,
-  tooltipSecondaryTitle,
-  tooltipTitle,
-} from './custom-tooltip.module.scss';
+import { TooltipProps } from 'recharts/types/component/Tooltip';
+import { tooltipColorBox, tooltipContainer, tooltipPercent, tooltipSecondaryTitle, tooltipTitle } from './custom-tooltip.module.scss';
 
 interface DataItem {
   name: string;

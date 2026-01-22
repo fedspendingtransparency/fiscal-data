@@ -1,9 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../government-revenue/revenue.module.scss';
-import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
+import { breakpointLg, chartContainer, chartTitle, deficitChart, surplusPrimary } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import CustomDotNoAnimation from './custom-dot/custom-dot';

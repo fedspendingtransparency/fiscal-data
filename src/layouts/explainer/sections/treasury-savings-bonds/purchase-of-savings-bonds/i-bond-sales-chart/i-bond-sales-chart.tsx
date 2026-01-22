@@ -1,7 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { ReferenceLine } from 'recharts/es6/cartesian/ReferenceLine';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 import { chartLegend, chartStyle, headerContainer, label, leftLabel, leftLine, lengendItem, line, rightLine } from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';

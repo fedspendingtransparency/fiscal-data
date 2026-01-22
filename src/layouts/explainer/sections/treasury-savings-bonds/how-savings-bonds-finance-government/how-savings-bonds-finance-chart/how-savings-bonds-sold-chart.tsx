@@ -5,7 +5,10 @@ import {
   chartContainer,
   chartStyle,
 } from '../../purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart.module.scss';
-import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { PieChart } from 'recharts/es6/chart/PieChart';
+import { Pie } from 'recharts/es6/polar/Pie';
+import { Cell } from 'recharts/es6/component/Cell';
 import CustomTooltip from './chart-tooltip/custom-tooltip';
 import CustomLegend from './chart-legend/custom-legend';
 import { fyEndpoint } from './how-savings-bonds-sold-chart-helper';

@@ -1,4 +1,11 @@
-import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { ComposedChart } from 'recharts/es6/chart/ComposedChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { Cell } from 'recharts/es6/component/Cell';
+import { Bar } from 'recharts/es6/cartesian/Bar';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect, useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';

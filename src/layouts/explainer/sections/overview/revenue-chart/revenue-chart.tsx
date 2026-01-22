@@ -1,11 +1,14 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
 import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';

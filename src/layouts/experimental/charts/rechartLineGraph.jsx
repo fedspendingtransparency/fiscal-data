@@ -1,6 +1,13 @@
 /* istanbul ignore file */
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { Legend } from 'recharts/es6/component/Legend';
+import { LineChart } from 'recharts/es6/chart/LineChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { Line } from 'recharts/es6/cartesian/Line';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 
 const data = [
   {

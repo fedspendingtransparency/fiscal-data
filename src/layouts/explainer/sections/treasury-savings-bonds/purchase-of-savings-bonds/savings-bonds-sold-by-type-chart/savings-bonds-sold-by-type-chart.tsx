@@ -1,7 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { chartStyle } from './savings-bonds-sold-by-type-chart.module.scss';
-import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Tooltip } from 'recharts/es6/component/Tooltip';
+import { AreaChart } from 'recharts/es6/chart/AreaChart';
+import { ResponsiveContainer } from 'recharts/es6/component/ResponsiveContainer';
+import { ReferenceLine } from 'recharts/es6/cartesian/ReferenceLine';
+import { CartesianGrid } from 'recharts/es6/cartesian/CartesianGrid';
+import { Area } from 'recharts/es6/cartesian/Area';
+import { XAxis } from 'recharts/es6/cartesian/XAxis';
+import { YAxis } from 'recharts/es6/cartesian/YAxis';
 import ChartLegend from './chart-legend/chart-legend';
 import { chartCopy, getXAxisValues, savingsBonds, savingsBondsMap, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import CustomTooltip from './custom-tooltip/custom-tooltip';
