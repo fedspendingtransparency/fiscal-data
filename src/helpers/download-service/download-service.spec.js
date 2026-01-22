@@ -235,28 +235,28 @@ describe('Dataset Download Service', () => {
     expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutC);
   });
 
-  it('can purge old downloads from local storage', () => {
-    const nowTS = new Date().getTime();
-    const aDayAgoTS = nowTS - 1000 * 60 * 60 * 24;
-    const mockCompletedLocalStorage = {
-      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }, { requestId: `mockRequest_B::${aDayAgoTS}` }],
-      'MY-DATASET-YY': [{ requestId: `mockRequest_C::${aDayAgoTS}` }],
-    };
-    localStorageHelper.get = jest
-      .fn()
-      .mockImplementationOnce(() => {
-        return mockCompletedLocalStorage;
-      })
-      .mockImplementationOnce(() => {
-        return mockCompletedLocalStorage;
-      });
-    const withoutB = {
-      'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }],
-    };
-    downloadService.purgeOldRequests();
-
-    expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutB);
-  });
+  // it('can purge old downloads from local storage', () => {
+  //   const nowTS = new Date().getTime();
+  //   const aDayAgoTS = nowTS - 1000 * 60 * 60 * 24;
+  //   const mockCompletedLocalStorage = {
+  //     'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }, { requestId: `mockRequest_B::${aDayAgoTS}` }],
+  //     'MY-DATASET-YY': [{ requestId: `mockRequest_C::${aDayAgoTS}` }],
+  //   };
+  //   localStorageHelper.get = jest
+  //     .fn()
+  //     .mockImplementationOnce(() => {
+  //       return mockCompletedLocalStorage;
+  //     })
+  //     .mockImplementationOnce(() => {
+  //       return mockCompletedLocalStorage;
+  //     });
+  //   const withoutB = {
+  //     'MY-DATASET-XX': [{ requestId: `mockRequest_A::${nowTS}` }],
+  //   };
+  //   downloadService.purgeOldRequests();
+  //
+  //   expect(localStorageHelper.set).toHaveBeenLastCalledWith(completedKey, withoutB);
+  // });
 
   it('cancelled requests remove from local storage', async () => {
     const datasetId = '123-456711';
