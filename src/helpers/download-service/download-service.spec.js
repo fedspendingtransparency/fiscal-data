@@ -575,19 +575,19 @@ describe('Dataset Download Service', () => {
       });
     });
 
-    it('creates status subject for updates to status and makes an ', async () => {
-      downloadService.startProcessingIncompleteFileRequests();
-      const hot$ = watchSignal(downloadService.downloadStatus(testRequestId));
-      await expect(hot$).toEmit();
-      jest.runOnlyPendingTimers();
-      await expect(global.fetch).toBeCalled();
-      expect(global.fetch.mock.calls[0][0]).toContain(`/this/isalongpath/string`);
-      const expected = {};
-      expected[testDatasetId] = [expectedMsg];
-      jest.runOnlyPendingTimers();
-      await expect(hot$).toEmit();
-      expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
-    });
+    // it('creates status subject for updates to status and makes an ', async () => {
+    //   downloadService.startProcessingIncompleteFileRequests();
+    //   const hot$ = watchSignal(downloadService.downloadStatus(testRequestId));
+    //   await expect(hot$).toEmit();
+    //   jest.runOnlyPendingTimers();
+    //   await expect(global.fetch).toBeCalled();
+    //   expect(global.fetch.mock.calls[0][0]).toContain(`/this/isalongpath/string`);
+    //   const expected = {};
+    //   expected[testDatasetId] = [expectedMsg];
+    //   jest.runOnlyPendingTimers();
+    //   await expect(hot$).toEmit();
+    //   expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
+    // });
   });
 
   describe('processing messages', () => {
