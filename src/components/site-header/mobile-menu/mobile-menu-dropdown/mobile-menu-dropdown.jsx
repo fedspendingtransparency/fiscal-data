@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { caret, headerExpanded, linkContainer, mainHeader, resourceLink, sectionHeader } from './mobile-menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 import { Link } from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 import CustomLink from '../../../links/custom-link/custom-link';

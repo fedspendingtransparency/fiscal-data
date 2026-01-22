@@ -19,7 +19,7 @@ import {
   yAxisLabel,
 } from './data-preview-chart.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import ChartLegendPanel from './chart-legend-panel/chart-legend-panel';
 import {
   callbacks,

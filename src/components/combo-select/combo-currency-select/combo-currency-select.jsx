@@ -2,21 +2,22 @@ import React, { useRef, useState } from 'react';
 import { selector_label } from '../../select-control/select-control.module.scss';
 import useOnClickOutside from 'use-onclickoutside';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
 import { analyticsHandler } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 import {
   activeDropdown,
+  activeSearchBar,
+  dropdownContainer,
+  dropdownIcon,
   dropdownInput,
   dropdownInputContainer,
-  hoverContainer,
-  activeSearchBar,
-  dropdownIcon,
-  fullBorderContainer,
   dropdownInputWeight,
-  selectedText,
+  fullBorderContainer,
+  hoverContainer,
   icon,
-  dropdownContainer,
+  selectedText,
 } from './combo-currency-select.module.scss';
 import ComboSelectDropdown from './combo-select-dropdown/combo-select-dropdown';
 import classNames from 'classnames';

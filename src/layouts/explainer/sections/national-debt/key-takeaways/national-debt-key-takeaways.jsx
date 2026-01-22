@@ -1,7 +1,9 @@
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { icon, iconBackground, keyTakeawaysContent, noMarginBottom, offsetIcon } from '../national-debt.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartLine, faMoneyCheckDollar, faPeopleCarry } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons/faChartLine';
+import { faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons/faMoneyCheckDollar';
+import { faPeopleCarry } from '@fortawesome/free-solid-svg-icons/faPeopleCarry';
 import React from 'react';
 
 export const KeyTakeawaysSection = () => {

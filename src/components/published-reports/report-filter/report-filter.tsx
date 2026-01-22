@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
-import { faFileLines } from '@fortawesome/free-regular-svg-icons';
+import { faFileLines } from '@fortawesome/free-regular-svg-icons/faFileLines';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { makeReportGroups } from '../util/util';

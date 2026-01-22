@@ -1,6 +1,7 @@
-import { pillDataContainer, pillDataValue, pillDataPercent, explainerArrow, dashes, doubleDashs } from '../hero-image/hero-image.module.scss';
+import { dashes, doubleDashs, explainerArrow, pillDataContainer, pillDataPercent, pillDataValue } from '../hero-image/hero-image.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons';
+import { faDownLong } from '@fortawesome/free-solid-svg-icons/faDownLong';
+import { faUpLong } from '@fortawesome/free-solid-svg-icons/faUpLong';
 import React from 'react';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';

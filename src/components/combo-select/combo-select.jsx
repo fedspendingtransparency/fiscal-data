@@ -1,21 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { inputContainer, iconButton } from './combo-select.module.scss';
+import { iconButton, inputContainer } from './combo-select.module.scss';
 import {
+  comboSelectField,
+  scrollableList,
   selector_container,
   selector_label,
-  comboSelectField,
-  textField,
   selector_list,
-  scrollableList,
   selector_option,
   selector_optionButton,
   selector_optionSelected,
+  textField,
 } from '../select-control/select-control.module.scss';
 import { filterYearOptions } from '../published-reports/util/util';
 import useOnClickOutside from 'use-onclickoutside';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { analyticsHandler } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 
 export default function ComboSelect({
