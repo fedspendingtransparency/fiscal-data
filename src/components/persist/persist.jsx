@@ -16,16 +16,6 @@ export const siteContext = React.createContext({
   showExperimentalFeatures: false,
   setShowExperimentalFeatures: () => {},
 });
-const ClientOnly = ({ children }) => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return children;
-
-  return <>{children}</>;
-};
 export const Provider = ({ children }) => {
   const [keywords, setKeywords] = useState('');
   const [beginDate, setBeginDate] = useState(null);
@@ -33,6 +23,11 @@ export const Provider = ({ children }) => {
   const [exactRange, setExactRange] = useState(false);
   const [dateRangeTab, setDateRangeTab] = useState(0);
   const [showExperimentalFeatures, setShowExperimentalFeatures] = useState(false);
+
+  const downloadsEnabled, setDownloadEnabled = useState(false);
+  useEffect(() => {
+    setDownloadEnabled(true);
+  }, []);
 
   return (
     <siteContext.Provider
@@ -51,9 +46,9 @@ export const Provider = ({ children }) => {
         setShowExperimentalFeatures,
       }}
     >
-      <ClientOnly>
-        <DownloadsProvider>{children}</DownloadsProvider>
-      </ClientOnly>
+
+      {downloadsEnabled ? <DownloadsProvider>{children}</DownloadsProvider> :children}
+
     </siteContext.Provider>
   );
 };
