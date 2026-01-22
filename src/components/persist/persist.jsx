@@ -24,7 +24,7 @@ export const Provider = ({ children }) => {
   const [dateRangeTab, setDateRangeTab] = useState(0);
   const [showExperimentalFeatures, setShowExperimentalFeatures] = useState(false);
 
-  const downloadsEnabled, setDownloadEnabled = useState(false);
+  const [downloadsEnabled, setDownloadEnabled] = useState(false);
   useEffect(() => {
     setDownloadEnabled(true);
   }, []);
@@ -46,9 +46,7 @@ export const Provider = ({ children }) => {
         setShowExperimentalFeatures,
       }}
     >
-
-      {downloadsEnabled ? <DownloadsProvider>{children}</DownloadsProvider> :children}
-
+      {downloadsEnabled ? <DownloadsProvider>{children}</DownloadsProvider> : children}
     </siteContext.Provider>
   );
 };
