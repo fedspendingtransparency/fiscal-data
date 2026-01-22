@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { DownloadsProvider } from './download-persist/downloads-persist';
 
 export const siteContext = React.createContext({
   // defaults to aid in test isolation
@@ -41,7 +40,7 @@ export const Provider = ({ children }) => {
         setShowExperimentalFeatures,
       }}
     >
-      <DownloadsProvider>{children}</DownloadsProvider>
+      {children}
     </siteContext.Provider>
   );
 };
