@@ -3,36 +3,16 @@ import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import Analytics from '../../../../../utils/analytics/analytics';
-import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
-import Multichart from '../../../multichart/multichart';
 import Accordion from '../../../../../components/accordion/accordion';
 import { chartPatternBackground, nationalDebtSectionConfigs } from '../national-debt';
 import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, { useEffect, useState } from 'react';
 import { breakpointLg, debtExplainerLightSecondary, debtExplainerPrimary, fontSize_10, fontSize_14 } from '../../../../../variables.module.scss';
-import { chartBackdrop, visWithCallout } from '../../../explainer.module.scss';
 import { debtAccordion, postGraphAccordionContainer, postGraphContent } from '../national-debt.module.scss';
-import {
-  aveInterestLegend,
-  debtBreakdownSectionGraphContainer,
-  debtLegend,
-  footerContainer,
-  header,
-  headerContainer,
-  multichartContainer,
-  multichartLegend,
-  multichartWrapper,
-  simple,
-  subHeader,
-  title,
-  loadingIndicatorContainer,
-  loadingIcon,
-} from './breaking-down-the-debt.module.scss';
+
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import QuoteBox from '../../../quote-box/quote-box';
-import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 export const percentageFormatter = value => (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = value => `$${(Number(value) / 1000000).toFixed(2)} T`;
@@ -259,26 +239,26 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
     });
   }, []);
 
-  const handleMouseEnterInterestChart = () => {
-    gaTimerDualChart = setTimeout(() => {
-      Analytics.event({
-        category: 'Explainers',
-        action: 'Chart Hover',
-        label: 'Debt - Interest Rate and Total Debt',
-      });
-    }, 3000);
-    ga4Timer = setTimeout(() => {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'chart-hover-interest-total-debt',
-      });
-    }, 3000);
-  };
+  // const handleMouseEnterInterestChart = () => {
+  //   gaTimerDualChart = setTimeout(() => {
+  //     Analytics.event({
+  //       category: 'Explainers',
+  //       action: 'Chart Hover',
+  //       label: 'Debt - Interest Rate and Total Debt',
+  //     });
+  //   }, 3000);
+  //   ga4Timer = setTimeout(() => {
+  //     window.dataLayer = window.dataLayer || [];
+  //     window.dataLayer.push({
+  //       event: 'chart-hover-interest-total-debt',
+  //     });
+  //   }, 3000);
+  // };
 
-  const handleMouseLeaveInterestChart = () => {
-    clearTimeout(gaTimerDualChart);
-    clearTimeout(ga4Timer);
-  };
+  // const handleMouseLeaveInterestChart = () => {
+  //   clearTimeout(gaTimerDualChart);
+  //   clearTimeout(ga4Timer);
+  // };
 
   return (
     <>
@@ -322,76 +302,76 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           stable due to low interest rates and investors’ judgement that the U.S. Government has a very low risk of default. However, recent increases
           in interest rates and inflation are now resulting in an increase in interest expense.
         </p>
-        <figure className={visWithCallout}>
-          <div
-            className={multichartWrapper}
-            aria-label={
-              'Combined line and area chart comparing average interest rate and total debt trends over ' +
-              'the last decade, ranging from ' +
-              multichartInterestRateMax +
-              ' to ' +
-              multichartInterestRateMin
-            }
-            role="figure"
-          >
-            <div
-              className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-              onMouseEnter={handleMouseEnterInterestChart}
-              onMouseLeave={handleMouseLeaveInterestChart}
-              role="presentation"
-              data-testid="debt-breakdown-section-graph"
-            >
-              <p className={`${title} ${simple}`}>
-                Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}
-              </p>
-              <div className={headerContainer} data-testid="interest-and-debt-chart-header">
-                <div>
-                  <div className={header}>{focalYear}</div>
-                  <span className={subHeader}>Fiscal Year</span>
-                </div>
-                <div>
-                  <div className={header}>{interestValue}</div>
-                  <span className={subHeader}>Average Interest Rate</span>
-                </div>
-                <div>
-                  <div className={header}>{debtValue}</div>
-                  <span className={subHeader}>Total Debt</span>
-                </div>
-              </div>
-              {!multichartDataLoaded ? (
-                <div className={loadingIndicatorContainer}>
-                  <LoadingIndicator loadingClass={loadingIcon} />
-                </div>
-              ) : (
-                <div className={`${multichartContainer} multichart-scaled`}>
-                  <Multichart chartId={multichartId} chartConfigs={multichartConfigs} hoverEffectHandler={hoverEffectHandler} />
-                </div>
-              )}
-              <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">
-                <div>
-                  <div className={aveInterestLegend} />
-                  <div>Average Interest Rate</div>
-                </div>
-                <div>
-                  <div className={debtLegend} />
-                  <div>Total Debt</div>
-                </div>
-              </div>
-              <div className={footerContainer}>
-                <p>
-                  Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
-                </p>
-                <p>Last Updated: September 30, {multichartEndYear}</p>
-              </div>
-            </div>
-          </div>
-          <VisualizationCallout color={debtExplainerPrimary}>
-            <p>
-              When interest rates remain low over time, interest expense on the debt paid by the federal government will remain stable, even as the
-              federal debt increases. As interest rates increase, the cost of maintaining the national debt also increases.
-            </p>
-          </VisualizationCallout>
-        </figure>
+        {/*<figure className={visWithCallout}>*/}
+        {/*  <div*/}
+        {/*    className={multichartWrapper}*/}
+        {/*    aria-label={*/}
+        {/*      'Combined line and area chart comparing average interest rate and total debt trends over ' +*/}
+        {/*      'the last decade, ranging from ' +*/}
+        {/*      multichartInterestRateMax +*/}
+        {/*      ' to ' +*/}
+        {/*      multichartInterestRateMin*/}
+        {/*    }*/}
+        {/*    role="figure"*/}
+        {/*  >*/}
+        {/*    <div*/}
+        {/*      className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}*/}
+        {/*      onMouseEnter={handleMouseEnterInterestChart}*/}
+        {/*      onMouseLeave={handleMouseLeaveInterestChart}*/}
+        {/*      role="presentation"*/}
+        {/*      data-testid="debt-breakdown-section-graph"*/}
+        {/*    >*/}
+        {/*      <p className={`${title} ${simple}`}>*/}
+        {/*        Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}*/}
+        {/*      </p>*/}
+        {/*      <div className={headerContainer} data-testid="interest-and-debt-chart-header">*/}
+        {/*        <div>*/}
+        {/*          <div className={header}>{focalYear}</div>*/}
+        {/*          <span className={subHeader}>Fiscal Year</span>*/}
+        {/*        </div>*/}
+        {/*        <div>*/}
+        {/*          <div className={header}>{interestValue}</div>*/}
+        {/*          <span className={subHeader}>Average Interest Rate</span>*/}
+        {/*        </div>*/}
+        {/*        <div>*/}
+        {/*          <div className={header}>{debtValue}</div>*/}
+        {/*          <span className={subHeader}>Total Debt</span>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*      {!multichartDataLoaded ? (*/}
+        {/*        <div className={loadingIndicatorContainer}>*/}
+        {/*          <LoadingIndicator loadingClass={loadingIcon} />*/}
+        {/*        </div>*/}
+        {/*      ) : (*/}
+        {/*        <div className={`${multichartContainer} multichart-scaled`}>*/}
+        {/*          <Multichart chartId={multichartId} chartConfigs={multichartConfigs} hoverEffectHandler={hoverEffectHandler} />*/}
+        {/*        </div>*/}
+        {/*      )}*/}
+        {/*      <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">*/}
+        {/*        <div>*/}
+        {/*          <div className={aveInterestLegend} />*/}
+        {/*          <div>Average Interest Rate</div>*/}
+        {/*        </div>*/}
+        {/*        <div>*/}
+        {/*          <div className={debtLegend} />*/}
+        {/*          <div>Total Debt</div>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*      <div className={footerContainer}>*/}
+        {/*        <p>*/}
+        {/*          Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.*/}
+        {/*        </p>*/}
+        {/*        <p>Last Updated: September 30, {multichartEndYear}</p>*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*  <VisualizationCallout color={debtExplainerPrimary}>*/}
+        {/*    <p>*/}
+        {/*      When interest rates remain low over time, interest expense on the debt paid by the federal government will remain stable, even as the*/}
+        {/*      federal debt increases. As interest rates increase, the cost of maintaining the national debt also increases.*/}
+        {/*    </p>*/}
+        {/*  </VisualizationCallout>*/}
+        {/*</figure>*/}
         <div className={postGraphAccordionContainer}>
           <div className={debtAccordion}>
             <Accordion

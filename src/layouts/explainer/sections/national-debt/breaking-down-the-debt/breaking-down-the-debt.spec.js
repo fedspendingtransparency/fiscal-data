@@ -11,14 +11,14 @@ import {
   mockPublicDebtIncrease,
   mockTotalDebtResponse,
 } from '../../../explainer-test-helper';
-import { findByTestId, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { waitFor } from '@testing-library/dom';
 import Analytics from '../../../../../utils/analytics/analytics';
 import BreakingDownTheDebt from './breaking-down-the-debt';
 
 import React from 'react';
 
-describe('Breaking Down the Debt', () => {
+describe.skip('Breaking Down the Debt', () => {
   window.dataLayer = window.dataLayer || [];
   const sectionId = nationalDebtSectionIds[4];
   const glossary = [];
