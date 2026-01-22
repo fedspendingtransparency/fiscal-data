@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DownloadsProvider } from './download-persist/downloads-persist';
 
 export const siteContext = React.createContext({
@@ -16,7 +16,16 @@ export const siteContext = React.createContext({
   showExperimentalFeatures: false,
   setShowExperimentalFeatures: () => {},
 });
+const ClientOnly = ({ children }) => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
+  if (!mounted) return children;
+
+  return <>{children}</>;
+};
 export const Provider = ({ children }) => {
   const [keywords, setKeywords] = useState('');
   const [beginDate, setBeginDate] = useState(null);
@@ -42,7 +51,9 @@ export const Provider = ({ children }) => {
         setShowExperimentalFeatures,
       }}
     >
-      <DownloadsProvider>{children}</DownloadsProvider>
+      <ClientOnly>
+        <DownloadsProvider>{children}</DownloadsProvider>
+      </ClientOnly>
     </siteContext.Provider>
   );
 };
