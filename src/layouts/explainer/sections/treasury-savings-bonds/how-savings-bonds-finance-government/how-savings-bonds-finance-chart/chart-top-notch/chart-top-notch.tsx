@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sector } from 'recharts';
+import { Sector } from 'recharts/es6/shape/Sector';
 
 interface ActiveShapeProps {
   cx?: number;
