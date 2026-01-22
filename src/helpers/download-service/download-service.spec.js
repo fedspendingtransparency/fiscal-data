@@ -500,95 +500,95 @@ describe('Dataset Download Service', () => {
     expect(console.error).toHaveBeenCalled();
   });
 
-  describe('download updates via polling', () => {
-    let localStorageHelper;
-    const mockDataRequested = {
-      apiIds: ['123'],
-      dateRange: { from: '2005-10-03', to: '2021-02-17' },
-      fileTypes: 'zip',
-    };
-
-    const completedMsg = {
-      status: 'completed',
-      status_path: 'this/isalongpath/string',
-      file_path: 'this/isanotherlongpath/string',
-      filesize_kb: '123',
-    };
-    const testDatasetId = '123-45672020';
-    const nowTS = new Date().getTime();
-    const testRequestId = `${testDatasetId}::${nowTS}`;
-
-    const expectedMsg = {
-      status: 'completed',
-      status_path: 'this/isalongpath/string',
-      progress: { current: 0, total: 30, pct: 0, apis: {} },
-      dl_check_page_path: null,
-      final_file_name: 'this/isanotherlongpath/string',
-      datasetId: `${testDatasetId}`,
-      requestId: `${testRequestId}`,
-      requested: mockDataRequested,
-      resumed: true,
-      readyForDownload: true,
-    };
-
-    beforeAll(() => {
-      jest.restoreAllMocks();
-    });
-
-    beforeEach(async () => {
-      global.fetch = jest.fn(() => {
-        return Promise.resolve({
-          ok: true,
-          ready: true,
-          json: () => {
-            return Promise.resolve(completedMsg);
-          },
-        });
-      });
-
-      // setGlobalFetchResponse(completedMsg);
-
-      jest.doMock('../local-storage-helper/local-storage-helper', () => ({
-        set: jest.fn(),
-        get: jest.fn().mockImplementation(key => {
-          const output = {};
-          output[inProgressKey] = {};
-          output[inProgressKey][testRequestId] = {
-            status: 'started',
-            status_path: 'this/isalongpath/string',
-            progress: { current: 0, total: 30, pct: 0, apis: {} },
-            dl_check_page_path: null,
-            final_file_name: 'this/isanotherlongpath/string',
-            datasetId: `${testDatasetId}`,
-            requestId: `${testRequestId}`,
-            requested: mockDataRequested,
-          };
-          return output[key];
-        }),
-        remove: jest.fn(),
-      }));
-      import('../local-storage-helper/local-storage-helper').then(module => {
-        localStorageHelper = module.default;
-      });
-      import('./download-service').then(module => {
-        downloadService = module.default;
-      });
-    });
-
-    // it('creates status subject for updates to status and makes an ', async () => {
-    //   downloadService.startProcessingIncompleteFileRequests();
-    //   const hot$ = watchSignal(downloadService.downloadStatus(testRequestId));
-    //   await expect(hot$).toEmit();
-    //   jest.runOnlyPendingTimers();
-    //   await expect(global.fetch).toBeCalled();
-    //   expect(global.fetch.mock.calls[0][0]).toContain(`/this/isalongpath/string`);
-    //   const expected = {};
-    //   expected[testDatasetId] = [expectedMsg];
-    //   jest.runOnlyPendingTimers();
-    //   await expect(hot$).toEmit();
-    //   expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
-    // });
-  });
+  // describe('download updates via polling', () => {
+  //   let localStorageHelper;
+  //   const mockDataRequested = {
+  //     apiIds: ['123'],
+  //     dateRange: { from: '2005-10-03', to: '2021-02-17' },
+  //     fileTypes: 'zip',
+  //   };
+  //
+  //   const completedMsg = {
+  //     status: 'completed',
+  //     status_path: 'this/isalongpath/string',
+  //     file_path: 'this/isanotherlongpath/string',
+  //     filesize_kb: '123',
+  //   };
+  //   const testDatasetId = '123-45672020';
+  //   const nowTS = new Date().getTime();
+  //   const testRequestId = `${testDatasetId}::${nowTS}`;
+  //
+  //   const expectedMsg = {
+  //     status: 'completed',
+  //     status_path: 'this/isalongpath/string',
+  //     progress: { current: 0, total: 30, pct: 0, apis: {} },
+  //     dl_check_page_path: null,
+  //     final_file_name: 'this/isanotherlongpath/string',
+  //     datasetId: `${testDatasetId}`,
+  //     requestId: `${testRequestId}`,
+  //     requested: mockDataRequested,
+  //     resumed: true,
+  //     readyForDownload: true,
+  //   };
+  //
+  //   beforeAll(() => {
+  //     jest.restoreAllMocks();
+  //   });
+  //
+  //   beforeEach(async () => {
+  //     global.fetch = jest.fn(() => {
+  //       return Promise.resolve({
+  //         ok: true,
+  //         ready: true,
+  //         json: () => {
+  //           return Promise.resolve(completedMsg);
+  //         },
+  //       });
+  //     });
+  //
+  //     // setGlobalFetchResponse(completedMsg);
+  //
+  //     jest.doMock('../local-storage-helper/local-storage-helper', () => ({
+  //       set: jest.fn(),
+  //       get: jest.fn().mockImplementation(key => {
+  //         const output = {};
+  //         output[inProgressKey] = {};
+  //         output[inProgressKey][testRequestId] = {
+  //           status: 'started',
+  //           status_path: 'this/isalongpath/string',
+  //           progress: { current: 0, total: 30, pct: 0, apis: {} },
+  //           dl_check_page_path: null,
+  //           final_file_name: 'this/isanotherlongpath/string',
+  //           datasetId: `${testDatasetId}`,
+  //           requestId: `${testRequestId}`,
+  //           requested: mockDataRequested,
+  //         };
+  //         return output[key];
+  //       }),
+  //       remove: jest.fn(),
+  //     }));
+  //     import('../local-storage-helper/local-storage-helper').then(module => {
+  //       localStorageHelper = module.default;
+  //     });
+  //     import('./download-service').then(module => {
+  //       downloadService = module.default;
+  //     });
+  //   });
+  //
+  //   // it('creates status subject for updates to status and makes an ', async () => {
+  //   //   downloadService.startProcessingIncompleteFileRequests();
+  //   //   const hot$ = watchSignal(downloadService.downloadStatus(testRequestId));
+  //   //   await expect(hot$).toEmit();
+  //   //   jest.runOnlyPendingTimers();
+  //   //   await expect(global.fetch).toBeCalled();
+  //   //   expect(global.fetch.mock.calls[0][0]).toContain(`/this/isalongpath/string`);
+  //   //   const expected = {};
+  //   //   expected[testDatasetId] = [expectedMsg];
+  //   //   jest.runOnlyPendingTimers();
+  //   //   await expect(hot$).toEmit();
+  //   //   expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
+  //   // });
+  // });
 
   describe('processing messages', () => {
     let runCount = 0;
