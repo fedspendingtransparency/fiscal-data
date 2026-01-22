@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DownloadsProvider } from './download-persist/downloads-persist';
 
 export const siteContext = React.createContext({
@@ -24,11 +24,6 @@ export const Provider = ({ children }) => {
   const [dateRangeTab, setDateRangeTab] = useState(0);
   const [showExperimentalFeatures, setShowExperimentalFeatures] = useState(false);
 
-  const [downloadsEnabled, setDownloadEnabled] = useState(false);
-  useEffect(() => {
-    setDownloadEnabled(true);
-  }, []);
-
   return (
     <siteContext.Provider
       value={{
@@ -46,7 +41,7 @@ export const Provider = ({ children }) => {
         setShowExperimentalFeatures,
       }}
     >
-      {downloadsEnabled ? <DownloadsProvider>{children}</DownloadsProvider> : children}
+      <DownloadsProvider>{children}</DownloadsProvider>
     </siteContext.Provider>
   );
 };
