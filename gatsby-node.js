@@ -983,18 +983,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           api.apiFilter.optionLabels = allResultsLabels;
         }
       }
-      createPage({
-        path: `/datasets${config.slug}`,
-        matchPath: '/datasets' + config.slug + '*',
-        component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
-        context: {
-          config: config,
-          relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
-          experimental: false,
-          seoConfig: config.seoConfig,
-          isPreProd: ENV_ID === 'preprod',
-        },
-      });
+      // createPage({
+      //   path: `/datasets${config.slug}`,
+      //   matchPath: '/datasets' + config.slug + '*',
+      //   component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
+      //   context: {
+      //     config: config,
+      //     relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
+      //     experimental: false,
+      //     seoConfig: config.seoConfig,
+      //     isPreProd: ENV_ID === 'preprod',
+      //   },
+      // });
     }
   }
 
