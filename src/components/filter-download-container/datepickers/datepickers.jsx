@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import LocalizationProvider from '@mui/x-date-pickers/LocalizationProvider';
+import DatePicker from '@mui/x-date-pickers/DatePicker';
+import AdapterDayjs from '@mui/x-date-pickers/AdapterDayjs';
 import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../theme';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
 import dayjs from 'dayjs';

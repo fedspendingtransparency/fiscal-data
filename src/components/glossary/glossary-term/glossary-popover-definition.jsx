@@ -22,7 +22,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 import { searchBarTheme } from '../glossary-header/theme';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
 const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, handleClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
