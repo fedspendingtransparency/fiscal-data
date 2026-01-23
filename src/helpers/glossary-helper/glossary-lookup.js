@@ -21,7 +21,7 @@ export const applyFormatting = entry => {
     count = count + 1;
     if (count === customFormat.index + 1) {
       if (customFormat.format === 'underline') {
-        return <u>{match}</u>;
+        return <u key={index}>{match}</u>;
       }
     }
     return match;
@@ -65,8 +65,12 @@ export const glossaryLookup = (value, glossary, page) => {
 };
 
 export const urlFormat = (entry, definitionFormatted) => {
-  return reactStringReplace(definitionFormatted, entry.url_display, match => {
-    return <CustomLink url={entry.url_path}>{match}</CustomLink>;
+  return reactStringReplace(definitionFormatted, entry.url_display, (match, i) => {
+    return (
+      <CustomLink url={entry.url_path} key={i}>
+        {match}
+      </CustomLink>
+    );
   });
 };
 
@@ -77,7 +81,7 @@ const handleFiscalYearCase = (entry, definition) => {
     let index = 0;
     definition = reactStringReplace(definition, yearRgx, (match, i) => {
       const yearOffset = index++ === 2 ? 2 : 1;
-      return fiscalYear - yearOffset;
+      return <React.Fragment key={i}>{fiscalYear - yearOffset}</React.Fragment>;
     });
   }
   return definition;
