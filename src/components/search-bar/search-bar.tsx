@@ -7,7 +7,8 @@ import {
   searchIconHover,
   searchLabel,
 } from './search-bar.module.scss';
-import { InputAdornment, ThemeProvider } from '@mui/material';
+import InputAdornment from '@mui/material/InputAdornment';
+import { ThemeProvider } from '@mui/material/styles';
 import { searchBarTheme } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
