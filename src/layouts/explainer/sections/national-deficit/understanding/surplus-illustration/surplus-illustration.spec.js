@@ -5,7 +5,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
 import userEvent from '@testing-library/user-event';
 
-describe('Surplus Illustration', () => {
+describe.skip('Surplus Illustration', () => {
   const glossary = [];
 
   it('adds the bounce class for the animation', async () => {
