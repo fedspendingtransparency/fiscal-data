@@ -1,7 +1,7 @@
 import { Bar } from '@nivo/bar';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import React, { useEffect, useState } from 'react';
-import { barChart, container, headerTitle, subHeader } from './deficit-trends-bar-chart.module.scss';
+import { barChart, container, headerTitle, subHeader, loadingIcon } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
@@ -32,7 +32,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
-  const [headerYear, setHeaderYear] = useState('');
+  const [headerYear, setHeaderYear] = useState('-');
   const [headerDeficit, setHeaderDeficit] = useState('');
   const [lastBar, setLastBar] = useState();
 
@@ -262,18 +262,23 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   return (
     <>
-      {!!chartData ? (
-        <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
-          <ChartContainer
-            title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
-            altText={
-              `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
-              `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`
-            }
-            header={header}
-            footer={footer}
-            date={date}
-          >
+      <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
+        <ChartContainer
+          title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
+          altText={
+            `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
+            `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`
+          }
+          header={header}
+          footer={footer}
+          date={date}
+          customContainerStyles={{
+            minHeight: 'var(--chart-height)',
+          }}
+        >
+          {!chartData ? (
+            <LoadingIndicator loadingClass={loadingIcon} />
+          ) : (
             <div
               className={barChart}
               onMouseLeave={resetHeaderValues}
@@ -310,11 +315,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 }}
               />
             </div>
-          </ChartContainer>
-        </div>
-      ) : (
-        <LoadingIndicator />
-      )}
+          )}
+        </ChartContainer>
+      </div>
     </>
   );
 };
