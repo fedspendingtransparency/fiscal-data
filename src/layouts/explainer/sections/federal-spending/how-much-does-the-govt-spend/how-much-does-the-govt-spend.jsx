@@ -336,13 +336,13 @@ const HowMuchDoesTheGovtSpend = () => {
               {firstTen?.map((item, i) => {
                 return (
                   <div className={chartsContainer} key={i}>
-                    <GrowDivBar
-                      percent={item.percentage}
-                      animateTime={0.6}
-                      animate={animateBars}
-                      onAnimationEnd={animationEndHandler}
-                      isMobile={isMobile}
-                    />
+                    {/*<GrowDivBar*/}
+                    {/*  percent={item.percentage}*/}
+                    {/*  animateTime={0.6}*/}
+                    {/*  animate={animateBars}*/}
+                    {/*  onAnimationEnd={animationEndHandler}*/}
+                    {/*  isMobile={isMobile}*/}
+                    {/*/>*/}
                     <div
                       className={percentOrDollarContainer}
                       style={{
