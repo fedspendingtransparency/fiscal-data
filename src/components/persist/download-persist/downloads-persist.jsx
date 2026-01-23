@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, startTransition } from 'react';
 import { DATA_DOWNLOAD_BASE_URL } from 'gatsby-env-variables';
 import downloadService from '../../../helpers/download-service/download-service';
 import { updatePercentage, updateProgress } from './download-progress-helper';
@@ -61,9 +61,9 @@ export const downloadsContext = React.createContext({
 });
 
 export const DownloadsProvider = ({ children }) => {
-  const [downloadQueue, setDownloadQueue] = useState([]);
+  const [downloadQueue, setDownloadQueue] = useState(() => []);
   const [downloadQueueByDataset] = useState({});
-  const [downloadsPrepared, setDownloadsPrepared] = useState([]);
+  const [downloadsPrepared, setDownloadsPrepared] = useState(() => []);
   const [downloadModalIsOpen, setDownloadModalIsOpen] = useState(false);
   const [preparingDownload, setPreparingDownload] = useState(false);
   const [downloadFilePath, setDownloadFilePath] = useState(null);
@@ -456,14 +456,20 @@ export const DownloadsProvider = ({ children }) => {
   useEffect(() => {
     // should only occur at site load once
     if (resumeDownloadModalIsOpen === undefined && resumedDownloadInitTimeout === undefined) {
+      startTransition(() => {
+        downloadService.startProcessingIncompleteFileRequests(setResumedDownloads);
+        reconstituteQueueFromLocalStorage();
+      });
+    }
+  }, []);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      downloadService.purgeOldRequests();
       downloadService.startProcessingIncompleteFileRequests(setResumedDownloads);
       reconstituteQueueFromLocalStorage();
-    }
-    return () => {
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
-    };
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
