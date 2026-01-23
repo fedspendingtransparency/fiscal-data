@@ -1,8 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { nationalDebtExplainedTable } from '../national-debt.module.scss';
 import NationalDebtExplained from './national-debt-explained';
 import { nationalDebtExplainedTableContent } from './national-debt-explained-table/national-debt-explained-table';
+import Analytics from '../../../../../utils/analytics/analytics';
+
 describe('National Debt Explained', () => {
   const glossary = [];
   beforeEach(() => {
@@ -19,6 +21,19 @@ describe('National Debt Explained', () => {
           expect(getByText(col)).toBeInTheDocument();
         }
       });
+    });
+  });
+
+  it('calls a ga event when the custom link is clicked ', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<NationalDebtExplained glossary={glossary} />);
+
+    const deficitLink = getByRole('link', { name: 'deficit' });
+    fireEvent.click(deficitLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Debt Citation Click',
+      category: 'Explainers',
+      label: 'National Deficit',
     });
   });
 });
