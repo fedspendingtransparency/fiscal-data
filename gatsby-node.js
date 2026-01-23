@@ -998,23 +998,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   }
 
-  // if (ENV_ID === 'preprod') {
-  //   result.data.allTopics.topics.forEach(config => {
-  //     const slug = `${config.slug.trim()}/`;
-  //     createPage({
-  //       path: `/topics/${slug}`,
-  //       matchPath: '/topics/' + slug + '*',
-  //       component: path.resolve(`./src/layouts/topics/topics.jsx`),
-  //       context: {
-  //         config: config,
-  //         slug: config.slug,
-  //         relatedDatasets: [],
-  //         seoConfig: null,
-  //         isPreProd: ENV_ID === 'preprod',
-  //       },
-  //     });
-  //   });
-  // }
+  if (ENV_ID === 'preprod') {
+    result.data.allTopics.topics.forEach(config => {
+      const slug = `${config.slug.trim()}/`;
+      createPage({
+        path: `/topics/${slug}`,
+        matchPath: '/topics/' + slug + '*',
+        component: path.resolve(`./src/layouts/topics/topics.jsx`),
+        context: {
+          config: config,
+          slug: config.slug,
+          relatedDatasets: [],
+          seoConfig: null,
+          isPreProd: ENV_ID === 'preprod',
+        },
+      });
+    });
+  }
   //
   // result.data.allExplainers.explainers.forEach(explainer => {
   //   if (ENV_ID !== 'production' || explainer.prodReady) {
