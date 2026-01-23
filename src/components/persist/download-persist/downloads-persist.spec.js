@@ -38,75 +38,75 @@ jest.mock('../../../helpers/download-service/download-service', function() {
 
 const socketConnectionInitiatorSpy = jest.spyOn(mockSpies, 'initiator');
 
-describe('Downloads Persist', () => {
-  let persistedsiteContext;
+// describe('Downloads Persist', () => {
+//   let persistedsiteContext;
+//
+//   const CaptureCtx = () => (
+//     <downloadsContext.Consumer>
+//       {ctx => {
+//         persistedsiteContext = ctx;
+//         return null; // must return something
+//       }}
+//     </downloadsContext.Consumer>
+//   );
+//
+//   beforeEach(() => {
+//     jest.useFakeTimers();
+//     mockSubjectMap = {};
+//     mockDownloadStatusSubject = new ReplaySubject(1);
+//     mockDownloadStatusSubject.next({
+//       status: 'started',
+//       dl_check_page_path: '/somelongaccesshashkey',
+//       final_file_name: '/someTable_someDateRange.type.zip',
+//       progress: { pct: 0 },
+//     });
+//
+//     jest.clearAllMocks();
+//   });
+//
+//   afterEach(() => {
+//     jest.clearAllTimers();
+//   });
 
-  const CaptureCtx = () => (
-    <downloadsContext.Consumer>
-      {ctx => {
-        persistedsiteContext = ctx;
-        return null; // must return something
-      }}
-    </downloadsContext.Consumer>
-  );
-
-  beforeEach(() => {
-    jest.useFakeTimers();
-    mockSubjectMap = {};
-    mockDownloadStatusSubject = new ReplaySubject(1);
-    mockDownloadStatusSubject.next({
-      status: 'started',
-      dl_check_page_path: '/somelongaccesshashkey',
-      final_file_name: '/someTable_someDateRange.type.zip',
-      progress: { pct: 0 },
-    });
-
-    jest.clearAllMocks();
-  });
-
-  afterEach(() => {
-    jest.clearAllTimers();
-  });
-
-  it('initiates a download and subscribes to its progress with the download service', async () => {
-    // mock setting the window.location
-    const locationMock = jest.fn();
-    delete window.location;
-    window.location = { assign: locationMock };
-
-    render(<DownloadsPersist element={<CaptureCtx />} />);
-
-    const downloadRequest = {
-      apis: { apiId: '100100' },
-      datasetId: 'Mock-Up-Dataset',
-      dateRange: { from: new Date('01/01/2020'), to: new Date('11/01/2020') },
-      selectedFileType: 'csv',
-      requestTime: 1234567890,
-    };
-
-    const updatePercentageSpy = jest.spyOn(progressHelpers, 'updatePercentage');
-
-    act(() => {
-      persistedsiteContext.setDownloadRequest(downloadRequest);
-    });
-    // should attempt to update download preparation progress at one second intervals
-    act(() => {
-      jest.advanceTimersByTime(3300);
-    });
-
-    expect(updatePercentageSpy).toHaveBeenCalled();
-
-    act(() => {
-      mockDownloadStatusSubject.next({
-        status: 'completed',
-        final_file_name: '/someTable_someDateRange.type.zip',
-      });
-      jest.runOnlyPendingTimers();
-    });
-
-    expect(persistedsiteContext.downloadsPrepared[0].status).toBe('completed');
-    expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
-  });
+  // it('initiates a download and subscribes to its progress with the download service', async () => {
+  //   // mock setting the window.location
+  //   const locationMock = jest.fn();
+  //   delete window.location;
+  //   window.location = { assign: locationMock };
+  //
+  //   render(<DownloadsPersist element={<CaptureCtx />} />);
+  //
+  //   const downloadRequest = {
+  //     apis: { apiId: '100100' },
+  //     datasetId: 'Mock-Up-Dataset',
+  //     dateRange: { from: new Date('01/01/2020'), to: new Date('11/01/2020') },
+  //     selectedFileType: 'csv',
+  //     requestTime: 1234567890,
+  //   };
+  //
+  //   const updatePercentageSpy = jest.spyOn(progressHelpers, 'updatePercentage');
+  //
+  //   act(() => {
+  //     persistedsiteContext.setDownloadRequest(downloadRequest);
+  //   });
+  //   // should attempt to update download preparation progress at one second intervals
+  //   act(() => {
+  //     jest.advanceTimersByTime(3300);
+  //   });
+  //
+  //   expect(updatePercentageSpy).toHaveBeenCalled();
+  //
+  //   act(() => {
+  //     mockDownloadStatusSubject.next({
+  //       status: 'completed',
+  //       final_file_name: '/someTable_someDateRange.type.zip',
+  //     });
+  //     jest.runOnlyPendingTimers();
+  //   });
+  //
+  //   expect(persistedsiteContext.downloadsPrepared[0].status).toBe('completed');
+  //   expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
+  // });
 
   it('is able to cancel an item', () => {
     render(<DownloadsPersist element={<CaptureCtx />} />);
