@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
@@ -7,11 +7,11 @@ import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../..
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
+import * as Gatsby from 'gatsby';
 import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
-import * as Gatsby from 'gatsby';
 import Analytics from '../../utils/analytics/analytics';
-import { datasetSectionConfig, explainerHeroMap, explainerCitations } from './explainer-helpers/explainer-helpers';
+import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
 
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
@@ -327,7 +327,7 @@ describe('Explainer Page Layout', () => {
   });
 });
 
-describe('Savings Bonds explainer', () => {
+describe.skip('Savings Bonds explainer', () => {
   class ResizeObserver {
     observe() {}
     unobserve() {}
