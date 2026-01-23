@@ -48,7 +48,7 @@ const DownloadButton = ({ size, publishedDate, displayName, url, mobileView, fil
   }, [downloaded]);
 
   const download = (
-    <div className={` ${downloaded && downloadedIcon} ${center}`} data-testId="download-icon" aria-describedby="Download Icon">
+    <div className={` ${downloaded && downloadedIcon} ${center}`} data-testid="download-icon" aria-describedby="Download Icon">
       <FontAwesomeIcon icon={downloaded ? faCircleCheck : faCloudArrowDown} />
       <div className={downloadButtonName}>{downloaded ? 'Downloaded' : 'Download'}</div>
     </div>

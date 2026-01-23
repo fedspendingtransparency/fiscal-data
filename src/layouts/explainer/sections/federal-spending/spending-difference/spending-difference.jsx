@@ -1,9 +1,8 @@
 import React from 'react';
-import { spendingDifferenceContent, mandatorySpendingImgStyle, mandatorySpendingContainer } from './spending-difference.module.scss';
+import { mandatorySpendingContainer, mandatorySpendingImgStyle, spendingDifferenceContent } from './spending-difference.module.scss';
 import { spendingAccordion } from '../federal-spending.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
 import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
@@ -104,7 +103,7 @@ export const SpendingDifference = ({ width }) => {
               'Step 2: President enacts the law by signing it ' +
               'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
             }
-            data-testId="supplementalSpendingImg"
+            data-testid="supplementalSpendingImg"
             className={mandatorySpendingImgStyle}
           />
         </picture>

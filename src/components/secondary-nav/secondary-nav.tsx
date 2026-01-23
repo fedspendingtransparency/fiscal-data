@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import * as Scroll from 'react-scroll';
 import { Link } from 'react-scroll';
 import { withWindowSize } from 'react-fns';
@@ -9,17 +9,17 @@ import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { ISecondaryNav } from '../../models/ISecondaryNav';
 
 import {
-  defaultLink,
-  mainContainer,
-  navContainer,
-  navigableContent,
-  linkContainer,
-  sectionLink,
-  headingLevel2,
-  headingLevel3,
   comingSoon,
   comingSoonContainer,
   comingSoonLink,
+  defaultLink,
+  headingLevel2,
+  headingLevel3,
+  linkContainer,
+  mainContainer,
+  navContainer,
+  navigableContent,
+  sectionLink,
   sectionList,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
@@ -171,9 +171,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     <div className={mainContainer}>
       <aside className={`${navContainer} secondaryNavContainer`}>
         <nav>
+          {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+          {shouldTocShow && headerComponent}
           <ul className={sectionList}>
-            {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-            {shouldTocShow && headerComponent}
             {shouldTocShow &&
               sections.map(s => {
                 let headingClass = '';

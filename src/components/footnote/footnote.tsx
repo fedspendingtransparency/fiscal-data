@@ -26,7 +26,7 @@ const Footnote: FunctionComponent<FootnoteProps> = ({ footnotes, width = '80%', 
         <div className={footnoteBody} style={{ width }} key={idx} data-testid="footnote-item">
           {footnote.anchors.map((anchor, index) => (
             <sup key={index}>
-              <span data-testId="reference-number">{anchor.text}</span>
+              <span data-testid="reference-number">{anchor.text}</span>
             </sup>
           ))}
           {footnote.definition}{' '}
