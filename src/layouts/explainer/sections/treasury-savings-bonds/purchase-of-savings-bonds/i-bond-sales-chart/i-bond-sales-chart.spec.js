@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import IBondSalesChart from './i-bond-sales-chart';
-import { CustomTooltip } from './i-bond-sales-chart-helper';
+import { CustomTooltip, chartCopy } from './i-bond-sales-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../../utils/analytics/analytics';
@@ -127,6 +127,28 @@ describe('I Bond Sales Chart', () => {
       action: 'Chart Hover',
       category: 'Explainers',
       label: 'Savings Bonds - Correlation Between Inflation and I Bond Sales',
+    });
+  });
+
+  it('calls ga events for when the charts footer links are clicked ', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<>{chartCopy.footer}</>);
+
+    const estLink = getByRole('link', { name: 'Electronic Securities Transactions' });
+    const blsLink = getByRole('link', { name: 'Bureau of Labor Statistics' });
+
+    fireEvent.click(estLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Electronics Securities Transactions',
+    });
+
+    fireEvent.click(blsLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Bureau of Labor Statistics',
     });
   });
 });
