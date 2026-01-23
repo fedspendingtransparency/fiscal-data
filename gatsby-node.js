@@ -998,23 +998,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   }
 
-  if (ENV_ID === 'preprod') {
-    result.data.allTopics.topics.forEach(config => {
-      const slug = `${config.slug.trim()}/`;
-      createPage({
-        path: `/topics/${slug}`,
-        matchPath: '/topics/' + slug + '*',
-        component: path.resolve(`./src/layouts/topics/topics.jsx`),
-        context: {
-          config: config,
-          slug: config.slug,
-          relatedDatasets: [],
-          seoConfig: null,
-          isPreProd: ENV_ID === 'preprod',
-        },
-      });
-    });
-  }
+  // if (ENV_ID === 'preprod') {
+  //   result.data.allTopics.topics.forEach(config => {
+  //     const slug = `${config.slug.trim()}/`;
+  //     createPage({
+  //       path: `/topics/${slug}`,
+  //       matchPath: '/topics/' + slug + '*',
+  //       component: path.resolve(`./src/layouts/topics/topics.jsx`),
+  //       context: {
+  //         config: config,
+  //         slug: config.slug,
+  //         relatedDatasets: [],
+  //         seoConfig: null,
+  //         isPreProd: ENV_ID === 'preprod',
+  //       },
+  //     });
+  //   });
+  // }
   //
   // result.data.allExplainers.explainers.forEach(explainer => {
   //   if (ENV_ID !== 'production' || explainer.prodReady) {
@@ -1040,21 +1040,21 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   //   }
   // });
 
-  result.data.allInsights.insights.forEach(insight => {
-    if (ENV_ID !== 'production' || insight.prodReady) {
-      createPage({
-        path: insight.slug,
-        matchPath: `${insight.slug}*`,
-        component: path.resolve('./src/layouts/insight/insight.tsx'),
-        context: {
-          pageName: insight.pageName,
-          breadCrumbLinkName: insight.breadCrumbLinkName,
-          seoConfig: insight.seoConfig,
-          heroImage: insight.heroImage,
-        },
-      });
-    }
-  });
+  // result.data.allInsights.insights.forEach(insight => {
+  //   if (ENV_ID !== 'production' || insight.prodReady) {
+  //     createPage({
+  //       path: insight.slug,
+  //       matchPath: `${insight.slug}*`,
+  //       component: path.resolve('./src/layouts/insight/insight.tsx'),
+  //       context: {
+  //         pageName: insight.pageName,
+  //         breadCrumbLinkName: insight.breadCrumbLinkName,
+  //         seoConfig: insight.seoConfig,
+  //         heroImage: insight.heroImage,
+  //       },
+  //     });
+  //   }
+  // });
 
   createPage({
     path: `/currency-exchange-rates-converter/`,
@@ -1062,12 +1062,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
   });
 
-  if (ENV_ID !== 'production') {
-    createPage({
-      path: `/experimental/`,
-      matchPath: '/experimental/',
-      component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
-    });
+  // if (ENV_ID !== 'production') {
+  //   createPage({
+  //     path: `/experimental/`,
+  //     matchPath: '/experimental/',
+  //     component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
+  //   });
 
     // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
     // const features = await graphql(`
