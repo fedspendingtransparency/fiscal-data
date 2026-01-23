@@ -82,17 +82,17 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
 
   return (
     <ThemeProvider theme={searchBarTheme}>
-      <span data-testid="infoTipContainer" ref={parentContainer}>
-        <span
+      <div data-testid="infoTipContainer" ref={parentContainer}>
+        <div
           className={`${buttonFocus ? glossaryHover : glossaryLink}`}
           onClick={handleGlossaryClick}
           onKeyDown={handleGlossaryClick}
           role="button"
           tabIndex={0}
         >
-          <span>{displayText}</span>
+          <div>{displayText}</div>
           <FontAwesomeIcon icon={faBook} className={bookIcon} />
-        </span>
+        </div>
         <Popover
           id={id}
           sx={{ opacity: open ? 1 : 0 }}
@@ -113,7 +113,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
             <div className={glossaryText}>
               <div className={header}>
                 <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
-                <span>Definition</span>
+                <div>Definition</div>
               </div>
               <div className={termNameText}>{termName}</div>
               <div>{definition}</div>
@@ -124,7 +124,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
             </div>
           </div>
         </Popover>
-      </span>
+      </div>
     </ThemeProvider>
   );
 };
