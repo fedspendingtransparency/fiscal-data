@@ -133,17 +133,14 @@ describe('I Bond Sales Chart', () => {
   it('calls ga events for when the charts footer links are clicked ', async () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<>{chartCopy.footer}</>);
-
     const estLink = getByRole('link', { name: 'Electronic Securities Transactions' });
     const blsLink = getByRole('link', { name: 'Bureau of Labor Statistics' });
-
     fireEvent.click(estLink);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Savings Bonds Citation Click',
       category: 'Explainers',
       label: 'Electronics Securities Transactions',
     });
-
     fireEvent.click(blsLink);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Savings Bonds Citation Click',

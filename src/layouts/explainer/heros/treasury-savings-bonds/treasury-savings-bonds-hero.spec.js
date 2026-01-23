@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import TreasurySavingsBondsHero from './treasury-savings-bonds-hero';
 import { mockSavingsBondFetchResponses } from '../../explainer-test-helper';
+import Analytics from '../../../../utils/analytics/analytics';
 
 describe('Treasury Savings Bonds Hero', () => {
   beforeAll(() => mockSavingsBondFetchResponses());
@@ -23,5 +24,17 @@ describe('Treasury Savings Bonds Hero', () => {
     expect(getAllByText('$1 B', { exact: false })[0]).toBeInTheDocument();
     expect(getByText('-93%', { exact: false })).toBeInTheDocument();
     expect(getByText('have decreased', { exact: false })).toBeInTheDocument();
+  });
+
+  it('calls a ga event when the custom link is clicked ', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<TreasurySavingsBondsHero />);
+    const estLink = getByRole('link', { name: 'Electronic Securities Transactions' });
+    fireEvent.click(estLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Electronic Securities Transactions',
+    });
   });
 });
