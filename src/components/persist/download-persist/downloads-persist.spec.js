@@ -2,7 +2,6 @@ import { act, render } from '@testing-library/react';
 import React from 'react';
 import { getGreatestProgress } from './downloads-persist';
 import { ReplaySubject } from 'rxjs';
-import * as progressHelpers from './download-progress-helper';
 import DownloadsPersist, { downloadsContext } from './downloads-persist';
 
 let mockDownloadStatusSubject;
@@ -38,35 +37,35 @@ jest.mock('../../../helpers/download-service/download-service', function() {
 
 const socketConnectionInitiatorSpy = jest.spyOn(mockSpies, 'initiator');
 
-// describe('Downloads Persist', () => {
-//   let persistedsiteContext;
-//
-//   const CaptureCtx = () => (
-//     <downloadsContext.Consumer>
-//       {ctx => {
-//         persistedsiteContext = ctx;
-//         return null; // must return something
-//       }}
-//     </downloadsContext.Consumer>
-//   );
-//
-//   beforeEach(() => {
-//     jest.useFakeTimers();
-//     mockSubjectMap = {};
-//     mockDownloadStatusSubject = new ReplaySubject(1);
-//     mockDownloadStatusSubject.next({
-//       status: 'started',
-//       dl_check_page_path: '/somelongaccesshashkey',
-//       final_file_name: '/someTable_someDateRange.type.zip',
-//       progress: { pct: 0 },
-//     });
-//
-//     jest.clearAllMocks();
-//   });
-//
-//   afterEach(() => {
-//     jest.clearAllTimers();
-//   });
+describe('Downloads Persist', () => {
+  let persistedsiteContext;
+
+  const CaptureCtx = () => (
+    <downloadsContext.Consumer>
+      {ctx => {
+        persistedsiteContext = ctx;
+        return null; // must return something
+      }}
+    </downloadsContext.Consumer>
+  );
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    mockSubjectMap = {};
+    mockDownloadStatusSubject = new ReplaySubject(1);
+    mockDownloadStatusSubject.next({
+      status: 'started',
+      dl_check_page_path: '/somelongaccesshashkey',
+      final_file_name: '/someTable_someDateRange.type.zip',
+      progress: { pct: 0 },
+    });
+
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
 
   // it('initiates a download and subscribes to its progress with the download service', async () => {
   //   // mock setting the window.location
