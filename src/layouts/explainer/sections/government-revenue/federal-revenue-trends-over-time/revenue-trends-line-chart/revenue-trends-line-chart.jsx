@@ -255,7 +255,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   return (
     <>
-      {!isLoading ? (
         <div data-testid="revenueTrendsLineChart" className={container}>
           <ChartContainer
             title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
@@ -266,7 +265,11 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
             customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
             customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_16, color: '#666666' } : {}}
             customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
           >
+            {!isLoading ? (
             <div
               className={lineChart}
               role="presentation"
@@ -365,11 +368,11 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 </div>
               </div>
             </div>
+            ) : (
+            <LoadingIndicator />
+            )}
           </ChartContainer>
         </div>
-      ) : (
-        <LoadingIndicator />
-      )}
     </>
   );
 };

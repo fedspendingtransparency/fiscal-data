@@ -311,8 +311,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   return (
     <>
-      {isLoading && <LoadingIndicator />}
-      {!isLoading && chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
             <ChartContainer
@@ -322,7 +320,12 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
               altText={chartAltText}
+              customContainerStyles={{
+                minHeight: 'var(--chart-height)',
+              }}
             >
+              {isLoading && <LoadingIndicator />}
+              {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
                   <div ref={revenueRef}>
@@ -375,6 +378,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
               </div>
+              )}
             </ChartContainer>
           </div>
           <VisualizationCallout color={revenueExplainerPrimary}>
@@ -383,8 +387,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             </p>
           </VisualizationCallout>
         </figure>
-      )}
     </>
+
   );
 };
 

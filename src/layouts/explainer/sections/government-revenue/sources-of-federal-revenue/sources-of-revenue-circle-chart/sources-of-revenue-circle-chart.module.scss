@@ -1,5 +1,9 @@
 @use 'src/variables.module' as *;
 
+.container {
+  --chart-height: 35rem;
+}
+
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
