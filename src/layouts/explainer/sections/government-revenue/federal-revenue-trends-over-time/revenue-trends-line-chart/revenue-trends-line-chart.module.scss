@@ -2,7 +2,6 @@
 
 .container {
   overflow: hidden;
-  --chart-height: 35rem;
 }
 
 .loadingIcon {
@@ -158,6 +157,12 @@
   }
   .tooltipYearHeader {
     font-size: 10px;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    --chart-height: 40.16rem;
   }
 }
 

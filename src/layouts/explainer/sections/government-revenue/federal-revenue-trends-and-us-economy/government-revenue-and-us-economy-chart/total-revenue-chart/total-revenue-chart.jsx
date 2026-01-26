@@ -3,7 +3,7 @@ import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg, fontSize_10, loadingIcon } from '../../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
 import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
@@ -28,6 +28,7 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../../../utils/date-ut
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
+import { loadingIcon } from './total-revenue-chart.module.scss';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -42,8 +43,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState();
-  const [maxYear, setMaxYear] = useState();
+  const [minYear, setMinYear] = useState('');
+  const [maxYear, setMaxYear] = useState('');
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
@@ -55,8 +56,10 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
-
-  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({ fiscalYear: '-' ,
+  totalRevenue: '',
+  gdp: '',
+  gdpRatio: ''});
 
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {

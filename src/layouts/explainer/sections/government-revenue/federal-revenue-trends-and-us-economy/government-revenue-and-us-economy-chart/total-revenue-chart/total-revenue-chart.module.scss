@@ -2,7 +2,6 @@
 
 .container {
   overflow: hidden;
-  --chart-height: 37rem;
 
   .chartToggle {
     display: flex;
@@ -50,6 +49,7 @@
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     margin-bottom: 2rem;
+    --chart-height: 30rem;
   }
 }
 

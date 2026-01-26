@@ -2,7 +2,7 @@
 
 .container {
   display: flex;
-  --chart-height: 36rem;
+  --chart-height: 22.12rem;
 }
 .loadingIcon {
   @include grayLargeLoadingIcon;
@@ -128,5 +128,12 @@
     .chartSize {
       height: 19.625rem;
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    display: flex;
+    --chart-height: 36rem;
   }
 }
