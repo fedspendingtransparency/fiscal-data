@@ -1,8 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import { ThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePageTile from './homepage-tile/homepage-tile';
 import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsGrid, topicsSectionContainer } from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';

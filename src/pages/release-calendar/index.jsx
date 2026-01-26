@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../theme';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -22,20 +22,22 @@ const ReleaseCalendar = () => {
   return (
     <SiteLayout>
       <PageHelmet pageTitle="Fiscal Data Release Calendar" description={tagLineText} keywords="" />
-      <ThemeProvider theme={theme}>
-        <div className="pageHeader">
-          <div className="content">
-            <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={pageTitle}>
-              Release Calendar
-            </h1>
-            <p className={tagLine} data-testid="tag-line">
-              {tagLineText}
-            </p>
+      <div>
+        <ThemeProvider theme={theme}>
+          <div className="pageHeader">
+            <div className="content">
+              <BreadCrumbs links={breadCrumbLinks} />
+              <h1 data-testid="page-title" className={pageTitle}>
+                Release Calendar
+              </h1>
+              <p className={tagLine} data-testid="tag-line">
+                {tagLineText}
+              </p>
+            </div>
           </div>
-        </div>
-        <CalendarEntriesList />
-      </ThemeProvider>
+          <CalendarEntriesList />
+        </ThemeProvider>
+      </div>
     </SiteLayout>
   );
 };

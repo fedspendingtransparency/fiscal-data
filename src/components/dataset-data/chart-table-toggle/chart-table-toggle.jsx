@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCrosshairs, faSlidersH, faTable } from '@fortawesome/free-solid-svg-icons';
 import NotShownMessage from '../table-section-container/not-shown-message/not-shown-message';
@@ -91,51 +91,53 @@ const ChartTableToggle = ({
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
   return (
-    <ThemeProvider theme={chartToggleTheme}>
-      <div className={chartTableToggleContainer}>
-        <Tabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
-          <Tab label="Table" role="tab" icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />} {...a11yProps(0)} disableRipple />
-          <Tab
-            label="Chart"
-            role="tab"
-            className="datasetChartEnabled"
-            icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
-            {...a11yProps(1)}
-            disableRipple
-          />
-        </Tabs>
-        <>
-          {selectedTab === 1 ? (
-            <HideLegendToggle
-              displayText={legend ? 'Hide Legend' : 'Show Legend'}
-              displayIcon={faSlidersH}
-              showToggle={showToggleChart}
-              onToggleLegend={onToggleLegend}
-              selectedTab={selectedTab === 1}
+    <div>
+      <ThemeProvider theme={chartToggleTheme}>
+        <div className={chartTableToggleContainer}>
+          <Tabs value={tabState} onChange={handleChange} aria-label="Data preview tab set">
+            <Tab label="Table" role="tab" icon={<FontAwesomeIcon icon={faTable} className={tabIcon} size="1x" />} {...a11yProps(0)} disableRipple />
+            <Tab
+              label="Chart"
+              role="tab"
+              className="datasetChartEnabled"
+              icon={<FontAwesomeIcon icon={faChartBar} className={tabIcon} size="1x" />}
+              {...a11yProps(1)}
+              disableRipple
             />
-          ) : (
-            !pivotSelected?.pivotValue && (
+          </Tabs>
+          <>
+            {selectedTab === 1 ? (
               <HideLegendToggle
-                displayText="Select Columns"
-                displayIcon={faCrosshairs}
-                showToggle={showToggleTable}
+                displayText={legend ? 'Hide Legend' : 'Show Legend'}
+                displayIcon={faSlidersH}
+                showToggle={showToggleChart}
                 onToggleLegend={onToggleLegend}
-                selectedTab={selectedTab === 0}
+                selectedTab={selectedTab === 1}
               />
-            )
-          )}
-        </>
-      </div>
-      {selectedTab === 0 && (
-        <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
-      )}
-      <TabPanel index={0} value={tabState}>
-        {emptyDataMessage ? emptyDataMessage : table}
-      </TabPanel>
-      <TabPanel index={1} value={tabState}>
-        {emptyChartMessage ? emptyChartMessage : chart()}
-      </TabPanel>
-    </ThemeProvider>
+            ) : (
+              !pivotSelected?.pivotValue && (
+                <HideLegendToggle
+                  displayText="Select Columns"
+                  displayIcon={faCrosshairs}
+                  showToggle={showToggleTable}
+                  onToggleLegend={onToggleLegend}
+                  selectedTab={selectedTab === 0}
+                />
+              )
+            )}
+          </>
+        </div>
+        {selectedTab === 0 && (
+          <ResetTableSection resetColumns={() => setResetFilters(true)} active={filtersActive} textFilteringDisabled={textFilteringDisabled} />
+        )}
+        <TabPanel index={0} value={tabState}>
+          {emptyDataMessage ? emptyDataMessage : table}
+        </TabPanel>
+        <TabPanel index={1} value={tabState}>
+          {emptyChartMessage ? emptyChartMessage : chart()}
+        </TabPanel>
+      </ThemeProvider>
+    </div>
   );
 };
 

@@ -33,7 +33,7 @@ describe('Surplus Illustration', () => {
   });
 
   it('renders the balanced budget image', () => {
-    global.console = { warn: jest.fn() };
+    global.console = { warn: jest.fn(), error: jest.fn() };
     const { getByTestId, getByText } = render(<SurplusIllustration glossary={glossary} />);
     const tab = getByText('Balanced Budget');
     userEvent.click(tab);

@@ -20,7 +20,7 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 import { searchBarTheme } from '../glossary-header/theme';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 
 const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, handleClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -81,51 +81,53 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   };
 
   return (
-    <ThemeProvider theme={searchBarTheme}>
-      <span data-testid="infoTipContainer" ref={parentContainer}>
-        <span
-          className={`${buttonFocus ? glossaryHover : glossaryLink}`}
-          onClick={handleGlossaryClick}
-          onKeyDown={handleGlossaryClick}
-          role="button"
-          tabIndex={0}
-        >
-          <span>{displayText}</span>
-          <FontAwesomeIcon icon={faBook} className={bookIcon} />
-        </span>
-        <Popover
-          id={id}
-          sx={{ opacity: open ? 1 : 0 }}
-          disableScrollLock={true}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
-          }}
-        >
-          <div className={popupContainerStyle} data-testid="popupContainer" role="presentation">
-            <div className={glossaryText}>
-              <div className={header}>
-                <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
-                <span>Definition</span>
-              </div>
-              <div className={termNameText}>{termName}</div>
-              <div>{definition}</div>
-              <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
-                <div>View in glossary</div>
-                <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
+    <div>
+      <ThemeProvider theme={searchBarTheme}>
+        <span data-testid="infoTipContainer" ref={parentContainer}>
+          <span
+            className={`${buttonFocus ? glossaryHover : glossaryLink}`}
+            onClick={handleGlossaryClick}
+            onKeyDown={handleGlossaryClick}
+            role="button"
+            tabIndex={0}
+          >
+            <span>{displayText}</span>
+            <FontAwesomeIcon icon={faBook} className={bookIcon} />
+          </span>
+          <Popover
+            id={id}
+            sx={{ opacity: open ? 1 : 0 }}
+            disableScrollLock={true}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: width > pxToNumber(breakpointLg) ? 'left' : 'center',
+            }}
+          >
+            <div className={popupContainerStyle} data-testid="popupContainer" role="presentation">
+              <div className={glossaryText}>
+                <div className={header}>
+                  <FontAwesomeIcon className={mobileFA} icon={faXmark} onClick={handleClose} onKeyDown={handleClose} tabIndex={0} size="lg" />
+                  <span>Definition</span>
+                </div>
+                <div className={termNameText}>{termName}</div>
+                <div>{definition}</div>
+                <div className={glossaryButton} role="button" onClick={glossaryNavigation} onKeyDown={glossaryNavigation} tabIndex={0}>
+                  <div>View in glossary</div>
+                  <FontAwesomeIcon icon={faArrowRightLong} className={arrowIcon} />
+                </div>
               </div>
             </div>
-          </div>
-        </Popover>
-      </span>
-    </ThemeProvider>
+          </Popover>
+        </span>
+      </ThemeProvider>
+    </div>
   );
 };
 
