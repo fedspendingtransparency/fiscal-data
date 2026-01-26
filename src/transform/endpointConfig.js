@@ -57,7 +57,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Nonmarketable',
+        title: 'Nonmarketable',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -1279,7 +1279,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Non-marketable',
+        title: 'Non-marketable',
         dimensionField: 'security_desc',
         filters: [
           {
@@ -1290,7 +1290,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Interest-bearing Debt',
+        title: 'Interest-bearing Debt',
         dimensionField: 'security_desc',
         filters: [
           {
@@ -2065,7 +2065,7 @@ const endpointConfig = {
     downloadName: 'DTS_OpCashBal',
     dataDisplays: [
       {
-        title: 'Type of Account',
+        title: 'Treasury General Account (TGA) Opening Balance',
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
