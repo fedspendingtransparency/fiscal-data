@@ -1,9 +1,9 @@
 @use 'src/variables.module' as *;
 
 .container {
-  display: flex;
   --chart-height: 22.12rem;
 }
+
 .loadingIcon {
   @include grayLargeLoadingIcon;
   display: flex;
