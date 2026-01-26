@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { CirclePacking } from '@nivo/circle-packing';
-import { totalRevenueDataPill, dataContent, chartSize, container } from './sources-of-revenue-circle-chart.module.scss';
+import { totalRevenueDataPill, dataContent, chartSize, container, loadingIcon } from './sources-of-revenue-circle-chart.module.scss';
 import { withWindowSize } from 'react-fns';
 import { breakpointLg, fontSize_12 } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
@@ -352,7 +352,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
               <div className={totalRevenueDataPill}>Total Revenue: ${getShortForm(totalRevenue.toString())}</div>
             </div>
           ) : (
-            <LoadingIndicator />
+            <LoadingIndicator loadingClass={loadingIcon} />
           )}
         </ChartContainer>
         <VisualizationCallout color={revenueExplainerPrimary}>

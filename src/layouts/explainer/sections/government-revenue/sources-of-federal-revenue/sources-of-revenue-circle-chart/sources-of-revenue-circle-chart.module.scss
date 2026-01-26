@@ -1,7 +1,14 @@
 @use 'src/variables.module' as *;
 
 .container {
-  --chart-height: 35rem;
+  display: flex;
+  --chart-height: 36rem;
+}
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dataHeaderContainer {

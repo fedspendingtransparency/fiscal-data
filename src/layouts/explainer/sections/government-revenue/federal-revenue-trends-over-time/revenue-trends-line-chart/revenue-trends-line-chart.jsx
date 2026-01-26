@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_14, loadingIcon } from '../../../../../../variables.module.scss';
 import { withWindowSize } from 'react-fns';
 import {
   container,
@@ -369,7 +369,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
               </div>
             </div>
             ) : (
-            <LoadingIndicator />
+            <LoadingIndicator loadingClass={loadingIcon} />
             )}
           </ChartContainer>
         </div>

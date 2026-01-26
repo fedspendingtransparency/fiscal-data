@@ -3,7 +3,7 @@ import { Line } from '@nivo/line';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
+import { breakpointLg, fontSize_10, loadingIcon } from '../../../../../../../variables.module.scss';
 import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
@@ -324,7 +324,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                 minHeight: 'var(--chart-height)',
               }}
             >
-              {isLoading && <LoadingIndicator />}
+              {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
               {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (

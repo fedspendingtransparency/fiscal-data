@@ -5,6 +5,13 @@
   --chart-height: 35rem;
 }
 
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .lineChart {
   margin-top: 2rem;
   margin-bottom: 2rem;
