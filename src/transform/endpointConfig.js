@@ -1290,7 +1290,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Interest-bearing Debt',
+        title: 'Interest-bearing Debt',
         dimensionField: 'security_desc',
         filters: [
           {

@@ -132,7 +132,7 @@ module.exports = {
       downloadName: 'MSPD_MktSecty',
       dataDisplays: [
         {
-          title: 'By Security Class',
+          title: 'Security Class',
           dimensionField: 'security_class1_desc',
           roundingDenomination: 'millions',
           filters: [
