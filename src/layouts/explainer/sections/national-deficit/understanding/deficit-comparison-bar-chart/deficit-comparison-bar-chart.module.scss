@@ -2,6 +2,7 @@
 
 .container {
   overflow: hidden;
+  --chart-height: 13.25rem;
 }
 
 .barChart {
@@ -11,8 +12,21 @@
   justify-content: center;
 }
 
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .barChart {
     margin: 2rem 0;
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    --chart-height: 24.28rem;
   }
 }

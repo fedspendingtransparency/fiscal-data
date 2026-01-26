@@ -34,7 +34,7 @@ const ChartContainer = ({
       </div>
       <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterStyles }}>
         {footer}
-        Last Updated: {format(date, 'MMMM d, yyyy')}
+        Last Updated: {date ? format(date, 'MMMM d, yyyy') : '--'}
       </div>
     </div>
   );

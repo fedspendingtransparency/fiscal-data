@@ -3,7 +3,19 @@ import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
-import { chartLegend, chartStyle, headerContainer, label, leftLabel, leftLine, lengendItem, line, rightLine } from './i-bond-sales-chart.module.scss';
+import {
+  container,
+  chartLegend,
+  chartStyle,
+  headerContainer,
+  label,
+  leftLabel,
+  leftLine,
+  lengendItem,
+  line,
+  rightLine,
+  loadingIcon,
+} from './i-bond-sales-chart.module.scss';
 import classNames from 'classnames';
 import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
@@ -12,6 +24,7 @@ import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bond
 import { analyticsEventHandler, getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
@@ -21,9 +34,9 @@ interface IIBondsSalesChart {
 let gaTimer;
 
 const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange, curFy }) => {
-  const [curInflation, setCurInflation] = useState(null);
-  const [curSales, setCurSales] = useState(null);
-  const [curYear, setCurYear] = useState(null);
+  const [curInflation, setCurInflation] = useState('');
+  const [curSales, setCurSales] = useState('');
+  const [curYear, setCurYear] = useState('-');
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
   const [latestData, setLatestData] = useState<{
@@ -239,15 +252,20 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
 
   const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15} – FYTD ${curFy}`;
   return (
-    <>
-      {chartData && (
-        <ChartContainer
-          title={chartTitle}
-          altText={chartCopy.altText}
-          date={getDateWithoutOffset(latestData?.recordDate)}
-          footer={chartCopy.footer}
-          header={header}
-        >
+    <div className={container}>
+      <ChartContainer
+        title={chartTitle}
+        altText={chartCopy.altText}
+        date={latestData?.recordDate && getDateWithoutOffset(latestData?.recordDate)}
+        footer={chartCopy.footer}
+        header={header}
+        customContainerStyles={{
+          minHeight: 'var(--chart-height)',
+        }}
+      >
+        {!chartData ? (
+          <LoadingIndicator loadingClass={loadingIcon} />
+        ) : (
           <div className={chartStyle} data-testid="chartParent">
             <Legend />
             <div
@@ -314,9 +332,9 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
               </ResponsiveContainer>
             </div>
           </div>
-        </ChartContainer>
-      )}
-    </>
+        )}
+      </ChartContainer>
+    </div>
   );
 };
 

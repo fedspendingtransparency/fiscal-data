@@ -29,8 +29,8 @@ import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import DataPreviewChart from './data-preview-chart/data-preview-chart';
 import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
-import moment from 'moment';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+import dayjs from 'dayjs';
 
 export const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -259,7 +259,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
+    return customFormat?.dateFormat && fieldType === 'DATE' ? dayjs(detailDate).format(customFormat.dateFormat) : detailDate;
   };
 
   const checkDataDisplays = config.apis.every(api => (api?.dataDisplays?.length || 0) <= 1);
