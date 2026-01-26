@@ -37,7 +37,7 @@ module.exports = {
       options: { paths: EXCLUDED_PAGE_PATHS },
     },
     `gatsby-source-local-git`,
-    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-react-helmet-async`,
     // {
     //   resolve: `gatsby-plugin-build-date`,
     //   options: {

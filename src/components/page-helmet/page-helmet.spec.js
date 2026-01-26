@@ -4,7 +4,7 @@ import mockDatasetDetails from './mockDatasetDetails';
 import { useStaticQuery } from 'gatsby';
 import { renderIntoDocument } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import globalConstants from '../../helpers/constants';
 import { waitFor } from '@testing-library/dom';
 

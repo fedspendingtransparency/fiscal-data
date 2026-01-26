@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import DatasetStructuredData from './build-dataset-structured-data.helper';
 import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
+import { Helmet } from 'react-helmet-async';
 
 const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keywords, image = '', canonical = '', datasetDetails = '' }) => {
   let versionInfo = useStaticQuery(graphql`
