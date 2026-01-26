@@ -1,33 +1,29 @@
-// import React from 'react';
-// import PageHelmet from './page-helmet';
-// import mockDatasetDetails from './mockDatasetDetails';
-// import { useStaticQuery } from 'gatsby';
-// import { renderIntoDocument } from 'react-dom/test-utils';
-// import { render } from '@testing-library/react';
-// import { Helmet } from 'react-helmet-async';
-// import globalConstants from '../../helpers/constants';
-// import { waitFor } from '@testing-library/dom';
-//
-// const pageTitle = 'Some Page';
-// const titleAppend = 'U.S. Treasury Fiscal Data';
-// const baseUrl = globalConstants.BASE_SITE_URL;
-// const versionInfoData = {
-//   gitTag: {
-//     name: '2021.5.1',
-//   },
-//   gitCommit: {
-//     hash: '123abc',
-//     date: 'date of commit',
-//     message: 'mock commit msg',
-//   },
-//   gitBranch: {
-//     name: 'prod',
-//   },
-//   currentBuildDate: {
-//     currentDate: 'mock build date',
-//   },
-// };
-//
+import React from 'react';
+import PageHelmet from './page-helmet';
+import { render } from '@testing-library/react';
+import globalConstants from '../../helpers/constants';
+import { waitFor } from '@testing-library/dom';
+
+const pageTitle = 'Some Page';
+const titleAppend = 'U.S. Treasury Fiscal Data';
+const baseUrl = globalConstants.BASE_SITE_URL;
+const versionInfoData = {
+  gitTag: {
+    name: '2021.5.1',
+  },
+  gitCommit: {
+    hash: '123abc',
+    date: 'date of commit',
+    message: 'mock commit msg',
+  },
+  gitBranch: {
+    name: 'prod',
+  },
+  currentBuildDate: {
+    currentDate: 'mock build date',
+  },
+};
+
 // describe('page helmet, normal', () => {
 //   let helmet;
 //
@@ -143,19 +139,19 @@
 //     expect(helmet.title).toBe(`${pageTitle} | ${titleAppend}`);
 //   });
 // });
-//
-// const getMetaByName = metaName => {
-//   const metas = document.getElementsByTagName('meta');
-//   for (let i = 0; i < metas.length; i += 1) {
-//     if (metas[i].getAttribute('name') === metaName) {
-//       return metas[i].getAttribute('content');
-//     }
-//   }
-//   return '';
-// };
-// const staticDescription = 'mock static description';
-// const dynamicDescription = 'Mock Dynamic SEO Description';
-//
+
+const getMetaByName = metaName => {
+  const metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i += 1) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+};
+const staticDescription = 'mock static description';
+const dynamicDescription = 'Mock Dynamic SEO Description';
+
 // describe('page helmet with canonical tag', () => {
 //   renderIntoDocument(<PageHelmet canonical="/datasets/test-canonical" />);
 //   const helmet = Helmet.peek();
@@ -166,23 +162,23 @@
 //     expect(canonical.href).toBe(`${baseUrl}/datasets/test-canonical`);
 //   });
 // });
-//
-// // the two related describe blocks below are separated to prevent overlapping async dom updates
-// describe('page helmet with static SEO description', () => {
-//   it('uses a static description when no descriptionGenerator supplied', async () => {
-//     render(<PageHelmet description={staticDescription} />);
-//     await waitFor(() => expect(getMetaByName('description')).toEqual(staticDescription));
-//   });
-// });
-//
-// describe('page helmet with dynamic SEO description', () => {
-//   it('calls the descriptionGenerator when one is supplied', async () => {
-//     const mockDescriptionGenerator = jest.fn().mockResolvedValue(dynamicDescription);
-//
-//     render(<PageHelmet description="stand in" descriptionGenerator={mockDescriptionGenerator} />);
-//
-//     await waitFor(() => expect(getMetaByName('description')).toBe(dynamicDescription));
-//
-//     expect(mockDescriptionGenerator).toHaveBeenCalled();
-//   });
-// });
+
+// the two related describe blocks below are separated to prevent overlapping async dom updates
+describe('page helmet with static SEO description', () => {
+  it('uses a static description when no descriptionGenerator supplied', async () => {
+    render(<PageHelmet description={staticDescription} />);
+    await waitFor(() => expect(getMetaByName('description')).toEqual(staticDescription));
+  });
+});
+
+describe('page helmet with dynamic SEO description', () => {
+  it('calls the descriptionGenerator when one is supplied', async () => {
+    const mockDescriptionGenerator = jest.fn().mockResolvedValue(dynamicDescription);
+
+    render(<PageHelmet description="stand in" descriptionGenerator={mockDescriptionGenerator} />);
+
+    await waitFor(() => expect(getMetaByName('description')).toBe(dynamicDescription));
+
+    expect(mockDescriptionGenerator).toHaveBeenCalled();
+  });
+});
