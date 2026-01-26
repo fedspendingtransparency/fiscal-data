@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 // Polyfill "window.fetch" used in the React components.
 import 'whatwg-fetch';
+import React from 'react';
 // Gatsby's StaticImage doesn't render in these tests
 // This mocks the plugin by replacing StaticImage with a regular HTML img
 jest.mock('gatsby-plugin-image', () => {
@@ -26,6 +27,11 @@ jest.mock('rxjs/webSocket', () => ({
       complete: jest.fn(),
     };
   },
+}));
+
+jest.mock('react-helmet-async', () => ({
+  Helmet: ({ children }) => <>{children}</>,
+  HelmetProvider: ({ children }) => <>{children}</>,
 }));
 
 global.IntersectionObserver = class IntersectionObserver {
