@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-import { Menu, MenuItem } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Tab, Tabs, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import Analytics from '../../../../utils/analytics/analytics';
 import { dsTheme } from '../../../../theme';
 

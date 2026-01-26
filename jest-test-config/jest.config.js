@@ -13,7 +13,7 @@ module.exports = {
   },
   testMatch: ['<rootDir>/**/__tests__/*.{js,jsx}', '<rootDir>/**/**.spec.{js,jsx}'],
   testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color|@react-pdf/renderer)`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color|@react-pdf/renderer|@mui/x-date-pickers)`],
   globals: {
     __PATH_PREFIX__: ``,
   },

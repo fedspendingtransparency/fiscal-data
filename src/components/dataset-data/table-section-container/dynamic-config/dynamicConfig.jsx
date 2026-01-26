@@ -17,7 +17,8 @@ import {
   successfulMessage,
   unsuccessfulMessage,
 } from './dynamicConfig.module.scss';
-import { Modal, Popover } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Popover from '@mui/material/Popover';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-regular-svg-icons';

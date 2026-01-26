@@ -17,7 +17,7 @@ import {
   tableBoarder,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
-import { Skeleton } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 import ChartingTableToggle from '../chart-table-toggle/charting-table-toggle';
 import { faChartColumn, faTable } from '@fortawesome/free-solid-svg-icons';
 import InfoTip from '../../info-tip/info-tip';
