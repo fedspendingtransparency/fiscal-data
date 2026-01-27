@@ -5,8 +5,10 @@ import { RecoilRoot } from 'recoil';
 
 export const wrapRootElement = ({ element }) => {
   return (
-    <RecoilRoot>
-      <Persist element={element} />
-    </RecoilRoot>
+    <React.StrictMode>
+      <RecoilRoot>
+        <Persist element={element} />
+      </RecoilRoot>
+    </React.StrictMode>
   );
 };

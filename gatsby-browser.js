@@ -14,10 +14,12 @@ const persister = createSyncStoragePersister({
 
 export const wrapRootElement = ({ element }) => {
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: persister, maxAge: 600000 }}>
-      <RecoilRoot>
-        <Persist element={element} />
-      </RecoilRoot>
-    </PersistQueryClientProvider>
+    <React.StrictMode>
+      <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: persister, maxAge: 600000 }}>
+        <RecoilRoot>
+          <Persist element={element} />
+        </RecoilRoot>
+      </PersistQueryClientProvider>
+    </React.StrictMode>
   );
 };
