@@ -93,7 +93,6 @@ module.exports = {
       },
     },
     'gatsby-plugin-dts-css-modules',
-    'gatsby-plugin-material-ui',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
