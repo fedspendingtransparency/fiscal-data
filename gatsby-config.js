@@ -93,6 +93,7 @@ module.exports = {
       },
     },
     'gatsby-plugin-dts-css-modules',
+    'gatsby-plugin-emotion',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
