@@ -6,7 +6,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { queryClient } from './react-query-client';
 import { CacheProvider } from '@emotion/react';
-import { createCache } from '@emotion/cache';
+import createCache from '@emotion/cache';
 
 const isBrowser = () => typeof window !== 'undefined';
 const cache = createCache({ key: 'css', prepend: true });
