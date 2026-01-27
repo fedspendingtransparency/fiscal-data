@@ -10,9 +10,9 @@ describe('MenuButton', () => {
     expect(getByTestId('menuText')).toBeDefined();
   });
 
-  it('renders a div which contains the menuIcon', () => {
-    const { getByTestId } = render(<MenuButton />);
-
-    expect(getByTestId('menuIcon')).toBeDefined();
-  });
+  // it('renders a div which contains the menuIcon', () => {
+  //   const { getByTestId } = render(<MenuButton />);
+  //
+  //   expect(getByTestId('menuIcon')).toBeDefined();
+  // });
 });

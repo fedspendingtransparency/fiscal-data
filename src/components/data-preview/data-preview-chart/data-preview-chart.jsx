@@ -32,8 +32,6 @@ import {
   setFieldsToChart,
 } from './chart-helper';
 import ChartCitation from '../../dataset-data/dataset-chart/chart-citation/chart-citation';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { DataTableContext } from '../data-preview-context';
 
 export let chartHooks;
@@ -164,7 +162,7 @@ const DataPreviewChart = ({ data, slug, currentTable, selectedPivot, dateField }
           {chartFields.length > 12 ? (
             <>
               <button className={legendToggle} onClick={() => setShowLegend(!showLegend)} aria-label={`${showLegend ? 'Hide' : 'Show'} Legend`}>
-                {showLegend ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                {/*{showLegend ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
               </button>
               <div className={legendClass}>
                 <ChartLegendPanel

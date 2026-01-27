@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import MenuButton from '../menu-button/menu-button';
-import MobileMenuDropdown from './mobile-menu-dropdown/mobile-menu-dropdown';
+// import MobileMenuDropdown from './mobile-menu-dropdown/mobile-menu-dropdown';
 import { bottomMostLink, linkHeaderContainer, logo, menuContainer, open, overlay, pageLinks, tray } from './mobile-menu.module.scss';
 
 const MobileMenu = ({ setOpenGlossary }) => {
@@ -123,12 +123,12 @@ const MobileMenu = ({ setOpenGlossary }) => {
               </Link>
               <MenuButton clickHandler={toggleState} isOpen={activeState} />
             </div>
-            <MobileMenuDropdown header="Topics" sections={topics} defaultOpen />
-            <MobileMenuDropdown header="Tools" sections={tools} />
+            {/*<MobileMenuDropdown header="Topics" sections={topics} defaultOpen />*/}
+            {/*<MobileMenuDropdown header="Tools" sections={tools} />*/}
             <Link to="/datasets/" className={pageLinks} onClick={() => clickHandler('Dataset Search')}>
               Dataset Search
             </Link>
-            <MobileMenuDropdown header="Resources" sections={resources} setOpenGlossary={setOpenGlossary} setActiveState={setActiveState} />
+            {/*<MobileMenuDropdown header="Resources" sections={resources} setOpenGlossary={setOpenGlossary} setActiveState={setActiveState} />*/}
             <Link to="/about-us/" className={`${pageLinks} ${bottomMostLink}`} onClick={() => clickHandler('About')}>
               About Us
             </Link>

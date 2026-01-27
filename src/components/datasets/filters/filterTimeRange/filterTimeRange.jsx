@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { isBefore, isValid } from 'date-fns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { siteContext } from '../../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../../info-tip/info-tip';
 import Checkbox from '../../../checkbox/checkbox';
@@ -173,94 +173,94 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className={time_range_filter} data-testid="time-range-filter">
-        <div className={time_range_filter_label} data-testid="time_range_filter_label">
-          <p className={time_range_filter_label_text}>From</p>
-          <div className={time_range_filter_datePicker}>
-            <DatePicker
-              value={beginDate}
-              onChange={handleBeginDate}
-              onOpen={() => setSelecting(true)}
-              onClose={() => setSelecting(false)}
-              onError={error => setBeginErrorMessage(handleError(error))}
-              inputFormat="MM/dd/yyyy"
-              minDate={dayjs(minAllowedDate)}
-              maxDate={dayjs(maxAllowedDate)}
-              slotProps={{
-                textField: props => ({
-                  variant: 'outlined',
-                  placeholder: 'MM/DD/YYYY',
-                  helperText: beginErrorMessage,
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
-                  inputProps: {
-                    ...props.inputProps,
-                    'aria-label': 'From Date',
-                  },
-                }),
-                popover: {
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
-                },
-              }}
-              slots={{ openPickerIcon: pickerIcon }}
-              views={['year', 'month', 'day']}
-            />
-          </div>
-        </div>
-        <div className={time_range_filter_label}>
-          <p className={time_range_filter_label_text}>To</p>
-          <div className={time_range_filter_datePicker}>
-            <DatePicker
-              value={endDate}
-              onChange={handleEndDate}
-              onOpen={() => setSelecting(true)}
-              onClose={() => setSelecting(false)}
-              onError={error => setEndErrorMessage(handleError(error))}
-              inputFormat="MM/dd/yyyy"
-              inputVariant="outlined"
-              minDate={dayjs(minAllowedDate)}
-              maxDate={dayjs(maxAllowedDate)}
-              KeyboardButtonProps={{
-                'aria-label': 'Open calendar view to pick date',
-              }}
-              slotProps={{
-                textField: props => ({
-                  variant: 'outlined',
-                  placeholder: 'MM/DD/YYYY',
-                  helperText: endErrorMessage,
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
-                  inputProps: {
-                    ...props.inputProps,
-                    'aria-label': 'To Date',
-                  },
-                }),
-                popover: {
-                  anchorOrigin: {
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  },
-                  transformOrigin: {
-                    vertical: 'top',
-                    horizontal: 'center',
-                  },
-                },
-              }}
-              slots={{ openPickerIcon: pickerIcon }}
-            />
-          </div>
-        </div>
-        <div className={checkBoxDiv} data-testid="checkbox">
-          <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
+    // <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <div className={time_range_filter} data-testid="time-range-filter">
+      <div className={time_range_filter_label} data-testid="time_range_filter_label">
+        <p className={time_range_filter_label_text}>From</p>
+        <div className={time_range_filter_datePicker}>
+          {/*<DatePicker*/}
+          {/*  value={beginDate}*/}
+          {/*  onChange={handleBeginDate}*/}
+          {/*  onOpen={() => setSelecting(true)}*/}
+          {/*  onClose={() => setSelecting(false)}*/}
+          {/*  onError={error => setBeginErrorMessage(handleError(error))}*/}
+          {/*  inputFormat="MM/dd/yyyy"*/}
+          {/*  minDate={dayjs(minAllowedDate)}*/}
+          {/*  maxDate={dayjs(maxAllowedDate)}*/}
+          {/*  slotProps={{*/}
+          {/*    textField: props => ({*/}
+          {/*      variant: 'outlined',*/}
+          {/*      placeholder: 'MM/DD/YYYY',*/}
+          {/*      helperText: beginErrorMessage,*/}
+          {/*      sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },*/}
+          {/*      inputProps: {*/}
+          {/*        ...props.inputProps,*/}
+          {/*        'aria-label': 'From Date',*/}
+          {/*      },*/}
+          {/*    }),*/}
+          {/*    popover: {*/}
+          {/*      anchorOrigin: {*/}
+          {/*        vertical: 'bottom',*/}
+          {/*        horizontal: 'center',*/}
+          {/*      },*/}
+          {/*      transformOrigin: {*/}
+          {/*        vertical: 'top',*/}
+          {/*        horizontal: 'center',*/}
+          {/*      },*/}
+          {/*    },*/}
+          {/*  }}*/}
+          {/*  slots={{ openPickerIcon: pickerIcon }}*/}
+          {/*  views={['year', 'month', 'day']}*/}
+          {/*/>*/}
         </div>
       </div>
-    </LocalizationProvider>
+      <div className={time_range_filter_label}>
+        <p className={time_range_filter_label_text}>To</p>
+        <div className={time_range_filter_datePicker}>
+          {/*<DatePicker*/}
+          {/*  value={endDate}*/}
+          {/*  onChange={handleEndDate}*/}
+          {/*  onOpen={() => setSelecting(true)}*/}
+          {/*  onClose={() => setSelecting(false)}*/}
+          {/*  onError={error => setEndErrorMessage(handleError(error))}*/}
+          {/*  inputFormat="MM/dd/yyyy"*/}
+          {/*  inputVariant="outlined"*/}
+          {/*  minDate={dayjs(minAllowedDate)}*/}
+          {/*  maxDate={dayjs(maxAllowedDate)}*/}
+          {/*  KeyboardButtonProps={{*/}
+          {/*    'aria-label': 'Open calendar view to pick date',*/}
+          {/*  }}*/}
+          {/*  slotProps={{*/}
+          {/*    textField: props => ({*/}
+          {/*      variant: 'outlined',*/}
+          {/*      placeholder: 'MM/DD/YYYY',*/}
+          {/*      helperText: endErrorMessage,*/}
+          {/*      sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },*/}
+          {/*      inputProps: {*/}
+          {/*        ...props.inputProps,*/}
+          {/*        'aria-label': 'To Date',*/}
+          {/*      },*/}
+          {/*    }),*/}
+          {/*    popover: {*/}
+          {/*      anchorOrigin: {*/}
+          {/*        vertical: 'bottom',*/}
+          {/*        horizontal: 'center',*/}
+          {/*      },*/}
+          {/*      transformOrigin: {*/}
+          {/*        vertical: 'top',*/}
+          {/*        horizontal: 'center',*/}
+          {/*      },*/}
+          {/*    },*/}
+          {/*  }}*/}
+          {/*  slots={{ openPickerIcon: pickerIcon }}*/}
+          {/*/>*/}
+        </div>
+      </div>
+      <div className={checkBoxDiv} data-testid="checkbox">
+        <Checkbox checkboxData={checkboxData} changeHandler={handleCheckbox} />
+      </div>
+    </div>
+    // </LocalizationProvider>
   );
 };
 

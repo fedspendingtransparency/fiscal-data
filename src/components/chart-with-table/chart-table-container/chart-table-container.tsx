@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
-import DownloadIcon from '@mui/icons-material/Download';
+// import DownloadIcon from '@mui/icons-material/Download';
 import DownloadItemButton from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/download-button';
 import {
   chartContainer,
@@ -12,7 +12,6 @@ import {
   downloaderContainer,
   downloadLabelContainer,
   headerContainer,
-  icon,
   infoTipContainer,
   tableBoarder,
 } from './chart-table-container.module.scss';
@@ -77,7 +76,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
       data-testid="csvDownloaderContainer"
     >
       <div className={downloadCSV}>Download CSV</div>
-      <DownloadIcon className={icon} />
+      {/*<DownloadIcon className={icon} />*/}
     </div>
   );
 

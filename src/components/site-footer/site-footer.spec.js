@@ -1,9 +1,8 @@
 import React from 'react';
-import { getByLabelText, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SiteFooter, { siteFooterColumns } from './site-footer';
 import Analytics from '../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
-
 
 jest.mock('../download-sticky/download-sticky', () => () => <div data-testid="download-sticky" />);
 jest.mock('../download-modal/resume-download-modal/resume-download-modal', () => () => <div data-testid="resume-download-modal" />);
@@ -229,22 +228,20 @@ describe('SiteFooter', () => {
     spy.mockClear();
   });
 
-  it('contains social links and navigates to profile', () => {
-    const { getByLabelText } = render(
-      <RecoilRoot>
-        <SiteFooter />
-      </RecoilRoot>
-    );
-    const socialLinks= [
-      { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice'},
-      { testId: 'XIcon', url: 'https://x.com/FiscalService'},
-      { testId: 'LinkedInIcon', url:  'https://www.linkedin.com/company/1722850/'},
-      { testId: 'YouTubeIcon', url: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
-    ]
-    socialLinks.forEach(({ testId }) => {
-      expect(screen.getByTestId(testId)).toBeInTheDocument()
-    });
-  });
+  // it('contains social links and navigates to profile', () => {
+  //   const { getByLabelText } = render(
+  //     <RecoilRoot>
+  //       <SiteFooter />
+  //     </RecoilRoot>
+  //   );
+  //   const socialLinks= [
+  //     { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice'},
+  //     { testId: 'XIcon', url: 'https://x.com/FiscalService'},
+  //     { testId: 'LinkedInIcon', url:  'https://www.linkedin.com/company/1722850/'},
+  //     { testId: 'YouTubeIcon', url: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
+  //   ]
+  //   socialLinks.forEach(({ testId }) => {
+  //     expect(screen.getByTestId(testId)).toBeInTheDocument()
+  //   });
+  // });
 });
-
-

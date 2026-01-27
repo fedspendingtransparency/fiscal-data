@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { futureDateIconStyle, icon, materialIcon, pill, pillWrapper } from './detail-pills.module.scss';
+import { futureDateIconStyle, icon, pill, pillWrapper } from './detail-pills.module.scss';
 import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AccessAlarm from '@mui/icons-material/AccessAlarm';
+// import AccessAlarm from '@mui/icons-material/AccessAlarm';
 import { format, isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
 import { convertDateAndTimeToDateTime } from '../calendar-entries/calendar-entry-sort-helper/calendar-entry-sort-helper';
@@ -74,7 +74,7 @@ const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, dataset
       )}
       {dateTimeExpected && (
         <span className={pill}>
-          <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
+          {/*<AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />*/}
           <span className="pillText">New Data Expected {dateTimeExpected}</span>
         </span>
       )}

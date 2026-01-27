@@ -6,7 +6,7 @@ import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { format } from 'date-fns';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
-import AccountBox from '@mui/icons-material/AccountBox';
+// import AccountBox from '@mui/icons-material/AccountBox';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
@@ -103,7 +103,7 @@ const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
           label={filterLabel}
           active={filterDropdownActive}
           setActive={setFilterDropdownActive}
-          muiIcon={<AccountBox />}
+          muiIcon={<></>}
         />
       }
     >

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import { active, arrow, ellipsis, pageButtons, pagingButtons } from './pagination-controls.module.scss';
@@ -96,7 +94,7 @@ const PageButtons = ({ pageButtonProps }) => {
   return (
     <div className={pagingButtons}>
       <button id={`${tableName}-page-prev`} onClick={() => handlePrev()} disabled={currentPage - 1 <= 0} className={arrow} aria-label="Previous page">
-        <ChevronLeftIcon variant="outlined" size="small" />
+        {/*<ChevronLeftIcon variant="outlined" size="small" />*/}
       </button>
       <span className={pageButtons}>{renderPageButtons()}</span>
       <button
@@ -107,7 +105,7 @@ const PageButtons = ({ pageButtonProps }) => {
         data-testid="page-next-button"
         aria-label="Next page"
       >
-        <ChevronRightIcon variant="outlined" size="small" />
+        {/*<ChevronRightIcon variant="outlined" size="small" />*/}
       </button>
     </div>
   );
