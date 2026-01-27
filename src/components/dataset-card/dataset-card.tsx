@@ -1,13 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { navigate } from 'gatsby';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import { ThemeProvider } from '@mui/material';
-import { theme } from '../../theme';
 import { IDataset } from '../../models/IDataset';
-import { card, card_withFocus, card_withFocus_FireFox, cardHeroImage, datasetName } from './dataset-card.module.scss';
-import DatasetStats from './dataset-stats/dataset-stats';
+import { card_withFocus, card_withFocus_FireFox } from './dataset-card.module.scss';
 import { isFirefox } from 'react-device-detect';
 import heroImage0 from '../../../static/images/dataset-search-hero-images/Hero-0.png';
 import heroImage1 from '../../../static/images/dataset-search-hero-images/Hero-1.png';
@@ -101,17 +96,18 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
-        <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
-          <div>
-            <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
-            <div className={datasetName}>{dataset.name}</div>
-          </div>
-          <DatasetStats dataset={dataset} />
-        </CardActionArea>
-      </Card>
-    </ThemeProvider>
+    <div></div>
+    // <ThemeProvider theme={theme}>
+    //   <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
+    //     <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
+    //       <div>
+    //         <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
+    //         <div className={datasetName}>{dataset.name}</div>
+    //       </div>
+    //       <DatasetStats dataset={dataset} />
+    //     </CardActionArea>
+    //   </Card>
+    // </ThemeProvider>
   );
 };
 

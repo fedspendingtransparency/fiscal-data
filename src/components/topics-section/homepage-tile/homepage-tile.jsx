@@ -5,9 +5,7 @@ import {
   comingSoon,
   explainerImage,
   explainerImageContainer,
-  grid,
   iconTitle,
-  leftTile,
   mainContent,
   mainTitle,
   rightTile,
@@ -20,7 +18,6 @@ import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import Grid from '@mui/material/Grid';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
@@ -58,17 +55,17 @@ const HomePageTile = ({ content, images, width, layout, hasMobileImage, explaine
   const card =
     layout === 'two-col' && isDesktop ? (
       <div className={mainContent} data-testid="tile">
-        <Grid container spacing={0} sx={{ flexWrap: 'nowrap' }}>
-          <Grid className={isMobile ? null : grid}>
-            <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>
-          </Grid>
-          <Grid size={{ lg: 8 }}>
-            <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
-              <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
-            </div>
-          </Grid>
-        </Grid>
+        {/*<Grid container spacing={0} sx={{ flexWrap: 'nowrap' }}>*/}
+        {/*  <Grid className={isMobile ? null : grid}>*/}
+        {/*    <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>*/}
+        {/*  </Grid>*/}
+        {/*  <Grid size={{ lg: 8 }}>*/}
+        {/*    <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>*/}
+        {/*      <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>*/}
+        {/*      <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>*/}
+        {/*    </div>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
       </div>
     ) : (
       <div className={mainContent} data-testid="tile">

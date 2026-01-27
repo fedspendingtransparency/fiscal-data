@@ -1,8 +1,4 @@
 import React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Fade from '@mui/material/Fade';
-import Modal from '@mui/material/Modal';
-import { content, modal, slideIn, slideOut } from './modal.module.scss';
 
 /**
  *
@@ -14,26 +10,27 @@ import { content, modal, slideIn, slideOut } from './modal.module.scss';
  */
 
 const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEscapeKey, contentClass, children }) => (
-  <Modal
-    open={open}
-    onClose={(event, reason) => {
-      if (!(disableBackdropClick && reason === 'backdropClick')) {
-        onClose(event);
-      }
-    }}
-    className={modal}
-    data-testid="modal"
-    disableEscapeKeyDown={disableEscapeKey}
-    closeAfterTransition
-    slotProps={{ backdrop: { 'data-testid': 'backdrop', timeout: 500 } }}
-    slots={{ backdrop: Backdrop }}
-  >
-    <Fade in={open} timeout={500}>
-      <div className={`${content} ${contentClass} ${open ? slideIn : slideOut}`} data-testid="content">
-        {children}
-      </div>
-    </Fade>
-  </Modal>
+  <div></div>
+  // <Modal
+  //   open={open}
+  //   onClose={(event, reason) => {
+  //     if (!(disableBackdropClick && reason === 'backdropClick')) {
+  //       onClose(event);
+  //     }
+  //   }}
+  //   className={modal}
+  //   data-testid="modal"
+  //   disableEscapeKeyDown={disableEscapeKey}
+  //   closeAfterTransition
+  //   slotProps={{ backdrop: { 'data-testid': 'backdrop', timeout: 500 } }}
+  //   slots={{ backdrop: Backdrop }}
+  // >
+  //   <Fade in={open} timeout={500}>
+  //     <div className={`${content} ${contentClass} ${open ? slideIn : slideOut}`} data-testid="content">
+  //       {children}
+  //     </div>
+  //   </Fade>
+  // </Modal>
 );
 
 export default ModalComponent;

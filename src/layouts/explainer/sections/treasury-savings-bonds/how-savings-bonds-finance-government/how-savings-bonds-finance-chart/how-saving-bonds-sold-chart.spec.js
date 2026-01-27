@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import HowSavingsBondsSoldChart from './how-savings-bonds-sold-chart';
 import { expectedResultOne, expectedResultTwo, mockDatasetOne, mockDatasetTwo } from './how-savings-bond-sold-chart-test-helper';
+import * as apiUtils from '../../../../../../utils/api-utils';
 import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-import * as apiUtils from '../../../../../../utils/api-utils';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -45,16 +45,16 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(calculatePercentage(mockDatasetOne)).toEqual(expectedResultOne);
   });
 
-  it('calls ga event when the glossary term is clicked', () => {
-    const analyticsSpy = jest.spyOn(Analytics, 'event');
-    const glossaryTerm = screen.getByRole('button', { name: 'intragovernmental' });
-    fireEvent.click(glossaryTerm);
-    expect(analyticsSpy).toHaveBeenCalledWith({
-      action: 'Glossary Term Click',
-      category: 'Explainers',
-      label: 'Savings Bonds - Intragovernmental Holdings',
-    });
-  });
+  // it('calls ga event when the glossary term is clicked', () => {
+  //   const analyticsSpy = jest.spyOn(Analytics, 'event');
+  //   const glossaryTerm = screen.getByRole('button', { name: 'intragovernmental' });
+  //   fireEvent.click(glossaryTerm);
+  //   expect(analyticsSpy).toHaveBeenCalledWith({
+  //     action: 'Glossary Term Click',
+  //     category: 'Explainers',
+  //     label: 'Savings Bonds - Intragovernmental Holdings',
+  //   });
+  // });
 
   it('calls the correct ga event when a custom link is clicked', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');

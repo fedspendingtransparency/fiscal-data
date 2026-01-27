@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { buttonContainer, header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
+import { buttonContainer, header, infoIcon, mobileFA, svgStyle } from './info-tip.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
@@ -108,27 +107,27 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
       >
         <FontAwesomeIcon icon={faInfoCircle} className={svgStyle} style={{ ...iconStyle, color: getIconColor() }} />
       </button>
-      <Popover
-        id={id}
-        sx={{ ...style.popOver, opacity: open ? 1 : 0 }}
-        disableScrollLock={true}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <div className={` ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role="presentation">
-          {getHeader()}
-          <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>
-        </div>
-      </Popover>
+      {/*<Popover*/}
+      {/*  id={id}*/}
+      {/*  sx={{ ...style.popOver, opacity: open ? 1 : 0 }}*/}
+      {/*  disableScrollLock={true}*/}
+      {/*  open={open}*/}
+      {/*  anchorEl={anchorEl}*/}
+      {/*  onClose={handleClose}*/}
+      {/*  anchorOrigin={{*/}
+      {/*    vertical: 'bottom',*/}
+      {/*    horizontal: 'center',*/}
+      {/*  }}*/}
+      {/*  transformOrigin={{*/}
+      {/*    vertical: 'top',*/}
+      {/*    horizontal: 'center',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <div className={` ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role="presentation">*/}
+      {/*    {getHeader()}*/}
+      {/*    <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>*/}
+      {/*  </div>*/}
+      {/*</Popover>*/}
     </span>
   );
 };

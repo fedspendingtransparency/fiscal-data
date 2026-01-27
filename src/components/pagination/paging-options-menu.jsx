@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { pageOptions, perPageLabel } from './pagination-controls.module.scss';
 
 const PagingOptionsMenu = ({ menuProps }) => {
@@ -30,36 +25,36 @@ const PagingOptionsMenu = ({ menuProps }) => {
     }
   };
 
-  const renderMenuItems = () => {
-    return options.map(option => (
-      <MenuItem key={`${label} - ${option.toString()}`} onClick={() => handleCloseOrChange(option)}>
-        {option.toString()}
-      </MenuItem>
-    ));
-  };
+  // const renderMenuItems = () => {
+  //   return options.map(option => (
+  //     <MenuItem key={`${label} - ${option.toString()}`} onClick={() => handleCloseOrChange(option)}>
+  //       {option.toString()}
+  //     </MenuItem>
+  //   ));
+  // };
 
   return (
     <div className={pageOptions} data-testid="paginationMenu">
       <span className={perPageLabel}>{label}</span>
-      <Button
-        aria-label="rows-per-page-menu"
-        onClick={handleOpen}
-        variant="outlined"
-        endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-        disabled={disabled}
-      >
-        {selectedOption}
-      </Button>
-      <Menu
-        id="rows-per-page"
-        anchorEl={anchorElement}
-        keepMounted
-        disablePortal
-        open={Boolean(anchorElement)}
-        onClose={() => handleCloseOrChange(selectedOption)}
-      >
-        {renderMenuItems()}
-      </Menu>
+      {/*<Button*/}
+      {/*  aria-label="rows-per-page-menu"*/}
+      {/*  onClick={handleOpen}*/}
+      {/*  variant="outlined"*/}
+      {/*  endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}*/}
+      {/*  disabled={disabled}*/}
+      {/*>*/}
+      {/*  {selectedOption}*/}
+      {/*</Button>*/}
+      {/*<Menu*/}
+      {/*  id="rows-per-page"*/}
+      {/*  anchorEl={anchorElement}*/}
+      {/*  keepMounted*/}
+      {/*  disablePortal*/}
+      {/*  open={Boolean(anchorElement)}*/}
+      {/*  onClose={() => handleCloseOrChange(selectedOption)}*/}
+      {/*>*/}
+      {/*  {renderMenuItems()}*/}
+      {/*</Menu>*/}
     </div>
   );
 };

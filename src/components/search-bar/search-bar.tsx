@@ -1,9 +1,4 @@
 import { clearButton, disabledBackground, glow, search, searchIcon, searchIconHover, searchLabel } from './search-bar.module.scss';
-import InputAdornment from '@mui/material/InputAdornment';
-import { ThemeProvider } from '@mui/material';
-import { searchBarTheme } from '../glossary/glossary-header/theme';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import React, { ChangeEventHandler, FocusEventHandler, FunctionComponent, Ref } from 'react';
@@ -87,31 +82,31 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
         onBlur={handleBlur}
         role="presentation"
       >
-        <ThemeProvider theme={searchBarTheme}>
-          <Box sx={{ width: width, fontSize: '1rem' }}>
-            <TextField
-              ref={inputRef}
-              variant="outlined"
-              fullWidth
-              onChange={onChange}
-              size="small"
-              value={filter}
-              aria-label={label}
-              slotProps={{
-                input: {
-                  endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,
-                  style: {
-                    height: height,
-                  },
-                },
-                htmlInput: {
-                  'aria-label': ariaLabel ? ariaLabel : label,
-                },
-              }}
-              disabled={disabled}
-            />
-          </Box>
-        </ThemeProvider>
+        {/*<ThemeProvider theme={searchBarTheme}>*/}
+        {/*  <Box sx={{ width: width, fontSize: '1rem' }}>*/}
+        {/*    <TextField*/}
+        {/*      ref={inputRef}*/}
+        {/*      variant="outlined"*/}
+        {/*      fullWidth*/}
+        {/*      onChange={onChange}*/}
+        {/*      size="small"*/}
+        {/*      value={filter}*/}
+        {/*      aria-label={label}*/}
+        {/*      slotProps={{*/}
+        {/*        input: {*/}
+        {/*          endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,*/}
+        {/*          style: {*/}
+        {/*            height: height,*/}
+        {/*          },*/}
+        {/*        },*/}
+        {/*        htmlInput: {*/}
+        {/*          'aria-label': ariaLabel ? ariaLabel : label,*/}
+        {/*        },*/}
+        {/*      }}*/}
+        {/*      disabled={disabled}*/}
+        {/*    />*/}
+        {/*  </Box>*/}
+        {/*</ThemeProvider>*/}
       </div>
     </div>
   );

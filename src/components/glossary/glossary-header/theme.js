@@ -1,5 +1,5 @@
 import * as variables from '../../../variables.module.scss';
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
 const theme = {
   components: {
@@ -44,4 +44,4 @@ const theme = {
   },
 };
 
-export const searchBarTheme = createTheme(theme);
+// export const searchBarTheme = createTheme(theme);

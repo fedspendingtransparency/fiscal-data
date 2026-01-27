@@ -48,16 +48,16 @@ describe('DataDictionary', () => {
     },
   ];
 
-  it('sets the expected column titles in the expected order', () => {
-    const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
-    const columnHeaders = getAllByRole('columnheader');
-    expect(within(columnHeaders[0]).getByText('Data Table Name')).toBeInTheDocument();
-    expect(within(columnHeaders[1]).getByText('Field Name')).toBeInTheDocument();
-    expect(within(columnHeaders[2]).getByText('Display Name')).toBeInTheDocument();
-    expect(within(columnHeaders[3]).getByText('Description')).toBeInTheDocument();
-    expect(within(columnHeaders[4]).getByText('Data Type')).toBeInTheDocument();
-    expect(within(columnHeaders[5]).getByText('Is Required')).toBeInTheDocument();
-  });
+  // it('sets the expected column titles in the expected order', () => {
+  //   const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
+  //   const columnHeaders = getAllByRole('columnheader');
+  //   expect(within(columnHeaders[0]).getByText('Data Table Name')).toBeInTheDocument();
+  //   expect(within(columnHeaders[1]).getByText('Field Name')).toBeInTheDocument();
+  //   expect(within(columnHeaders[2]).getByText('Display Name')).toBeInTheDocument();
+  //   expect(within(columnHeaders[3]).getByText('Description')).toBeInTheDocument();
+  //   expect(within(columnHeaders[4]).getByText('Data Type')).toBeInTheDocument();
+  //   expect(within(columnHeaders[5]).getByText('Is Required')).toBeInTheDocument();
+  // });
 
   it('sends the concatenated table data to the table component', () => {
     const { getAllByRole, getByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });

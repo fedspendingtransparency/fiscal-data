@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretRight, faHouseChimney } from '@fortawesome/free-solid-svg-icons';
 import { navigate } from 'gatsby';
@@ -10,19 +7,13 @@ import {
   activeMenu,
   buttonOverview,
   carrot,
-  debt,
-  deficit,
   faHouse,
   mainContainer,
   mainContainerHidden,
   mainContainerShow,
   mainContainerSticky,
-  mainListSticky,
-  MenuList,
   overview,
   overviewStyle,
-  revenue,
-  spending,
 } from './mobile-explainer-sub-nav.module.scss';
 
 const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
@@ -127,63 +118,63 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
           </span>
           <FontAwesomeIcon className={carrot} icon={anchorEl ? faCaretDown : faCaretRight} />
         </button>
-        <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          disableScrollLock={true}
-          open={defaultOpen || Boolean(anchorEl)}
-          onClose={handleClose}
-          sx={{ opacity: Boolean(anchorEl) ? 1 : 0 }}
-          className={mainListSticky}
-          id="styled-menu"
-          elevation={0}
-          getContentAnchorEl={null}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <MenuItem className={MenuList}>
-            <ListItemText
-              className={`${currentPage('Revenue') ? [revenue, activeMenu].join(' ') : revenue}`}
-              onClick={() => handlePageClick('Revenue', '/americas-finance-guide/government-revenue/')}
-              onKeyDown={() => handlePageClick('Revenue', '/americas-finance-guide/government-revenue/')}
-              primary="Revenue"
-              data-testid="revenueButton"
-            />
-          </MenuItem>
-          <MenuItem className={MenuList}>
-            <ListItemText
-              className={`${currentPage('Spending') ? [spending, activeMenu].join(' ') : spending}`}
-              onClick={() => handlePageClick('Spending', '/americas-finance-guide/federal-spending/')}
-              onKeyDown={() => handlePageClick('Spending', '/americas-finance-guide/federal-spending/')}
-              primary="Spending"
-              data-testid="spendingButton"
-            />
-          </MenuItem>
-          <MenuItem className={MenuList}>
-            <ListItemText
-              className={`${currentPage('Deficit') ? [deficit, activeMenu].join(' ') : deficit}`}
-              onClick={() => handlePageClick('Deficit', '/americas-finance-guide/national-deficit/')}
-              onKeyDown={() => handlePageClick('Deficit', '/americas-finance-guide/national-deficit/')}
-              primary="Deficit"
-              data-testid="deficitButton"
-            />
-          </MenuItem>
-          <MenuItem className={MenuList}>
-            <ListItemText
-              className={`${currentPage('Debt') ? [debt, activeMenu].join(' ') : debt}`}
-              onClick={() => handlePageClick('Debt', '/americas-finance-guide/national-debt/')}
-              onKeyDown={() => handlePageClick('Debt', '/americas-finance-guide/national-debt/')}
-              primary="Debt"
-              data-testid="debtButton"
-            />
-          </MenuItem>
-        </Menu>
+        {/*<Menu*/}
+        {/*  anchorEl={anchorEl}*/}
+        {/*  keepMounted*/}
+        {/*  disableScrollLock={true}*/}
+        {/*  open={defaultOpen || Boolean(anchorEl)}*/}
+        {/*  onClose={handleClose}*/}
+        {/*  sx={{ opacity: Boolean(anchorEl) ? 1 : 0 }}*/}
+        {/*  className={mainListSticky}*/}
+        {/*  id="styled-menu"*/}
+        {/*  elevation={0}*/}
+        {/*  getContentAnchorEl={null}*/}
+        {/*  anchorOrigin={{*/}
+        {/*    vertical: 'bottom',*/}
+        {/*    horizontal: 'center',*/}
+        {/*  }}*/}
+        {/*  transformOrigin={{*/}
+        {/*    vertical: 'top',*/}
+        {/*    horizontal: 'center',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <MenuItem className={MenuList}>*/}
+        {/*    <ListItemText*/}
+        {/*      className={`${currentPage('Revenue') ? [revenue, activeMenu].join(' ') : revenue}`}*/}
+        {/*      onClick={() => handlePageClick('Revenue', '/americas-finance-guide/government-revenue/')}*/}
+        {/*      onKeyDown={() => handlePageClick('Revenue', '/americas-finance-guide/government-revenue/')}*/}
+        {/*      primary="Revenue"*/}
+        {/*      data-testid="revenueButton"*/}
+        {/*    />*/}
+        {/*  </MenuItem>*/}
+        {/*  <MenuItem className={MenuList}>*/}
+        {/*    <ListItemText*/}
+        {/*      className={`${currentPage('Spending') ? [spending, activeMenu].join(' ') : spending}`}*/}
+        {/*      onClick={() => handlePageClick('Spending', '/americas-finance-guide/federal-spending/')}*/}
+        {/*      onKeyDown={() => handlePageClick('Spending', '/americas-finance-guide/federal-spending/')}*/}
+        {/*      primary="Spending"*/}
+        {/*      data-testid="spendingButton"*/}
+        {/*    />*/}
+        {/*  </MenuItem>*/}
+        {/*  <MenuItem className={MenuList}>*/}
+        {/*    <ListItemText*/}
+        {/*      className={`${currentPage('Deficit') ? [deficit, activeMenu].join(' ') : deficit}`}*/}
+        {/*      onClick={() => handlePageClick('Deficit', '/americas-finance-guide/national-deficit/')}*/}
+        {/*      onKeyDown={() => handlePageClick('Deficit', '/americas-finance-guide/national-deficit/')}*/}
+        {/*      primary="Deficit"*/}
+        {/*      data-testid="deficitButton"*/}
+        {/*    />*/}
+        {/*  </MenuItem>*/}
+        {/*  <MenuItem className={MenuList}>*/}
+        {/*    <ListItemText*/}
+        {/*      className={`${currentPage('Debt') ? [debt, activeMenu].join(' ') : debt}`}*/}
+        {/*      onClick={() => handlePageClick('Debt', '/americas-finance-guide/national-debt/')}*/}
+        {/*      onKeyDown={() => handlePageClick('Debt', '/americas-finance-guide/national-debt/')}*/}
+        {/*      primary="Debt"*/}
+        {/*      data-testid="debtButton"*/}
+        {/*    />*/}
+        {/*  </MenuItem>*/}
+        {/*</Menu>*/}
       </nav>
     </div>
   );

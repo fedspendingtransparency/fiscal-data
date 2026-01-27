@@ -1,6 +1,5 @@
 import {
   colHeader,
-  colHeaderText,
   columnMinWidth,
   defaultSortArrow,
   defaultSortArrowPill,
@@ -13,13 +12,11 @@ import {
   textChartHeaderContainer,
   textHeaderContainer,
 } from './data-table-header.module.scss';
-import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { getColumnFilter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';
-import Tooltip from '@mui/material/Tooltip';
 import { IDataTableHeader } from '../../../models/IDataTableHeader';
 import { fontTitle } from '../../../variables.module.scss';
 
@@ -89,9 +86,9 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   {header.isPlaceholder ? null : (
                     <>
                       <div className={header.column.getCanSort() ? `${colHeader} ${rightAlignStyle}` : ''} data-testid={`header-sorter-${header.id}`}>
-                        <Tooltip title={header.column.columnDef.header} placement="bottom-start" slotProps={{ tooltip: { sx: { ...tooltipStyle } } }}>
-                          <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>
-                        </Tooltip>
+                        {/*<Tooltip title={header.column.columnDef.header} placement="bottom-start" slotProps={{ tooltip: { sx: { ...tooltipStyle } } }}>*/}
+                        {/*  <div className={colHeaderText}>{flexRender(header.column.columnDef.header, header.getContext())}</div>*/}
+                        {/*</Tooltip>*/}
                         {{
                           asc: (
                             <div

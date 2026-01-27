@@ -1,10 +1,8 @@
-import { icon, listContainer, shareButton } from './social-share-dropdown.module.scss';
+import { icon, shareButton } from './social-share-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { SocialShareComponent } from '../social-share';
-import Popover from '@mui/material/Popover';
 import { withWindowSize } from 'react-fns';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -68,26 +66,26 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
         <FontAwesomeIcon icon={faShareNodes as IconProp} className={icon} />
         <span>Share</span>
       </button>
-      <Popover
-        id={id}
-        open={open}
-        disableScrollLock={true}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        sx={{ ...style, opacity: open ? 1 : 0 }}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <div className={listContainer}>
-          <SocialShareComponent copy={copy} pageName={pageName} displayStyle="list" clickEvent={handleSocialButtonClick} />
-        </div>
-      </Popover>
+      {/*<Popover*/}
+      {/*  id={id}*/}
+      {/*  open={open}*/}
+      {/*  disableScrollLock={true}*/}
+      {/*  anchorEl={anchorEl}*/}
+      {/*  onClose={handleClose}*/}
+      {/*  sx={{ ...style, opacity: open ? 1 : 0 }}*/}
+      {/*  anchorOrigin={{*/}
+      {/*    vertical: 'bottom',*/}
+      {/*    horizontal: 'right',*/}
+      {/*  }}*/}
+      {/*  transformOrigin={{*/}
+      {/*    vertical: 'top',*/}
+      {/*    horizontal: 'right',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <div className={listContainer}>*/}
+      {/*    <SocialShareComponent copy={copy} pageName={pageName} displayStyle="list" clickEvent={handleSocialButtonClick} />*/}
+      {/*  </div>*/}
+      {/*</Popover>*/}
     </>
   );
 };

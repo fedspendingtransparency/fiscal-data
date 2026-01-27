@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 import * as variables from './variables.module.scss';
 
 const baseTheme = {
@@ -230,7 +230,7 @@ const chartTableToggleTheme = {
   },
 };
 
-export const theme = createTheme(baseTheme);
-export const dsTheme = createTheme(datasetSearchTheme);
-export const dpTheme = createTheme(datasetPropertiesTheme);
-export const chartToggleTheme = createTheme(chartTableToggleTheme);
+// export const theme = createTheme(baseTheme);
+// export const dsTheme = createTheme(datasetSearchTheme);
+// export const dpTheme = createTheme(datasetPropertiesTheme);
+// export const chartToggleTheme = createTheme(chartTableToggleTheme);
