@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import DatasetStructuredData from './build-dataset-structured-data.helper';
 import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
@@ -48,7 +47,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
   }, []);
 
   return (
-    <Helmet>
+    <>
       {/*Google Tag Manager */}
       <script>
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -70,19 +69,16 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
       {/* Version info is placed inside a script comment below because both react jsx
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
-
-      {latestCommit && latestCommit.hash && (
-        <script id="version-info">
-          {`/*
-            TAG: ${latestTag}
+      <script>
+        {`/*
+            TAG: ${latestTag}???
             CURRENT BRANCH: ${currentBranch}
-            COMMIT HASH: ${latestCommit.hash}
-            COMMIT MESSAGE: ${latestCommit.message}
-            COMMIT DATE: ${latestCommit.date}
+            COMMIT HASH: ${latestCommit?.hash}
+            COMMIT MESSAGE: ${latestCommit?.message}
+            COMMIT DATE: ${latestCommit?.date}
             ENV ID: ${ENV_ID}
           */`}
-        </script>
-      )}
+      </script>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>
@@ -99,7 +95,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}
-    </Helmet>
+    </>
   );
 };
 

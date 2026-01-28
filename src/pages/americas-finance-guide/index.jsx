@@ -67,14 +67,6 @@ const AmericasFinanceGuidePage = ({ width }) => {
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
-        <PageHelmet
-          pageTitle="America’s Finance Guide"
-          description="Explore U.S. revenue, spending, deficit, and debt with this simple guide to federal financial data."
-          keywords="america's finance guide, us treasury, fiscal data, us government financial data, debt, deficit, revenue, spending"
-          image=""
-          canonical=""
-          datasetDetails=""
-        />
         <AfgHero />
         <div className={mainContainer}>
           <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
@@ -118,3 +110,11 @@ const AmericasFinanceGuidePage = ({ width }) => {
   );
 };
 export default withWindowSize(AmericasFinanceGuidePage);
+
+export const Head = () => (
+  <PageHelmet
+    pageTitle="America’s Finance Guide"
+    description="Explore U.S. revenue, spending, deficit, and debt with this simple guide to federal financial data."
+    keywords="america's finance guide, us treasury, fiscal data, us government financial data, debt, deficit, revenue, spending"
+  />
+);
