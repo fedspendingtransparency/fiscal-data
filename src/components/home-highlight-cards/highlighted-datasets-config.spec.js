@@ -32,13 +32,13 @@ describe('Highlighted Datasets Config', () => {
       const testArray = [
         { make: 'Ford', model: 'Taurus' },
         { make: 'Ford', model: 'Fusion' },
-        { make: 'Honda', model: 'Accord' },
-        { make: 'Chevy', model: 'Impala' },
-        { make: 'Ford', model: 'F-150' },
+        { make: 'Honda', model: 'Civic' },
+        { make: 'Mazda', model: 'CX-50' },
+        { make: 'Nissan', model: 'Rogue' },
         { make: 'Honda', model: 'Pilot' },
       ];
       const field = 'make';
-      expect(filterUniqueValues(testArray, field)).toStrictEqual(['Ford', 'Honda', 'Chevy']);
+      expect(filterUniqueValues(testArray, field)).toStrictEqual(['Ford', 'Honda', 'Mazda', 'Nissan']);
     });
   });
 
@@ -115,5 +115,11 @@ describe('Highlighted Datasets Config', () => {
   it('transform for API 143 (Debt to the Penny) transform', () => {
     const api143Data = testHelpers.getAPI143Data();
     expect(transformAPI143(api143Data.res)).toStrictEqual(api143Data.postTransformData);
+  });
+
+  it('returns an empty array and a warning with invalid params (API 143)', () => {
+    jest.clearAllMocks();
+    expect(transformAPI143(null)).toStrictEqual([]);
+    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 });
