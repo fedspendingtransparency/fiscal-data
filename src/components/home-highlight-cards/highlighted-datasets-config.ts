@@ -132,7 +132,6 @@ export const transformAPI143: (res: any) => any[] = res => {
     filteredArr[lastIdx].chartedValue = curVal;
     returnArr.push(filteredArr[lastIdx]);
   });
-  console.log('return array for api 143: ', returnArr);
   return returnArr;
 };
 
