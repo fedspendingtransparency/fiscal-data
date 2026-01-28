@@ -6,6 +6,7 @@ import {
   transformAPI129,
   transformAPI146,
   transformAPI144,
+  transformAPI143,
 } from './highlighted-datasets-config';
 import testHelpers from './test-helpers';
 
@@ -106,8 +107,13 @@ describe('Highlighted Datasets Config', () => {
     expect(transformAPI146(api146Data.res)).toStrictEqual(api146Data.postTransformData);
   });
 
-  it('transform for API 1444 (U.S. Treasury-Owned Gold) transform', () => {
+  it('transform for API 144 (U.S. Treasury-Owned Gold) transform', () => {
     const api144Data = testHelpers.getAPI144Data();
     expect(transformAPI144(api144Data.res)).toStrictEqual(api144Data.postTransformData);
+  });
+
+  it('transform for API 143 (Debt to the Penny) transform', () => {
+    const api143Data = testHelpers.getAPI143Data();
+    expect(transformAPI143(api143Data.res)).toStrictEqual(api143Data.postTransformData);
   });
 });

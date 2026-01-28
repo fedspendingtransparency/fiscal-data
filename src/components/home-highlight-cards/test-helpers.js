@@ -902,6 +902,56 @@ const getAPI144Data = () => {
   };
 };
 
+const getAPI143Data = () => {
+  const responseArray = [
+    {
+      tot_pub_debt_out_amt: '38460239071716.76',
+      record_calendar_year: '2026',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+    {
+      tot_pub_debt_out_amt: '38484705102395.33',
+      record_calendar_year: '2025',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+    {
+      tot_pub_debt_out_amt: '38473375474319.00',
+      record_calendar_year: '2024',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+    {
+      tot_pub_debt_out_amt: '38490798138585.90',
+      record_calendar_year: '2023',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+    {
+      tot_pub_debt_out_amt: '38491020558407.85',
+      record_calendar_year: '2022',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+    {
+      tot_pub_debt_out_amt: '38513523578580.59',
+      record_calendar_year: '2021',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+  ];
+
+  const postTransformData = [
+    {
+      tot_pub_debt_out_amt: '38513523578580.59',
+      record_calendar_year: '2021',
+      record_calendar_month: '01',
+      record_calendar_day: '01',
+    },
+  ];
+};
+
 const getMockHighlightCardsData = () => {
   const cardsObj = {};
 
@@ -938,6 +988,7 @@ const testHelpers = {
   getAPI129Data,
   getAPI146Data,
   getAPI144Data,
+  getAPI143Data,
   getMockHighlightCardsData,
 };
 
