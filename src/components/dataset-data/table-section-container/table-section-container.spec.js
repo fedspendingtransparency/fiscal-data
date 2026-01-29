@@ -9,6 +9,7 @@ import {
   mockDetailConfig,
   mockTableWithApiFilterAvailable,
   mockTableWithApiFilterAvailableDisplayDefaultData,
+  mockTableWithApiFilterAvailableDisplayDefaultData52,
   mockTableWithNoChartAvailable,
   mockTableWithPivot,
   mockTableWithUserFilterAvailable,
@@ -25,6 +26,7 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react'
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
+import { fetchTableMeta } from '../../../utils/api-utils';
 
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
@@ -552,7 +554,7 @@ describe('formatDate function', () => {
       customFormatting: [{ type: 'DATE', dateFormat: 'MM/DD/YYYY' }],
     };
 
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockDetailConfig}
@@ -567,7 +569,8 @@ describe('formatDate function', () => {
         />
       </RecoilRoot>
     );
-    expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
+    expect(getByText('hekokeefjsejf')).toBeInTheDocument();
+    // expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   });
 });
 
@@ -611,5 +614,22 @@ describe('Table with API filter', () => {
       </RecoilRoot>
     );
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
+  });
+
+  it('tests some of the things in the getDepaginatedData function', async () => {
+    const { getByText } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData52}
+          isLoading={false}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          userFilterSelection={null}
+          setSelectedPivot={jest.fn()}
+        />
+      </RecoilRoot>
+    );
   });
 });
