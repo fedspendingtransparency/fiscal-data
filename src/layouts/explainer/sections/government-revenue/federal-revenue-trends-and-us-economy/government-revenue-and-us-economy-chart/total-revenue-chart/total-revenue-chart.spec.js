@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import React from 'react';
 import TotalRevenueChart from './total-revenue-chart';
 import fetchMock from 'fetch-mock';
@@ -47,11 +47,10 @@ describe('Total Revenue Chart', () => {
   };
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByTestId, findAllByTestId } = render(
+    const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
-    await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
     expect(totalRevenue.length).toBe(3);
     const customSlices = await findByTestId('customSlices');
@@ -69,11 +68,10 @@ describe('Total Revenue Chart', () => {
   });
 
   it('chart fires on mouse over leave - for total revenue', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByTestId, findAllByTestId } = render(
+    const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
     expect(totalRevenue.length).toBe(3);
     expect(await findByTestId('customSlices')).toBeInTheDocument();
@@ -133,11 +131,10 @@ describe('Total Revenue Chart', () => {
   });
 
   it('renders the chart markers and data header labels', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByText, findByText } = render(
+    const { findAllByText, getByText, findByText } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
     expect(await findAllByText('Total Revenue')).toHaveLength(3);
     expect(await findAllByText('GDP')).toHaveLength(2);
     expect(await findByText('Fiscal Year')).toBeInTheDocument();

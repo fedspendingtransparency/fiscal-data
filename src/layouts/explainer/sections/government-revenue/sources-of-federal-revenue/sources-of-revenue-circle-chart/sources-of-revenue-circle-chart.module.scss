@@ -1,5 +1,16 @@
 @use 'src/variables.module' as *;
 
+.container {
+  --chart-height: 22.12rem;
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
@@ -117,5 +128,12 @@
     .chartSize {
       height: 19.625rem;
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    display: flex;
+    --chart-height: 31.25rem;
   }
 }

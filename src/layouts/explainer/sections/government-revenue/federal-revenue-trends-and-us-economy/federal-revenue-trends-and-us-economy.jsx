@@ -5,7 +5,7 @@ import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import QuoteBox from '../../../quote-box/quote-box';
 import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
 import { quoteBoxContent } from '../../../explainer.module.scss';
-import { section } from './federal-revenue-trends-and-us-economy.module.scss';
+import { section, totalRevContainer } from './federal-revenue-trends-and-us-economy.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
 const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
@@ -34,7 +34,9 @@ const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
         footprint related to size of the country's economic activity. Since federal taxes are based on a percentage of income for people and
         businesses, as people and businesses earn more the federal revenue from taxes increases.
       </p>
-      {!beaGDPData.isGDPLoading && <TotalRevenueChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />}
+      <div className={totalRevContainer}>
+        {!beaGDPData.isGDPLoading && <TotalRevenueChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />}
+      </div>
       <QuoteBox icon={faMapLocationDot} primaryColor={revenueExplainerPrimary} secondaryColor={revenueExplainerLightSecondary}>
         <p className={quoteBoxContent}>
           Free GPS (Global Positioning System) service enjoyed throughout the world is funded by general U.S. tax revenues.

@@ -2,6 +2,7 @@
 
 .container {
   overflow: hidden;
+  --chart-height: 15.12rem;
 
   .chartToggle {
     display: flex;
@@ -37,11 +38,19 @@
       margin-top: 0.25rem;
     }
   }
+
+  .loadingIcon {
+    @include grayLargeLoadingIcon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     margin-bottom: 2rem;
+    --chart-height: 26.69rem;
   }
 }
 

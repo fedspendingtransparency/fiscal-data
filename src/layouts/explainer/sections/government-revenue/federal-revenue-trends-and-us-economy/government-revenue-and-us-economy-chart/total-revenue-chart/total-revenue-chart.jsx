@@ -28,6 +28,7 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../../../utils/date-ut
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
+import { loadingIcon } from './total-revenue-chart.module.scss';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -42,8 +43,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState();
-  const [maxYear, setMaxYear] = useState();
+  const [minYear, setMinYear] = useState('');
+  const [maxYear, setMaxYear] = useState('');
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
   const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
@@ -55,8 +56,10 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
-
-  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({ fiscalYear: '-' ,
+  totalRevenue: '',
+  gdp: '',
+  gdpRatio: ''});
 
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
@@ -311,8 +314,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   return (
     <>
-      {isLoading && <LoadingIndicator />}
-      {!isLoading && chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
             <ChartContainer
@@ -322,7 +323,12 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
               date={lastUpdatedDate}
               header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
               altText={chartAltText}
+              customContainerStyles={{
+                minHeight: 'var(--chart-height)',
+              }}
             >
+              {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
+              {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
                   <div ref={revenueRef}>
@@ -375,6 +381,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
               </div>
+              )}
             </ChartContainer>
           </div>
           <VisualizationCallout color={revenueExplainerPrimary}>
@@ -383,8 +390,8 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             </p>
           </VisualizationCallout>
         </figure>
-      )}
     </>
+
   );
 };
 
