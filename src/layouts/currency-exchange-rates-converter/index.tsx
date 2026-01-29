@@ -48,14 +48,19 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 
 export default CurrencyExchangeRatesConverter;
 
-export const Head = () => (
-  <PageHelmet
-    pageTitle="Currency Exchange Rates Converter"
-    description={
-      'This Currency Exchange Rates Tool gives reliable U.S. Treasury exchange rates and can be used ' +
-      'for IRS Report of Foreign Bank and Financial Accounts (FBAR).'
-    }
-    descriptionGenerator={false}
-    keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
-  />
-);
+export const Head = () => {
+  return (
+    <>
+      <PageHelmet
+        pageTitle="Currency Exchange Rates Converter"
+        description={
+          'This Currency Exchange Rates Tool gives reliable U.S. Treasury exchange rates and can be used ' +
+          'for IRS Report of Foreign Bank and Financial Accounts (FBAR).'
+        }
+        descriptionGenerator={false}
+        keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
+        socialShare={socialCopy}
+      />
+    </>
+  );
+};

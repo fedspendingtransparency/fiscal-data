@@ -3,8 +3,18 @@ import DatasetStructuredData from './build-dataset-structured-data.helper';
 import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
+import SocialMetaData from '../social-share/social-metadata/social-metadata';
 
-const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keywords, image = '', canonical = '', datasetDetails = '' }) => {
+const PageHelmet = ({
+  pageTitle,
+  description,
+  descriptionGenerator = false,
+  keywords,
+  image = '',
+  canonical = '',
+  datasetDetails = '',
+  socialShare,
+}) => {
   let versionInfo = useStaticQuery(graphql`
     {
       gitCommit(latest: { eq: true }) {
@@ -82,11 +92,18 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>
-      <meta property="og:title" content={title} />
       <meta name="description" content={finalDescription || description} />
-      <meta property="og:description" content={description} />
+      {!socialShare && (
+        <>
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
+        </>
+      )}
+      {socialShare && (
+        <SocialMetaData image={socialShare.image} title={socialShare.title} description={socialShare.description} url={socialShare.url} />
+      )}
       <meta name="keywords" content={keywords} />
-      <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
       <meta name="google-site-verification" content="xVYP-oDTuRBvXHwXwy4kAM7weCAP1OlWoOCX_DsJC0M" />
       {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}

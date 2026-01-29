@@ -116,5 +116,6 @@ export const Head = () => (
     pageTitle="America’s Finance Guide"
     description="Explore U.S. revenue, spending, deficit, and debt with this simple guide to federal financial data."
     keywords="america's finance guide, us treasury, fiscal data, us government financial data, debt, deficit, revenue, spending"
+    socialShare={explainerSocialShareMap['americas-finance-guide']}
   />
 );

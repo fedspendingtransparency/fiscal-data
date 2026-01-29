@@ -76,12 +76,16 @@ export default InsightPageLayout;
 
 export const Head = ({ pageContext }) => {
   const { seoConfig, pageName } = pageContext;
+
   return (
-    <PageHelmet
-      pageTitle={seoConfig.pageTitle}
-      description={seoConfig.description}
-      keywords={seoConfig.keywords}
-      descriptionGenerator={insightsDescriptionGenerators[pageName]}
-    />
+    <>
+      <PageHelmet
+        pageTitle={seoConfig.pageTitle}
+        description={seoConfig.description}
+        keywords={seoConfig.keywords}
+        descriptionGenerator={insightsDescriptionGenerators[pageName]}
+        socialShare={insightSocialShareMap[pageName]}
+      />
+    </>
   );
 };

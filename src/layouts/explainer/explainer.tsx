@@ -136,6 +136,7 @@ export const Head = ({ pageContext }) => {
       description={seoConfig.description}
       descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
       keywords={seoConfig.keywords}
+      socialShare={explainerSocialShareMap[pageName]}
     />
   );
 };

@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-// import { Helmet } from 'react-helmet';
 import { ISocialMetaData } from '../../../models/ISocialMetaData';
 
 const SocialMetaData: FunctionComponent<ISocialMetaData> = ({ image, title, description, url }) => {
