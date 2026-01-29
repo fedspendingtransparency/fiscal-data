@@ -203,7 +203,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 {
                   type: 'DATE',
                   fields: ['date'],
-                  dateFormat: 'MMMM yyyy',
+                  dateFormat: 'MMMM YYYY',
                 },
               ],
             }}
