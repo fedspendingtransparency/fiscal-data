@@ -1,6 +1,5 @@
 import React from 'react';
 import Analytics from '../../utils/analytics/analytics';
-import * as Gatsby from 'gatsby';
 import DatasetCard from './dataset-card';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -37,12 +36,9 @@ describe('DatasetCard', () => {
   const referrer = 'Referring Dataset';
 
   it('entire card, when clicked, links to relevant dataset detail page', () => {
-    const spy = jest.spyOn(Gatsby, 'navigate');
     const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
-    const thisCard = getByRole('button');
-    userEvent.click(thisCard);
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(`/datasets${mockConfig.slug}`);
+    const thisCard = getByRole('link');
+    expect(thisCard).toHaveAttribute('href', `/datasets${mockConfig.slug}`);
   });
 
   it('contains the dataset name ', () => {
@@ -54,7 +50,7 @@ describe('DatasetCard', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
 
-    const thisCard = getByRole('button');
+    const thisCard = getByRole('link');
     userEvent.click(thisCard);
 
     expect(spy).toHaveBeenCalledTimes(1);

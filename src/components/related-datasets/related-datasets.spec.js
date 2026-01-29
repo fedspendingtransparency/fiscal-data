@@ -32,7 +32,7 @@ describe('RelatedDatasets', () => {
   it('should call analytics event with the appropriate context', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getAllByRole } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
-    const datasetCards = getAllByRole('button');
+    const datasetCards = getAllByRole('link');
     userEvent.click(datasetCards[0]);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: `${context} Click`, category: `${context} Click`, label: sortedDataset1 });
   });
