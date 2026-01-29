@@ -27,7 +27,6 @@ describe('DatasetCard', () => {
     dataStartYear: 2005,
     tagLine: 'test tag line',
     slug: '/debt-to-the-penny/',
-    heroNumber: 0,
     summaryText: 'Debt to the Penny summary text',
     tags: ['Debt', 'MVP'],
     techSpecs: {
