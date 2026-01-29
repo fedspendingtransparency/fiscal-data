@@ -79,9 +79,9 @@ const PageHelmet = ({
       {/* Version info is placed inside a script comment below because both react jsx
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
-      <script>
+      <script data-testid="version-info">
         {`/*
-            TAG: ${latestTag}???
+            TAG: ${latestTag}
             CURRENT BRANCH: ${currentBranch}
             COMMIT HASH: ${latestCommit?.hash}
             COMMIT MESSAGE: ${latestCommit?.message}

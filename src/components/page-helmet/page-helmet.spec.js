@@ -10,6 +10,12 @@ const pageTitle = 'Some Page';
 const titleAppend = 'U.S. Treasury Fiscal Data';
 const baseUrl = globalConstants.BASE_SITE_URL;
 const defaultImage = baseUrl + '/logos/fiscal_data_logo_1200x628.png';
+const socialShare = {
+  title: 'Social Share Title',
+  description: 'Social Share Description',
+  image: baseUrl + 'social_share_image.png',
+  url: baseUrl,
+};
 const versionInfoData = {
   gitTag: {
     name: '2021.5.1',
@@ -43,16 +49,16 @@ describe('page helmet', () => {
       expect(dap.src).toBe('https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS');
     });
 
-    // it('includes version-info', () => {
-    //   const versionInfoScript = document.scriptTags.find(s => s.id === 'version-info');
-    //   expect(versionInfoScript).toBeDefined();
-    //   expect(versionInfoScript.innerHTML).toContain('TAG: 2021.5.1');
-    //   expect(versionInfoScript.innerHTML).toContain('CURRENT BRANCH: prod');
-    //   expect(versionInfoScript.innerHTML).toContain('COMMIT HASH: 123abc');
-    //   expect(versionInfoScript.innerHTML).toContain('COMMIT MESSAGE: mock commit msg');
-    //   expect(versionInfoScript.innerHTML).toContain('COMMIT DATE: date of commit');
-    //   expect(versionInfoScript.innerHTML).toContain('ENV ID: production');
-    // });
+    it('includes version-info', () => {
+      const versionInfoScript = document.head.querySelector('script[data-testid="version-info"]');
+      expect(versionInfoScript).toBeDefined();
+      expect(versionInfoScript.innerHTML).toContain('TAG: 2021.5.1');
+      expect(versionInfoScript.innerHTML).toContain('CURRENT BRANCH: prod');
+      expect(versionInfoScript.innerHTML).toContain('COMMIT HASH: 123abc');
+      expect(versionInfoScript.innerHTML).toContain('COMMIT MESSAGE: mock commit msg');
+      expect(versionInfoScript.innerHTML).toContain('COMMIT DATE: date of commit');
+      expect(versionInfoScript.innerHTML).toContain('ENV ID: production');
+    });
 
     it('does not include structured data when not needed', () => {
       expect(document.head.querySelector('script[type="application/ld+json"]')).toBeNull();
@@ -178,6 +184,20 @@ describe('page helmet', () => {
       await waitFor(() => expect(getMetaByName('description')).toBe(dynamicDescription));
 
       expect(mockDescriptionGenerator).toHaveBeenCalled();
+    });
+  });
+
+  describe('social share', () => {
+    it('appropriately includes social share copy', () => {
+      render(<PageHelmet socialShare={socialShare} pageTitle="Non social share title" />, { container: document.head });
+      const ogImageTag = document.head.querySelector('meta[property="og:image"]');
+      const ogDescriptionTag = document.head.querySelector('meta[property="og:description"]');
+      const ogTitleTag = document.head.querySelector('meta[property="og:title"]');
+
+      expect(document.title).toBe(`Non social share title | ${titleAppend}`);
+      expect(ogImageTag.content).toBe(socialShare.image);
+      expect(ogDescriptionTag.content).toBe(socialShare.description);
+      expect(ogTitleTag.content).toBe(socialShare.title);
     });
   });
 });
