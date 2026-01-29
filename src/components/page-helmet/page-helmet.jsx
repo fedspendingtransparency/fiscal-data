@@ -91,7 +91,7 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
       {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (
-        <script data-test-id="structured-data" type="application/ld+json">
+        <script data-testid="structured-data" type="application/ld+json">
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}
