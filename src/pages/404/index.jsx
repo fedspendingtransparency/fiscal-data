@@ -14,7 +14,8 @@ const NotFoundContent = ({ fallback }) => {
   );
 };
 
-const NotFound = ({ pageContext, data, fallback }) => {
+const NotFound = ({ pageContext }) => {
+  const fallback = pageContext?.fallback;
   return (
     <>
       {!fallback && (
@@ -29,7 +30,7 @@ const NotFound = ({ pageContext, data, fallback }) => {
 
 export default NotFound;
 
-export const Head = ({ fallback }) => {
-  const pageTitle = fallback ? 'Content Currently Unavailable' : 'Page Not Found';
+export const Head = ({ pageContext }) => {
+  const pageTitle = pageContext?.fallback ? 'Content Currently Unavailable' : 'Page Not Found';
   return <PageHelmet pageTitle={pageTitle} />;
 };
