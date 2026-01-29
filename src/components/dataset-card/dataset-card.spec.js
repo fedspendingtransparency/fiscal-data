@@ -4,6 +4,10 @@ import DatasetCard from './dataset-card';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+jest.mock('react-device-detect', () => ({
+  isFirefox: false,
+}));
+
 describe('DatasetCard', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
@@ -23,8 +27,8 @@ describe('DatasetCard', () => {
     dataStartYear: 2005,
     tagLine: 'test tag line',
     slug: '/debt-to-the-penny/',
-    summaryText:
-      'Debt to the Penny is the total public debt outstanding reported each business day at3:00 P.M. Eastern Time with the previous business day’s data. The Debt to the Pennyis made up of intragovernmental holdings and debt held by the public, including securities issued by the U.S. Department of the Treasury (Treasury). Treasury securities primarily consist of marketable Treasury securities (bills, notes and bonds), savings bonds, and special securities issued to state and local governments.',
+    heroNumber: 0,
+    summaryText: 'Debt to the Penny summary text',
     tags: ['Debt', 'MVP'],
     techSpecs: {
       lastUpdated: '12/19/2019',
@@ -35,13 +39,17 @@ describe('DatasetCard', () => {
   const context = 'Related Dataset';
   const referrer = 'Referring Dataset';
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('entire card, when clicked, links to relevant dataset detail page', () => {
     const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
     const thisCard = getByRole('link');
     expect(thisCard).toHaveAttribute('href', `/datasets${mockConfig.slug}`);
   });
 
-  it('contains the dataset name ', () => {
+  it('contains the dataset name', () => {
     const { getByText } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
     expect(getByText('Debt to the Penny')).toBeDefined();
   });
@@ -103,5 +111,47 @@ describe('DatasetCard', () => {
       eventLabel: 'from example to Debt to the Penny',
     });
     spy.mockClear();
+  });
+
+  describe('Dataset Search Page context', () => {
+    it('tracks analytics with Dataset Search Page context', () => {
+      const spy = jest.spyOn(Analytics, 'event');
+      const { getByRole } = render(<DatasetCard dataset={mockConfig} context="Dataset Search Page" referrer="Search Results" />);
+      const thisCard = getByRole('link');
+
+      fireEvent.click(thisCard);
+      expect(spy).toHaveBeenCalledWith({
+        category: 'Dataset Search Page',
+        action: 'Dataset Search Page Click',
+        label: mockConfig.name,
+      });
+    });
+
+    it('pushes GA4 event for Dataset Search Page context', () => {
+      window.dataLayer = window.dataLayer || [];
+      const spy = jest.spyOn(window.dataLayer, 'push');
+      const { getByRole } = render(<DatasetCard dataset={mockConfig} context="Dataset Search Page" referrer="Search Results" />);
+      const thisCard = getByRole('link');
+
+      fireEvent.click(thisCard);
+      expect(spy).toHaveBeenCalledWith({
+        event: 'Dataset Search Page Click',
+        eventLabel: 'from Search Results to Debt to the Penny',
+      });
+    });
+  });
+
+  describe('focus and blur handlers', () => {
+    it('applies focus style on focus and removes on blur', () => {
+      const { getByRole, container } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
+      const thisCard = getByRole('link');
+      const card = container.querySelector('.MuiCard-root');
+
+      fireEvent.focus(thisCard);
+      expect(card).toHaveClass('card_withFocus');
+
+      fireEvent.blur(thisCard);
+      expect(card).not.toHaveClass('card_withFocus');
+    });
   });
 });
