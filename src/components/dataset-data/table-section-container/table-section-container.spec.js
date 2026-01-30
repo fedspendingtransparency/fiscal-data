@@ -579,7 +579,7 @@ describe('TableSectionContainer with Pivot Options', () => {
   //
   //   const datasetChart = getByTestId('dataset-chart');
   //   expect(datasetChart).toHaveClass('legendActive');
-  //   userEvent.click(getByRole('button', { name: 'Hide Legend' }));
+  //   await userEvent.click(getByRole('button', { name: 'Hide Legend' }));
   //   jest.runAllTimers();
   //
   //   expect(analyticsSpy).toHaveBeenCalledWith({
@@ -686,6 +686,10 @@ describe('tests getDepaginatedData function', () => {
 
   it('tests if API returns a total count of 0', async () => {
     const mockSetIsLoading = jest.fn();
+    const redemptionTable = {
+      ...mockTableWithApiFilterAvailable,
+      endpoint: 'v1/accounting/od/redemption_tables',
+    };
 
     jest.spyOn(queryClient, 'ensureQueryData').mockResolvedValueOnce({
       meta: { 'total-count': 0 },
@@ -696,7 +700,7 @@ describe('tests getDepaginatedData function', () => {
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailable}
+          selectedTable={redemptionTable}
           apiData={{ data: [], meta: {} }}
           isLoading={true}
           setIsLoading={mockSetIsLoading}
@@ -798,11 +802,10 @@ describe('misc tests for component', () => {
     fireEvent.click(button);
     expect(mockSetDetailViewState).toHaveBeenCalledWith(null);
 
-    // below lines not currently improving coverage
     // const icon = getByTestId('arrow-icon');
-    // expect(icon).toBeInTheDocument();
-    // const icon1 = getByTestId('backButton');
-    // expect(icon1).toBeInTheDocument();
+    // expect(icon).toBeVisible();
+    // const backText = within(button).getByTestId('backButton');
+    // expect(backText).toHaveTextContent('Back');
   });
 });
 // });
