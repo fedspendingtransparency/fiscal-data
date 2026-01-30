@@ -16,18 +16,18 @@ import Examples from '../../components/api-documentation/examples/examples';
 import TOCButton from '../../components/table-of-contents/toc-button/toc-button';
 import { tocCont, tocHeader, tocWrapper } from '../../components/table-of-contents/toc.module.scss';
 import {
-  toc,
+  activeLink,
+  apiPageSpacer,
+  apiPageWrapper,
   content,
   headingLevel2,
   headingLevel3,
   headingLevel4,
   link,
-  activeLink,
-  tocOpen,
-  tocClosed,
-  apiPageWrapper,
-  apiPageSpacer,
   sectionList,
+  toc,
+  tocClosed,
+  tocOpen,
 } from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
@@ -291,12 +291,6 @@ const ApiDocumentationPage = ({ location }) => {
 
   return (
     <SiteLayout>
-      <PageHelmet
-        data-testid="helmet"
-        pageTitle="API Documentation"
-        description="Detailed instructions for data scientists on how to access Fiscal Data’s datasets using APIs, including information on endpoints, filters, and more."
-        keywords="API, US Treasury, HTTP, JSON, API request, open data, U.S. Department of the Treasury, Fiscal Service, government finances"
-      />
       <div className="pageHeader">
         <div className="content">
           <BreadCrumbs links={breadCrumbLinks} />
@@ -351,3 +345,11 @@ const ApiDocumentationPage = ({ location }) => {
 };
 
 export default ApiDocumentationPage;
+
+export const Head = () => (
+  <PageHelmet
+    pageTitle="API Documentation"
+    description="Detailed instructions for data scientists on how to access Fiscal Data’s datasets using APIs, including information on endpoints, filters, and more."
+    keywords="API, US Treasury, HTTP, JSON, API request, open data, U.S. Department of the Treasury, Fiscal Service, government finances"
+  />
+);

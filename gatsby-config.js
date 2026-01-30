@@ -26,7 +26,6 @@ module.exports = {
       },
     },
     `gatsby-source-local-git`,
-    `gatsby-plugin-react-helmet`,
     // {
     //   resolve: `gatsby-plugin-build-date`,
     //   options: {

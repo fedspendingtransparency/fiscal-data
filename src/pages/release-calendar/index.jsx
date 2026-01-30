@@ -21,7 +21,6 @@ const ReleaseCalendar = () => {
 
   return (
     <SiteLayout>
-      <PageHelmet pageTitle="Fiscal Data Release Calendar" description={tagLineText} keywords="" />
       <ThemeProvider theme={theme}>
         <div className="pageHeader">
           <div className="content">
@@ -41,3 +40,5 @@ const ReleaseCalendar = () => {
 };
 
 export default ReleaseCalendar;
+
+export const Head = () => <PageHelmet pageTitle="Fiscal Data Release Calendar" description={tagLineText} keywords="" />;

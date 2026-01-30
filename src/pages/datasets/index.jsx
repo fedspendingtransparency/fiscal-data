@@ -163,13 +163,6 @@ const DatasetsPage = ({ pageContext }) => {
 
   return (
     <SiteLayout>
-      <PageHelmet
-        pageTitle="Dataset Search"
-        description={`Explore federal financial datasets on topics such as debt, interest rates,
-          and more at Fiscal Data!`}
-        keywords={`Debt, interest rates, financial summaries, revenue, savings bonds, spending,
-          exchange rates, U.S. Treasury, datasets`}
-      />
       <ThemeProvider theme={dsTheme}>
         <div className="searchBodyBackground">
           <div className={searchContainer}>
@@ -194,3 +187,13 @@ const DatasetsPage = ({ pageContext }) => {
 };
 
 export default DatasetsPage;
+
+export const Head = () => (
+  <PageHelmet
+    pageTitle="Dataset Search"
+    description={`Explore federal financial datasets on topics such as debt, interest rates,
+          and more at Fiscal Data!`}
+    keywords={`Debt, interest rates, financial summaries, revenue, savings bonds, spending,
+          exchange rates, U.S. Treasury, datasets`}
+  />
+);
