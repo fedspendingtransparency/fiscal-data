@@ -18,8 +18,10 @@
   }
 }
 
-.listContainer {
+.listContainer ul {
   padding: 0.125rem 0.875rem 1.375rem;
+  list-style-type: none;
+  margin: 0;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
