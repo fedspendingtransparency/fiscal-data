@@ -196,6 +196,7 @@ export const getFileDisplay = curReportFile => {
       let fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       if (reportFileType === 'xlsx') {
         fullDisplayName = groupName.replace(' ' + '(.xls)', '.xls');
+        fullDisplayName = groupName.replace(' ' + '(.xlsx)', '.xlsx');
       }
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
