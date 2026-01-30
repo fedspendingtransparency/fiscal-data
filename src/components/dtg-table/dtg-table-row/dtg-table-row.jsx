@@ -33,11 +33,9 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
         formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
       } else if (customFormat.currency) {
         formattedData = currencyFormatter.format(cellData);
+      } else if (customFormat.noFormatting) {
+        formattedData = cellData;
       }
-    } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
-      formattedData = cellData;
-    } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
-      formattedData = Number(cellData).toFixed(3);
     } else {
       formattedData = numberFormatter.format(cellData);
     }

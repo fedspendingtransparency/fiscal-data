@@ -11,6 +11,7 @@ describe('DtgTableRow', () => {
   const data6 = { row1: 0.00067898 };
   const data7 = { row1: '3-3/8%' };
   const data8 = { row1: '-123' };
+  const data9 = { row1: '2025-01-01' };
 
   const columns = [{ name: 'row1', order: 1, property: 'row1', width: 12 }];
 
@@ -67,6 +68,12 @@ describe('DtgTableRow', () => {
     expect(within(getByRole('cell')).getByText(formattedValue)).toBeInTheDocument();
   });
 
+  it('formats CURRENCY types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'CURRENCY';
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data1} />);
+    expect(within(getByRole('cell')).getByText('$123.00')).toBeInTheDocument();
+  });
   it('formats CURRENCY3 types correctly', () => {
     const cols = columns;
     cols[0].type = 'CURRENCY3';
@@ -80,31 +87,34 @@ describe('DtgTableRow', () => {
     expect(within(getByRole('cell')).getByText('-$123.000')).toBeInTheDocument();
   });
 
-  it('formats FRN Daily Indexes Daily Index col data correctly', () => {
-    const dailyIndexData = { daily_index: 0.111111111 };
-    const col = [{ name: 'daily_index', order: 1, property: 'daily_index', width: 12 }];
-    const { getByRole } = render(<DtgTableRow columns={col} data={dailyIndexData} tableName="FRN Daily Indexes" />);
-    expect(within(getByRole('cell')).getByText('0.111111111')).toBeInTheDocument();
+  it('formats NUMBER types correctly', () => {
+    const formattedData = formatCellValue('0.0123', 'NUMBER', null, 'spread');
+    expect(formattedData).toBe('0.012');
   });
 
-  it('formats FRN Daily Indexes Daily Int Accrual Rate data correctly', () => {
-    const dailyIntAccrualRateData = { daily_int_accrual_rate: 0.222222222 };
-    const cols = [{ name: 'daily_int_accrual_rate', order: 2, property: 'daily_int_accrual_rate', width: 12 }];
-    const { getByRole } = render(<DtgTableRow columns={cols} data={dailyIntAccrualRateData} />);
-    expect(within(getByRole('cell')).getByText('0.222222222')).toBeInTheDocument();
-  });
-
-  it('formats FRN Daily Indexes Spread data correctly', () => {
-    const spreadData = { spread: 0.012 };
-    const cols = [{ name: 'spread', order: 3, property: 'spread', width: 12 }];
-    const { getByRole } = render(<DtgTableRow columns={cols} data={spreadData} />);
-    expect(within(getByRole('cell')).getByText('0.012')).toBeInTheDocument();
+  it('applies no formatting to NUMBER types when noFormatting is true', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['daily_int_accrual_rate'], noFormatting: true }];
+    const formattedData = formatCellValue('0.222222222', 'NUMBER', null, 'daily_int_accrual_rate', customFormatter);
+    expect(formattedData).toBe('0.222222222');
   });
 
   it('formats custom NUMBER correctly', () => {
     const customFormatter = [{ type: 'NUMBER', fields: ['spread'], decimalPlaces: 6 }];
-    const formattedData = formatCellValue(0.012345, 'NUMBER', null, 'spread', customFormatter);
+    const formattedData = formatCellValue(0.01234532, 'NUMBER', null, 'spread', customFormatter);
     expect(formattedData).toBe('0.012345');
+  });
+
+  it('formats custom NUMBER correctly with currency formatting', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], currency: true }];
+    const formattedData = formatCellValue(0.01234532, 'NUMBER', null, 'spread', customFormatter);
+    expect(formattedData).toBe('$0.01');
+  });
+
+  it('formats DATE types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'DATE';
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data9} />);
+    expect(within(getByRole('cell')).getByText('1/1/2025')).toBeInTheDocument();
   });
 
   it('formats custom STRING dateList correctly', () => {
