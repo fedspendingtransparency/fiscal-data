@@ -616,7 +616,7 @@ describe('formatDate function', () => {
       customFormatting: [{ type: 'DATE', dateFormat: 'MM/DD/YYYY' }],
     };
 
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockDetailConfig}
@@ -746,7 +746,7 @@ describe('tests getDepaginatedData function', () => {
     const lostError = new Error('Request was lost');
     lostError.name = 'LostError';
 
-    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(new Error('API error'));
+    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(lostError);
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <RecoilRoot>
