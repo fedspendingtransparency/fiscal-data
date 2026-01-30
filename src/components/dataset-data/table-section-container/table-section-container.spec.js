@@ -25,6 +25,7 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react'
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
+import { queryClient } from '../../../../react-query-client';
 
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
@@ -611,5 +612,131 @@ describe('Table with API filter', () => {
       </RecoilRoot>
     );
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
+  });
+});
+
+describe('tests getDepaginatedData function', () => {
+  jest.mock('../../../utils/api-utils', () => ({
+    ...jest.requireActual('../../../utils/api-utils'),
+    fetchTableMeta: jest.fn(),
+  }));
+
+  it('tests if API returns a total count of 0', async () => {
+    const mockSetIsLoading = jest.fn();
+    const redemptionTable = {
+      ...mockTableWithApiFilterAvailable,
+      endpoint: 'v1/accounting/od/redemption_tables',
+    };
+
+    jest.spyOn(queryClient, 'ensureQueryData').mockResolvedValueOnce({
+      meta: { 'total-count': 0 },
+    });
+
+    const { findByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={redemptionTable}
+          apiData={{ data: [], meta: {} }}
+          isLoading={true}
+          setIsLoading={mockSetIsLoading}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          userFilterSelection={{ label: 'Room', value: 'Room ' }}
+          setSelectedPivot={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    await findByTestId('table-container');
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
+  });
+
+  it('checks if console.info fires when err.name === AbortError', async () => {
+    const mockSetIsLoading = jest.fn();
+    const abortError = new Error('Request was aborted');
+    abortError.name = 'AbortError';
+
+    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(abortError);
+    const consoleSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
+    render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithApiFilterAvailable}
+          apiData={null}
+          isLoading={true}
+          setIsLoading={mockSetIsLoading}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          userFilterSelection={{ label: 'Room', value: 'Room' }}
+          setSelectedPivot={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('Action cancelled.');
+    });
+    consoleSpy.mockRestore();
+  });
+
+  it('checks if console.error fires in any other error case', async () => {
+    const mockSetIsLoading = jest.fn();
+    const lostError = new Error('Request was lost');
+    lostError.name = 'LostError';
+
+    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(lostError);
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={mockTableWithApiFilterAvailable}
+          apiData={null}
+          isLoading={true}
+          setIsLoading={mockSetIsLoading}
+          apiError={false}
+          setUserFilterSelection={jest.fn()}
+          userFilterSelection={{ label: 'Room', value: 'Room' }}
+          setSelectedPivot={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('API error', lostError);
+    });
+    consoleSpy.mockRestore();
+  });
+});
+
+describe('misc tests for component', () => {
+  it('renders the button with the correct onClick call', async () => {
+    const mockSetDetailViewState = jest.fn();
+
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <TableSectionContainer
+          config={mockConfig}
+          dateRange={mockDateRange}
+          selectedTable={selectedTableLessFields}
+          apiData={{ data: [], meta: {} }}
+          isLoading={false}
+          apiError={false}
+          setSelectedPivot={jest.fn()}
+          setUserFilterSelection={jest.fn()}
+          detailViewState="randomState"
+          selectedTab={0}
+          setDetailViewState={mockSetDetailViewState}
+        />
+      </RecoilRoot>
+    );
+    const button = getByTestId('detailViewCloseButton');
+    expect(button).toBeInTheDocument();
+    fireEvent.click(button);
+    expect(mockSetDetailViewState).toHaveBeenCalledWith(null);
   });
 });
