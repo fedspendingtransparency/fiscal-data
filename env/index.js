@@ -11,7 +11,6 @@
   ADDITIONAL_DATASETS - {structured object keyed by Id following form in transform/static-metadata/datasets.json}
   EXCLUDED_ENDPOINT_IDS - {simple array of endpoint IDs to exclude, eg: ['27', '94'];
   ADDITIONAL_ENDPOINTS - {structured object keyed by Id following form of endpointConfig in transform/endpointConfig.js}
-  EXCLUDED_PAGE_PATHS - {array of path strings for which no matching pages should be available or included, 'multimatch' patterns supported}
 */
 
 module.exports = {

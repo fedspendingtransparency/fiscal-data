@@ -4,13 +4,6 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
-const activeEnv = process.env.BUILD_ENV || 'index';
-let { EXCLUDED_PAGE_PATHS } = require(`./env/${activeEnv}.js`);
-
-if (!EXCLUDED_PAGE_PATHS || !Array.isArray(EXCLUDED_PAGE_PATHS)) {
-  EXCLUDED_PAGE_PATHS = [];
-}
-
 module.exports = {
   siteMetadata: {
     siteUrl: 'https://fiscaldata.treasury.gov',
@@ -31,10 +24,6 @@ module.exports = {
         name: `pages`,
         path: `${__dirname}/src/pages`,
       },
-    },
-    {
-      resolve: 'gatsby-plugin-exclude',
-      options: { paths: EXCLUDED_PAGE_PATHS },
     },
     `gatsby-source-local-git`,
     `gatsby-plugin-react-helmet`,
