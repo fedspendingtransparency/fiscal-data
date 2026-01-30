@@ -135,7 +135,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
           >
             Treasury Reporting Rates of Exchange
           </CustomLink>{' '}
-          dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
+          dataset. This dataset is updated quarterly and covers the period from March 31, 2018 to {datasetDate}.
         </span>
       </div>
     </aside>
