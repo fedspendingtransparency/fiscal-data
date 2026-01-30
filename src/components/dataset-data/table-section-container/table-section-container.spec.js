@@ -26,7 +26,7 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react'
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
-import { fetchTableMeta } from '../../../utils/api-utils';
+import { queryClient } from '../../../../react-query-client';
 
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
@@ -569,8 +569,7 @@ describe('formatDate function', () => {
         />
       </RecoilRoot>
     );
-    expect(getByText('hekokeefjsejf')).toBeInTheDocument();
-    // expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
+    expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   });
 });
 
@@ -615,21 +614,38 @@ describe('Table with API filter', () => {
     );
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
+});
 
-  it('tests some of the things in the getDepaginatedData function', async () => {
-    const { getByText } = render(
+describe('tests getDepaginatedData', () => {
+  jest.mock('../../../utils/api-utils', () => ({
+    ...jest.requireActual('../../../utils/api-utils'),
+    fetchTableMeta: jest.fn(),
+  }));
+
+  it('tests conditions if API returns a total count of 0', async () => {
+    const mockSetIsLoading = jest.fn();
+
+    jest.spyOn(queryClient, 'ensureQueryData').mockResolvedValueOnce({
+      meta: { 'total-count': 0 },
+    });
+
+    const { findByTestId } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData52}
-          isLoading={false}
+          selectedTable={mockTableWithApiFilterAvailable}
+          apiData={{ data: [], meta: {} }}
+          isLoading={true}
+          setIsLoading={mockSetIsLoading}
           apiError={false}
           setUserFilterSelection={jest.fn()}
-          userFilterSelection={null}
+          userFilterSelection={{ label: 'Room', value: 'Room ' }}
           setSelectedPivot={jest.fn()}
         />
       </RecoilRoot>
     );
+    await findByTestId('table-container');
+    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
   });
 });

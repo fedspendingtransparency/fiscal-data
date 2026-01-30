@@ -105,15 +105,12 @@ const TableSectionContainer = ({
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-      console.log('hello'); // this stuff fires tho
       let from = formatDateForApi(dateRange.from);
-      console.log('from: ', from);
       let to = formatDateForApi(dateRange.to);
 
       // redemption_tables and sb_value are exception scenarios where the date string needs to
       // be YYYY-MM.
       if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-        console.log('YOOOO'); // this group was not firing
         from = from.substring(0, from.lastIndexOf('-'));
         to = to.substring(0, to.lastIndexOf('-'));
       }
@@ -131,7 +128,6 @@ const TableSectionContainer = ({
           queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
         })
         .then(async res => {
-          console.log('POP'); //  this is NOT firing
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
