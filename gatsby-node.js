@@ -385,8 +385,8 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   };
 
   // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
-  fs.readFile('./static/data/bea/bea-data-fallback.json', 'utf8', async (err, data) => {
-    // fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
+  // fs.readFile('./static/data/bea/bea-data-fallback.json', 'utf8', async (err, data) => {
+  fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
     if (err) {
       resultDataBEA = await fetchBEA()
         .then(res => res)
