@@ -101,7 +101,6 @@ const TableSectionContainer = ({
   const formattedDetailViewState = formatDate(detailViewState?.value);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
-  console.log('apiFilter: ', applyApiFilter());
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
