@@ -26,9 +26,7 @@ import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
 import { queryClient } from '../../../../react-query-client';
-import Analytics from '../../../utils/analytics/analytics';
 
-// describe('entire block to check file coverage', () => {
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
 
@@ -214,33 +212,6 @@ describe('TableSectionContainer with Pivot Options', () => {
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   });
-
-  // it('fires the correct GA event when the pivot toggle button is clicked', async () => {
-  //   const analyticsSpy = jest.spyOn(Analytics, 'event');
-  //
-  //   const { getByTestId } = render(
-  //     <RecoilRoot>
-  //       <TableSectionContainer
-  //         config={mockConfig}
-  //         dateRange={mockDateRange}
-  //         selectedTable={mockTableWithPivot}
-  //         apiData={mockApiData}
-  //         pivotFields={pivotFields}
-  //         selectedPivot={selectedPivot}
-  //         isLoading={false}
-  //         apiError={false}
-  //         setUserFilterSelection={jest.fn()}
-  //         setSelectedPivot={mockSetSelectedPivot}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   fireEvent.click(getByTestId('pivotToggle'));
-  //   expect(analyticsSpy).toHaveBeenCalledWith({
-  //     action: 'Hide Pivot Options Click',
-  //     category: 'Chart Enabled',
-  //     label: 'my name, Debt to the Nickel',
-  //   });
-  // });
 
   it('shows no aggregation notice when the selected pivot is not aggregated', () => {
     const {} = render(
@@ -555,40 +526,6 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart).not.toHaveClass('legendActive');
   });
 
-  // it(`fires GA event upon legend toggle`, async () => {
-  //   jest.useFakeTimers();
-  //   global.window.innerWidth = GLOBALS.breakpoints.large + 1;
-  //   const analyticsSpy = jest.spyOn(Analytics, 'event');
-  //   const { getByTestId, rerender, findByRole, getByRole } = render(
-  //     <RecoilRoot>
-  //       <TableSectionContainer
-  //         config={mockConfig}
-  //         dateRange={mockDateRange}
-  //         selectedTable={mockTableWithPivot}
-  //         apiData={mockApiData}
-  //         isLoading={false}
-  //         apiError={false}
-  //         selectedPivot={selectedPivotWithAggregation}
-  //         setUserFilterSelection={jest.fn()}
-  //         setSelectedPivot={mockSetSelectedPivot}
-  //         tabChangeHandler={jest.fn()}
-  //         selectedTab={1}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //
-  //   const datasetChart = getByTestId('dataset-chart');
-  //   expect(datasetChart).toHaveClass('legendActive');
-  //   await userEvent.click(getByRole('button', { name: 'Hide Legend' }));
-  //   jest.runAllTimers();
-  //
-  //   expect(analyticsSpy).toHaveBeenCalledWith({
-  //     action: 'Hide Legend Click',
-  //     category: 'Chart Enabled',
-  //     label: 'my name, Debt to the Nickel',
-  //   });
-  // });
-
   it('renders selected detail view key with the dataset header', () => {
     const { queryByTestId } = render(
       <RecoilRoot>
@@ -801,11 +738,5 @@ describe('misc tests for component', () => {
     expect(button).toBeInTheDocument();
     fireEvent.click(button);
     expect(mockSetDetailViewState).toHaveBeenCalledWith(null);
-
-    // const icon = getByTestId('arrow-icon');
-    // expect(icon).toBeVisible();
-    // const backText = within(button).getByTestId('backButton');
-    // expect(backText).toHaveTextContent('Back');
   });
 });
-// });
