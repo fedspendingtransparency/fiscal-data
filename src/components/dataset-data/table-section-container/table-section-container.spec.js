@@ -736,7 +736,7 @@ describe('tests getDepaginatedData function', () => {
     );
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(abortError);
+      expect(consoleSpy).toHaveBeenCalledWith('Action cancelled.');
     });
     consoleSpy.mockRestore();
   });
@@ -766,7 +766,7 @@ describe('tests getDepaginatedData function', () => {
     );
 
     await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith(lostError);
+      expect(consoleSpy).toHaveBeenCalledWith('API error', lostError);
     });
     consoleSpy.mockRestore();
   });
