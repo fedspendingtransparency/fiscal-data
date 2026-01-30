@@ -678,13 +678,13 @@ describe('entire block to check file coverage', () => {
     });
   });
 
-  describe('tests conditions in our getDepaginatedData function', () => {
+  describe('tests getDepaginatedData function', () => {
     jest.mock('../../../utils/api-utils', () => ({
       ...jest.requireActual('../../../utils/api-utils'),
       fetchTableMeta: jest.fn(),
     }));
 
-    it('tests conditions if API returns a total count of 0', async () => {
+    it('tests if API returns a total count of 0', async () => {
       const mockSetIsLoading = jest.fn();
 
       jest.spyOn(queryClient, 'ensureQueryData').mockResolvedValueOnce({
@@ -772,8 +772,8 @@ describe('entire block to check file coverage', () => {
     });
   });
 
-  describe('misc tests for page coverage', () => {
-    it('renders the button with the correct onClick if it is rendered', async () => {
+  describe('misc tests for component', () => {
+    it('renders the button with the correct onClick call', async () => {
       const mockSetDetailViewState = jest.fn();
 
       const { getByTestId } = render(
