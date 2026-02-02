@@ -224,9 +224,6 @@ export default function DtgTable({
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res);
             setTable(res.data);
-            if (rawDataTable) {
-              console.log('???? 1', res);
-            }
           }
         })
         .catch(err => {
@@ -385,7 +382,6 @@ export default function DtgTable({
           console.log(2);
           setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
         } else {
-          // Debt to the penny / small datasets
           console.log(3);
           setReactTableData(rawData);
         }
@@ -407,8 +403,7 @@ export default function DtgTable({
     if (tableProps) {
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        console.log(4);
-
+        console.log(4, 'setting pivot data');
         setReactTableData(rawData);
         if (setManualPagination) {
           setManualPagination(false);
@@ -422,19 +417,6 @@ export default function DtgTable({
   useMemo(() => {
     const hasTableData = tableData.data?.length > 0;
     if (hasTableData && isLargeTable() && noPivotApplied()) {
-      // if (isDepaginatedSize()) {
-      // // data with current date range < 20000
-      // //TODO: update condition ...........
-      // // Advances to state unemployment funds
-      // const firstCondition = !(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)));
-      // const secondCondition = !updatedData(tableData?.data, reactTableData?.data);
-      // const thirdCondition = tableData?.meta['total-count'] !== reactTableData?.meta['total-count'];
-      // if (firstCondition && (!reactTableData || secondCondition || thirdCondition)) {
-      //   console.log(5);
-      //   // setReactTableData(tableData);
-      //   // setManualPagination(true);
-      // }
-      // } else if (!rawData && !dePaginated) {
       if (!isDepaginatedSize() && !rawData && !dePaginated) {
         //serverside paginated data
         //current date range results > 20000
