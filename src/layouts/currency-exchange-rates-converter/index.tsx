@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import PageHelmet from '../../components/page-helmet/page-helmet';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { breadCrumbsContainer, componenentContianer, legalDisclaimer } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
@@ -12,22 +11,11 @@ import {
 import CustomLink from '../../components/links/custom-link/custom-link';
 import CurrencyExchangeRateTool from '../../components/exchange-rates-converter/currency-exchange-rates-converter/currency-exchange-rates-converter';
 import CurrencyExchangeFAQ from '../../components/exchange-rates-converter/exchange-rate-faq/exchange-rates-faq';
+import PageHelmet from '../../components/page-helmet/page-helmet';
 
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   return (
     <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle="Currency Exchange Rates Converter"
-        description={
-          'This Currency Exchange Rates Tool gives reliable U.S. Treasury exchange rates and can be used ' +
-          'for IRS Report of Foreign Bank and Financial Accounts (FBAR).'
-        }
-        descriptionGenerator={false}
-        keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
       <div className={breadCrumbsContainer}>
         <BreadCrumbs links={breadCrumbLinks} />
       </div>
@@ -59,3 +47,20 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
 };
 
 export default CurrencyExchangeRatesConverter;
+
+export const Head = () => {
+  return (
+    <>
+      <PageHelmet
+        pageTitle="Currency Exchange Rates Converter"
+        description={
+          'This Currency Exchange Rates Tool gives reliable U.S. Treasury exchange rates and can be used ' +
+          'for IRS Report of Foreign Bank and Financial Accounts (FBAR).'
+        }
+        descriptionGenerator={false}
+        keywords="us treasury exchange rates, us dollar, foreign currency, exchange rates converter"
+        socialShare={socialCopy}
+      />
+    </>
+  );
+};
