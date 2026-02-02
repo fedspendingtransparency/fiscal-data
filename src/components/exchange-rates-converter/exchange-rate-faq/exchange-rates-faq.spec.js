@@ -67,6 +67,6 @@ describe('CurrencyExchangeFAQ Component', () => {
 
   it('renders the correct dataset date', () => {
     const { getByText } = render(<CurrencyExchangeFAQ />);
-    expect(getByText(/December 31, 2022 to September 30, 2023\./)).toBeInTheDocument();
+    expect(getByText(/March 31, 2018 to September 30, 2023\./)).toBeInTheDocument();
   });
 });
