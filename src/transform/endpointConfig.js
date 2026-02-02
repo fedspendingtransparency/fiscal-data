@@ -1368,7 +1368,7 @@ const endpointConfig = {
     downloadName: 'MthlySlgsSecty',
     dataDisplays: [
       {
-        title: 'Security Description',
+        title: 'Security Type Description',
         dimensionField: 'security_type_desc',
       },
     ],
@@ -1379,7 +1379,7 @@ const endpointConfig = {
     downloadName: 'AdvStateUnempFundsTitleXII',
     dataDisplays: [
       {
-        title: 'State',
+        title: 'State Name',
         dimensionField: 'state_nm',
         lastRowSnapshot: true,
       },
