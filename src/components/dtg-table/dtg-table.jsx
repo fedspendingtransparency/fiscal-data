@@ -224,6 +224,9 @@ export default function DtgTable({
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res);
             setTable(res.data);
+            if (rawDataTable) {
+              console.log('???? 1', res);
+            }
           }
         })
         .catch(err => {
@@ -352,33 +355,6 @@ export default function DtgTable({
     maxRows,
   };
 
-  useMemo(() => {
-    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-      if (dePaginated !== null && dePaginated !== undefined) {
-        // large dataset tables <= 20000 rows
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-        setIsLoading(false);
-      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
-          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
-          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
-        } else {
-          setReactTableData(rawData);
-        }
-        setManualPagination(false);
-      }
-    } else if (data && !rawDataTable) {
-      setReactTableData({ data: data });
-    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE && dePaginated !== null) {
-      // user filter tables <= 20000 rows
-      setReactTableData(dePaginated);
-      setManualPagination(false);
-      setMaxRows(dePaginated.data.length);
-      setIsLoading(false);
-    }
-  }, [rawData, dePaginated]);
-
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
@@ -387,10 +363,52 @@ export default function DtgTable({
     return JSON.stringify(newData) !== JSON.stringify(currentData);
   };
 
+  const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
+
+  const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+  //TODO: rename
+  const isDepaginatedSize = () => tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+
+  const nullOrUndefined = data => data !== null && data !== undefined;
+
+  useMemo(() => {
+    if (tableProps && !isLargeTable() && !pivotSelected?.pivotValue) {
+      if (nullOrUndefined(dePaginated)) {
+        // large dataset tables <= 20000 rows
+        console.log(1);
+        setReactTableData(dePaginated);
+        setManualPagination(false);
+        setIsLoading(false);
+      } else if (rawData?.hasOwnProperty('data')) {
+        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
+          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+          console.log(2);
+          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
+        } else {
+          // Debt to the penny / small datasets
+          console.log(3);
+          setReactTableData(rawData);
+        }
+        setManualPagination(false);
+      }
+    } else if (data && !rawDataTable) {
+      //TODO: again, why is data set here
+      setReactTableData({ data: data });
+    } else if (userFilterSelection && tableMeta && isDepaginatedSize() && dePaginated !== null) {
+      // user filter tables <= 20000 rows
+      setReactTableData(dePaginated);
+      setManualPagination(false);
+      setMaxRows(dePaginated.data.length);
+      setIsLoading(false);
+    }
+  }, [rawData, dePaginated]);
+
   useMemo(() => {
     if (tableProps) {
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+        console.log(4);
+
         setReactTableData(rawData);
         if (setManualPagination) {
           setManualPagination(false);
@@ -402,71 +420,56 @@ export default function DtgTable({
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableData?.meta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-          if (
-            (!reactTableData ||
-              JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
-              tableData?.meta['total-count'] !== reactTableData?.meta['total-count']) &&
-            dePaginated === undefined
-          ) {
-            setReactTableData(tableData);
-            setManualPagination(false);
-          }
-        }
-      } else if (tableData.data && !rawData && !dePaginated) {
+    const hasTableData = tableData.data?.length > 0;
+    if (hasTableData && isLargeTable() && noPivotApplied()) {
+      // if (isDepaginatedSize()) {
+      // // data with current date range < 20000
+      // //TODO: update condition ...........
+      // // Advances to state unemployment funds
+      // const firstCondition = !(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)));
+      // const secondCondition = !updatedData(tableData?.data, reactTableData?.data);
+      // const thirdCondition = tableData?.meta['total-count'] !== reactTableData?.meta['total-count'];
+      // if (firstCondition && (!reactTableData || secondCondition || thirdCondition)) {
+      //   console.log(5);
+      //   // setReactTableData(tableData);
+      //   // setManualPagination(true);
+      // }
+      // } else if (!rawData && !dePaginated) {
+      if (!isDepaginatedSize() && !rawData && !dePaginated) {
+        //serverside paginated data
+        //current date range results > 20000
+        console.log(6);
         setReactTableData(tableData);
         setManualPagination(true);
       }
-    } else if (data && !rawDataTable && !rawData) {
-      setReactTableData({ data: data });
-    } else if (tableData.data && data.length === 0 && !rawData) {
-      setReactTableData(tableData);
+    } else if (!rawData) {
+      if (data && !rawDataTable) {
+        //TODO: Why is data update tied to tableData
+        setReactTableData({ data: data });
+      } else if (tableData.data && data.length === 0) {
+        console.log(7);
+        setReactTableData(tableData);
+      }
     }
   }, [tableData]);
 
+  const tableCondition1 = () => tableMeta && isLargeTable() && noPivotApplied() && isDepaginatedSize();
+
   useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      tableMeta &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (rawData) {
-          setReactTableData(rawData);
-          setManualPagination(false);
-        }
-      }
+    // data with current date range < 20000
+    if (tableCondition1() && rawData) {
+      console.log(8);
+      setReactTableData(rawData);
+      setManualPagination(false);
     }
   }, [rawData]);
 
   useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      tableMeta &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (!rawData && dePaginated && !userFilterSelection) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-        }
-      }
+    // data with current date range < 20000
+    if (tableCondition1() && !rawData && dePaginated && !userFilterSelection) {
+      console.log(9);
+      setReactTableData(dePaginated);
+      setManualPagination(false);
     }
   }, [dePaginated]);
 
