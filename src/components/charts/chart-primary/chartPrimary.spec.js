@@ -79,7 +79,15 @@ describe('Primary Chart', () => {
     chartContainer = container.querySelector('svg[data-test-id="chartContainer"]');
     expect(chartContainer.getAttribute('width')).toBe('400px');
   });
+
+  it('updates attributes correctly when onFieldUpdates is called', () => {
+    chart.onFieldUpdates([fields]);
+    const updatedLines = container.querySelectorAll('[data-testid="dataviz-line"]');
+    expect(updatedLines[0].getAttribute('opacity')).toBe('1');
+    expect(updatedLines[0].getAttribute('stroke-width')).toBe('1');
+  });
 });
+
 describe('Tooltip calculateRadius', () => {
   it('returns the minimum hitbox size if input parameters are bad', () => {
     expect(calculateRadius(0, 0)).toStrictEqual(minTooltipHitbox);
