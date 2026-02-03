@@ -368,34 +368,58 @@ export default function DtgTable({
 
   const nullOrUndefined = data => data !== null && data !== undefined;
 
+  const tableCondition1 = () => tableMeta && isLargeTable() && noPivotApplied() && isDepaginatedSize();
+
+  const updateServerPaginatedData = data => {
+    setReactTableData(data);
+    setManualPagination(true);
+  };
+
+  const updateTablePaginatedData = data => {
+    setReactTableData(data);
+    if (setManualPagination) {
+      setManualPagination(false);
+    }
+  };
+
   useMemo(() => {
     if (tableProps && !isLargeTable() && !pivotSelected?.pivotValue) {
       if (nullOrUndefined(dePaginated)) {
-        // large dataset tables <= 20000 rows
+        // small tables (<= 20000 rows) within large datasets
+        //ex. DTS Operating Cash Balance
+        // TODO: this also triggers on 120 Day ?? which has no large datatables
         console.log(1);
-        setReactTableData(dePaginated);
-        setManualPagination(false);
+        updateTablePaginatedData(dePaginated);
         setIsLoading(false);
       } else if (rawData?.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
           console.log(2);
-          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
+          updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
         } else {
+          // Small datasets
+          // ex. Debt to the penny
           console.log(3);
-          setReactTableData(rawData);
+          updateTablePaginatedData(rawData);
         }
-        setManualPagination(false);
       }
     } else if (data && !rawDataTable) {
       //TODO: again, why is data set here
       setReactTableData({ data: data });
     } else if (userFilterSelection && tableMeta && isDepaginatedSize() && dePaginated !== null) {
       // user filter tables <= 20000 rows
-      setReactTableData(dePaginated);
-      setManualPagination(false);
+      updateTablePaginatedData(dePaginated);
       setMaxRows(dePaginated.data.length);
       setIsLoading(false);
+    } else if (tableCondition1()) {
+      // data with current date range < 20000
+      if (rawData) {
+        console.log(8, rawData);
+        updateTablePaginatedData(rawData);
+      } else if (dePaginated && !userFilterSelection) {
+        console.log(9, dePaginated);
+        updateTablePaginatedData(dePaginated);
+      }
     }
   }, [rawData, dePaginated]);
 
@@ -404,10 +428,7 @@ export default function DtgTable({
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
         console.log(4, 'setting pivot data');
-        setReactTableData(rawData);
-        if (setManualPagination) {
-          setManualPagination(false);
-        }
+        updateTablePaginatedData(rawData);
       } else if (data && !rawDataTable) {
         setReactTableData({ data: data });
       }
@@ -421,8 +442,7 @@ export default function DtgTable({
         //serverside paginated data
         //current date range results > 20000
         console.log(6);
-        setReactTableData(tableData);
-        setManualPagination(true);
+        updateServerPaginatedData(tableData);
       }
     } else if (!rawData) {
       if (data && !rawDataTable) {
@@ -434,26 +454,6 @@ export default function DtgTable({
       }
     }
   }, [tableData]);
-
-  const tableCondition1 = () => tableMeta && isLargeTable() && noPivotApplied() && isDepaginatedSize();
-
-  useMemo(() => {
-    // data with current date range < 20000
-    if (tableCondition1() && rawData) {
-      console.log(8);
-      setReactTableData(rawData);
-      setManualPagination(false);
-    }
-  }, [rawData]);
-
-  useMemo(() => {
-    // data with current date range < 20000
-    if (tableCondition1() && !rawData && dePaginated && !userFilterSelection) {
-      console.log(9);
-      setReactTableData(dePaginated);
-      setManualPagination(false);
-    }
-  }, [dePaginated]);
 
   return (
     <div className={overlayContainer}>
