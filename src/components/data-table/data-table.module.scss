@@ -3,7 +3,6 @@
 $borderRadius: 5px;
 
 .tableStyle {
-  overflow-x: auto;
   width: 100%;
   order: 1;
 
@@ -14,6 +13,7 @@ $borderRadius: 5px;
     border-top: 0;
     background-color: white;
     overflow-y: auto;
+    overflow-x: auto;
   }
 
   .rawDataTableContainer {
