@@ -21,6 +21,9 @@
 @media screen and (max-width: $breakpoint-sm) {
   .paddingAdjust {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .cardWrapper {
     display: inline-flex;

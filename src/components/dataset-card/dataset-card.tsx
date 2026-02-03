@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import Analytics from '../../utils/analytics/analytics';
-import { navigate } from 'gatsby';
+import { Link } from 'gatsby';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import { ThemeProvider } from '@mui/material';
@@ -55,7 +55,10 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
     }
   };
 
-  const clickHandler: () => void = () => {
+  const clickHandler = (e: React.MouseEvent): void => {
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) {
+      return;
+    }
     if (context && referrer) {
       if (explainer) {
         Analytics.event({
@@ -97,13 +100,19 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
         });
       }
     }
-    navigate(cardLink);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} onClick={clickHandler} id={explainer ? dataset.name : null}>
-        <CardActionArea onFocus={() => setApplyFocusStyle(true)} onBlur={() => setApplyFocusStyle(false)} style={{ padding: 0 }}>
+      <Card className={applyFocusStyle ? focusStyle : card} id={explainer ? dataset.name : null}>
+        <CardActionArea
+          component={Link}
+          to={cardLink}
+          onClick={clickHandler}
+          onFocus={() => setApplyFocusStyle(true)}
+          onBlur={() => setApplyFocusStyle(false)}
+          style={{ padding: 0 }}
+        >
           <div>
             <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
             <div className={datasetName}>{dataset.name}</div>
