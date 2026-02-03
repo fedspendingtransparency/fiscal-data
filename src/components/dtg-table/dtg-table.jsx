@@ -356,10 +356,6 @@ export default function DtgTable({
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
 
-  const updatedData = (newData, currentData) => {
-    return JSON.stringify(newData) !== JSON.stringify(currentData);
-  };
-
   const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
 
   const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
@@ -368,7 +364,7 @@ export default function DtgTable({
 
   const nullOrUndefined = data => data !== null && data !== undefined;
 
-  const tableCondition1 = () => tableMeta && isLargeTable() && noPivotApplied() && isDepaginatedSize();
+  const tableCondition1 = () => isLargeTable() && noPivotApplied() && isDepaginatedSize();
 
   const updateServerPaginatedData = data => {
     setReactTableData(data);
@@ -387,26 +383,21 @@ export default function DtgTable({
       if (nullOrUndefined(dePaginated)) {
         // small tables (<= 20000 rows) within large datasets
         //ex. DTS Operating Cash Balance
-        // TODO: this also triggers on 120 Day ?? which has no large datatables
-        console.log(1);
         updateTablePaginatedData(dePaginated);
         setIsLoading(false);
       } else if (rawData?.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
-          console.log(2);
           updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
         } else {
           // Small datasets
           // ex. Debt to the penny
-          console.log(3);
           updateTablePaginatedData(rawData);
         }
       }
     } else if (data && !rawDataTable) {
-      //TODO: again, why is data set here
       setReactTableData({ data: data });
-    } else if (userFilterSelection && tableMeta && isDepaginatedSize() && dePaginated !== null) {
+    } else if (userFilterSelection && isDepaginatedSize() && dePaginated !== null) {
       // user filter tables <= 20000 rows
       updateTablePaginatedData(dePaginated);
       setMaxRows(dePaginated.data.length);
@@ -414,10 +405,8 @@ export default function DtgTable({
     } else if (tableCondition1()) {
       // data with current date range < 20000
       if (rawData) {
-        console.log(8, rawData);
         updateTablePaginatedData(rawData);
       } else if (dePaginated && !userFilterSelection) {
-        console.log(9, dePaginated);
         updateTablePaginatedData(dePaginated);
       }
     }
@@ -427,7 +416,6 @@ export default function DtgTable({
     if (tableProps) {
       // Pivot data
       if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        console.log(4, 'setting pivot data');
         updateTablePaginatedData(rawData);
       } else if (data && !rawDataTable) {
         setReactTableData({ data: data });
@@ -441,15 +429,12 @@ export default function DtgTable({
       if (!isDepaginatedSize() && !rawData && !dePaginated) {
         //serverside paginated data
         //current date range results > 20000
-        console.log(6);
         updateServerPaginatedData(tableData);
       }
     } else if (!rawData) {
       if (data && !rawDataTable) {
-        //TODO: Why is data update tied to tableData
         setReactTableData({ data: data });
       } else if (tableData.data && data.length === 0) {
-        console.log(7);
         setReactTableData(tableData);
       }
     }
