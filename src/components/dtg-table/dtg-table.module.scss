@@ -37,6 +37,7 @@ $borderRadius: 5px;
   border-radius: $borderRadius;
   background-color: white;
   overflow-x: auto;
+  min-width: 0;
   min-height: calc(64px + 8rem);
 
   table {

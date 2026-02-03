@@ -5,10 +5,8 @@ $borderRadius: 5px;
 .tableStyle {
   width: 100%;
   order: 1;
-  overflow: auto;
-  max-width: 100%;
+  overflow-x: auto;
   min-width: 0;
-  flex: 1 1 auto;
 
   .rawDataTableContainer,
   .nonRawDataTableContainer {
@@ -16,6 +14,7 @@ $borderRadius: 5px;
     box-sizing: border-box;
     border-top: 0;
     background-color: white;
+    overflow-y: auto;
   }
 
   .rawDataTableContainer {
