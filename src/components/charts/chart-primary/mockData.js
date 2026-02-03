@@ -34,3 +34,12 @@ export const mockData = {
 
 export const fields = ['a', 'b', 'c'];
 export const dateField = 'reporting_date';
+
+export const mockShadingOptions = {
+  shading: {
+    side: 'under',
+    color: 'red',
+    hatchDirection: 'down',
+  },
+  placeInitialMarker: true,
+};

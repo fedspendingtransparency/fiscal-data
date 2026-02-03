@@ -1,4 +1,4 @@
-import { mockData, fields, dateField } from './mockData';
+import { mockData, fields, dateField, mockShadingOptions } from './mockData';
 import { calculateRadius, minTooltipHitbox, maxTooltipHitbox } from './tooltip';
 import drawChart, { addHoverEffects } from './index';
 
@@ -137,6 +137,25 @@ describe('check total coverage', () => {
       expect(hoverSpace).toBeInTheDocument();
       hoverSpace.dispatchEvent(new MouseEvent('mousemove', { offsetX: 10, offsetY: 10 }));
       expect(hoverSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('Primary Chart supplemental suite v2', () => {
+    it('implements correct shading information', () => {
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+
+      drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', mockShadingOptions);
+
+      const area = container.querySelector('path.area');
+      expect(area).not.toBeNull();
+      expect(area.style.fill).toBe('red');
+
+      const pattern = container.querySelectorAll('pattern#gradient');
+      expect(pattern).not.toBeNull();
+
+      const circles = container.querySelectorAll('circle');
+      expect(circles.length).toBeGreaterThan(0);
     });
   });
 });
