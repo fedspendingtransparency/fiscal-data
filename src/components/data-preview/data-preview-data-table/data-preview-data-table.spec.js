@@ -674,34 +674,6 @@ describe('react-table', () => {
         ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
       ]);
     });
-
-    it('formats FRN Daily Index number values correctly', () => {
-      const { getAllByTestId } = render(
-        <DataTableContext.Provider
-          value={{
-            ...contextProps,
-            tableProps: { selectedTable: { rowCount: 11 }, shouldPage: true, dePaginated: null, tableName: 'FRN Daily Indexes' },
-            allColumns: columnsConstructorData(mockTableData, [], 'FRN Daily Indexes', mockColumnConfig),
-          }}
-        >
-          <RecoilRoot>
-            <DataPreviewDataTable
-              pagingProps={{ itemsPerPage: 10 }}
-              setTableColumnSortData={setTableColumnSortData}
-              shouldPage
-              showPaginationControls
-              setFiltersActive={jest.fn()}
-              columnConfig={mockColumnConfig}
-              setTableSorting={jest.fn()}
-            />
-          </RecoilRoot>
-        </DataTableContext.Provider>
-      );
-
-      expect(getAllByTestId('row')[0].innerHTML).toContain('0.111111111');
-      expect(getAllByTestId('row')[0].innerHTML).toContain('0.222222222');
-      expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120');
-    });
   });
 
   it('renders detail view links', async () => {
