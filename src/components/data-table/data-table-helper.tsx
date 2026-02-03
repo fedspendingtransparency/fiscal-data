@@ -152,10 +152,7 @@ export const columnsConstructorData = (
                 const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
                 if (!!customFormat && !customFormat.noFormatting) {
                   formattedValue = customNumberFormatter.format(value, customFormat.decimalPlaces);
-                } else if (
-                  (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) ||
-                  customFormat?.noFormatting
-                ) {
+                } else if (customFormat?.noFormatting) {
                   formattedValue = value ? value : '';
                 } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
                   formattedValue = value ? Number(value).toFixed(3) : '';
