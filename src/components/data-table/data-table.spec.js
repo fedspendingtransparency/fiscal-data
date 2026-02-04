@@ -4,22 +4,22 @@ import { fireEvent } from '@testing-library/dom';
 import DataTable from './data-table';
 import { RecoilRoot } from 'recoil';
 import {
-  mockTableData,
-  mockPublishedReports,
-  mockMeta,
+  additionalColLabels,
+  allColLabels,
+  defaultColLabels,
   defaultColumnsTypeCheckMock,
   defaultSelectedColumnsMock,
-  mockGenericTableData,
-  allColLabels,
-  mockTableData1Row,
-  mockGenericTableColumns,
-  defaultColLabels,
-  additionalColLabels,
   mockColumnConfig,
-  mockDetailViewColumnConfig,
-  mockDetailApiData,
-  mockTableDownloadWithTextQualifier,
   mockColumnConfigDownloadWithTextQualifier,
+  mockDetailApiData,
+  mockDetailViewColumnConfig,
+  mockGenericTableColumns,
+  mockGenericTableData,
+  mockMeta,
+  mockPublishedReports,
+  mockTableData,
+  mockTableData1Row,
+  mockTableDownloadWithTextQualifier,
 } from './data-table-test-helper';
 import userEvent from '@testing-library/user-event';
 import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
@@ -209,12 +209,11 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
-          sorting={[{id:'record_date', desc: false}]}
+          sorting={[{ id: 'record_date', desc: false }]}
           setSorting={mockSetSorting}
           setTableSorting={jest.fn()}
           setAllActiveFilters={mockSorting}
           allActiveFilters={[]}
-
         />
       </RecoilRoot>
     );
@@ -223,7 +222,7 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('sortArrow');
-    fireEvent.click(sortButton)
+    fireEvent.click(sortButton);
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     expect(sortButton).toHaveClass('sortArrow');
   });
@@ -243,12 +242,11 @@ describe('react-table', () => {
           showPaginationControls
           setFiltersActive={jest.fn()}
           columnConfig={mockColumnConfig}
-          sorting={[{id:'record_date', desc: true}]}
+          sorting={[{ id: 'record_date', desc: true }]}
           setSorting={mockSetSorting}
           setTableSorting={jest.fn()}
           setAllActiveFilters={mockSorting}
           allActiveFilters={[]}
-
         />
       </RecoilRoot>
     );
@@ -258,7 +256,7 @@ describe('react-table', () => {
     const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('sortArrow');
-    fireEvent.click(sortButton)
+    fireEvent.click(sortButton);
     fireEvent.keyDown(sortButton, { key: 'Enter' });
     expect(sortButton).toHaveClass('sortArrow');
   });
@@ -709,29 +707,6 @@ describe('react-table', () => {
       ['Record Date', 'String Value', 'String Value with Commas'],
       ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
     ]);
-  });
-
-  it('formats FRN Daily Index number values correctly', () => {
-    const { getAllByTestId } = render(
-      <RecoilRoot>
-        <DataTable
-          rawData={mockTableData}
-          defaultSelectedColumns={null}
-          pagingProps={{ itemsPerPage: 10 }}
-          setTableColumnSortData={setTableColumnSortData}
-          shouldPage
-          showPaginationControls
-          setFiltersActive={jest.fn()}
-          tableName="FRN Daily Indexes"
-          columnConfig={mockColumnConfig}
-          setTableSorting={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-
-    expect(getAllByTestId('row')[0].innerHTML).toContain('0.111111111');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('0.222222222');
-    expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120');
   });
 
   it('renders detail view links', async () => {

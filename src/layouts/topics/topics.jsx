@@ -16,7 +16,6 @@ const Topics = ({ pageContext }) => {
 
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
-      <PageHelmet pageTitle={config.label} />
       <MastHead title={config.label} />
       <DatasetSectionContainer id="highlights" title="Debt Highlights">
         {mockDatasets.map((dataset, i) => (
@@ -34,3 +33,8 @@ const Topics = ({ pageContext }) => {
 };
 
 export default LocationAware(Topics);
+
+export const Head = ({ pageContext }) => {
+  const config = pageContext.config;
+  return <PageHelmet pageTitle={config.label} />;
+};

@@ -1,28 +1,26 @@
-import React, { SyntheticEvent } from 'react';
+import React, { FunctionComponent, SyntheticEvent } from 'react';
 import {
-  socialShareContent,
-  shareButton,
-  shareButtonContainer,
+  customShareButton,
+  headerText,
   horizontalShareButton,
   horizontalShareButtonContainer,
   horizontalSocialShareContent,
   listShareButton,
   listSocialShareContent,
-  headerText,
-  customShareButton,
+  shareButton,
+  shareButtonContainer,
+  socialShareContent,
 } from './social-share.module.scss';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
-import { FunctionComponent } from 'react';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
-import SocialMetaData from './social-metadata/social-metadata';
 import Heading from '../heading/heading';
 import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
 import { useSetRecoilState } from 'recoil';
-import { getLinkedInParams, getFacebookParams, getTwitterParams, getRedditParams } from './social-share-helper';
+import { getFacebookParams, getLinkedInParams, getRedditParams, getTwitterParams } from './social-share-helper';
 import { EmailShareButton } from 'react-share';
 
 const analyticsClickHandler = (page: string, social: string, explainer: boolean) => {
@@ -53,7 +51,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   headerLevel = 'h3',
   explainer,
 }) => {
-  const { title, description, body, emailSubject, emailBody, url, image } = copy;
+  const { title, emailSubject, emailBody, url } = copy;
   const setModal = useSetRecoilState(redirectModalState);
 
   let contentStyle = socialShareContent;
@@ -90,7 +88,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
 
   return (
     <>
-      <SocialMetaData image={image} title={title} description={description} url={url} />
       <ul className={`${contentStyle} socialShareContent`}>
         {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
           <Heading headingLevel={headerLevel} className={headerText}>
@@ -100,7 +97,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} facebookShare`}
-            aria-label={'facebook'}
+            aria-label="facebook"
             onClick={e => {
               handleClick('Facebook');
               openModal(e, getFacebookParams('facebook', url));
@@ -112,7 +109,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} twitterShare`}
-            aria-label={'twitter'}
+            aria-label="twitter"
             onClick={e => {
               handleClick('Twitter');
               openModal(e, getTwitterParams('twitter', url, title));
@@ -124,7 +121,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} linkedInShare`}
-            aria-label={'linkedin'}
+            aria-label="linkedin"
             onClick={e => {
               handleClick('LinkedIn');
               openModal(e, getLinkedInParams('linkedin', url, title));
@@ -136,7 +133,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
         <li className={containerStyle}>
           <button
             className={`${buttonStyle} ${customShareButton} redditShare`}
-            aria-label={'reddit'}
+            aria-label="reddit"
             onClick={e => {
               handleClick('Reddit');
               openModal(e, getRedditParams('reddit', url, title));

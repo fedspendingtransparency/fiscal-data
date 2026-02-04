@@ -50,7 +50,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const [selectedTable, setSelectedTable] = useState({});
   const updatedPageConfig = useMetadataUpdater(pageContext);
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
-  const canonical = `/datasets${pageContext.config.slug}`;
   const hideRawDataTable = pageContext.config?.hideRawDataTable;
   const bannerCallout = pageContext.config.bannerCallout;
 
@@ -69,13 +68,6 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
-      <PageHelmet
-        datasetDetails={pageContext?.config}
-        pageTitle={pageContext?.seoConfig?.pageTitle || ''}
-        description={pageContext?.seoConfig?.description || ''}
-        keywords={pageContext?.seoConfig?.keywords || ''}
-        canonical={canonical}
-      />
       <Masthead title={pageContext.config.name} />
       <DDNav hasPublishedReports={!!pageConfig.publishedReports} hideRawDataTable={hideRawDataTable} />
       <div className="ddpBodyBackground">
@@ -123,3 +115,18 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
 };
 
 export default LocationAware(DatasetDetail);
+
+export const Head = ({ pageContext }) => {
+  const { seoConfig, config } = pageContext;
+  const canonical = `/datasets${config.slug}`;
+
+  return (
+    <PageHelmet
+      datasetDetails={config}
+      pageTitle={seoConfig?.pageTitle || ''}
+      description={seoConfig?.description || ''}
+      keywords={seoConfig?.keywords || ''}
+      canonical={canonical}
+    />
+  );
+};

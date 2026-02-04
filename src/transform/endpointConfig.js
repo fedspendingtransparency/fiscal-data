@@ -1368,7 +1368,7 @@ const endpointConfig = {
     downloadName: 'MthlySlgsSecty',
     dataDisplays: [
       {
-        title: 'Security Description',
+        title: 'Security Type Description',
         dimensionField: 'security_type_desc',
       },
     ],
@@ -1379,7 +1379,7 @@ const endpointConfig = {
     downloadName: 'AdvStateUnempFundsTitleXII',
     dataDisplays: [
       {
-        title: 'State',
+        title: 'State Name',
         dimensionField: 'state_nm',
         lastRowSnapshot: true,
       },
@@ -2272,6 +2272,18 @@ const endpointConfig = {
     dateField: 'record_date',
     downloadName: 'frn_daily_indexes',
     alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['spread'],
+        decimalPlaces: 3,
+      },
+      {
+        type: 'NUMBER',
+        fields: ['daily_index', 'daily_int_accrual_rate'],
+        noFormatting: true,
+      },
+    ],
   },
   // Treasury Bulletin: Trust Fund Reports
   '265': {

@@ -37,16 +37,6 @@ const AboutUsPage: FunctionComponent = () => {
 
   return (
     <SiteLayout isPreProd={false}>
-      <PageHelmet
-        pageTitle="About Us"
-        description="Fiscal Data inspires trust in government by providing access to open federal
-          financial data in machine-readable formats with one easy-to-use website."
-        keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
-          financial data, debt, Treasury, US government"
-        image=""
-        canonical=""
-        datasetDetails=""
-      />
       <div className="pageHeader">
         <div className="content">
           <BreadCrumbs links={breadCrumbLinks} />
@@ -69,3 +59,13 @@ const AboutUsPage: FunctionComponent = () => {
 };
 
 export default AboutUsPage;
+
+export const Head = () => (
+  <PageHelmet
+    pageTitle="About Us"
+    description="Fiscal Data inspires trust in government by providing access to open federal
+          financial data in machine-readable formats with one easy-to-use website."
+    keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
+          financial data, debt, Treasury, US government"
+  />
+);
