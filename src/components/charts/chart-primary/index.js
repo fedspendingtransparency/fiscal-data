@@ -269,6 +269,7 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, roundingDenomination ? true : false);
   draw(container, scales, fields, fieldColors, _visibleFields);
   setTooltips();
+  console.log('roundingDenomination: ', roundingDenomination);
 };
 
 const setContainer = () => {

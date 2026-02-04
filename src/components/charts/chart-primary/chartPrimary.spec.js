@@ -1,6 +1,8 @@
-import { mockData, fields, dateField, mockShadingOptions } from './mockData';
+import { mockData, fields, dateField, mockShadingOptions, testDateArray, testCurrencyArray } from './mockData';
 import { calculateRadius, minTooltipHitbox, maxTooltipHitbox } from './tooltip';
 import drawChart, { addHoverEffects } from './index';
+import { complexDate, markMonths } from './setAxes';
+import { formatForDataType } from './utils';
 
 describe('Primary Chart', () => {
   const container = document.createElement('div');
@@ -149,5 +151,25 @@ describe('Primary Chart draw/shading logic', () => {
     expect(pattern).not.toBeNull();
     const circles = container.querySelectorAll('circle');
     expect(circles.length).toBeGreaterThan(0);
+  });
+});
+
+describe('date and currency formatting tests', () => {
+  it('tests date formatting for the complexDate function', () => {
+    testDateArray.forEach((item, i) => {
+      const dateObject = new Date(item.reporting_date + 'T00:00:00');
+      expect(complexDate(dateObject, i)).toBe(item.expected);
+    });
+  });
+
+  it('tests date formatting for the markMonths function', () => {
+    const dateObject = new Date('2025-04-16T00:00:00');
+    expect(markMonths(dateObject)).toBe('Apr');
+  });
+
+  it('tests currency formatting for the formatForDataType function', () => {
+    testCurrencyArray.forEach((item, i) => {
+      expect(formatForDataType(item.d, item.dataType, item.roundingDenomination, item.isRoundedAxis)).toBe(item.expected);
+    });
   });
 });
