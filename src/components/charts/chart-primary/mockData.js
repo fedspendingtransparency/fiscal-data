@@ -77,6 +77,6 @@ export const testCurrencyArray = [
     dataType: null,
     roundingDenomination: 'millions',
     isRoundedAxis: false,
-    expected: '200', // executes for !RATE || !CURRENCY cases
+    expected: '200', // no matching dateType
   },
 ];
