@@ -412,11 +412,10 @@ export default function DtgTable({
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
-    const shouldUpdate = (newData, currentData) => JSON.stringify(newData) !== JSON.stringify(currentData);
-    if (!rawDataTable && data && shouldUpdate(reactTableData, { data: data })) {
+    if (!rawDataTable && data) {
       setReactTableData({ data: data });
     }
-  }, [data]);
+  }, [tableProps.data]);
 
   useMemo(() => {
     // Serverside paginated data
