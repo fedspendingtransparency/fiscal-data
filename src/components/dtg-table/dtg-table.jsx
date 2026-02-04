@@ -379,49 +379,69 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    if (tableProps && !isLargeTable() && !pivotSelected?.pivotValue) {
-      if (nullOrUndefined(dePaginated)) {
-        // small tables (<= 20000 rows) within large datasets
-        //ex. DTS Operating Cash Balance
-        updateTablePaginatedData(dePaginated);
-        setIsLoading(false);
-      } else if (rawData?.hasOwnProperty('data')) {
+    if (rawDataTable) {
+      console.log(isLargeTable(), pivotSelected?.pivotValue, tableProps && !isLargeTable() && !pivotSelected?.pivotValue);
+    }
+
+    if (tableProps && !isLargeTable() && !pivotSelected?.pivotValue && !dePaginated) {
+      // if (nullOrUndefined(dePaginated)) {
+      //   console.log(1);
+      //   // small tables (<= 20000 rows total) within large datasets
+      //   //ex. DTS Operating Cash Balance
+      //   updateTablePaginatedData(dePaginated);
+      //   setIsLoading(false);
+      // } else
+      if (rawData?.hasOwnProperty('data')) {
         if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
           const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+          console.log(2);
           updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
         } else {
-          // Small datasets
+          // Small data tables
           // ex. Debt to the penny
+          console.log(3, rawData, dePaginated);
           updateTablePaginatedData(rawData);
         }
       }
-    } else if (data && !rawDataTable) {
-      setReactTableData({ data: data });
     } else if (userFilterSelection && isDepaginatedSize() && dePaginated !== null) {
       // user filter tables <= 20000 rows
+      // ex. FBP
+      console.log(4);
       updateTablePaginatedData(dePaginated);
       setMaxRows(dePaginated.data.length);
       setIsLoading(false);
-    } else if (tableCondition1()) {
-      // data with current date range < 20000
-      if (rawData) {
-        updateTablePaginatedData(rawData);
-      } else if (dePaginated && !userFilterSelection) {
-        updateTablePaginatedData(dePaginated);
-      }
+    }
+    // else if (tableCondition1()) {
+    //   if (rawData) {
+    //     console.log('5?????????????');
+    //     updateTablePaginatedData(rawData);
+    //   } else if (dePaginated && !userFilterSelection) {
+    //     // large table data with current date range <= 20000
+    //     console.log(6);
+    //     updateTablePaginatedData(dePaginated);
+    //   }
+    // }
+    else if (noPivotApplied() && isDepaginatedSize() && dePaginated && !userFilterSelection) {
+      console.log('final');
+      updateTablePaginatedData(dePaginated);
     }
   }, [rawData, dePaginated]);
 
   useMemo(() => {
-    if (tableProps) {
-      // Pivot data
-      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        updateTablePaginatedData(rawData);
-      } else if (data && !rawDataTable) {
-        setReactTableData({ data: data });
-      }
+    // Pivot data
+    if (tableProps && rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+      console.log(7);
+      updateTablePaginatedData(rawData);
     }
   }, [pivotSelected, rawData]);
+
+  useMemo(() => {
+    if (data && !rawDataTable) {
+      //this is running a billion times
+      // console.log(8.2, data);
+      setReactTableData({ data: data });
+    }
+  }, [data]);
 
   useMemo(() => {
     const hasTableData = tableData.data?.length > 0;
@@ -429,14 +449,12 @@ export default function DtgTable({
       if (!isDepaginatedSize() && !rawData && !dePaginated) {
         //serverside paginated data
         //current date range results > 20000
+        console.log(9);
         updateServerPaginatedData(tableData);
       }
-    } else if (!rawData) {
-      if (data && !rawDataTable) {
-        setReactTableData({ data: data });
-      } else if (tableData.data && data.length === 0) {
-        setReactTableData(tableData);
-      }
+    } else if (!rawData && tableData.data && data.length === 0) {
+      console.log(11);
+      setReactTableData(tableData);
     }
   }, [tableData]);
 
