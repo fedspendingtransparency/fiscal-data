@@ -412,7 +412,8 @@ export default function DtgTable({
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
-    if (!rawDataTable && data) {
+    const shouldUpdate = (newData, currentData) => JSON.stringify(newData) !== JSON.stringify(currentData);
+    if (!rawDataTable && data && shouldUpdate(reactTableData, { data: data })) {
       setReactTableData({ data: data });
     }
   }, [data]);
