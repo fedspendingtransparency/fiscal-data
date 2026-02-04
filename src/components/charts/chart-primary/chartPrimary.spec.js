@@ -6,7 +6,6 @@ import { formatForDataType } from './utils';
 
 describe('Primary Chart', () => {
   const container = document.createElement('div');
-
   const chart = drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', {
     format: mockData.meta.dataTypes.a,
   });
@@ -87,6 +86,16 @@ describe('Primary Chart', () => {
     const updatedLines = container.querySelectorAll('[data-testid="dataviz-line"]');
     expect(updatedLines[0].getAttribute('opacity')).toBe('1');
     expect(updatedLines[0].getAttribute('stroke-width')).toBe('1');
+  });
+
+  it('applies custom font size when forceLabelFontSize is provided', () => {
+    drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', {
+      forceLabelFontSize: '50px',
+      forceYAxisWidth: 100,
+    });
+    const yTickText = container.querySelector('.axis--y .tick text');
+    expect(yTickText.getAttribute('style')).toContain('font-size: 50px');
+    expect(yTickText.getAttribute('dx')).toBe('25');
   });
 });
 
