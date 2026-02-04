@@ -383,7 +383,6 @@ export default function DtgTable({
         // Small data table (ex. Debt to the penny)
         // Standard nested table (ex. TIPS and CPI)
         updateTablePaginatedData(rawData);
-        d;
       }
     }
   }, [rawData]);
