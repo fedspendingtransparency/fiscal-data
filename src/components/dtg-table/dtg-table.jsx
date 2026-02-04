@@ -355,16 +355,9 @@ export default function DtgTable({
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
-
   const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
-
   const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
-  //TODO: rename
   const isDepaginatedSize = () => tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
-
-  const nullOrUndefined = data => data !== null && data !== undefined;
-
-  const tableCondition1 = () => isLargeTable() && noPivotApplied() && isDepaginatedSize();
 
   const updateServerPaginatedData = data => {
     setReactTableData(data);
@@ -379,82 +372,58 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    if (rawDataTable) {
-      console.log(isLargeTable(), pivotSelected?.pivotValue, tableProps && !isLargeTable() && !pivotSelected?.pivotValue);
-    }
-
-    if (tableProps && !isLargeTable() && !pivotSelected?.pivotValue && !dePaginated) {
-      // if (nullOrUndefined(dePaginated)) {
-      //   console.log(1);
-      //   // small tables (<= 20000 rows total) within large datasets
-      //   //ex. DTS Operating Cash Balance
-      //   updateTablePaginatedData(dePaginated);
-      //   setIsLoading(false);
-      // } else
-      if (rawData?.hasOwnProperty('data')) {
-        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
-          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
-          console.log(2);
-          updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
-        } else {
-          // Small data tables
-          // ex. Debt to the penny
-          console.log(3, rawData, dePaginated);
-          updateTablePaginatedData(rawData);
-        }
+    const shouldUseRawData = rawData?.hasOwnProperty('data') && !dePaginated;
+    if (tableProps && !isLargeTable() && noPivotApplied() && shouldUseRawData) {
+      if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
+        // Nested table detail view with secondary filter
+        // ex. Buybacks
+        const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+        updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
+      } else {
+        // Small data table (ex. Debt to the penny)
+        // Standard nested table (ex. TIPS and CPI)
+        updateTablePaginatedData(rawData);
+        d;
       }
-    } else if (userFilterSelection && isDepaginatedSize() && dePaginated !== null) {
-      // user filter tables <= 20000 rows
-      // ex. FBP
-      console.log(4);
-      updateTablePaginatedData(dePaginated);
-      setMaxRows(dePaginated.data.length);
-      setIsLoading(false);
     }
-    // else if (tableCondition1()) {
-    //   if (rawData) {
-    //     console.log('5?????????????');
-    //     updateTablePaginatedData(rawData);
-    //   } else if (dePaginated && !userFilterSelection) {
-    //     // large table data with current date range <= 20000
-    //     console.log(6);
-    //     updateTablePaginatedData(dePaginated);
-    //   }
-    // }
-    else if (noPivotApplied() && isDepaginatedSize() && dePaginated && !userFilterSelection) {
-      console.log('final');
-      updateTablePaginatedData(dePaginated);
-    }
-  }, [rawData, dePaginated]);
+  }, [rawData]);
 
   useMemo(() => {
-    // Pivot data
+    if (isDepaginatedSize() && dePaginated) {
+      if (userFilterSelection) {
+        // User filter tables
+        // ex. UTF / FBP
+        updateTablePaginatedData(dePaginated);
+        setMaxRows(dePaginated.data.length);
+        setIsLoading(false);
+      } else if (noPivotApplied()) {
+        // Use depaginated table data
+        // Large table with current date range results <= 20000
+        updateTablePaginatedData(dePaginated);
+        setIsLoading(false);
+      }
+    }
+  }, [dePaginated]);
+
+  useMemo(() => {
+    // Pivot table data
     if (tableProps && rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-      console.log(7);
       updateTablePaginatedData(rawData);
     }
   }, [pivotSelected, rawData]);
 
   useMemo(() => {
-    if (data && !rawDataTable) {
-      //this is running a billion times
-      // console.log(8.2, data);
+    if (!rawDataTable && data) {
       setReactTableData({ data: data });
     }
   }, [data]);
 
   useMemo(() => {
-    const hasTableData = tableData.data?.length > 0;
-    if (hasTableData && isLargeTable() && noPivotApplied()) {
-      if (!isDepaginatedSize() && !rawData && !dePaginated) {
-        //serverside paginated data
-        //current date range results > 20000
-        console.log(9);
-        updateServerPaginatedData(tableData);
-      }
-    } else if (!rawData && tableData.data && data.length === 0) {
-      console.log(11);
-      setReactTableData(tableData);
+    // Serverside paginated data
+    // Current date range results > 20000
+    const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
+    if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
+      updateServerPaginatedData(tableData);
     }
   }, [tableData]);
 
