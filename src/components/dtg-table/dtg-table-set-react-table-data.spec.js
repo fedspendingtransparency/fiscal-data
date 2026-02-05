@@ -45,7 +45,13 @@ describe('React Table Data ', () => {
   it('sets depaginated data', () => {
     const instance = render(
       <RecoilRoot>
-        <DtgTable tableProps={mockReactTableProps_depaginated} reactTable tableMeta={{ 'total-count': 2 }} setManualPagination={jest.fn()} />
+        <DtgTable
+          tableProps={mockReactTableProps_depaginated}
+          reactTable
+          tableMeta={{ 'total-count': 2 }}
+          setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(instance).toBeTruthy();

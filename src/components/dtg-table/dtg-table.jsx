@@ -352,123 +352,79 @@ export default function DtgTable({
     maxRows,
   };
 
-  useMemo(() => {
-    if (tableProps && selectedTable?.rowCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE && !pivotSelected?.pivotValue) {
-      if (dePaginated !== null && dePaginated !== undefined) {
-        // large dataset tables <= 20000 rows
-        setReactTableData(dePaginated);
-        setManualPagination(false);
-        setIsLoading(false);
-      } else if (rawData !== null && rawData.hasOwnProperty('data')) {
-        if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
-          const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
-          setReactTableData({ data: detailViewFilteredData, meta: rawData.meta });
-        } else {
-          setReactTableData(rawData);
-        }
-        setManualPagination(false);
-      }
-    } else if (data && !rawDataTable) {
-      setReactTableData({ data: data });
-    } else if (userFilterSelection && tableMeta && tableMeta['total-count'] < REACT_TABLE_MAX_NON_PAGINATED_SIZE && dePaginated !== null) {
-      // user filter tables <= 20000 rows
-      setReactTableData(dePaginated);
-      setManualPagination(false);
-      setMaxRows(dePaginated.data.length);
-      setIsLoading(false);
-    }
-  }, [rawData, dePaginated]);
-
   const activePivot = (data, pivot) => {
     return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
   };
+  const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
+  const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+  const isDepaginatedSize = () => tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
-  const updatedData = (newData, currentData) => {
-    return JSON.stringify(newData) !== JSON.stringify(currentData);
+  const updateServerPaginatedData = data => {
+    setReactTableData(data);
+    setManualPagination(true);
+  };
+
+  const updateTablePaginatedData = data => {
+    setReactTableData(data);
+    if (setManualPagination) {
+      setManualPagination(false);
+    }
   };
 
   useMemo(() => {
-    if (tableProps) {
-      // Pivot data
-      if (rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
-        setReactTableData(rawData);
-        if (setManualPagination) {
-          setManualPagination(false);
-        }
-      } else if (data && !rawDataTable) {
-        setReactTableData({ data: data });
-      }
-    }
-  }, [pivotSelected, rawData]);
-
-  useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableData?.meta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (!(reactTableData?.pivotApplied && !updatedData(tableData.data, reactTableData?.data.slice(0, itemsPerPage)))) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-          if (
-            (!reactTableData ||
-              JSON.stringify(tableData?.data) !== JSON.stringify(reactTableData?.data) ||
-              tableData?.meta['total-count'] !== reactTableData?.meta['total-count']) &&
-            dePaginated === undefined
-          ) {
-            setReactTableData(tableData);
-            setManualPagination(false);
-          }
-        }
-      } else if (tableData.data && !rawData && !dePaginated) {
-        setReactTableData(tableData);
-        setManualPagination(true);
-      }
-    } else if (data && !rawDataTable && !rawData) {
-      setReactTableData({ data: data });
-    } else if (tableData.data && data.length === 0 && !rawData) {
-      setReactTableData(tableData);
-    }
-  }, [tableData]);
-
-  useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      tableMeta &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (rawData) {
-          setReactTableData(rawData);
-          setManualPagination(false);
-        }
+    const shouldUseRawData = rawData?.hasOwnProperty('data') && !dePaginated;
+    if (tableProps && !isLargeTable() && noPivotApplied() && shouldUseRawData) {
+      if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
+        // Nested table detail view with secondary filter
+        // ex. Buybacks
+        const detailViewFilteredData = rawData.data.filter(row => row[config?.detailView.secondaryField] === detailViewState?.secondary);
+        updateTablePaginatedData({ data: detailViewFilteredData, meta: rawData.meta });
+      } else {
+        // Small data table (ex. Debt to the penny)
+        // Standard nested table (ex. TIPS and CPI)
+        updateTablePaginatedData(rawData);
       }
     }
   }, [rawData]);
 
   useMemo(() => {
-    if (
-      tableData.data?.length > 0 &&
-      tableMeta &&
-      selectedTable.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE &&
-      !pivotSelected?.pivotValue &&
-      !rawData?.pivotApplied
-    ) {
-      if (tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-        // data with current date range < 20000
-        if (!rawData && dePaginated && !userFilterSelection) {
-          setReactTableData(dePaginated);
-          setManualPagination(false);
-        }
+    if (isDepaginatedSize() && dePaginated) {
+      if (userFilterSelection) {
+        // User filter tables
+        // ex. UTF / FBP
+        updateTablePaginatedData(dePaginated);
+        setMaxRows(dePaginated.data.length);
+        setIsLoading(false);
+      } else if (noPivotApplied()) {
+        // Use depaginated table data
+        // Large table with current date range results <= 20000
+        updateTablePaginatedData(dePaginated);
+        setIsLoading(false);
       }
     }
   }, [dePaginated]);
+
+  useMemo(() => {
+    // Pivot table data
+    if (tableProps && rawData !== null && rawData?.hasOwnProperty('data') && activePivot(rawData, pivotSelected)) {
+      updateTablePaginatedData(rawData);
+    }
+  }, [pivotSelected, rawData]);
+
+  useMemo(() => {
+    if (!rawDataTable && data) {
+      setReactTableData({ data: data });
+    }
+  }, [tableProps.data]);
+
+  useMemo(() => {
+    // Serverside paginated data
+    // Current date range results > 20000
+    const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
+    if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
+      updateServerPaginatedData(tableData);
+    }
+  }, [tableData]);
 
   return (
     <div className={overlayContainer}>
