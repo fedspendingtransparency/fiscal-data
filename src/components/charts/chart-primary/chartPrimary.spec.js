@@ -1,10 +1,11 @@
-import { mockData, fields, dateField } from './mockData';
+import { mockData, fields, dateField, mockShadingOptions, testDateArray, testCurrencyArray } from './mockData';
 import { calculateRadius, minTooltipHitbox, maxTooltipHitbox } from './tooltip';
-import drawChart from './index';
+import drawChart, { addHoverEffects } from './index';
+import { complexDate, markMonths } from './setAxes';
+import { formatForDataType } from './utils';
 
 describe('Primary Chart', () => {
   const container = document.createElement('div');
-
   const chart = drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', {
     format: mockData.meta.dataTypes.a,
   });
@@ -79,7 +80,25 @@ describe('Primary Chart', () => {
     chartContainer = container.querySelector('svg[data-test-id="chartContainer"]');
     expect(chartContainer.getAttribute('width')).toBe('400px');
   });
+
+  it('updates attributes when onFieldUpdates is called', () => {
+    chart.onFieldUpdates([fields]);
+    const updatedLines = container.querySelectorAll('[data-testid="dataviz-line"]');
+    expect(updatedLines[0].getAttribute('opacity')).toBe('1');
+    expect(updatedLines[0].getAttribute('stroke-width')).toBe('1');
+  });
+
+  it('applies custom font size when forceLabelFontSize is provided', () => {
+    drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', {
+      forceLabelFontSize: '50px',
+      forceYAxisWidth: 100,
+    });
+    const yTickText = container.querySelector('.axis--y .tick text');
+    expect(yTickText.getAttribute('style')).toContain('font-size: 50px');
+    expect(yTickText.getAttribute('dx')).toBe('25');
+  });
 });
+
 describe('Tooltip calculateRadius', () => {
   it('returns the minimum hitbox size if input parameters are bad', () => {
     expect(calculateRadius(0, 0)).toStrictEqual(minTooltipHitbox);
@@ -111,5 +130,55 @@ describe('Tooltip calculateRadius', () => {
     // Radius = (400/4) / 2 = 50. Since 50 > maxTooltipHitbox, radius = maxTooltipHitbox.
     radius = maxTooltipHitbox;
     expect(calculateRadius(containerWidth, dataLen)).toStrictEqual(radius);
+  });
+});
+
+describe('Primary Chart hover logic', () => {
+  it('triggers hover callback and marker placement on mousemove', () => {
+    const hoverContainer = document.createElement('div');
+    hoverContainer.id = 'mousemove-chart';
+    document.body.appendChild(hoverContainer);
+    drawChart(mockData.data, hoverContainer, dateField, fields, mockData.meta.labels, '', {
+      format: mockData.meta.dataTypes.a,
+    });
+    const hoverSpy = jest.fn();
+    addHoverEffects(mockData.data, 'mousemove-chart', dateField, fields, hoverSpy);
+    const hoverSpace = hoverContainer.querySelector('#line-chart-hover-effects');
+    hoverSpace.dispatchEvent(new MouseEvent('mousemove', { offsetX: 10, offsetY: 10 }));
+    expect(hoverSpy).toHaveBeenCalled();
+  });
+});
+
+describe('Primary Chart draw/shading logic', () => {
+  it('implements correct shading information', () => {
+    const container = document.createElement('div');
+    drawChart(mockData.data, container, dateField, fields, mockData.meta.labels, '', mockShadingOptions);
+    const area = container.querySelector('path.area');
+    expect(area).not.toBeNull();
+    expect(area.style.fill).toBe('red');
+    const pattern = container.querySelectorAll('pattern#gradient');
+    expect(pattern).not.toBeNull();
+    const circles = container.querySelectorAll('circle');
+    expect(circles.length).toBeGreaterThan(0);
+  });
+});
+
+describe('date and currency formatting tests', () => {
+  it('tests date formatting for the complexDate function', () => {
+    testDateArray.forEach((item, i) => {
+      const dateObject = new Date(item.reporting_date + 'T00:00:00');
+      expect(complexDate(dateObject, i)).toBe(item.expected);
+    });
+  });
+
+  it('tests date formatting for the markMonths function', () => {
+    const dateObject = new Date('2025-04-16T00:00:00');
+    expect(markMonths(dateObject)).toBe('Apr');
+  });
+
+  it('tests currency formatting for the formatForDataType function', () => {
+    testCurrencyArray.forEach((item, i) => {
+      expect(formatForDataType(item.d, item.dataType, item.roundingDenomination, item.isRoundedAxis)).toBe(item.expected);
+    });
   });
 });
