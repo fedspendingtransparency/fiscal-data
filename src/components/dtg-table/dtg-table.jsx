@@ -226,7 +226,6 @@ export default function DtgTable({
           }
         })
         .catch(err => {
-          console.log(err);
           if (startPage === 1) {
             setRowsShowing({ begin: 0, end: 0 });
             setMaxRows(0);
@@ -366,7 +365,6 @@ export default function DtgTable({
 
   const updateTablePaginatedData = data => {
     setReactTableData(data);
-    console.log('here');
     if (setManualPagination) {
       setManualPagination(false);
     }
@@ -374,7 +372,6 @@ export default function DtgTable({
 
   useMemo(() => {
     const shouldUseRawData = rawData?.hasOwnProperty('data') && !dePaginated;
-    console.log(!!tableProps, !isLargeTable(), noPivotApplied(), shouldUseRawData);
     if (tableProps && !isLargeTable() && noPivotApplied() && shouldUseRawData) {
       if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
         // Nested table detail view with secondary filter

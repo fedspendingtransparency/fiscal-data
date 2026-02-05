@@ -188,7 +188,6 @@ export const datatableRequest = async (
   detailViewFilterParam,
   queryClient
 ) => {
-  console.log('here22');
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const detailViewValue = detailViewState?.value;
