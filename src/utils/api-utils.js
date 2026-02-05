@@ -131,6 +131,7 @@ export const pagedDatatableRequest = async (
   filterValue,
   columnDateFilters
 ) => {
+  console.log('????');
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
   let fromStr = from;
@@ -188,6 +189,7 @@ export const datatableRequest = async (
   detailViewFilterParam,
   queryClient
 ) => {
+  console.log('here22');
   const endpoint = table.endpoint;
   const dateField = table.dateField;
   const detailViewValue = detailViewState?.value;

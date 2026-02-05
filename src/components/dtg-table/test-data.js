@@ -480,6 +480,21 @@ export const mockReactTableProps_depaginated = {
   serverSidePagination: null,
   shouldPage: true,
 };
+export const mockReactTableProps_tableData = {
+  data: TestData,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dePaginated: null,
+  dateRange: {
+    from: new Date(2021, 0, 21),
+    to: new Date(2021, 0, 21),
+  },
+  serverSidePagination: null,
+  shouldPage: true,
+};
 export const mockReactTableProps_depaginated_smallTable = {
   data: TestData,
   selectedTable: {

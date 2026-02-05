@@ -1,17 +1,30 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DtgTable from './dtg-table';
 import {
+  longerPaginatedDataResponse,
+  mockPaginatedTableProps,
   mockReactTableProps_depaginated,
   mockReactTableProps_depaginated_smallTable,
   mockReactTableProps_rawData,
   mockReactTableProps_rawData_smallTable,
 } from './test-data';
 import React from 'react';
+import fetchMock from 'fetch-mock';
 
 // Separate file created for these tests due mock conflict issues
 
 describe('React Table Data ', () => {
+  jest.useFakeTimers();
+
+  beforeAll(() => {
+    fetchMock.get(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/dts/dts_table_1?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      longerPaginatedDataResponse,
+      { overwriteRoutes: true, repeat: 0 }
+    );
+  });
+
   it('sets raw data', () => {
     const instance = render(
       <RecoilRoot>
@@ -56,6 +69,7 @@ describe('React Table Data ', () => {
     );
     expect(instance).toBeTruthy();
   });
+
   it('sets depaginated data for small tables', () => {
     const instance = render(
       <RecoilRoot>
@@ -71,12 +85,19 @@ describe('React Table Data ', () => {
     expect(instance).toBeTruthy();
   });
 
-  it('sets tableData data', () => {
-    const instance = render(
+  it('sets tableData data', async () => {
+    const { getByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={mockReactTableProps_depaginated} reactTable tableMeta={{ 'total-count': 20001 }} setManualPagination={jest.fn()} />
+        <DtgTable
+          tableProps={mockPaginatedTableProps}
+          reactTable
+          tableMeta={{ 'total-count': 20001 }}
+          setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
+        />
       </RecoilRoot>
     );
-    expect(instance).toBeTruthy();
+    jest.runAllTimers();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
   });
 });

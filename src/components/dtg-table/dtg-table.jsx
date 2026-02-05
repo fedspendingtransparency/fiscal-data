@@ -80,7 +80,6 @@ export default function DtgTable({
     customFormatting,
     chartTable,
   } = tableProps;
-
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
@@ -200,6 +199,7 @@ export default function DtgTable({
         filteredDateRange
       )
         .then(res => {
+          console.log(res, '!!!!!!!!!!!!!!!!!!!!!');
           if (!loadCanceled) {
             setEmptyDataMessage(null);
             if (res.data.length < 1) {
@@ -227,6 +227,7 @@ export default function DtgTable({
           }
         })
         .catch(err => {
+          console.log(err);
           if (startPage === 1) {
             setRowsShowing({ begin: 0, end: 0 });
             setMaxRows(0);
@@ -421,6 +422,7 @@ export default function DtgTable({
     // Serverside paginated data
     // Current date range results > 20000
     const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
+    console.log('???????????????????????????', tableData);
     if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
       updateServerPaginatedData(tableData);
     }
