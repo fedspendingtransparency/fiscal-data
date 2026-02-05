@@ -131,7 +131,6 @@ export const pagedDatatableRequest = async (
   filterValue,
   columnDateFilters
 ) => {
-  console.log('????');
   // redemption_tables and sb_value are exception scenarios where the date string needs to
   // be YYYY-MM.
   let fromStr = from;

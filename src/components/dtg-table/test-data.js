@@ -439,7 +439,7 @@ export const mockReactTableProps_rawData = {
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
-    rowCount: 20001,
+    rowCount: 4000,
   },
   dateRange: {
     from: new Date(2021, 0, 21),

@@ -199,7 +199,6 @@ export default function DtgTable({
         filteredDateRange
       )
         .then(res => {
-          console.log(res, '!!!!!!!!!!!!!!!!!!!!!');
           if (!loadCanceled) {
             setEmptyDataMessage(null);
             if (res.data.length < 1) {
@@ -367,6 +366,7 @@ export default function DtgTable({
 
   const updateTablePaginatedData = data => {
     setReactTableData(data);
+    console.log('here');
     if (setManualPagination) {
       setManualPagination(false);
     }
@@ -374,6 +374,7 @@ export default function DtgTable({
 
   useMemo(() => {
     const shouldUseRawData = rawData?.hasOwnProperty('data') && !dePaginated;
+    console.log(!!tableProps, !isLargeTable(), noPivotApplied(), shouldUseRawData);
     if (tableProps && !isLargeTable() && noPivotApplied() && shouldUseRawData) {
       if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
         // Nested table detail view with secondary filter
@@ -422,7 +423,6 @@ export default function DtgTable({
     // Serverside paginated data
     // Current date range results > 20000
     const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
-    console.log('???????????????????????????', tableData);
     if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
       updateServerPaginatedData(tableData);
     }

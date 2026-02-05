@@ -299,6 +299,16 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const footer = getByTestId('table-footer');
     expect(within(footer).getByText('Rows Per Page')).toBeInTheDocument();
   });
+
+  //handle per page change
+
+  // hide cols
+
+  // exclude cols
+
+  //record date colymn filter
+
+  //
 });
 
 describe('DTG Table Nested Table Detail View', () => {

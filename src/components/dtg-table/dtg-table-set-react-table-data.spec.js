@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DtgTable from './dtg-table';
 import {
@@ -16,6 +16,7 @@ import fetchMock from 'fetch-mock';
 
 describe('React Table Data ', () => {
   jest.useFakeTimers();
+  const setManualPaginationSpy = jest.fn();
 
   beforeAll(() => {
     fetchMock.get(
@@ -24,80 +25,100 @@ describe('React Table Data ', () => {
       { overwriteRoutes: true, repeat: 0 }
     );
   });
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-  it('sets raw data', () => {
-    const instance = render(
+  it('sets raw data', async () => {
+    const { getByRole } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockReactTableProps_rawData}
           reactTable
+          rawDataTable={true}
           pivotSelected={null}
           tableMeta={{ 'total-count': 2 }}
-          setManualPagination={jest.fn()}
+          setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
     );
-    expect(instance).toBeTruthy();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  it('sets raw data for small table', () => {
-    const instance = render(
+  it('sets raw data for small table', async () => {
+    const { getByRole } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockReactTableProps_rawData_smallTable}
           reactTable
           pivotSelected={null}
           tableMeta={{ 'total-count': 2 }}
-          setManualPagination={jest.fn()}
+          setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
     );
-    expect(instance).toBeTruthy();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  it('sets depaginated data', () => {
-    const instance = render(
+  it('sets depaginated data', async () => {
+    const { getByRole } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockReactTableProps_depaginated}
           reactTable
           tableMeta={{ 'total-count': 2 }}
-          setManualPagination={jest.fn()}
+          setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
-    expect(instance).toBeTruthy();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  it('sets depaginated data for small tables', () => {
-    const instance = render(
+  it('sets depaginated data for small tables', async () => {
+    const { getByRole } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockReactTableProps_depaginated_smallTable}
           reactTable
           tableMeta={{ 'total-count': 2 }}
-          setManualPagination={jest.fn()}
+          setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
-    expect(instance).toBeTruthy();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
   it('sets tableData data', async () => {
-    const { getByRole } = render(
+    const { findByRole } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockPaginatedTableProps}
           reactTable
           tableMeta={{ 'total-count': 20001 }}
-          setManualPagination={jest.fn()}
+          setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
-    jest.runAllTimers();
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    await act(async () => {
+      jest.runAllTimers();
+      expect(await findByRole('table')).toBeInTheDocument();
+      // await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    });
+    expect(setManualPaginationSpy).toHaveBeenCalledWith(true);
   });
+
+  // detail table
+
+  //pivot table
+
+  // empty data
+
+  // error response
 });
