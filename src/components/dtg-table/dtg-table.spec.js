@@ -3,7 +3,8 @@ import DtgTable from './dtg-table';
 import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
+import { act, render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -179,34 +180,50 @@ describe('DTG table component', () => {
     expect(table).toHaveAttribute('aria-describedby', 'my-test-id');
   });
 
-  it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
-    const { getByText } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
-      </RecoilRoot>
+  describe('Pagination Controls', () => {
+    it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
+      const { getByText, getByRole } = render(
+        <RecoilRoot>
+          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true, tableName: 'tableName' }} />
+        </RecoilRoot>
+      );
+
+      expect(getByText('Rows Per Page')).toBeInTheDocument();
+
+      const nextPage = getByRole('button', { name: 'tableName-page2' });
+      act(() => {
+        userEvent.click(nextPage);
+      });
+      expect(getByText('Showing 11 - 11 rows of 11 rows')).toBeInTheDocument();
+    });
+
+    it(
+      'renders pagination Controls when the table is configured to load page-by-page, ' +
+        'so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true',
+      async () => {
+        const { getByText } = render(
+          <RecoilRoot>
+            <DtgTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />
+          </RecoilRoot>
+        );
+
+        expect(getByText('Rows Per Page')).toBeInTheDocument();
+      }
     );
 
-    expect(getByText('Rows Per Page')).toBeInTheDocument();
-  });
+    it(
+      'does not render pagination Controls even when the table is configured to load page-by-page,' +
+        ' so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true',
+      async () => {
+        const { getByText } = render(
+          <RecoilRoot>
+            <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} />
+          </RecoilRoot>
+        );
 
-  it('does render pagination Controls when the table is configured to load page-by-page, so long as there are more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    const { getByText } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: TestDataOneRow, shouldPage: true }} />
-      </RecoilRoot>
+        expect(getByText('Rows Per Page')).toBeInTheDocument();
+      }
     );
-
-    expect(getByText('Rows Per Page')).toBeInTheDocument();
-  });
-
-  it('does not render pagination Controls even when the table is configured to load page-by-page, so long as there are not more total available rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
-    const { getByText } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ data: MoreTestData, shouldPage: true }} />
-      </RecoilRoot>
-    );
-
-    expect(getByText('Rows Per Page')).toBeInTheDocument();
   });
 
   it('assigns data with a userFilterSelection', () => {
@@ -289,9 +306,17 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const footer = getByTestId('table-footer');
     expect(within(footer).getByText('Rows Per Page')).toBeInTheDocument();
   });
+
+  //handle per page change
+
+  // hide cols
+
+  // exclude cols
+
+  //record date column filter
 });
 
-describe('DTG Table detail view', () => {
+describe('DTG Table Nested Table Detail View', () => {
   it('renders table with detail view', () => {
     const detailViewState = { value: 'Brennah', secondary: 'Smith' };
     const mockSetIsLoading = jest.fn();

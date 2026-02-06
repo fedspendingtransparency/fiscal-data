@@ -412,11 +412,28 @@ export const longerPaginatedDataResponse = {
       close_today_bal: '1639728',
       open_fiscal_year_bal: '1781679',
     },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
   ],
   meta: {
-    'total-count': 11,
+    'total-count': 12,
     'total-pages': 1,
   },
+};
+
+const dateRange = {
+  from: new Date(2021, 0, 21),
+  to: new Date(2021, 0, 21),
 };
 
 export const mockPaginatedTableProps = {
@@ -426,30 +443,111 @@ export const mockPaginatedTableProps = {
     endpoint: 'v1/accounting/dts/dts_table_1',
     rowCount: 21000,
   },
-  dateRange: {
-    from: new Date(2021, 0, 21),
-    to: new Date(2021, 0, 21),
-  },
+  dateRange: dateRange,
   serverSidePagination: 'v1/accounting/dts/dts_table_1',
   shouldPage: true,
 };
+
+export const mockReactTableProps_rawData_emptyTable = {
+  data: null,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_2',
+    rowCount: 0,
+  },
+  dateRange: dateRange,
+  serverSidePagination: 'v1/accounting/dts/dts_table_2',
+  shouldPage: true,
+};
+
+export const mockReactTableProps_rawData_apiError = {
+  data: null,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_3',
+    rowCount: 0,
+  },
+  dateRange: dateRange,
+  serverSidePagination: 'v1/accounting/dts/dts_table_3',
+  shouldPage: true,
+};
+
 export const mockReactTableProps_rawData = {
-  data: TestData,
-  rawData: { data: TestData },
+  data: [],
+  rawData: longerPaginatedDataResponse,
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
-    rowCount: 20001,
+    rowCount: 4000,
   },
-  dateRange: {
-    from: new Date(2021, 0, 21),
-    to: new Date(2021, 0, 21),
-  },
+  dateRange: dateRange,
   serverSidePagination: null,
   shouldPage: true,
 };
 
 export const mockReactTableProps_rawData_smallTable = {
+  data: TestData,
+  rawData: { data: TestData },
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 1000,
+  },
+  dateRange: dateRange,
+  dePagianted: null,
+  serverSidePagination: null,
+  shouldPage: true,
+};
+
+export const mockReactTableProps_rawData_pivotTable = {
+  data: TestData,
+  rawData: { data: TestData, pivotApplied: 'First:Brennah' },
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 1000,
+  },
+  dateRange: dateRange,
+  dePagianted: null,
+  serverSidePagination: null,
+  shouldPage: true,
+};
+export const mockReactTableProps_depaginated = {
+  data: [],
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 20001,
+  },
+  dePaginated: longerPaginatedDataResponse,
+  dateRange: dateRange,
+  serverSidePagination: null,
+  shouldPage: true,
+};
+
+export const mockReactTableProps_depaginated_smallTable = {
+  data: [],
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_1',
+    rowCount: 18000,
+  },
+  dePaginated: longerPaginatedDataResponse,
+  dateRange: dateRange,
+  serverSidePagination: null,
+  shouldPage: true,
+};
+
+const detailViewConfig = {
+  apiId: 317,
+  field: 'first',
+  label: 'First',
+  secondaryField: 'last',
+  dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
+  summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
+  selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+};
+export const mockReactTableProps_rawData_nestedDetailTable = {
   data: TestData,
   rawData: { data: TestData },
   selectedTable: {
@@ -464,36 +562,7 @@ export const mockReactTableProps_rawData_smallTable = {
   dePagianted: null,
   serverSidePagination: null,
   shouldPage: true,
-};
-export const mockReactTableProps_depaginated = {
-  data: TestData,
-  selectedTable: {
-    dateField: 'record_date',
-    endpoint: 'v1/accounting/dts/dts_table_1',
-    rowCount: 20001,
-  },
-  dePaginated: longerPaginatedDataResponse,
-  dateRange: {
-    from: new Date(2021, 0, 21),
-    to: new Date(2021, 0, 21),
-  },
-  serverSidePagination: null,
-  shouldPage: true,
-};
-export const mockReactTableProps_depaginated_smallTable = {
-  data: TestData,
-  selectedTable: {
-    dateField: 'record_date',
-    endpoint: 'v1/accounting/dts/dts_table_1',
-    rowCount: 18000,
-  },
-  dePaginated: longerPaginatedDataResponse,
-  dateRange: {
-    from: new Date(2021, 0, 21),
-    to: new Date(2021, 0, 21),
-  },
-  serverSidePagination: null,
-  shouldPage: true,
+  config: { detailView: detailViewConfig, apis: [{ apiId: 317 }] },
 };
 
 export const ColSelectColConfig = [
