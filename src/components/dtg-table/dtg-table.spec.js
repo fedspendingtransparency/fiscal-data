@@ -3,7 +3,8 @@ import DtgTable from './dtg-table';
 import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
+import { act, render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -181,13 +182,19 @@ describe('DTG table component', () => {
 
   describe('Pagination Controls', () => {
     it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
-      const { getByText } = render(
+      const { getByText, getByRole } = render(
         <RecoilRoot>
-          <DtgTable tableProps={{ data: TestData, shouldPage: true }} />
+          <DtgTable tableProps={{ data: MoreTestData, shouldPage: true, tableName: 'tableName' }} />
         </RecoilRoot>
       );
 
       expect(getByText('Rows Per Page')).toBeInTheDocument();
+
+      const nextPage = getByRole('button', { name: 'tableName-page2' });
+      act(() => {
+        userEvent.click(nextPage);
+      });
+      expect(getByText('Showing 11 - 11 rows of 11 rows')).toBeInTheDocument();
     });
 
     it(

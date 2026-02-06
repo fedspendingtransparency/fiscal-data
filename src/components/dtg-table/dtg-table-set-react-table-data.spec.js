@@ -87,7 +87,8 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_depaginated}
           reactTable
-          tableMeta={{ 'total-count': 2 }}
+          rawDataTable
+          tableMeta={{ 'total-count': 12 }}
           setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
         />
@@ -103,6 +104,7 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_depaginated_smallTable}
           reactTable
+          rawDataTable
           tableMeta={{ 'total-count': 2 }}
           setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
@@ -142,12 +144,6 @@ describe('React Table Data ', () => {
       userEvent.click(perPage5);
     });
     expect(getByText('1 - 5')).toBeInTheDocument();
-
-    const nextPage = getByRole('button', { name: 'Next page' });
-    act(() => {
-      userEvent.click(nextPage);
-    });
-    expect(getByText('6 - 10')).toBeInTheDocument();
   });
 
   it('sets raw data for nested detail tables', async () => {

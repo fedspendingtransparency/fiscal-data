@@ -412,9 +412,21 @@ export const longerPaginatedDataResponse = {
       close_today_bal: '1639728',
       open_fiscal_year_bal: '1781679',
     },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
+    {
+      record_date: '2021-01-21',
+      account_type: 'Federal Reserve Account',
+      close_today_bal: '1639728',
+      open_fiscal_year_bal: '1781679',
+    },
   ],
   meta: {
-    'total-count': 11,
+    'total-count': 12,
     'total-pages': 1,
   },
 };
@@ -461,8 +473,8 @@ export const mockReactTableProps_rawData_apiError = {
 };
 
 export const mockReactTableProps_rawData = {
-  data: TestData,
-  rawData: { data: TestData },
+  data: [],
+  rawData: longerPaginatedDataResponse,
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
@@ -501,7 +513,7 @@ export const mockReactTableProps_rawData_pivotTable = {
   shouldPage: true,
 };
 export const mockReactTableProps_depaginated = {
-  data: TestData,
+  data: [],
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
@@ -514,7 +526,7 @@ export const mockReactTableProps_depaginated = {
 };
 
 export const mockReactTableProps_depaginated_smallTable = {
-  data: TestData,
+  data: [],
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
