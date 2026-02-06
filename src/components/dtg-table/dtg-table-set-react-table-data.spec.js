@@ -142,6 +142,12 @@ describe('React Table Data ', () => {
       userEvent.click(perPage5);
     });
     expect(getByText('1 - 5')).toBeInTheDocument();
+
+    const nextPage = getByRole('button', { name: 'Next page' });
+    act(() => {
+      userEvent.click(nextPage);
+    });
+    expect(getByText('6 - 10')).toBeInTheDocument();
   });
 
   it('sets raw data for nested detail tables', async () => {
