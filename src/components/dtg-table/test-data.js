@@ -448,6 +448,18 @@ export const mockReactTableProps_rawData_emptyTable = {
   shouldPage: true,
 };
 
+export const mockReactTableProps_rawData_apiError = {
+  data: null,
+  selectedTable: {
+    dateField: 'record_date',
+    endpoint: 'v1/accounting/dts/dts_table_3',
+    rowCount: 0,
+  },
+  dateRange: dateRange,
+  serverSidePagination: 'v1/accounting/dts/dts_table_3',
+  shouldPage: true,
+};
+
 export const mockReactTableProps_rawData = {
   data: TestData,
   rawData: { data: TestData },

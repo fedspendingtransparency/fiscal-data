@@ -7,6 +7,7 @@ import {
   mockReactTableProps_depaginated,
   mockReactTableProps_depaginated_smallTable,
   mockReactTableProps_rawData,
+  mockReactTableProps_rawData_apiError,
   mockReactTableProps_rawData_emptyTable,
   mockReactTableProps_rawData_nestedDetailTable,
   mockReactTableProps_rawData_pivotTable,
@@ -20,17 +21,26 @@ import fetchMock from 'fetch-mock';
 describe('React Table Data ', () => {
   jest.useFakeTimers();
   const setManualPaginationSpy = jest.fn();
-
+  const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
+  const table1 = mockPaginatedTableProps.serverSidePagination;
+  const table2 = mockReactTableProps_rawData_emptyTable.serverSidePagination;
+  const table3 = mockReactTableProps_rawData_apiError.serverSidePagination;
   beforeAll(() => {
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/dts/dts_table_1?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      `${base}${table1}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
       longerPaginatedDataResponse,
       { overwriteRoutes: true, repeat: 0 }
     );
     fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/dts/dts_table_2?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      `${base}${table2}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
       { data: [], meta: { 'total-count': 0 } },
       { overwriteRoutes: true, repeat: 0 }
+    );
+    fetchMock.get(
+      `${base}${table3}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      () => {
+        throw new Error('failed to fetch');
+      }
     );
   });
   afterEach(() => {
@@ -158,8 +168,7 @@ describe('React Table Data ', () => {
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  // empty data
-  it('empty table', async () => {
+  it('handles an empty api response for server paginated tables', async () => {
     const setIsLoadingSpy = jest.fn();
     const { findByRole, getByText } = render(
       <RecoilRoot>
@@ -180,5 +189,24 @@ describe('React Table Data ', () => {
     expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
   });
 
-  // error response
+  it('catches api errors', async () => {
+    const setIsLoadingSpy = jest.fn();
+    const { findByRole, getByText } = render(
+      <RecoilRoot>
+        <DtgTable
+          tableProps={mockReactTableProps_rawData_apiError}
+          tableMeta={{ 'total-count': 0 }}
+          setManualPagination={setManualPaginationSpy}
+          setIsLoading={setIsLoadingSpy}
+        />
+      </RecoilRoot>
+    );
+
+    await act(async () => {
+      jest.runAllTimers();
+      expect(await findByRole('table')).toBeInTheDocument();
+    });
+    expect(getByText('Table failed to load.')).toBeInTheDocument();
+    expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
+  });
 });
