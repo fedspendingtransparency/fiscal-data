@@ -306,7 +306,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
 
   // exclude cols
 
-  //record date colymn filter
+  //record date column filter
 });
 
 describe('DTG Table Nested Table Detail View', () => {

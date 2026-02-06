@@ -15,6 +15,7 @@ import {
 } from './test-data';
 import React from 'react';
 import fetchMock from 'fetch-mock';
+import userEvent from '@testing-library/user-event';
 
 // Separate file created for these tests due mock conflict issues
 
@@ -112,8 +113,8 @@ describe('React Table Data ', () => {
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  it('sets tableData data', async () => {
-    const { findByRole } = render(
+  it('handles serverside paginated data (tableData), with pagination controls', async () => {
+    const { findByRole, getByRole, getByText } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={mockPaginatedTableProps}
@@ -121,6 +122,7 @@ describe('React Table Data ', () => {
           tableMeta={{ 'total-count': 20001 }}
           setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
+          setPerPage={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -129,6 +131,17 @@ describe('React Table Data ', () => {
       expect(await findByRole('table')).toBeInTheDocument();
     });
     expect(setManualPaginationSpy).toHaveBeenCalledWith(true);
+
+    const rowsPerPageMenu = getByRole('button', { name: 'rows-per-page-menu' });
+    expect(rowsPerPageMenu).toBeInTheDocument();
+    act(() => {
+      userEvent.click(rowsPerPageMenu);
+    });
+    const perPage5 = getByRole('menuitem', { name: '5', hidden: true });
+    act(() => {
+      userEvent.click(perPage5);
+    });
+    expect(getByText('1 - 5')).toBeInTheDocument();
   });
 
   it('sets raw data for nested detail tables', async () => {
