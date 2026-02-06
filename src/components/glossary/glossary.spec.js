@@ -3,6 +3,7 @@ import React from 'react';
 import Glossary from './glossary';
 import { testGlossaryData } from './test-helper';
 import * as addressPathFunctions from '../../helpers/address-bar/address-bar';
+import { GlossaryContext } from './glossary-context/glossary-context';
 
 const triggerClickEvent = itemToClick => {
   fireEvent(
@@ -32,13 +33,14 @@ describe('glossary', () => {
 
   it('renders the glossary', () => {
     const { getByTestId } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={false}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
 
     expect(getByTestId('glossaryContainer')).toBeInTheDocument();
@@ -46,26 +48,28 @@ describe('glossary', () => {
 
   it('contains an overlay div', () => {
     const { getByTestId } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={false}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
     expect(getByTestId('overlay')).toBeDefined();
   });
 
   it('after the glossary is open, calls to change glossary cative state when overlay is clicked', () => {
     const { getByTestId } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={false}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
 
     const theOverlay = getByTestId('overlay');
@@ -78,13 +82,14 @@ describe('glossary', () => {
 
   it('takes a glossary query from the url path and opens that definition', () => {
     const { getByText } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={false}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
     expect(getByText('apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
@@ -92,13 +97,14 @@ describe('glossary', () => {
 
   it('updates the address path when the glossary definition is opened', () => {
     const { getByText } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={false}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
     expect(getByText('apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
@@ -107,13 +113,14 @@ describe('glossary', () => {
 
   it('updates the address path when a glossary event is called', () => {
     const { getByText } = render(
-      <Glossary
-        termList={testGlossaryData}
-        activeState={true}
-        setActiveState={setActiveStateMock}
-        glossaryEvent={true}
-        glossaryClickEventHandler={mockGlossaryClickHandler}
-      />
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: true,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
     );
     jest.runAllTimers();
     expect(getByText('apple')).toBeInTheDocument();
