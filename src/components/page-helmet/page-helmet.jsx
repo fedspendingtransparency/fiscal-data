@@ -35,7 +35,6 @@ const PageHelmet = ({
   const latestCommit = versionInfo.gitCommit || {};
   const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
 
-  const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
   const baseUrl = globalConstants.BASE_SITE_URL;
   const title = pageTitle ? `${pageTitle} | U.S. Treasury Fiscal Data` : 'U.S. Treasury Fiscal Data';
@@ -46,14 +45,6 @@ const PageHelmet = ({
         setFinalDescription(res);
       });
     }
-    setDapAnalytics(
-      <script
-        async
-        type="text/javascript"
-        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
-        id="_fed_an_ua_tag"
-      />
-    );
   }, []);
 
   return (
@@ -66,6 +57,12 @@ const PageHelmet = ({
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-5N9D5C5');`}
       </script>
+      <script
+        async
+        type="text/javascript"
+        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
+        id="_fed_an_ua_tag"
+      />
       {/*End Google Tag Manager*/}
       {/*Google Analytics 4 Tag  */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
@@ -105,7 +102,6 @@ const PageHelmet = ({
       )}
       <meta name="keywords" content={keywords} />
       <meta name="google-site-verification" content="xVYP-oDTuRBvXHwXwy4kAM7weCAP1OlWoOCX_DsJC0M" />
-      {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (
         <script data-testid="structured-data" type="application/ld+json">
