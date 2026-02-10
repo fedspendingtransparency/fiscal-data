@@ -1,6 +1,7 @@
 import React from 'react';
-import { waitFor, render, within } from '@testing-library/react';
+import { waitFor, render, within, screen } from '@testing-library/react';
 import DownloadWrapper from './download-wrapper';
+import downloadClickHandler from './download-wrapper'
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
@@ -437,5 +438,23 @@ describe('DownloadWrapper', () => {
       </RecoilRoot>
     );
     expect(getByRole('button', { name: 'Download CSV File' })).toBeDisabled();
+  });
+
+  it('updates selected file type and enables download when format selected', async () => {
+    const { getByTestId } = render(
+      <RecoilRoot>
+        <DownloadWrapper
+          selectedTable={mockSelectedTableWithUserFilter}
+          dataset={{ name: 'Mock Dataset' }}
+          selectedUserFilter={mockSelectedUserFilter}
+          setDisableDownloadBanner={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+    const jsonRadio = screen.getByRole('radio', { name: /json/i });
+    await userEvent.click(jsonRadio)
+
+    expect(screen.getByText(/download\s+json\s+file/i)).toBeInTheDocument();
+    expect(screen.getByTestId('download-button')).toBeInTheDocument();
   });
 });
