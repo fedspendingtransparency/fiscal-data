@@ -1,6 +1,5 @@
 @use './zIndex.module' as *;
 @forward './zIndex.module';
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap');
 
 $breakpoint-sm: 600px;
 $breakpoint-md: 768px;
