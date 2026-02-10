@@ -137,7 +137,6 @@ const MobileExplainerSubNav = ({ hidePosition, pageName = '' }) => {
           className={mainListSticky}
           id="styled-menu"
           elevation={0}
-          getContentAnchorEl={null}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'center',

@@ -74,7 +74,7 @@ const HomeHighlightCards = () => {
     <div data-testid="highlight-cards-parent" className={container} ref={containerRef}>
       <Grid container className={cardsContainer} data-testid="cards-container">
         {highlights.map((dataset, i) => (
-          <Grid className={cardWrapper} item xs={12} sm={6} xl={3} key={i}>
+          <Grid className={cardWrapper} key={i}>
             <HomeHighlightCard cardId={`homepageCard-${i}`} className={cardWrapper} dataset={dataset} />
           </Grid>
         ))}

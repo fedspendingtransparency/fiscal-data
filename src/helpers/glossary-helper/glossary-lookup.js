@@ -21,10 +21,10 @@ export const applyFormatting = entry => {
     count = count + 1;
     if (count === customFormat.index + 1) {
       if (customFormat.format === 'underline') {
-        return <u>{match}</u>;
+        return <u key={index}>{match}</u>;
       }
     }
-    return match;
+    return <React.Fragment key={index}>match </React.Fragment>;
   });
 
   if (entry.url_display && entry.url_path) {
@@ -65,8 +65,12 @@ export const glossaryLookup = (value, glossary, page) => {
 };
 
 export const urlFormat = (entry, definitionFormatted) => {
-  return reactStringReplace(definitionFormatted, entry.url_display, match => {
-    return <CustomLink url={entry.url_path}>{match}</CustomLink>;
+  return reactStringReplace(definitionFormatted, entry.url_display, (match, index) => {
+    return (
+      <CustomLink url={entry.url_path} key={index}>
+        {match}
+      </CustomLink>
+    );
   });
 };
 

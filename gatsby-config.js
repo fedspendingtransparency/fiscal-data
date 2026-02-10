@@ -8,6 +8,9 @@ module.exports = {
   siteMetadata: {
     siteUrl: 'https://fiscaldata.treasury.gov',
   },
+  flags: {
+    PARTIAL_HYDRATION: false,
+  },
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
