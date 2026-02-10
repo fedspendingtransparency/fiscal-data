@@ -9,15 +9,6 @@ module.exports = {
     siteUrl: 'https://fiscaldata.treasury.gov',
   },
   plugins: [
-    // ////// IMPORTANT: Google Analytics Plugin must be the first item in this array //////
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: 'UA-168882758-1',
-        head: true,
-        defer: true,
-      },
-    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
