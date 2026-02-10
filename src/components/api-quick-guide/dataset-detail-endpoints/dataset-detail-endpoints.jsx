@@ -1,6 +1,5 @@
 import React from 'react';
 import { marginBottomOneRem, sectionBody } from '../api-quick-guide.module.scss';
-import DtgTable from '../../dtg-table/dtg-table';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
 
@@ -55,7 +54,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       ) : (
         <>
           <div className={sectionBody} id="endpoints-table">
-            <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
+            <SuperBasicDtgTable tableProps={tableProps} perPage={rowsPerPage} />
           </div>
         </>
       )}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { dataTypesHeader, sectionBody } from './api-quick-guide.module.scss';
-import DtgTable from '../dtg-table/dtg-table';
 import ApiQuickGuideSection from './api-quick-guide-section';
 import CustomLink from '../links/custom-link/custom-link';
+import SuperBasicDtgTable from '../dtg-table/super-basic-dtg-table';
 
 const addTableName = (fields, table) => {
   fields.forEach(field => (field.tableName = table));
@@ -64,7 +64,7 @@ const DatasetDetailFields = ({ apis, tabindex }) => {
   const children = (
     <>
       <div className={sectionBody} id="fields-table">
-        <DtgTable tableProps={tableProps} perPage={rowsPerPage} />
+        <SuperBasicDtgTable tableProps={tableProps} perPage={rowsPerPage} />
       </div>
       <div className={sectionBody} id="fields-datatypes">
         <div className={dataTypesHeader}>Data Types</div>

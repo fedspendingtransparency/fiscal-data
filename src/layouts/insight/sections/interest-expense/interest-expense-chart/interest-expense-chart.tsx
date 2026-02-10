@@ -1,4 +1,4 @@
-import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect, useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
@@ -10,10 +10,10 @@ import globalConstants from '../../../../../helpers/constants';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
-import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
+import BasicDtgTable from '../../../../../components/dtg-table/basic-dtg-table';
 
 const breakpoint = {
   desktop: 1015,
@@ -197,7 +197,7 @@ const InterestExpenseChart = () => {
           </div>
         }
         table={
-          <DtgTable
+          <BasicDtgTable
             tableProps={{
               data: mergedTableData,
               columnConfig,
@@ -208,10 +208,8 @@ const InterestExpenseChart = () => {
               chartTable: false,
               noBorder: true,
             }}
-            reactTable={true}
             sorting={sorting}
             setSorting={setSorting}
-            width
             enableDownload
           />
         }

@@ -1,6 +1,6 @@
 import React from 'react';
-import DtgTable from '../dtg-table/dtg-table';
 import { makeTheDataArray } from './datatables-tab-helpers';
+import SuperBasicDtgTable from '../dtg-table/super-basic-dtg-table';
 
 export default function DataTablesTab({ apis, datasetName }) {
   const theData = makeTheDataArray(apis);
@@ -40,5 +40,5 @@ export default function DataTablesTab({ apis, datasetName }) {
     aria: { 'aria-label': `${datasetName} data tables` },
   };
 
-  return <DtgTable tableProps={tableProps} />;
+  return <SuperBasicDtgTable tableProps={tableProps} />;
 }
