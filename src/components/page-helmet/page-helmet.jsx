@@ -84,31 +84,31 @@ const PageHelmet = ({
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link rel="preconnect" href="https://www.googletagmanager.com" />
-      {/*Google Tag Manager */}
-      <script
-        async
-        type="text/javascript"
-        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
-        id="_fed_an_ua_tag"
-      />
-      <script async>
-        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-5N9D5C5');`}
-      </script>
-      {/*End Google Tag Manager*/}
-      {/*Google Analytics 4 Tag  */}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
-      <script async>
-        {`window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-ME8TBPZYXP');`}
-      </script>
+      {/*<link rel="preconnect" href="https://fonts.gstatic.com" />*/}
+      {/*<link rel="preconnect" href="https://www.googletagmanager.com" />*/}
+      {/*/!*Google Tag Manager *!/*/}
+      {/*<script*/}
+      {/*  async*/}
+      {/*  type="text/javascript"*/}
+      {/*  src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"*/}
+      {/*  id="_fed_an_ua_tag"*/}
+      {/*/>*/}
+      {/*<script async>*/}
+      {/*  {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':*/}
+      {/*  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],*/}
+      {/*  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=*/}
+      {/*  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);*/}
+      {/*})(window,document,'script','dataLayer','GTM-5N9D5C5');`}*/}
+      {/*</script>*/}
+      {/*/!*End Google Tag Manager*!/*/}
+      {/*/!*Google Analytics 4 Tag  *!/*/}
+      {/*<script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />*/}
+      {/*<script async>*/}
+      {/*  {`window.dataLayer = window.dataLayer || [];*/}
+      {/*  function gtag(){dataLayer.push(arguments);}*/}
+      {/*  gtag('js', new Date());*/}
+      {/*  gtag('config', 'G-ME8TBPZYXP');`}*/}
+      {/*</script>*/}
       {/*Google Analytics 4 Tag  */}
     </>
   );
