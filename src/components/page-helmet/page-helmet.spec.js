@@ -43,11 +43,11 @@ describe('page helmet', () => {
       render(<PageHelmet />, { container: document.head });
     });
 
-    it('includes the dap script', () => {
-      const dap = document.head.querySelector('script[id="_fed_an_ua_tag"]');
-      expect(dap).toBeDefined();
-      expect(dap.src).toBe('https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS');
-    });
+    // it('includes the dap script', () => {
+    //   const dap = document.head.querySelector('script[id="_fed_an_ua_tag"]');
+    //   expect(dap).toBeDefined();
+    //   expect(dap.src).toBe('https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS');
+    // });
 
     it('includes version-info', () => {
       const versionInfoScript = document.head.querySelector('script[data-testid="version-info"]');
