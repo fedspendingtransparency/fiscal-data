@@ -50,7 +50,7 @@ const PageHelmet = ({
   return (
     <>
       {/*Google Tag Manager */}
-      <script>
+      <script async>
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -66,7 +66,7 @@ const PageHelmet = ({
       {/*End Google Tag Manager*/}
       {/*Google Analytics 4 Tag  */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
-      <script>
+      <script async>
         {`window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
