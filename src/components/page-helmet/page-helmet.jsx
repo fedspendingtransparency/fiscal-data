@@ -84,6 +84,7 @@ const PageHelmet = ({
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
       {/*<link rel="preconnect" href="https://www.googletagmanager.com" />*/}
       {/*/!*Google Tag Manager *!/*/}
