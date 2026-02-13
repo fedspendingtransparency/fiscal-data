@@ -10,8 +10,6 @@ describe('filter row', () => {
   const filterKey = 'mock key';
   const mockAnalyticsObject = {};
 
-  let component, instance, renderer, label, checkbox, filterCount;
-
   afterEach(() => {
     mockChangeHandler.mockClear();
   });

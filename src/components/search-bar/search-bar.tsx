@@ -1,12 +1,4 @@
-import {
-  clearButton,
-  disabledBackground,
-  glow,
-  search,
-  searchIcon,
-  searchIconHover,
-  searchLabel,
-} from './search-bar.module.scss';
+import { clearButton, disabledBackground, glow, search, searchIcon, searchIconHover, searchLabel } from './search-bar.module.scss';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ThemeProvider } from '@mui/material/styles';
 import { searchBarTheme } from '../glossary/glossary-header/theme';
