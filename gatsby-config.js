@@ -17,12 +17,6 @@ module.exports = {
       },
     },
     `gatsby-source-local-git`,
-    // {
-    //   resolve: `gatsby-plugin-build-date`,
-    //   options: {
-    //     formatAsDateString: false,
-    //   },
-    // },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
@@ -190,13 +184,7 @@ module.exports = {
       },
     },
     `gatsby-transformer-csv`,
-
+    `gatsby-plugin-webpack-bundle-analyser-v2`,
     `gatsby-plugin-client-side-redirect`,
-    // {
-    //   resolve: 'gatsby-plugin-axe-core-react',
-    //   options: {
-    //     debounce: 3000,
-    //   },
-    // },
   ],
 };
