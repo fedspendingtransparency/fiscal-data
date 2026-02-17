@@ -14,8 +14,6 @@
 .downloadItemBtn {
   @include downloadButton;
   &.linkDisabled {
-    background-color: $disabled-button-bg;
-    border-color: $disabled-button-bg;
     cursor: default;
   }
 }
