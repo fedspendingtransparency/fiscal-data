@@ -221,6 +221,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     });
   }, []);
 
+  useEffect(() => {
+    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
+  }, [isLoading]);
+
   const chartToggleConfig = {
     selectedChartView,
     setSelectedChartView,
