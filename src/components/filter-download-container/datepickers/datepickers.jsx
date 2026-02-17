@@ -100,6 +100,19 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
     }
   };
 
+  const muiStyle = {
+    '& .MuiIconButton-root': { marginRight: '0' },
+    '& .MuiPickersInputBase-sectionsContainer': {
+      padding: '8px 0 8px 8px',
+      fontSize: '15px',
+      color: '#666666',
+      maxWidth: '188px',
+    },
+    // '&. MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent': { fontFamily: 'Source Sans Pro, sans-serif' },
+    // 'MuiPickersSectionList-section-MuiPickersInputBase-section': { fontFamily: 'Source Sans Pro, sans-serif' },
+    '& .MuiPickersInputBase-root': { padding: 0 },
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -118,14 +131,17 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 inputFormat="MM/dd/yyyy"
                 minDate={dayjs(earliestDate)}
                 maxDate={dayjs(latestDate)}
-                // disableFuture={true}
                 slotProps={{
+                  layout: {
+                    sx: {
+                      fontFamily: 'Source Sans Pro',
+                    },
+                  },
                   textField: props => ({
                     ...props,
                     variant: 'outlined',
-                    // placeholder: 'MM/DD/YYYY',
                     helperText: beginErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: muiStyle,
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'From Date',
@@ -163,9 +179,8 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 slotProps={{
                   textField: props => ({
                     variant: 'outlined',
-                    // placeholder: 'MM/DD/YYYY',
                     helperText: endErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: muiStyle,
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'To Date',

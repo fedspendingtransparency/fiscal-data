@@ -171,6 +171,12 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
     }
   };
 
+  const muiStyle = {
+    '& .MuiIconButton-root': { marginRight: '0' },
+    '& .MuiPickersInputBase-sectionsContainer': { padding: '10px 0 10px 10px', fontSize: '15px', color: '#666666' },
+    '& .MuiPickersInputBase-root': { padding: 0 },
+  };
+
   const pickerIcon = () => <FontAwesomeIcon icon={faCalendar} size="xs" />;
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -192,7 +198,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
                   helperText: beginErrorMessage,
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                  sx: muiStyle,
                   inputProps: {
                     ...props.inputProps,
                     'aria-label': 'From Date',
@@ -235,7 +241,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                   variant: 'outlined',
                   placeholder: 'MM/DD/YYYY',
                   helperText: endErrorMessage,
-                  sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                  sx: muiStyle,
                   inputProps: {
                     ...props.inputProps,
                     'aria-label': 'To Date',

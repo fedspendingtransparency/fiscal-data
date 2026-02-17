@@ -10,21 +10,18 @@
 
     label > div {
       display: block;
-      width: 100%;
-
-      &:first-of-type {
-        margin-right: 1rem;
-      }
+      width: fit-content;
 
       > div {
         background-color: #fff;
         font-family: 'Source Sans Pro', sans-serif;
         margin-top: 0.5rem;
+        > div {
+          span {
+            font-family: 'Source Sans Pro', sans-serif;
+          }
+        }
       }
-    }
-
-    input {
-      padding: 0.5rem;
     }
   }
 }
@@ -32,9 +29,10 @@
 @media screen and (min-width: $breakpoint-lg) {
   .time_range_filter {
     flex-direction: row;
-
-    label > div {
-      width: 12rem;
+  }
+  .time_range_filter_datePicker {
+    &:first-of-type {
+      margin-right: 1rem;
     }
   }
 }
