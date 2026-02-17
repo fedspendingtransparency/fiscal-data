@@ -9,7 +9,6 @@
     flex-direction: column;
     align-self: flex-start;
     min-width: 250px;
-    overflow-x: hidden;
 
     .comingSoonContainer {
       padding: 16px 20px 0;
@@ -29,21 +28,17 @@
 
     .linkContainer {
       border-bottom: solid 1px $dd-border-color;
-      width: 100%;
+      min-width: 220px;
     }
 
     .sectionLink {
-      display: block;
-
       padding: 10px 0 10px 15px;
       cursor: pointer;
       white-space: nowrap;
       border-left: solid 5px transparent;
-      max-width: calc(100% - 6px);
-      overflow-wrap: break-word;
 
       &.defaultLink {
-        display: block;
+        display: flex;
       }
 
       &.headingLevel2 {
@@ -65,10 +60,9 @@
   .navContainer {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    flex: 0 0 270px;
+    flex: 1;
     max-height: calc(100vh - 16px);
     overflow-y: auto;
-    width: 270px;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
 
     .linkContainer {
