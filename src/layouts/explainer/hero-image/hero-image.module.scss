@@ -112,6 +112,9 @@
     padding-top: 0.25rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    svg {
+      width: fit-content;
+    }
   }
   .dashes {
     position: relative;

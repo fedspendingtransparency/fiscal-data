@@ -42,7 +42,8 @@
     font-size: 1.3125rem;
 
     .dateIcon {
-      margin-right: 18px;
+      margin-right: 1.125rem;
+      width: fit-content;
     }
   }
 
@@ -51,7 +52,8 @@
     font-size: 1.3125rem;
 
     .timeIcon {
-      margin-right: 18px;
+      margin-right: 1.125rem;
+      width: fit-content;
     }
   }
 }
@@ -82,20 +84,20 @@
 
     .titleAndIcon {
       flex-direction: column-reverse;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
 
       .title {
         font-size: $font-size-16;
-        margin-bottom: 8px;
+        margin-bottom: 0.5rem;
       }
     }
 
     .dateStyle {
       font-size: $font-size-16;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
 
       .dateIcon {
-        margin-right: 8px;
+        margin-right: 0.5rem;
       }
     }
 
@@ -103,7 +105,7 @@
       font-size: $font-size-16;
 
       .timeIcon {
-        margin-right: 8px;
+        margin-right: 0.5rem;
       }
     }
   }
