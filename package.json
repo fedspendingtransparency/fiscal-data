@@ -1,7 +1,6 @@
 {
   "name": "dtg-prototype",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
   "scripts": {
     "build": "cross-env BUILD_ENV=prod gatsby build",
