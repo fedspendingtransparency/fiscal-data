@@ -1,5 +1,9 @@
 name: 'Test Coverage Comment'
 description: 'This action comments test coverage on the pr'
+inputs:
+  GITHUB_TOKEN:
+      description: 'Token for the GitHub API'
+      required: true
 runs:
   using: 'node20'
   main: 'index.js'
