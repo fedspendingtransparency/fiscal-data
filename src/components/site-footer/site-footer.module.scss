@@ -28,6 +28,14 @@
   color: white;
 }
 
+.screenReader {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+}
+
 .content {
   max-width: $main-width;
   margin: 0 auto;

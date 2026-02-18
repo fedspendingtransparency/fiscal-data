@@ -14,6 +14,7 @@ import {
   topRow,
   socialIcons,
   socialIconLink,
+  screenReader
 } from './site-footer.module.scss';
 import globalConstants from '../../helpers/constants';
 import DownloadSticky from '../download-sticky/download-sticky';
@@ -127,15 +128,17 @@ const SiteFooter = () => {
                   className={socialIconLink}
                 >
                   <FacebookIcon  />
+                  <span className={screenReader}>Facebook</span>
                 </CustomLink>
                 <CustomLink
                   url="https://x.com/FiscalService"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="x"
-                  className={ socialIconLink }
+                  className={socialIconLink}
                 >
-                  <XIcon  fontSize="small" />
+                  <XIcon fontSize="small" />
+                  <span className={screenReader}>X</span>
                 </CustomLink>
                 <CustomLink
                   url="https://www.linkedin.com/company/1722850/"
@@ -145,15 +148,17 @@ const SiteFooter = () => {
                   className={socialIconLink}
                 >
                   <LinkedInIcon />
+                  <span className={screenReader}>LinkedIn</span>
                 </CustomLink>
                 <CustomLink
                   url="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="youtube"
-                  className={ socialIconLink }
+                  className={socialIconLink}
                 >
                   <YouTubeIcon />
+                  <span className={screenReader}>Youtube</span>
                 </CustomLink>
               </div>
             </div>
