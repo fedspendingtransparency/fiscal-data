@@ -1,11 +1,11 @@
 /* istanbul ignore file */
-// const core = require('@actions/core');
-import * as core from '@actions/core';
-// const github = require('@actions/github');
+const core = require('@actions/core');
+// import * as core from '@actions/core';
+const github = require('@actions/github');
 
 (async () => {
   try {
-    const github = await import('@actions/github');
+    // const github = await import('@actions/github');
     const summaryData = require('../../coverage/coverage-summary.json');
     const coverage = summaryData.total.lines.pct;
     const icon = coverage < 90 ? '❌' : `✅`;
