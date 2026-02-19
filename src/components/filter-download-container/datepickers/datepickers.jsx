@@ -108,8 +108,6 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
       color: '#666666',
       maxWidth: '188px',
     },
-    // '&. MuiPickersSectionList-sectionContent-MuiPickersInputBase-sectionContent': { fontFamily: 'Source Sans Pro, sans-serif' },
-    // 'MuiPickersSectionList-section-MuiPickersInputBase-section': { fontFamily: 'Source Sans Pro, sans-serif' },
     '& .MuiPickersInputBase-root': { padding: 0 },
   };
 
@@ -132,11 +130,6 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 minDate={dayjs(earliestDate)}
                 maxDate={dayjs(latestDate)}
                 slotProps={{
-                  layout: {
-                    sx: {
-                      fontFamily: 'Source Sans Pro',
-                    },
-                  },
                   textField: props => ({
                     ...props,
                     variant: 'outlined',
