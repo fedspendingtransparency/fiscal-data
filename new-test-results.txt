@@ -1106,7 +1106,7 @@ PASS Standard Tests src/pages/api-documentation/api-documentation.spec.js (9.415
       277 |         duration: 600,
 
       at Object.scrollTo (node_modules/react-scroll/modules/mixins/scroller.js:57:15)
-      at src/pages/api-documentation/index.jsx:274:23
+      at src/pages/api-documentation/index.tsx:274:23
       at invokePassiveEffectCreate (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14504:20)
       at HTMLUnknownElement.callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:11391:14)
       at HTMLUnknownElement.callTheUserObjectsOperation (node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
@@ -1775,7 +1775,7 @@ PASS Standard Tests src/pages/downloads/downloads.spec.js
         at C:\Users\j4wgc01\projects\dtg\node_modules\rxjs\src\internal\Observable.ts:234:18
         at Object.errorContext (C:\Users\j4wgc01\projects\dtg\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
         at Observable.subscribe (C:\Users\j4wgc01\projects\dtg\node_modules\rxjs\src\internal\Observable.ts:220:5)
-        at C:\Users\j4wgc01\projects\dtg\src\pages\downloads\index.jsx:59:86
+        at C:\Users\j4wgc01\projects\dtg\src\pages\downloads\index.tsx:59:86
         at invokePassiveEffectCreate (C:\Users\j4wgc01\projects\dtg\node_modules\react-dom\cjs\react-dom.development.js:23487:20)
         at HTMLUnknownElement.callCallback (C:\Users\j4wgc01\projects\dtg\node_modules\react-dom\cjs\react-dom.development.js:3945:14)
         at HTMLUnknownElement.callTheUserObjectsOperation (C:\Users\j4wgc01\projects\dtg\node_modules\jsdom\lib\jsdom\living\generated\EventListener.js:26:30)
@@ -1817,7 +1817,7 @@ PASS Standard Tests src/pages/downloads/downloads.spec.js
       85 |         complete: () => {}
       86 |       });
 
-      at Object.error (src/pages/downloads/index.jsx:83:19)
+      at Object.error (src/pages/downloads/index.tsx:83:19)
       at Object.error (node_modules/rxjs/src/internal/Subscriber.ts:194:14)
       at SafeSubscriber.Object.<anonymous>.Subscriber._error (node_modules/rxjs/src/internal/Subscriber.ts:124:24)
       at SafeSubscriber.Object.<anonymous>.Subscriber.error (node_modules/rxjs/src/internal/Subscriber.ts:91:12)
