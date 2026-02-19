@@ -125,12 +125,18 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                     variant: 'outlined',
                     // placeholder: 'MM/DD/YYYY',
                     helperText: beginErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: {
+                      '& .MuiIconButton-root': { marginRight: '0' },
+                      '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' },
+                    },
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'From Date',
                     },
                   }),
+                  popper: {
+                    sx: { zIndex: 6 },
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',
@@ -171,6 +177,9 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                       'aria-label': 'To Date',
                     },
                   }),
+                  popper: {
+                    sx: { zIndex: 6 },
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',
