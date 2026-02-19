@@ -30,11 +30,4 @@
   .mandatorySpendingImgStyle {
     padding-right: 0;
   }
-  @media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg) {
-    .mandatorySpendingContainer {
-      width: 50%;
-      justify-self: center;
-      display: flex;
-    }
-  }
 }

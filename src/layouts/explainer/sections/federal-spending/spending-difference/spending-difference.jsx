@@ -3,6 +3,7 @@ import { spendingDifferenceContent, mandatorySpendingImgStyle, mandatorySpending
 import { spendingAccordion } from '../federal-spending.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
 import { withWindowSize } from 'react-fns';
+import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
