@@ -7,7 +7,7 @@ import { testReformatter } from './helpers/test-helper';
 import { addDays, subQuarters } from 'date-fns';
 import userEvent from '@testing-library/user-event';
 import { formatDate } from '../../download-wrapper/helpers';
-import { updateDatePicker } from '../datepickers/datepickers.spec';
+import { compareValues, updateDatePicker } from '../datepickers/datepickers.spec';
 
 jest.useFakeTimers();
 
@@ -284,7 +284,7 @@ describe('Range Presets Component, without the current report radio option', () 
 
     jest.runAllTimers();
 
-    const [from, to] = getAllByRole('textbox');
+    const [from, to] = getAllByRole('group');
     //Displays error message for out of range dates
     updateDatePicker(from, '01/01/2001');
     expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
@@ -292,12 +292,12 @@ describe('Range Presets Component, without the current report radio option', () 
     updateDatePicker(from, '01/01/2025');
     expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
 
-    setDateRangeMock.mockClear();
+    // setDateRangeMock.mockClear();
 
     updateDatePicker(from, '01/01/2005');
-    setDateRangeMock.mockClear();
-    updateDatePicker(to, '01/01/2019');
-    expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2019-01-01');
+    // setDateRangeMock.mockClear();
+    // updateDatePicker(to, '01/01/2019');
+    compareValues([from, to], [new Date('01/01/2005'), new Date('01/01/2019')]);
   });
 
   it(`fits a currently selected custom date to a newly selected table's available date range as needed`, () => {

@@ -22,6 +22,14 @@
 
     .time_range_filter_datePicker {
       margin: 0 1rem;
+      div > div > div {
+        span {
+          font-family: 'Source Sans Pro', sans-serif !important;
+          span {
+            font-family: 'Source Sans Pro', sans-serif !important;
+          }
+        }
+      }
     }
 
     .time_range_filter_label_text {

@@ -2,7 +2,7 @@ import React from 'react';
 import { navigate } from 'gatsby';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../../theme';
 import { card, card_headerLink } from '../../../components/dataset-card/dataset-card.module.scss';
 

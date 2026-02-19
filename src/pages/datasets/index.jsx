@@ -7,7 +7,7 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import { page_title, searchContainer } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
