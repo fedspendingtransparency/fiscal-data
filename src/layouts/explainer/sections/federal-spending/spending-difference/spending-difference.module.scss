@@ -30,7 +30,7 @@
   .mandatorySpendingImgStyle {
     padding-right: 0;
   }
-  @media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg) {
+  @media screen and (max-width: $breakpoint-lg) {
     .mandatorySpendingContainer {
       max-width: 375px;
       justify-self: center;
