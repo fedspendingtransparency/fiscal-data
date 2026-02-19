@@ -17,10 +17,12 @@ import {
   sectionLink,
   headingLevel2,
   headingLevel3,
+  headingLevel4,
   comingSoon,
   comingSoonContainer,
   comingSoonLink,
   sectionList,
+  extraPadding,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
@@ -49,6 +51,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   headerComponent,
   children,
   tocScrollOffset,
+  paddingAdjust,
 }) => {
   const [hoveredSection, setHoveredSection] = useState<number>(-1);
   const [tocIsOpen, setTocIsOpen] = useState<boolean>(false);
@@ -181,6 +184,8 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   headingClass = headingLevel2;
                 } else if (s.headingLevel === 3) {
                   headingClass = headingLevel3;
+                } else if (s.headingLevel === 4) {
+                  headingClass = headingLevel4;
                 }
 
                 return (
@@ -222,7 +227,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           </ul>
         </nav>
       </aside>
-      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
+      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'} ${paddingAdjust ? extraPadding : ''}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
   );

@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import * as Scroll from 'react-scroll';
-import { Link } from 'react-scroll';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
@@ -11,7 +9,7 @@ import Parameters from '../../components/api-documentation/parameters/parameters
 import Responses from '../../components/api-documentation/responses/responses';
 import Aggregation from '../../components/api-documentation/aggregation/aggregation';
 import Examples from '../../components/api-documentation/examples/examples';
-import { tocCont, tocHeader, tocWrapper } from '../../components/table-of-contents/toc.module.scss';
+import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
 import { activeLink, hoverLink, content, aboutPageWrapper } from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import tocList from './toc-data.json';
@@ -43,7 +41,7 @@ const ApiDocumentationPage: FunctionComponent = () => {
         </div>
       </div>
       <div className={`pageWrapper ${aboutPageWrapper}`}>
-        <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
+        <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent} paddingAdjust={true}>
           <div id={content} className={content} data-testId="componentWrapper">
             <GettingStarted />
             <Endpoints />
