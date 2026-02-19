@@ -41,7 +41,7 @@ const ApiDocumentationPage: FunctionComponent = () => {
         </div>
       </div>
       <div className={`pageWrapper ${aboutPageWrapper}`}>
-        <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent} paddingAdjust={true}>
+        <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
           <div id={content} className={content} data-testId="componentWrapper">
             <GettingStarted />
             <Endpoints />

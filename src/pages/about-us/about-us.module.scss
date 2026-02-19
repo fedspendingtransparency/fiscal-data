@@ -59,13 +59,6 @@ div.aboutPageWrapper {
   padding-left: calc(1rem - 6px);
 }
 
-.linkClass {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .hoverLink {
   color: $primary;
   font-weight: $semi-bold-weight;
