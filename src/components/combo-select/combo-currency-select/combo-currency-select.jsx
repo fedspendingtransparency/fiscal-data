@@ -129,9 +129,9 @@ const ComboCurrencySelect = ({
               <div className={selectedText}>{selectedOption[optionLabelKey]}</div>
               <div className={dropdownIcon}>
                 {dropdownActive ? (
-                  <FontAwesomeIcon className={icon} icon={faChevronUp} aria-label="collapse dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronUp} />
                 ) : (
-                  <FontAwesomeIcon className={icon} icon={faChevronDown} aria-label="expand dropdown" data-testid="expand-dropdown" />
+                  <FontAwesomeIcon className={icon} icon={faChevronDown} data-testid="expand-dropdown" />
                 )}
               </div>
             </button>

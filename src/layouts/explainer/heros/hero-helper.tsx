@@ -71,9 +71,9 @@ export const getPillData = (
   const doubleDash = '/images/double-dash.svg';
   const iconChange = labelChanger => {
     if (labelChanger === 'increased') {
-      return <FontAwesomeIcon icon={faUpLong as IconProp} title="up arrow" />;
+      return <FontAwesomeIcon icon={faUpLong as IconProp} aria-label="up arrow" />;
     } else if (labelChanger === 'decreased') {
-      return <FontAwesomeIcon icon={faDownLong as IconProp} title="down arrow" />;
+      return <FontAwesomeIcon icon={faDownLong as IconProp} aria-label="down arrow" />;
     } else {
       return (
         <div className={doubleDashs}>

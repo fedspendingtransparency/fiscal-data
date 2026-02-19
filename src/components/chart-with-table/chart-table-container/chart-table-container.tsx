@@ -148,6 +148,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
           downloader
         ) : (
           <DownloadItemButton
+            disabled={isLoading}
             fileType={fileType}
             smallTableDownloadData={downloadData}
             gaDownloadCSVEvent={gaDownloadCSVEvent}

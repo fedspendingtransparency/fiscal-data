@@ -77,7 +77,7 @@ const DetailPills = ({ techSpecs, numTables, dateExpected, timeExpected, dataset
       )}
       {dateTimeExpected && (
         <span className={pill}>
-          <AccessAlarm sx={{ width: '18px' }} size="1x" className={materialIcon} data-testid="timerIcon" />
+          <AccessAlarm size="1x" className={materialIcon} data-testid="timerIcon" />
           <span className="pillText">New Data Expected {dateTimeExpected}</span>
         </span>
       )}
