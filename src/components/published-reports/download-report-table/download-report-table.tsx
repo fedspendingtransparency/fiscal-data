@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { container, date, headerRow, loadingIcon, name, overlay, table, tableBorder } from './download-report-table.module.scss';
+import { container, date, headerRow, loadingIcon, name, overlay, table, tableBorder, tableFooter } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -121,7 +121,7 @@ export const DownloadReportTable: FunctionComponent<{
           {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
         </div>
       </div>
-      <div>
+      <div className={tableFooter}>
         <div data-testid="rows-showing">{`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}</div>
         {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}
       </div>
