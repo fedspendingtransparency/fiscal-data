@@ -1,6 +1,9 @@
 @use 'src/variables.module' as *;
 @use 'src/zIndex.module' as *;
 
+.date_picker_popper {
+  z-index: $date-picker-popper !important;
+}
 .time_range_filter {
   display: flex;
   flex-direction: column;
@@ -27,9 +30,6 @@
     input {
       padding: 0.5rem;
     }
-  }
-  .date_picker_popper {
-    z-index: $date-picker-popper;
   }
 }
 
