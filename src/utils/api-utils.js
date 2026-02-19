@@ -145,7 +145,7 @@ export const pagedDatatableRequest = async (
     columnDateFilters.forEach(filter => {
       if (filter.fieldName !== 'record_date') {
         if (filter?.from && filter?.to) {
-          const addDateStr = buildDateFilter({ dateField: filter.fieldName }, filter?.from.format('YYYY-MM-DD'), filter?.to.format('YYYY-MM-DD'));
+          const addDateStr = buildDateFilter({ dateField: filter.fieldName }, filter?.from.format('yyyy-MM-dd'), filter?.to.format('yyyy-MM-dd'));
           additionalDateFilter += `,${addDateStr}`;
         }
       }
