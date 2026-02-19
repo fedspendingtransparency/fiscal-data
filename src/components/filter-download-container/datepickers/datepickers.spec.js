@@ -1,18 +1,29 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, render, within } from '@testing-library/react';
 import DatePickers from './datepickers';
 import { subYears } from 'date-fns';
-import { formatDate } from '../../download-wrapper/helpers';
 import userEvent from '@testing-library/user-event';
 
 export const updateDatePicker = (datePicker, stringEntry) => {
   const clearFilter = '{backspace}{arrowright}{backspace}{arrowright}{backspace}{arrowleft}{arrowleft}';
 
-  userEvent.type(datePicker, clearFilter);
-  userEvent.type(datePicker, stringEntry);
+  userEvent.click(datePicker);
+  userEvent.keyboard(clearFilter);
+  userEvent.keyboard(stringEntry);
   userEvent.keyboard('{Enter}');
   act(() => {
     jest.runAllTimers();
+  });
+};
+
+export const compareValues = (datePickers, datesArr) => {
+  datePickers.forEach((datePicker, index) => {
+    const spinButtons = within(datePicker).getAllByRole('spinbutton');
+    const selectedDate = datesArr[index];
+    console.log('*********************', selectedDate, selectedDate.getMonth());
+    expect(spinButtons[0]).toHaveValue(selectedDate.getMonth() + 1);
+    expect(spinButtons[1]).toHaveValue(selectedDate.getDate());
+    expect(spinButtons[2]).toHaveValue(selectedDate.getFullYear());
   });
 };
 
@@ -41,7 +52,7 @@ describe('DDP Datepickers', () => {
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('group');
     expect(datePickers.length).toEqual(2);
   });
 
@@ -49,7 +60,7 @@ describe('DDP Datepickers', () => {
     const { getAllByRole, getByText } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('group');
 
     updateDatePicker(datePickers[0], '01/01/2025');
     expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
@@ -58,21 +69,20 @@ describe('DDP Datepickers', () => {
     expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
   });
 
-  it(`sets the selected dates on the KeyboardDatePicker upon entry using the selectedDateRange
-    params`, () => {
+  it(`sets the selected dates on the KeyboardDatePicker upon entry using the selectedDateRange params`, () => {
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
-    expect(datePickers[0]).toHaveValue(formatDate(selectedDates.from));
-    expect(datePickers[1]).toHaveValue(formatDate(selectedDates.to));
+    const dates = [selectedDates.from, selectedDates.to];
+    const datePickers = getAllByRole('group');
+    compareValues(datePickers, dates);
   });
 
   it('updates the selected dates when triggered after the onChange event', async () => {
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('group');
 
     updateDatePicker(datePickers[0], selectedDateStrings.from);
     updateDatePicker(datePickers[1], selectedDateStrings.to);
@@ -81,29 +91,29 @@ describe('DDP Datepickers', () => {
       jest.runAllTimers();
     });
 
-    expect(datePickers[0]).toHaveValue(formatDate(selectedDates.from));
-    expect(datePickers[1]).toHaveValue(formatDate(selectedDates.to));
+    const dates = [new Date(selectedDateStrings.from), new Date(selectedDateStrings.to)];
+    compareValues(datePickers, dates);
   });
 
   it('swaps the dates if the From date is greater than the To date', async () => {
-    const updatedFromDate = subYears(latestDate, 1);
-    const updatedToDate = subYears(latestDate, 3);
+    const updatedFromDate = '01/02/2020';
+    const updatedToDate = '01/02/2018';
+    const dates = [new Date(updatedToDate), new Date(updatedFromDate)];
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('group');
+    updateDatePicker(datePickers[0], updatedFromDate);
     act(() => {
-      fireEvent.change(datePickers[0], { target: { value: formatDate(updatedFromDate) } });
+      jest.runAllTimers();
+    });
+    updateDatePicker(datePickers[1], updatedToDate);
+
+    act(() => {
       jest.runAllTimers();
     });
 
-    act(() => {
-      fireEvent.change(datePickers[1], { target: { value: formatDate(updatedToDate) } });
-      jest.runAllTimers();
-    });
-
-    expect(datePickers[0]).toHaveValue(formatDate(updatedToDate));
-    expect(datePickers[1]).toHaveValue(formatDate(updatedFromDate));
+    compareValues(datePickers, dates);
   });
 
   it('calls setSelectedDates when valid dates are selected by the date picker', () => {
@@ -111,11 +121,12 @@ describe('DDP Datepickers', () => {
     const { getAllByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('group');
+    updateDatePicker(datePickers[0], '1/1/2000');
+
     act(() => {
-      fireEvent.change(datePickers[0], { target: { value: formatDate(new Date(2000, 1, 1)) } });
+      jest.runAllTimers();
     });
-    jest.runAllTimers();
 
     expect(setSelectedDates).toHaveBeenCalledTimes(1);
   });
@@ -123,15 +134,23 @@ describe('DDP Datepickers', () => {
   it('creates KeyboardDatePicker with default settings if no/invalid params are passed in', () => {
     const { getAllByRole, rerender } = render(<DatePickers availableDateRange={null} selectedDateRange={null} setSelectedDates={setSelectedDates} />);
     jest.runAllTimers();
-    let curDatePickers = getAllByRole('textbox');
-    expect(curDatePickers[0]).toHaveValue('');
-    expect(curDatePickers[1]).toHaveValue('');
+    let curDatePickers = getAllByRole('group');
 
+    curDatePickers.forEach(datePicker => {
+      const spinButtons = within(datePicker).getAllByRole('spinbutton');
+      expect(spinButtons[0]).toHaveValue(0);
+      expect(spinButtons[1]).toHaveValue(0);
+      expect(spinButtons[2]).toHaveValue(0);
+    });
     rerender(<DatePickers availableDateRange={{}} selectedDateRange={{}} setSelectedDates={setSelectedDates} />);
     jest.runAllTimers();
-    curDatePickers = getAllByRole('textbox');
-    expect(curDatePickers[0]).toHaveValue('');
-    expect(curDatePickers[1]).toHaveValue('');
+    curDatePickers = getAllByRole('group');
+    curDatePickers.forEach(datePicker => {
+      const spinButtons = within(datePicker).getAllByRole('spinbutton');
+      expect(spinButtons[0]).toHaveValue(0);
+      expect(spinButtons[1]).toHaveValue(0);
+      expect(spinButtons[2]).toHaveValue(0);
+    });
   });
 
   // it('does not trigger the dateRangeFilter when either of the popups are open', () => {
