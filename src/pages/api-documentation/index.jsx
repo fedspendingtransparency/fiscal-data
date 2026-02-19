@@ -19,7 +19,6 @@ import {
   activeLink,
   apiPageSpacer,
   apiPageWrapper,
-  content,
   headingLevel2,
   headingLevel3,
   headingLevel4,
@@ -28,11 +27,13 @@ import {
   toc,
   tocClosed,
   tocOpen,
+  hoverLink,
+  content,
 } from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import { scrollOptionsSmooth } from '../../utils/scroll-config';
-import { globalNavOffset } from '../../components/secondary-nav/secondary-nav';
+import { globalNavOffset, SecondaryNav } from '../../components/secondary-nav/secondary-nav';
 import tocList from './toc-data.json';
 
 const ApiDocumentationPage = ({ location }) => {
@@ -107,6 +108,12 @@ const ApiDocumentationPage = ({ location }) => {
 
   let toggleStyles = tocIsOpen ? tocOpen : tocClosed;
 
+  const tocHeaderComponent = (
+    <h2 data-test-id="about-page-header" className={tocHeader}>
+      Table of Contents
+    </h2>
+  );
+
   return (
     <SiteLayout>
       <div className="pageHeader">
@@ -116,48 +123,52 @@ const ApiDocumentationPage = ({ location }) => {
         </div>
       </div>
       <div className={`pageWrapper ${apiPageWrapper}`}>
-        <aside className={tocWrapper}>
-          <nav id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
-            <ul className={sectionList}>
-              <h2 className={tocHeader}>Table of Contents</h2>
-              {tocList.map((d, i) => {
-                return (
-                  <li key={`toc${i}`}>
-                    <Link
-                      className={`${link} ${d.headingLevel}`}
-                      data-testid={`tocLink`}
-                      tabIndex={0}
-                      activeClass={activeLink}
-                      to={d.id}
-                      smooth={true}
-                      spy={true}
-                      duration={600}
-                      delay={200}
-                      onClick={e => {
-                        handleToggle(e, d.id);
-                      }}
-                      offset={globalNavOffset - 3}
-                    >
-                      {d.title}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </aside>
-        <div id={content} className={`${toggleStyles} ${apiPageSpacer}`} data-testid="componentWrapper">
-          <GettingStarted location={location} />
-          <Endpoints />
-          <DataRegistry />
-          <Methods />
-          <Parameters />
-          <Responses />
-          <Aggregation />
-          <Examples />
+        <div>
+          {/*<aside className={tocWrapper}>*/}
+          {/*  <nav id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">*/}
+          {/*    <ul className={sectionList}>*/}
+          {/*      <h2 className={tocHeader}>Table of Contents</h2>*/}
+          {/*      {tocList.map((d, i) => {*/}
+          {/*        return (*/}
+          {/*          <li key={`toc${i}`}>*/}
+          {/*            <Link*/}
+          {/*              className={`${link} ${d.headingLevel}`}*/}
+          {/*              data-testid={`tocLink`}*/}
+          {/*              tabIndex={0}*/}
+          {/*              activeClass={activeLink}*/}
+          {/*              to={d.id}*/}
+          {/*              smooth={true}*/}
+          {/*              spy={true}*/}
+          {/*              duration={600}*/}
+          {/*              delay={200}*/}
+          {/*              onClick={e => {*/}
+          {/*                handleToggle(e, d.id);*/}
+          {/*              }}*/}
+          {/*              offset={globalNavOffset - 3}*/}
+          {/*            >*/}
+          {/*              {d.title}*/}
+          {/*            </Link>*/}
+          {/*          </li>*/}
+          {/*        );*/}
+          {/*      })}*/}
+          {/*    </ul>*/}
+          {/*  </nav>*/}
+          {/*</aside>*/}
         </div>
-        <TOCButton handleToggle={handleToggle} state={tocIsOpen} />
+        <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
+          <div id={content} className={content} data-testId="componentWrapper">
+            <GettingStarted location={location} />
+            <Endpoints />
+            <DataRegistry />
+            <Methods />
+            <Parameters />
+            <Responses />
+            <Aggregation />
+            <Examples />
+          </div>
+        </SecondaryNav>
       </div>
+      {/*<TOCButton handleToggle={handleToggle} state={tocIsOpen} />*/}
     </SiteLayout>
   );
 };

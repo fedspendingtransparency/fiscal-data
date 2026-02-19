@@ -1,182 +1,254 @@
 [
   {
     "id": "getting-started",
-    "headingLevel": 2,
-    "title": "Getting Started"
+    "className": "headingLevel2",
+    "title": "Getting Started",
+    "index": 0,
+    "headingLevel": 2
   },
   {
     "id": "what-is-an-api",
-    "headingLevel": 3,
-    "title": "What is an API?"
+    "className": "headingLevel3",
+    "title": "What is an API?",
+    "index": 1,
+    "headingLevel": 3
   },
   {
     "id": "what-is-a-dataset",
-    "headingLevel": "headingLevel3",
-    "title": "What is a Dataset?"
+    "className": "headingLevel3",
+    "title": "What is a Dataset?",
+    "index": 2,
+    "headingLevel": 3
   },
   {
     "id": "api-endpoint-url-structure",
-    "headingLevel": "headingLevel3",
-    "title": "API Endpoint URL Structure"
+    "className": "headingLevel3",
+    "title": "API Endpoint URL Structure",
+    "index": 3,
+    "headingLevel": 3
   },
   {
     "id": "how-to-access-our-api",
-    "headingLevel": "headingLevel3",
-    "title": "How to Access our API"
+    "className": "headingLevel3",
+    "title": "How to Access our API",
+    "index": 4,
+    "headingLevel": 3
   },
   {
     "id": "license-and-authorization",
-    "headingLevel": "headingLevel3",
-    "title": "License and Authorization"
+    "className": "headingLevel3",
+    "title": "License and Authorization",
+    "index": 5,
+    "headingLevel": 3
   },
   {
     "id": "api-versioning",
-    "headingLevel": "headingLevel3",
-    "title": "API Versioning"
+    "className": "headingLevel3",
+    "title": "API Versioning",
+    "index": 6,
+    "headingLevel": 3
   },
   {
     "id": "endpoints",
-    "headingLevel": "headingLevel2",
-    "title": "Endpoints"
+    "className": "headingLevel2",
+    "title": "Endpoints",
+    "index": 7,
+    "headingLevel": 2
   },
   {
     "id": "list-of-endpoints",
-    "headingLevel": "headingLevel3",
-    "title": "List of Endpoints"
+    "className": "headingLevel3",
+    "title": "List of Endpoints",
+    "index": 8,
+    "headingLevel": 3
   },
   {
     "id": "fields-by-endpoint",
-    "headingLevel": "headingLevel3",
-    "title": "Fields by Endpoint"
+    "className": "headingLevel3",
+    "title": "Fields by Endpoint",
+    "index": 9,
+    "headingLevel": 3
   },
   {
     "id": "data-registry",
-    "headingLevel": "headingLevel2",
-    "title": "Fiscal Service Data Registry"
+    "className": "headingLevel2",
+    "title": "Fiscal Service Data Registry",
+    "index": 10,
+    "headingLevel": 2
   },
   {
     "id": "methods",
-    "headingLevel": "headingLevel2",
-    "title": "Methods"
+    "className": "headingLevel2",
+    "title": "Methods",
+    "index": 11,
+    "headingLevel": 2
   },
   {
     "id": "parameters",
-    "headingLevel": "headingLevel2",
-    "title": "Parameters"
+    "className": "headingLevel2",
+    "title": "Parameters",
+    "index": 12,
+    "headingLevel": 2
   },
   {
     "id": "fields",
-    "headingLevel": "headingLevel3",
-    "title": "Fields"
+    "className": "headingLevel3",
+    "title": "Fields",
+    "index": 13,
+    "headingLevel": 3
   },
   {
     "id": "data-types",
-    "headingLevel": "headingLevel4",
-    "title": "Data Types"
+    "className": "headingLevel4",
+    "title": "Data Types",
+    "index": 14,
+    "headingLevel": 4
   },
   {
     "id": "fields-fields-by-endpoint",
-    "headingLevel": "headingLevel4",
-    "title": "Fields by Endpoint"
+    "className": "headingLevel4",
+    "title": "Fields by Endpoint",
+    "index": 15,
+    "headingLevel": 4
   },
   {
     "id": "filters",
-    "headingLevel": "headingLevel3",
-    "title": "Filters"
+    "className": "headingLevel3",
+    "title": "Filters",
+    "index": 16,
+    "headingLevel": 3
   },
   {
     "id": "parameters-sorting",
-    "headingLevel": "headingLevel3",
-    "title": "Sorting"
+    "className": "headingLevel3",
+    "title": "Sorting",
+    "index": 17,
+    "headingLevel": 3
   },
   {
     "id": "parameters-format",
-    "headingLevel": "headingLevel3",
-    "title": "Format"
+    "className": "headingLevel3",
+    "title": "Format",
+    "index": 18,
+    "headingLevel": 3
   },
   {
     "id": "parameters-pagination",
-    "headingLevel": "headingLevel3",
-    "title": "Pagination"
+    "className": "headingLevel3",
+    "title": "Pagination",
+    "index": 19,
+    "headingLevel": 3
   },
   {
     "id": "responses-response-objects",
-    "headingLevel": "headingLevel2",
-    "title": "Responses and Response Objects"
+    "className": "headingLevel2",
+    "title": "Responses and Response Objects",
+    "index": 20,
+    "headingLevel": 2
   },
   {
     "id": "responses-response-codes",
-    "headingLevel": "headingLevel3",
-    "title": "Response Codes"
+    "className": "headingLevel3",
+    "title": "Response Codes",
+    "index": 21,
+    "headingLevel": 3
   },
   {
     "id": "responses-meta-object",
-    "headingLevel": "headingLevel3",
-    "title": "Meta Object"
+    "className": "headingLevel3",
+    "title": "Meta Object",
+    "index": 22,
+    "headingLevel": 3
   },
   {
     "id": "responses-links-object",
-    "headingLevel": "headingLevel3",
-    "title": "Links Object"
+    "className": "headingLevel3",
+    "title": "Links Object",
+    "index": 23,
+    "headingLevel": 3
   },
   {
     "id": "responses-data-object",
-    "headingLevel": "headingLevel3",
-    "title": "Data Object"
+    "className": "headingLevel3",
+    "title": "Data Object",
+    "index": 24,
+    "headingLevel": 3
   },
   {
     "id": "responses-error-object",
-    "headingLevel": "headingLevel3",
-    "title": "Error Object"
+    "className": "headingLevel3",
+    "title": "Error Object",
+    "index": 25,
+    "headingLevel": 3
   },
   {
     "id": "responses-pagination-header",
-    "headingLevel": "headingLevel3",
-    "title": "Pagination Header"
+    "className": "headingLevel3",
+    "title": "Pagination Header",
+    "index": 26,
+    "headingLevel": 3
   },
   {
     "id": "aggregation-sums",
-    "headingLevel": "headingLevel2",
-    "title": "Aggregation and Sums"
+    "className": "headingLevel2",
+    "title": "Aggregation and Sums",
+    "index": 27,
+    "headingLevel": 2
   },
   {
     "id": "examples-code-snippets",
-    "headingLevel": "headingLevel2",
-    "title": "Examples and Code Snippets"
+    "className": "headingLevel2",
+    "title": "Examples and Code Snippets",
+    "index": 28,
+    "headingLevel": 2
   },
   {
     "id": "examples-fields",
-    "headingLevel": "headingLevel3",
-    "title": "Fields"
+    "className": "headingLevel3",
+    "title": "Fields",
+    "index": 29,
+    "headingLevel": 3
   },
   {
     "id": "examples-filters",
-    "headingLevel": "headingLevel3",
-    "title": "Filters"
+    "className": "headingLevel3",
+    "title": "Filters",
+    "index": 30,
+    "headingLevel": 3
   },
   {
     "id": "examples-sorting",
-    "headingLevel": "headingLevel3",
-    "title": "Sorting"
+    "className": "headingLevel3",
+    "title": "Sorting",
+    "index": 31,
+    "headingLevel": 3
   },
   {
     "id": "examples-format",
-    "headingLevel": "headingLevel3",
-    "title": "Format"
+    "className": "headingLevel3",
+    "title": "Format",
+    "index": 32,
+    "headingLevel": 3
   },
   {
     "id": "examples-pagination",
-    "headingLevel": "headingLevel3",
-    "title": "Pagination"
+    "className": "headingLevel3",
+    "title": "Pagination",
+    "index": 33,
+    "headingLevel": 3
   },
   {
     "id": "examples-aggregation",
-    "headingLevel": "headingLevel3",
-    "title": "Aggregation"
+    "className": "headingLevel3",
+    "title": "Aggregation",
+    "index": 34,
+    "headingLevel": 3
   },
   {
     "id": "examples-multi-dimension-datasets",
-    "headingLevel": "headingLevel3",
-    "title": "Multi-dimension Datasets"
+    "className": "headingLevel3",
+    "title": "Multi-dimension Datasets",
+    "index": 35,
+    "headingLevel": 3
   }
 ]

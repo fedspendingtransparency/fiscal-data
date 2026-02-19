@@ -1,5 +1,15 @@
 @use '../../variables.module.scss' as *;
 
+.hoverLink {
+  color: $primary;
+  font-weight: $semi-bold-weight;
+}
+
+.content {
+  max-width: 847px;
+  margin-bottom: 3.75rem;
+}
+
 div.apiPageWrapper {
   margin-top: 2rem;
   padding-top: 0;
@@ -36,14 +46,14 @@ code.code {
   margin-bottom: 30rem;
 }
 
-#content {
-  &.tocClosed {
-    display: block;
-  }
-  &.tocOpen {
-    display: none;
-  }
-}
+//#content {
+//  &.tocClosed {
+//    display: block;
+//  }
+//  &.tocOpen {
+//    display: none;
+//  }
+//}
 
 .link {
   display: block;
