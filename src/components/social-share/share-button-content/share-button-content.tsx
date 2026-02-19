@@ -2,18 +2,21 @@ import React, { FunctionComponent, useState } from 'react';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faXTwitter, faLinkedin, faReddit } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin';
+import { faReddit } from '@fortawesome/free-brands-svg-icons/faReddit';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons/faXTwitter';
 
 import {
-  shareButtonContent,
-  facebookIcon,
-  xTwitterIcon,
-  linkedInIcon,
-  redditIcon,
   emailIcon,
-  shareButtonText,
+  facebookIcon,
+  linkedInIcon,
   listShareButtonText,
+  redditIcon,
+  shareButtonContent,
+  shareButtonText,
+  xTwitterIcon,
 } from './share-button-content.module.scss';
 import { IShareButtonContent } from '../../../models/IShareButtonContent';
 

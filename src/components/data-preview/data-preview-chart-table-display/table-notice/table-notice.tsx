@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { container, icon, info, notShownBodyText, notShownHeading } from './table-notice.module.scss';
 
 interface iTableMessage {

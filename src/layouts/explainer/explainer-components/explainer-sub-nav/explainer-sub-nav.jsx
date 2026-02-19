@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import {
-  backChevron,
-  frontChevron,
-  navItem,
-  overview,
-  revenue,
   active,
-  navLink,
-  navIcon,
-  navContainer,
+  backChevron,
+  debt,
+  deficit,
+  frontChevron,
   navBlock,
   navBlockHidden,
   navBlockSticky,
-  deficit,
+  navContainer,
+  navIcon,
+  navItem,
+  navLink,
+  overview,
+  revenue,
   spending,
-  debt,
 } from './explainer-sub-nav.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
+import { faHouseChimney } from '@fortawesome/free-solid-svg-icons/faHouseChimney';
 import Analytics from '../../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';
 

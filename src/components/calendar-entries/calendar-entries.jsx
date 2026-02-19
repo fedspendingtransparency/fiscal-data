@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import {
+  dropdown,
+  dropdownContainer,
+  entriesContainer,
   loadingIcon,
   mainContainer,
-  dropdownContainer,
-  dropdown,
-  entriesContainer,
+  notYetUpdated,
   pagination,
   releaseCalendarLegend,
-  updateStatusIcon,
-  notYetUpdated,
   releaseCalendarLegendGray,
+  updateStatusIcon,
 } from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';

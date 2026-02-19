@@ -14,7 +14,8 @@ import {
   startName,
 } from '../download-report-table-row/download-report-table-row.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons/faCircleCheck';
+import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import { getFileTypeImage } from '../../util/util';
 import { analyticsEventHandler } from '../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../helpers/google-analytics/google-analytics-helper';

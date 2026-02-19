@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { accordion, closed, container, content, heading, open as openStyle, toggle } from './accordion.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import useGAEventTracking from '../../hooks/useGAEventTracking';

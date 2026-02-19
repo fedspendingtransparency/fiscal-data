@@ -1,9 +1,12 @@
 import React from 'react';
-import { list, statItem, futureDateIconStyle, icon, statHeaderText, stateSubHeaderText, dataTableText } from './dataset-stats.module.scss';
+import { dataTableText, futureDateIconStyle, icon, list, stateSubHeaderText, statHeaderText, statItem } from './dataset-stats.module.scss';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../../images/futureDateIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarWeek, faDatabase, faPen, faRepeat } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons/faCalendarWeek';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
+import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import { faRepeat } from '@fortawesome/free-solid-svg-icons/faRepeat';
 
 const DatasetStats = ({ dataset }) => {
   // TODO: clean some of these up a little

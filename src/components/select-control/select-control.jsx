@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  selector_optionSelected,
-  selector_label,
-  selector_container,
-  selector_button,
-  labels,
   icon,
+  labels,
+  selector_button,
+  selector_container,
+  selector_label,
   selector_list,
   selector_option,
   selector_optionButton,
+  selector_optionSelected,
 } from './select-control.module.scss';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 

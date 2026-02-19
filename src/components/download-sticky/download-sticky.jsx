@@ -2,35 +2,40 @@ import React, { useContext, useEffect, useState } from 'react';
 import StickyFooter from '../sticky-footer/sticky-footer';
 import DownloadPercentageStatus from '../download-percentage-status/download-percentage-status';
 import {
-  completeStyle,
-  minimizedStyle,
-  resumedSpinner,
-  collapseToggle,
-  toggleIcon,
-  downloadLink,
-  toggleTab,
-  downloadContent,
-  mainRow,
-  downloadStatusContainer,
-  progressIndicatorContainer,
-  downloadStatus,
-  statusHeading,
-  filename,
-  downloadNoticeContainer,
-  rightSegment,
-  queueRow,
-  status,
-  noticeButtonContainer,
-  progress,
-  noticeButton,
-  noticeText,
-  downloadNotice,
   collapsed,
-  expandedSection,
+  collapseToggle,
   completed,
+  completeStyle,
+  downloadContent,
+  downloadLink,
+  downloadNotice,
+  downloadNoticeContainer,
+  downloadStatus,
+  downloadStatusContainer,
+  expandedSection,
+  filename,
+  mainRow,
+  minimizedStyle,
+  noticeButton,
+  noticeButtonContainer,
+  noticeText,
+  progress,
+  progressIndicatorContainer,
+  queueRow,
+  resumedSpinner,
+  rightSegment,
+  status,
+  statusHeading,
+  toggleIcon,
+  toggleTab,
 } from './download-sticky.module.scss';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import { faAngleDoubleDown, faAngleDoubleUp, faCheckCircle, faMinus, faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons/faAngleDoubleDown';
+import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons/faAngleDoubleUp';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import buttons from '../buttons/buttons';
 import globalConstants from '../../helpers/constants';

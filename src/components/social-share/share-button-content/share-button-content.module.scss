@@ -20,37 +20,42 @@
 
   .facebookIcon {
     color: #1877f2;
-    width: 1.125rem;
-    height: 1rem;
-    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .xTwitterIcon {
     color: #000000;
-    width: 1.125rem;
-    height: 1rem;
-    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .linkedInIcon {
     color: #0077b5;
-    width: 1.125rem;
-    height: 1rem;
-    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .redditIcon {
     color: #ff4500;
-    width: 1.125rem;
-    height: 1rem;
-    margin: 0.125rem 0.25rem 0.125rem 0;
   }
 
   .emailIcon {
     color: #666;
-    width: 1.125rem;
+  }
+
+  .facebookIcon,
+  .xTwitterIcon,
+  .linkedInIcon,
+  .redditIcon,
+  .emailIcon {
     height: 1rem;
+    width: 1.125rem;
     margin: 0.125rem 0.25rem 0.125rem 0;
+    &:hover {
+      color: #555555;
+    }
+  }
+
+  .listShareButtonText,
+  .shareButtonText {
+    &:hover {
+      color: #555555;
+    }
   }
 }
 
@@ -66,5 +71,9 @@
     .listShareButtonText {
       margin-left: 0.5rem;
     }
+  }
+
+  .responsiveText {
+    display: none;
   }
 }
