@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { container, date, headerRow, loadingIcon, name, overlay, table } from './download-report-table.module.scss';
+import { container, date, headerRow, loadingIcon, name, overlay, table, tableBorder } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -25,51 +25,53 @@ export const DownloadReportTable: FunctionComponent<{
   }, [width]);
 
   return (
-    <div className={container}>
-      <table className={table}>
-        <thead>
-          {!mobileView && (
-            <tr>
-              <th className={headerRow}>
-                <div className={name}>Name</div>
-                <div className={date}>Date</div>
-                <div>Size</div>
-              </th>
-            </tr>
-          )}
-          {mobileView && (
-            <tr>
-              <th>Name</th>
-            </tr>
-          )}
-        </thead>
-        <tbody>
-          {reports?.map((report: IPublishedReportDataJson, i: number) => {
-            return (
-              <DownloadReportTableRow
-                reportFile={report}
-                isDailyReport={isDailyReport}
-                mobileView={mobileView}
-                key={i}
-                setApiErrorMessage={setApiErrorMessage}
-                setIsLoading={setIsLoading}
-              />
-            );
-          })}
-          {generatedReports?.map((report, i: number) => {
-            return (
-              <GenReportDownloadTableRow
-                generatedReport={report}
-                mobileView={mobileView}
-                key={i}
-                setApiErrorMessage={setApiErrorMessage}
-                setIsLoading={setIsLoading}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-      {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
+    <div className={tableBorder}>
+      <div className={container}>
+        <table className={table}>
+          <thead>
+            {!mobileView && (
+              <tr>
+                <th className={headerRow}>
+                  <div className={name}>Name</div>
+                  <div className={date}>Date</div>
+                  <div>Size</div>
+                </th>
+              </tr>
+            )}
+            {mobileView && (
+              <tr>
+                <th>Name</th>
+              </tr>
+            )}
+          </thead>
+          <tbody>
+            {reports?.map((report: IPublishedReportDataJson, i: number) => {
+              return (
+                <DownloadReportTableRow
+                  reportFile={report}
+                  isDailyReport={isDailyReport}
+                  mobileView={mobileView}
+                  key={i}
+                  setApiErrorMessage={setApiErrorMessage}
+                  setIsLoading={setIsLoading}
+                />
+              );
+            })}
+            {generatedReports?.map((report, i: number) => {
+              return (
+                <GenReportDownloadTableRow
+                  generatedReport={report}
+                  mobileView={mobileView}
+                  key={i}
+                  setApiErrorMessage={setApiErrorMessage}
+                  setIsLoading={setIsLoading}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+        {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
+      </div>
     </div>
   );
 };

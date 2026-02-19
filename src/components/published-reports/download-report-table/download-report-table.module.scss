@@ -4,15 +4,19 @@
   display: table;
   width: 100%;
   table-layout: fixed;
-  border: 1px solid $light-grey-border;
+  //border: 1px solid $light-grey-border;
   border-spacing: 0;
-  border-radius: 3px;
-  margin-top: 1rem;
+  //border-radius: 3px;
 
   thead {
     border: 1px solid $light-grey-border;
     background-color: $api-header;
     text-align: left;
+    position: sticky;
+    top: 0;
+  }
+
+  tbody {
   }
 
   th {
@@ -63,4 +67,12 @@
 
 .container {
   position: relative;
+  height: 421px;
+  overflow-y: auto;
+}
+
+.tableBorder {
+  margin-top: 1rem;
+  border-radius: 3px;
+  border: 1px solid $light-grey-border;
 }
