@@ -1,5 +1,8 @@
 import React, { FunctionComponent, useEffect, useMemo, useRef, useState } from 'react';
-import { faCaretDown, faCaretUp, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight';
+import { faCaretUp } from '@fortawesome/free-solid-svg-icons/faCaretUp';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   arrowIcon,

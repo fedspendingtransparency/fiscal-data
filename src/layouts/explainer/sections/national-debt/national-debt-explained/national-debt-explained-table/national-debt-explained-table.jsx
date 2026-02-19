@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faFileInvoiceDollar, faFunnelDollar } from '@fortawesome/free-solid-svg-icons';
+import { faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons/faFileInvoiceDollar';
+import { faCoins } from '@fortawesome/free-solid-svg-icons/faCoins';
+import { faFunnelDollar } from '@fortawesome/free-solid-svg-icons/faFunnelDollar';
 import curvedArrow from '../../../../../../images/curved-arrow.svg';
 import React from 'react';
-import { nationalDebtExplainedTable, tableIcon, borderBottom } from '../national-debt-explained.module.scss';
+import { borderBottom, nationalDebtExplainedTable, tableIcon } from '../national-debt-explained.module.scss';
+
 export const nationalDebtExplainedTableContent = {
   header: [
     null,

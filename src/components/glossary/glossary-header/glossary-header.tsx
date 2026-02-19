@@ -1,8 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { headerContainer, title, bookIcon, header, closeIcon, closeButton } from './glossary-header.module.scss';
+import { bookIcon, closeButton, closeIcon, header, headerContainer, title } from './glossary-header.module.scss';
 import SearchBar from '../../search-bar/search-bar';
 
 interface IGlossaryHeader {

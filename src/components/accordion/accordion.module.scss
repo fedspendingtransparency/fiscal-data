@@ -37,9 +37,11 @@
   float: right;
   padding: 0 6px;
   cursor: pointer;
-
-  svg path {
-    color: $font-body-copy;
+  svg {
+    width: fit-content;
+    path {
+      color: $font-body-copy;
+    }
   }
 }
 

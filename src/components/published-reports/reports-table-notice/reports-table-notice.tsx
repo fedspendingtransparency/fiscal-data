@@ -1,7 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { container, errorContainer, icon, info, notShownBodyText, notShownHeading } from './reports-table-notice.module.scss';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
+import {
+  container,
+  errorContainer,
+  icon,
+  info,
+  notShownBodyText,
+  notShownHeading,
+} from './reports-table-notice.module.scss';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 
 interface iTableMessage {

@@ -1,23 +1,24 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
 import {
+  activeBorder,
+  activeLabel,
+  boxLabel,
+  comboCurrencySelection,
   currencyBox,
   currencySelection,
   currencyText,
-  headerIcon,
-  boxLabel,
   headerContainer,
-  comboCurrencySelection,
-  activeBorder,
-  activeLabel,
+  headerIcon,
 } from './currency-entry-box.module.scss';
 import ComboCurrencySelect from '../../combo-select/combo-currency-select/combo-currency-select';
-import { faDollarSign, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import classNames from 'classnames';
 import {
-  noNonNumericChar,
   handleHoverInfoTipAnalytics,
+  noNonNumericChar,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
 import { DropdownOption } from '../currency-exchange-rates-converter/currency-exchange-rates-converter';

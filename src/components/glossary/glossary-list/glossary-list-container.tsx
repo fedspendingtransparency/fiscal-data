@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { title, backToList, arrowIcon } from './glossary-list-container.module.scss';
+import { arrowIcon, backToList, title } from './glossary-list-container.module.scss';
 import GlossaryDefinition from '../glossary-definition/glossary-definition';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { IGlossaryTerm } from '../../../models/IGlossaryTerm';
