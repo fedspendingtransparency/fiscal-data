@@ -15,7 +15,9 @@ import {
 } from './data-table-header.module.scss';
 import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons/faArrowDownWideShort';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
+import { faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons/faArrowUpShortWide';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { getColumnFilter, rightAlign } from '../data-table-helper';
 import React, { FunctionComponent } from 'react';

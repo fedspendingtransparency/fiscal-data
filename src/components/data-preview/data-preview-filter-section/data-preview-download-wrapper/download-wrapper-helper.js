@@ -1,6 +1,9 @@
 import { ensureDoubleDigitDate } from '../../../download-wrapper/helpers';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../../utils/api-utils';
-import { faCaretDown, faCaretRight, faCaretUp, faCloudDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
+import { faCaretUp } from '@fortawesome/free-solid-svg-icons/faCaretUp';
+import { faCloudDownload } from '@fortawesome/free-solid-svg-icons/faCloudDownload';
 import { pxToNumber } from '../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../variables.module.scss';
 

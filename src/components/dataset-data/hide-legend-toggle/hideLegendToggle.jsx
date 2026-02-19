@@ -1,7 +1,7 @@
 import React from 'react';
-import { selectColumnsIcon, icon, toggleContainer, toggleButton } from './hideLegendToggle.module.scss';
+import { icon, selectColumnsIcon, toggleButton, toggleContainer } from './hideLegendToggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
+import { faCrosshairs } from '@fortawesome/free-solid-svg-icons/faCrosshairs';
 
 const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend, selectedTab, role }) => {
   return (

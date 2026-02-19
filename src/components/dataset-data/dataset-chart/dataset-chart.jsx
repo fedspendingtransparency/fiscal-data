@@ -4,7 +4,7 @@ import ChartLegend from '../../charts/chart-legend/chartLegend';
 import ChartCitation from './chart-citation/chart-citation';
 import { thinDataAsNeededForChart } from '../dataset-data-helper/dataset-data-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 
 import {
   chartArea,

@@ -64,6 +64,10 @@
   }
 }
 
+.paddingAdjust {
+  padding-right: 1rem;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .navContainer {
     position: -webkit-sticky; /* Safari */

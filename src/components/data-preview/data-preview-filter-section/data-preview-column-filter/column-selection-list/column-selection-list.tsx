@@ -13,7 +13,7 @@ import {
   sectionHeading,
 } from './column-selection-list.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { underlineMatchedString } from '../../../../search-bar/search-bar-helper';
 import SelectAll from '../select-all/data-preview-select-all';
 

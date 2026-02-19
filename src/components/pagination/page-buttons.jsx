@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH';
 import { active, arrow, ellipsis, pageButtons, pagingButtons } from './pagination-controls.module.scss';
 
 const PageButtons = ({ pageButtonProps }) => {

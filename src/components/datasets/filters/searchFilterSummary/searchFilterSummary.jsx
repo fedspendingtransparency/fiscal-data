@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  showingDatasetsText,
-  searchTermText,
+  clear_all_title_hidden,
+  filter_summary_button,
   filter_summary_container,
   filter_summary_item,
   filter_summary_title,
-  filter_summary_button,
+  searchTermText,
+  showingDatasetsText,
   times_icon,
-  clear_all_title_hidden,
   undo_icon,
 } from './searchFilterSummary.module.scss';
-import { faTimes, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import { isValid, format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { filtersByGroupKeyWithName } from '../../../../transform/filters/filterDefinitions';
 
 export default function SearchFilterSummary({ searchQuery, activeFilters, allFilters, onIndividualReset, onGroupReset }) {
@@ -81,10 +82,9 @@ export default function SearchFilterSummary({ searchQuery, activeFilters, allFil
                         isValid(option.active.startDate) &&
                         option.active.endDate &&
                         isValid(option.active.endDate) ? (
-                          <label aria-labelledby={'filter-label'}>{`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(
-                            option.active.endDate,
-                            ['MM/dd/yyyy']
-                          )}`}</label>
+                          <label aria-labelledby={'filter-label'}>
+                            {`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(option.active.endDate, ['MM/dd/yyyy'])}`}
+                          </label>
                         ) : (
                           <label>{option.label}</label>
                         )}

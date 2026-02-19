@@ -13,6 +13,10 @@
   padding: 0 1rem;
   white-space: nowrap;
 
+  svg {
+    width: fit-content;
+  }
+
   &.buttonEnabled {
     cursor: pointer;
   }

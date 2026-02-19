@@ -15,7 +15,9 @@ import {
 } from './data-preview-data-table-header.module.scss';
 import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from '../../../data-table/data-table-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDownWideShort, faArrowRightArrowLeft, faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons/faArrowDownWideShort';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
+import { faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons/faArrowUpShortWide';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { DataTableContext } from '../../data-preview-context';
 

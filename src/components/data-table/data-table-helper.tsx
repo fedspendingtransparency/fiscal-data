@@ -6,7 +6,7 @@ import DateRangeFilter from './data-table-header/date-range-filter/date-range-fi
 import CustomLink from '../links/custom-link/custom-link';
 import { downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
 
 const customFormat = (stringValue, decimalPlaces) => {

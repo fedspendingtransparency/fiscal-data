@@ -12,7 +12,7 @@ import {
   selectedTableName,
   summaryTableHeader,
 } from './data-preview.module.scss';
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { TableCache } from '../dataset-data/table-cache/table-cache';

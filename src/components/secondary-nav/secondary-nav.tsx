@@ -22,6 +22,7 @@ import {
   comingSoonContainer,
   comingSoonLink,
   sectionList,
+  paddingAdjust,
   extraPadding,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
@@ -174,9 +175,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     <div className={mainContainer}>
       <aside className={`${navContainer} secondaryNavContainer`}>
         <nav>
+          {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+          <div className={paddingAdjust}>{shouldTocShow && headerComponent}</div>
           <ul className={sectionList}>
-            {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-            {shouldTocShow && headerComponent}
             {shouldTocShow &&
               sections.map(s => {
                 let headingClass = '';
