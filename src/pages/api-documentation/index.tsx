@@ -56,7 +56,6 @@ const ApiDocumentationPage: FunctionComponent = () => {
           </div>
         </SecondaryNav>
       </div>
-      {/*<TOCButton handleToggle={handleToggle} state={tocIsOpen} />*/}
     </SiteLayout>
   );
 };
