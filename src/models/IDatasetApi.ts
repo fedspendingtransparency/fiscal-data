@@ -3,6 +3,7 @@ import { IPivotView } from './data-preview/IPivotView';
 export interface IDatasetApi {
   alwaysSortWith: string | null;
   hideColumns: string[] | null;
+  additionalColumns: string[] | null;
   selectColumns: string[];
   apiId: number;
   dataDisplays: IPivotView[];

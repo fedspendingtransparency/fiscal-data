@@ -240,7 +240,7 @@ module.exports = {
         'cnc_total_amt',
         'cnc_closed_out_current_fy_amt',
       ],
-      hideColumns: [
+      additionalColumns: [
         'agency_code',
         'receivable_type_id',
         'funding_type_description',
