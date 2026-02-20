@@ -1,10 +1,10 @@
 /* istanbul ignore file */
-const core = require('@actions/core');
-const github = require('@actions/github');
+import * as core from '@actions/core';
+import * as github from '@actions/github';
+import summaryData from '../../coverage/coverage-summary.json' with { type: 'json' };
 
 (async () => {
   try {
-    const summaryData = require('../../coverage/coverage-summary.json');
     const coverage = summaryData.total.lines.pct;
     const icon = coverage < 90 ? '❌' : `✅`;
     const token = core.getInput('GITHUB_TOKEN');

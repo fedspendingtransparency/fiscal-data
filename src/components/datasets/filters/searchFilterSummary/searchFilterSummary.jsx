@@ -83,7 +83,7 @@ export default function SearchFilterSummary({ searchQuery, activeFilters, allFil
                         option.active.endDate &&
                         isValid(option.active.endDate) ? (
                           <label aria-labelledby={'filter-label'}>
-                            {`${format(option.active.startDate, ['MM/dd/yyyy'])} - ${format(option.active.endDate, ['MM/dd/yyyy'])}`}
+                            {`${format(option.active.startDate, 'MM/dd/yyyy')} - ${format(option.active.endDate, 'MM/dd/yyyy')}`}
                           </label>
                         ) : (
                           <label>{option.label}</label>

@@ -190,7 +190,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
               slotProps={{
                 textField: props => ({
                   variant: 'outlined',
-                  placeholder: 'MM/DD/YYYY',
+                  placeholder: 'MM/dd/yyyy',
                   helperText: beginErrorMessage,
                   sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
@@ -233,7 +233,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
               slotProps={{
                 textField: props => ({
                   variant: 'outlined',
-                  placeholder: 'MM/DD/YYYY',
+                  placeholder: 'MM/dd/yyyy',
                   helperText: endErrorMessage,
                   sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
                   inputProps: {
