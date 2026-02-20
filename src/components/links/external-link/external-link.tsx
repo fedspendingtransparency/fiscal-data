@@ -11,6 +11,7 @@ type ExternalLinkProps = {
   className?: string;
   style?: React.CSSProperties;
   skipExternalModal?: boolean;
+  'aria-label'?: string;
 };
 
 const isGovDomain = (href: string): boolean => {
@@ -30,6 +31,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
   className,
   style,
   skipExternalModal = false,
+  'aria-label': ariaLabel
 }) => {
   const setModal = useSetRecoilState(redirectModalState);
 
@@ -55,6 +57,7 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
         data-testid={dataTestId}
         className={className ? className : 'primary'}
         style={style}
+        aria-label={ariaLabel}
         onClick={isGovDomain(url) || skipExternalModal ? onClick : openModal}
       >
         {children}

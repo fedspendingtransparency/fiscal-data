@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import { faCommentDollar, faHandHoldingDollar, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
-import { spendingExplainerPrimary, spendingExplainerLightSecondary } from '../federal-spending.module.scss';
+import { faCommentDollar } from '@fortawesome/free-solid-svg-icons/faCommentDollar';
+import { faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons/faHandHoldingDollar';
+import { faPiggyBank } from '@fortawesome/free-solid-svg-icons/faPiggyBank';
+import { spendingExplainerLightSecondary, spendingExplainerPrimary } from '../federal-spending.module.scss';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 

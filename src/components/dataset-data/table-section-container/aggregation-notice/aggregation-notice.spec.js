@@ -1,7 +1,7 @@
 import React from 'react';
 import AggregationNotice, { dataAggregationNotice } from './aggregation-notice';
 import { render, screen } from '@testing-library/react';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 
 describe('AggregationNotice Component', () => {
   beforeEach(() => {

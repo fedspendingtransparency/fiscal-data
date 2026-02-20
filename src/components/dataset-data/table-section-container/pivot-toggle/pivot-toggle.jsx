@@ -1,7 +1,7 @@
 import React from 'react';
 import { headerToggle, toggleIcon } from './pivot-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartBar } from '@fortawesome/free-regular-svg-icons';
+import { faChartBar } from '@fortawesome/free-regular-svg-icons/faChartBar';
 
 const PivotToggle = ({ clickHandler, open }) => {
   return (

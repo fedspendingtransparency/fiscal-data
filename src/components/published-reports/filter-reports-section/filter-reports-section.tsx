@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useEffect, useState, useMemo } from 'react';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
 import { format } from 'date-fns';
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import AccountBox from '@mui/icons-material/AccountBox';
@@ -12,7 +12,7 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import { DownloadReportTable } from '../download-report-table/download-report-table';
 import { sectionTitle } from '../published-reports';
 import { filterContainer } from './filter-report-section.module.scss';
-import { useFilterReports, SPECIAL_LABEL } from './filter-reports-section-helpers/useFilterReports';
+import { SPECIAL_LABEL, useFilterReports } from './filter-reports-section-helpers/useFilterReports';
 
 const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
   const { runTimeReportConfig: reportConfig, apis } = dataset;

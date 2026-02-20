@@ -1,6 +1,6 @@
 import { icon, listContainer, shareButton } from './social-share-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
+import { faShareNodes } from '@fortawesome/free-solid-svg-icons/faShareNodes';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { SocialShareComponent } from '../social-share';

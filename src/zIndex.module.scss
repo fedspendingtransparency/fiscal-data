@@ -37,6 +37,7 @@ $dtg-api-error: $dtg-table-loading-icon;
 $dtg-table-dropdown: $above + $combo-select-dropdown;
 $data-table-filters-dropdown: $above + $dtg-api-error;
 $data-table-select-dropdown: $above + $data-table-filters-dropdown;
+$date-picker-popper: $above + $data-table-select-dropdown;
 // table container
 $table-loading-section: $above + $backdrop;
 $table-title: $above + $table-loading-section;

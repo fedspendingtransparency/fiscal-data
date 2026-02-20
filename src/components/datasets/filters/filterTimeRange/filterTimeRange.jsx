@@ -16,7 +16,7 @@ import {
 import Analytics from '../../../../utils/analytics/analytics';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar';
 
 export const timeRangeCompleteAnalyticsObject = {
   category: 'Dataset Search Page',

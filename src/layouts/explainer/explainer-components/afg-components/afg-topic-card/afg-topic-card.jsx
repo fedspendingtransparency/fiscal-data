@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons/faArrowRightLong';
 import { arrow, imageContainer, link, textContainer, topicHeading, topicSection } from './afg-topic-card.module.scss';
 import Analytics from '../../../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../../../hooks/useGAEventTracking';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import HideLegendToggle from './hideLegendToggle';
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import { faSlidersH } from '@fortawesome/free-solid-svg-icons/faSlidersH';
 import userEvent from '@testing-library/user-event';
 
 describe('Legend Show/Hide Toggle', () => {

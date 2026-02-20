@@ -1,29 +1,29 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  container,
-  currencyBoxContainer,
+  arrowsIcon,
   boxWidth,
+  container,
+  conversionContainer,
   conversionTitle,
+  currencyBoxContainer,
   headTitle,
   selector,
-  arrowsIcon,
-  conversionContainer,
 } from './currency-exchange-rates-converter.module.scss';
 import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../select-control/nest-select-control';
 import {
-  dateStringConverter,
-  countDecimals,
-  enforceTrailingZero,
-  currencySelectionInfoIcon,
   analyticsHandler,
-  publishedDateInfoIcon,
+  countDecimals,
+  currencySelectionInfoIcon,
+  dateStringConverter,
+  enforceTrailingZero,
   handleHoverInfoTipAnalytics,
+  publishedDateInfoIcon,
 } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import BannerCallout from '../../banner-callout/banner-callout';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
 
 let gaInfoTipTimer: NodeJS.Timeout;

@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { listHeader, citationContainer, iconContainer, citationText, citationList } from './citation-list.module.scss';
+import { citationContainer, citationList, citationText, iconContainer, listHeader } from './citation-list.module.scss';
 import CustomLink from '../links/custom-link/custom-link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons/faExternalLink';
+import { faLink } from '@fortawesome/free-solid-svg-icons/faLink';
 import Heading from '../heading/heading';
 import { analyticsEventHandler } from '../../helpers/insights/insight-helpers';
 
