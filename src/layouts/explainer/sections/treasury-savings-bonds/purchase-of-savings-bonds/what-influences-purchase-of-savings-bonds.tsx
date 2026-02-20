@@ -71,7 +71,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
 
             savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
             const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-            const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData].sort((a, b) => a.year - b.year);
+            const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData]
+              .sort((a, b) => a.year - b.year)
+              .filter(entry => cpiDataByYear[entry.year]);
 
             const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
               const totalSalesForYear = acc[entry.year] || 0;
