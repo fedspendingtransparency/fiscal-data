@@ -17,6 +17,7 @@ type CustomLinkProps = {
   tabindex?: number;
   className?: string;
   skipExternalModal?: boolean;
+  'aria-label'?: string;
 };
 
 const analyticsEventMap: Record<string, string> = {
@@ -39,6 +40,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   tabindex,
   className,
   skipExternalModal = false,
+  'aria-label': ariaLabel
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -99,6 +101,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           id={id}
           className={className}
           skipExternalModal={skipExternalModal}
+          aria-label={ariaLabel}
         >
           {children}
         </ExternalLink>
@@ -141,6 +144,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           data-testid={dataTestId || 'internal-link'}
           onClick={onClickEventHandler}
           id={id}
+          aria-label={ariaLabel}
         >
           {children}
         </Link>
