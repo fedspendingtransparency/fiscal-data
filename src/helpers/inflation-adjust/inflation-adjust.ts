@@ -13,7 +13,6 @@ export const adjustDataForInflation = (
   const latestEntry = [...dataToConvert].sort((a, b) => getYearFromDate(b[dateField]) - getYearFromDate(a[dateField]))[0];
   const latestYear = getYearFromDate(latestEntry[dateField]);
   const referenceCPIValue = cpiYearMap[latestYear];
-
   const convertedData = [];
   dataToConvert.forEach(dataRow => {
     const recordYear = getYearFromDate(dataRow[dateField]);
