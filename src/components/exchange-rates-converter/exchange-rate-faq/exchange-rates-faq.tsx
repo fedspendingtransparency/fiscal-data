@@ -16,7 +16,7 @@ import CustomLink from '../../links/custom-link/custom-link';
 import { analyticsHandler, dateStringConverter } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons/faExternalLink';
 
 const CurrencyExchangeFAQ: FunctionComponent = () => {
   const data = useStaticQuery(

@@ -20,8 +20,9 @@ import {
 import { Modal, Popover } from '@mui/material';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons/faEdit';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import FilterEditor from '../filter-editor/filter-editor';
 
 const getModalStyle = () => {

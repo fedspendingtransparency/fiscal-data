@@ -1,7 +1,14 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
-import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './date-dropdown.module.scss';
+import {
+  applyButton,
+  buttonContainer,
+  cancelButton,
+  checkIcon,
+  dropdownContainer,
+  inputContainer,
+} from './date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import DateTextInput from '../date-text-input/date-text-input';
 import { analyticsEventHandler } from '../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';

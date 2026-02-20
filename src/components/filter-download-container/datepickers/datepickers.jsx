@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
+import { time_range_filter, time_range_filter_datePicker, date_picker_popper } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../../../theme';
@@ -125,12 +125,18 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                     variant: 'outlined',
                     // placeholder: 'MM/DD/YYYY',
                     helperText: beginErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: {
+                      '& .MuiIconButton-root': { marginRight: '0' },
+                      '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' },
+                    },
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'From Date',
                     },
                   }),
+                  popper: {
+                    className: date_picker_popper,
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',
@@ -171,6 +177,9 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                       'aria-label': 'To Date',
                     },
                   }),
+                  popper: {
+                    className: date_picker_popper,
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',

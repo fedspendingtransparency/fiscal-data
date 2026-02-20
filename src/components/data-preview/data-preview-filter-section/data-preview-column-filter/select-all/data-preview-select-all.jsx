@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
 import React from 'react';
 import { checkmarkText, container, labelCheckmarkContainer, selectAll } from './data-preview-select-all.module.scss';
 

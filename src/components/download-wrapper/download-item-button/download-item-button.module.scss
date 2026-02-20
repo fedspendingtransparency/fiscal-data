@@ -28,6 +28,9 @@
 .optionIcon {
   display: inline-block;
   margin-right: 0.5rem;
+  svg {
+    width: fit-content;
+  }
 }
 
 .progressIcon {

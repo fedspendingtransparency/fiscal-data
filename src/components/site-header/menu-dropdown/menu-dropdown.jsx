@@ -14,7 +14,8 @@ import {
   resourcesDropDown,
 } from './menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretRight } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';

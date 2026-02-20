@@ -1,23 +1,24 @@
 import React, { FunctionComponent } from 'react';
 import {
-  redirectModalContainer,
-  externalLink,
-  titleText,
-  explanation,
-  directions,
-  linkContainer,
   closeButton,
-  topBar,
-  redirectContentOverride,
-  redirectBody,
+  directions,
+  explanation,
+  externalLink,
   icon,
-  titleContainer,
   iconTriangle,
+  linkContainer,
+  redirectBody,
+  redirectContentOverride,
+  redirectModalContainer,
+  titleContainer,
+  titleText,
+  topBar,
 } from './redirect-modal.module.scss';
 
 import ModalComponent from '../modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 
 type RedirectModalProps = {
   isOpen: boolean;
