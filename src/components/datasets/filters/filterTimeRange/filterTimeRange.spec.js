@@ -42,9 +42,9 @@ describe('Time Range Filter', () => {
   });
 
   it('contains the "From" and "To" date pickers', () => {
-    const { getByRole } = render(<FilterTimeRange />);
-    const fromPicker = getByRole('textbox', { name: 'From Date' });
-    const toPicker = getByRole('textbox', { name: 'To Date' });
+    const { getByTestId } = render(<FilterTimeRange />);
+    const fromPicker = getByTestId('From Date');
+    const toPicker = getByTestId('To Date');
     expect(fromPicker).toBeInTheDocument();
     expect(toPicker).toBeInTheDocument();
   });
@@ -77,13 +77,17 @@ describe('Time Range Filter', () => {
   it('triggers the dateRangeFilter call and context setters when both dates are set properly', async () => {
     renderContext({ beginDate: null, endDate: null });
     dateRangeFilter.mockClear();
-    const clearFilter = '{backspace}{arrowright}{backspace}{arrowright}{backspace}{arrowleft}{arrowleft}';
-    const [from, to] = screen.getAllByRole('textbox');
 
-    await userEvent.type(from, clearFilter);
-    await userEvent.type(from, '01/02/2020');
-    await userEvent.type(to, clearFilter);
-    await userEvent.type(to, '06/02/2020');
+    const from = screen.getByRole('button', { name: 'Choose date, selected date is Jan 1, 2020' });
+    userEvent.click(from);
+    let newDateButton = within(screen.getByRole('grid', { name: 'January 2020' })).getByRole('gridcell', { name: '11' });
+    userEvent.click(newDateButton);
+
+    const to = screen.getByRole('button', { name: 'Choose date, selected date is Jun 1, 2020' });
+    userEvent.click(to);
+    newDateButton = within(screen.getByRole('grid', { name: 'June 2020' })).getByRole('gridcell', { name: '11' });
+    userEvent.click(newDateButton);
+
     expect(dateRangeFilter).toHaveBeenCalledTimes(2);
     expect(setBeginDateSpy).toHaveBeenCalled();
     expect(setEndDateSpy).toHaveBeenCalled();

@@ -204,6 +204,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                     'aria-label': 'From Date',
                   },
                 }),
+                field: { 'data-testid': 'From Date' },
                 popover: {
                   anchorOrigin: {
                     vertical: 'bottom',
@@ -247,6 +248,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
                     'aria-label': 'To Date',
                   },
                 }),
+                field: { 'data-testid': 'To Date' },
                 popover: {
                   anchorOrigin: {
                     vertical: 'bottom',
