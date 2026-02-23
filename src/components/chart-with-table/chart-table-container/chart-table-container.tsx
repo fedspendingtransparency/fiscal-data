@@ -1,7 +1,6 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
-import DownloadItemButton
-  from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/download-button';
+import DownloadItemButton from '../../data-preview/data-preview-filter-section/data-preview-download-wrapper/download-button/download-button';
 import {
   chartContainer,
   chartTable,
@@ -18,7 +17,7 @@ import {
   tableBoarder,
 } from './chart-table-container.module.scss';
 import DateRangeMonthPicker from '../../date-range-month-picker/date-range-month-picker';
-import { Skeleton } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 import ChartingTableToggle from '../chart-table-toggle/charting-table-toggle';
 import { faChartColumn } from '@fortawesome/free-solid-svg-icons/faChartColumn';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';

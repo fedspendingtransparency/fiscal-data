@@ -1,5 +1,7 @@
 import React from 'react';
-import { Backdrop, Fade, Modal } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
 import { content, modal, slideIn, slideOut } from './modal.module.scss';
 
 /**
