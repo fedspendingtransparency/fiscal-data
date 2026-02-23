@@ -95,3 +95,10 @@
     font-weight: $semi-bold-weight;
   }
 }
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .tableFooter {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

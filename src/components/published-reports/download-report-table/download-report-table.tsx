@@ -98,7 +98,7 @@ export const DownloadReportTable: FunctionComponent<{
   return (
     <>
       <div className={tableBorder}>
-        <div className={`${container} ${reports?.length < 5 && minimalView}`}>
+        <div className={`${container} ${(reports?.length < 5 || generatedReports) && minimalView}`}>
           <table className={`${table} ${reports?.length > 5 && displayReports?.length < 5 && bottomBorder}`}>
             <thead>
               {!mobileView && (
