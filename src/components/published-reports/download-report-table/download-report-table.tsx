@@ -1,5 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { container, date, headerRow, loadingIcon, name, overlay, table, tableBorder, tableFooter } from './download-report-table.module.scss';
+import {
+  bottomBorder,
+  container,
+  date,
+  headerRow,
+  loadingIcon,
+  minimalView,
+  name,
+  overlay,
+  range,
+  table,
+  tableBorder,
+  tableFooter,
+} from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
 import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
@@ -27,7 +40,6 @@ export const DownloadReportTable: FunctionComponent<{
   const [displayReports, setDisplayReports] = useState([]);
   const [perPage, setPerPage] = useState(5);
   const showPaginationControls = true;
-  const rowText = ['rows', 'rows'];
 
   const handleJump = page => {
     const pageNum = Math.max(1, page);
@@ -64,18 +76,30 @@ export const DownloadReportTable: FunctionComponent<{
     currentPage: currentPage,
     maxRows: maxRows,
     disablePerPage: false,
-    showWhenEmpty: true,
+    showWhenEmpty: false,
   };
 
   useEffect(() => {
     setMobileView(pxToNumber(breakpointLg) > width);
   }, [width]);
 
+  const visibleRows = () => {
+    const rowText = maxRows === 1 ? '' : 'rows';
+    const totalRowText = maxRows === 1 ? 'row' : 'rows';
+    const rangeText = maxRows === 0 ? '0' : `${rowsShowing.begin} - ${rowsShowing.end}`;
+
+    return (
+      <div>
+        Showing <span className={range}>{rangeText}</span> {rowText} of {maxRows} {totalRowText}
+      </div>
+    );
+  };
+
   return (
     <>
       <div className={tableBorder}>
-        <div className={container}>
-          <table className={table}>
+        <div className={`${container} ${reports?.length < 5 && minimalView}`}>
+          <table className={`${table} ${reports?.length > 5 && displayReports?.length < 5 && bottomBorder}`}>
             <thead>
               {!mobileView && (
                 <tr>
@@ -122,7 +146,7 @@ export const DownloadReportTable: FunctionComponent<{
         </div>
       </div>
       <div className={tableFooter}>
-        <div data-testid="rows-showing">{`Showing ${rowsShowing.begin} - ${rowsShowing.end} ${rowText[0]} of ${maxRows} ${rowText[1]}`}</div>
+        {visibleRows()}
         {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}
       </div>
     </>
