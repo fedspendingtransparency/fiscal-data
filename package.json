@@ -151,9 +151,9 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.6.0",
-    "@babel/core": "^7.24.7",
-    "@babel/eslint-parser": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/core": "^7.29.0",
+    "@babel/eslint-parser": "^7.28.6",
+    "@babel/preset-typescript": "^7.28.5",
     "@rxreact/jest-helpers": "^1.0.0",
     "@testing-library/cypress": "^10.0.2",
     "@testing-library/dom": "^10.1.0",
