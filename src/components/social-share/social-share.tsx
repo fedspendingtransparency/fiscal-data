@@ -94,7 +94,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
             Share this page
           </Heading>
         )}
-        <ul className={socialShareContent}>
+        <ul className={`${contentStyle} socialShareContent`}>
           <li className={containerStyle}>
             <button
               className={`${buttonStyle} ${customShareButton} facebookShare`}
