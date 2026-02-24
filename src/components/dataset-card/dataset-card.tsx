@@ -3,7 +3,7 @@ import Analytics from '../../utils/analytics/analytics';
 import { Link } from 'gatsby';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../theme';
 import { IDataset } from '../../models/IDataset';
 import { card, card_withFocus, card_withFocus_FireFox, cardHeroImage, datasetName } from './dataset-card.module.scss';

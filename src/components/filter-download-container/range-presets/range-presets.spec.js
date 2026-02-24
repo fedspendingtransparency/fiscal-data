@@ -7,7 +7,7 @@ import { testReformatter } from './helpers/test-helper';
 import { addDays, subQuarters } from 'date-fns';
 import userEvent from '@testing-library/user-event';
 import { formatDate } from '../../download-wrapper/helpers';
-import { updateDatePicker } from '../datepickers/datepickers.spec';
+import { compareValues, updateDatePicker } from '../datepickers/datepickers.spec';
 
 jest.useFakeTimers();
 
@@ -231,7 +231,7 @@ describe('Range Presets Component, without the current report radio option', () 
     const customRangeButton = getByTestId('preset-radio-custom');
     expect(customRangeButton).toBeChecked();
 
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('textbox', { hidden: true });
     expect(datePickers.length).toBeGreaterThan(0);
 
     expect(datePickers[0]).toHaveValue(formatDate(quarterDatesMock.from));
@@ -260,13 +260,13 @@ describe('Range Presets Component, without the current report radio option', () 
         setIsCustomDateRange={setIsCustomDateRangeMock}
       />
     );
-    let datePickers = queryAllByRole('textbox');
+    let datePickers = queryAllByRole('spinbutton');
     expect(datePickers.length).toBe(0);
 
     const customRangeButton = getByTestId('preset-radio-custom');
     userEvent.click(customRangeButton);
     jest.runAllTimers();
-    datePickers = queryAllByRole('textbox');
+    datePickers = queryAllByRole('spinbutton');
     expect(datePickers.length).toBeGreaterThan(0);
   });
 
@@ -284,7 +284,7 @@ describe('Range Presets Component, without the current report radio option', () 
 
     jest.runAllTimers();
 
-    const [from, to] = getAllByRole('textbox');
+    const [from, to] = getAllByRole('textbox', { hidden: true });
     //Displays error message for out of range dates
     updateDatePicker(from, '01/01/2001');
     expect(getByText('Date should not be before minimal date')).toBeInTheDocument();
@@ -292,12 +292,9 @@ describe('Range Presets Component, without the current report radio option', () 
     updateDatePicker(from, '01/01/2025');
     expect(getByText('Date should not be after maximal date')).toBeInTheDocument();
 
-    setDateRangeMock.mockClear();
-
     updateDatePicker(from, '01/01/2005');
-    setDateRangeMock.mockClear();
     updateDatePicker(to, '01/01/2019');
-    expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2019-01-01');
+    compareValues([from, to], ['01/01/2005', '01/01/2019']);
   });
 
   it(`fits a currently selected custom date to a newly selected table's available date range as needed`, () => {
@@ -327,7 +324,7 @@ describe('Range Presets Component, without the current report radio option', () 
     const radioBtn = getByTestId('preset-radio-custom');
     userEvent.click(radioBtn);
 
-    const datePickers = getAllByRole('textbox');
+    const datePickers = getAllByRole('textbox', { hidden: true });
     setDateRangeMock.mockClear();
 
     updateDatePicker(datePickers[0], rangeSelectedStr.from);

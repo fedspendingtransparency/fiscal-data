@@ -4,7 +4,7 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons/faCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { time_range_filter, time_range_filter_datePicker } from './datepickers.module.scss';
+import { time_range_filter, time_range_filter_datePicker, date_picker_popper } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
 import { ThemeProvider } from '@mui/material';
 import { theme } from '../../../theme';
@@ -100,6 +100,17 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
     }
   };
 
+  const muiStyle = {
+    '& .MuiIconButton-root': { marginRight: '0' },
+    '& .MuiPickersInputBase-sectionsContainer': {
+      padding: '8px 0 8px 8px',
+      fontSize: '15px',
+      color: '#666666',
+      maxWidth: '188px',
+    },
+    '& .MuiPickersInputBase-root': { padding: 0 },
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -118,19 +129,20 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 inputFormat="MM/dd/yyyy"
                 minDate={dayjs(earliestDate)}
                 maxDate={dayjs(latestDate)}
-                // disableFuture={true}
                 slotProps={{
                   textField: props => ({
                     ...props,
                     variant: 'outlined',
-                    // placeholder: 'MM/DD/YYYY',
                     helperText: beginErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: muiStyle,
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'From Date',
                     },
                   }),
+                  popper: {
+                    className: date_picker_popper,
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',
@@ -163,14 +175,16 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
                 slotProps={{
                   textField: props => ({
                     variant: 'outlined',
-                    // placeholder: 'MM/DD/YYYY',
                     helperText: endErrorMessage,
-                    sx: { '& .MuiIconButton-root': { marginRight: '0' }, '& .MuiOutlinedInput-input': { padding: '10px 0 10px 10px' } },
+                    sx: muiStyle,
                     inputProps: {
                       ...props.inputProps,
                       'aria-label': 'To Date',
                     },
                   }),
+                  popper: {
+                    className: date_picker_popper,
+                  },
                   popover: {
                     anchorOrigin: {
                       vertical: 'bottom',
