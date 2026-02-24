@@ -4,15 +4,18 @@
   display: table;
   width: 100%;
   table-layout: fixed;
-  border: 1px solid $light-grey-border;
   border-spacing: 0;
-  border-radius: 3px;
-  margin-top: 1rem;
+
+  &.bottomBorder {
+    border-bottom: 1px solid $light-grey-border;
+  }
 
   thead {
     border: 1px solid $light-grey-border;
     background-color: $api-header;
     text-align: left;
+    position: sticky;
+    top: 0;
   }
 
   th {
@@ -20,6 +23,7 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
+
   td {
     border-top: 1px solid $light-grey-border;
   }
@@ -63,4 +67,38 @@
 
 .container {
   position: relative;
+  overflow-y: auto;
+
+  &.minimalView {
+    max-height: 421px;
+  }
+
+  &:not(.minimalView) {
+    height: 421px;
+  }
+}
+
+.tableBorder {
+  margin-top: 1rem;
+  border-radius: 3px;
+  border: 1px solid $light-grey-border;
+}
+
+.tableFooter {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+
+  .range {
+    font-weight: $semi-bold-weight;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .tableFooter {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }

@@ -43,7 +43,6 @@ const ChartTopNotch = (props: ActiveShapeProps) => {
           endAngle={endAngle}
           fill={fill}
           opacity={opacity}
-          aria-label={`${payload.name}: Value: ${payload.value} Percent: ${payload.percent?.toFixed(2)}%`}
         />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke="#555555" fill="none" />
         <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey + 13} textAnchor={textAnchor} fill="#555555" fontSize={14} fontWeight={400}>

@@ -546,6 +546,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
       hideColumns: [String],
+      additionalColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
       apiFilter: ApiFilter,
@@ -710,6 +711,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             dateField
             alwaysSortWith
             hideColumns
+            additionalColumns
             customFormatting {
               type
               fields

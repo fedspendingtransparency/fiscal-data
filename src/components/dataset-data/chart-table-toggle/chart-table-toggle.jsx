@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar } from '@fortawesome/free-solid-svg-icons/faChartBar';
 import { faCrosshairs } from '@fortawesome/free-solid-svg-icons/faCrosshairs';
