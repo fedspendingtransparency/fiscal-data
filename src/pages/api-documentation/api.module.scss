@@ -5,51 +5,9 @@ div.aboutPageWrapper {
   padding-top: 0;
 }
 
-.customTop {
-  padding-top: 26.5px;
-}
-
-.section section {
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &.noBullets,
-  .noBullets {
-    list-style: none;
-  }
-  &:last-child,
-  &.lastChild {
-    padding-bottom: 7.25rem;
-  }
-}
-
 .content {
   max-width: 847px;
   margin-bottom: 3.75rem;
-}
-
-.list {
-  li {
-    margin-bottom: 1.5rem;
-  }
-  &.noBullets {
-    list-style: none;
-  }
-}
-
-.title {
-  &,
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-    @include headingStyle2-1;
-  }
-  h3 {
-    margin-top: 0;
-    @include headingStyle3;
-  }
-  margin-top: 0;
 }
 
 .activeLink {
