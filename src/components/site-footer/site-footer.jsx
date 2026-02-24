@@ -161,7 +161,7 @@ const SiteFooter = () => {
               {siteFooterColumns.map(columnContent => {
                 return (
                   <div className={column} key={columnContent.title}>
-                    <div className={columnTitle}>{columnContent.title}</div>
+                    <h2 className={columnTitle}>{columnContent.title}</h2>
                     {columnContent.links.map(link => (
                       <CustomLink
                         key={link.testId}
