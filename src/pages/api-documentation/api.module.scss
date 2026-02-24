@@ -26,4 +26,10 @@ div.aboutPageWrapper {
   .aboutPageWrapper {
     display: flex;
   }
+
+  #content {
+    max-width: 847px;
+    width: calc(100% - 260px - 2rem);
+    padding-bottom: 15rem;
+  }
 }
