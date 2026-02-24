@@ -26,7 +26,7 @@ const CurrencyExchangeRatesConverter: FunctionComponent = () => {
       </div>
       <section className={legalDisclaimer}>
         <div>
-          <span> Important Legal Disclosures and Information</span>
+          <h4> Important Legal Disclosures and Information</h4>
           <p>
             The Treasury Reporting Rates of Exchange dataset provides the U.S. government's authoritative foreign currency exchange rates for federal
             agencies to consistently report U.S. dollar equivalents. For more information on the calculation of exchange rates used by federal
