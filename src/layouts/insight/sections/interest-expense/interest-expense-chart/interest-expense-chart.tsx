@@ -1,4 +1,4 @@
-import { Bar, CartesianGrid, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, Cell, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { CustomTooltip, Legend } from './interest-expense-chart-helper';
 import React, { useEffect, useState } from 'react';
 import { interestExpensePrimary } from '../../../insight.module.scss';
@@ -102,7 +102,7 @@ const InterestExpenseChart = () => {
         monthRange={{ from: startFY, to: currentFY }}
         enabledClickedColorChange={true}
         isLoading={chartLoading}
-        height={360}
+        height={505.5}
         chart={
           <div className={chartTableBoarder}>
             <div aria-label={altText}>

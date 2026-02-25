@@ -18,7 +18,8 @@ type Tooltip = (object: {
 }) => void;
 
 export const chartConfig = {
-  height: 360,
+  chartHeight: 395,
+  height: 610,
   altText:
     'A bar chart that shows the amount of outstanding securities over the last 12 months with an overlayed ' +
     'line chart showing the count of outstanding securities. Generally, as the amount of outstanding securities ' +
