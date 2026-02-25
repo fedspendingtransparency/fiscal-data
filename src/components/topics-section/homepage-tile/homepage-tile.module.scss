@@ -46,6 +46,10 @@
     font-weight: $semi-bold-weight;
     margin: 0;
 
+    &.rightTileText {
+      padding-top: 0.5rem;
+    }
+
     &.mainTitle {
       font-size: $font-size-32;
       padding: 1rem 0 0.5rem;
@@ -88,18 +92,19 @@
 
 @media screen and (min-width: $breakpoint-lg) {
   .mainContent {
-    .explainerImageContainer {
-      margin-right: 1rem;
-    }
     .explainerImage {
       width: 16.25rem;
       height: 10rem;
+    }
+    .textSection {
+      padding-left: 2rem;
     }
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  // gatsby image visibility changes
+  // the image that displays changes
+  // TODO: could this be simplified? given this is only for afg...?
   .showOnDesktop {
     display: none;
   }

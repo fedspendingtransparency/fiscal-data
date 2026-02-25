@@ -14,6 +14,7 @@ import {
   imageSection,
   textSection,
   twoColLayout,
+  rightTileText,
 } from './homepage-tile.module.scss';
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
@@ -21,7 +22,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let homepageTile;
-const HomePageTile = ({ content, images, layout, explainerTile }) => {
+const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => {
   let desktopImage, mobileImage;
 
   if (images) {
@@ -54,10 +55,10 @@ const HomePageTile = ({ content, images, layout, explainerTile }) => {
     <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
       <div className={tileLayoutWrapper}>
         <div className={`imageSection ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
-        <div className={`${content.path ? '' : comingSoon} textSection`}>
+        <div className={`textSection ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="Icon" className={afgBookIcon} />}
-            <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
+            <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
         </div>
