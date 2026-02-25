@@ -151,7 +151,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                   )}
                   <div
                     onMouseDown={header.getResizeHandler()}
-                    onTouchStart={header.getResizeHandler()}
+                    // onTouchStart={header.getResizeHandler()}
                     role="presentation"
                     className={`${resizer} ${header.column.getIsResizing() ? isResizing : ''}`}
                   />
