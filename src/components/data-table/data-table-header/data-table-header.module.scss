@@ -81,6 +81,8 @@
 
 .columnMinWidth {
   min-width: 160px;
+  position: relative;
+  z-index: 2;
 }
 
 @media (hover: hover) {
@@ -90,5 +92,15 @@
 
   *:hover > .resizer {
     opacity: 1;
+  }
+}
+.textHeaderContainer,
+.textChartHeaderContainer {
+  position: relative;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .resizer {
+    display: none;
   }
 }
