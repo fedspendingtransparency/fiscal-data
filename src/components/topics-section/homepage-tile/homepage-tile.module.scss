@@ -90,8 +90,7 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  // the image that displays changes
-  // TODO: could this be simplified? given this is only for afg...?
+  // image that displays changes in mobile view - only impacts afg overview
   .showOnDesktop {
     display: none;
   }
