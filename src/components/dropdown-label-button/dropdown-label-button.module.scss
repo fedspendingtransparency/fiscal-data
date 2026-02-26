@@ -13,7 +13,7 @@
   padding: 0 1rem;
   white-space: nowrap;
 
-  svg {
+  .caretIcon {
     width: 0.625rem;
   }
 
@@ -64,6 +64,7 @@
 
 .labelIcon {
   padding-right: 14px;
+  width: 0.875rem;
 }
 
 .backgroundHighlight {
