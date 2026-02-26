@@ -18,7 +18,7 @@ The flipcard shows `current_fytd_net_outly_amt`, rounded to the nearest dollar.
 
 **Source:** [Monthly Treasury Statements](https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government) (Fiscal Data)
 
-**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19
+**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F,record_calendar_month:eq:09&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19
 
 Bar chart shows `current_fytd_rcpt_outly_amt` by `classification_desc` in dollars or percentage of spending.
 
@@ -26,7 +26,7 @@ Bar chart shows `current_fytd_rcpt_outly_amt` by `classification_desc` in dollar
 
 **Source:** [Monthly Treasury Statements](https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/outlays-of-the-u-s-government) (Fiscal Data)
 
-**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30
+**API call:** https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=record_calendar_month:eq:09,data_type_cd:eq:T,sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30
 
 Bar chart shows `current_fytd_net_outly_amt` by `classification_desc` in dollars or percentage of spending.
 
