@@ -7,6 +7,7 @@ import {
   backgroundHighlight,
   buttonContent,
   buttonEnabled,
+  caretIcon,
   dropdownButton,
   glow,
   labelIcon,
@@ -57,7 +58,7 @@ const DropdownLabelButton: FunctionComponent<IDropdownLabelButton> = ({
             {label && <span className={publishedDateLabel}>{label}: </span>}
             <span className={selectedOptionText}>{selectedOption}</span>
           </div>
-          <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} />
+          <FontAwesomeIcon icon={active ? faCaretUp : faCaretDown} className={caretIcon} />
         </button>
       </div>
     </>
