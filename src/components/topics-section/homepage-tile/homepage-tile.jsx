@@ -54,8 +54,8 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
   const card = (
     <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
       <div className={tileLayoutWrapper}>
-        <div className={`imageSection ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
-        <div className={`textSection ${content.path ? '' : comingSoon}`}>
+        <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
+        <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="Icon" className={afgBookIcon} />}
             <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>

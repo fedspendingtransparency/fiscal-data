@@ -9,16 +9,6 @@
     width: 100%;
   }
 
-  .imageSection {
-    width: 100%;
-    max-width: 16.25rem;
-    max-height: 10rem;
-  }
-
-  .textSection {
-    width: 100%;
-  }
-
   // triggered in desktop form, where image/text is side by side
   &.twoColLayout {
     @media screen and (min-width: $breakpoint-lg) {
@@ -28,10 +18,9 @@
       }
       .imageSection {
         flex: 0 0 16.25rem;
-        margin-right: 1rem;
       }
+
       .textSection {
-        flex: 0 0 66.66%;
         padding-left: 2rem;
       }
     }
@@ -52,7 +41,7 @@
 
     &.mainTitle {
       font-size: $font-size-32;
-      padding: 1rem 0 0.5rem;
+      padding: 0.5rem 0;
       display: flex;
       align-items: flex-start;
     }
@@ -95,9 +84,6 @@
     .explainerImage {
       width: 16.25rem;
       height: 10rem;
-    }
-    .textSection {
-      padding-left: 2rem;
     }
   }
 }
