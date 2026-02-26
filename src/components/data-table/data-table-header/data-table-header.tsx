@@ -4,8 +4,6 @@ import {
   columnMinWidth,
   defaultSortArrow,
   defaultSortArrowPill,
-  isResizing,
-  resizer,
   rightAlignText,
   sortArrow,
   sortArrowPill,
@@ -153,7 +151,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                     onMouseDown={header.getResizeHandler()}
                     onTouchStart={undefined}
                     role="presentation"
-                    className={`${resizer} ${header.column.getIsResizing() ? isResizing : ''}`}
+                    // className={`${resizer} ${header.column.getIsResizing() ? isResizing : ''}`}
                   />
                 </th>
               );
