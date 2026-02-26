@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { ENV_ID } from 'gatsby-env-variables';
-import { FormControlLabel, Switch } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import { label, switchContainer } from './experimental-switch.module.scss';
 import { siteContext } from '../../persist/persist';
 

@@ -1,18 +1,18 @@
 import React from 'react';
 import {
+  fiscal_title,
+  inner_container_label,
   outer_container_label,
-  publisher_count,
+  publisher_checkbox_container,
   publisher_chevron,
+  publisher_count,
+  publisher_inner_container,
   publisher_outer_container,
   treasury_title,
-  inner_container_label,
-  publisher_inner_container,
-  fiscal_title,
-  publisher_checkbox_container,
 } from './filterPublisher.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 export default function FilterPublisher({ filterList, children }) {
   const publisherCount = `${filterList.filter(r => r.groupId === 'publisher').length} Publishers`;

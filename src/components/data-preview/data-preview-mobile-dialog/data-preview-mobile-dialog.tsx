@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons/faCaretLeft';
 import {
   applyButton,
   bottomContainer,

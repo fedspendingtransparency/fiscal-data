@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { a11yProps } from '../datasets/filters/dateFilterTabs/dateFilterTabs';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import { dpTheme } from '../../theme';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';

@@ -1,6 +1,6 @@
 import DownloadItemButton, { downloadFileEventStr } from './download-item-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTable } from '@fortawesome/free-solid-svg-icons';
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 import React from 'react';
 import Analytics from '../../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';

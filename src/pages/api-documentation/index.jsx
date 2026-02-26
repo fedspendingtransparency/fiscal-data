@@ -300,8 +300,8 @@ const ApiDocumentationPage = ({ location }) => {
       <div className={`pageWrapper ${apiPageWrapper}`}>
         <aside className={tocWrapper}>
           <nav id={toc} className={`${toggleStyles} ${tocCont}`} data-testid="tocWrapper">
+            <h2 className={tocHeader}>Table of Contents</h2>
             <ul className={sectionList}>
-              <h2 className={tocHeader}>Table of Contents</h2>
               {tocList.map((d, i) => {
                 return (
                   <li key={`toc${i}`}>

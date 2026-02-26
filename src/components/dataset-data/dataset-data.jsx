@@ -13,7 +13,7 @@ import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
@@ -51,6 +51,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+
 
   let loadByPage;
   const title = 'Data Preview';

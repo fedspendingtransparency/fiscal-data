@@ -1,17 +1,18 @@
 import React from 'react';
 import {
-  banner,
-  infoBanner,
-  warningBanner,
-  warningBannerXR,
-  sideTab,
-  calloutText,
-  icon,
   altBannerText,
   altInfoColor,
+  banner,
+  calloutText,
+  icon,
+  infoBanner,
   infoBannerYellow,
+  sideTab,
+  warningBanner,
+  warningBannerXR,
 } from './banner-callout.module.scss';
-import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons/faTriangleExclamation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';

@@ -1,5 +1,5 @@
 import { withWindowSize } from 'react-fns';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
@@ -20,14 +20,14 @@ import {
   footerContainer,
   header,
   headerContainer,
+  loadingIcon,
+  loadingIndicatorContainer,
   multichartContainer,
   multichartLegend,
   multichartWrapper,
   simple,
   subHeader,
   title,
-  loadingIndicatorContainer,
-  loadingIcon,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';

@@ -1,6 +1,7 @@
 import { DownloadReportTable } from './download-report-table';
-import { render, within } from '@testing-library/react';
+import { act, render, within } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 const breakpointLg = 993;
 
@@ -24,6 +25,23 @@ describe('Download Report Table', () => {
   const mockReports = [
     { path: '/test/file/path/file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.pdf)' },
     { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
+  ];
+
+  const mockPaginatedReports = [
+    { path: '/test/file/path/file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.xml)' },
+    { path: '/test/file/path/file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'The Download File (.pdf)' },
+    { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
+    { path: '/test/file/path/another_file.pdf', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.pdf)' },
+    {
+      path: '/test/file/path/and_another_file.xml',
+      report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500',
+      report_group_desc: 'And Another Download File (.xml)',
+    },
+    {
+      path: '/test/file/path/and_another_file.pdf',
+      report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500',
+      report_group_desc: 'And Another Download File (.pdf)',
+    },
   ];
 
   const mockGeneratedReports = [
@@ -91,5 +109,28 @@ describe('Download Report Table', () => {
     expect(within(downloadLinks[1]).getByText('5/1/2022')).toBeInTheDocument();
     expect(within(downloadLinks[1]).getByText('Name 2')).toBeInTheDocument();
     expect(setApiError).toHaveBeenCalledWith(false);
+  });
+
+  it('renders pagination Controls when there are more than five reports', () => {
+    const { getByText, getByRole } = render(<DownloadReportTable reports={mockPaginatedReports} width={breakpointLg + 1} />);
+
+    expect(getByText('Rows Per Page')).toBeInTheDocument();
+
+    const nextPage = getByRole('button', { name: 'published-report-table-page2' });
+    act(() => {
+      userEvent.click(nextPage);
+    });
+    expect(getByText('6 - 6')).toBeInTheDocument();
+    expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
+  });
+
+  it('does not render pagination Controls when there are less than five reports', () => {
+    const { getByText, queryByRole } = render(<DownloadReportTable reports={mockReports} width={breakpointLg + 1} />);
+
+    expect(getByText('Rows Per Page')).toBeInTheDocument();
+
+    const nextPage = queryByRole('button', { name: 'published-report-table-page2' });
+
+    expect(nextPage).not.toBeInTheDocument();
   });
 });

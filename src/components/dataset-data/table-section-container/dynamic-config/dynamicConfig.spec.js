@@ -3,13 +3,15 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import DynamicConfig from './dynamicConfig';
 import { unitTestHelpers } from './helper';
 
-jest.mock('@mui/material', function() {
-  return {
-    __esModule: true,
-    Modal: jest.fn().mockImplementation(props => <>{props.children}</>),
-    Popover: jest.fn().mockImplementation(props => <>{props.children}</>),
-  };
-});
+jest.mock('@mui/material/Modal', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(props => <>{props.children}</>),
+}));
+
+jest.mock('@mui/material/Popover', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(props => <>{props.children}</>),
+}));
 
 jest.useFakeTimers();
 describe('Dynamic Config', () => {

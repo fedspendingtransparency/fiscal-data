@@ -17,11 +17,13 @@ import {
   successfulMessage,
   unsuccessfulMessage,
 } from './dynamicConfig.module.scss';
-import { Modal, Popover } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import Popover from '@mui/material/Popover';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons/faEdit';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import FilterEditor from '../filter-editor/filter-editor';
 
 const getModalStyle = () => {
@@ -39,19 +41,7 @@ const getModalStyle = () => {
   };
 };
 
-// const useStyles = makeStyles(theme => ({
-//   paper: {
-//     position: 'absolute',
-//     width: 400,
-//     backgroundColor: theme.palette.background.paper,
-//     border: '2px solid #000',
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3),
-//   },
-// }));
-
 const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated, refreshTable }) => {
-  // const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [isConfigDirty, setIsConfigDirty] = useState(false);

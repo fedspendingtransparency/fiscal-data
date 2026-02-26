@@ -212,5 +212,40 @@ module.exports = {
         'outstanding_amt',
       ],
     },
+    '163': {
+      endpoint: 'v2/debt/tror',
+      downloadName: 'TROR_Full',
+      dataDisplays: [
+        {
+          title: 'Receivable Type Description',
+          dimensionField: 'receivable_type_description',
+        },
+        {
+          title: 'Funding Type Description',
+          dimensionField: 'funding_type_description',
+        },
+      ],
+      valueFieldOptions: [
+        'new_receivables_amt',
+        'accruals_amt',
+        'collections_total_amt',
+        'adjustments_total_amt',
+        'written_off_total_amt',
+        'end_bal_amt',
+        'ddebt_by_age_total_amt',
+        'ddebt_1_120_total_amt',
+        'top_referred_total_amt',
+        'cs_referred_total_amt',
+        'collected_ddebt_total_amt',
+        'cnc_total_amt',
+        'cnc_closed_out_current_fy_amt',
+      ],
+      additionalColumns: [
+        'agency_code',
+        'receivable_type_id',
+        'funding_type_description',
+        'funding_type_id'
+      ],
+    },
   },
 };

@@ -42,7 +42,7 @@
 
     :global(.secondaryNavContainer) {
       :global(.navSectionLink) {
-        padding: 21px 16px 21px 21px;
+        padding: 21px 18px 21px 21px;
         white-space: normal;
       }
     }
@@ -51,7 +51,7 @@
       :global(.navSectionLink):hover {
         text-decoration: none;
         font-weight: bold;
-        padding-right: 0;
+        padding-right: 18px;
       }
     }
 

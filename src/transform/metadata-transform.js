@@ -177,6 +177,15 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
               });
             }
           }
+          if (api.additionalColumns) {
+            const selectColumns = [];
+            for (const field of api.fields) {
+              if (!api.additionalColumns.includes(field.columnName)) {
+                selectColumns.push(field.columnName);
+              }
+            }
+            api.selectColumns = selectColumns;
+          }
         }
 
         const apiDateRange = getDateRange(dataset.apis);

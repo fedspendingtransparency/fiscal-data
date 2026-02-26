@@ -133,9 +133,9 @@ const SiteFooter = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="x"
-                  className={ socialIconLink }
+                  className={socialIconLink}
                 >
-                  <XIcon  fontSize="small" />
+                  <XIcon fontSize="small" />
                 </CustomLink>
                 <CustomLink
                   url="https://www.linkedin.com/company/1722850/"
@@ -151,7 +151,7 @@ const SiteFooter = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="youtube"
-                  className={ socialIconLink }
+                  className={socialIconLink}
                 >
                   <YouTubeIcon />
                 </CustomLink>
@@ -161,7 +161,7 @@ const SiteFooter = () => {
               {siteFooterColumns.map(columnContent => {
                 return (
                   <div className={column} key={columnContent.title}>
-                    <div className={columnTitle}>{columnContent.title}</div>
+                    <h2 className={columnTitle}>{columnContent.title}</h2>
                     {columnContent.links.map(link => (
                       <CustomLink
                         key={link.testId}
