@@ -57,7 +57,7 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
         <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
         <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
-            {content.mainFeature && <img src={afgIcon} alt="Icon" className={afgBookIcon} />}
+            {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
             <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
