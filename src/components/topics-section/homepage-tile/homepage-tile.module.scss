@@ -41,7 +41,8 @@
 
     &.mainTitle {
       font-size: $font-size-32;
-      padding: 0.5rem 0;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
       display: flex;
       align-items: flex-start;
     }
