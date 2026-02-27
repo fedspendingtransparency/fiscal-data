@@ -48,6 +48,10 @@
       &.headingLevel3 {
         padding-left: calc(2rem - 6px);
       }
+
+      &.headingLevel4 {
+        padding-left: calc(3rem - 6px);
+      }
     }
   }
 
@@ -65,7 +69,7 @@
     position: -webkit-sticky; /* Safari */
     position: sticky;
     flex: 1;
-    max-height: calc(100vh - 16px);
+    max-height: calc(100vh - 17rem);
     overflow-y: auto;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
 
