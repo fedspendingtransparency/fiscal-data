@@ -1,42 +1,36 @@
 import React from 'react';
 import {
   afgBookIcon,
-  breakpointSm,
   comingSoon,
   explainerImage,
   explainerImageContainer,
-  grid,
   iconTitle,
-  leftTile,
   mainContent,
   mainTitle,
-  rightTile,
   secondaryTitle,
   showOnDesktop,
   showOnMobile,
+  tileLayoutWrapper,
+  imageSection,
+  textSection,
+  twoColLayout,
+  rightTileText,
 } from './homepage-tile.module.scss';
-import { breakpointLg } from '../../../variables.module.scss';
-import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import Grid from '@mui/material/Grid';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let homepageTile;
-const HomePageTile = ({ content, images, width, layout, hasMobileImage, explainerTile }) => {
+const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => {
   let desktopImage, mobileImage;
+
   if (images) {
     desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
     mobileImage = images.allFile.topicsImages.find(image => image.name === content.mobileImage);
   }
 
   const afgIcon = '/images/AFG-icon.svg';
-
-  const isDesktop = width === 0 || width >= pxToNumber(breakpointLg);
-  // overwrite desktop-first styles with mobile-first styles, if we actually have a mobile image
-  const isMobile = hasMobileImage ? width <= pxToNumber(breakpointSm) : width <= pxToNumber(breakpointLg);
 
   const desktop = (
     <GatsbyImage
@@ -49,39 +43,28 @@ const HomePageTile = ({ content, images, width, layout, hasMobileImage, explaine
   );
 
   const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content.altText} loading="eager" role="presentation" />;
+
   const responsiveImage = (
     <>
       <div className={showOnDesktop}>{desktop}</div>
       <div className={showOnMobile}>{mobile}</div>
     </>
   );
-  const card =
-    layout === 'two-col' && isDesktop ? (
-      <div className={mainContent} data-testid="tile">
-        <Grid container spacing={0} sx={{ flexWrap: 'nowrap' }}>
-          <Grid className={isMobile ? null : grid}>
-            <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>
-          </Grid>
-          <Grid size={{ lg: 8 }}>
-            <div className={`${content.path ? undefined : comingSoon} ${leftTile}`}>
-              <h5 className={content.mainFeature ? mainTitle : secondaryTitle}>{content.title}</h5>
-              <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
-            </div>
-          </Grid>
-        </Grid>
-      </div>
-    ) : (
-      <div className={mainContent} data-testid="tile">
-        <div className={isMobile && explainerTile ? explainerImageContainer : null}>{responsiveImage}</div>
-        <div className={content.path ? undefined : comingSoon}>
-          <div className={content.mainFeature ? iconTitle : null}>
+
+  const card = (
+    <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
+      <div className={tileLayoutWrapper}>
+        <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
+        <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
+          <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
-            <h5 className={content.mainFeature ? mainTitle : `${secondaryTitle} ${rightTile}`}>{content.title}</h5>
+            <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
         </div>
       </div>
-    );
+    </div>
+  );
 
   const analyticsHandler = (event, label) => {
     Analytics.event({
