@@ -145,7 +145,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
           </li>
           <li className={containerStyle}>
             <EmailShareButton
-              className={`${buttonStyle} emailShare`}
+              className={`${buttonStyle} ${customShareButton} emailShare`}
               url={url}
               subject={emailSubject}
               body={emailBody}
