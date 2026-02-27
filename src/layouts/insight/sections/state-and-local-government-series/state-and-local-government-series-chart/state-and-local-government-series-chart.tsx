@@ -7,7 +7,6 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
-import DtgTable from '../../../../../components/dtg-table/dtg-table';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
@@ -17,6 +16,7 @@ import { analyticsEventHandler } from '../../../../../helpers/insights/insight-h
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import FilteredTable from '../../../../../components/data-table/test/filtered-table';
 
 let gaTimer;
 
@@ -186,7 +186,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
           </>
         }
         table={
-          <DtgTable
+          <FilteredTable
             tableProps={{
               data: mergedTableData,
               columnConfig,
@@ -204,7 +204,6 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                 },
               ],
             }}
-            reactTable={true}
             sorting={sorting}
             setSorting={setSorting}
             width

@@ -200,7 +200,7 @@ const InterestExpenseChart = () => {
               caption: 'Interest Expense and Rates Table',
               shouldPage: true,
               width: '99%',
-              chartTable: false,
+              chartTable: true,
               noBorder: true,
             }}
             sorting={sorting}

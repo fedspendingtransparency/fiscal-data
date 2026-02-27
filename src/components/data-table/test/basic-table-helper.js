@@ -38,9 +38,27 @@ export const getDataWithTextQualifiers = downloadData => {
   }
 };
 
-export const setCsvDownload = (data, headers, setSmallTableCSVData) => {
+const constructDateHeader = (datasetName, dateRange) => {
+  const timestampData = [];
+  timestampData.push(`${datasetName}.`);
+  const date = new Date(dateRange.to.toString());
+  const dateFormatted = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+  const lastDateOfMonth = `${dateFormatted}`;
+  timestampData.push(`As of ${lastDateOfMonth}`);
+  return timestampData;
+};
+
+export const setCsvDownload = (data, headers, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange) => {
   const downloadData = getDataWithTextQualifiers(data);
   downloadData.unshift(headers);
+  if (hasDownloadTimestamp) {
+    const dateHeader = constructDateHeader();
+    downloadData.unshift(dateHeader);
+  }
   setSmallTableCSVData(downloadData);
 };
 export const setXmlDownload = (data, setSmallTableXMLData) => {

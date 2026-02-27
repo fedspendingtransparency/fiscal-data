@@ -33,7 +33,8 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   allActiveFilters,
   setAllActiveFilters,
   disableDateRangeFilter,
-  chartTable = true,
+  chartTable,
+  disableAllFilters,
 }) => {
   const tooltipStyle = {
     color: fontTitle,
@@ -81,11 +82,11 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                 <th
                   key={header.id}
                   colSpan={header.colSpan}
-                  className={chartTable ? textHeaderContainer : textChartHeaderContainer}
+                  className={!chartTable ? textHeaderContainer : textChartHeaderContainer}
                   style={{
-                    minWidth: chartTable ? header.getSize() : header.getSize() - 4,
-                    width: !chartTable ? '20rem' : '',
-                    paddingLeft: !chartTable ? '1rem' : '',
+                    minWidth: !chartTable ? header.getSize() : header.getSize() - 4,
+                    width: chartTable ? '20rem' : '',
+                    paddingLeft: chartTable ? '1rem' : '',
                   }}
                 >
                   {header.isPlaceholder ? null : (
@@ -133,7 +134,7 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
-                      {chartTable && (
+                      {!disableAllFilters && (
                         <div className={columnMinWidth}>
                           {getColumnFilter(
                             header,

@@ -129,6 +129,7 @@ const FilteredTable: FunctionComponent<IDataTableProps> = ({
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   chartTable={chartTable}
+                  disableAllFilters={chartTable}
                 />
                 <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
               </table>

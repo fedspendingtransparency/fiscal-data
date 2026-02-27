@@ -86,7 +86,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   }, [table?.getFilteredRowModel(), pagingProps]);
 
   return (
-    <div data-test-id="table-footer" className={`${chartTable} ? ${tableFooter} : ${tableFooterChart} ${tableFooter}`}>
+    <div data-test-id="table-footer" className={`${!chartTable} ? ${tableFooter} : ${tableFooterChart} ${tableFooter}`}>
       <div data-test-id="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
