@@ -73,21 +73,26 @@
   border: 1px solid white;
   box-shadow: 0 0 0 4px white;
 }
-.nested_selector_list {
-  margin-top: 0.33rem;
-  padding: 0 0 0.5rem 0;
-  border: 0 solid $border-color;
+
+.nested_list_container {
+  border: 0 solid #dddddd;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   border-radius: 0.125rem;
-  list-style: none;
+  margin-top: 0.33rem;
   position: absolute;
-  width: 100%;
-  max-height: 315px;
-  box-sizing: border-box;
-  background-color: $content-section-background;
-  white-space: normal;
   z-index: $select-control;
-  overflow-y: scroll;
+  width: 100%;
+  background-color: $content-section-background;
+}
+
+.nested_selector_list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+  max-height: 18.125rem;
+  box-sizing: border-box;
+  white-space: normal;
   .selector_option {
     font-weight: normal;
     display: block;

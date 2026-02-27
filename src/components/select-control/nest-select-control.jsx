@@ -3,6 +3,7 @@ import {
   dropdown_open,
   icon,
   labels,
+  nested_list_container,
   nested_selector_button,
   nested_selector_container,
   nested_selector_list,
@@ -17,6 +18,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+import ScrollContainer from '../scroll-container/scroll-container';
 
 export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
   const ariaLabelText = ariaLabel ? ariaLabel : label ? label : 'selection';
@@ -83,12 +85,7 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
   return (
     <>
       {label && <label className={selector_label}>{label}</label>}
-      <div
-        className={`${nested_selector_container} ${className ? className : ''}`}
-        ref={dropdownRef}
-        role="presentation"
-        data-testid="nested-dropdown"
-      >
+      <div className={`${nested_selector_container} ${className ? className : ''}`} ref={dropdownRef} data-testid="nested-dropdown">
         <button
           name="dropdownToggle"
           data-testid="toggle-button"
@@ -102,16 +99,20 @@ const NestSelectControl = ({ label, options, selectedOption, changeHandler, clas
           <div className={labels}>{optionSelected ? optionSelected.label : ''}</div>
           <FontAwesomeIcon icon={droppedDown ? faChevronUp : faChevronDown} size="sm" className={icon} />
         </button>
-        {droppedDown && (
-          <ul className={`${nested_selector_list} selectControlList`} data-testid="selectorList" role="presentation">
-            {options.map(option => (
-              <React.Fragment key={option.value}>
-                {renderOption(option, true)}
-                {option.children && option.children.map(child => renderOption(child))}
-              </React.Fragment>
-            ))}
-          </ul>
-        )}
+        <div className={nested_list_container}>
+          {droppedDown && (
+            <ScrollContainer deps={[options]} customGradientStyle={{ marginTop: '0' }}>
+              <ul className={`${nested_selector_list} selectControlList`} data-testid="selectorList">
+                {options.map(option => (
+                  <React.Fragment key={option.value}>
+                    {renderOption(option, true)}
+                    {option.children && option.children.map(child => renderOption(child))}
+                  </React.Fragment>
+                ))}
+              </ul>
+            </ScrollContainer>
+          )}
+        </div>
       </div>
     </>
   );

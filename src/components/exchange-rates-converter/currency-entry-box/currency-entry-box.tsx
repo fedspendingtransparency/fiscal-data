@@ -7,6 +7,7 @@ import {
   currencyBox,
   currencySelection,
   currencyText,
+  dollarIcon,
   headerContainer,
   headerIcon,
 } from './currency-entry-box.module.scss';
@@ -76,7 +77,10 @@ const CurrencyEntryBox: FunctionComponent<ICurrencyEntryBox> = ({
     <>
       <div className={currencyBox} data-testid={testId}>
         <div className={headerContainer}>
-          <FontAwesomeIcon icon={(header === 'U.S. DOLLAR' ? faDollarSign : faGlobe) as IconProp} className={headerIcon} />
+          <FontAwesomeIcon
+            icon={(header === 'U.S. DOLLAR' ? faDollarSign : faGlobe) as IconProp}
+            className={header === 'U.S. DOLLAR' ? dollarIcon : headerIcon}
+          />
           <span>{header}</span>
         </div>
         <div className={classNames([boxLabel, active ? activeLabel : null])}>Amount</div>

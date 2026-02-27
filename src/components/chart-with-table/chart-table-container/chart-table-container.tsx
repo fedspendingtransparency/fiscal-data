@@ -110,7 +110,7 @@ const ChartTableContainer: FunctionComponent<IChartTableContainer> = ({
         <div className={chartTitle}>{title}</div>
         <div className={headerContainer}>{toggle}</div>
       </div>
-      {datasetDateRange && (
+      {!isLoading && datasetDateRange && (
         <div className={dateRangeContainer}>
           <DateRangeMonthPicker setDateRange={setDateRange} datasetDateRange={datasetDateRange} setIsChartLoading={setIsChartLoading} />
           <div className={infoTipContainer}>
