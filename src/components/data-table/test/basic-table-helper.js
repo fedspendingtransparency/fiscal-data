@@ -53,3 +53,15 @@ export const setXmlDownload = (data, setSmallTableXMLData) => {
   };
   setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
 };
+
+export const getDataTypes = (tableData, columnConstructor) => {
+  if (tableData.meta) {
+    return tableData.meta.dataTypes;
+  } else {
+    const dataTypes = {};
+    columnConstructor?.forEach(column => {
+      dataTypes[column.property] = column.type ? column.type : 'STRING';
+    });
+    return dataTypes;
+  }
+};

@@ -10,18 +10,17 @@ import {
 } from '../data-table.module.scss';
 import DataTableHeader from '../data-table-header/data-table-header';
 import DataTableBody from '../data-table-body/data-table-body';
-import { columnsConstructorGeneric, getSortedColumnsData } from '../data-table-helper';
+import { columnsConstructorGeneric } from '../data-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
-import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from './basic-table-helper';
+import { getDataTypes, getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from './basic-table-helper';
 
 const defaultRowsPerPage = 10;
 
-const BasicTable: FunctionComponent<IDataTableProps> = ({
+const FilteredTable: FunctionComponent<IDataTableProps> = ({
   enableDownload,
-  setTableColumnSortData,
   resetFilters,
   setResetFilters,
   manualPagination,
@@ -30,21 +29,19 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
-  disableDateRangeFilter,
   tableProps,
   perPage,
 }) => {
-  const { shouldPage, data, columnConfig, selectColumns: defaultSelectedColumns, hideColumns, customFormatting, chartTable, aria } = tableProps;
+  const { shouldPage, data, columnConfig, customFormatting, chartTable, aria, apiError } = tableProps;
 
   const [tableData, setTableData] = useState({ data: [] });
   const [itemsPerPage, setItemsPerPage] = useState(
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [maxRows, setMaxRows] = useState(tableProps.data?.length > 0 ? tableProps.data.length : 1);
-  const [showPaginationControls, setShowPaginationControls] = useState();
+  const [showPaginationControls, setShowPaginationControls] = useState(false);
   const [dataTypes, setDataTypes] = useState();
 
-  const isPaginationControlNeeded = () => !tableProps.apiError && tableProps.data?.length > defaultPerPageOptions[0];
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
@@ -55,8 +52,39 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
     handlePerPageChange,
   };
 
+  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
+  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
+  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
+
+  const allColumns = React.useMemo(() => {
+    const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
+    setDataTypes(getDataTypes(tableData, columnConstructor));
+    return columnConstructor;
+  }, [tableData]);
+
+  const table = useReactTable({
+    columns: allColumns,
+    data: tableData,
+    columnResizeMode: 'onChange',
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: itemsPerPage,
+      },
+    },
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
+  }) as Table<Record<string, unknown>>;
+
   useEffect(() => {
-    setShowPaginationControls(isPaginationControlNeeded());
+    setShowPaginationControls(!apiError && tableData.data?.length > defaultPerPageOptions[0]);
   }, [maxRows]);
 
   useMemo(() => {
@@ -66,60 +94,8 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
     }
   }, [data]);
 
-  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
-  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
-  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
-
-  const allColumns = React.useMemo(() => {
-    const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
-
-    if (tableData.meta) {
-      setDataTypes(tableData.meta.dataTypes);
-    } else {
-      const tempDataTypes = {};
-      columnConstructor?.forEach(column => {
-        if (column.type) {
-          tempDataTypes[column.property] = column.type;
-        } else {
-          tempDataTypes[column.property] = 'STRING';
-        }
-      });
-      setDataTypes(tempDataTypes);
-    }
-    return columnConstructor;
-  }, [tableData]);
-
-  const defaultInvisibleColumns = {};
-  const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 ? defaultInvisibleColumns : {}
-  );
-
-  const table = useReactTable({
-    columns: allColumns,
-    data: tableData,
-    columnResizeMode: 'onChange',
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: pagingProps.itemsPerPage,
-      },
-    },
-    state: {
-      columnVisibility,
-      sorting,
-    },
-    onSortingChange: setSorting,
-    onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: manualPagination,
-  }) as Table<Record<string, unknown>>;
-
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-
+    //set download data
     if (enableDownload && !table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
       const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
@@ -127,11 +103,7 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
       setXmlDownload(data, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData);
     }
-  }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
-
-  useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-  }, [sorting]);
+  }, [table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
 
   useEffect(() => {
     if (resetFilters) {
@@ -147,7 +119,7 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
       <div data-testid="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
           <div className={tableStyle}>
-            <div data-test-id="table-content" className={nonRawDataTableContainer}>
+            <div className={nonRawDataTableContainer}>
               <table {...aria}>
                 <DataTableHeader
                   table={table}
@@ -156,7 +128,6 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
                   manualPagination={manualPagination}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
-                  disableDateRangeFilter={disableDateRangeFilter}
                   chartTable={chartTable}
                 />
                 <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
@@ -178,4 +149,4 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
   );
 };
 
-export default BasicTable;
+export default FilteredTable;
