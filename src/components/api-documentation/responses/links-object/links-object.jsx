@@ -10,9 +10,9 @@ const LinksObject = () => (
       The links object is an API argument to access the current (self), first, previous, next, and last page of data. It is suitable for creating URLs
       under user interface elements such as pagination buttons.
     </p>
-    <p>
-      <strong>Example Links Object:</strong>
-    </p>
+    <div>
+      <h4>Example Links Object:</h4>
+    </div>
     <code className={`large ${code} ${beautified}`}>
       <pre>
         {beautify(

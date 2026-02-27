@@ -9,29 +9,29 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 const Fields = () => (
   <>
     <SectionContent id="fields" headingLevel={3} title="Fields">
-      <p>
-        <strong>Parameter:</strong> <code className="inline">fields=</code>
-      </p>
-      <p>
-        <strong>Definition:</strong> The fields parameter allows you to select which field(s) should be included in the response.
-      </p>
-      <p>
-        <strong>Accepts:</strong> The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
-      </p>
-      <p>
-        <strong>Required:</strong> No, specifying fields is not required to make an API request.
-      </p>
-      <p>
-        <strong>Default:</strong> If desired fields are not specified, all fields will be returned.
-      </p>
-      <p>
-        <strong>Notes:</strong> When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur. Note
+      <div>
+        <h4>Parameter:</h4> <code className="inline">fields=</code>
+      </div>
+      <div>
+        <h4>Definition:</h4> The fields parameter allows you to select which field(s) should be included in the response.
+      </div>
+      <div>
+        <h4>Accepts:</h4> The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
+      </div>
+      <div>
+        <h4>Required:</h4> No, specifying fields is not required to make an API request.
+      </div>
+      <div>
+        <h4>Default:</h4> If desired fields are not specified, all fields will be returned.
+      </div>
+      <div>
+        <h4>Notes:</h4> When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur. Note
         that omitting fields can result in automatically aggregated and summed data results. For more information, view the{' '}
         <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums</CustomLink>.
-      </p>
-      <p>
-        <strong>Examples:</strong>
-      </p>
+      </div>
+      <div>
+        <h4>Examples:</h4>
+      </div>
       <p>
         Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
       </p>

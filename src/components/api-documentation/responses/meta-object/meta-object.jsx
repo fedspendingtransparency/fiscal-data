@@ -26,9 +26,9 @@ const MetaObject = () => (
         <code className="inline">total-pages:</code> Total number of pages of data available based on the page size in the meta count response.
       </li>
     </ul>
-    <p>
-      <strong>Example Meta Object:</strong>
-    </p>
+    <div>
+      <h4>Example Meta Object:</h4>
+    </div>
     <code className={`large ${beautified}`}>
       <pre>
         {beautify(
