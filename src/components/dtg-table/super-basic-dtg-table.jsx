@@ -25,7 +25,6 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   const [itemsPerPage, setItemsPerPage] = useState(
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
-  const [tableData, setTableData] = useState(!shouldPage ? data : []);
   const [table, setTable] = useState(!shouldPage ? data : []);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
@@ -41,7 +40,7 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
 
   const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
 
-  const rowData = Array.isArray(tableData) ? tableData : tableData?.data || [];
+  const rowData = Array.isArray(table) ? table : table?.data || [];
 
   const dataProperties = {
     keys: rowData[0] ? Object.keys(rowData[0]) : [],
@@ -51,6 +50,7 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   const columns = setColumns(dataProperties, columnConfig);
 
   const handlePerPageChange = numRows => {
+    console.log('per page change');
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
     setRowsShowing({
@@ -70,7 +70,6 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
       const stop = rowsToShow > data.length ? data.length : rowsToShow;
       setRowsShowing({ begin: start + 1, end: stop });
       setMaxPage(Math.ceil(data.length / itemsPerPage));
-      setTableData(data.slice(start, stop));
       setTable(data.slice(start, stop));
     }
   };
@@ -110,10 +109,14 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
     if (!tableProps.data) {
       setCurrentPage(1);
     }
-    if (tableProps.chartTable === false) {
+    if (!tableProps.chartTable) {
       updateTable(tableProps.data);
     }
   }, [tableProps.data]);
+
+  useMemo(() => {
+    updateTable(false);
+  }, [itemsPerPage, currentPage]);
 
   useEffect(() => {
     setShowPaginationControls(isPaginationControlNeeded());
@@ -135,7 +138,6 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
 
   return (
     <div className={overlayContainer}>
-      {/* Data Dictionary and Dataset Detail tables */}
       {/*Endpoints and Fields tables*/}
       <div data-testid="table-content" className={overlayContainerNoFooter}>
         {/* API Error Message */}

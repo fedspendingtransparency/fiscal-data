@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { json2xml } from 'xml-js';
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 import DataTableFooter from '../data-table-footer/data-table-footer';
 import {
@@ -15,58 +14,80 @@ import { columnsConstructorGeneric, getSortedColumnsData } from '../data-table-h
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { IDataTableProps } from '../../../models/IDataTableProps';
+import { defaultPerPageOptions } from '../../pagination/pagination-controls';
+import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from './basic-table-helper';
+
+const defaultRowsPerPage = 10;
 
 const BasicTable: FunctionComponent<IDataTableProps> = ({
-  rawData,
-  nonRawDataColumns,
   enableDownload,
-  defaultSelectedColumns,
   setTableColumnSortData,
-  shouldPage,
-  showPaginationControls,
   resetFilters,
   setResetFilters,
-  hideColumns,
-  pagingProps,
   manualPagination,
-  rowsShowing,
   allowColumnWrap,
-  aria,
-  customFormatting,
   sorting,
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
-  setTableSorting,
   disableDateRangeFilter,
-  chartTable = true,
+  tableProps,
+  perPage,
 }) => {
-  // const [configOption, setConfigOption] = useState(columnConfig);
+  const { shouldPage, data, columnConfig, selectColumns: defaultSelectedColumns, hideColumns, customFormatting, chartTable, aria } = tableProps;
+
+  const [tableData, setTableData] = useState({ data: [] });
+  const [itemsPerPage, setItemsPerPage] = useState(
+    perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
+  );
+  const [maxRows, setMaxRows] = useState(tableProps.data?.length > 0 ? tableProps.data.length : 1);
+  const [showPaginationControls, setShowPaginationControls] = useState();
+  const [dataTypes, setDataTypes] = useState();
+
+  const isPaginationControlNeeded = () => !tableProps.apiError && tableProps.data?.length > defaultPerPageOptions[0];
+  const handlePerPageChange = numRows => {
+    const numItems = numRows >= maxRows ? maxRows : numRows;
+    setItemsPerPage(numItems);
+  };
+
+  const pagingProps = {
+    itemsPerPage,
+    handlePerPageChange,
+  };
+
+  useEffect(() => {
+    setShowPaginationControls(isPaginationControlNeeded());
+  }, [maxRows]);
+
+  useMemo(() => {
+    if (data) {
+      setTableData(data);
+      setMaxRows(data.length);
+    }
+  }, [data]);
+
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
   const allColumns = React.useMemo(() => {
-    const baseColumns = columnsConstructorGeneric(nonRawDataColumns, customFormatting);
+    const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
 
-    return baseColumns;
-  }, [rawData]);
-
-  let dataTypes;
-
-  if (rawData.meta) {
-    dataTypes = rawData.meta.dataTypes;
-  } else {
-    const tempDataTypes = {};
-    allColumns?.forEach(column => {
-      if (column.type) {
-        tempDataTypes[column.property] = column.type;
-      } else {
-        tempDataTypes[column.property] = 'STRING';
-      }
-    });
-    dataTypes = tempDataTypes;
-  }
+    if (tableData.meta) {
+      setDataTypes(tableData.meta.dataTypes);
+    } else {
+      const tempDataTypes = {};
+      columnConstructor?.forEach(column => {
+        if (column.type) {
+          tempDataTypes[column.property] = column.type;
+        } else {
+          tempDataTypes[column.property] = 'STRING';
+        }
+      });
+      setDataTypes(tempDataTypes);
+    }
+    return columnConstructor;
+  }, [tableData]);
 
   const defaultInvisibleColumns = {};
   const [columnVisibility, setColumnVisibility] = useState(
@@ -75,7 +96,7 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
 
   const table = useReactTable({
     columns: allColumns,
-    data: rawData.data,
+    data: tableData,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -96,66 +117,20 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
-  // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-  if (defaultSelectedColumns) {
-    for (const column of allColumns) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        defaultInvisibleColumns[column.accessorKey] = false;
-      }
-    }
-  }
-
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
-      let downloadData = [];
-      const downloadHeaders = [];
-      const downloadHeaderKeys = [];
-      table.getHeaderGroups()[0].headers.forEach(header => {
-        downloadHeaders.push(header.column.columnDef.header);
-        downloadHeaderKeys.push(header.column.columnDef.accessorKey);
-      });
 
-      //Filter data by visible columns
-      table.getSortedRowModel().flatRows.forEach(row => {
-        const visibleRow = {};
-        const allData = row.original;
-        downloadHeaderKeys.forEach(key => {
-          visibleRow[key] = allData[key];
-        });
-        downloadData.push(visibleRow);
-      });
-      if (enableDownload) {
-        const xmlData = {
-          'root-element': {
-            data: downloadData.map(row => ({
-              'data-element': row,
-            })),
-          },
-        };
-        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
-        setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
-        downloadData = downloadData.map(entry => {
-          const dataWithTextQualifiers = [];
-          Object.values(entry).forEach(val => {
-            const stringValue = String(val ?? '');
-            dataWithTextQualifiers.push(stringValue.includes(',') ? `"${stringValue}"` : stringValue);
-          });
-          return dataWithTextQualifiers;
-        });
-        downloadData.unshift(downloadHeaders);
-        setSmallTableCSVData(downloadData);
-      }
+    if (enableDownload && !table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
+      const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
+      const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setXmlDownload(data, setSmallTableXMLData);
+      setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData);
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
 
   useEffect(() => {
     getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
-    setTableSorting(sorting);
   }, [sorting]);
 
   useEffect(() => {
@@ -196,7 +171,6 @@ const BasicTable: FunctionComponent<IDataTableProps> = ({
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}
           manualPagination={manualPagination}
-          rowsShowing={rowsShowing}
           chartTable={chartTable}
         />
       )}

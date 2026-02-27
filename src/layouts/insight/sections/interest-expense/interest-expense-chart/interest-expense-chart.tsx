@@ -13,7 +13,7 @@ import ChartTableContainer from '../../../../../components/chart-with-table/char
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
-import BasicDtgTable from '../../../../../components/dtg-table/basic-dtg-table';
+import BasicTable from '../../../../../components/data-table/test/basic-table';
 
 const breakpoint = {
   desktop: 1015,
@@ -46,7 +46,6 @@ const InterestExpenseChart = () => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
-  const [downloadData, setDownloadData] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
   const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
@@ -89,15 +88,11 @@ const InterestExpenseChart = () => {
     }
   }, [width]);
 
-  useEffect(() => {
-    setDownloadData(tableCSVData);
-  }, [mergedTableData, sorting, tableCSVData]);
-
   return (
     <>
       <ChartTableContainer
         title={chartTitle}
-        downloadData={downloadData}
+        downloadData={tableCSVData}
         selectedTable={{ downloadName: 'interest-expense-avg-interest-rates' }}
         monthRange={{ from: startFY, to: currentFY }}
         enabledClickedColorChange={true}
@@ -197,7 +192,7 @@ const InterestExpenseChart = () => {
           </div>
         }
         table={
-          <BasicDtgTable
+          <BasicTable
             tableProps={{
               data: mergedTableData,
               columnConfig,
