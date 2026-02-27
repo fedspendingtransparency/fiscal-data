@@ -66,9 +66,8 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
       onBlur(event);
     }
     if (setActive) {
-      const target = event.target;
       setTimeout(() => {
-        if (document.activeElement !== target) {
+        if (document.activeElement !== inputRef?.current) {
           setActive(false);
         }
       }, 150);
