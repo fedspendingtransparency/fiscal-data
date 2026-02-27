@@ -19,9 +19,9 @@ const ErrorObject = () => (
         <code className="inline">Message:</code> A detailed explanation of why the error occurred and how to resolve it.
       </li>
     </ul>
-    <p>
-      <strong>Example Error Object:</strong>
-    </p>
+    <div>
+      <h4>Example Error Object:</h4>
+    </div>
     <code className={`large ${beautified}`}>
       <pre>
         {beautify(

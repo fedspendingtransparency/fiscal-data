@@ -7,30 +7,30 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
 const Sorting = () => (
   <SectionContent title="Sorting" id="parameters-sorting" headingLevel={3}>
-    <p>
-      <strong>Parameter:</strong> <code className="inline">sort=</code>
-    </p>
-    <p>
-      <strong>Definition:</strong> The sort parameter allows a user to sort a field in ascending (least to greatest) or descending (greatest to least)
+    <div>
+      <h4>Parameter:</h4> <code className="inline">sort=</code>
+    </div>
+    <div>
+      <h4>Definition:</h4> The sort parameter allows a user to sort a field in ascending (least to greatest) or descending (greatest to least)
       order.
-    </p>
-    <p>
-      <strong>Accepts:</strong> The sort parameter <code className="inline">sort=</code> accepts a comma-separated list of field names.
-    </p>
-    <p>
-      <strong>Required:</strong> No, sorting is not required to make an API request.
-    </p>
-    <p>
-      <strong>Default:</strong> When no sort parameter is specified, the default is to sort by the first column listed. Most API endpoints are thus
+    </div>
+    <div>
+      <h4>Accepts:</h4> The sort parameter <code className="inline">sort=</code> accepts a comma-separated list of field names.
+    </div>
+    <div>
+      <h4>Required:</h4> No, sorting is not required to make an API request.
+    </div>
+    <div>
+      <h4>Default:</h4> When no sort parameter is specified, the default is to sort by the first column listed. Most API endpoints are thus
       sorted by date in ascending order (historical to most current).
-    </p>
-    <p>
-      <strong>Notes:</strong> You can nest sorting by passing the <code className="inline">sort=</code> parameter a comma-separated list.
-    </p>
+    </div>
+    <div>
+      <h4>Notes:</h4> You can nest sorting by passing the <code className="inline">sort=</code> parameter a comma-separated list.
+    </div>
 
-    <p>
-      <strong>Examples:</strong>
-    </p>
+    <div>
+      <h4>Examples:</h4>
+    </div>
     <p>
       Sort the records returned by date in descending order, i.e. starting with the most recent date.{' '}
       <code className="inline">?sort=-record_date</code>
