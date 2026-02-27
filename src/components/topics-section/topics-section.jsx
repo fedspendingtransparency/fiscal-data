@@ -31,12 +31,12 @@ export const TopicsSection = ({ images, width }) => {
             <Grid size={{ lg: mainWidth }}>
               <Stack>
                 <div className={sectionHeader}>AMERICA’S FINANCE GUIDE</div>
-                <HomePageTile content={pageTileMap['americas-finance-guide']} images={images} width={width} hasMobileImage hasIcon />
+                <HomePageTile content={pageTileMap['americas-finance-guide']} images={images} />
                 {explainerTiles.map(tile => {
                   return (
                     <React.Fragment key={tile}>
                       <div className={line} />
-                      <HomePageTile content={pageTileMap[tile]} images={images} width={width} layout="two-col" explainerTile />
+                      <HomePageTile content={pageTileMap[tile]} images={images} layout="two-col" explainerTile />
                     </React.Fragment>
                   );
                 })}
@@ -45,14 +45,14 @@ export const TopicsSection = ({ images, width }) => {
             <Grid container size={{ lg: secondaryWidth }}>
               <div className={insightsSectionContainer}>
                 <div className={sectionHeader}>FEATURED TOPICS</div>
-                <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} width={width} />
+                <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
                 <div className={line} />
-                <HomePageTile content={pageTileMap['interest-expense']} images={images} width={width} />
+                <HomePageTile content={pageTileMap['interest-expense']} images={images} rightTile />
                 <div className={line} />
-                <HomePageTile content={pageTileMap['savings-bonds']} images={images} width={width} />
+                <HomePageTile content={pageTileMap['savings-bonds']} images={images} rightTile />
                 <div className={line} />
                 <div className={sectionHeader}>TOOLS</div>
-                <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} width={width} />
+                <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} rightTile />
               </div>
             </Grid>
           </Grid>

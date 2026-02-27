@@ -43,7 +43,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
     columnConfigArray,
     mergedTableData,
   } = useGetStateAndLocalGovernmentSeriesData(dateRange);
-  const { height, altText } = chartConfig;
+  const { height, altText, chartHeight } = chartConfig;
 
   const infoTipWording =
     'For a date range under two years, the data is presented in a bar chart. For a date range greater than two years, ' +
@@ -171,7 +171,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
                       setCurAmount={setCurAmount}
                       setCurCount={setCurCount}
                       setCurDate={setCurDate}
-                      height={height}
+                      height={chartHeight}
                       width={width}
                       chartData={chartData}
                       xAxisValues={lineChartXAxisValues}
