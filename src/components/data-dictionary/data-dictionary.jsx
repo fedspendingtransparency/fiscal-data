@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import ResetTableContainer from '../data-table/reset-table-container/reset-table-container';
 
 const addTableName = (fields, table) => {
@@ -8,14 +8,13 @@ const addTableName = (fields, table) => {
 };
 
 const DataDictionary = ({ apis, datasetName, perPage, setPerPage }) => {
-  const flat = useMemo(() => {
-    return apis.reduce((flattened, current) => {
-      if (current.fields) {
-        return flattened.concat(addTableName(current.fields, current.tableName));
-      }
+  const flat = apis.reduce((flattened, current, i) => {
+    if (current.fields) {
+      return flattened.concat(addTableName(current.fields, current.tableName));
+    } else {
       return flattened;
-    }, []);
-  }, [apis]);
+    }
+  }, []);
 
   const columnConfig = [
     {
@@ -56,17 +55,14 @@ const DataDictionary = ({ apis, datasetName, perPage, setPerPage }) => {
     },
   ];
 
-  const tableProps = useMemo(
-    () => ({
-      columnConfig,
-      data: flat,
-      width: 1400,
-      tableName: 'Data Dictionary',
-      shouldPage: true,
-      aria: { 'aria-label': `${datasetName} data dictionary` },
-    }),
-    [flat, datasetName]
-  );
+  const tableProps = {
+    columnConfig,
+    data: flat,
+    width: 1400,
+    tableName: 'Data Dictionary',
+    shouldPage: true,
+    aria: { 'aria-label': `${datasetName} data dictionary` },
+  };
 
   return <ResetTableContainer tableProps={tableProps} perPage={perPage} setPerPage={setPerPage} />;
 };
