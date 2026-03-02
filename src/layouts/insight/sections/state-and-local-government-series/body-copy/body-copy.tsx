@@ -6,6 +6,7 @@ import { getShortForm } from '../../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
+import { skeletonTest } from '../../../insight.module.scss';
 
 const BodyCopy = (): ReactElement => {
   const [lastUpdated, setLastUpdated] = useState(null);
@@ -121,8 +122,9 @@ const BodyCopy = (): ReactElement => {
       school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how state and local governments
       can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make it easier to comply with IRS
       regulations. SLGS also serve the federal government as a means of financing the {federalDebt}, similar to other {treasurySecurity}. As of{' '}
-      {lastUpdated}, there are ${getShortForm(slgsTotal, true)} outstanding SLGS securities, {percentCalc(slgsTotal, totalDebtOutstanding)}% of
-      the {totalPublicDebtOutstanding}.
+      <span className={skeletonTest}>{lastUpdated}</span>, there are <span className={skeletonTest}>${getShortForm(slgsTotal, true)}</span>{' '}
+      outstanding SLGS securities, <span className={skeletonTest}>{percentCalc(slgsTotal, totalDebtOutstanding)}%</span> of the{' '}
+      {totalPublicDebtOutstanding}.
     </div>
   );
 };

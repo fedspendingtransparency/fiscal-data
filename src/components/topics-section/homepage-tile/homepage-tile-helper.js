@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { getShortForm } from '../../../utils/rounding-utils';
+import { skeletonTest } from '../../../layouts/insight/insight.module.scss';
 
 export const SpendingBodyGenerator = () => {
   const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
@@ -24,15 +25,16 @@ export const SpendingBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has spent ${getShortForm(amount, false)} in fiscal year {year} to ensure the well-being of the people of the United States.
-      Learn more about spending categories, types of spending, and spending trends over time.
+      The U.S. government has spent <span className={skeletonTest}>${getShortForm(amount, false)}</span> in fiscal year{' '}
+      <span className={skeletonTest}>{year}</span> to ensure the well-being of the people of the United States. Learn more about spending categories,
+      types of spending, and spending trends over time.
     </>
   );
 };
 
 export const RevenueBodyGenerator = () => {
   const [currentRevenue, setCurrentRevenue] = useState(null);
-  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState('----');
   const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
   useEffect(() => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {
@@ -46,9 +48,14 @@ export const RevenueBodyGenerator = () => {
   }, []);
 
   return (
+    // <>
+    //   The U.S. government has collected <span className={skeletonTest}>${getShortForm(currentRevenue, false)}</span> in fiscal year{' '}
+    //   <span className={skeletonTest}>{recordFiscalYear}</span> in order to pay for the goods and services provided to United States citizens and
+    //   businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
+    // </>
     <>
-      The U.S. government has collected ${getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear} in order to pay for the goods and
-      services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
+      The U.S. government has collected <span>$--- trillion</span> in fiscal year <span>----</span> in order to pay for the goods and services
+      provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
     </>
   );
 };

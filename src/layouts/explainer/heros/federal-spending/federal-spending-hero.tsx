@@ -6,6 +6,7 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
 import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
+import { skeletonTest } from '../../../insight/insight.module.scss';
 
 const FederalSpendingHero = (): ReactElement => {
   const [totalSpending, setTotalSpending] = useState(null);
@@ -49,8 +50,8 @@ const FederalSpendingHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The U.S. government has spent ${getShortForm(totalSpending, false)} in fiscal year {recordFiscalYear} to ensure the well-being of the people
-        of the United States.
+        The U.S. government has spent <span className={skeletonTest}>${getShortForm(totalSpending, false)}</span> in fiscal year{' '}
+        <span className={skeletonTest}>{recordFiscalYear}</span> to ensure the well-being of the people of the United States.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
