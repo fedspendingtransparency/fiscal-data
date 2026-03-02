@@ -3,7 +3,7 @@ import { buttonContainer, sectionContainer } from './reset-table-container.modul
 import ResetTableSection from '../reset-table-section/reset-table-section';
 import FilteredTable from '../../table-components/filtered-table/filtered-table';
 
-const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
+const ResetTableContainer = ({ tableProps, perPage }) => {
   const [resetFilters, setResetFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
@@ -16,7 +16,6 @@ const ResetTableContainer = ({ tableProps, perPage, setPerPage }) => {
       <FilteredTable
         tableProps={tableProps}
         perPage={perPage}
-        // setPerPage={setPerPage}
         resetFilters={resetFilters}
         setResetFilters={setResetFilters}
         allActiveFilters={activeFilters}

@@ -15,7 +15,7 @@ import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
 const DatasetPropertiesTabs = ({ config, test, width }) => {
-  const [dictionaryPerPage, setDictionaryPerPage] = useState(5);
+  const dictionaryPerPage = 5;
   const hideRawDataTable = config?.hideRawDataTable;
   const TabPanel = ({ children, value, index, ...other }) => (
     <Typography
@@ -44,7 +44,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
   const rawDataTableTabs = [
     {
       label: 'Data Dictionary',
-      content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} setPerPage={setDictionaryPerPage} />,
+      content: <DataDictionary datasetName={config.name} apis={config.apis} perPage={dictionaryPerPage} />,
       apiTabVisibility: hideRawDataTable,
     },
     {

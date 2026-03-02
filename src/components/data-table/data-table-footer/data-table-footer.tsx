@@ -9,7 +9,7 @@ interface IDataTableFooter {
   showPaginationControls: boolean;
   pagingProps;
   manualPagination: boolean;
-  rowsShowing: { begin: number; end: number };
+  rowsShowing?: { begin: number; end: number };
   setTableDownload?: (rowCount: number) => void;
   chartTable?: boolean;
 }

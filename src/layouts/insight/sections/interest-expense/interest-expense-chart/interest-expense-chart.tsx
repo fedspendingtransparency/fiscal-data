@@ -38,7 +38,6 @@ const InterestExpenseChart = () => {
     startFY,
     columnConfig,
     mergedTableData,
-    columnConfigArray,
   } = useGetInterestExpenseData(true, isMobile);
   const [fiscalYear, setFiscalYear] = useState<number>(0);
   const [curExpenseAmount, setCurExpenseAmount] = useState<number>(0);
@@ -196,12 +195,8 @@ const InterestExpenseChart = () => {
             tableProps={{
               data: mergedTableData,
               columnConfig,
-              tableName: 'Interest Expense Details',
-              caption: 'Interest Expense and Rates Table',
               shouldPage: true,
-              width: '99%',
               chartTable: true,
-              noBorder: true,
             }}
             sorting={sorting}
             setSorting={setSorting}

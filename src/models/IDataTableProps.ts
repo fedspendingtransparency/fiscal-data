@@ -2,7 +2,6 @@ import { SortingState } from '@tanstack/react-table';
 
 export interface IDataTableProps {
   // defaultSelectedColumns will be null unless the dataset has default columns specified in the dataset config
-  nonRawDataColumns?;
   setTableColumnSortData;
   hasPublishedReports: boolean;
   publishedReports;

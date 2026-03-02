@@ -13,13 +13,13 @@ import DataTableBody from '../../data-table/data-table-body/data-table-body';
 import { columnsConstructorGeneric } from '../../data-table/data-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
-import { IDataTableProps } from '../../../models/IDataTableProps';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
 import { getDataTypes, getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../helpers/data-download-helper';
+import { IFilteredTableProps } from '../../../models/IFilteredTableProps';
 
 const defaultRowsPerPage = 10;
 
-const FilteredTable: FunctionComponent<IDataTableProps> = ({
+const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   enableDownload,
   resetFilters,
   setResetFilters,
@@ -98,6 +98,7 @@ const FilteredTable: FunctionComponent<IDataTableProps> = ({
       const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
       setXmlDownload(data, setSmallTableXMLData);
+      setXmlDownload(data, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData);
     }
   }, [table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
@@ -113,7 +114,7 @@ const FilteredTable: FunctionComponent<IDataTableProps> = ({
 
   return (
     <>
-      <div data-testid="table-content" className={!chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
+      <div data-testid="table-content" className={chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
         <div className={selectColumnsWrapper}>
           <div className={tableStyle}>
             <div className={nonRawDataTableContainer}>

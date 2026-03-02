@@ -7,5 +7,7 @@ export interface IDataTableHeader {
   manualPagination: boolean;
   allActiveFilters: string[];
   setAllActiveFilters: (value: string[]) => void;
-  disableDateRangeFilter: boolean;
+  disableDateRangeFilter?: boolean;
+  disableAllFilters?: boolean;
+  chartTable?: boolean;
 }
