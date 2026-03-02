@@ -2,7 +2,7 @@ import React from 'react';
 import { marginBottomOneRem, sectionBody } from '../api-quick-guide.module.scss';
 import ApiQuickGuideSection from '../api-quick-guide-section';
 import { apiPrefix } from '../../../utils/api-utils';
-import SuperBasicDtgTable from '../../dtg-table/super-basic-dtg-table';
+import Table from '../../table-components/table/table';
 
 const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
   const rowsPerPage = 10;
@@ -55,7 +55,7 @@ const DatasetDetailEndpoints = ({ apis, selectedTable }) => {
       ) : (
         <>
           <div className={sectionBody} id="endpoints-table">
-            <SuperBasicDtgTable tableProps={tableProps} perPage={rowsPerPage} />
+            <Table tableProps={tableProps} perPage={rowsPerPage} />
           </div>
         </>
       )}

@@ -16,7 +16,7 @@ import { analyticsEventHandler } from '../../../../../helpers/insights/insight-h
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
-import FilteredTable from '../../../../../components/data-table/test/filtered-table';
+import FilteredTable from '../../../../../components/table-components/filtered-table/filtered-table';
 
 let gaTimer;
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import DtgTableHeading from './dtg-table-heading/dtg-table-heading';
-import DtgTableRow from './dtg-table-row/dtg-table-row';
-import { setColumns } from './dtg-table-helper';
-import PaginationControls, { defaultPerPageOptions } from '../pagination/pagination-controls';
+import DtgTableHeading from '../../dtg-table/dtg-table-heading/dtg-table-heading';
+import DtgTableRow from '../../dtg-table/dtg-table-row/dtg-table-row';
+import { setColumns } from '../../dtg-table/dtg-table-helper';
+import PaginationControls, { defaultPerPageOptions } from '../../pagination/pagination-controls';
 import {
   noBorderStyle,
   overlayContainer,
@@ -12,11 +12,10 @@ import {
   selectColumnsWrapper,
   tableFooter,
   wrapper,
-} from './dtg-table.module.scss';
-import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
+} from '../../dtg-table/dtg-table.module.scss';
 
 const defaultRowsPerPage = 10;
-export default function SuperBasicDtgTable({ tableProps, perPage }) {
+export default function Table({ tableProps, perPage }) {
   const { width, noBorder, tableName, shouldPage, columnConfig, caption } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -26,19 +25,17 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [table, setTable] = useState(!shouldPage ? data : []);
-  const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [rows, setRows] = useState([]);
   const [showPaginationControls, setShowPaginationControls] = useState();
 
-  let loadCanceled = false;
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
-  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+  const isPaginationControlNeeded = () => currentPage >= 1 || maxRows > defaultPerPageOptions[0];
 
   const rowData = Array.isArray(table) ? table : table?.data || [];
 
@@ -50,7 +47,6 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   const columns = setColumns(dataProperties, columnConfig);
 
   const handlePerPageChange = numRows => {
-    console.log('per page change');
     const numItems = numRows >= maxRows ? maxRows : numRows;
     setItemsPerPage(numItems);
     setRowsShowing({
@@ -61,17 +57,12 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   };
 
   const getCurrentData = () => {
-    if (tableProps.apiError && currentPage === 1) {
-      setRowsShowing({ begin: 0, end: 0 });
-      setMaxRows(0);
-    } else {
-      const start = currentPage === 1 ? 0 : (currentPage - 1) * itemsPerPage;
-      const rowsToShow = start + itemsPerPage;
-      const stop = rowsToShow > data.length ? data.length : rowsToShow;
-      setRowsShowing({ begin: start + 1, end: stop });
-      setMaxPage(Math.ceil(data.length / itemsPerPage));
-      setTable(data.slice(start, stop));
-    }
+    const start = currentPage === 1 ? 0 : (currentPage - 1) * itemsPerPage;
+    const rowsToShow = start + itemsPerPage;
+    const stop = rowsToShow > data.length ? data.length : rowsToShow;
+    setRowsShowing({ begin: start + 1, end: stop });
+    setMaxPage(Math.ceil(data.length / itemsPerPage));
+    setTable(data.slice(start, stop));
   };
 
   const handleJump = page => {
@@ -88,11 +79,7 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   };
 
   const updateTable = () => {
-    setApiError(false);
     getCurrentData();
-    return () => {
-      loadCanceled = true;
-    };
   };
 
   useEffect(() => {
@@ -101,7 +88,7 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
 
   useMemo(() => {
     if (data && data.length) {
-      setMaxRows(apiError ? 0 : data.length);
+      setMaxRows(data.length);
     }
   }, [data]);
 
@@ -140,8 +127,6 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
     <div className={overlayContainer}>
       {/*Endpoints and Fields tables*/}
       <div data-testid="table-content" className={overlayContainerNoFooter}>
-        {/* API Error Message */}
-        {(apiError || tableProps.apiError) && <DtgTableApiError />}
         <div className={selectColumnsWrapper}>
           {/* Table Wrapper */}
           <div data-testid="table-wrapper" className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
@@ -167,11 +152,11 @@ export default function SuperBasicDtgTable({ tableProps, perPage }) {
   );
 }
 
-SuperBasicDtgTable.propTypes = {
+Table.propTypes = {
   tableProps: PropTypes.shape({}),
 };
 
-SuperBasicDtgTable.defaultProps = {
+Table.defaultProps = {
   tableProps: {
     columnConfig: {
       property: '',

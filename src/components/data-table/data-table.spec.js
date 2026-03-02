@@ -13,8 +13,6 @@ import {
   mockColumnConfigDownloadWithTextQualifier,
   mockDetailApiData,
   mockDetailViewColumnConfig,
-  mockGenericTableColumns,
-  mockGenericTableData,
   mockMeta,
   mockPublishedReports,
   mockTableData,
@@ -73,25 +71,6 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           selectColumnPanel={true}
           columnConfig={mockColumnConfig}
-          setTableSorting={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(instance).toBeTruthy();
-  });
-
-  it('table renders generic non raw data table', () => {
-    const instance = render(
-      <RecoilRoot>
-        <DataTable
-          rawData={mockGenericTableData}
-          nonRawDataColumns={mockGenericTableColumns}
-          defaultSelectedColumns={null}
-          pagingProps={{ itemsPerPage: 10 }}
-          setTableColumnSortData={setTableColumnSortData}
-          shouldPage
-          showPaginationControls
-          setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
       </RecoilRoot>

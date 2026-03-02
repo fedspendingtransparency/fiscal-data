@@ -5,7 +5,7 @@ import { code } from '../../../pages/api-documentation/api.module.scss';
 import { endpointTableSpacing, listOfEndpointsTable } from './endpoints.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../links/custom-link/custom-link';
-import SuperBasicDtgTable from '../../dtg-table/super-basic-dtg-table';
+import Table from '../../table-components/table/table';
 
 const Endpoints = () => {
   const result = useStaticQuery(graphql`
@@ -139,7 +139,7 @@ const Endpoints = () => {
           <code className={code}>{apiBaseUrl}/v2/accounting/od/avg_interest_rates</code>
         </p>
         <div className={listOfEndpointsTable} id="list-of-endpoints-table">
-          <SuperBasicDtgTable tableProps={tableProps} perPage={rowsPerPage} />
+          <Table tableProps={tableProps} perPage={rowsPerPage} />
         </div>
       </SectionContent>
       <SectionContent id="fields-by-endpoint" headingLevel={3} title="Fields by Endpoint">

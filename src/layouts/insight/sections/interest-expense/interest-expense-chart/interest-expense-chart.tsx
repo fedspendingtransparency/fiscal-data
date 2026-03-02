@@ -13,7 +13,7 @@ import ChartTableContainer from '../../../../../components/chart-with-table/char
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
 import { useRecoilValue } from 'recoil';
 import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
-import FilteredTable from '../../../../../components/data-table/test/filtered-table';
+import FilteredTable from '../../../../../components/table-components/filtered-table/filtered-table';
 
 const breakpoint = {
   desktop: 1015,

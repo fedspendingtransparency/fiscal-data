@@ -1,21 +1,21 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
-import DataTableFooter from '../data-table-footer/data-table-footer';
+import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
 import {
   nonRawDataTableContainer,
   overlayContainerNoFooter,
   overlayContainerNoFooterChart,
   selectColumnsWrapper,
   tableStyle,
-} from '../data-table.module.scss';
-import DataTableHeader from '../data-table-header/data-table-header';
-import DataTableBody from '../data-table-body/data-table-body';
-import { columnsConstructorGeneric } from '../data-table-helper';
+} from '../../data-table/data-table.module.scss';
+import DataTableHeader from '../../data-table/data-table-header/data-table-header';
+import DataTableBody from '../../data-table/data-table-body/data-table-body';
+import { columnsConstructorGeneric } from '../../data-table/data-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
-import { getDataTypes, getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from './basic-table-helper';
+import { getDataTypes, getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../helpers/data-download-helper';
 
 const defaultRowsPerPage = 10;
 
@@ -56,7 +56,7 @@ const FilteredTable: FunctionComponent<IDataTableProps> = ({
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
-  const allColumns = React.useMemo(() => {
+  const allColumns = useMemo(() => {
     const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
     setDataTypes(getDataTypes(tableData, columnConstructor));
     return columnConstructor;
@@ -83,14 +83,11 @@ const FilteredTable: FunctionComponent<IDataTableProps> = ({
     manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
-  useEffect(() => {
-    setShowPaginationControls(!apiError && tableData.data?.length > defaultPerPageOptions[0]);
-  }, [maxRows]);
-
   useMemo(() => {
     if (data) {
       setTableData(data);
       setMaxRows(data.length);
+      setShowPaginationControls(!apiError && data?.length > defaultPerPageOptions[0]);
     }
   }, [data]);
 

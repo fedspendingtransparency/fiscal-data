@@ -21,7 +21,7 @@ import {
 } from '../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { IDataTableProps } from '../../models/IDataTableProps';
-import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from './test/basic-table-helper';
+import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../table-components/helpers/data-download-helper';
 
 const DataTable: FunctionComponent<IDataTableProps> = ({
   rawData,
