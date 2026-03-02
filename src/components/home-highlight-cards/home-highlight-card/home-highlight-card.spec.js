@@ -222,4 +222,43 @@ describe('HomeHighlightCard', () => {
       expect(getByTestId('loadingSection')).toBeInTheDocument();
     });
   });
+
+  it('renders IMAGE type without sparklePoints', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'IMAGE',
+      image: { src: '/images/gold-bars.webp', alt: 'Gold bars' },
+    };
+    const { getByTestId, queryByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('image-container')).toBeInTheDocument();
+    expect(queryByTestId('scintilla')).not.toBeInTheDocument();
+  });
+
+  it('renders BAR graph type with x-axis stats', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'BAR',
+      index: 'reportDate',
+      value_fields: ['current_month_net_rcpt_amt'],
+      colors: ['#00796B'],
+    };
+    const { getByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('highlight-chart')).toBeInTheDocument();
+    expect(getByTestId('highlight-stats-lower')).toBeInTheDocument();
+    expect(getByTestId('highlight-stats-upper')).toBeInTheDocument();
+  });
+
+  it('renders BAR graph with null colors when not provided', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'BAR',
+      index: 'reportDate',
+      value_fields: ['current_month_net_rcpt_amt'],
+    };
+    const { getByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('highlight-chart')).toBeInTheDocument();
+  });
 });
