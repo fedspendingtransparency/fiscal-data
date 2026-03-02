@@ -54,7 +54,7 @@ export const RevenueBodyGenerator = () => {
     //   businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
     // </>
     <>
-      The U.S. government has collected <span>$--- trillion</span> in fiscal year <span>----</span> in order to pay for the goods and services
+      The U.S. government has collected <span>$--- --------</span> in fiscal year <span>----</span> in order to pay for the goods and services
       provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
     </>
   );
