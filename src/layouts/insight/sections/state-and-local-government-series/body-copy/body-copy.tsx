@@ -115,6 +115,25 @@ const BodyCopy = (): ReactElement => {
   );
 
   return (
+    // <div>
+    //   {stateAndLocalGovernmentSeries} are {nonMarketableSecurities} that exist to help state and local governments meet
+    //   their financing needs while
+    //   remaining in accordance with Internal Revenue Service (IRS) law. For example, if a city issues municipal bonds to
+    //   pay for a new elementary
+    //   school, there may be a delay between when the funds are acquired through the bond sales and when the city must pay
+    //   the bills to build the
+    //   school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how
+    //   state and local governments
+    //   can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make
+    //   it easier to comply with IRS
+    //   regulations. SLGS also serve the federal government as a means of financing the {federalDebt}, similar to
+    //   other {treasurySecurity}. As of{' '}
+    //   <span className={skeletonTest}>{lastUpdated}</span>, there are <span
+    //   className={skeletonTest}>${getShortForm(slgsTotal, true)}</span>{' '}
+    //   outstanding SLGS securities, <span
+    //   className={skeletonTest}>{percentCalc(slgsTotal, totalDebtOutstanding)}%</span> of the{' '}
+    //   {totalPublicDebtOutstanding}.
+    // </div>
     <div>
       {stateAndLocalGovernmentSeries} are {nonMarketableSecurities} that exist to help state and local governments meet their financing needs while
       remaining in accordance with Internal Revenue Service (IRS) law. For example, if a city issues municipal bonds to pay for a new elementary
@@ -122,9 +141,7 @@ const BodyCopy = (): ReactElement => {
       school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how state and local governments
       can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make it easier to comply with IRS
       regulations. SLGS also serve the federal government as a means of financing the {federalDebt}, similar to other {treasurySecurity}. As of{' '}
-      <span className={skeletonTest}>{lastUpdated}</span>, there are <span className={skeletonTest}>${getShortForm(slgsTotal, true)}</span>{' '}
-      outstanding SLGS securities, <span className={skeletonTest}>{percentCalc(slgsTotal, totalDebtOutstanding)}%</span> of the{' '}
-      {totalPublicDebtOutstanding}.
+      <span>-----------------</span>, there are <span>$-- -</span> outstanding SLGS securities, <span>--%</span> of the {totalPublicDebtOutstanding}.
     </div>
   );
 };
