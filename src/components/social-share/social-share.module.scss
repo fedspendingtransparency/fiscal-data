@@ -2,23 +2,11 @@
 
 .horizontalSocialShareContent {
   display: flex;
-  max-width: 322.5rem;
-  max-height: 3rem;
-  justify-content: center;
-  align-items: center;
   padding-left: 0;
-  padding-right: 0;
   margin: 0;
-  padding-bottom: 0;
 }
 
 .horizontalShareButton {
-  display: flex;
-  text-align: justify;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  margin-top: 0;
-  justify-content: center;
   height: 1rem;
 }
 
@@ -32,13 +20,9 @@
   margin-left: 3rem;
 }
 
-.socialShareContent,
-.listSocialShareContent {
+.socialShareContent {
   .headerText {
-    color: $font-body-copy;
-    font-weight: $semi-bold-weight;
     font-size: $font-size-16;
-    width: 6.875rem;
     margin: 0 0 0.75rem;
   }
 }
@@ -98,6 +82,7 @@
     width: 20%;
   }
 
+  // removes header in 'responsive' & mobile view
   .headerText {
     display: none;
   }

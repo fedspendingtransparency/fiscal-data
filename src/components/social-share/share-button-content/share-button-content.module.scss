@@ -1,5 +1,6 @@
 @use 'src/variables.module' as *;
 
+// never displays icon text in 'horizontal'
 .horizontal {
   .shareButtonText {
     display: none;
@@ -79,6 +80,7 @@
     }
   }
 
+  // removes icon text in 'responsive' & mobile view
   .responsive {
     .shareButtonText {
       display: none;
