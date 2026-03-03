@@ -87,7 +87,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
     <>
       <div className={contentStyle}>
         {displayStyle === 'responsive' && (
-          <Heading headingLevel={headerLevel} className={headerText}>
+          <Heading headingLevel={headerLevel} className={headerText} data-testid="social-share-header">
             Share this page
           </Heading>
         )}

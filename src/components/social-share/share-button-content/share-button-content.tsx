@@ -74,7 +74,7 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, disp
         data-testid={`${name} content`}
       >
         <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
-        <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
+        <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style} data-testid="icon-text">
           {text}
         </span>
       </div>
