@@ -1,5 +1,11 @@
 @use 'src/variables.module' as *;
 
+.horizontal {
+  .shareButtonText {
+    display: none;
+  }
+}
+
 .shareButtonContent {
   display: flex;
   align-items: center;
@@ -73,7 +79,9 @@
     }
   }
 
-  .responsiveText {
-    display: none;
+  .responsive {
+    .shareButtonText {
+      display: none;
+    }
   }
 }

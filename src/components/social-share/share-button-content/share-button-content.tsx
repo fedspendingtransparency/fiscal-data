@@ -1,6 +1,4 @@
 import React, { FunctionComponent, useState } from 'react';
-import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook';
@@ -17,6 +15,8 @@ import {
   shareButtonContent,
   shareButtonText,
   xTwitterIcon,
+  horizontal,
+  responsive,
 } from './share-button-content.module.scss';
 import { IShareButtonContent } from '../../../models/IShareButtonContent';
 
@@ -48,10 +48,11 @@ const shareButtonContentMap = {
   },
 };
 
-const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, width, displayStyle }) => {
+const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, displayStyle }) => {
   const [hovered, setHovered] = useState(false);
 
-  const displayText = displayStyle === 'list' || (displayStyle === 'responsive' && width >= pxToNumber(breakpointLg));
+  const displayClass = displayStyle === 'horizontal' ? horizontal : responsive;
+
   const handleMouseEnter = () => {
     setHovered(true);
   };
@@ -66,18 +67,16 @@ const ShareButtonContent: FunctionComponent<IShareButtonContent> = ({ name, widt
   return (
     <>
       <div
-        className={shareButtonContent}
+        className={`${shareButtonContent} ${displayClass}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         role="presentation"
         data-testid={`${name} content`}
       >
         <FontAwesomeIcon className={shareButtonContentMap[name].className} icon={shareButtonContentMap[name].icon} style={style} />
-        {displayText && (
-          <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
-            {text}
-          </span>
-        )}
+        <span className={displayStyle === 'list' ? listShareButtonText : shareButtonText} style={style}>
+          {text}
+        </span>
       </div>
     </>
   );
