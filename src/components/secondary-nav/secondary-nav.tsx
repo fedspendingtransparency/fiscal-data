@@ -23,6 +23,7 @@ import {
   comingSoonLink,
   sectionList,
   paddingAdjust,
+  close,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
@@ -78,6 +79,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   };
 
   const handleInteraction = (e, id?, title?) => {
+    console.log('toc open? ', tocIsOpen);
     if (analytics) {
       analyticsClickHandler(title);
     }
@@ -166,66 +168,76 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     }
   }, [scrollToId]);
 
-  const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
+  // toc shows if the screen is in desktop OR if the toc is open when it's in mobile view
+  // const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
+  // display = none
+  // when you are in mobile AND !tocIsOpen
+
+  // content shows if the screen is in desktop OR if the toc is not open when it's in mobile view
   const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
+
+  // add the tocIsOpen state to a class?
+  // and then make the class have an attribute that handles display being open/closed
 
   return (
     <div className={mainContainer}>
       <aside className={`${navContainer} secondaryNavContainer`}>
         <nav>
           {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-          <div className={paddingAdjust}>{shouldTocShow && headerComponent}</div>
-          <ul className={sectionList}>
-            {shouldTocShow &&
-              sections.map(s => {
-                let headingClass = '';
-                if (s.headingLevel === 2) {
-                  headingClass = headingLevel2;
-                } else if (s.headingLevel === 3) {
-                  headingClass = headingLevel3;
-                } else if (s.headingLevel === 4) {
-                  headingClass = headingLevel4;
-                }
+          {/*<div className={paddingAdjust}>{shouldTocShow && headerComponent}</div>*/}
+          <ul className={`${sectionList} ${tocIsOpen ? 'open' : close}`}>
+            {/*the table of contents*/}
+            {/*{shouldTocShow &&*/}
+            {sections.map(s => {
+              let headingClass = '';
+              if (s.headingLevel === 2) {
+                headingClass = headingLevel2;
+              } else if (s.headingLevel === 3) {
+                headingClass = headingLevel3;
+              } else if (s.headingLevel === 4) {
+                headingClass = headingLevel4;
+              }
 
-                return (
-                  <li key={s.index}>
-                    {s.comingSoon ? (
-                      <div className={comingSoonContainer}>
-                        <i className={comingSoon}>COMING SOON!</i>
-                      </div>
-                    ) : (
-                      undefined
-                    )}
-                    <div
-                      role="presentation"
-                      onMouseEnter={() => handleMouseEnter(s.index)}
-                      onMouseLeave={handleMouseLeave}
-                      className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
-                    >
-                      <Link
-                        className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
-                    ${s.comingSoon ? comingSoonLink : undefined}`}
-                        title={s.title}
-                        activeClass={activeClass}
-                        tabIndex={0}
-                        to={s.id}
-                        smooth
-                        spy
-                        duration={scrollDuration}
-                        delay={scrollDelay}
-                        onClick={() => handleInteraction(null, s.id, s.title)}
-                        onKeyUp={e => handleInteraction(e, s.id, s.title)}
-                        offset={globalNavOffset - 4}
-                      >
-                        {s.title}
-                      </Link>
+              return (
+                <li key={s.index}>
+                  {s.comingSoon ? (
+                    <div className={comingSoonContainer}>
+                      <i className={comingSoon}>COMING SOON!</i>
                     </div>
-                  </li>
-                );
-              })}
+                  ) : (
+                    undefined
+                  )}
+                  <div
+                    role="presentation"
+                    onMouseEnter={() => handleMouseEnter(s.index)}
+                    onMouseLeave={handleMouseLeave}
+                    className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
+                  >
+                    <Link
+                      className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
+                    ${s.comingSoon ? comingSoonLink : undefined}`}
+                      title={s.title}
+                      activeClass={activeClass}
+                      tabIndex={0}
+                      to={s.id}
+                      smooth
+                      spy
+                      duration={scrollDuration}
+                      delay={scrollDelay}
+                      onClick={() => handleInteraction(null, s.id, s.title)}
+                      onKeyUp={e => handleInteraction(e, s.id, s.title)}
+                      offset={globalNavOffset - 4}
+                    >
+                      {s.title}
+                    </Link>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </aside>
+      {/*the main stuff on the page*/}
       <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>

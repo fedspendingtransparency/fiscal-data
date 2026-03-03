@@ -102,3 +102,10 @@
   padding: 0 1rem 0 0;
   margin: 0;
 }
+
+// 2nd part of case 1
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .close {
+    display: none;
+  }
+}
