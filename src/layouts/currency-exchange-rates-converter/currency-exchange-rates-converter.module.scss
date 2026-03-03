@@ -6,8 +6,8 @@
 
 .breadCrumbsContainer {
   margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 .componenentContianer {
   display: flex;
@@ -34,15 +34,15 @@
   align-items: center;
 
   h2 {
-    font-size: 1rem;
+    font-size: $font-size-16;
     display: table;
     color: $font-title;
     padding-top: 1.8rem;
-    margin-left: 9.375rem;
+    margin: 0 0 0 9.375rem;
     font-weight: $semi-bold-weight;
   }
   p {
-    margin: 12px 9.375rem 0;
+    margin: 0.75rem 9.375rem 0;
     font-size: 0.875rem;
     max-width: 71.25rem;
     padding-bottom: 2rem;
@@ -62,7 +62,7 @@
     }
 
     p {
-      margin: 20px 20px 37px 1.25rem;
+      margin: 1.25rem 1.25rem 37px 1.25rem;
     }
   }
 }
