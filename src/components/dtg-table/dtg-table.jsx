@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { loadingTimeout, netLoadingDelay } from './dtg-table-helper';
 import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
@@ -53,7 +52,6 @@ export default function DtgTable({
     config,
     detailColumnConfig,
     selectColumns,
-    hideColumns,
   } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
@@ -174,7 +172,6 @@ export default function DtgTable({
             setMaxPage(res.meta['total-pages']);
             if (maxRows !== totalCount) setMaxRows(totalCount);
             setTableData(res);
-            // setTable(res.data);
           }
         })
         .catch(err => {
@@ -207,7 +204,6 @@ export default function DtgTable({
       setRowsShowing({ begin: start + 1, end: stop });
       setMaxPage(Math.ceil(data.length / itemsPerPage));
       setTableData(data.slice(start, stop));
-      // setTable(data.slice(start, stop));
     }
   };
 
@@ -215,14 +211,6 @@ export default function DtgTable({
     const pageNum = Math.max(1, page);
     setCurrentPage(Math.min(pageNum, maxPage));
   };
-
-  // const populateRows = currentColumns => {
-  //   const tableRows = [];
-  //   table.forEach((row, index) => {
-  //     tableRows.push(<DtgTableRow columns={currentColumns} data={row} key={index} tableName={tableName} />);
-  //   });
-  //   setRows(tableRows);
-  // };
 
   const updateSmallFractionDataType = () => {
     //Overwrite type for special case number format handling
@@ -397,9 +385,7 @@ export default function DtgTable({
               selectColumnPanel={selectColumnPanel}
               resetFilters={resetFilters}
               setResetFilters={setResetFilters}
-              hideColumns={hideColumns}
               manualPagination={manualPagination}
-              maxRows={maxRows}
               rowsShowing={rowsShowing}
               pivotSelected={pivotSelected?.pivotValue}
               setSummaryValues={setSummaryValues}
@@ -419,17 +405,3 @@ export default function DtgTable({
     </div>
   );
 }
-
-DtgTable.propTypes = {
-  tableProps: PropTypes.shape({}),
-};
-
-DtgTable.defaultProps = {
-  tableProps: {
-    columnConfig: {
-      property: '',
-      name: '',
-      type: '',
-    },
-  },
-};

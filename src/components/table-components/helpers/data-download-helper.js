@@ -56,11 +56,12 @@ export const setCsvDownload = (data, headers, setSmallTableCSVData, hasDownloadT
   const downloadData = getDataWithTextQualifiers(data);
   downloadData.unshift(headers);
   if (hasDownloadTimestamp) {
-    const dateHeader = constructDateHeader();
+    const dateHeader = constructDateHeader(datasetName, dateRange);
     downloadData.unshift(dateHeader);
   }
   setSmallTableCSVData(downloadData);
 };
+
 export const setXmlDownload = (data, setSmallTableXMLData) => {
   const xmlData = {
     'root-element': {

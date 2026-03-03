@@ -8,7 +8,7 @@ interface IDataTableFooter {
   table?: Table<Record<string, unknown>>;
   showPaginationControls: boolean;
   pagingProps;
-  manualPagination: boolean;
+  manualPagination?: boolean;
   rowsShowing?: { begin: number; end: number };
   setTableDownload?: (rowCount: number) => void;
   chartTable?: boolean;

@@ -70,7 +70,7 @@ export const mockColumnConfig = [
   {
     property: 'debt_held_public_amt',
     name: 'Debt Held by the Public',
-    type: 'STRING',
+    type: 'CURRENCY',
   },
   {
     property: 'intragov_hold_amt',
@@ -454,44 +454,42 @@ export const mockDetailApiData = {
 
 export const mockGenericTableData = {
   data: [
-    [
-      {
-        name: 'Title',
-        definition: '120 Day Delinquent Debt Referral Compliance Report',
-      },
-      {
-        name: 'Description (Long)',
-        definition:
-          'The 120 Day Delinquent Debt Referral Compliance Report provides tracking and benchmarking information on federal agencies' +
-          'compliance with the Digital Accountability and Transparency Act of 2014 (the DATA Act). The DATA Act requires federal agencies' +
-          ' to refer to the Treasury Offset Program legally enforceable non-tax debts that are greater than 120 days delinquent for ' +
-          'Administrative Offset. This dataset was designed to increase transparency and provide quick insights into federal agency ' +
-          'compliance rates, as well as information on the number of eligible debts, debts referred, and debts not referred each quarter, ' +
-          'beginning in Fiscal Year 2016.',
-      },
-      {
-        name: 'Description (Short)',
-        definition:
-          'Tracking federal agency compliance with DATA Act requirements on referring delinquent debt and the number of eligible and referred ' +
-          'debts quarterly. ',
-      },
-      {
-        name: 'Update Frequency',
-        definition: 'Updated Quarterly',
-      },
-      {
-        name: 'Date Range',
-        definition: '12/31/2015 - 06/30/2023',
-      },
-      {
-        name: 'Topics',
-        definition: 'Debt',
-      },
-      {
-        name: 'Publisher',
-        definition: 'Debt Management Services',
-      },
-    ],
+    {
+      name: 'Title',
+      definition: '120 Day Delinquent Debt Referral Compliance Report',
+    },
+    {
+      name: 'Description (Long)',
+      definition:
+        'The 120 Day Delinquent Debt Referral Compliance Report provides tracking and benchmarking information on federal agencies' +
+        'compliance with the Digital Accountability and Transparency Act of 2014 (the DATA Act). The DATA Act requires federal agencies' +
+        ' to refer to the Treasury Offset Program legally enforceable non-tax debts that are greater than 120 days delinquent for ' +
+        'Administrative Offset. This dataset was designed to increase transparency and provide quick insights into federal agency ' +
+        'compliance rates, as well as information on the number of eligible debts, debts referred, and debts not referred each quarter, ' +
+        'beginning in Fiscal Year 2016.',
+    },
+    {
+      name: 'Description (Short)',
+      definition:
+        'Tracking federal agency compliance with DATA Act requirements on referring delinquent debt and the number of eligible and referred ' +
+        'debts quarterly. ',
+    },
+    {
+      name: 'Update Frequency',
+      definition: 'Updated Quarterly',
+    },
+    {
+      name: 'Date Range',
+      definition: '12/31/2015 - 06/30/2023',
+    },
+    {
+      name: 'Topics',
+      definition: 'Debt',
+    },
+    {
+      name: 'Publisher',
+      definition: 'Debt Management Services',
+    },
   ],
 };
 

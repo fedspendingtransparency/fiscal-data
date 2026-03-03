@@ -23,7 +23,6 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   enableDownload,
   resetFilters,
   setResetFilters,
-  manualPagination,
   allowColumnWrap,
   sorting,
   setSorting,
@@ -80,7 +79,6 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: manualPagination,
   }) as Table<Record<string, unknown>>;
 
   useMemo(() => {
@@ -123,7 +121,6 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
                   table={table}
                   dataTypes={dataTypes}
                   resetFilters={resetFilters}
-                  manualPagination={manualPagination}
                   allActiveFilters={allActiveFilters}
                   setAllActiveFilters={setAllActiveFilters}
                   chartTable={chartTable}
@@ -136,13 +133,7 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
         </div>
       </div>
       {shouldPage && (
-        <DataTableFooter
-          table={table}
-          showPaginationControls={showPaginationControls}
-          pagingProps={pagingProps}
-          manualPagination={manualPagination}
-          chartTable={chartTable}
-        />
+        <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} chartTable={chartTable} />
       )}
     </>
   );

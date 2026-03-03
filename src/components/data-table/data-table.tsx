@@ -53,7 +53,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   hasDownloadTimestamp,
   tableProps,
 }) => {
-  const { aria, customFormatting, shouldPage, columnConfig, dateRange, tableName, hideColumns, hasPublishedReports, publishedReports } = tableProps;
+  const { customFormatting, shouldPage, columnConfig, dateRange, tableName, hideColumns, hasPublishedReports, publishedReports } = tableProps;
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
@@ -217,7 +217,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
           )}
           <div className={tableStyle}>
             <div data-test-id="table-content" className={rawDataTableContainer}>
-              <table {...aria}>
+              <table {...tableProps.aria}>
                 <DataTableHeader
                   table={table}
                   dataTypes={dataTypes}

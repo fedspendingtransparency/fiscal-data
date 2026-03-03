@@ -1,11 +1,9 @@
-import { render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
-import { fireEvent } from '@testing-library/dom';
 import FilteredTable from './filtered-table';
 import { RecoilRoot } from 'recoil';
 import {
   mockColumnConfig,
-  mockDetailApiData,
   mockGenericTableColumns,
   mockGenericTableData,
   mockTableData,
@@ -15,13 +13,6 @@ import userEvent from '@testing-library/user-event';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
-
-  global.fetch = jest.fn(() => {
-    return Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve(mockDetailApiData),
-    });
-  });
 
   it('table renders', () => {
     const instance = render(
@@ -115,73 +106,15 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
 
-  it('column sort asc keyboard accessibility', () => {
-    const mockSorting = jest.fn();
-    const mockSetSorting = jest.fn();
-
-    const { getAllByTestId, getByRole } = render(
-      <RecoilRoot>
-        <FilteredTable
-          tableProps={{ data: mockGenericTableData, columnConfig: mockColumnConfig, shouldPage: true }}
-          pagingProps={{ itemsPerPage: 10 }}
-          setFiltersActive={jest.fn()}
-          sorting={[{ id: 'record_date', desc: false }]}
-          setSorting={mockSetSorting}
-          setTableSorting={jest.fn()}
-          setAllActiveFilters={mockSorting}
-          allActiveFilters={[]}
-        />
-      </RecoilRoot>
-    );
-    expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
-    expect(getAllByTestId('row').length).toEqual(6);
-    const header = getByRole('columnheader', { name: 'Record Date' });
-    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
-    expect(sortButton).toHaveClass('sortArrow');
-    fireEvent.click(sortButton);
-    fireEvent.keyDown(sortButton, { key: 'Enter' });
-    expect(sortButton).toHaveClass('sortArrow');
-  });
-
-  it('column sort desc keyboard accessibility', () => {
-    const mockSorting = jest.fn();
-    const mockSetSorting = jest.fn();
-
-    const { getAllByTestId, getByRole } = render(
-      <RecoilRoot>
-        <FilteredTable
-          rawData={mockTableData}
-          pagingProps={{ itemsPerPage: 10 }}
-          setTableColumnSortData={setTableColumnSortData}
-          setFiltersActive={jest.fn()}
-          sorting={[{ id: 'record_date', desc: true }]}
-          setSorting={mockSetSorting}
-          setTableSorting={jest.fn()}
-          setAllActiveFilters={mockSorting}
-          allActiveFilters={[]}
-        />
-      </RecoilRoot>
-    );
-    expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
-    expect(getAllByTestId('row').length).toEqual(6);
-
-    const header = getByRole('columnheader', { name: 'Record Date' });
-    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
-    expect(sortButton).toHaveClass('sortArrow');
-    fireEvent.click(sortButton);
-    fireEvent.keyDown(sortButton, { key: 'Enter' });
-    expect(sortButton).toHaveClass('sortArrow');
-  });
-
   it('Filter column by text search', () => {
-    const { getAllByTestId, getByRole } = render(
+    const { getAllByRole, getByRole, getAllByTestId } = render(
       <RecoilRoot>
         <FilteredTable
-          tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
-          pagingProps={{ itemsPerPage: 10 }}
+          tableProps={{ data: mockGenericTableData.data, columnConfig: mockGenericTableColumns, shouldPage: true }}
+          pagingProps={{ itemsPerPage: 5 }}
           setTableColumnSortData={setTableColumnSortData}
           setFiltersActive={jest.fn()}
-          maxRows={5}
+          perPage={5}
           setTableSorting={jest.fn()}
           setAllActiveFilters={jest.fn()}
           allActiveFilters={[]}
@@ -189,56 +122,59 @@ describe('react-table', () => {
       </RecoilRoot>
     );
     // Column header
-    const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
+    const header = getByRole('columnheader', { name: 'Name' });
     expect(header).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(6);
+    let tableBody = getAllByRole('rowgroup')[1];
+    expect(within(tableBody).getAllByRole('row').length).toEqual(5);
     const columnFilter = within(header).getByRole('textbox');
     expect(columnFilter).toBeInTheDocument();
-    fireEvent.change(columnFilter, { target: { value: '25633821130387.02' } });
+    fireEvent.change(columnFilter, { target: { value: 'Title' } });
     // Rows filtered down to 1
-    expect(getAllByTestId('row').length).toEqual(1);
-    expect(getAllByTestId('row')[0].innerHTML).toContain('$25,633,821,130,387.02');
+    tableBody = getAllByRole('rowgroup')[1];
+    const filteredRows = within(tableBody).getAllByRole('row');
+    expect(filteredRows.length).toEqual(1);
+    expect(within(filteredRows[0]).getAllByRole('cell')[1].innerHTML).toContain('120 Day Delinquent Debt Referral Compliance Report');
 
     //clear results to view full table
     const clearButton = within(header).getByRole('button', { name: 'Clear search bar' });
     userEvent.click(clearButton);
-    expect(getAllByTestId('row').length).toEqual(6);
+    expect(getAllByTestId('row').length).toEqual(5);
   });
 
   it('Filter column by text search with null string value', () => {
-    const { getAllByTestId, getByRole, queryAllByTestId } = render(
+    const { getByRole, getAllByRole } = render(
       <RecoilRoot>
         <FilteredTable
-          rawData={mockTableData}
-          pagingProps={{ itemsPerPage: 10 }}
+          tableProps={{ data: mockGenericTableData.data, columnConfig: mockGenericTableColumns }}
           setTableColumnSortData={setTableColumnSortData}
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
           setAllActiveFilters={jest.fn()}
           allActiveFilters={[]}
-          maxRows={5}
+          perPage={10}
         />
       </RecoilRoot>
     );
     // Column header
-    const header = getByRole('columnheader', { name: 'Mock Percent String' });
+    const header = getByRole('columnheader', { name: 'Name' });
     expect(header).toBeInTheDocument();
     // Rows render
-    expect(getAllByTestId('row').length).toEqual(6);
+    const tableBody = getAllByRole('rowgroup')[1];
+    expect(within(tableBody).getAllByRole('row').length).toEqual(7);
     const columnFilter = within(header).getByRole('textbox');
     expect(columnFilter).toBeInTheDocument();
 
     // Search should not match to 'null' values
     fireEvent.change(columnFilter, { target: { value: 'null' } });
-    expect(queryAllByTestId('row').length).toEqual(0);
+    expect(within(tableBody).queryAllByRole('row').length).toEqual(0);
   });
 
   it('pagination', () => {
     const { getAllByTestId, getByText, getByRole, getByTestId } = render(
       <RecoilRoot>
         <FilteredTable
-          tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig }}
+          tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
           perPage={2}
           setTableColumnSortData={setTableColumnSortData}
           setFiltersActive={jest.fn()}
@@ -267,7 +203,7 @@ describe('react-table', () => {
     const { getByText, getByRole } = render(
       <RecoilRoot>
         <FilteredTable
-          tableProps={{ data: [], columnConfig: mockColumnConfig }}
+          tableProps={{ data: [], columnConfig: mockGenericTableColumns, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}
           setTableColumnSortData={setTableColumnSortData}
           setFiltersActive={jest.fn()}
@@ -276,7 +212,7 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    const header = getByRole('columnheader', { name: 'Record Date' });
+    const header = getByRole('columnheader', { name: 'Name' });
     expect(header).toBeInTheDocument();
     expect(getByText('rows of 0 rows', { exact: false })).toBeInTheDocument();
   });

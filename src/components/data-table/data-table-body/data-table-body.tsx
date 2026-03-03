@@ -30,6 +30,9 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
         return (
           <tr key={row.id} className={fillCell ? fillCellGrey : fillCellWhite} data-testid="row">
             {rowConfig.map(cell => {
+              if (cell.column.id === 'record_date') {
+                // console.log(cell.getContext());
+              }
               const cellValue = cell.getValue()?.toString();
               const display = !cellValue || cellValue === 'null';
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);

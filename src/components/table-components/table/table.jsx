@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import DtgTableHeading from '../../dtg-table/dtg-table-heading/dtg-table-heading';
 import DtgTableRow from '../../dtg-table/dtg-table-row/dtg-table-row';
 import { setColumns } from '../../dtg-table/dtg-table-helper';
@@ -151,17 +150,3 @@ export default function Table({ tableProps, perPage }) {
     </div>
   );
 }
-
-Table.propTypes = {
-  tableProps: PropTypes.shape({}),
-};
-
-Table.defaultProps = {
-  tableProps: {
-    columnConfig: {
-      property: '',
-      name: '',
-      type: '',
-    },
-  },
-};

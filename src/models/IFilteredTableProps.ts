@@ -21,7 +21,6 @@ interface ITableProps {
 export interface IFilteredTableProps {
   tableProps: ITableProps;
   perPage?: number;
-  manualPagination?: boolean;
   allowColumnWrap?: string[];
   sorting: SortingState;
   setSorting: (value: SortingState) => void;
