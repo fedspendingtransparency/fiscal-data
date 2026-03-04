@@ -43,7 +43,9 @@ const Fields = () => (
       </div>
       <p>
         Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate,
-        and record_date.</code>
+        and record_date.
+                                                         </code>
+
       </p>
       <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
       <p>

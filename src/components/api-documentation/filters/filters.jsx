@@ -30,12 +30,10 @@ const Filters = () => (
         The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as
         specified filter criteria. Use a colon at the end of a filter parameter to pass a value or list of values. For
         lists passed as filter
-        criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code
-        className="inline">YYYY-MM-DD</code>
+        criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code className="inline">YYYY-MM-DD</code>
         . To filter by multiple fields in a single request, do not repeat a filter call. Instead, apply an additional
         field to include in the filter
-        separated by a comma, as shown in the following template: <code
-        className="inline">&filter=field:prm:value,field:prm:value</code>
+        separated by a comma, as shown in the following template: <code className="inline">&filter=field:prm:value,field:prm:value</code>
       </div>
       <div>
         <dt>Required:</dt>
@@ -78,11 +76,13 @@ const Filters = () => (
       <p>Return data if the funding type ID is 202.</p>
       <code className={`${code} ${marginBottom}`}>?filter=funding_type_id:eq:202</code>
       <p className={listHeading}>From the Treasury Reporting Rates of Exchange dataset,</p>
+      <div>
       <ul className={list}>
         <li>only return specific fields (country_currency_desc, exchange_rate, record_date),</li>
         <li>only return data on the Canadian Dollar and Mexican Peso, and</li>
         <li>only return data that falls between January 1, 2020 and the present.</li>
       </ul>
+      </div>
       <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
     </dl>
   </SectionContent>
