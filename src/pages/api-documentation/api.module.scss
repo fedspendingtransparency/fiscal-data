@@ -8,6 +8,10 @@ div.aboutPageWrapper {
 .content {
   max-width: 847px;
   margin-bottom: 3.75rem;
+
+  & > section:first-of-type {
+    padding-top: 0;
+  }
 }
 
 .activeLink {
@@ -29,7 +33,8 @@ div.aboutPageWrapper {
 
   #content {
     max-width: 847px;
-    width: calc(100% - 260px - 2rem);
+    width: 100%;
     padding-bottom: 15rem;
+    min-width: 0;
   }
 }
