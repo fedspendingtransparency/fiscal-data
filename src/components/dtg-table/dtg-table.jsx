@@ -124,7 +124,6 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    console.log(1);
     if (
       selectedTable &&
       selectedTable.endpoint &&
@@ -134,7 +133,6 @@ export default function DtgTable({
           tableMeta &&
           tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
-      console.log(2);
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters();
       const startPage = resetPage ? 1 : currentPage;
