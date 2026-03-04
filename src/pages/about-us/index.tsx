@@ -1,9 +1,3 @@
-/* istanbul ignore file */
-
-/* TODO: When MDX POC is no longer useful, remove experimental aspects and
-   dependencies, remove above istanbul ignore header above
- */
-
 import React, { FunctionComponent } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -14,7 +8,6 @@ import Contact from './contact-section/contact-section';
 import TOCData from './toc-data.json';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
-
 import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
 import { aboutPageWrapper, activeLink, content, hoverLink } from './about-us.module.scss';
 

@@ -17,6 +17,7 @@ import {
   sectionLink,
   headingLevel2,
   headingLevel3,
+  headingLevel4,
   comingSoon,
   comingSoonContainer,
   comingSoonLink,
@@ -182,6 +183,8 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   headingClass = headingLevel2;
                 } else if (s.headingLevel === 3) {
                   headingClass = headingLevel3;
+                } else if (s.headingLevel === 4) {
+                  headingClass = headingLevel4;
                 }
 
                 return (

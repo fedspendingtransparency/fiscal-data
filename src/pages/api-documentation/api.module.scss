@@ -1,8 +1,29 @@
 @use '../../variables.module.scss' as *;
 
-div.apiPageWrapper {
+div.aboutPageWrapper {
   margin-top: 2rem;
   padding-top: 0;
+}
+
+.content {
+  max-width: 847px;
+  margin-bottom: 3.75rem;
+
+  & > section:first-of-type {
+    padding-top: 0;
+  }
+}
+
+.activeLink {
+  color: $primary;
+  font-weight: $semi-bold-weight;
+  border-left: 6px solid $primary !important;
+  padding-left: calc(1rem - 6px);
+}
+
+.hoverLink {
+  color: $primary;
+  font-weight: $semi-bold-weight;
 }
 
 code.code {
@@ -22,95 +43,16 @@ code.code {
   }
 }
 
-#toc {
-  top: 4rem;
-
-  &.tocClosed {
-    display: none;
-  }
-  &.tocOpen {
-    display: block;
-  }
-}
-.apiPageSpacer {
-  margin-bottom: 30rem;
-}
-
-#content {
-  &.tocClosed {
-    display: block;
-  }
-  &.tocOpen {
-    display: none;
-  }
-}
-
-.link {
-  display: block;
-  box-shadow: 0 1px 0 0 $border-color;
-  padding: 0.6875rem 1rem;
-  line-height: 1rem;
-  cursor: pointer;
-
-  &.headingLevel3 {
-    padding-left: 2rem;
-  }
-
-  &.headingLevel4 {
-    padding-left: 3rem;
-  }
-
-  &.activeLink {
-    color: $primary;
-    font-weight: $semi-bold-weight;
-    border-left: 6px solid $primary;
-    padding-left: calc(1rem - 6px);
-
-    &.headingLevel2 {
-      padding-left: calc(1rem - 6px);
-    }
-
-    &.headingLevel3 {
-      padding-left: calc(2rem - 6px);
-    }
-
-    &.headingLevel4 {
-      padding-left: calc(3rem - 6px);
-    }
-  }
-
-  &:hover {
-    color: $primary;
-    font-weight: $semi-bold-weight;
-  }
-}
-
-.sectionBreak section:last-of-type {
-  padding-bottom: 100px;
-}
-
-.sectionBreak section:first-child {
-  padding-top: 0;
-}
-
 @media screen and (min-width: $breakpoint-lg) {
-  .apiPageWrapper {
+  .aboutPageWrapper {
     display: flex;
   }
 
   #content {
     max-width: 847px;
-    width: calc(100% - 260px - 2rem);
-
-    &.tocOpen {
-      display: block;
-    }
-  }
-
-  #toc {
-    &.tocClosed {
-      display: block;
-    }
+    width: 100%;
+    padding-bottom: 15rem;
+    min-width: 0;
   }
 }
 
