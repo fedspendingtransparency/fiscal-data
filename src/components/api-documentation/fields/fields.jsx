@@ -8,32 +8,42 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
 const Fields = () => (
   <>
-    <SectionContent id="fields" headingLevel={3} title="Fields">
+  <SectionContent id="fields" headingLevel={3} title="Fields">
+    <dl>
       <div>
-        <h4>Parameter:</h4> <code className="inline">fields=</code>
+        <dt>Parameter:</dt>
+        <code className="inline">fields=</code>
       </div>
       <div>
-        <h4>Definition:</h4> The fields parameter allows you to select which field(s) should be included in the response.
+        <dt>Definition:</dt>
+        The fields parameter allows you to select which field(s) should be included in the response.
       </div>
       <div>
-        <h4>Accepts:</h4> The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
+        <dt>Accepts:</dt>
+        The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
       </div>
       <div>
-        <h4>Required:</h4> No, specifying fields is not required to make an API request.
+        <dt>Required:</dt>
+        No, specifying fields is not required to make an API request.
       </div>
       <div>
-        <h4>Default:</h4> If desired fields are not specified, all fields will be returned.
+        <dt>Default:</dt>
+        If desired fields are not specified, all fields will be returned.
       </div>
       <div>
-        <h4>Notes:</h4> When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur. Note
-        that omitting fields can result in automatically aggregated and summed data results. For more information, view the{' '}
+        <dt>Notes:</dt>
+        When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur.
+        Note
+        that omitting fields can result in automatically aggregated and summed data results. For more information, view
+        the{' '}
         <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums</CustomLink>.
       </div>
       <div>
-        <h4>Examples:</h4>
+        <dt>Examples:</dt>
       </div>
       <p>
-        Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
+        Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate,
+        and record_date.</code>
       </p>
       <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
       <p>
@@ -44,8 +54,9 @@ const Fields = () => (
         {baseApiUrl}
         /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date
       </code>
-    </SectionContent>
-    <SectionContent id="data-types" headingLevel={4} title="Data Types">
+    </dl>
+  </SectionContent>
+<SectionContent id="data-types" headingLevel={4} title="Data Types">
       <p>
         All fields in a response will be <strong>treated as strings</strong> and enclosed in quotation marks (e.g., "field_name"). The data type
         listed in a dataset's data dictionary or Fields table in dataset-specific API documentation indicates what the field is meant to be (e.g.,
@@ -53,7 +64,7 @@ const Fields = () => (
         value. This allows you to <strong>convert it to that data type in your language of choice.</strong> For example, the Pandas library for Python
         helps you convert strings to 'datetime objects' and R allows you to convert characters to date objects using as.Date.
       </p>
-    </SectionContent>
+</SectionContent>
     <SectionContent id="fields-fields-by-endpoint" headingLevel={4} title="Fields by Endpoint">
       <p>
         To discover what <strong>fields are available within each endpoint,</strong> check out the corresponding dataset's detail page for
