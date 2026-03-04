@@ -10,6 +10,8 @@ import {
   mockTableData1Row,
 } from '../../data-table/data-table-test-helper';
 import userEvent from '@testing-library/user-event';
+import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
+import { RecoilObserver } from '../../../utils/test-utils';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
@@ -235,5 +237,65 @@ describe('react-table', () => {
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('1 - 1', { exact: false })).toBeInTheDocument();
     expect(getByText('of 1 row', { exact: false })).toBeInTheDocument();
+  });
+
+  it('updates rows per page', () => {
+    const { getByText, getByRole } = render(
+      <RecoilRoot>
+        <FilteredTable
+          tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    userEvent.click(getByRole('button', { name: 'rows-per-page-menu' }));
+    userEvent.click(getByText('5'));
+    expect(getByText('1 - 5', { exact: false })).toBeInTheDocument();
+  });
+
+  it('resets table filters', () => {
+    const activeFilterSpy = jest.fn();
+    const setResetFiltersSpy = jest.fn();
+    render(
+      <RecoilRoot>
+        <FilteredTable
+          tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
+          pagingProps={{ itemsPerPage: 2 }}
+          setTableColumnSortData={setTableColumnSortData}
+          setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={activeFilterSpy}
+          resetFilters={true}
+          setResetFilters={setResetFiltersSpy}
+        />
+      </RecoilRoot>
+    );
+
+    expect(activeFilterSpy).toHaveBeenCalledWith([]);
+    expect(setResetFiltersSpy).toHaveBeenCalledWith(false);
+  });
+
+  it('set data for download', () => {
+    const setSmallTableDownloadDataCSV = jest.fn();
+
+    render(
+      <RecoilRoot>
+        <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
+        <FilteredTable
+          tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
+          pagingProps={{ itemsPerPage: 2 }}
+          setTableColumnSortData={setTableColumnSortData}
+          setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          enableDownload={true}
+        />
+      </RecoilRoot>
+    );
+
+    expect(setSmallTableDownloadDataCSV).toHaveBeenCalled();
   });
 });

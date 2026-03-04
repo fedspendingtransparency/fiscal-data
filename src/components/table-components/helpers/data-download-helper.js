@@ -52,7 +52,7 @@ const constructDateHeader = (datasetName, dateRange) => {
   return timestampData;
 };
 
-export const setCsvDownload = (data, headers, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange) => {
+export const setCsvDownload = (data, headers, setSmallTableCSVData, hasDownloadTimestamp = null, datasetName = null, dateRange = null) => {
   const downloadData = getDataWithTextQualifiers(data);
   downloadData.unshift(headers);
   if (hasDownloadTimestamp) {
