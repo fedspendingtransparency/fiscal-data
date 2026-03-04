@@ -185,45 +185,46 @@ describe('React Table Data ', () => {
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
 
-  it.skip('handles an empty api response for server paginated tables', async () => {
-    const setIsLoadingSpy = jest.fn();
-    const { findByRole, getByText } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_rawData_emptyTable}
-          tableMeta={{ 'total-count': 0 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={setIsLoadingSpy}
-        />
-      </RecoilRoot>
-    );
+  //TODO: Add empty data message and api error message to data-table
+  // it('handles an empty api response for server paginated tables', async () => {
+  //   const setIsLoadingSpy = jest.fn();
+  //   const { findByRole, getByText } = render(
+  //     <RecoilRoot>
+  //       <DtgTable
+  //         tableProps={mockReactTableProps_rawData_emptyTable}
+  //         tableMeta={{ 'total-count': 20001 }}
+  //         setManualPagination={setManualPaginationSpy}
+  //         setIsLoading={setIsLoadingSpy}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //
+  //   await act(async () => {
+  //     jest.runAllTimers();
+  //   });
+  //   expect(await findByRole('table')).toBeInTheDocument();
+  //   expect(getByText('Change selections in order to preview data')).toBeInTheDocument();
+  //   expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
+  // });
 
-    await act(async () => {
-      jest.runAllTimers();
-      expect(await findByRole('table')).toBeInTheDocument();
-    });
-    expect(getByText('Change selections in order to preview data')).toBeInTheDocument();
-    expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
-  });
-
-  it.skip('catches api errors', async () => {
-    const setIsLoadingSpy = jest.fn();
-    const { findByRole, getByText } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_rawData_apiError}
-          tableMeta={{ 'total-count': 0 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={setIsLoadingSpy}
-        />
-      </RecoilRoot>
-    );
-
-    await act(async () => {
-      jest.runAllTimers();
-      expect(await findByRole('table')).toBeInTheDocument();
-    });
-    expect(getByText('Table failed to load.')).toBeInTheDocument();
-    expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
-  });
+  // it('catches api errors', async () => {
+  //   const setIsLoadingSpy = jest.fn();
+  //   const { findByRole, getByText } = render(
+  //     <RecoilRoot>
+  //       <DtgTable
+  //         tableProps={mockReactTableProps_rawData_apiError}
+  //         tableMeta={{ 'total-count': 20001 }}
+  //         setManualPagination={setManualPaginationSpy}
+  //         setIsLoading={setIsLoadingSpy}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //
+  //   await act(async () => {
+  //     jest.runAllTimers();
+  //     expect(await findByRole('table')).toBeInTheDocument();
+  //   });
+  //   expect(getByText('Table failed to load.')).toBeInTheDocument();
+  //   expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
+  // });
 });

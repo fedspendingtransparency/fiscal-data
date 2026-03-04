@@ -36,7 +36,7 @@ describe('react-table', () => {
     columnConfig: mockColumnConfig,
     shouldPage: true,
     publishedReports: mockPublishedReports,
-    hasPublishedReports: true,
+    hasPublishedReports: false,
   };
 
   it('table renders', () => {

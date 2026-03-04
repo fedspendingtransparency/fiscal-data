@@ -454,7 +454,7 @@ export const mockReactTableProps_rawData_emptyTable = {
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_2',
-    rowCount: 0,
+    rowCount: 20001,
   },
   dateRange: dateRange,
   serverSidePagination: 'v1/accounting/dts/dts_table_2',
@@ -466,7 +466,7 @@ export const mockReactTableProps_rawData_apiError = {
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_3',
-    rowCount: 0,
+    rowCount: 20001,
   },
   dateRange: dateRange,
   serverSidePagination: 'v1/accounting/dts/dts_table_3',
