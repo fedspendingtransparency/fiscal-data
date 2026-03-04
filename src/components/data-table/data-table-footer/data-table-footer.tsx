@@ -71,7 +71,7 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
           table.setPageIndex(x - 1);
         },
         maxPage: table.getPageCount(),
-        tableName: '',
+        tableName: pagingProps?.tableName ? pagingProps?.tableName : '',
         currentPage: table.getState().pagination.pageIndex + 1,
         maxRows: filteredRowLength,
       };
@@ -86,8 +86,8 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   }, [table?.getFilteredRowModel(), pagingProps]);
 
   return (
-    <div data-test-id="table-footer" className={`${!chartTable} ? ${tableFooter} : ${tableFooterChart} ${tableFooter}`}>
-      <div data-test-id="rows-showing" className={rowsShowing}>
+    <div data-testid="table-footer" className={`${!chartTable} ? ${tableFooter} : ${tableFooterChart} ${tableFooter}`}>
+      <div data-testid="rows-showing" className={rowsShowing}>
         {visibleRows(table)}
       </div>
       {showPaginationControls && <PaginationControls pagingProps={tablePagingProps} />}

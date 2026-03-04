@@ -15,7 +15,7 @@ import {
 
 const defaultRowsPerPage = 10;
 export default function Table({ tableProps, perPage }) {
-  const { width, noBorder, tableName, shouldPage, columnConfig, caption } = tableProps;
+  const { width, noBorder, tableName, shouldPage, columnConfig, caption, excludeCols, hideColumns } = tableProps;
 
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
@@ -34,13 +34,25 @@ export default function Table({ tableProps, perPage }) {
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
 
+  const getAllExcludedCols = () => {
+    const allCols = [];
+
+    if (excludeCols !== undefined) {
+      allCols.push(...excludeCols);
+    }
+    if (hideColumns) {
+      allCols.push(...hideColumns);
+    }
+    return allCols;
+  };
+
   const isPaginationControlNeeded = () => currentPage >= 1 || maxRows > defaultPerPageOptions[0];
 
   const rowData = Array.isArray(table) ? table : table?.data || [];
 
   const dataProperties = {
     keys: rowData[0] ? Object.keys(rowData[0]) : [],
-    excluded: [],
+    excluded: getAllExcludedCols(),
   };
 
   const columns = setColumns(dataProperties, columnConfig);
