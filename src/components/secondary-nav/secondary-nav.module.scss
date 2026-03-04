@@ -2,6 +2,7 @@
 
 .mainContainer {
   display: flex;
+  width: 100%;
 
   .navContainer {
     top: 4rem;
@@ -48,6 +49,10 @@
       &.headingLevel3 {
         padding-left: calc(2rem - 6px);
       }
+
+      &.headingLevel4 {
+        padding-left: calc(3rem - 6px);
+      }
     }
   }
 
@@ -68,6 +73,7 @@
     max-height: calc(100vh - 16px);
     overflow-y: auto;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
+    min-width: 0;
 
     .linkContainer {
       max-width: 270px;
@@ -77,7 +83,8 @@
   .navigableContent {
     display: flex;
     flex: 3;
-    max-width: calc((#{$site-content-width} * 0.75) - 1rem);
+    max-width: min(100%, calc((#{$site-content-width} * 0.75) - 1rem));
+    min-width: 0;
   }
 }
 
