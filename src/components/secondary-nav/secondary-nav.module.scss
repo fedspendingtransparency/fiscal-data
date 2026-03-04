@@ -2,9 +2,9 @@
 
 .mainContainer {
   display: flex;
+  width: 100%;
 
   .navContainer {
-    top: 4rem;
     display: flex;
     flex-direction: column;
     align-self: flex-start;
@@ -72,6 +72,7 @@
     max-height: calc(100vh - 17rem);
     overflow-y: auto;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
+    min-width: 0;
 
     .linkContainer {
       max-width: 270px;
@@ -81,7 +82,8 @@
   .navigableContent {
     display: flex;
     flex: 3;
-    max-width: calc((#{$site-content-width} * 0.75) - 1rem);
+    max-width: min(100%, calc((#{$site-content-width} * 0.75) - 1rem));
+    min-width: 0;
   }
 }
 

@@ -25,6 +25,29 @@ div.aboutPageWrapper {
   margin-bottom: 3.75rem;
 }
 
+.list {
+  li {
+    margin-bottom: 1.5rem;
+  }
+  &.noBullets {
+    list-style: none;
+  }
+}
+
+.title {
+  &,
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    @include headingStyle2-1;
+  }
+  h3 {
+    margin-top: 0;
+    @include headingStyle3;
+  }
+  margin-top: 0;
+}
+
 .activeLink {
   color: $primary;
   font-weight: $semi-bold-weight;
