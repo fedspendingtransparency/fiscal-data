@@ -5,6 +5,21 @@ div.aboutPageWrapper {
   padding-top: 0;
 }
 
+.section section {
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &.noBullets,
+  .noBullets {
+    list-style: none;
+  }
+  &:last-child,
+  &.lastChild {
+    padding-bottom: 7.25rem;
+  }
+}
+
 .content {
   max-width: 847px;
   margin-bottom: 3.75rem;
