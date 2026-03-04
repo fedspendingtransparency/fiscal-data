@@ -11,14 +11,7 @@ import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 export default [
   // Global ignores (replaces ignorePatterns)
   {
-    ignores: [
-      'temp.js',
-      'node_modules/',
-      '**/*.scss.d.ts',
-      '**/*.scss',
-      '.cache/',
-      'public/',
-    ],
+    ignores: ['temp.js', 'node_modules/', '**/*.scss.d.ts', '**/*.scss', '.cache/', 'public/'],
   },
 
   // Base config for all JS/TS files
@@ -86,7 +79,6 @@ export default [
       // Code style
       'linebreak-style': [1, 'unix'],
       'prefer-template': [0],
-      'max-len': [1, 150],
       'comma-dangle': [0],
       'semi-style': [2, 'last'],
       'func-style': [1, 'expression'],
@@ -121,7 +113,7 @@ export default [
   },
 
   // TypeScript-specific config (replaces overrides block)
-  ...tseslint.configs.recommended.map((config) => ({
+  ...tseslint.configs.recommended.map(config => ({
     ...config,
     files: ['**/*.{ts,tsx}'],
   })),
@@ -153,9 +145,16 @@ export default [
   {
     files: ['**/__tests__/**', '**/*spec.*', '**/*test.*', '**/*.bypass.*'],
     rules: {
-      'import/extensions': [0]
-    }
+      'import/extensions': [0],
+    },
   },
   // Prettier must be last - disables conflicting rules
   prettierConfig,
+
+  {
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    rules: {
+      'max-len': [1, 150],
+    },
+  },
 ];
