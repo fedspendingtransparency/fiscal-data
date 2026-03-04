@@ -9,7 +9,8 @@
 - [ ] Verified cross-browser compatibility: Chrome, Safari, Firefox, Edge
 - [ ] Verified mobile/tablet/desktop/monitor responsiveness
 - [ ] Verified that this PR does not create any *new* accessibility issues (via Axe Chrome)
-- [ ] Verify all files are covered by at least 90% test coverage `if applicable`
+- [ ] Verify all files are covered by at least 93% test coverage `if applicable`
+- [ ] Verify that dashes are used for any visible defaults of evergreen values `if applicable`
 - [ ] Check for code quality
        + Watch out for irrelevant changes
        + Take time to understand the logic and flow; be on guard for pitfalls
