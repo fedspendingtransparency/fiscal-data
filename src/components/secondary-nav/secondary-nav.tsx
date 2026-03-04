@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import * as Scroll from 'react-scroll';
 import { Link } from 'react-scroll';
-import { withWindowSize } from 'react-fns';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import TOCButton from '../table-of-contents/toc-button/toc-button';
 import { ISecondaryNav } from '../../models/ISecondaryNav';
@@ -228,4 +227,4 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   );
 };
 
-export default withWindowSize(SecondaryNav);
+export default SecondaryNav;
