@@ -26,6 +26,23 @@ div.aboutPageWrapper {
   font-weight: $semi-bold-weight;
 }
 
+code.code {
+  padding: 10px;
+  display: inline-block;
+  width: 100%;
+  word-break: break-all;
+  &.marginBottom {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.beautified {
+  width: 100%;
+  pre {
+    white-space: pre-wrap;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .aboutPageWrapper {
     display: flex;
