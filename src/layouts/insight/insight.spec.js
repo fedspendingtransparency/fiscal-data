@@ -118,9 +118,6 @@ describe('Insights Template', () => {
     const dataSourcesMethodologies = await findByRole('heading', { name: 'Data Sources and Methodologies:' });
     expect(dataSourcesMethodologies).toBeInTheDocument();
 
-    const socialShare = queryByRole('heading', { name: 'Share this page' });
-    expect(socialShare).not.toBeInTheDocument();
-
     const facebookButton = await within(getByTestId('social-share-desktop')).findByRole('button', { name: 'facebook' });
     expect(facebookButton).toBeInTheDocument();
 

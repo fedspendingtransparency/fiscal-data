@@ -11,9 +11,6 @@ import {
   shareButtonContainer,
   socialShareContent,
 } from './social-share.module.scss';
-import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../variables.module.scss';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
@@ -45,7 +42,6 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   copy,
   emailSeparator = '\n',
   pageName,
-  width,
   displayStyle,
   clickEvent,
   headerLevel = 'h3',
@@ -89,8 +85,8 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   return (
     <>
       <div className={contentStyle}>
-        {displayStyle === 'responsive' && width >= pxToNumber(breakpointLg) && (
-          <Heading headingLevel={headerLevel} className={headerText}>
+        {displayStyle === 'responsive' && (
+          <Heading headingLevel={headerLevel} className={headerText} data-testid="social-share-header">
             Share this page
           </Heading>
         )}
@@ -104,7 +100,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
                 openModal(e, getFacebookParams('facebook', url));
               }}
             >
-              <ShareButtonContent name="facebook" width={width} displayStyle={displayStyle} />
+              <ShareButtonContent name="facebook" displayStyle={displayStyle} />
             </button>
           </li>
           <li className={containerStyle}>
@@ -116,7 +112,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
                 openModal(e, getTwitterParams('twitter', url, title));
               }}
             >
-              <ShareButtonContent name="twitter" width={width} displayStyle={displayStyle} />
+              <ShareButtonContent name="twitter" displayStyle={displayStyle} />
             </button>
           </li>
           <li className={containerStyle}>
@@ -128,7 +124,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
                 openModal(e, getLinkedInParams('linkedin', url, title));
               }}
             >
-              <ShareButtonContent name="linkedin" width={width} displayStyle={displayStyle} />
+              <ShareButtonContent name="linkedin" displayStyle={displayStyle} />
             </button>
           </li>
           <li className={containerStyle}>
@@ -140,7 +136,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
                 openModal(e, getRedditParams('reddit', url, title));
               }}
             >
-              <ShareButtonContent name="reddit" width={width} displayStyle={displayStyle} />
+              <ShareButtonContent name="reddit" displayStyle={displayStyle} />
             </button>
           </li>
           <li className={containerStyle}>
@@ -152,7 +148,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
               separator={emailSeparator}
               beforeOnClick={() => handleClick('Email')}
             >
-              <ShareButtonContent name="email" width={width} displayStyle={displayStyle} />
+              <ShareButtonContent name="email" displayStyle={displayStyle} />
             </EmailShareButton>
           </li>
         </ul>
@@ -161,4 +157,4 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   );
 };
 
-export default withWindowSize(SocialShareComponent);
+export default SocialShareComponent;
