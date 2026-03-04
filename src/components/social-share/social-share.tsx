@@ -11,7 +11,6 @@ import {
   shareButtonContainer,
   socialShareContent,
 } from './social-share.module.scss';
-import { withWindowSize } from 'react-fns';
 import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
@@ -158,4 +157,4 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   );
 };
 
-export default withWindowSize(SocialShareComponent);
+export default SocialShareComponent;
