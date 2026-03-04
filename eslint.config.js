@@ -62,7 +62,7 @@ export default [
     rules: {
       // Import rules
       'import/extensions': [
-        2,
+        0,
         'ignorePackages',
         {
           js: 'never',
@@ -151,10 +151,10 @@ export default [
     },
   },
   {
-    files: ['**/__tests__/**', '**/*spec.*', '**/*test.*', '**/*.bypass..*'],
-rules: {
+    files: ['**/__tests__/**', '**/*spec.*', '**/*test.*', '**/*.bypass.*'],
+    rules: {
       'import/extensions': [0]
-}
+    }
   },
   // Prettier must be last - disables conflicting rules
   prettierConfig,
