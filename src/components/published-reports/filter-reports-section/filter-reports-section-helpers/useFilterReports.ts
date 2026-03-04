@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { format } from 'date-fns';
 import { API_BASE_URL } from 'gatsby-env-variables';
-import { basicFetch } from '../../../../utils/api-utils';
+import { basicFetch, limitConcurrent } from '../../../../utils/api-utils';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
 import { getCache, setCache, makeKey } from './filter-reports-cache';
 import { buildNestedDateOptions } from './date-options';
@@ -132,7 +132,7 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
                 return null;
               })
               .filter(Boolean);
-            allReports = await Promise.all(promises);
+            allReports = await Promise.all(promises.map(limitConcurrent));
           }
         } else {
           const yyyymm = formattedDate.replace(/-/g, '').slice(0, 6);

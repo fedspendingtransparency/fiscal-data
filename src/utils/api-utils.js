@@ -5,6 +5,7 @@ import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { buildTableColumnSortParams } from './api-utils-helper';
+import { limitConcurrent } from './concurrency-limiter';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 export const getIFetch = () => {
@@ -232,7 +233,7 @@ export const datatableRequest = async (
           })
         );
       });
-      const fetchedRecordSets = await Promise.all(fetchers);
+      const fetchedRecordSets = await Promise.all(fetchers.map(limitConcurrent));
       tableCache.updateDataCache(fetchedRecordSets);
     }
     const recordSetForRange = tableCache.getRecordSetForRange(dateRange, dateField);
@@ -278,7 +279,7 @@ export const fetchAllPages = async (uri, canceledObj) => {
             });
         }
         if (!canceledObj.isCanceled) {
-          const fetchedRecordSets = await Promise.all(pagedResponseRecordSets);
+          const fetchedRecordSets = await Promise.all(pagedResponseRecordSets.map(limitConcurrent));
           finalData.data = [].concat.apply(finalData.data, fetchedRecordSets);
         }
       }
