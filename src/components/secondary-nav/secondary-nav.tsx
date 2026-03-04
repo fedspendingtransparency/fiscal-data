@@ -164,23 +164,12 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     }
   }, [scrollToId]);
 
-  // toc shows if the screen is in desktop OR if the toc is open when it's in mobile view
-  // const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
-  // display = none
-  // when you are in mobile AND !tocIsOpen
-
-  // content shows if the screen is in desktop OR if the toc is not open when it's in mobile view
-  // const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
-
-  // add the tocIsOpen state to a class?
-  // and then make the class have an attribute that handles display being open/closed
-
   return (
     <div className={mainContainer}>
       <aside className={`${navContainer} secondaryNavContainer`}>
         <nav>
-          <div className={`${tocIsOpen ? 'open' : close}`}>
-            {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+          {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+          <div className={`${tocIsOpen ? 'open' : close}`} data-testid={'tocContainer'}>
             <div className={paddingAdjust}>{headerComponent}</div>
             <ul className={sectionList}>
               {sections.map(s => {
@@ -233,10 +222,7 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
           </div>
         </nav>
       </aside>
-      {/*the main stuff on the page*/}
-      <div className={`${navigableContent} ${tocIsOpen ? 'hidden' : ''}`}>
-        {children}
-      </div>
+      <div className={`${navigableContent} ${tocIsOpen ? 'hidden' : ''}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
   );

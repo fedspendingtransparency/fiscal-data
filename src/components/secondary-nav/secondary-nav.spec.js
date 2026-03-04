@@ -11,6 +11,10 @@ jest.mock('./variables.module.scss', content => ({
   breakpointLg: 992,
 }));
 
+jest.mock('./secondary-nav.module.scss', () => ({
+  close: 'close',
+}));
+
 describe('Secondary Nav', () => {
   const sections = [
     {
@@ -82,16 +86,16 @@ describe('Secondary Nav', () => {
     });
   });
 
-  // it('initially shows the page content but not the table of contents on mobile', () => {
-  //   const { queryByText, getByText } = render(
-  //     <SecondaryNav sections={sections} width={smallWidth} >
-  //       <div id={sections[0].id}>{childContent}</div>
-  //     </SecondaryNav>
-  //   );
-  //
-  //   expect(queryByText(sections[0].title)).not.toBeInTheDocument();
-  //   expect(getByText(childContent)).toBeInTheDocument();
-  // });
+  it('initially shows the page content but not the table of contents on mobile', () => {
+    const { getByTestId } = render(
+      <SecondaryNav sections={sections} width={smallWidth}>
+        <div id={sections[0].id}>{childContent}</div>
+      </SecondaryNav>
+    );
+    const tocContainer = getByTestId('tocContainer');
+    expect(tocContainer).toHaveClass('close');
+    expect(tocContainer).not.toHaveClass('open');
+  });
 
   it('hides the page content when the table of contents is open on mobile', () => {
     const { getByRole, getByText, container } = render(
