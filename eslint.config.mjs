@@ -150,7 +150,12 @@ export default [
       },
     },
   },
-
+  {
+    files: ['**/__tests__/**', '**/*spec.*', '**/*test.*', '**/*.bypass..*'],
+rules: {
+      'import/extensions': [0]
+}
+  },
   // Prettier must be last - disables conflicting rules
   prettierConfig,
 ];
