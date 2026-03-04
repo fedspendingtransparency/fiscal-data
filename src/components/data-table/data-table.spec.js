@@ -10,6 +10,8 @@ import {
   defaultSelectedColumnsMock,
   mockColumnConfig,
   mockColumnConfigDownloadWithTextQualifier,
+  mockDetailApiData,
+  mockDetailViewColumnConfig,
   mockMeta,
   mockPublishedReports,
   mockTableData,
@@ -23,12 +25,12 @@ import { RecoilObserver } from '../../utils/test-utils';
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
 
-  // global.fetch = jest.fn(() => {
-  //   return Promise.resolve({
-  //     ok: true,
-  //     json: () => Promise.resolve(mockDetailApiData),
-  //   });
-  // });
+  global.fetch = jest.fn(() => {
+    return Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockDetailApiData),
+    });
+  });
 
   const tableProps = {
     columnConfig: mockColumnConfig,
@@ -98,75 +100,75 @@ describe('react-table', () => {
     expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
   });
 
-  // it('Able to interact with headers for column sort', () => {
-  //   const mockSorting = jest.fn();
-  //   const { getAllByTestId, getByRole } = render(
-  //     <RecoilRoot>
-  //       <DataTable
-  //         rawData={mockTableData}
-  //         defaultSelectedColumns={null}
-  //         pagingProps={{ itemsPerPage: 10 }}
-  //         setTableColumnSortData={setTableColumnSortData}
-  //         showPaginationControls
-  //         setFiltersActive={jest.fn()}
-  //         setTableSorting={jest.fn()}
-  //         setAllActiveFilters={mockSorting}
-  //         allActiveFilters={[]}
-  //         tableProps={tableProps}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   // Column header
-  //   expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
-  //   // Rows render
-  //   expect(getAllByTestId('row').length).toEqual(6);
-  //   const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
-  //   const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
-  //   expect(sortButton).toHaveClass('defaultSortArrow');
-  //   expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-  //   userEvent.click(sortButton);
-  //   // Now sorted in desc order
-  //   expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
-  //   userEvent.click(sortButton);
-  //   userEvent.click(sortButton);
-  //   //Sorting should be reset
-  //   expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-  // });
-  //
-  // it('column sort keyboard accessibility', () => {
-  //   const mockSorting = jest.fn();
-  //   const { getAllByTestId, getByRole } = render(
-  //     <RecoilRoot>
-  //       <DataTable
-  //         rawData={mockTableData}
-  //         defaultSelectedColumns={null}
-  //         pagingProps={{ itemsPerPage: 10 }}
-  //         setTableColumnSortData={setTableColumnSortData}
-  //         showPaginationControls
-  //         setFiltersActive={jest.fn()}
-  //         setTableSorting={jest.fn()}
-  //         setAllActiveFilters={mockSorting}
-  //         allActiveFilters={[]}
-  //         tableProps={{ ...tableProps }}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   // Column header
-  //   expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
-  //   // Rows render
-  //   expect(getAllByTestId('row').length).toEqual(6);
-  //   const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
-  //   const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
-  //   expect(sortButton).toHaveClass('defaultSortArrow');
-  //   expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-  //   fireEvent.keyDown(sortButton, { key: 'Enter' });
-  //   // Now sorted in desc order
-  //   expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
-  //   fireEvent.keyDown(sortButton, { key: 'Enter' });
-  //   fireEvent.keyDown(sortButton, { key: 'Enter' });
-  //   //Sorting should be reset
-  //   expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-  // });
+  it('Able to interact with headers for column sort', () => {
+    const mockSorting = jest.fn();
+    const { getAllByTestId, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
+          tableProps={tableProps}
+        />
+      </RecoilRoot>
+    );
+    // Column header
+    expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
+    // Rows render
+    expect(getAllByTestId('row').length).toEqual(6);
+    const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('defaultSortArrow');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+    userEvent.click(sortButton);
+    // Now sorted in desc order
+    expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
+    userEvent.click(sortButton);
+    userEvent.click(sortButton);
+    //Sorting should be reset
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+  });
+
+  it('column sort keyboard accessibility', () => {
+    const mockSorting = jest.fn();
+    const { getAllByTestId, getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          setTableSorting={jest.fn()}
+          setAllActiveFilters={mockSorting}
+          allActiveFilters={[]}
+          tableProps={{ ...tableProps }}
+        />
+      </RecoilRoot>
+    );
+    // Column header
+    expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
+    // Rows render
+    expect(getAllByTestId('row').length).toEqual(6);
+    const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('defaultSortArrow');
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    // Now sorted in desc order
+    expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    fireEvent.keyDown(sortButton, { key: 'Enter' });
+    //Sorting should be reset
+    expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
+  });
 
   it('column sort asc keyboard accessibility', () => {
     const mockSorting = jest.fn();
@@ -594,33 +596,33 @@ describe('react-table', () => {
     ]);
   });
 
-  // it('renders detail view links', async () => {
-  //   const setDetailViewSpy = jest.fn();
-  //   const setSummaryValuesSpy = jest.fn();
-  //   const { getByRole } = render(
-  //     <RecoilRoot>
-  //       <DataTable
-  //         rawData={mockTableData}
-  //         defaultSelectedColumns={null}
-  //         pagingProps={{ itemsPerPage: 10 }}
-  //         setTableColumnSortData={setTableColumnSortData}
-  //         showPaginationControls
-  //         setFiltersActive={jest.fn()}
-  //         detailColumnConfig={mockDetailViewColumnConfig}
-  //         detailView={{ field: 'record_date' }}
-  //         detailViewAPI={{ endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }}
-  //         setDetailViewState={setDetailViewSpy}
-  //         setSummaryValues={setSummaryValuesSpy}
-  //         setTableSorting={jest.fn()}
-  //         tableProps={{ ...tableProps, tableName: 'FRN Daily Indexes' }}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //   const detailViewButton = getByRole('button', { name: '7/12/2023' });
-  //   expect(detailViewButton).toBeInTheDocument();
-  //
-  //   userEvent.click(detailViewButton);
-  //   expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
-  //   expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
-  // });
+  it('renders detail view links', async () => {
+    const setDetailViewSpy = jest.fn();
+    const setSummaryValuesSpy = jest.fn();
+    const { getByRole } = render(
+      <RecoilRoot>
+        <DataTable
+          rawData={mockTableData}
+          defaultSelectedColumns={null}
+          pagingProps={{ itemsPerPage: 10 }}
+          setTableColumnSortData={setTableColumnSortData}
+          showPaginationControls
+          setFiltersActive={jest.fn()}
+          detailColumnConfig={mockDetailViewColumnConfig}
+          detailView={{ field: 'record_date' }}
+          detailViewAPI={{ endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }}
+          setDetailViewState={setDetailViewSpy}
+          setSummaryValues={setSummaryValuesSpy}
+          setTableSorting={jest.fn()}
+          tableProps={{ ...tableProps, tableName: 'FRN Daily Indexes' }}
+        />
+      </RecoilRoot>
+    );
+    const detailViewButton = getByRole('button', { name: '7/12/2023' });
+    expect(detailViewButton).toBeInTheDocument();
+
+    userEvent.click(detailViewButton);
+    expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
+    expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
+  });
 });

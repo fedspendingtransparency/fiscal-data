@@ -5,6 +5,7 @@ import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
 import { act, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockTableData } from '../data-table/data-table-test-helper';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -29,23 +30,23 @@ describe('DTG table component', () => {
     expect(getAllByRole('row')).toHaveLength(TestData.length + 1);
   });
 
-  // it('renders a column for every item in the data', () => {
-  //   const { getAllByRole } = render(
-  //     <RecoilRoot>
-  //       <DtgTable tableProps={{ rawData: mockTableData, perPage: 5 }} />
-  //     </RecoilRoot>
-  //   );
-  //   expect(getAllByRole('columnheader')).toHaveLength(Object.keys(TestData[0]).length);
-  // });
-  //
-  // it('does not blow up when a column config is not provided', () => {
-  //   const { getAllByRole } = render(
-  //     <RecoilRoot>
-  //       <DtgTable tableProps={{ rawData: mockTableData }} />
-  //     </RecoilRoot>
-  //   );
-  //   expect(getAllByRole('columnheader').length).toBeGreaterThan(0);
-  // });
+  it('renders a column for every item in the data', () => {
+    const { getAllByRole } = render(
+      <RecoilRoot>
+        <DtgTable tableProps={{ rawData: mockTableData, perPage: 5 }} />
+      </RecoilRoot>
+    );
+    expect(getAllByRole('columnheader')).toHaveLength(Object.keys(TestData[0]).length);
+  });
+
+  it('does not blow up when a column config is not provided', () => {
+    const { getAllByRole } = render(
+      <RecoilRoot>
+        <DtgTable tableProps={{ rawData: mockTableData }} />
+      </RecoilRoot>
+    );
+    expect(getAllByRole('columnheader').length).toBeGreaterThan(0);
+  });
 
   it('does not blow up when there is no data in a table', () => {
     const noDataComponent = render(
