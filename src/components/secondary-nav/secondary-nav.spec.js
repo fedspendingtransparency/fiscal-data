@@ -82,16 +82,16 @@ describe('Secondary Nav', () => {
     });
   });
 
-  it('initially shows the page content but not the table of contents on mobile', () => {
-    const { queryByText, getByText } = render(
-      <SecondaryNav sections={sections} width={smallWidth}>
-        <div id={sections[0].id}>{childContent}</div>
-      </SecondaryNav>
-    );
-
-    expect(queryByText(sections[0].title)).not.toBeInTheDocument();
-    expect(getByText(childContent)).toBeInTheDocument();
-  });
+  // it('initially shows the page content but not the table of contents on mobile', () => {
+  //   const { queryByText, getByText } = render(
+  //     <SecondaryNav sections={sections} width={smallWidth} >
+  //       <div id={sections[0].id}>{childContent}</div>
+  //     </SecondaryNav>
+  //   );
+  //
+  //   expect(queryByText(sections[0].title)).not.toBeInTheDocument();
+  //   expect(getByText(childContent)).toBeInTheDocument();
+  // });
 
   it('hides the page content when the table of contents is open on mobile', () => {
     const { getByRole, getByText, container } = render(

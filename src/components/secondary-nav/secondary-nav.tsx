@@ -46,7 +46,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   analytics,
   analyticsCategory,
   analyticsPageLabel,
-  width,
   headerComponent,
   children,
   tocScrollOffset,
@@ -77,7 +76,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   };
 
   const handleInteraction = (e, id?, title?) => {
-    console.log('toc open? ', tocIsOpen);
     if (analytics) {
       analyticsClickHandler(title);
     }
@@ -236,7 +234,9 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
         </nav>
       </aside>
       {/*the main stuff on the page*/}
-      <div className={navigableContent}>{children}</div>
+      <div className={`${navigableContent} ${tocIsOpen ? 'hidden' : ''}`}>
+        {children}
+      </div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
   );
