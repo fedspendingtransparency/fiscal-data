@@ -17,9 +17,15 @@
       font-size: $font-size-12;
       font-weight: 700;
     }
-    .headerIcon {
+    .headerIcon,
+    .dollarIcon {
       margin-right: 0.5rem;
-      width: fit-content;
+    }
+    .headerIcon {
+      width: 1rem;
+    }
+    .dollarIcon {
+      width: 0.625rem;
     }
   }
 

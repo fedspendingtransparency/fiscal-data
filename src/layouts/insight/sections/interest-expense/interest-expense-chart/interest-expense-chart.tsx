@@ -95,7 +95,7 @@ const InterestExpenseChart = () => {
       monthRange={{ from: startFY, to: currentFY }}
       enabledClickedColorChange={true}
       isLoading={chartLoading}
-      height={360}
+      height={505.5}
       chart={
         <div className={chartTableBoarder}>
           <div aria-label={altText}>

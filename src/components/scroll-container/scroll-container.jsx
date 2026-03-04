@@ -15,6 +15,7 @@ const ScrollContainer = ({
   testId = '',
   customChildStyle = null,
   customContainerStyle = null,
+  customGradientStyle = null,
   children,
 }) => {
   const [scrollTop, setScrollTop] = useState(true);
@@ -54,7 +55,11 @@ const ScrollContainer = ({
     <>
       <div
         className={scrollTop ? scrollContainerTop : scrollGradientTop}
-        style={scrollTop ? {} : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))`, marginRight: scrollBarWidth + 'px' }}
+        style={
+          scrollTop
+            ? { ...customGradientStyle }
+            : { background: `linear-gradient(${gradientColor}, rgba(255, 255, 255, 0))`, marginRight: scrollBarWidth + 'px', ...customGradientStyle }
+        }
         data-testid="topScrollGradient"
       />
       <div className={container} style={customContainerStyle}>
