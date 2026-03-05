@@ -38,16 +38,6 @@ const createPivotFields = (apiData, dateField, pivot) => {
     })
     .sort((a, b) => {
       // in case of pivot, sort columns alphabetically for consistency
-      console.log(' FANTA: AAA ', a, ' BBB ', b);
-      // if (!a || !b) {
-      //   if (a) {
-      //     return 1;
-      //   }
-      //   if (b) {
-      //     return -1;
-      //   }
-      //   return 0;
-      // }
       if (a.dataType && a.dataType.indexOf('DATE') !== -1) return -1;
       if (b.dataType && b.dataType.indexOf('DATE') !== -1) return 1;
 
