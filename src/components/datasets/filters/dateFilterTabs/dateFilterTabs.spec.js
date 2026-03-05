@@ -19,19 +19,21 @@ describe('Date Filter Tabs', () => {
     expect(timeRangeTab).toBeInTheDocument();
   });
 
-  it('triggers onGroupReset when new tab is selected', () => {
+  it('triggers onGroupReset when new tab is selected', async () => {
+    const user = userEvent.setup();
     const onGroupReset = jest.fn();
     const { getByRole } = render(<DateFilterTabs setSelectedTab={jest.fn()} selectedTab={0} onGroupReset={onGroupReset} />);
     const timeRangeTab = getByRole('tab', { name: 'Time Range' });
-    userEvent.click(timeRangeTab);
+    await user.click(timeRangeTab);
     expect(onGroupReset).toHaveBeenCalledWith('dateRange');
   });
 
-  it('issues a tracking even when the custom date range tab is selected', () => {
+  it('issues a tracking even when the custom date range tab is selected', async () => {
+    const user = userEvent.setup();
     const spy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<DateFilterTabs setSelectedTab={jest.fn()} selectedTab={0} onGroupReset={jest.fn()} />);
     const timeRangeTab = getByRole('tab', { name: 'Time Range' });
-    userEvent.click(timeRangeTab);
+    await user.click(timeRangeTab);
     expect(spy).toHaveBeenCalledWith(timeRangeToggleClickAnalyticsObject);
   });
 });

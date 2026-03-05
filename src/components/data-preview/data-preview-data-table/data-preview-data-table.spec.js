@@ -232,7 +232,8 @@ describe('react-table', () => {
   });
 
   describe('Pagination', () => {
-    it('renders pagination buttons', () => {
+    it('renders pagination buttons', async () => {
+      const user = userEvent.setup();
       const { getAllByTestId, getByText, getByRole, getByTestId } = render(
         <DataTableContext.Provider
           value={{
@@ -265,7 +266,7 @@ describe('react-table', () => {
       expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
       expect(getByTestId('page-next-button')).toBeInTheDocument();
 
-      userEvent.click(getByTestId('page-next-button'));
+      await user.click(getByTestId('page-next-button'));
 
       expect(getByText('Showing', { exact: false })).toBeInTheDocument();
       expect(getByText('3 - 4', { exact: false })).toBeInTheDocument();
@@ -679,6 +680,7 @@ describe('react-table', () => {
   it('renders detail view links', async () => {
     const setDetailViewSpy = jest.fn();
     const setSummaryValuesSpy = jest.fn();
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DataTableContext.Provider
         value={{
@@ -708,7 +710,7 @@ describe('react-table', () => {
     const detailViewButton = getByRole('button', { name: '7/12/2023' });
     expect(detailViewButton).toBeInTheDocument();
 
-    userEvent.click(detailViewButton);
+    await user.click(detailViewButton);
     expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
     expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });

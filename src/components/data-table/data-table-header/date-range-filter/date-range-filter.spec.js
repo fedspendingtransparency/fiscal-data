@@ -69,6 +69,7 @@ describe('date range filter', () => {
   });
 
   it('today and clear buttons keyboard accessibility', async () => {
+    const user = userEvent.setup();
     const { findByRole, getAllByText } = render(
       <RecoilRoot>
         <DateRangeFilter
@@ -81,23 +82,23 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = await findByRole('button');
-    userEvent.tab();
-    userEvent.keyboard('{Enter}');
+    await user.tab();
+    await user.keyboard('{Enter}');
     const todayButton = await findByRole('button', { name: 'Today' });
     act(() => {
       todayButton.focus();
     });
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(getAllByText('1/02/2023', { exact: false })[0]).toBeInTheDocument();
     act(() => {
       dateRangeButton.focus();
     });
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     const clearButton = await findByRole('button', { name: 'Clear' });
     act(() => {
       clearButton.focus();
     });
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
   });
 
   it('closes the dropdown on blur', async () => {
@@ -124,6 +125,7 @@ describe('date range filter', () => {
   });
 
   it('calls mouse handlers ', async () => {
+    const user = userEvent.setup();
     const { getByRole, queryByTestId, getByTestId } = render(
       <RecoilRoot>
         <DateRangeFilter
@@ -136,12 +138,12 @@ describe('date range filter', () => {
       </RecoilRoot>
     );
     const dateRangeButton = getByRole('button');
-    userEvent.click(dateRangeButton);
+    await user.click(dateRangeButton);
     const dropdown = getByTestId('Date Picker Dropdown');
-    userEvent.click(dropdown);
+    await user.click(dropdown);
     expect(dropdown).toBeInTheDocument();
-    userEvent.unhover(dropdown);
-    userEvent.click(dateRangeButton);
+    await user.unhover(dropdown);
+    await user.click(dateRangeButton);
     await waitFor(() => expect(queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument());
   });
 

@@ -116,6 +116,7 @@ describe('React Table Data ', () => {
   });
 
   it('handles serverside paginated data (tableData), with pagination controls', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findByRole, getByRole, getByText } = render(
       <RecoilRoot>
         <DtgTable
@@ -140,13 +141,9 @@ describe('React Table Data ', () => {
 
     const rowsPerPageMenu = getByRole('button', { name: 'rows-per-page-menu' });
     expect(rowsPerPageMenu).toBeInTheDocument();
-    act(() => {
-      userEvent.click(rowsPerPageMenu);
-    });
+    await user.click(rowsPerPageMenu);
     const perPage5 = getByRole('menuitem', { name: '5', hidden: true });
-    act(() => {
-      userEvent.click(perPage5);
-    });
+    await user.click(perPage5);
     expect(getByText('1 - 5')).toBeInTheDocument();
   });
 

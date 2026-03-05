@@ -87,7 +87,8 @@ describe('PivotOptions component does render children', () => {
     expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
   });
 
-  it('creates two select/dropdown controls and two text labels', () => {
+  it('creates two select/dropdown controls and two text labels', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const pivotViewOptions = ['Top Secret', 'Additional Columns', 'By Facility', 'By Form', 'Complete Table'];
     const pivotValueOptions = ['Fine Troy Ounces', 'Book Value'];
     const { queryAllByTestId, getByRole } = render(
@@ -104,18 +105,19 @@ describe('PivotOptions component does render children', () => {
     const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' });
 
-    userEvent.click(pivotViewSelector);
+    await user.click(pivotViewSelector);
     pivotViewOptions.forEach(option => {
       expect(getByRole('button', { name: option })).toBeInTheDocument();
     });
 
-    userEvent.click(pivotValueSelector);
+    await user.click(pivotValueSelector);
     pivotValueOptions.forEach(option => {
       expect(getByRole('button', { name: option })).toBeInTheDocument();
     });
   });
 
-  it('changes the pivot options when the pivot view changes, but only if it should', () => {
+  it('changes the pivot options when the pivot view changes, but only if it should', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const pivotValueOptions = [selectedTable.fields[2], selectedTable.fields[3]];
     const { getByRole } = render(
       <PivotOptions
@@ -130,19 +132,20 @@ describe('PivotOptions component does render children', () => {
     const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' });
     // on render the options are this
-    userEvent.click(pivotValueSelector);
+    await user.click(pivotValueSelector);
     pivotValueOptions.forEach(option => {
       expect(getByRole('button', { name: option.prettyName })).toBeInTheDocument();
     });
     // run the changeHandler
-    userEvent.click(pivotViewSelector);
-    userEvent.click(getByRole('button', { name: 'Complete Table' }));
+    await user.click(pivotViewSelector);
+    await user.click(getByRole('button', { name: 'Complete Table' }));
 
     // and now the options are that
     expect(getByRole('button', { name: '— N / A —' })).toBeInTheDocument();
   });
 
-  it('allows pivot views to provide their own pivot options when selected', () => {
+  it('allows pivot views to provide their own pivot options when selected', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const setSelectedPivotSpy = jest.fn();
     const { getByRole } = render(
       <PivotOptions
@@ -156,9 +159,9 @@ describe('PivotOptions component does render children', () => {
     );
     const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' }); // Change the selected pivot view
-    userEvent.click(pivotViewSelector);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[0].title }));
-    userEvent.click(pivotValueSelector);
+    await user.click(pivotViewSelector);
+    await user.click(getByRole('button', { name: selectedTable.dataDisplays[0].title }));
+    await user.click(pivotValueSelector);
 
     selectedTable.dataDisplays[0].uniquePivotValues.forEach(option => {
       expect(getByRole('button', { name: option.prettyName })).toBeInTheDocument();
@@ -177,7 +180,8 @@ describe('PivotOptions component does render children', () => {
     });
   });
 
-  it('persists the selected pivot value when switching between unique pivot value lists if the pivot value is available', () => {
+  it('persists the selected pivot value when switching between unique pivot value lists if the pivot value is available', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <PivotOptions
         table={selectedTable}
@@ -191,18 +195,17 @@ describe('PivotOptions component does render children', () => {
     const viewSelectControl = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const valueSelectControl = getByRole('button', { name: 'Change pivot value from Book Value' });
     // Change the selected pivot view
-    userEvent.click(viewSelectControl);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[1].title }));
-
-    jest.runAllTimers();
-    userEvent.click(valueSelectControl);
+    await user.click(viewSelectControl);
+    await user.click(getByRole('button', { name: selectedTable.dataDisplays[1].title }));
+    await user.click(valueSelectControl);
 
     selectedTable.dataDisplays[1].uniquePivotValues.forEach(pivotValue => {
       expect(getByRole('button', { name: pivotValue.prettyName })).toBeInTheDocument();
     });
   });
 
-  it('uses defaulted data table pivot values when pivot view does not provide its own pivot options', () => {
+  it('uses defaulted data table pivot values when pivot view does not provide its own pivot options', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <PivotOptions
         table={selectedTable}
@@ -215,10 +218,10 @@ describe('PivotOptions component does render children', () => {
     );
     const viewSelectControl = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const valueSelectControl = getByRole('button', { name: 'Change pivot value from Book Value' });
-    userEvent.click(viewSelectControl);
-    userEvent.click(getByRole('button', { name: selectedTable.dataDisplays[2].title }));
+    await user.click(viewSelectControl);
+    await user.click(getByRole('button', { name: selectedTable.dataDisplays[2].title }));
 
-    userEvent.click(valueSelectControl);
+    await user.click(valueSelectControl);
     expect(getByRole('button', { name: 'Fine Troy Ounces' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Book Value' })).toBeInTheDocument();
   });
@@ -252,6 +255,7 @@ describe('PivotOptions component does render children', () => {
   });
 
   it('does not update selected pivot for complete table', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const setSelectedPivotSpy = jest.fn();
     const selectedPivotView = selectedTable.dataDisplays[4];
     const selectedPivotValue = selectedTable.fields[9];
@@ -266,11 +270,11 @@ describe('PivotOptions component does render children', () => {
       />
     );
 
-    userEvent.click(getByRole('button', { name: 'Change pivot view from Complete Table' }));
-    userEvent.click(getByRole('button', { name: 'Complete Table' }));
+    await user.click(getByRole('button', { name: 'Change pivot view from Complete Table' }));
+    await user.click(getByRole('button', { name: 'Complete Table' }));
 
-    userEvent.click(getByRole('button', { name: 'Change pivot value from — N / A —' }));
-    userEvent.click(getByRole('button', { name: '— N / A —' }));
+    await user.click(getByRole('button', { name: 'Change pivot value from — N / A —' }));
+    await user.click(getByRole('button', { name: '— N / A —' }));
     expect(setSelectedPivotSpy).not.toHaveBeenCalledWith({
       pivotValue: { prettyName: '— N / A —' },
       pivotView: { chartType: 'none', dimensionField: null, title: 'Complete Table' },

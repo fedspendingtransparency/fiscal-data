@@ -30,12 +30,13 @@ describe('filter group reset', () => {
     expect(queryByRole('button')).toBeNull();
   });
 
-  it('calls the group reset callback when clicked', () => {
+  it('calls the group reset callback when clicked', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <FilterGroupReset groupId="lastUpdated" onGroupReset={groupResetMock} activeFilters={['ninetyDays', 'sevenDays']} filters={filters} />
     );
     const button = getByRole('button');
-    userEvent.click(button);
+    await user.click(button);
     expect(groupResetMock).toHaveBeenCalledWith('lastUpdated');
   });
 });

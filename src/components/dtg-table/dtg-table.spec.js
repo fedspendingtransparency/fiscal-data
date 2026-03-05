@@ -129,7 +129,8 @@ describe('DTG table component', () => {
   // });
 
   describe('Pagination Controls', () => {
-    it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
+    it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByText, getByRole } = render(
         <RecoilRoot>
           <DtgTable tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, tableName: 'tableName' }} />
@@ -139,9 +140,8 @@ describe('DTG table component', () => {
       expect(getByText('Rows Per Page')).toBeInTheDocument();
 
       const nextPage = getByRole('button', { name: 'tableName-page2' });
-      act(() => {
-        userEvent.click(nextPage);
-      });
+      await user.click(nextPage);
+
       expect(getByText('Showing', { exact: false })).toBeInTheDocument();
       expect(getByText('11 - 11', { collapseWhitespace: false })).toBeInTheDocument();
       expect(getByText('of 11 rows', { exact: false })).toBeInTheDocument();

@@ -155,7 +155,8 @@ describe('Table filters dropdown', () => {
     expect(filterButton).toBeInTheDocument();
   });
 
-  it('Applies text filters on apply button click', () => {
+  it('Applies text filters on apply button click', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DataTableContext.Provider
         value={{
@@ -175,12 +176,12 @@ describe('Table filters dropdown', () => {
     );
 
     const filterDropdown = getByRole('button', { name: 'Filters: 0 applied' });
-    fireEvent.click(filterDropdown);
-    fireEvent.click(getByRole('button', { name: 'Test Field' }));
+    await user.click(filterDropdown);
+    await user.click(getByRole('button', { name: 'Test Field' }));
     const filter = getByRole('textbox', { name: 'Enter filter term' });
-    userEvent.click(filter);
+    await user.click(filter);
     expect(filter).toHaveFocus();
-    userEvent.keyboard('test');
+    await user.keyboard('test');
     fireEvent.click(getByRole('button', { name: 'Apply' }));
     expect(mockSetAppliedFilters).toHaveBeenCalledWith(['test_field']);
   });
@@ -207,7 +208,8 @@ describe('Table filters dropdown', () => {
     expect(getByRole('button', { name: 'Filters: 2 applied' })).toBeInTheDocument();
   });
 
-  it('Clears pending filters on cancel button click', () => {
+  it('Clears pending filters on cancel button click', async () => {
+    const user = userEvent.setup();
     setFilterValueSpy.mockClear();
     const { getByRole } = render(
       <DataTableContext.Provider
@@ -231,9 +233,9 @@ describe('Table filters dropdown', () => {
     fireEvent.click(filterDropdown);
     fireEvent.click(getByRole('button', { name: 'Test Field' }));
     const filter = getByRole('textbox', { name: 'Enter filter term' });
-    userEvent.click(filter);
+    await user.click(filter);
     expect(filter).toHaveFocus();
-    userEvent.keyboard('test');
+    await user.keyboard('test');
     fireEvent.click(getByRole('button', { name: 'Cancel' }));
     expect(getByRole('button', { name: 'Filters: 0 applied' })).toBeInTheDocument();
     expect(setFilterValueSpy).not.toHaveBeenCalled();

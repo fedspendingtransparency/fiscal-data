@@ -38,7 +38,8 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     expect(within(optionButtons[9]).getByText('2011')).toBeInTheDocument();
   });
 
-  it('shows up to ten topmost options in the dropdown list that match input digits', () => {
+  it('shows up to ten topmost options in the dropdown list that match input digits', async () => {
+    const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -91,7 +92,8 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     });
   });
 
-  it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', () => {
+  it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByDisplayValue } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -103,7 +105,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       />
     );
     const inputField = getByRole('spinbutton', { type: 'number' });
-    userEvent.type(inputField, '-1.5+e109');
+    await user.type(inputField, '-1.5+e109');
     expect(getByDisplayValue('1510')).toBeInTheDocument();
   });
 

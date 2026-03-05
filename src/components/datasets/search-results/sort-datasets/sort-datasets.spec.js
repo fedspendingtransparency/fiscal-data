@@ -8,21 +8,23 @@ const searchIsActive = true;
 const onSort = jest.fn();
 
 describe('Sort Datasets', () => {
-  it('passes the sort options to the select control', () => {
+  it('passes the sort options to the select control', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<SortDatasets setSort={onSort} searchIsActive={searchIsActive} sortOptions={SortOptions} />);
     const selectControl = getByRole('button');
-    userEvent.click(selectControl);
+    await user.click(selectControl);
     SortOptions.forEach(option => {
       expect(getByRole('button', { name: option.label })).toBeInTheDocument();
     });
   });
 
-  it('passes the callback to the sort control', () => {
+  it('passes the callback to the sort control', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<SortDatasets setSort={onSort} searchIsActive={searchIsActive} sortOptions={SortOptions} />);
     const selectControl = getByRole('button');
-    userEvent.click(selectControl);
+    await user.click(selectControl);
     const sortOption = getByRole('button', { name: SortOptions[1].label });
-    userEvent.click(sortOption);
+    await user.click(sortOption);
     expect(onSort).toHaveBeenCalled();
   });
 });

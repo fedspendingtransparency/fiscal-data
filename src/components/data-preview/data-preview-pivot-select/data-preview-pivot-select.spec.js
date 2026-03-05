@@ -30,13 +30,13 @@ describe('Pivot select', () => {
     pivotView: { title: 'By Type of Account', dimensionField: 'account_type' },
   };
 
-  it('renders Raw Data radio button', () => {
+  it('renders Raw Data radio button', async () => {
     const setTableViewSelectionSpy = jest.fn();
-
+    const user = userEvent.setup();
     const { getByRole } = render(<DataPreviewPivotSelect tableViewSelection="pivotData" setTableViewSelection={setTableViewSelectionSpy} />);
     const rawDataRadioButton = getByRole('radio', { name: 'Raw Data' });
     expect(rawDataRadioButton).toBeInTheDocument();
-    userEvent.click(rawDataRadioButton);
+    await user.click(rawDataRadioButton);
     expect(setTableViewSelectionSpy).toHaveBeenCalledWith('rawData');
   });
 
@@ -48,6 +48,7 @@ describe('Pivot select', () => {
   it('renders Pivot Data radio button when pivot views are configured', async () => {
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
+    const user = userEvent.setup();
 
     const { findByRole } = render(
       <DataPreviewPivotSelect
@@ -62,7 +63,7 @@ describe('Pivot select', () => {
     const pivotRadioButton = await findByRole('radio', { name: 'Pivot Data' });
 
     expect(pivotRadioButton).toBeInTheDocument();
-    userEvent.click(pivotRadioButton);
+    await user.click(pivotRadioButton);
     expect(setTableViewSelectionSpy).toBeCalledWith('pivotData');
   });
 

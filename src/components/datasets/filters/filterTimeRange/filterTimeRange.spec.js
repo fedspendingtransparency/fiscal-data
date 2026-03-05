@@ -119,37 +119,41 @@ describe('Time Range Filter', () => {
   });
 
   it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     dateRangeFilter.mockClear();
 
     const checkbox = screen.getByRole('checkbox');
-    await userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(dateRangeFilter).toHaveBeenCalledWith(expect.objectContaining({ exactRange: true }), true);
     expect(setExactRangeSpy).toHaveBeenCalledWith(true);
   });
 
   it('triggers a GA event when the checkbox is checked and the time range has valid dates', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     analyticsSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
   });
 
   it('triggers a datalayer push when the checkbox is checked and the time range has valid dates', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     analyticsSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
   });
 
   it('triggers a datalayer push when the checkbox is checked', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     datalayerSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
 
     expect(datalayerSpy).toHaveBeenCalledWith({ event: 'Time Range Click' });
   });
@@ -164,11 +168,12 @@ describe('Time Range Filter', () => {
   });
 
   it('triggers GA4 datalayer push when info tip click button is pushed', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     datalayerSpy.mockClear();
 
     const infoBtn = within(screen.getByTestId('checkbox')).getByTestId('infoTipButton');
-    await userEvent.click(infoBtn);
+    await user.click(infoBtn);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Info Button Click',

@@ -100,7 +100,8 @@ describe('react-table', () => {
     expect(getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' })).toBeInTheDocument();
   });
 
-  it('Able to interact with headers for column sort', () => {
+  it('Able to interact with headers for column sort', async () => {
+    const user = userEvent.setup();
     const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
@@ -126,11 +127,11 @@ describe('react-table', () => {
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-    userEvent.click(sortButton);
+    await user.click(sortButton);
     // Now sorted in desc order
     expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
-    userEvent.click(sortButton);
-    userEvent.click(sortButton);
+    await user.click(sortButton);
+    await user.click(sortButton);
     //Sorting should be reset
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
@@ -235,7 +236,8 @@ describe('react-table', () => {
     expect(sortButton).toHaveClass('sortArrow');
   });
 
-  it('Filter column by text search', () => {
+  it('Filter column by text search', async () => {
+    const user = userEvent.setup();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -267,7 +269,7 @@ describe('react-table', () => {
 
     //clear results to view full table
     const clearButton = within(header).getByRole('button', { name: 'Clear search bar' });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
     expect(getAllByTestId('row').length).toEqual(6);
   });
 
@@ -302,7 +304,8 @@ describe('react-table', () => {
     expect(queryAllByTestId('row').length).toEqual(0);
   });
 
-  it('pagination', () => {
+  it('pagination', async () => {
+    const user = userEvent.setup();
     const { getAllByTestId, getByText, getByRole, getByTestId } = render(
       <RecoilRoot>
         <DataTable
@@ -328,7 +331,7 @@ describe('react-table', () => {
     expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
     expect(getByTestId('page-next-button')).toBeInTheDocument();
 
-    userEvent.click(getByTestId('page-next-button'));
+    await user.click(getByTestId('page-next-button'));
 
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('3 - 4', { exact: false })).toBeInTheDocument();
@@ -599,6 +602,7 @@ describe('react-table', () => {
   it('renders detail view links', async () => {
     const setDetailViewSpy = jest.fn();
     const setSummaryValuesSpy = jest.fn();
+    const user = userEvent.setup();
     const { getByRole } = render(
       <RecoilRoot>
         <DataTable
@@ -621,7 +625,7 @@ describe('react-table', () => {
     const detailViewButton = getByRole('button', { name: '7/12/2023' });
     expect(detailViewButton).toBeInTheDocument();
 
-    userEvent.click(detailViewButton);
+    await user.click(detailViewButton);
     expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
     expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
   });
