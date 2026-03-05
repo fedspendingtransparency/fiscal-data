@@ -32,18 +32,21 @@ describe('Surplus Illustration', () => {
     expect(getByTestId('surplus-image')).toBeInTheDocument();
   });
 
-  it('renders the balanced budget image', () => {
-    global.console = { warn: jest.fn() };
+  it('renders the balanced budget image', async () => {
+    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const user = userEvent.setup();
     const { getByTestId, getByText } = render(<SurplusIllustration glossary={glossary} />);
     const tab = getByText('Balanced Budget');
-    userEvent.click(tab);
+    await user.click(tab);
     expect(getByTestId('balanced-budget-image')).toBeInTheDocument();
+    warnSpy.mockRestore();
   });
 
-  it('renders the deficit image', () => {
+  it('renders the deficit image', async () => {
+    const user = userEvent.setup();
     const { getByTestId, getByText } = render(<SurplusIllustration glossary={glossary} />);
     const tab = getByText('Deficit');
-    userEvent.click(tab);
+    await user.click(tab);
     expect(getByTestId('deficit-image')).toBeInTheDocument();
   });
 

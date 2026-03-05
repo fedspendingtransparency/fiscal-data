@@ -10,11 +10,12 @@ describe('Interest Expense Body Copy', () => {
     expect(instance).toBeDefined();
   });
 
-  it('call GA event on glossary button click', () => {
+  it('call GA event on glossary button click', async () => {
+    const user = userEvent.setup();
     const spy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<BodyCopy />);
     const glossaryTerm = getByRole('button', { name: 'Interest Expense' });
-    userEvent.click(glossaryTerm);
+    await user.click(glossaryTerm);
     expect(spy).toHaveBeenCalledWith({ action: 'Glossary Term Click', category: 'Interest Expense', label: 'Interest Expense' });
   });
 });

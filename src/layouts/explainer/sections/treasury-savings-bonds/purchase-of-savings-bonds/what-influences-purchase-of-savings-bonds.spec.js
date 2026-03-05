@@ -43,13 +43,14 @@ describe('WhatInfluencesPurchaseOfSavingsBonds Component - Comprehensive Test', 
     expect(getByText('The chart below shows savings bond sales over time for all savings bond types', { exact: false })).toBeInTheDocument();
   });
 
-  it('calls footnote click ga events', () => {
+  it('calls footnote click ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
       <WhatInfluencesPurchaseOfSavingsBonds cpiDataByYear={cpiDataByYear} cpi12MonthPercentChange={cpi12MonthPercentChange} />
     );
     const accordion = getByRole('link', { name: '2' });
-    userEvent.click(accordion);
+    await user.click(accordion);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Footnote Click',
       category: 'Explainers',

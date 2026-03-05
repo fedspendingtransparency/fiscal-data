@@ -88,7 +88,9 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(pieChart).toHaveAttribute('height', '382');
   });
 
-  it('calls ga hover event on the pie chart', () => {
+  // TODO: also crashing out on load times
+  it('calls ga hover event on the pie chart', async () => {
+    // const user = userEvent.setup();
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const chartParent = screen.getByTestId('chartParent');
