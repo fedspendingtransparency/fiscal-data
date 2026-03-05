@@ -35,16 +35,19 @@ describe('Topics component', () => {
   });
 
   it('calls the onChange event with the expected parameters when the button is clicked', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
     const { getByRole } = render(<Topic active onChange={clickFn} label={label} filterKey={slug} slug={slug} />);
 
     const button = getByRole('button');
-    userEvent.click(button);
+    await user.click(button);
 
     expect(clickFn).toHaveBeenCalledWith({ key: slug, value: false });
   });
 
   it(`calls triggers a tracking event with the expected parameters when the button is clicked
     to update state to active and testing GA4 datalayer push`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     window.dataLayer = window.dataLayer || [];
     const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
     const trackingSpy = jest.spyOn(Analytics, 'event');
@@ -53,7 +56,7 @@ describe('Topics component', () => {
 
     jest.runAllTimers();
     const button = getByRole('button');
-    userEvent.click(button);
+    await user.click(button);
 
     jest.runAllTimers();
 

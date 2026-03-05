@@ -75,18 +75,19 @@ describe('Time Range Filter', () => {
   });
 
   it('triggers the dateRangeFilter call and context setters when both dates are set properly', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext({ beginDate: null, endDate: null });
     dateRangeFilter.mockClear();
 
     const from = screen.getByRole('button', { name: 'Choose date, selected date is Jan 1, 2020' });
-    userEvent.click(from);
+    await user.click(from);
     let newDateButton = within(screen.getByRole('grid', { name: 'January 2020' })).getByRole('gridcell', { name: '11' });
-    userEvent.click(newDateButton);
+    await user.click(newDateButton);
 
     const to = screen.getByRole('button', { name: 'Choose date, selected date is Jun 1, 2020' });
-    userEvent.click(to);
+    await user.click(to);
     newDateButton = within(screen.getByRole('grid', { name: 'June 2020' })).getByRole('gridcell', { name: '11' });
-    userEvent.click(newDateButton);
+    await user.click(newDateButton);
 
     expect(dateRangeFilter).toHaveBeenCalledTimes(2);
     expect(setBeginDateSpy).toHaveBeenCalled();

@@ -16,25 +16,27 @@ describe('Savings Bonds Overview Section', () => {
     expect(getByRole('link', { name: 'Savings Bond Calculator' })).toBeInTheDocument();
   });
 
-  it('calls glossary ga events', () => {
+  it('calls glossary ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsOverview />);
     const glossaryButton = getByRole('button', { name: 'securities' });
-    userEvent.click(glossaryButton);
+    await user.click(glossaryButton);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: 'Glossary Term Click', category: 'Explainers', label: 'Savings Bonds - Treasury Security' });
   });
 
-  it('calls citation click ga events', () => {
+  it('calls citation click ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsOverview />);
     const citation1 = getByRole('link', { name: 'TreasuryDirect' });
     const citation2 = getByRole('link', { name: 'Savings Bond Calculator' });
     const footnote = getByRole('link', { name: '1' });
-    userEvent.click(citation1);
+    await user.click(citation1);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: 'Savings Bonds Citation Click', category: 'Explainers', label: 'TreasuryDirect' });
-    userEvent.click(citation2);
+    await user.click(citation2);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: 'Savings Bonds Citation Click', category: 'Explainers', label: 'Savings Bond Calculator' });
-    userEvent.click(footnote);
+    await user.click(footnote);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Footnote Click',
       category: 'Explainers',

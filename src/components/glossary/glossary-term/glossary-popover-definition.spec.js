@@ -147,7 +147,8 @@ describe('glossary term', () => {
     expect(await styledText).toHaveStyle({ textDecoration: 'underline' });
   });
 
-  it('handles the fiscal year special case', () => {
+  it('handles the fiscal year special case', async () => {
+    const user = userEvent.setup();
     const termText = 'Fiscal Year';
     const testPage = 'Test Page';
     const fy = getFiscalYearByDate();
@@ -161,7 +162,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const definition = getByText('For example', { exact: false });
     expect(definition.textContent).toEqual(expected);
@@ -197,6 +198,7 @@ describe('glossary term', () => {
   });
 
   it('Adds query to window.history when View in Glossary button is clicked ', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const testPage = 'Another Test Page';
 
@@ -217,10 +219,10 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    userEvent.click(viewInGlossaryButton);
+    await user.click(viewInGlossaryButton);
 
     expect(window.history.pushState).toHaveBeenCalled();
   });
@@ -283,7 +285,8 @@ describe('glossary term', () => {
     expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument();
   });
 
-  it('calls handleClick function on button click', () => {
+  it('calls handleClick function on button click', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const testPage = 'Test Page';
     const handleClickSpy = jest.fn();
@@ -293,7 +296,7 @@ describe('glossary term', () => {
       </GlossaryPopoverDefinition>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
     expect(handleClickSpy).toHaveBeenCalled();
   });
 });

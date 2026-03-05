@@ -44,7 +44,8 @@ describe('filter group', () => {
     expect(getByRole('checkbox', { name: group[0].label })).toBeInTheDocument();
   });
 
-  it('passes filter changes up to the parent', () => {
+  it('passes filter changes up to the parent', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <FilterGroup
         onChange={mockChangeHandler}
@@ -58,7 +59,7 @@ describe('filter group', () => {
       />
     );
     const firstRow = getByRole('checkbox', { name: group[0].label });
-    userEvent.click(firstRow);
+    await user.click(firstRow);
     expect(firstRow).toBeChecked();
     expect(mockChangeHandler).toHaveBeenCalled();
   });

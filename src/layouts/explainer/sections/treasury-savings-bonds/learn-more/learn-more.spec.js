@@ -25,6 +25,7 @@ describe('Learn More Section', () => {
 
   it('calls footnote ga events', async () => {
     const user = userEvent.setup();
+    // const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getAllByRole } = render(<LearnMore />);
     const footnotes = getAllByRole('link', { name: 'Back to content' });

@@ -30,11 +30,12 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
     expect(await findByText('As of February 2023, there were 22 million', { exact: false })).toBeInTheDocument();
   });
 
-  it('calls glossary ga events', () => {
+  it('calls glossary ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsAreFullyMatured />);
     const glossaryButton = getByRole('button', { name: 'Matured Unredeemed Debt (MUD)' });
-    userEvent.click(glossaryButton);
+    await user.click(glossaryButton);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Glossary Term Click',
       category: 'Explainers',
@@ -42,11 +43,13 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
     });
   });
 
-  it('calls citation click ga events', () => {
+  // this one is failing and returning different results
+  it('calls citation click ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsAreFullyMatured />);
     const citation1 = getByRole('link', { name: 'Treasury Hunt' });
-    userEvent.click(citation1);
+    await user.click(citation1);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Glossary Term Click',
       category: 'Explainers',
