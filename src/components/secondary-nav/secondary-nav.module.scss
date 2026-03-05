@@ -105,3 +105,10 @@
   padding: 0 1rem 0 0;
   margin: 0;
 }
+
+// hides toc in mobile view (only applies when tocIsOpen is false)
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .close {
+    display: none;
+  }
+}

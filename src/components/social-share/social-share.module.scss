@@ -17,7 +17,7 @@
   justify-content: center;
   width: 1rem;
   height: 1rem;
-  margin-left: 3rem;
+  margin: 0 1.5rem;
 }
 
 .socialShareContent {
@@ -59,11 +59,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .horizontalShareButtonContainer {
-    margin-right: 1.5rem;
-    margin-left: 1.5rem;
-  }
-
   .socialShareContent {
     height: 1.125rem;
   }
