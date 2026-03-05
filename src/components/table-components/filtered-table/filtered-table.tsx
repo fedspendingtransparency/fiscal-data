@@ -81,7 +81,7 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
   }) as Table<Record<string, unknown>>;
 
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
       setTableData(data);
       setMaxRows(data.length);
