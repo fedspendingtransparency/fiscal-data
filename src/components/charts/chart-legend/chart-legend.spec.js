@@ -25,19 +25,21 @@ describe('Chart Legend', () => {
     expect(checkboxes.length).toBe(mockFieldConfig.length);
   });
 
-  it('passes change handler to the checkbox', () => {
+  it('passes change handler to the checkbox', async () => {
+    const user = userEvent.setup();
     const changeHandlerSpy = jest.fn();
     const { getAllByTestId } = render(<ChartLegend fields={mockFieldConfig} onHover={jest.fn()} onLabelChange={changeHandlerSpy} />);
     const checkboxes = getAllByTestId('checkbox-input-element');
-    userEvent.click(checkboxes[0]);
+    await user.click(checkboxes[0]);
     expect(changeHandlerSpy).toHaveBeenCalled();
   });
 
-  it('passes hover handler to the checkbox', () => {
+  it('passes hover handler to the checkbox', async () => {
+    const user = userEvent.setup();
     const onHoverSpy = jest.fn();
     const { getAllByTestId } = render(<ChartLegend fields={mockFieldConfig} onHover={onHoverSpy} onLabelChange={jest.fn()} />);
     const checkboxes = getAllByTestId('checkbox-input-element');
-    userEvent.hover(checkboxes[0]);
+    await user.hover(checkboxes[0]);
     expect(onHoverSpy).toHaveBeenCalled();
   });
 

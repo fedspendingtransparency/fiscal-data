@@ -54,6 +54,7 @@ describe('Dataset Chart', () => {
   });
 
   it('calls the onHover and onLabelChange functions when hovered or clicked for the footer legend', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByTestId } = render(
       <DataPreviewChart data={mockData} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
@@ -64,14 +65,15 @@ describe('Dataset Chart', () => {
     const hoverSpy = jest.spyOn(callbacks, 'onHover');
     const labelChangeSpy = jest.spyOn(callbacks, 'onLabelChange');
 
-    userEvent.hover(checkboxLabels[0]);
+    await user.hover(checkboxLabels[0]);
     expect(hoverSpy).toHaveBeenCalled();
 
-    userEvent.click(checkboxInputs[0]);
+    await user.click(checkboxInputs[0]);
     expect(labelChangeSpy).toHaveBeenCalled();
   });
 
   it('calls the onHover and onLabelChange functions when hovered or clicked for the side panel legend', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByTestId } = render(
       <DataPreviewChart data={mockDataPanelLegend} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
@@ -82,10 +84,10 @@ describe('Dataset Chart', () => {
     const hoverSpy = jest.spyOn(callbacks, 'onHover');
     const labelChangeSpy = jest.spyOn(callbacks, 'onLabelChange');
 
-    userEvent.hover(checkboxLabels[0]);
+    await user.hover(checkboxLabels[0]);
     expect(hoverSpy).toHaveBeenCalled();
 
-    userEvent.click(checkboxInputs[0]);
+    await user.click(checkboxInputs[0]);
     expect(labelChangeSpy).toHaveBeenCalled();
   });
 
@@ -127,13 +129,14 @@ describe('Dataset Chart', () => {
   });
 
   it(`attaches the "legendActive" class to the main container if and only if the legend visibility
-    prop is truthy`, () => {
+    prop is truthy`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { container, getByRole } = render(
       <DataPreviewChart data={mockDataPanelLegend} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
     expect(container.querySelector('.legendActive')).toBeInTheDocument();
     const showLegendButton = getByRole('button', { name: 'Hide Legend' });
-    userEvent.click(showLegendButton);
+    await user.click(showLegendButton);
     expect(container.querySelector('.legendActive')).not.toBeInTheDocument();
   });
 
@@ -153,17 +156,18 @@ describe('Dataset Chart', () => {
     expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onUpdateChartWidth when the legend is shown or hidden', () => {
+  it('calls onUpdateChartWidth when the legend is shown or hidden', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <DataPreviewChart data={mockDataPanelLegend} dateField={mockDateField} selectedPivot={mockPivot} slug={mockSlug} currentTable={mockTable} />
     );
     const updateChartWidthSpy = jest.spyOn(chartHooks, 'onUpdateChartWidth');
     const showLegendButton = getByRole('button', { name: 'Hide Legend' });
-    userEvent.click(showLegendButton);
+    await user.click(showLegendButton);
     expect(updateChartWidthSpy).toHaveBeenCalled();
     updateChartWidthSpy.mockClear();
 
-    userEvent.click(showLegendButton);
+    await user.click(showLegendButton);
     expect(updateChartWidthSpy).toHaveBeenCalled();
   });
 

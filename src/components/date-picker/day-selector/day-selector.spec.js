@@ -6,7 +6,8 @@ import userEvent from '@testing-library/user-event';
 describe('Report Day Picker', () => {
   const allDates = ['August 8, 2024', 'August 7, 2024', 'August 8, 2023', 'August 8, 2022'];
 
-  it('Updates selected date on calendar button click', () => {
+  it('Updates selected date on calendar button click', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DaySelector
         handleClose={jest.fn()}
@@ -20,9 +21,7 @@ describe('Report Day Picker', () => {
     );
     const dayButton = getByRole('gridcell', { name: '7' });
     const input = getByRole('textbox', { name: 'Enter date' });
-    act(() => {
-      userEvent.click(dayButton);
-    });
+    await user.click(dayButton);
     expect(input).toHaveValue('August 7, 2024');
   });
 
@@ -42,9 +41,10 @@ describe('Report Day Picker', () => {
     expect(dayButton).toBeDisabled();
   });
 
-  it('renders Apply button', () => {
+  it('renders Apply button', async () => {
     const mockHandleCloseFn = jest.fn();
     const mockSetSelectedDateFn = jest.fn();
+    const user = userEvent.setup();
 
     const { getByRole } = render(
       <DaySelector
@@ -57,16 +57,15 @@ describe('Report Day Picker', () => {
         active={true}
       />
     );
-    act(() => {
-      userEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
-    });
+    await user.click(getByRole('button', { name: 'Apply Selected Date' }));
     expect(mockHandleCloseFn).toHaveBeenCalled();
     expect(mockSetSelectedDateFn).toHaveBeenCalled();
   });
 
-  it('renders Cancel button', () => {
+  it('renders Cancel button', async () => {
     const mockHandleCloseFn = jest.fn();
     const mockSetSelectedDateFn = jest.fn();
+    const user = userEvent.setup();
 
     const { getByRole } = render(
       <DaySelector
@@ -79,9 +78,7 @@ describe('Report Day Picker', () => {
         active={true}
       />
     );
-    act(() => {
-      userEvent.click(getByRole('button', { name: 'Cancel' }));
-    });
+    await user.click(getByRole('button', { name: 'Cancel' }));
     expect(mockHandleCloseFn).toHaveBeenCalled();
     expect(mockSetSelectedDateFn).not.toHaveBeenCalled();
   });

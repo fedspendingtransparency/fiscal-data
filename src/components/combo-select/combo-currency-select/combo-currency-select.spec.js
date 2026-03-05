@@ -17,6 +17,7 @@ describe('The ComboSelect Component for general text use', () => {
 
   describe('Google Analytics Functionality', () => {
     it('Pushes analytics event to datalayer for GA4 on new option selection', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByRole, getByTestId } = render(
         <ComboCurrencySelect
           changeHandler={changeHandlerSpy}
@@ -30,14 +31,14 @@ describe('The ComboSelect Component for general text use', () => {
       const spy = jest.spyOn(window.dataLayer, 'push');
 
       const comboBox = getByRole('button', { name: 'Mock Label' });
-      userEvent.click(comboBox);
+      await user.click(comboBox);
 
       const list = getByTestId('dropdown-list');
 
       const button = within(list).getAllByRole('button')[0];
-      userEvent.click(button);
+      await user.click(button);
 
-      userEvent.click(button);
+      await user.click(button);
       expect(spy).toHaveBeenCalledWith({
         event: 'Foreign Country-Currency Selected',
         eventLabel: '(None selected)',
@@ -46,6 +47,7 @@ describe('The ComboSelect Component for general text use', () => {
     });
 
     it('Pushes analytics event to datalayer for GA4 on text search', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByRole } = render(
         <ComboCurrencySelect
           changeHandler={changeHandlerSpy}
@@ -59,12 +61,12 @@ describe('The ComboSelect Component for general text use', () => {
       const spy = jest.spyOn(window.dataLayer, 'push');
 
       const comboBox = getByRole('button', { name: 'Mock Label' });
-      userEvent.click(comboBox);
+      await user.click(comboBox);
 
       const textbox = getByRole('textbox');
-      userEvent.click(textbox);
-      userEvent.keyboard('test');
-      userEvent.tab();
+      await user.click(textbox);
+      await user.keyboard('test');
+      await user.tab();
       await waitFor(() => {
         expect(spy).toHaveBeenCalledWith({
           event: 'Foreign Country-Currency Search',
@@ -76,6 +78,7 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('opens and closes the dropdown box on click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
@@ -85,11 +88,11 @@ describe('The ComboSelect Component for general text use', () => {
     expect(within(comboBoxButton).getByText(defaultOptionLabel)).toBeInTheDocument();
     expect(within(comboBoxButton).getByRole('img', { hidden: true })).toHaveClass('fa-chevron-down');
 
-    userEvent.click(comboBoxButton);
+    await user.click(comboBoxButton);
     // Open State
     expect(within(comboBoxButton).getByRole('img', { hidden: true })).toHaveClass('fa-chevron-up');
 
-    userEvent.click(comboBoxButton);
+    await user.click(comboBoxButton);
     // Closed State
     await waitFor(() => {
       expect(within(comboBoxButton).getByRole('img', { hidden: true })).toHaveClass('fa-chevron-up');
@@ -97,79 +100,83 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('collapses dropdown when not focused', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, queryByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptionsShort} selectedOption={mockDefaultSelection} />
     );
 
     const comboBoxButton = getByRole('button', { name: 'Mock Label' });
-    userEvent.tab();
+    await user.tab();
     expect(comboBoxButton).toHaveFocus();
 
-    userEvent.keyboard('{Enter}');
-    userEvent.tab();
-    userEvent.tab();
+    await user.keyboard('{Enter}');
+    await user.tab();
+    await user.tab();
 
     const firstOption = mockOptionsShort[0];
     expect(getByRole('button', { name: firstOption.label })).toBeInTheDocument();
     expect(getByRole('button', { name: firstOption.label })).toHaveFocus();
 
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
 
     const lastOption = mockOptionsShort[mockOptionsShort.length - 1];
     expect(getByRole('button', { name: lastOption.label })).toHaveFocus();
 
-    userEvent.tab();
+    await user.tab();
     await waitFor(() => {
       expect(queryByRole('button', { name: lastOption.label })).not.toBeInTheDocument();
     });
   });
 
-  it('sets search bar to active on click and updates the container class', () => {
+  it('sets search bar to active on click and updates the container class', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
     const comboBoxButton = getByRole('button', { name: 'Mock Label' });
-    userEvent.click(comboBoxButton);
+    await user.click(comboBoxButton);
 
     const searchBar = getByRole('textbox', { name: 'Search currencies' });
-    userEvent.click(searchBar);
+    await user.click(searchBar);
 
     const buttonContainer = getByTestId('dropdown-button-container');
     expect(buttonContainer).toHaveClass('activeSearchBar');
   });
 
-  it('dropdown remains open when clicked on', () => {
+  it('dropdown remains open when clicked on', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
     const comboBoxButton = getByRole('button', { name: 'Mock Label' });
-    userEvent.click(comboBoxButton);
+    await user.click(comboBoxButton);
 
     const dropdownContainer = getByTestId('dropdown-container');
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
 
-    userEvent.click(dropdownContainer);
+    await user.click(dropdownContainer);
     const list = getByTestId('dropdown-list');
-    userEvent.hover(list);
+    await user.hover(list);
 
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
   });
 
   it('closes dropdown after mouse leave and focus is removed', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, queryByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
     const comboBox = getByRole('button', { name: 'Mock Label' });
-    userEvent.click(comboBox);
+    await user.click(comboBox);
 
     const list = getByTestId('dropdown-list');
     expect(list).toBeInTheDocument();
 
-    userEvent.unhover(list);
+    await user.unhover(list);
     fireEvent.blur(list);
     await waitFor(() => {
       expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
@@ -177,38 +184,39 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('closes dropdown after clicking outside the component', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, queryByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
     const comboBox = getByRole('button', { name: 'Mock Label' });
-    userEvent.click(comboBox);
+    await user.click(comboBox);
 
     const list = getByTestId('dropdown-list');
     expect(list).toBeInTheDocument();
 
-    userEvent.unhover(list);
-    act(() => {
-      userEvent.click(document.body);
-    });
+    await user.unhover(list);
+    await user.click(document.body);
+
     await waitFor(() => {
       expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
     });
   });
 
   it('collapses dropdown when an item is selected', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, queryByTestId, getByRole } = render(
       <ComboCurrencySelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={mockDefaultSelection} />
     );
 
     const comboBox = getByRole('button', { name: 'Mock Label' });
-    userEvent.click(comboBox);
+    await user.click(comboBox);
 
     const list = getByTestId('dropdown-list');
     expect(getByTestId('dropdown-list')).toBeInTheDocument();
 
     const button = within(list).getAllByRole('button')[0];
-    userEvent.click(button);
+    await user.click(button);
 
     await waitFor(() => {
       expect(queryByTestId('dropdown-list')).not.toBeInTheDocument();
