@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { code, marginBottom,spacing } from '../../../pages/api-documentation/api.module.scss';
 import CustomLink from '../../links/custom-link/custom-link';
 import GLOBALS from '../../../helpers/constants';
 
@@ -10,27 +10,27 @@ const Fields = () => (
   <>
   <SectionContent id="fields" headingLevel={3} title="Fields">
     <dl>
-      <div>
+      <div className={spacing}>
         <dt>Parameter:</dt>
         <code className="inline">fields=</code>
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Definition:</dt>
         The fields parameter allows you to select which field(s) should be included in the response.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Accepts:</dt>
         The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Required:</dt>
         No, specifying fields is not required to make an API request.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Default:</dt>
         If desired fields are not specified, all fields will be returned.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Notes:</dt>
         When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur.
         Note
@@ -38,7 +38,7 @@ const Fields = () => (
         the{' '}
         <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums</CustomLink>.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Examples:</dt>
       </div>
       <p>
