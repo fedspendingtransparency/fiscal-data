@@ -62,4 +62,50 @@ describe('set table config', () => {
     expect(config.columnConfig[1].width).toBe(20);
     expect(config.columnConfig[2].width).toBeUndefined();
   });
+
+  it('filters DATE_RELATED_META_TYPES when pivot title is Complete Table with aggregation', () => {
+    const completeTableAggregationPivot = {
+      pivotView: {
+        chartType: null,
+        dimensionField: null,
+        title: 'Complete Table',
+        aggregateOn: [{ type: 'YEAR' }],
+      },
+      pivotValue: { columnName: 'age', PrettyName: 'Age' },
+    };
+    const config = setTableConfig(mockConfig, mockTableWithPivot, completeTableAggregationPivot, mockApiPivotData);
+    expect(config.columnConfig).toBeDefined();
+    // record_date is excluded by dateField filter, and any remaining DATE-type columns
+    // are further excluded by the Complete Table DATE_RELATED_META_TYPES filter
+    expect(config.columnConfig.find(cc => cc.property === 'record_date')).toBeUndefined();
+  });
+
+  it('sorts pivot fields with missing prettyName values correctly', () => {
+    const apiDataWithMissingLabels = {
+      data: [{ a: 1 }],
+      meta: {
+        labels: {
+          field_a: null,
+          field_b: 'Bravo',
+          field_c: undefined,
+        },
+        dataTypes: {
+          field_a: 'string',
+          field_b: 'string',
+          field_c: 'string',
+        },
+      },
+    };
+    const pivotForSort = {
+      pivotView: { chartType: null, dimensionField: 'field_a', title: 'By Field' },
+      pivotValue: { columnName: 'field_b' },
+    };
+    const tableForSort = { ...mockTableWithPivot, dateField: 'nonexistent' };
+    const config = setTableConfig(mockConfig, tableForSort, pivotForSort, apiDataWithMissingLabels);
+    expect(config.columnConfig).toBeDefined();
+    expect(config.columnConfig.length).toBe(3);
+    // field_b (with prettyName 'Bravo') should sort after the null/undefined prettyName fields
+    const names = config.columnConfig.map(cc => cc.name);
+    expect(names[names.length - 1]).toBe('Bravo');
+  });
 });
