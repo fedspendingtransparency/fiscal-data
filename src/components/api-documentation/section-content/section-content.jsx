@@ -3,10 +3,9 @@ import { sectionContainer } from './section-content.module.scss';
 
 const SectionContent = ({ id, children, className, headingLevel, title }) => {
   const [header, setHeader] = useState(null);
-  const scHeadingLevel = headingLevel ? parseInt(headingLevel, 10) : 2;
 
   const createHeader = () => {
-    switch (scHeadingLevel) {
+    switch (headingLevel) {
       case 2:
         return <h2>{title}</h2>;
       case 3:
