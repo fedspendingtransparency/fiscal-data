@@ -201,7 +201,6 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
       setMergedTableData(newTableData);
     }
   }, [chartData, rawExpenseData, rawRateData]);
-  const columnConfigArray = ['Record Date', 'FYTD Interest Expense', 'Avg Interest Rate', 'Fiscal Year'];
 
   const columnConfig = useMemo(() => {
     return [
@@ -213,7 +212,6 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
   }, []);
 
   return {
-    columnConfigArray,
     rawExpenseData,
     rawRateData,
     startFY,

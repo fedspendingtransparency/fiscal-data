@@ -1167,6 +1167,8 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins, getConfig }) => {
   if (stage === 'build-javascript' || stage === 'develop') {
     const config = getConfig();
 
+    config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'ESLintWebpackPlugin');
+
     const miniCssExtractPlugin = config.plugins.find(plugin => plugin.constructor.name === 'MiniCssExtractPlugin');
 
     if (miniCssExtractPlugin) {

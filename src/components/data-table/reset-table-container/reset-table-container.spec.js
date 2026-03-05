@@ -7,7 +7,7 @@ describe('Reset table container', () => {
   it('renders the section', () => {
     const instance = render(
       <RecoilRoot>
-        <ResetTableContainer tableProps={{}} rowsPerPage={10} />
+        <ResetTableContainer tableProps={{ data: [], columnConfig: [] }} rowsPerPage={10} />
       </RecoilRoot>
     );
     expect(instance).toBeTruthy();
@@ -16,7 +16,7 @@ describe('Reset table container', () => {
   it('renders the reset filters button', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <ResetTableContainer tableProps={{}} rowsPerPage={10} />
+        <ResetTableContainer tableProps={{ data: [], columnConfig: [] }} rowsPerPage={10} />
       </RecoilRoot>
     );
     const button = getByRole('button', { name: 'Reset Filters' });
