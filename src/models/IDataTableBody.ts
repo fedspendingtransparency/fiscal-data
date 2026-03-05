@@ -12,6 +12,7 @@ export interface IDataTableBody {
     selectColumns: string[];
     summaryTableFields: string[];
   };
-  setDetailViewState: (val: { value: string; secondary: string }) => void;
-  setSummaryValues: (val: { field: string }[]) => void;
+  setDetailViewState?: (val: { value: string; secondary: string }) => void;
+  setSummaryValues?: (val: { field: string }[]) => void;
+  chartTable?: boolean;
 }

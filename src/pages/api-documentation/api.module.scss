@@ -1,6 +1,6 @@
 @use '../../variables.module.scss' as *;
 
-div.aboutPageWrapper {
+div.apiPageWrapper {
   margin-top: 2rem;
   padding-top: 0;
 }
@@ -26,6 +26,23 @@ div.aboutPageWrapper {
   font-weight: $semi-bold-weight;
 }
 
+code.code {
+  padding: 10px;
+  display: inline-block;
+  width: 100%;
+  word-break: break-all;
+  &.marginBottom {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.beautified {
+  width: 100%;
+  pre {
+    white-space: pre-wrap;
+  }
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .aboutPageWrapper {
     display: flex;
@@ -37,4 +54,16 @@ div.aboutPageWrapper {
     padding-bottom: 15rem;
     min-width: 0;
   }
+}
+
+.apiPageWrapper dt {
+  display: inline-block;
+  font-size: 16px;
+  color: #666666;
+  font-weight: $semi-bold-weight;
+  margin-right: 4px;
+}
+
+.apiPageWrapper div {
+  margin-bottom: 16px;
 }
