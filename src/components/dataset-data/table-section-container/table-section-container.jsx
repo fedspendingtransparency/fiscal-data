@@ -434,8 +434,6 @@ const TableSectionContainer = ({
                       manualPagination={manualPagination}
                       setManualPagination={setManualPagination}
                       datasetName={config.name}
-                      reactTable
-                      rawDataTable
                       userFilterSelection={userFilterSelection}
                       setIsLoading={setIsLoading}
                       isLoading={isLoading}

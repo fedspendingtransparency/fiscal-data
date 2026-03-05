@@ -428,6 +428,7 @@ export const longerPaginatedDataResponse = {
   meta: {
     'total-count': 12,
     'total-pages': 1,
+    dataTypes: [],
   },
 };
 
@@ -453,7 +454,7 @@ export const mockReactTableProps_rawData_emptyTable = {
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_2',
-    rowCount: 0,
+    rowCount: 20001,
   },
   dateRange: dateRange,
   serverSidePagination: 'v1/accounting/dts/dts_table_2',
@@ -465,7 +466,7 @@ export const mockReactTableProps_rawData_apiError = {
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_3',
-    rowCount: 0,
+    rowCount: 20001,
   },
   dateRange: dateRange,
   serverSidePagination: 'v1/accounting/dts/dts_table_3',
@@ -487,7 +488,7 @@ export const mockReactTableProps_rawData = {
 
 export const mockReactTableProps_rawData_smallTable = {
   data: TestData,
-  rawData: { data: TestData },
+  rawData: { data: TestData, meta: { dataTypes: [] } },
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
@@ -501,7 +502,7 @@ export const mockReactTableProps_rawData_smallTable = {
 
 export const mockReactTableProps_rawData_pivotTable = {
   data: TestData,
-  rawData: { data: TestData, pivotApplied: 'First:Brennah' },
+  rawData: { data: TestData, pivotApplied: 'First:Brennah', meta: { dataTypes: [] } },
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
@@ -549,7 +550,7 @@ const detailViewConfig = {
 };
 export const mockReactTableProps_rawData_nestedDetailTable = {
   data: TestData,
-  rawData: { data: TestData },
+  rawData: { data: TestData, meta: { dataTypes: [] } },
   selectedTable: {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
