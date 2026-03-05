@@ -1,7 +1,7 @@
 import React from 'react';
 import beautify from 'js-beautify';
 import SectionContent from '../../section-content/section-content';
-import { beautified } from '../../../../pages/api-documentation/api.module.scss';
+import { beautified, spacing } from '../../../../pages/api-documentation/api.module.scss';
 import { code } from './links-object.module.scss';
 
 const LinksObject = () => (
@@ -12,7 +12,7 @@ const LinksObject = () => (
         It is suitable for creating URLs
         under user interface elements such as pagination buttons.
       </p>
-      <div>
+      <div className={spacing}>
         <dt>Example Links Object:</dt>
       </div>
       <code className={`large ${code} ${beautified}`}>
