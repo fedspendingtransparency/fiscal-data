@@ -256,7 +256,8 @@ describe('Run Time Filter Report Section', () => {
     expect(screen.getByText(/2024/i)).toBeInTheDocument();
   });
 
-  it('renders custom filter within the dropdown', () => {
+  it('renders custom filter within the dropdown', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <FilterReportsSection
         dataset={{
@@ -276,11 +277,12 @@ describe('Run Time Filter Report Section', () => {
     );
     const accountDropdown = getByRole('button', { name: 'Account: (None selected)' });
     expect(accountDropdown).toBeInTheDocument();
-    userEvent.click(accountDropdown);
+    await user.click(accountDropdown);
     expect(getByRole('button', { name: 'No CUSIP or Issue Date - Special Announcement' })).toBeInTheDocument();
   });
 
   it('fetches special announcement reports', async () => {
+    const user = userEvent.setup();
     const { getByRole, findByRole } = render(
       <FilterReportsSection
         dataset={{
@@ -298,14 +300,15 @@ describe('Run Time Filter Report Section', () => {
         width={1024}
       />
     );
-    userEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
-    userEvent.click(getByRole('button', { name: 'No CUSIP or Issue Date - Special Announcement' }));
+    await user.click(getByRole('button', { name: 'Account: (None selected)' }));
+    await user.click(getByRole('button', { name: 'No CUSIP or Issue Date - Special Announcement' }));
     await waitFor(() => {
       findByRole('cell', { name: 'Download A_20251027_1.pdf' });
     });
   });
 
   it('fetches report names from raw data table', async () => {
+    const user = userEvent.setup();
     const { getByRole, findByRole } = render(
       <FilterReportsSection
         dataset={{
@@ -323,8 +326,8 @@ describe('Run Time Filter Report Section', () => {
         width={1024}
       />
     );
-    userEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
-    userEvent.click(getByRole('button', { name: '1234' }));
+    await user.click(getByRole('button', { name: 'Account: (None selected)' }));
+    await user.click(getByRole('button', { name: '1234' }));
     await waitFor(() => {
       findByRole('cell', { name: 'Download A_20251027_1.pdf' });
       findByRole('cell', { name: 'Download R_20251027_1.pdf' });

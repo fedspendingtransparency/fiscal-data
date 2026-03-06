@@ -38,8 +38,9 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     expect(within(optionButtons[9]).getByText('2011')).toBeInTheDocument();
   });
 
+  // this one is cooked
   it('shows up to ten topmost options in the dropdown list that match input digits', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByRole } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -52,19 +53,20 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     );
     const inputField = getByRole('spinbutton', { type: 'number' });
 
-    userEvent.type(inputField, '01');
+    await user.type(inputField, '01');
     let optionButtons = getAllByRole('button');
     expect(optionButtons.length).toEqual(11);
     expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
     expect(within(optionButtons[9]).getByText('2010')).toBeInTheDocument();
 
-    userEvent.type(inputField, '9');
+    await user.type(inputField, '9');
     optionButtons = getAllByRole('button');
     expect(optionButtons.length).toEqual(1);
     expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
   });
 
-  it('only allows numeric entries', () => {
+  it('only allows numeric entries', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const charsRejected = ['a', 'Z', '-', ',', '.', '+', 'e'];
     const charsAccepted = ['1996', '2005', '2020'];
 
@@ -80,16 +82,16 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     );
     const inputField = getByRole('spinbutton', { type: 'number' });
 
-    charsAccepted.forEach(kp => {
-      userEvent.type(inputField, kp);
+    for (const kp of charsAccepted) {
+      await user.type(inputField, kp);
       expect(getByDisplayValue(Number(kp))).toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}{backspace}{backspace}{backspace}');
-    });
-    charsRejected.forEach(kp => {
-      userEvent.type(inputField, kp);
+      await user.type(inputField, '{backspace}{backspace}{backspace}{backspace}');
+    }
+    for (const kp of charsRejected) {
+      await user.type(inputField, kp);
       expect(queryByDisplayValue(kp)).not.toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}');
-    });
+      await user.type(inputField, '{backspace}');
+    }
   });
 
   it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', async () => {

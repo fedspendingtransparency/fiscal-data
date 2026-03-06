@@ -92,7 +92,8 @@ describe('Date column filter', () => {
     expect(endDatePicker).toBeDisabled();
   });
 
-  it('custom date pickers are not disabled when custom is selected', () => {
+  it('custom date pickers are not disabled when custom is selected', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DateColumnFilter
         columnConfig={mockPresetColumnConfig}
@@ -108,12 +109,12 @@ describe('Date column filter', () => {
     const customRadio = getByRole('radio', { name: 'Custom' });
     const presetRadio = getByRole('radio', { name: 'Preset' });
 
-    userEvent.click(customRadio);
+    await user.click(customRadio);
 
     expect(startDatePicker).not.toBeDisabled();
     expect(endDatePicker).not.toBeDisabled();
 
-    userEvent.click(presetRadio);
+    await user.click(presetRadio);
 
     expect(startDatePicker).toBeDisabled();
     expect(endDatePicker).toBeDisabled();
@@ -128,6 +129,7 @@ describe('Date column filter', () => {
   });
 
   it('updates custom date on preset change', async () => {
+    const user = userEvent.setup();
     const { findByRole, getByRole } = render(
       <DateColumnFilter
         presets={true}
@@ -145,7 +147,7 @@ describe('Date column filter', () => {
     expect(within(endDatePicker).getByText('March 17, 2025'));
 
     const oneYearPreset = getByRole('radio', { name: '1 Year' });
-    userEvent.click(oneYearPreset);
+    await user.click(oneYearPreset);
 
     expect(within(startDatePicker).getByText('March 17, 2024'));
   });

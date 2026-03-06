@@ -102,6 +102,7 @@ describe('date range filter', () => {
   });
 
   it('closes the dropdown on blur', async () => {
+    const user = userEvent.setup();
     const { getByRole, queryByRole } = render(
       <RecoilRoot>
         <DateRangeFilter
@@ -120,7 +121,7 @@ describe('date range filter', () => {
       clearButton.focus();
     });
     expect(clearButton).toHaveFocus();
-    userEvent.tab();
+    await user.tab();
     await waitFor(() => expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument());
   });
 

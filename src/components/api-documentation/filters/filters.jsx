@@ -12,80 +12,78 @@ const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-P
 
 const Filters = () => (
   <>
-  <SectionContent id="filters" headingLevel={3} title="Filters">
-    <dl>
-      <div>
-        <dt>Parameter:</dt>
-        <code className="inline">filter=</code>
-      </div>
-      <div>
-        <dt>Definition:</dt>
-        Filters are used to view a subset of the data based on specific criteria. For example, you may want to find
-        data
-        that falls within a certain date range, or only show records which contain a value larger than a certain
-        threshold.
-      </div>
-      <div>
-        <dt>Accepts:</dt>
-        The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as
-        specified filter criteria. Use a colon at the end of a filter parameter to pass a value or list of values. For
-        lists passed as filter
-        criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code className="inline">YYYY-MM-DD</code>
-        . To filter by multiple fields in a single request, do not repeat a filter call. Instead, apply an additional
-        field to include in the filter
-        separated by a comma, as shown in the following template: <code className="inline">&filter=field:prm:value,field:prm:value</code>
-      </div>
-      <div>
-        <dt>Required:</dt>
-        No, filters are not required to make an API request.
-      </div>
-      <div>
-        <dt>Default:</dt>
-        When no filters are provided, the default response <strong>will return all fields and all data.</strong>
-      </div>
-      <p className={listHeading}>
-        The filter parameter <strong>accepts the following filters:</strong>
-      </p>
-      <div>
-      <ul className={list}>
-        <li>
-          <code className="inline">lt=</code> Less than
-        </li>
-        <li>
-          <code className="inline">lte=</code> Less than or equal to
-        </li>
-        <li>
-          <code className="inline">gt=</code> Greater than
-        </li>
-        <li>
-          <code className="inline">gte=</code> Greater than or equal to
-        </li>
-        <li>
-          <code className="inline">eq=</code> Equal to
-        </li>
-        <li>
-          <code className="inline">in=</code> Contained in a given set
-        </li>
-      </ul>
-      </div>
-      <div>
-        <dt>Examples:</dt>
-      </div>
-      <p>Return data if the fiscal year falls between 2007-2010.</p>
-      <code className={`${code} ${marginBottom}`}>?filter=reporting_fiscal_year:in:(2007,2008,2009,2010)</code>
-      <p>Return data if the funding type ID is 202.</p>
-      <code className={`${code} ${marginBottom}`}>?filter=funding_type_id:eq:202</code>
-      <p className={listHeading}>From the Treasury Reporting Rates of Exchange dataset,</p>
-      <div>
-      <ul className={list}>
-        <li>only return specific fields (country_currency_desc, exchange_rate, record_date),</li>
-        <li>only return data on the Canadian Dollar and Mexican Peso, and</li>
-        <li>only return data that falls between January 1, 2020 and the present.</li>
-      </ul>
-      </div>
-      <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
-    </dl>
-  </SectionContent>
+    {/*dl element has direct children that are not allowed: p, code, div > code, div > #text, div > a*/}
+
+    <SectionContent id="filters" headingLevel={3} title="Filters">
+      <dl>
+        <div>
+          <dt>Parameter:</dt>
+          <code className="inline">filter=</code>
+        </div>
+        <div>
+          <dt>Definition:</dt>
+          Filters are used to view a subset of the data based on specific criteria. For example, you may want to find data that falls within a certain
+          date range, or only show records which contain a value larger than a certain threshold.
+        </div>
+        <div>
+          <dt>Accepts:</dt>
+          The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as specified filter criteria. Use
+          a colon at the end of a filter parameter to pass a value or list of values. For lists passed as filter criteria, use a comma-separated list
+          within parentheses. Filter for specific dates using the format <code className="inline">YYYY-MM-DD</code>. To filter by multiple fields in a
+          single request, do not repeat a filter call. Instead, apply an additional field to include in the filter separated by a comma, as shown in
+          the following template: <code className="inline">&filter=field:prm:value,field:prm:value</code>
+        </div>
+        <div>
+          <dt>Required:</dt>
+          No, filters are not required to make an API request.
+        </div>
+        <div>
+          <dt>Default:</dt>
+          When no filters are provided, the default response <strong>will return all fields and all data.</strong>
+        </div>
+        <p className={listHeading}>
+          The filter parameter <strong>accepts the following filters:</strong>
+        </p>
+        <div>
+          <ul className={list}>
+            <li>
+              <code className="inline">lt=</code> Less than
+            </li>
+            <li>
+              <code className="inline">lte=</code> Less than or equal to
+            </li>
+            <li>
+              <code className="inline">gt=</code> Greater than
+            </li>
+            <li>
+              <code className="inline">gte=</code> Greater than or equal to
+            </li>
+            <li>
+              <code className="inline">eq=</code> Equal to
+            </li>
+            <li>
+              <code className="inline">in=</code> Contained in a given set
+            </li>
+          </ul>
+        </div>
+        <div>
+          <dt>Examples:</dt>
+        </div>
+        <p>Return data if the fiscal year falls between 2007-2010.</p>
+        <code className={`${code} ${marginBottom}`}>?filter=reporting_fiscal_year:in:(2007,2008,2009,2010)</code>
+        <p>Return data if the funding type ID is 202.</p>
+        <code className={`${code} ${marginBottom}`}>?filter=funding_type_id:eq:202</code>
+        <p className={listHeading}>From the Treasury Reporting Rates of Exchange dataset,</p>
+        <div>
+          <ul className={list}>
+            <li>only return specific fields (country_currency_desc, exchange_rate, record_date),</li>
+            <li>only return data on the Canadian Dollar and Mexican Peso, and</li>
+            <li>only return data that falls between January 1, 2020 and the present.</li>
+          </ul>
+        </div>
+        <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
+      </dl>
+    </SectionContent>
   </>
 );
 

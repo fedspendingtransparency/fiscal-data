@@ -19,8 +19,8 @@ describe('Checkbox component', () => {
   ];
 
   afterEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
   it('contains a checkbox element with a label for each object in the array', () => {
     const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={jest.fn()} />);
@@ -38,7 +38,6 @@ describe('Checkbox component', () => {
     expect(mockChangeHandler).toHaveBeenCalledWith([{ active: true, filterCount: 4, label: 'Mock Option 1', value: 'one' }]);
   });
 
-
   it('contains a checkbox element with a label for each object in the array when default are specified', () => {
     const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxDataDefault} changeHandler={jest.fn()} />);
     const checkboxLabelElements = getAllByRole('checkbox');
@@ -47,14 +46,14 @@ describe('Checkbox component', () => {
     });
   });
 
-  it('calls its handleClick function when a checkbox state changes, with keyboard interaction', () => {
+  it('calls its handleClick function when a checkbox state changes, with keyboard interaction', async () => {
+    const user = userEvent.setup();
     const mockChangeHandler = jest.fn();
     const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxDataDefault} changeHandler={mockChangeHandler} />);
     const checkboxLabelElements = getAllByRole('checkbox');
-    userEvent.tab();
+    await user.tab();
     expect(checkboxLabelElements[0]).toHaveFocus();
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(mockChangeHandler).toHaveBeenCalledWith([{ active: true, filterCount: 4, label: 'Mock Option 1', value: 'one', default: true }]);
   });
-
 });

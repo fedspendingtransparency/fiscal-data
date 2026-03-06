@@ -149,8 +149,9 @@ describe('DownloadWrapper', () => {
     expect(dateString).toBeInTheDocument();
   });
 
-  it('calls the Analytics.event when the data dictionary button is clicked', () => {
+  it('calls the Analytics.event when the data dictionary button is clicked', async () => {
     global.fetch = jest.fn();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getAllByRole } = render(
       <RecoilRoot>
         <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
@@ -159,7 +160,7 @@ describe('DownloadWrapper', () => {
     const metadataButton = getAllByRole('button')[0];
     const spy = jest.spyOn(Analytics, 'event');
 
-    userEvent.click(metadataButton);
+    await user.click(metadataButton);
     expect(spy).toHaveBeenCalledWith({
       category: 'Dataset Dictionary Download',
       action: 'Data Dictionary Click',
@@ -222,7 +223,8 @@ describe('DownloadWrapper', () => {
     to: new Date('11/01/2020'),
   };
 
-  it('adds a well-formed download request to the downloadsContext downloadQueue', () => {
+  it('adds a well-formed download request to the downloadsContext downloadQueue', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const expectedArgs = {
       apis: mockTable,
       dateRange: mockDateRange,
@@ -243,13 +245,14 @@ describe('DownloadWrapper', () => {
         </downloadsContext.Provider>
       </RecoilRoot>
     );
-    userEvent.click(getByTestId('download-button'));
+    await user.click(getByTestId('download-button'));
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();
   });
 
   it(`adds a well-formed download request to the downloadsContext downloadQueue when the
-    allTablesSelected prop is true`, () => {
+    allTablesSelected prop is true`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const expectedArgs = {
       apis: [mockTable, mockAnotherTable],
       datasetId: mockDataset.datasetId,
@@ -271,7 +274,7 @@ describe('DownloadWrapper', () => {
         </downloadsContext.Provider>
       </RecoilRoot>
     );
-    userEvent.click(getByTestId('download-button'));
+    await user.click(getByTestId('download-button'));
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
   });
   // TODO *****************************
@@ -389,7 +392,8 @@ describe('DownloadWrapper', () => {
     expect(within(filterValue).getByText('(None selected)')).toBeInTheDocument();
   });
 
-  it('creates the expected download configuration when a userFilter is applied', () => {
+  it('creates the expected download configuration when a userFilter is applied', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     mockSetDownloadRequest.mockClear();
 
     const expectedArgs = {
@@ -414,7 +418,7 @@ describe('DownloadWrapper', () => {
         </downloadsContext.Provider>
       </RecoilRoot>
     );
-    userEvent.click(getByTestId('download-button'));
+    await user.click(getByTestId('download-button'));
 
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
     mockSetDownloadRequest.mockClear();

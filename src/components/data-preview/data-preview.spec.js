@@ -93,14 +93,15 @@ describe('DataPreview', () => {
     expect(filterDownload).toBeInTheDocument();
   });
 
-  it(`contains a DataTableSelect component with api options`, () => {
+  it(`contains a DataTableSelect component with api options`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <RecoilRoot>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
     const dataTableSelect = getByRole('button', { name: 'Data Table: Table 1' });
-    userEvent.click(dataTableSelect);
+    await user.click(dataTableSelect);
     const tableOneSelect = getByRole('button', { name: 'Table 1' });
     const tableTwoSelect = getByRole('button', { name: 'Table 2' });
     const tableFourSelect = getByRole('button', { name: 'Table 4' });

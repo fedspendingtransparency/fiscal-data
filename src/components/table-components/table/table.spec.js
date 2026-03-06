@@ -104,15 +104,14 @@ describe('Table component', () => {
   });
 
   describe('Pagination Controls', () => {
-    it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', () => {
+    it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByText, getByRole } = render(<Table tableProps={{ data: MoreTestData, shouldPage: true, tableName: 'tableName' }} />);
 
       expect(getByText('Rows Per Page')).toBeInTheDocument();
 
       const nextPage = getByRole('button', { name: 'tableName-page2' });
-      act(() => {
-        userEvent.click(nextPage);
-      });
+      await user.click(nextPage);
       expect(getByText('Showing 11 - 11 rows of 11 rows')).toBeInTheDocument();
     });
 
@@ -136,14 +135,15 @@ describe('Table component', () => {
       }
     );
 
-    it('should call handlePerPageChange', () => {
+    it('should call handlePerPageChange', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByRole, getByText } = render(<Table tableProps={{ data: MoreTestData, shouldPage: true }} />);
 
       const perPageButton = getByRole('button', { name: 'rows-per-page-menu' });
       within(perPageButton).getByText('10');
-      userEvent.click(perPageButton);
+      await user.click(perPageButton);
       const perPageCountButton = getByText('5');
-      userEvent.click(perPageCountButton);
+      await user.click(perPageCountButton);
       within(perPageButton).getByText('5');
     });
   });

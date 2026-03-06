@@ -53,12 +53,13 @@ describe('DatasetCard', () => {
     expect(getByText('Debt to the Penny')).toBeDefined();
   });
 
-  it('tracks when dataset card is click', () => {
+  it('tracks when dataset card is click', async () => {
+    const user = userEvent.setup();
     const spy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<DatasetCard dataset={mockConfig} context={context} referrer={referrer} />);
 
     const thisCard = getByRole('link');
-    userEvent.click(thisCard);
+    await user.click(thisCard);
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith({

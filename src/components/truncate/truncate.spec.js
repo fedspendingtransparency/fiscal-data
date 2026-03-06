@@ -47,6 +47,7 @@ describe('Truncate component', () => {
   });
 
   it('adds the "expanded" class to the truncator when the show more button is clicked', async () => {
+    const user = userEvent.setup();
     render(<Truncator showMore>{textToTruncate}</Truncator>);
 
     const button = screen.getByTestId('showMoreLessButton');
@@ -54,7 +55,7 @@ describe('Truncate component', () => {
 
     expect(truncator.className).not.toContain(expandedStyle);
 
-    await userEvent.click(button);
+    await user.click(button);
 
     expect(truncator.className).toContain(expandedStyle);
   });

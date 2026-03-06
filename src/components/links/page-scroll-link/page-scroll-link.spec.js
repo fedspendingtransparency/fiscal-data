@@ -21,21 +21,23 @@ describe('Custom Link', () => {
     expect(scrollerSpy).toHaveBeenCalledWith('test', scrollConfigs);
   });
 
-  it('renders an scroll link and calls scrollTo on enter key press', () => {
+  it('renders an scroll link and calls scrollTo on enter key press', async () => {
+    const user = userEvent.setup();
     const scrollerSpy = jest.spyOn(scroller, 'scrollTo');
     const { getByRole } = render(<PageScrollLink url="#test">{content}</PageScrollLink>);
     const link = getByRole('link');
-    userEvent.tab();
+    await user.tab();
     expect(link).toHaveFocus();
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(scrollerSpy).toHaveBeenCalledWith('test', scrollConfigs);
   });
 
-  it('Does not call scrollTo when a non "Enter" key is pressed', () => {
+  it('Does not call scrollTo when a non "Enter" key is pressed', async () => {
+    const user = userEvent.setup();
     const scrollerSpy = jest.spyOn(scroller, 'scrollTo');
     render(<PageScrollLink url="#test">{content}</PageScrollLink>);
-    userEvent.tab();
-    userEvent.keyboard('{Space}');
+    await user.tab();
+    await user.keyboard('{Space}');
     expect(scrollerSpy).not.toHaveBeenCalled();
   });
 });

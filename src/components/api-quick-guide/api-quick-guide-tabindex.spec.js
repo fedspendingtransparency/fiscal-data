@@ -2,7 +2,7 @@ import ApiQuickGuide from './api-quick-guide';
 import { selectedTable } from './test-helpers/test-helpers';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { act, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('API Quick Guide Tab Index', () => {
@@ -34,7 +34,7 @@ describe('API Quick Guide Tab Index', () => {
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
 
   it('ensures links are tabIndex: -1 when collapsed and tabIndex: 0 when expanded', async () => {
-    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <RecoilRoot>
         <ApiQuickGuide config={config} selectedTable={selectedTable} />
@@ -44,17 +44,11 @@ describe('API Quick Guide Tab Index', () => {
     const datasetProperties = getByRole('link', { name: 'Dataset Properties', hidden: true });
     expect(datasetProperties).toHaveAttribute('tabIndex', '-1');
 
-    userEvent.click(getByRole('button', { name: 'Show More' }));
-    act(() => {
-      jest.runAllTimers();
-    });
+    await user.click(getByRole('button', { name: 'Show More' }));
     // expanded after click, all tabIndices are 0
     expect(datasetProperties).toHaveAttribute('tabIndex', '0');
 
-    userEvent.click(getByRole('button', { name: 'Show Less' }));
-    act(() => {
-      jest.runAllTimers();
-    });
+    await user.click(getByRole('button', { name: 'Show Less' }));
     // collapsed after second click, all tabIndices are -1
     expect(datasetProperties).toHaveAttribute('tabIndex', '-1');
   });

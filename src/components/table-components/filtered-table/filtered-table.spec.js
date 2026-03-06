@@ -46,7 +46,8 @@ describe('react-table', () => {
     expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
   });
 
-  it('Able to interact with headers for column sort', () => {
+  it('Able to interact with headers for column sort', async () => {
+    const user = userEvent.setup();
     const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
       <RecoilRoot>
@@ -68,11 +69,11 @@ describe('react-table', () => {
     const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
     expect(sortButton).toHaveClass('defaultSortArrow');
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
-    userEvent.click(sortButton);
+    await user.click(sortButton);
     // Now sorted in desc order
     expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
-    userEvent.click(sortButton);
-    userEvent.click(sortButton);
+    await user.click(sortButton);
+    await user.click(sortButton);
     //Sorting should be reset
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
@@ -108,7 +109,8 @@ describe('react-table', () => {
     expect(getAllByTestId('row')[0].innerHTML).toContain('7/12/2023');
   });
 
-  it('Filter column by text search', () => {
+  it('Filter column by text search', async () => {
+    const user = userEvent.setup();
     const { getAllByRole, getByRole, getAllByTestId } = render(
       <RecoilRoot>
         <FilteredTable
@@ -140,7 +142,7 @@ describe('react-table', () => {
 
     //clear results to view full table
     const clearButton = within(header).getByRole('button', { name: 'Clear search bar' });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
     expect(getAllByTestId('row').length).toEqual(5);
   });
 
@@ -172,7 +174,8 @@ describe('react-table', () => {
     expect(within(tableBody).queryAllByRole('row').length).toEqual(0);
   });
 
-  it('pagination', () => {
+  it('pagination', async () => {
+    const user = userEvent.setup();
     const { getAllByTestId, getByText, getByRole, getByTestId } = render(
       <RecoilRoot>
         <FilteredTable
@@ -195,7 +198,7 @@ describe('react-table', () => {
     expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
     expect(getByTestId('page-next-button')).toBeInTheDocument();
 
-    userEvent.click(getByTestId('page-next-button'));
+    await user.click(getByTestId('page-next-button'));
 
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('3 - 4', { exact: false })).toBeInTheDocument();
@@ -239,7 +242,8 @@ describe('react-table', () => {
     expect(getByText('of 1 row', { exact: false })).toBeInTheDocument();
   });
 
-  it('updates rows per page', () => {
+  it('updates rows per page', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole } = render(
       <RecoilRoot>
         <FilteredTable
@@ -252,8 +256,8 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    userEvent.click(getByRole('button', { name: 'rows-per-page-menu' }));
-    userEvent.click(getByText('5'));
+    await user.click(getByRole('button', { name: 'rows-per-page-menu' }));
+    await user.click(getByText('5'));
     expect(getByText('1 - 5', { exact: false })).toBeInTheDocument();
   });
 

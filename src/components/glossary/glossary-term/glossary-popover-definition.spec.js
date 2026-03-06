@@ -71,6 +71,7 @@ describe('glossary term', () => {
   });
 
   it('renders the glossary popover with the matching term and definition on click', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const termDefinition = 'A greeting';
     const testPage = 'Test Page';
@@ -89,7 +90,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const definition = findByText(termDefinition);
 
@@ -97,6 +98,7 @@ describe('glossary term', () => {
   });
 
   it('adds the link into the definition, if url_display is found within the definition text', async () => {
+    const user = userEvent.setup();
     const glossaryDefinition = 'Test for term with link.';
     const termText = 'Hello again';
     const testPage = 'Test Page';
@@ -115,7 +117,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const definitionText = await findByText('Test for term', { exact: false });
     expect(await findByRole('link', { name: 'link' })).toBeInTheDocument();
@@ -123,6 +125,7 @@ describe('glossary term', () => {
   });
 
   it('adds the custom style into the definition', async () => {
+    const user = userEvent.setup();
     const termText = 'Debt Held by the Public';
     const testPage = 'Test Page';
 
@@ -141,7 +144,7 @@ describe('glossary term', () => {
     );
     const glossaryTermButton = getByRole('button', { name: termText });
 
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const styledText = findByText('not');
     expect(await styledText).toHaveStyle({ textDecoration: 'underline' });
@@ -169,6 +172,7 @@ describe('glossary term', () => {
   });
 
   it('correctly displays the definition for the term associated with the specified page', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const termDefinition = 'A different greeting';
     const differentPageTermDefinition = 'A greeting';
@@ -189,7 +193,7 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const definition = findByText(termDefinition);
 
@@ -228,6 +232,7 @@ describe('glossary term', () => {
   });
 
   it('closes the popover when the full glossary tab is opened', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const testPage = 'Another Test Page';
 
@@ -248,15 +253,16 @@ describe('glossary term', () => {
     );
 
     const glossaryTermButton = await findByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     const viewInGlossaryButton = await findByRole('button', { name: 'View in glossary' });
-    userEvent.click(viewInGlossaryButton);
+    await user.click(viewInGlossaryButton);
 
     waitFor(() => expect(queryByRole('button', { name: 'View in glossary' })).not.toBeInTheDocument());
   });
 
-  it('closes popover on scroll', () => {
+  it('closes popover on scroll', async () => {
+    const user = userEvent.setup();
     const termText = 'Hello';
     const testPage = 'Another Test Page';
 
@@ -276,7 +282,7 @@ describe('glossary term', () => {
       </GlossaryContext.Provider>
     );
     const glossaryTermButton = getByRole('button', { name: termText });
-    userEvent.click(glossaryTermButton);
+    await user.click(glossaryTermButton);
 
     act(() => {
       fireEvent.scroll(window, { target: { pageYOffset: 400 } });

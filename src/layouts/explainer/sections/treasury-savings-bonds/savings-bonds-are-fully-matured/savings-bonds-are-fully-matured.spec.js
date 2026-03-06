@@ -43,6 +43,7 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
     });
   });
 
+  // TODO: v
   // this one is failing and returning different results
   it('calls citation click ga events', async () => {
     const user = userEvent.setup();
@@ -57,11 +58,12 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
     });
   });
 
-  it('calls accordion click ga events', () => {
+  it('calls accordion click ga events', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(<SavingsBondsAreFullyMatured />);
     const accordion = getByRole('button', { name: 'What is the Treasury Doing to Reduce Matured Unredeemed Debt? toggle contents' });
-    userEvent.click(accordion);
+    await user.click(accordion);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Accordion Expand Click',
       category: 'Explainers',

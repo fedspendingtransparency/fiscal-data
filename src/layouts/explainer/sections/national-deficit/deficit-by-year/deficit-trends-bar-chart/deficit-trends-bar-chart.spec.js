@@ -114,6 +114,7 @@ describe('Deficit Trends Bar Chart', () => {
 
   it('Updates header values when tabbing through the bars', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
@@ -130,20 +131,16 @@ describe('Deficit Trends Bar Chart', () => {
     let yearHeader = await getByTestId('deficitFiscalYearHeader');
     let deficitAmountHeader = await getByTestId('deficitTotalHeader');
 
-    await act(async () => {
-      mockAllIsIntersecting(true);
-      jest.advanceTimersByTime(20000);
-      userEvent.tab();
-    });
+    mockAllIsIntersecting(true);
+    jest.advanceTimersByTime(20000);
+    await user.tab();
 
     yearHeader = await getByTestId('deficitFiscalYearHeader');
     deficitAmountHeader = await getByTestId('deficitTotalHeader');
     expect(yearHeader.textContent).toContain('2001');
     expect(deficitAmountHeader.textContent).toContain('$-0.13 T');
 
-    act(() => {
-      userEvent.tab();
-    });
+    await user.tab();
 
     yearHeader = await getByTestId('deficitFiscalYearHeader');
     deficitAmountHeader = await getByTestId('deficitTotalHeader');

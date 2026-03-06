@@ -88,21 +88,20 @@ describe('HowSavingsBondsSoldChart', () => {
     expect(pieChart).toHaveAttribute('height', '382');
   });
 
-  // TODO: also crashing out on load times
   it('calls ga hover event on the pie chart', async () => {
-    // const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     jest.useFakeTimers();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const chartParent = screen.getByTestId('chartParent');
     const pieChart = chartParent.querySelector('svg');
-    userEvent.hover(pieChart);
+    await user.hover(pieChart);
     jest.runAllTimers();
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
       category: 'Explainers',
       label: 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public',
     });
-    userEvent.unhover(pieChart);
+    await user.unhover(pieChart);
   });
 });
 

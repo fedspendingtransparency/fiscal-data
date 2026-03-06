@@ -99,15 +99,16 @@ describe('I Bond Sales Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const chart = await findByRole('application');
-    userEvent.tab();
+    await user.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(getByText('Oct 2008')).toBeInTheDocument();
-    userEvent.tab();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(getByText('Oct 2023')).toBeInTheDocument();
@@ -115,13 +116,14 @@ describe('I Bond Sales Chart', () => {
 
   it('calls chart hover analytics event', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const fetchSpy = jest.spyOn(global, 'fetch');
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
     const { findByRole } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const chart = await findByRole('application');
-    userEvent.hover(chart);
+    await user.hover(chart);
     jest.advanceTimersByTime(3001);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',

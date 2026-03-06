@@ -14,28 +14,31 @@ describe('Date Text Entry', () => {
     expect(getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('display help text when focus is on input field', () => {
+  it('display help text when focus is on input field', async () => {
+    const user = userEvent.setup();
     const { getByRole, getByText } = render(
       <DateTextInput label="Report Date" setInputFocus={jest.fn()} validInput={false} inputFocus={true} helpText={helpText} />
     );
     const inputBox = getByRole('textbox', { name: 'Enter date' });
-    userEvent.tab();
+    await user.tab();
     expect(inputBox).toHaveFocus();
     expect(getByText(helpText));
   });
 
-  it('hides help text on input field blur', () => {
+  it('hides help text on input field blur', async () => {
+    const user = userEvent.setup();
     const { getByRole, queryByText } = render(<DateTextInput label="Report Date" setInputFocus={jest.fn()} helpText={helpText} />);
     const inputBox = getByRole('textbox');
-    userEvent.tab();
+    await user.tab();
     expect(inputBox).toHaveFocus();
-    userEvent.tab();
+    await user.tab();
     expect(queryByText(helpText)).not.toBeInTheDocument();
   });
 });
 
 describe('Monthly Date Text Entry', () => {
-  it('validates the entry on enter key press', () => {
+  it('validates the entry on enter key press', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -53,14 +56,15 @@ describe('Monthly Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.type(inputBox, 'June 2021{Enter}');
+    await user.tab();
+    await user.type(inputBox, 'June 2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
   });
 
-  it('validates the entry on enter key press for lower case month', () => {
+  it('validates the entry on enter key press for lower case month', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -78,14 +82,15 @@ describe('Monthly Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.type(inputBox, 'june 2021{Enter}');
+    await user.tab();
+    await user.type(inputBox, 'june 2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
   });
 
-  it('validates the entry on enter key press for abbreviated month', () => {
+  it('validates the entry on enter key press for abbreviated month', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -103,14 +108,15 @@ describe('Monthly Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.type(inputBox, 'Jun 2021{Enter}');
+    await user.tab();
+    await user.type(inputBox, 'Jun 2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
   });
 
-  it('validates the entry on enter key press for numerical date entry', () => {
+  it('validates the entry on enter key press for numerical date entry', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -128,14 +134,15 @@ describe('Monthly Date Text Entry', () => {
     );
     const inputBox = getByRole('textbox');
 
-    userEvent.type(inputBox, '06/2021{Enter}');
+    await user.type(inputBox, '06/2021{Enter}');
 
     expect(setSelectedYearSpy).toHaveBeenCalledWith('2021');
     expect(setSelectedMonthSpy).toHaveBeenCalledWith('June');
     expect(inputBox).toHaveValue('June 2021');
   });
 
-  it('validates the entry on enter key press and shows error text if invalid', () => {
+  it('validates the entry on enter key press and shows error text if invalid', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -152,8 +159,8 @@ describe('Monthly Date Text Entry', () => {
       />
     );
 
-    userEvent.tab();
-    userEvent.keyboard('jun 20211{Enter}');
+    await user.tab();
+    await user.keyboard('jun 20211{Enter}');
 
     expect(setSelectedYearSpy).not.toHaveBeenCalled();
     expect(setSelectedMonthSpy).not.toHaveBeenCalled();
@@ -161,7 +168,8 @@ describe('Monthly Date Text Entry', () => {
     expect(getByText(invalidDateText)).toBeInTheDocument();
   });
 
-  it('validates the entry on enter key press and shows error when no date match is found', () => {
+  it('validates the entry on enter key press and shows error when no date match is found', async () => {
+    const user = userEvent.setup();
     const setSelectedMonthSpy = jest.fn();
     const setSelectedYearSpy = jest.fn();
     const setValidInputSpy = jest.fn();
@@ -180,8 +188,8 @@ describe('Monthly Date Text Entry', () => {
       />
     );
 
-    userEvent.tab();
-    userEvent.keyboard('June 2000{Enter}');
+    await user.tab();
+    await user.keyboard('June 2000{Enter}');
 
     expect(setSelectedYearSpy).not.toHaveBeenCalled();
     expect(setSelectedMonthSpy).not.toHaveBeenCalled();
@@ -193,7 +201,8 @@ describe('Monthly Date Text Entry', () => {
 });
 
 describe('Daily Date Text Entry', () => {
-  it('validates the entry on enter key press', () => {
+  it('validates the entry on enter key press', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -209,14 +218,15 @@ describe('Daily Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.keyboard('June 01, 2021{Enter}');
+    await user.tab();
+    await user.keyboard('June 01, 2021{Enter}');
 
     expect(setCurrentDateSpy).toHaveBeenCalled();
     expect(inputBox).toHaveValue('June 1, 2021');
   });
 
-  it('validates the entry on enter key press for lower case month', () => {
+  it('validates the entry on enter key press for lower case month', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -232,14 +242,15 @@ describe('Daily Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.keyboard('june 01 2021{Enter}');
+    await user.tab();
+    await user.keyboard('june 01 2021{Enter}');
 
     expect(setCurrentDateSpy).toHaveBeenCalled();
     expect(inputBox).toHaveValue('June 1, 2021');
   });
 
-  it('validates the entry on enter key press for abbreviated month', () => {
+  it('validates the entry on enter key press for abbreviated month', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -255,14 +266,15 @@ describe('Daily Date Text Entry', () => {
       />
     );
     const inputBox = getByRole('textbox');
-    userEvent.tab();
-    userEvent.keyboard('Jun 01 2021{Enter}');
+    await user.tab();
+    await user.keyboard('Jun 01 2021{Enter}');
 
     expect(setCurrentDateSpy).toHaveBeenCalled();
     expect(inputBox).toHaveValue('June 1, 2021');
   });
 
-  it('validates the entry on enter key press for numerical date entry', () => {
+  it('validates the entry on enter key press for numerical date entry', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -279,14 +291,15 @@ describe('Daily Date Text Entry', () => {
     );
     const inputBox = getByRole('textbox');
 
-    userEvent.tab();
-    userEvent.keyboard('06/01/2021{Enter}');
+    await user.tab();
+    await user.keyboard('06/01/2021{Enter}');
 
     expect(setCurrentDateSpy).toHaveBeenCalled();
     expect(inputBox).toHaveValue('June 1, 2021');
   });
 
-  it('validates the entry on enter key press and shows error text if invalid', () => {
+  it('validates the entry on enter key press and shows error text if invalid', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -302,15 +315,16 @@ describe('Daily Date Text Entry', () => {
       />
     );
 
-    userEvent.tab();
-    userEvent.keyboard('jun 01 20211{Enter}');
+    await user.tab();
+    await user.keyboard('jun 01 20211{Enter}');
 
     expect(setCurrentDateSpy).not.toHaveBeenCalled();
     expect(setValidInputSpy).toHaveBeenCalledWith(false);
     expect(getByText(invalidDateText)).toBeInTheDocument();
   });
 
-  it('validates the entry on enter key press and shows error when no date match is found', () => {
+  it('validates the entry on enter key press and shows error when no date match is found', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -328,15 +342,16 @@ describe('Daily Date Text Entry', () => {
       />
     );
 
-    userEvent.tab();
-    userEvent.keyboard('June 02, 2000{Enter}');
+    await user.tab();
+    await user.keyboard('June 02, 2000{Enter}');
 
     expect(setCurrentDateSpy).not.toHaveBeenCalled();
     expect(setValidInputSpy).toHaveBeenCalledWith(false);
     expect(getByText(noMatchDefaultMessage)).toBeInTheDocument();
   });
 
-  it('resets incomplete date entry on blur', () => {
+  it('resets incomplete date entry on blur', async () => {
+    const user = userEvent.setup();
     const setCurrentDateSpy = jest.fn();
     const setValidInputSpy = jest.fn();
     const setInputFocusSpy = jest.fn();
@@ -353,9 +368,9 @@ describe('Daily Date Text Entry', () => {
     );
     const inputBox = getByRole('textbox');
     expect(inputBox).toHaveValue('June 1, 2021');
-    userEvent.tab();
-    userEvent.keyboard('June 01');
-    userEvent.tab();
+    await user.tab();
+    await user.keyboard('June 01');
+    await user.tab();
 
     expect(inputBox).toHaveValue('June 1, 2021');
   });

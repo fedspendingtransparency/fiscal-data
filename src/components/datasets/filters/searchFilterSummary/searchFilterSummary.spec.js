@@ -54,24 +54,26 @@ describe('Search Filter Summary', () => {
   });
 
   it('clears selected filter when onClick on specific filter', async () => {
+    const user = userEvent.setup();
     renderSummary({
       activeFilters: ['startDateRangeThree'],
     });
 
     const filterBtn = screen.getByRole('button', { name: /startDateRangeThree/i });
-    await userEvent.click(filterBtn);
+    await user.click(filterBtn);
 
     expect(onIndividualReset).toHaveBeenCalledTimes(1);
   });
 
   it('clears all filters', async () => {
+    const user = userEvent.setup();
     renderSummary({
       searchQuery: 'test',
       activeFilters: ['startDateRangeThree', 'savingsBonds'],
     });
 
     const clearAll = screen.getByRole('button', { name: /clear all filters/i });
-    await userEvent.click(clearAll);
+    await user.click(clearAll);
 
     expect(onGroupReset).toHaveBeenCalledWith('startDate');
     expect(onGroupReset).toHaveBeenCalledWith('topics');

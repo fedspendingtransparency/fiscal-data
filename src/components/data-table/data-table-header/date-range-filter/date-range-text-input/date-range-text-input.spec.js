@@ -23,7 +23,8 @@ describe('date range input', () => {
     expect(getByText('-')).toBeInTheDocument();
   });
 
-  it('updates selected range when a valid date is entered', () => {
+  it('updates selected range when a valid date is entered', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DateRangeTextInput
         selected={{}}
@@ -37,10 +38,8 @@ describe('date range input', () => {
 
     const dateRangeEntry = getByRole('textbox', { hidden: true });
     fireEvent.click(dateRangeEntry);
-    act(() => {
-      userEvent.keyboard('12012022');
-      userEvent.keyboard('12102024');
-    });
+    await user.keyboard('12012022');
+    await user.keyboard('12102024');
     expect(mockSetInputDisplay).toHaveBeenCalled();
   });
 });

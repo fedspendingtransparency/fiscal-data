@@ -38,9 +38,10 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it('updates active preset upon button click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(<DatePresets selectedTable={selectedTable} presets={mockPresets} activePresetKey={activePresetKey} />);
     const selectedBtn = getByRole('radio', { name: '10 Years' });
-    userEvent.click(selectedBtn);
+    await user.click(selectedBtn);
     expect(selectedBtn).toBeChecked();
   });
 

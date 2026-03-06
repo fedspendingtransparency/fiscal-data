@@ -95,12 +95,13 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('handles chart mouse events', async () => {
+    const user = userEvent.setup();
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[0].children[0];
     expect(chart).toBeInTheDocument();
-    userEvent.hover(chart);
-    userEvent.unhover(chart);
+    await user.hover(chart);
+    await user.unhover(chart);
   });
 
   it('formats axis values', () => {
@@ -132,14 +133,14 @@ describe('State and Local Government Series Chart', () => {
     expect(within(getByTestId('chartHeader')).getByText('Sep 2020')).toBeInTheDocument();
   });
 
-  // TODO: test was taking 6 years to load
   it('fires GA event on chart hover', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
+    await user.hover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
@@ -151,11 +152,12 @@ describe('State and Local Government Series Chart', () => {
 
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartGrandParent');
-    userEvent.hover(chartParent);
-    userEvent.unhover(chartParent);
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).not.toHaveBeenCalled();
     jest.clearAllMocks();
