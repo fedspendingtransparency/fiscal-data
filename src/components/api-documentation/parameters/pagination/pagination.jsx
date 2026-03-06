@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
-import { marginBottom, code } from '../../../../pages/api-documentation/api.module.scss';
+import { marginBottom, code, spacing } from '../../../../pages/api-documentation/api.module.scss';
 import { list } from './pagination.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
@@ -9,37 +9,52 @@ const Pagination = () => {
 
   return (
     <SectionContent title="Pagination" id="parameters-pagination" headingLevel={3}>
-      <p>
-        <strong>Parameter:</strong> <code className="inline">page[size]=</code> and <code className="inline">page[number]=</code>
-      </p>
-      <p>
-        <strong>Definition:</strong> The page size will set the number of rows that are returned on a request, and page number will set the index for
-        the pagination, starting at 1. This allows the user to paginate through the records returned from an API request.
-      </p>
-      <p>
-        <strong>Accepts:</strong> The <code className="inline">page[number]=</code> and <code className="inline">page[size]=</code> parameters both
-        accept integers.
-      </p>
-      <p>
-        <strong>Required:</strong> No, neither pagination parameters are required to make an API request.
-      </p>
-      <p>
-        <strong>Default:</strong> When no sort parameter is specified, the default is to sort by the first column listed. As a result, most API
-        endpoints are sorted by date in ascending order (historical to most current).
-      </p>
-      <p>
-        <strong>Notes:</strong> When no page number or page size parameter is specified, the default response is
-      </p>
-      <ul className={list}>
-        <li>Page number: 1</li>
-        <li>Page size: 100</li>
-      </ul>
-
-      <p>
-        <strong>Example:</strong>
-      </p>
-      <p>From the Treasury Offset Program dataset, return data with 50 records per page, and return the 10th page of data.</p>
-      <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v1/debt/top/top_state?page[number]=10&page[size]=50</code>
+      <dl>
+        <div className={spacing}>
+          <dt>Parameter:</dt>
+          <code className="inline">page[size]=</code> and <code className="inline">page[number]=</code>
+        </div>
+        <div className={spacing}>
+          <dt>Definition:</dt>
+          The page size will set the number of rows that are returned on a request, and page number will set the index
+          for
+          the pagination, starting at 1. This allows the user to paginate through the records returned from an API
+          request.
+        </div>
+        <div className={spacing}>
+          <dt>Accepts:</dt>
+          The <code className="inline">page[number]=</code> and <code className="inline">page[size]=</code> parameters
+          both
+          accept integers.
+        </div>
+        <div className={spacing}>
+          <dt>Required:</dt>
+          No, neither pagination parameters are required to make an API request.
+        </div>
+        <div className={spacing}>
+          <dt>Default:</dt>
+          When no sort parameter is specified, the default is to sort by the first column listed. As a result, most API
+          endpoints are sorted by date in ascending order (historical to most current).
+        </div>
+        <div className={spacing}>
+          <dt>Notes:</dt>
+          When no page number or page size parameter is specified, the default response is
+        </div>
+        <div className={spacing}>
+          <ul className={list}>
+            <li>Page number: 1</li>
+            <li>Page size: 100</li>
+          </ul>
+        </div>
+        <div className={spacing}>
+          <dt>Example:</dt>
+        </div>
+        <p>From the Treasury Offset Program dataset, return data with 50 records per page, and return the 10th page of
+          data.
+        </p>
+        <code
+          className={`${code} ${marginBottom}`}>{baseApiUrl}/v1/debt/top/top_state?page[number]=10&page[size]=50</code>
+      </dl>
     </SectionContent>
   );
 };
