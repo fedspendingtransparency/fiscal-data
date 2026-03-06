@@ -173,7 +173,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
 
   const muiStyle = {
     '& .MuiIconButton-root': { marginRight: '0' },
-    '& .MuiPickersInputBase-sectionsContainer': { padding: '10px 0 10px 10px', fontSize: '15px', color: '#666666' },
+    '& .MuiPickersInputBase-sectionsContainer': { padding: '10px 0 10px 10px', fontSize: '15px', color: '#666666', opacity: 1 },
     '& .MuiPickersInputBase-root': { padding: 0 },
   };
 
