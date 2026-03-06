@@ -16,8 +16,8 @@ const ResetTableContainer = ({ tableProps, perPage }) => {
       <FilteredTable
         tableProps={tableProps}
         perPage={perPage}
-        resetFilters={resetFilters}
-        setResetFilters={setResetFilters}
+        // resetFilters={resetFilters}
+        // setResetFilters={setResetFilters}
         allActiveFilters={activeFilters}
         setAllActiveFilters={setActiveFilters}
         allowColumnWrap={['definition']}
