@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SocialShareDropdown from './social-share-dropdown';
 import { RecoilRoot } from 'recoil';
@@ -44,18 +44,16 @@ describe('exchange rates banner', () => {
     expect(screen.getByText('Facebook')).toBeInTheDocument();
   });
 
-  it('closes the dropdown when a social button is clicked', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
+  it('closes the dropdown when a social button is clicked', () => {
     const { getByRole } = render(
       <RecoilRoot>
         <SocialShareDropdown copy={testCopy} pageName="" />
       </RecoilRoot>
     );
     const shareBtn = getByRole('button', { name: 'Share' });
-    await user.click(shareBtn);
+    fireEvent.click(shareBtn);
     const facebookBtn = getByRole('button', { name: 'facebook' });
-    await user.click(facebookBtn);
+    fireEvent.click(facebookBtn);
     expect(screen.queryByText('Facebook')).toBeNull();
   });
 

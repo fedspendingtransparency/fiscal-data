@@ -12,8 +12,6 @@ const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-P
 
 const Filters = () => (
   <>
-    {/*dl element has direct children that are not allowed: p, code, div > code, div > #text, div > a*/}
-
     <SectionContent id="filters" headingLevel={3} title="Filters">
       <dl>
         <div>

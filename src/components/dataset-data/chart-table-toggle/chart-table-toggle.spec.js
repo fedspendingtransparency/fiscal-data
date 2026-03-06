@@ -45,7 +45,8 @@ describe('Chart Table Toggle 0', () => {
     expect(getAllByText(allTablesSelectedBody).length).toBe(2);
   });
 
-  it('tracks when the chart is enabled', () => {
+  it('tracks when the chart is enabled', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <ChartTableToggle
         datasetName={dummyDatasetName}
@@ -60,7 +61,7 @@ describe('Chart Table Toggle 0', () => {
     const tabSpy = jest.spyOn(spyProps, 'onTabChange');
 
     const chartTab = getByRole('tab', { name: 'Chart' });
-    userEvent.click(chartTab);
+    await user.click(chartTab);
 
     expect(tabSpy).toHaveBeenCalledWith(1);
     expect(gaSpy).toHaveBeenCalledWith({
@@ -88,7 +89,8 @@ describe('Chart Table Toggle 0', () => {
     expect(selectColButton).toBeInTheDocument();
   });
 
-  it('calls toggle when select column tab is clicked', () => {
+  it('calls toggle when select column tab is clicked', async () => {
+    const user = userEvent.setup();
     render(
       <ChartTableToggle
         currentTab={0}
@@ -104,7 +106,7 @@ describe('Chart Table Toggle 0', () => {
 
     const selectColButton = screen.getByRole('button', { name: /Select Columns/i });
 
-    userEvent.click(selectColButton);
+    await user.click(selectColButton);
     expect(selectColButton).toBeInTheDocument();
     expect(onToggleLegend).toHaveBeenCalledTimes(1);
   });

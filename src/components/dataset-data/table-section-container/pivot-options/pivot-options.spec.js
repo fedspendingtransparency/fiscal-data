@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import PivotOptions from './pivot-options';
 import userEvent from '@testing-library/user-event';
@@ -116,8 +116,8 @@ describe('PivotOptions component does render children', () => {
     });
   });
 
-  it('changes the pivot options when the pivot view changes, but only if it should', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+  it('changes the pivot options when the pivot view changes, but only if it should', () => {
+    // const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const pivotValueOptions = [selectedTable.fields[2], selectedTable.fields[3]];
     const { getByRole } = render(
       <PivotOptions
@@ -132,13 +132,13 @@ describe('PivotOptions component does render children', () => {
     const pivotViewSelector = getByRole('button', { name: 'Change pivot view from Additional Columns' });
     const pivotValueSelector = getByRole('button', { name: 'Change pivot value from Book Value' });
     // on render the options are this
-    await user.click(pivotValueSelector);
+    fireEvent.click(pivotValueSelector);
     pivotValueOptions.forEach(option => {
       expect(getByRole('button', { name: option.prettyName })).toBeInTheDocument();
     });
     // run the changeHandler
-    await user.click(pivotViewSelector);
-    await user.click(getByRole('button', { name: 'Complete Table' }));
+    fireEvent.click(pivotViewSelector);
+    fireEvent.click(getByRole('button', { name: 'Complete Table' }));
 
     // and now the options are that
     expect(getByRole('button', { name: '— N / A —' })).toBeInTheDocument();
