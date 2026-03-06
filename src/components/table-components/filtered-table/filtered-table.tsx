@@ -81,9 +81,12 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
     getFilteredRowModel: getFilteredRowModel(),
   }) as Table<Record<string, unknown>>;
 
-  useMemo(() => {
+  useEffect(() => {
     if (data) {
-      setTableData(data);
+      setTableData(prev => {
+        if (prev === data) return prev;
+        return data;
+      });
       setMaxRows(data.length);
       setShowPaginationControls(!apiError && data?.length > defaultPerPageOptions[0]);
     }
