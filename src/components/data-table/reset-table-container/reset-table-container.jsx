@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { buttonContainer, sectionContainer } from './reset-table-container.module.scss';
-import ResetTableSection from '../reset-table-section/reset-table-section';
 import FilteredTable from '../../table-components/filtered-table/filtered-table';
 
 const ResetTableContainer = ({ tableProps, perPage }) => {
@@ -10,9 +9,7 @@ const ResetTableContainer = ({ tableProps, perPage }) => {
 
   return (
     <div className={sectionContainer}>
-      <div className={buttonContainer}>
-        <ResetTableSection active={activeFilters?.length > 0} resetColumns={() => setResetFilters(true)} />
-      </div>
+      <div className={buttonContainer}>{/*<ResetTableSection active={activeFilters?.length > 0} resetColumns={() => setResetFilters(true)} />*/}</div>
       <FilteredTable
         tableProps={tableProps}
         perPage={perPage}
