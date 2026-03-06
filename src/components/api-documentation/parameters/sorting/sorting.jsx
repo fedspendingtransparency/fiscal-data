@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
-import { marginBottom, code } from '../../../../pages/api-documentation/api.module.scss';
+import { marginBottom, code, spacing } from '../../../../pages/api-documentation/api.module.scss';
 import GLOBALS from '../../../../helpers/constants';
 
 const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
@@ -8,36 +8,36 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 const Sorting = () => (
   <SectionContent title="Sorting" id="parameters-sorting" headingLevel={3}>
     <dl>
-      <div>
+      <div className={spacing}>
         <dt>Parameter:</dt>
         <code className="inline">sort=</code>
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Definition:</dt>
         The sort parameter allows a user to sort a field in ascending (least to greatest) or descending (greatest to
         least)
         order.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Accepts:</dt>
         The sort parameter <code className="inline">sort=</code> accepts a comma-separated list of field names.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Required:</dt>
         No, sorting is not required to make an API request.
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Default:</dt>
         When no sort parameter is specified, the default is to sort by the first column listed. Most API endpoints are
         thus
         sorted by date in ascending order (historical to most current).
       </div>
-      <div>
+      <div className={spacing}>
         <dt>Notes:</dt>
         You can nest sorting by passing the <code className="inline">sort=</code> parameter a comma-separated list.
       </div>
 
-      <div>
+      <div className={spacing}>
         <dt>Examples:</dt>
       </div>
       <p>

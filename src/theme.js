@@ -109,7 +109,6 @@ const datasetSearchTheme = {
           minWidth: 0,
           letterSpacing: 0,
           fontWeight: variables.semiBoldWeight,
-          opacity: 0.7,
           '@media (min-width: 0px)': {
             minWidth: 0,
           },

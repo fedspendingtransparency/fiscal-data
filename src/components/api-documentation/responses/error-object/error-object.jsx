@@ -1,7 +1,7 @@
 import React from 'react';
 import beautify from 'js-beautify';
 import SectionContent from '../../section-content/section-content';
-import { beautified } from '../../../../pages/api-documentation/api.module.scss';
+import { beautified, spacing } from '../../../../pages/api-documentation/api.module.scss';
 
 const ErrorObject = () => (
   <SectionContent id="responses-error-object" headingLevel={3} title="Error Object">

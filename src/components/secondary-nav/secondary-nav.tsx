@@ -1,11 +1,8 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import * as Scroll from 'react-scroll';
 import { Link } from 'react-scroll';
-import { withWindowSize } from 'react-fns';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import TOCButton from '../table-of-contents/toc-button/toc-button';
-import { breakpointLg } from '../../variables.module.scss';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { ISecondaryNav } from '../../models/ISecondaryNav';
 
 import {
@@ -23,6 +20,7 @@ import {
   comingSoonLink,
   sectionList,
   paddingAdjust,
+  close,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
@@ -47,7 +45,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   analytics,
   analyticsCategory,
   analyticsPageLabel,
-  width,
   headerComponent,
   children,
   tocScrollOffset,
@@ -166,18 +163,15 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     }
   }, [scrollToId]);
 
-  const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
-  const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
-
   return (
     <div className={mainContainer}>
       <aside className={`${navContainer} secondaryNavContainer`}>
         <nav>
           {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-          <div className={paddingAdjust}>{shouldTocShow && headerComponent}</div>
-          <ul className={sectionList}>
-            {shouldTocShow &&
-              sections.map(s => {
+          <div className={`${tocIsOpen ? 'open' : close}`} data-testid={'tocContainer'}>
+            <div className={paddingAdjust}>{headerComponent}</div>
+            <ul className={sectionList}>
+              {sections.map(s => {
                 let headingClass = '';
                 if (s.headingLevel === 2) {
                   headingClass = headingLevel2;
@@ -223,13 +217,14 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
                   </li>
                 );
               })}
-          </ul>
+            </ul>
+          </div>
         </nav>
       </aside>
-      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
+      <div className={`${navigableContent} ${tocIsOpen ? 'hidden' : ''}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
   );
 };
 
-export default withWindowSize(SecondaryNav);
+export default SecondaryNav;
