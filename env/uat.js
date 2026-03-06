@@ -247,5 +247,36 @@ module.exports = {
         'funding_type_id'
       ],
     },
+    '325': {
+      endpoint: 'v1/accounting/mts/mts_table_9_outlays_functions_subfunctions',
+      dateField: 'record_date',
+      downloadName: 'MTS_OutlyFcnSubFcn',
+      valueFieldOptions: ['current_month _outly_amt', 'current_fytd_outly_amt', 'prior_fytd _outly_amt'],
+      alwaysSortWith: ['-record_date', 'src_line_nbr'],
+      dataDisplays: [
+        {
+          title: 'Summary of Outlays by Function',
+          dimensionField: 'function_desc',
+          filters: [
+            {
+              key: 'function_desc',
+              value: 'Outlays by Function',
+              operator: 'in',
+            },
+          ],
+        },
+        {
+          title: 'Subfunction of the U.S. Government',
+          dimensionField: 'sub_function_desc',
+          filters: [
+            {
+              key: 'sub_function_desc',
+              value: 'Outlays by Sub Function',
+              operator: 'in',
+            },
+          ],
+        }
+      ],
+    }
   },
 };
