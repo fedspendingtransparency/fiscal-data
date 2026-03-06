@@ -121,7 +121,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('calls the info tip ga event', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
       <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />

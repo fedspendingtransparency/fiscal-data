@@ -93,7 +93,8 @@ describe('DownloadItemButton for direct download file', () => {
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
   });
 
-  it('direct CSV download with timestamp', () => {
+  it('direct CSV download with timestamp', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId } = render(
       <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
@@ -101,7 +102,7 @@ describe('DownloadItemButton for direct download file', () => {
     );
     expect(getByTestId('csv-timestamp-download-button')).toBeInTheDocument();
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
-    userEvent.click(getByTestId('csv-timestamp-download-button'));
+    await user.click(getByTestId('csv-timestamp-download-button'));
   });
 
   it('direct XML download', () => {

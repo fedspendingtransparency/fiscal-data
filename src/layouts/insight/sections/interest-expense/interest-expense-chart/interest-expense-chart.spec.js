@@ -136,7 +136,7 @@ describe('Interest Expense Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
     await user.tab();

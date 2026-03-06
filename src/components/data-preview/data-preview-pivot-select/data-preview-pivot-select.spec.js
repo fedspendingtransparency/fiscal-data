@@ -114,6 +114,7 @@ describe('Pivot select', () => {
   });
 
   it('calls setSelectedPivotView on Pivot View update', async () => {
+    const user = userEvent.setup();
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
     const { findByRole } = render(
@@ -126,7 +127,7 @@ describe('Pivot select', () => {
       />
     );
     const pivotViewDropdown = await findByRole('button', { name: 'Select Pivot View' });
-    userEvent.click(pivotViewDropdown);
+    await user.click(pivotViewDropdown);
     const pivotViewOption = await findByRole('button', { name: 'By Type of Account' });
     fireEvent.click(pivotViewOption);
 
@@ -137,6 +138,7 @@ describe('Pivot select', () => {
   });
 
   it('calls setSelectedPivotValue on Pivot View update', async () => {
+    const user = userEvent.setup();
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
     const { findByRole } = render(
@@ -149,7 +151,7 @@ describe('Pivot select', () => {
       />
     );
     const pivotValueDropdown = await findByRole('button', { name: 'Select Pivot Value' });
-    userEvent.click(pivotValueDropdown);
+    await user.click(pivotValueDropdown);
     const pivotValueOption = await findByRole('button', { name: 'Opening Balance This Month' });
     fireEvent.click(pivotValueOption);
     expect(setPivotToApplySpy).toHaveBeenCalledWith({

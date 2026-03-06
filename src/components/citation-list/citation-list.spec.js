@@ -56,12 +56,13 @@ describe('Citation List', () => {
     expect(link.querySelector('svg[data-icon="link"]')).toBeInTheDocument();
   });
 
-  it('calls the analytics event handler with the correct pageName and text on click', () => {
+  it('calls the analytics event handler with the correct pageName and text on click', async () => {
+    const user = userEvent.setup();
     render(<CitationList header={mockHeader} citations={[mockCitations[1]]} pageName={mockPageName} />);
 
     const link = screen.getByRole('link');
 
-    userEvent.click(link);
+    await user.click(link);
 
     expect(analyticsEventHandler).toHaveBeenCalledTimes(1);
     expect(analyticsEventHandler).toHaveBeenCalledWith(mockPageName, mockCitations[1].text);

@@ -17,6 +17,7 @@ describe('DropdownOptions', () => {
   });
 
   it('opens a list of options when the control is clicked', async () => {
+    const user = userEvent.setup();
     setup();
 
     const toggleBtn = screen.getByRole('button', {
@@ -24,24 +25,25 @@ describe('DropdownOptions', () => {
     });
     expect(screen.queryByTestId('selector-option')).toBeNull();
 
-    await userEvent.click(toggleBtn);
+    await user.click(toggleBtn);
 
     const optionButtons = await screen.findAllByTestId('selector-option');
     expect(optionButtons).toHaveLength(2);
   });
 
   it('removes the option list from the dom tree when the toggle button is clicked a second time', async () => {
+    const user = userEvent.setup();
     setup();
 
     const toggleBtn = screen.getByRole('button', {
       name: ariaLabeler(mockOptions[1].label),
     });
 
-    await userEvent.click(toggleBtn);
+    await user.click(toggleBtn);
     const optionButtons = await screen.findAllByTestId('selector-option');
     expect(optionButtons).toHaveLength(2);
 
-    await userEvent.click(toggleBtn);
+    await user.click(toggleBtn);
     await waitFor(() => expect(screen.queryAllByTestId('selector-option')).toHaveLength(0));
   });
 });

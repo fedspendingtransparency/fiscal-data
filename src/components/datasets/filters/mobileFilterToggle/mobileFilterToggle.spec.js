@@ -35,8 +35,9 @@ describe('Mobile Filter Toggle', () => {
   });
 
   it('toggles datasetView when toggle button is clicked', async () => {
+    const user = userEvent.setup();
     renderToggle({ datasetsView: true });
-    await userEvent.click(screen.getByRole('button', { name: 'Filter Your Results' }));
+    await user.click(screen.getByRole('button', { name: 'Filter Your Results' }));
     expect(mobileToggleFn).toHaveBeenCalledTimes(1);
   });
 
@@ -47,8 +48,9 @@ describe('Mobile Filter Toggle', () => {
   });
 
   it('calls filterReset when the reset button is clicked', async () => {
+    const user = userEvent.setup();
     renderToggle({ datasetsView: false });
-    await userEvent.click(screen.getByRole('button', { name: /reset/i }));
+    await user.click(screen.getByRole('button', { name: /reset/i }));
     expect(filterResetFn).toHaveBeenCalledTimes(1);
   });
 });

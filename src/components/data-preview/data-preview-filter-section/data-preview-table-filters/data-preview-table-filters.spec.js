@@ -156,7 +156,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('Applies text filters on apply button click', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <DataTableContext.Provider
         value={{
@@ -209,7 +209,7 @@ describe('Table filters dropdown', () => {
   });
 
   it('Clears pending filters on cancel button click', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     setFilterValueSpy.mockClear();
     const { getByRole } = render(
       <DataTableContext.Provider

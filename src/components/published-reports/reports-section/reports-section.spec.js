@@ -105,14 +105,15 @@ describe('Reports Section component', () => {
       jest.resetModules();
     });
 
-    it('Only shows selected report in the report table', () => {
+    it('Only shows selected report in the report table', async () => {
       jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} />);
       const dateFilter = getByRole('button', { name: 'Select Published Date' });
       expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
-      userEvent.click(reportFilter);
-      userEvent.click(getByRole('button', { name: 'Another Download File.xml' }));
+      await user.click(reportFilter);
+      await user.click(getByRole('button', { name: 'Another Download File.xml' }));
       act(() => {
         jest.runAllTimers();
       });

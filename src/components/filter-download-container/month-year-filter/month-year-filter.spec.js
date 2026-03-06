@@ -26,10 +26,11 @@ describe('Month year filter', () => {
     expect(getByRole('button', { name: 'Year' })).toBeInTheDocument();
   });
 
-  it('generates all years in the years dropdown', () => {
+  it('generates all years in the years dropdown', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId } = render(<MonthYearFilter setDateRange={jest.fn()} selectedTable={mockSelectedTable} />);
     const yearButton = getByRole('button', { name: 'Year' });
-    userEvent.click(yearButton);
+    await user.click(yearButton);
     const dropdownContainer = getByTestId('dropdown-container');
     expect(within(dropdownContainer).getByRole('button', { name: '2022' })).toBeInTheDocument();
     expect(within(dropdownContainer).getByRole('button', { name: '2023' })).toBeInTheDocument();
@@ -38,40 +39,43 @@ describe('Month year filter', () => {
     expect(within(dropdownContainer).queryByRole('button', { name: '2021' })).not.toBeInTheDocument();
   });
 
-  it('updates month on select', () => {
+  it('updates month on select', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(<MonthYearFilter setDateRange={jest.fn()} />);
     let monthButton = getByRole('button', { name: 'Month' });
     expect(monthButton).toContainHTML('September');
-    userEvent.click(monthButton);
+    await user.click(monthButton);
     const aprilButton = getByRole('button', { name: 'April' });
-    userEvent.click(aprilButton);
+    await user.click(aprilButton);
     monthButton = getByRole('button', { name: 'Month' });
     expect(monthButton).toContainHTML('April');
   });
 
-  it('updates year on select', () => {
+  it('updates year on select', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(<MonthYearFilter setDateRange={jest.fn()} selectedTable={mockSelectedTable} />);
     let yearButton = getByRole('button', { name: 'Year' });
     expect(yearButton).toContainHTML('2024');
-    userEvent.click(yearButton);
+    await user.click(yearButton);
     const updatedYearButton = getByRole('button', { name: '2022' });
-    userEvent.click(updatedYearButton);
+    await user.click(updatedYearButton);
     yearButton = getByRole('button', { name: 'Year' });
     expect(yearButton).toContainHTML('2022');
   });
 
-  it('updates month on select with future dated value', () => {
+  it('updates month on select with future dated value', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(<MonthYearFilter setDateRange={jest.fn()} selectedTable={mockFutureDatedTable} />);
     let monthButton = getByRole('button', { name: 'Month' });
     expect(monthButton).toContainHTML('September');
-    userEvent.click(monthButton);
+    await user.click(monthButton);
     const decemberButton = getByRole('button', { name: 'December' });
-    userEvent.click(decemberButton);
+    await user.click(decemberButton);
     monthButton = getByRole('button', { name: 'Month' });
     expect(monthButton).toContainHTML('December');
-    userEvent.click(monthButton);
+    await user.click(monthButton);
     const augustButton = getByRole('button', { name: 'August' });
-    userEvent.click(augustButton);
+    await user.click(augustButton);
     expect(monthButton).toContainHTML('August');
   });
 });

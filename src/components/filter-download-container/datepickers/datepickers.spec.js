@@ -92,16 +92,17 @@ describe('DDP Datepickers', () => {
     expect(datePickers[1]).toHaveValue(updatedFromDate);
   });
 
-  it('calls setSelectedDates when valid dates are selected by the date picker', () => {
+  it('calls setSelectedDates when valid dates are selected by the date picker', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     setSelectedDates.mockClear();
     const { getByRole } = render(
       <DatePickers availableDateRange={availableDates} selectedDateRange={selectedDates} setSelectedDates={setSelectedDates} />
     );
     const chooseDateButton = getByRole('button', { name: 'Choose date, selected date is Jan 1, 2016' });
-    userEvent.click(chooseDateButton);
+    await user.click(chooseDateButton);
 
     const newDateButton = getByRole('gridcell', { name: '11' });
-    userEvent.click(newDateButton);
+    await user.click(newDateButton);
 
     expect(setSelectedDates).toHaveBeenCalledTimes(1);
   });

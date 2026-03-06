@@ -36,12 +36,13 @@ describe('ChartTableContainer component', () => {
     expect(getByText('Download')).toBeInTheDocument();
   });
 
-  it('sets the download click to true if the enabledClickedColor Change prop is passed in as true', () => {
+  it('sets the download click to true if the enabledClickedColor Change prop is passed in as true', async () => {
+    const user = userEvent.setup();
     const { getByTestId, getByText } = render(
       <ChartTableContainer title={mockTitle} altText={mockAltText} chart={mockChildren} enabledClickedColorChange={mockEnabledClickedColorChange} />
     );
     const button = getByText('Download CSV');
-    userEvent.click(button);
+    await user.click(button);
     const buttonContainer = getByTestId('csvDownloaderContainer');
     expect(buttonContainer).toHaveClass('clickedLabel');
   });

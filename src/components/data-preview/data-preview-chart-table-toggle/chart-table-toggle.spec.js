@@ -11,14 +11,15 @@ describe('Chart table toggle', () => {
     expect(getByRole('radio', { name: 'Chart' })).toBeInTheDocument();
   });
 
-  it('Calls onChange function', () => {
+  it('Calls onChange function', async () => {
+    const user = userEvent.setup();
     const onChangeSpy = jest.fn();
     const { getByRole } = render(<ChartTableToggle onChange={onChangeSpy} />);
     const chartButton = getByRole('radio', { name: 'Chart' });
-    userEvent.click(chartButton);
+    await user.click(chartButton);
     expect(onChangeSpy).toHaveBeenCalledWith('chart');
     const tableButton = getByRole('radio', { name: 'Table' });
-    userEvent.click(tableButton);
+    await user.click(tableButton);
     expect(onChangeSpy).toHaveBeenCalledWith('chart');
   });
 });

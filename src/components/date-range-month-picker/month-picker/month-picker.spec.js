@@ -4,11 +4,12 @@ import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('date range month picker', () => {
-  it('renders the date range picker', () => {
+  it('renders the date range picker', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<MonthPicker text="From" />);
     const dropdown = getByRole('button', { name: 'From:' });
     expect(dropdown).toBeInTheDocument();
-    userEvent.click(dropdown);
+    await user.click(dropdown);
 
     const monthDropdown = getByRole('button', { name: 'Month' });
     const yearDropdown = getByRole('button', { name: 'Year' });
@@ -16,11 +17,12 @@ describe('date range month picker', () => {
     expect(yearDropdown).toBeInTheDocument();
   });
 
-  it('renders available years in dropdown', () => {
+  it('renders available years in dropdown', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<MonthPicker text="From" allYears={['2020', '2021']} />);
     const dropdown = getByRole('button', { name: 'From:' });
     expect(dropdown).toBeInTheDocument();
-    userEvent.click(dropdown);
+    await user.click(dropdown);
 
     const yearDropdown = getByRole('button', { name: 'Year' });
     fireEvent.click(yearDropdown);
@@ -28,12 +30,15 @@ describe('date range month picker', () => {
     expect(getByRole('button', { name: '2021' })).toBeInTheDocument();
   });
 
-  it('updates selected date on month and year click', () => {
+  it('updates selected date on month and year click', async () => {
+    const user = userEvent.setup();
     const setDateSpy = jest.fn();
-    const { getByRole } = render(<MonthPicker text="From" allYears={['2020', '2021']} setSelectedDate={setDateSpy}  datasetDateRange={{ from:'2020-01-01', to: '2021-12-01'} } />);
+    const { getByRole } = render(
+      <MonthPicker text="From" allYears={['2020', '2021']} setSelectedDate={setDateSpy} datasetDateRange={{ from: '2020-01-01', to: '2021-12-01' }} />
+    );
     const dropdown = getByRole('button', { name: 'From:' });
     expect(dropdown).toBeInTheDocument();
-    userEvent.click(dropdown);
+    await user.click(dropdown);
     fireEvent.click(getByRole('button', { name: 'April' }));
     fireEvent.click(getByRole('button', { name: '2020' }));
     expect(setDateSpy).toHaveBeenCalledWith('April 2020');

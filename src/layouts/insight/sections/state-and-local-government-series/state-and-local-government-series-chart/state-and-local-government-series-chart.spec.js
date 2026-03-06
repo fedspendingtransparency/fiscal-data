@@ -164,7 +164,7 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('fires GA event on csv download button click', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const downloadButton = getByTestId('csv-download-button');
@@ -177,7 +177,7 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('fires GA event on chart table toggle click', async () => {
-    const user = userEvent.setup();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const toggleButton = getByTestId('toggleButtonRight');
