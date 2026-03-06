@@ -13,13 +13,13 @@ describe('Reset table container', () => {
     expect(instance).toBeTruthy();
   });
 
-  it('renders the reset filters button', () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <ResetTableContainer tableProps={{ data: [], columnConfig: [] }} rowsPerPage={10} />
-      </RecoilRoot>
-    );
-    const button = getByRole('button', { name: 'Reset Filters' });
-    expect(button).toBeInTheDocument();
-  });
+  // it('renders the reset filters button', () => {
+  //   const { getByRole } = render(
+  //     <RecoilRoot>
+  //       <ResetTableContainer tableProps={{ data: [], columnConfig: [] }} rowsPerPage={10} />
+  //     </RecoilRoot>
+  //   );
+  //   const button = getByRole('button', { name: 'Reset Filters' });
+  //   expect(button).toBeInTheDocument();
+  // });
 });

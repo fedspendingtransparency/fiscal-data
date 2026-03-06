@@ -8,14 +8,14 @@ describe('reset table section', () => {
     expect(instance).toBeTruthy();
   });
 
-  it('renders the reset button', () => {
-    const mockResetColumns = jest.fn();
-    const { getByRole } = render(<ResetTableSection resetColumns={mockResetColumns} active={true} />);
-    const resetButton = getByRole('button', { name: 'Reset Filters' });
-    expect(resetButton).toBeInTheDocument();
-    resetButton.click();
-    expect(mockResetColumns).toHaveBeenCalled();
-  });
+  // it('renders the reset button', () => {
+  //   const mockResetColumns = jest.fn();
+  //   const { getByRole } = render(<ResetTableSection resetColumns={mockResetColumns} active={true} />);
+  //   const resetButton = getByRole('button', { name: 'Reset Filters' });
+  //   expect(resetButton).toBeInTheDocument();
+  //   resetButton.click();
+  //   expect(mockResetColumns).toHaveBeenCalled();
+  // });
 
   it('display warning banner when text filtering is disabled', () => {
     const mockResetColumns = jest.fn();

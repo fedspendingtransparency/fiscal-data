@@ -1,8 +1,5 @@
 import React from 'react';
-import { activeButton, arrowIcon, bannerContainer, resetButton, resetButtonContainer, sectionBorder } from './reset-table-section.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons/faArrowRotateRight';
-import classnames from 'classnames';
+import { bannerContainer, resetButtonContainer, sectionBorder } from './reset-table-section.module.scss';
 import BannerCallout from '../../banner-callout/banner-callout';
 
 const ResetTableSection = ({ resetColumns, active, textFilteringDisabled }) => {
@@ -16,10 +13,10 @@ const ResetTableSection = ({ resetColumns, active, textFilteringDisabled }) => {
     <div className={sectionBorder}>
       <div className={bannerContainer}>{textFilteringDisabled && <BannerCallout bannerCallout={filteringBanner} bannerType="warning" />}</div>
       <div className={resetButtonContainer}>
-        <button className={classnames([resetButton, active ? activeButton : null])} onClick={reset} aria-label="Reset Filters">
-          <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon} />
-          Reset Filters
-        </button>
+        {/*<button className={classnames([resetButton, active ? activeButton : null])} onClick={reset} aria-label="Reset Filters">*/}
+        {/*  <FontAwesomeIcon icon={faArrowRotateRight} className={arrowIcon} />*/}
+        {/*  Reset Filters*/}
+        {/*</button>*/}
       </div>
     </div>
   );
