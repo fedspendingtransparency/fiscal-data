@@ -58,10 +58,12 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   const allColumns = useMemo(() => {
     // const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
     // setDataTypes(getDataTypes(tableData, columnConstructor));
+    console.log(columnsConstructorGeneric(columnConfig, customFormatting));
     return columnsConstructorGeneric(columnConfig, customFormatting);
   }, [columnConfig, customFormatting]);
 
   const dataTypes = useMemo(() => {
+    console.log(getDataTypes(tableData, allColumns));
     return getDataTypes(tableData, allColumns);
   }, [tableData, allColumns]);
 
@@ -100,7 +102,6 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
       const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
       setXmlDownload(data, setSmallTableXMLData);
-      // setXmlDownload(data, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData);
     }
   }, [table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);

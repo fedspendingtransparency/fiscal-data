@@ -55,23 +55,14 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   };
 
   const handleClick = () => {
-    if (!searchCleared && setActive && !disabled) {
-      setActive(true);
-      searchCleared = false;
+    if (!disabled) {
+      setActive?.(true);
     }
   };
 
   const handleBlur: FocusEventHandler<HTMLDivElement> = event => {
-    if (onBlur) {
-      onBlur(event);
-    }
-    if (setActive) {
-      setTimeout(() => {
-        if (document.activeElement !== inputRef?.current) {
-          setActive(false);
-        }
-      }, 150);
-    }
+    onBlur?.(event);
+    setActive?.(false);
   };
 
   const icon =
@@ -86,16 +77,13 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   return (
     <div className={search}>
       <span className={searchLabel}>{label}</span>
-      <div
-        className={`${glow && active && !disabled ? glow : null} ${disabled ? disabledBackground : null}`}
-        onClick={handleClick}
-        onBlur={handleBlur}
-        role="presentation"
-      >
+      <div className={`${glow && active && !disabled ? glow : null} ${disabled ? disabledBackground : null}`} role="presentation">
         <ThemeProvider theme={searchBarTheme}>
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
-              ref={inputRef}
+              inputRef={inputRef}
+              onFocus={handleClick}
+              onBlur={handleBlur}
               variant="outlined"
               fullWidth
               onChange={onChange}
