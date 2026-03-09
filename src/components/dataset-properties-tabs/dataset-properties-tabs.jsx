@@ -77,7 +77,7 @@ const DatasetPropertiesTabs = ({ config, test }) => {
             value={value}
             onChange={handleChange}
             variant={test ? 'standard' : 'scrollable'}
-            scrollButtons={SCROLL_TYPE.AUTO}
+            // scrollButtons={SCROLL_TYPE.AUTO}
             aria-label="Dataset properties tabs"
             indicatorColor="primary"
           >
