@@ -53,7 +53,6 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     fireEvent.change(inputField, { target: { value: '01' } });
     await waitFor(() => {
       const buttons = getAllByRole('button');
-      // This will poll until the filter logic finishes
       expect(buttons.length).toBe(11);
     });
     let optionButtons = getAllByRole('button');
