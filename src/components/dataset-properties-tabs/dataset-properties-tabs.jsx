@@ -27,13 +27,7 @@ const DatasetPropertiesTabs = ({ config, test }) => {
     </Typography>
   );
 
-  const SCROLL_TYPE = {
-    AUTO: 'auto',
-    ON: 'on',
-  };
-
   const [value, setValue] = useState(0);
-  // const [scrollButton, setScrollButton] = useState(SCROLL_TYPE.ON);
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
@@ -64,11 +58,6 @@ const DatasetPropertiesTabs = ({ config, test }) => {
 
   const tabs = !hideRawDataTable ? [...rawDataTableTabs, ...datasetTabs] : [...datasetTabs];
 
-  // useEffect(() => {
-  //   console.log(width, window.innerWidth);
-  //   setScrollButton(width <= pxToNumber(breakpointSm) ? SCROLL_TYPE.ON : SCROLL_TYPE.AUTO);
-  // }, [width]);
-
   return (
     <div data-testid="tabsContainer">
       <ThemeProvider theme={dpTheme}>
@@ -77,7 +66,6 @@ const DatasetPropertiesTabs = ({ config, test }) => {
             value={value}
             onChange={handleChange}
             variant={test ? 'standard' : 'scrollable'}
-            // scrollButtons={SCROLL_TYPE.AUTO}
             aria-label="Dataset properties tabs"
             indicatorColor="primary"
           >
