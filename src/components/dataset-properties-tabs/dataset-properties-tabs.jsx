@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { a11yProps } from '../datasets/filters/dateFilterTabs/dateFilterTabs';
 import { ThemeProvider } from '@mui/material/styles';
 import { dpTheme } from '../../theme';
@@ -10,24 +10,26 @@ import DataDictionary from '../data-dictionary/data-dictionary';
 import NotesAndLimitations from './notes-and-limitations/notes-and-limitations';
 import MetadataTab from '../metadata-tab/metadata-tab';
 import DataTablesTab from '../datatables-tab/datatables-tab';
+import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
+
+const TabPanel = ({ children, value, index, ...other }) => (
+  <Typography
+    component="div"
+    role="tabpanel"
+    id={`filter-tabpanel-${index}`}
+    aria-labelledby={`filter-tab-${index}`}
+    className={value !== index ? 'hidden' : ''}
+    {...other}
+  >
+    <Box p={0}>{children}</Box>
+  </Typography>
+);
 
 const DatasetPropertiesTabs = ({ config, test, width }) => {
   const dictionaryPerPage = 5;
   const hideRawDataTable = config?.hideRawDataTable;
-  const TabPanel = ({ children, value, index, ...other }) => (
-    <Typography
-      component="div"
-      role="tabpanel"
-      id={`filter-tabpanel-${index}`}
-      aria-labelledby={`filter-tab-${index}`}
-      className={value !== index ? 'hidden' : ''}
-      {...other}
-    >
-      {<Box p={0}>{children}</Box>}
-    </Typography>
-  );
 
   const SCROLL_TYPE = {
     AUTO: 'auto',
@@ -35,10 +37,12 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
   };
 
   const [value, setValue] = useState(0);
-  const [scrollButton, setScrollButton] = useState(SCROLL_TYPE.ON);
+
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
+
+  const scrollButton = width <= pxToNumber(breakpointSm) ? SCROLL_TYPE.ON : SCROLL_TYPE.AUTO;
 
   const rawDataTableTabs = [
     {
@@ -66,10 +70,6 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
 
   const tabs = !hideRawDataTable ? [...rawDataTableTabs, ...datasetTabs] : [...datasetTabs];
 
-  useEffect(() => {
-    setScrollButton(width <= pxToNumber(breakpointSm) ? SCROLL_TYPE.ON : SCROLL_TYPE.AUTO);
-  }, [width]);
-
   return (
     <div data-testid="tabsContainer">
       <ThemeProvider theme={dpTheme}>
@@ -96,4 +96,5 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     </div>
   );
 };
-export default DatasetPropertiesTabs;
+
+export default withWindowSize(DatasetPropertiesTabs);
