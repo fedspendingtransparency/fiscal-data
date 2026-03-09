@@ -1,4 +1,4 @@
-import React, { act } from 'react';
+import React from 'react';
 import { fireEvent, waitFor, render, within, getByTestId, getAllByRole } from '@testing-library/react';
 import ComboSelect from './combo-select';
 import { mockOptions } from './combo-select-test-helper';
@@ -39,8 +39,6 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
   });
 
   it('shows up to ten topmost options in the dropdown list that match input digits', async () => {
-    jest.useFakeTimers();
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByRole } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -52,27 +50,20 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       />
     );
     const inputField = getByRole('spinbutton');
-    // await user.click(inputField);
-    // await user.clear(inputField);
-
-    await user.type(inputField, '01');
-    await waitFor(
-      () => {
-        const buttons = getAllByRole('button');
-        // This will poll until the filter logic finishes
-        expect(buttons.length).toBe(11);
-      },
-      { timeout: 1000 }
-    );
+    fireEvent.change(inputField, { target: { value: '01' } });
+    await waitFor(() => {
+      const buttons = getAllByRole('button');
+      // This will poll until the filter logic finishes
+      expect(buttons.length).toBe(11);
+    });
     let optionButtons = getAllByRole('button');
-    // expect(optionButtons.length).toEqual(11);
-    // expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
-    // expect(within(optionButtons[9]).getByText('2010')).toBeInTheDocument();
-    //
-    // await user.input(inputField, '9');
-    // optionButtons = getAllByRole('button');
-    // expect(optionButtons.length).toEqual(1);
-    // expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
+    expect(optionButtons.length).toEqual(11);
+    expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
+    expect(within(optionButtons[9]).getByText('2010')).toBeInTheDocument();
+
+    fireEvent.change(inputField, { target: { value: '09' } });
+    optionButtons = getAllByRole('button');
+    expect(optionButtons.length).toEqual(1);
   });
 
   it('only allows numeric entries', async () => {

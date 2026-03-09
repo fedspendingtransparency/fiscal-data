@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SocialShareDropdown from './social-share-dropdown';
 import { RecoilRoot } from 'recoil';
@@ -44,7 +44,7 @@ describe('exchange rates banner', () => {
     expect(screen.getByText('Facebook')).toBeInTheDocument();
   });
 
-  it('closes the dropdown when a social button is clicked', () => {
+  it('closes the dropdown when a social button is clicked', async () => {
     const { getByRole } = render(
       <RecoilRoot>
         <SocialShareDropdown copy={testCopy} pageName="" />
@@ -54,7 +54,9 @@ describe('exchange rates banner', () => {
     fireEvent.click(shareBtn);
     const facebookBtn = getByRole('button', { name: 'facebook' });
     fireEvent.click(facebookBtn);
-    expect(screen.queryByText('Facebook')).toBeNull();
+    await waitFor(() => {
+      expect(screen.queryByText('Facebook')).toBeNull();
+    });
   });
 
   it('closes the dropdown on scroll', async () => {
