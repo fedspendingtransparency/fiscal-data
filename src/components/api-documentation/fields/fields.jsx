@@ -8,57 +8,73 @@ const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
 const Fields = () => (
   <>
-  <SectionContent id="fields" headingLevel={3} title="Fields">
-    <dl>
+    <SectionContent id="fields" headingLevel={3} title="Fields">
+      <dl>
+        <div className={spacing}>
+          <dt>Parameter:</dt>
+          <dd>
+            <code className="inline">fields=</code>
+          </dd>
+        </div>
+        <div className={spacing}>
+          <dt>Definition:</dt>
+          <dd>
+            The fields parameter allows you to select which field(s) should be included in the response.
+          </dd>
+        </div>
+        <div className={spacing}>
+          <dt>Accepts:</dt>
+          <dd>
+            The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
+          </dd>
+        </div>
+        <div className={spacing}>
+          <dt>Required:</dt>
+          <dd>
+            No, specifying fields is not required to make an API request.
+          </dd>
+        </div>
+        <div className={spacing}>
+          <dt> Default:</dt>
+          <dd>
+            If desired fields are not specified, all fields will be returned.
+          </dd>
+        </div>
+        <div className={spacing}>
+          <dt>Notes:</dt>
+          <dd>
+            When a file name passed to the fields parameter is not available for the endpoint accessed, an error will
+            occur.
+            Note
+            that omitting fields can result in automatically aggregated and summed data results. For more information,
+            view
+            the{' '}
+            <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and
+              Sums</CustomLink>.
+          </dd>
+        </div>
+      </dl>
       <div className={spacing}>
-        <dt>Parameter:</dt>
-        <code className="inline">fields=</code>
+        <strong>Examples:</strong>
       </div>
-      <div className={spacing}>
-        <dt>Definition:</dt>
-        The fields parameter allows you to select which field(s) should be included in the response.
-      </div>
-      <div className={spacing}>
-        <dt>Accepts:</dt>
-        The <code className="inline">fields=</code> parameter accepts a comma-separated list of field names.
-      </div>
-      <div className={spacing}>
-        <dt>Required:</dt>
-        No, specifying fields is not required to make an API request.
-      </div>
-      <div className={spacing}>
-        <dt>Default:</dt>
-        If desired fields are not specified, all fields will be returned.
-      </div>
-      <div className={spacing}>
-        <dt>Notes:</dt>
-        When a file name passed to the fields parameter is not available for the endpoint accessed, an error will occur.
-        Note
-        that omitting fields can result in automatically aggregated and summed data results. For more information, view
-        the{' '}
-        <CustomLink url="/api-documentation/#aggregation-sums">full documentation on Aggregation and Sums</CustomLink>.
-      </div>
-      <div className={spacing}>
-        <dt>Examples:</dt>
-      </div>
-      <p>
-        Only return the following fields from a dataset: <code className="inline">country_currency_desc, exchange_rate,
-        and record_date.
-                                                         </code>
+        <p>
+          Only return the following fields from a dataset: <code className="inline">country_currency_desc,
+          exchange_rate,
+          and record_date.
+        </code>
+        </p>
+        <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
+        <p>
+          Return the following fields from the Treasury Reporting Rates of Exchange dataset:{' '}
+          <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
+        </p>
+        <code className={code}>
+          {baseApiUrl}
+          /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date
+        </code>
 
-      </p>
-      <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date</code>
-      <p>
-        Return the following fields from the Treasury Reporting Rates of Exchange dataset:{' '}
-        <code className="inline">country_currency_desc, exchange_rate, and record_date.</code>
-      </p>
-      <code className={code}>
-        {baseApiUrl}
-        /v1/accounting/od/rates_of_exchange?fields=country_currency_desc,exchange_rate,record_date
-      </code>
-    </dl>
-  </SectionContent>
-<SectionContent id="data-types" headingLevel={4} title="Data Types">
+    </SectionContent>
+    <SectionContent id="data-types" headingLevel={4} title="Data Types">
       <p>
         All fields in a response will be <strong>treated as strings</strong> and enclosed in quotation marks (e.g., "field_name"). The data type
         listed in a dataset's data dictionary or Fields table in dataset-specific API documentation indicates what the field is meant to be (e.g.,

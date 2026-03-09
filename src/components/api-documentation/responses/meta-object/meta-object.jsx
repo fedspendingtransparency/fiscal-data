@@ -1,11 +1,10 @@
 import React from 'react';
 import SectionContent from '../../section-content/section-content';
 import beautify from 'js-beautify';
-import { beautified, spacing } from '../../../../pages/api-documentation/api.module.scss';
+import { beautified, spacing, headings } from '../../../../pages/api-documentation/api.module.scss';
 
 const MetaObject = () => (
   <SectionContent id="responses-meta-object" headingLevel={3} title="Meta Object">
-    <dl>
       <p>The meta object provides metadata about the resulting payload from your API request. The object will contain
         the following:
       </p>
@@ -34,7 +33,7 @@ const MetaObject = () => (
         </ul>
       </div>
       <div className={spacing}>
-        <dt>Example Meta Object:</dt>
+        <h4 className={headings}>Example Meta Object:</h4>
       </div>
       <code className={`large ${beautified}`}>
       <pre>
@@ -63,7 +62,6 @@ const MetaObject = () => (
         )}
       </pre>
       </code>
-    </dl>
   </SectionContent>
 );
 

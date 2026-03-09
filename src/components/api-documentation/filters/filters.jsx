@@ -16,34 +16,47 @@ const Filters = () => (
     <dl>
       <div className={spacing}>
         <dt>Parameter:</dt>
-        <code className="inline">filter=</code>
+        <dd>
+          <code className="inline">filter=</code>
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Definition:</dt>
-        Filters are used to view a subset of the data based on specific criteria. For example, you may want to find
-        data
-        that falls within a certain date range, or only show records which contain a value larger than a certain
-        threshold.
+        <dd>
+          Filters are used to view a subset of the data based on specific criteria. For example, you may want to find
+          data
+          that falls within a certain date range, or only show records which contain a value larger than a certain
+          threshold.
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Accepts:</dt>
-        The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as
-        specified filter criteria. Use a colon at the end of a filter parameter to pass a value or list of values. For
-        lists passed as filter
-        criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code className="inline">YYYY-MM-DD</code>
-        . To filter by multiple fields in a single request, do not repeat a filter call. Instead, apply an additional
-        field to include in the filter
-        separated by a comma, as shown in the following template: <code className="inline">&filter=field:prm:value,field:prm:value</code>
+        <dd>
+          The filter parameter <code className="inline">filter=</code> accepts filters from the list below, as well as
+          specified filter criteria. Use a colon at the end of a filter parameter to pass a value or list of values. For
+          lists passed as filter
+          criteria, use a comma-separated list within parentheses. Filter for specific dates using the format <code
+          className="inline">YYYY-MM-DD</code>
+          . To filter by multiple fields in a single request, do not repeat a filter call. Instead, apply an additional
+          field to include in the filter
+          separated by a comma, as shown in the following template: <code
+          className="inline">&filter=field:prm:value,field:prm:value</code>
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Required:</dt>
-        No, filters are not required to make an API request.
+        <dd>
+          No, filters are not required to make an API request.
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Default:</dt>
-        When no filters are provided, the default response <strong>will return all fields and all data.</strong>
+        <dd>
+          When no filters are provided, the default response <strong>will return all fields and all data.</strong>
+        </dd>
       </div>
-      <p className={listHeading}>
+    </dl>
+    <p className={listHeading}>
         The filter parameter <strong>accepts the following filters:</strong>
       </p>
       <div className={spacing}>
@@ -69,7 +82,7 @@ const Filters = () => (
         </ul>
       </div>
       <div className={spacing}>
-        <dt>Examples:</dt>
+        <strong>Examples:</strong>
       </div>
       <p>Return data if the fiscal year falls between 2007-2010.</p>
       <code className={`${code} ${marginBottom}`}>?filter=reporting_fiscal_year:in:(2007,2008,2009,2010)</code>
@@ -84,7 +97,6 @@ const Filters = () => (
         </ul>
       </div>
       <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
-    </dl>
   </SectionContent>
   </>
 );
