@@ -10,7 +10,6 @@ import DataDictionary from '../data-dictionary/data-dictionary';
 import NotesAndLimitations from './notes-and-limitations/notes-and-limitations';
 import MetadataTab from '../metadata-tab/metadata-tab';
 import DataTablesTab from '../datatables-tab/datatables-tab';
-import { withWindowSize } from 'react-fns';
 import { breakpointSm } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
@@ -97,4 +96,4 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     </div>
   );
 };
-export default withWindowSize(DatasetPropertiesTabs);
+export default DatasetPropertiesTabs;
