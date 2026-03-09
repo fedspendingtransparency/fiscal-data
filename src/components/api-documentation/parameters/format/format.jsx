@@ -10,31 +10,42 @@ const Format = () => (
     <dl>
       <div className={spacing}>
         <dt>Parameter:</dt>
-        <code className="inline">format=</code>
+        <dd>
+          <code className="inline">format=</code>
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Definition:</dt>
-        The format parameter allows a user to define the output method of the response (CSV, JSON, XML).
+        <dd>
+          The format parameter allows a user to define the output method of the response (CSV, JSON, XML).
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Accepts:</dt>
-        The <code className="inline">format=</code> parameter accepts <code className="inline">xml</code>,{' '}
-        <code className="inline">json</code>, or <code className="inline">csv</code> as an input.
+        <dd>
+          The <code className="inline">format=</code> parameter accepts <code className="inline">xml</code>,{' '}
+          <code className="inline">json</code>, or <code className="inline">csv</code> as an input.
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Required:</dt>
-        No, format is not required to make an API request.
+        <dd>
+          No, format is not required to make an API request.
+        </dd>
       </div>
       <div className={spacing}>
         <dt>Default:</dt>
-        When no format is specified, the default response format is JSON.
+        <dd>
+          When no format is specified, the default response format is JSON.
+        </dd>
       </div>
-      <div className={spacing}>
-        <dt>Example:</dt>
+    </dl>
+    <div className={spacing}>
+        <strong>Example:</strong>
       </div>
       <p>Return all data from the Debt to the Penny dataset in JSON format.</p>
       <code className={`${code} ${marginBottom}`}>{baseApiUrl}/v2/accounting/od/debt_to_penny?format=json</code>
-    </dl>
+
   </SectionContent>
 
 );

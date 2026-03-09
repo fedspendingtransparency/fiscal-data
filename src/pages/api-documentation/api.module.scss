@@ -64,6 +64,18 @@ code.code {
   margin-right: 4px;
 }
 
+.apiPageWrapper dd {
+  display: inline;
+  margin: 0;
+}
+
+.apiPageWrapper .headings {
+  display: inline-block;
+  font-size: 16px;
+  color: #666666;
+  font-weight: $semi-bold-weight;
+}
+
 .spacing {
   margin-bottom: 16px;
 }
