@@ -33,13 +33,13 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
 }) => {
   const { shouldPage, data, columnConfig, customFormatting, chartTable, aria, apiError } = tableProps;
 
-  const [tableData, setTableData] = useState({ data: [] });
+  const [tableData, setTableData] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(
     perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
   );
   const [maxRows, setMaxRows] = useState(tableProps.data?.length > 0 ? tableProps.data.length : 1);
   const [showPaginationControls, setShowPaginationControls] = useState(false);
-  const [dataTypes, setDataTypes] = useState();
+  // const [dataTypes, setDataTypes] = useState();
 
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -56,10 +56,14 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
   const allColumns = useMemo(() => {
-    const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
-    setDataTypes(getDataTypes(tableData, columnConstructor));
-    return columnConstructor;
-  }, [tableData]);
+    // const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);
+    // setDataTypes(getDataTypes(tableData, columnConstructor));
+    return columnsConstructorGeneric(columnConfig, customFormatting);
+  }, [columnConfig, customFormatting]);
+
+  const dataTypes = useMemo(() => {
+    return getDataTypes(tableData, allColumns);
+  }, [tableData, allColumns]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -83,14 +87,11 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
 
   useEffect(() => {
     if (data) {
-      setTableData(prev => {
-        if (prev === data) return prev;
-        return data;
-      });
+      setTableData(data);
       setMaxRows(data.length);
       setShowPaginationControls(!apiError && data?.length > defaultPerPageOptions[0]);
     }
-  }, [data]);
+  }, [data, apiError]);
 
   useEffect(() => {
     //set download data
@@ -99,7 +100,7 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
       const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
       setXmlDownload(data, setSmallTableXMLData);
-      setXmlDownload(data, setSmallTableXMLData);
+      // setXmlDownload(data, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData);
     }
   }, [table.getSortedRowModel(), table.getVisibleFlatColumns(), sorting]);
