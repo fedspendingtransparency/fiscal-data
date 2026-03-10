@@ -2,7 +2,7 @@ import React from 'react';
 import { sectionContainer } from './section-content.module.scss';
 
 const SectionContent = ({ id, children, className, headingLevel, title }) => {
-  // applies to headingLevels 2-6, anything else defaults to h2 tag
+  // applies to headingLevels 2-6, anything else defaults straight to a h2 tag
   const Tag = headingLevel >= 2 && headingLevel <= 6 ? `h${headingLevel}` : 'h2';
 
   return (
