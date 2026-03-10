@@ -142,7 +142,8 @@ describe('Secondary Nav', () => {
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
   });
 
-  it('updates the address path when link is selected for keyboard interaction', () => {
+  it('updates the address path when link is selected for keyboard interaction', async () => {
+    const user = userEvent.setup();
     const { getByText } = render(
       <SecondaryNav sections={sections} width={largeWidth} hoverClass={hoverClass}>
         <div id={sections[0].id}>{childContent}</div>
@@ -150,9 +151,9 @@ describe('Secondary Nav', () => {
     );
 
     const link = getByText(sections[0].title);
-    userEvent.tab();
+    await user.tab();
     expect(link).toHaveFocus();
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
   });
 

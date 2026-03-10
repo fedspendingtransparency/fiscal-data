@@ -82,20 +82,21 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const { getByRole, getAllByText } = render(
       <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
     );
     const chart = getByRole('application');
     expect(getAllByText('1935').length).toBe(1);
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
     expect(chart).toHaveFocus();
     //Tooltip opens for the first date
     expect(getAllByText('1935').length).toBe(2);
-    userEvent.tab();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Tooltip closes
     expect(getAllByText('1935').length).toBe(1);
@@ -120,13 +121,14 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('calls the info tip ga event', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
       <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
     );
 
     const infoTip = getByRole('button', { name: 'More information about adjusting for inflation.' });
-    userEvent.hover(infoTip);
+    await user.hover(infoTip);
     expect(gaSpy).toHaveBeenCalledWith({
       action: 'Additional Info Hover',
       category: 'Explainers',
@@ -136,6 +138,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
 
   it('calls the chart hover ga event', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
@@ -143,7 +146,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     );
 
     const chart = getByRole('application');
-    userEvent.hover(chart);
+    await user.hover(chart);
     jest.advanceTimersByTime(3001);
     expect(gaSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
@@ -154,6 +157,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
 
   it('does not call the chart hover ga event before 3 seconds', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
@@ -161,15 +165,16 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     );
 
     const chart = getByRole('application');
-    userEvent.hover(chart);
+    await user.hover(chart);
     jest.advanceTimersByTime(1000);
-    userEvent.unhover(chart);
+    await user.unhover(chart);
     jest.advanceTimersByTime(3000);
     expect(gaSpy).not.toHaveBeenCalledWith();
   });
 
   it('calls the citation click events', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
@@ -178,13 +183,13 @@ describe('Savings Bonds by Type Over Time Chart', () => {
 
     const citation1 = getByRole('link', { name: 'Electronic Securities Transactions' });
     const citation2 = getByRole('link', { name: 'Bureau of Labor Statistics' });
-    userEvent.click(citation1);
+    await user.click(citation1);
     expect(gaSpy).toHaveBeenCalledWith({
       action: 'Savings Bonds Citation Click',
       category: 'Explainers',
       label: 'Electronic Securities Transactions',
     });
-    userEvent.click(citation2);
+    await user.click(citation2);
     expect(gaSpy).toHaveBeenCalledWith({
       action: 'Savings Bonds Citation Click',
       category: 'Explainers',

@@ -142,15 +142,16 @@ describe('Multichart', () => {
   });
 
   it(`renders keyboard events`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { queryAllByTestId, getAllByTestId } = await render(
       <Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />
     );
     jest.runAllTimers();
     const accessibilityMarkers = getAllByTestId('accessible-marker');
     expect(queryAllByTestId('testy-line-chart-accessibility-effects').length).toStrictEqual(0);
-    userEvent.tab();
+    await user.tab();
     expect(accessibilityMarkers[0]).toHaveFocus();
-    userEvent.tab();
+    await user.tab();
     expect(accessibilityMarkers[1]).toHaveFocus();
 
     jest.runAllTimers();

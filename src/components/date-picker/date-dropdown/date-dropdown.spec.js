@@ -4,7 +4,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 describe('Report Date Dropdown', () => {
-  it('renders Cancel button', () => {
+  it('renders Cancel button', async () => {
+    const user = userEvent.setup();
     const mockHandleCloseFn = jest.fn();
 
     const { getByRole } = render(
@@ -12,13 +13,12 @@ describe('Report Date Dropdown', () => {
         <div>children</div>
       </DateDropdown>
     );
-    act(() => {
-      userEvent.click(getByRole('button', { name: 'Cancel' }));
-    });
+    await user.click(getByRole('button', { name: 'Cancel' }));
     expect(mockHandleCloseFn).toHaveBeenCalled();
   });
 
-  it('renders Apply button', () => {
+  it('renders Apply button', async () => {
+    const user = userEvent.setup();
     const mockHandleApplyFn = jest.fn();
 
     const { getByRole } = render(
@@ -26,9 +26,7 @@ describe('Report Date Dropdown', () => {
         <div>children</div>
       </DateDropdown>
     );
-    act(() => {
-      userEvent.click(getByRole('button', { name: 'Apply Selected Date' }));
-    });
+    await user.click(getByRole('button', { name: 'Apply Selected Date' }));
     expect(mockHandleApplyFn).toHaveBeenCalled();
   });
 
@@ -41,7 +39,8 @@ describe('Report Date Dropdown', () => {
     expect(getByRole('textbox')).toHaveValue('August 2024');
   });
 
-  it('disables apply button when input is in focus', () => {
+  it('disables apply button when input is in focus', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DateDropdown handleClose={jest.fn()} handleApply={jest.fn()} displayDate="August 2024">
         <div>children</div>
@@ -50,7 +49,7 @@ describe('Report Date Dropdown', () => {
 
     const input = getByRole('textbox');
     const apply = getByRole('button', { name: 'Apply Selected Date' });
-    userEvent.tab();
+    await user.tab();
     expect(input).toHaveFocus();
     expect(apply).toBeDisabled();
   });

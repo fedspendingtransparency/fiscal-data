@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Analytics from '../../utils/analytics/analytics'
+import Analytics from '../../utils/analytics/analytics';
 import HomeMainContent from './home-main-content';
-
 
 describe('Home Main Content', () => {
   it('should render text for h2', () => {
@@ -18,15 +17,15 @@ describe('Home Main Content', () => {
   });
 
   it('fires analytics when Dataset Search link is clicked', async () => {
+    const user = userEvent.setup();
     render(<HomeMainContent />);
 
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-    const link =
-      screen.queryByRole('link', { name: /dataset search page/i })
-      screen.getByText(/dataset search page/i);
+    const link = screen.queryByRole('link', { name: /dataset search page/i });
+    screen.getByText(/dataset search page/i);
 
-    userEvent.click(link)
+    await user.click(link);
 
     expect(analyticsSpy).toHaveBeenCalledWith({
       category: 'Homepage Navigation',
@@ -34,5 +33,4 @@ describe('Home Main Content', () => {
       label: 'Dataset Search',
     });
   });
-
 });

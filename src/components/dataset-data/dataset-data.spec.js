@@ -92,14 +92,15 @@ describe('DatasetData', () => {
     expect(filterDownload).toBeInTheDocument();
   });
 
-  it(`contains a DataTableSelect component with api options`, () => {
+  it(`contains a DataTableSelect component with api options`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByRole } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
     const dataTableSelect = getByRole('button', { name: 'Table 1' });
-    userEvent.click(dataTableSelect);
+    await user.click(dataTableSelect);
     const tableOneSelect = getAllByRole('button', { name: 'Table 1' });
     const tableTwoSelect = getByRole('button', { name: 'Table 2' });
     const tableFourSelect = getByRole('button', { name: 'Table 4' });
@@ -156,43 +157,46 @@ describe('DatasetData', () => {
   });
 
   it(`updates date range to appropriate values when new table is selected`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByText, getByRole } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
     const dataTableSelect = getByRole('button', { name: 'Table 1' });
-    userEvent.click(dataTableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 3' }));
+    await user.click(dataTableSelect);
+    await user.click(getByRole('button', { name: 'Table 3' }));
     // should be earliestDate since the earliestDate is less than 5 years
     const dateRange = `04/14/2019 - ${latestDateFormatted}`;
     expect(getByText(dateRange)).toBeInTheDocument();
   });
 
   it(`sends the updated props to FilterAndDownload component when a new data table is selected`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByTestId } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
+    await user.click(tableSelect);
     const dropdownOptions = getAllByTestId('dropdown-list-option');
     expect(dropdownOptions).toHaveLength(12);
-    userEvent.click(dropdownOptions[2]);
+    await user.click(dropdownOptions[2]);
     expect(getByRole('button', { name: config.apis[1].tableName })).toBeInTheDocument();
   });
 
   it(`records an analytics event when a new table is selected`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByTestId } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
       </RecoilRoot>
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
+    await user.click(tableSelect);
     const dropdownOptions = getAllByTestId('dropdown-list-option');
-    userEvent.click(dropdownOptions[2]);
+    await user.click(dropdownOptions[2]);
     expect(analyticsSpy).toHaveBeenLastCalledWith({
       category: 'Data Table Selector',
       action: 'Pick Table Click',
@@ -275,6 +279,7 @@ describe('DatasetData', () => {
   });
 
   it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and a pivot dimension IS active`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, findByText } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
@@ -282,11 +287,11 @@ describe('DatasetData', () => {
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 5' }));
     const pivotView = getByRole('button', { name: 'Change pivot view from Complete Table' });
-    userEvent.click(pivotView);
-    userEvent.click(getByRole('button', { name: 'By Facility' }));
+    await user.click(pivotView);
+    await user.click(getByRole('button', { name: 'By Facility' }));
     const aggregationNotice = 'This data is aggregated by the given Time Period for the selected pivot option';
     expect(await findByText(aggregationNotice)).toBeInTheDocument();
     //TODO add assertions
@@ -297,6 +302,7 @@ describe('DatasetData', () => {
   });
 
   it(`raises state on setSelectedTable when the table is updated`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
@@ -304,12 +310,13 @@ describe('DatasetData', () => {
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 5' }));
     expect(setSelectedTableMock).toHaveBeenCalledWith(config.apis[4]);
   });
 
   it(`calls rewriteUrl with correct args including a lastUrl arg when the table is updated interactively`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
     const { getByRole } = render(
       <RecoilRoot>
@@ -318,15 +325,15 @@ describe('DatasetData', () => {
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 5' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 5' }));
     expect(spy).toHaveBeenCalledWith(config.apis[4], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
   });
 
   it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
-    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
@@ -334,26 +341,26 @@ describe('DatasetData', () => {
     );
     // select one paginated table
     let tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 7' }));
 
     // then change the selection to another paginated table
     tableSelect = getByRole('button', { name: 'Table 7' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 6' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 6' }));
 
     // to await makePagedRequest() debounce timer in DtgTable
     await jest.advanceTimersByTime(800);
 
     tableSelect = getByRole('button', { name: 'Table 6' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
-    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <RecoilRoot>
         <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
@@ -361,13 +368,13 @@ describe('DatasetData', () => {
     );
     // select one paginated table
     let tableSelect = getByRole('button', { name: config.apis[0].tableName });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 7' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 7' }));
 
     // then change the selection to a non-paginated table
     tableSelect = getByRole('button', { name: 'Table 7' });
-    userEvent.click(tableSelect);
-    userEvent.click(getByRole('button', { name: 'Table 8' }));
+    await user.click(tableSelect);
+    await user.click(getByRole('button', { name: 'Table 8' }));
     await jest.advanceTimersByTime(800); // to await makePagedRequest() debounce timer in DtgTable
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint8?') !== -1);
     expect(callsToApiForUpdatedTable.length).toEqual(1);

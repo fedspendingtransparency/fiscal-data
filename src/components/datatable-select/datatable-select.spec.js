@@ -30,7 +30,8 @@ describe('DatatableSelect', () => {
   const apisArrOne = [{ tableName: 'Only One Table' }];
   const mockSetSelectedTable = jest.fn();
 
-  it('passes the apisArr to SelectControl', () => {
+  it('passes the apisArr to SelectControl', async () => {
+    const user = userEvent.setup();
     const { getByRole, getByLabelText } = render(
       <DataTableSelect
         apis={apisArr}
@@ -41,7 +42,7 @@ describe('DatatableSelect', () => {
       />
     );
     const dropdown = getByRole('button');
-    userEvent.click(dropdown);
+    await user.click(dropdown);
     allTables.forEach(table => {
       expect(getByLabelText(table.tableName)).toBeInTheDocument();
     });

@@ -12,14 +12,15 @@ describe('Checkbox component', () => {
     expect(checkbox.name).toBe(mockCheckboxData.label);
   });
 
-  it('should call onHover', () => {
+  it('should call onHover', async () => {
+    const user = userEvent.setup();
     const onHoverSpy = jest.fn();
     const { getByRole } = render(<CheckboxLabel obj={mockCheckboxData} handleClick={jest.fn()} onHover={onHoverSpy} index={0} />);
     const checkbox = getByRole('checkbox');
-    userEvent.hover(checkbox);
+    await user.hover(checkbox);
     expect(onHoverSpy).toHaveBeenCalledWith(true, mockCheckboxData);
     onHoverSpy.mockClear();
-    userEvent.unhover(checkbox);
+    await user.unhover(checkbox);
     expect(onHoverSpy).toHaveBeenCalledWith(false, mockCheckboxData);
   });
 

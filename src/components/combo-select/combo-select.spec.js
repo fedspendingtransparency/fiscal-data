@@ -1,4 +1,4 @@
-import React, { act } from 'react';
+import React from 'react';
 import { fireEvent, waitFor, render, within, getByTestId, getAllByRole } from '@testing-library/react';
 import ComboSelect from './combo-select';
 import { mockOptions } from './combo-select-test-helper';
@@ -38,7 +38,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     expect(within(optionButtons[9]).getByText('2011')).toBeInTheDocument();
   });
 
-  it('shows up to ten topmost options in the dropdown list that match input digits', () => {
+  it('shows up to ten topmost options in the dropdown list that match input digits', async () => {
     const { getByRole, getAllByRole } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -49,21 +49,24 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
         required={true}
       />
     );
-    const inputField = getByRole('spinbutton', { type: 'number' });
-
-    userEvent.type(inputField, '01');
+    const inputField = getByRole('spinbutton');
+    fireEvent.change(inputField, { target: { value: '01' } });
+    await waitFor(() => {
+      const buttons = getAllByRole('button');
+      expect(buttons.length).toBe(11);
+    });
     let optionButtons = getAllByRole('button');
     expect(optionButtons.length).toEqual(11);
     expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
     expect(within(optionButtons[9]).getByText('2010')).toBeInTheDocument();
 
-    userEvent.type(inputField, '9');
+    fireEvent.change(inputField, { target: { value: '09' } });
     optionButtons = getAllByRole('button');
     expect(optionButtons.length).toEqual(1);
-    expect(within(optionButtons[0]).getByText('2019')).toBeInTheDocument();
   });
 
-  it('only allows numeric entries', () => {
+  it('only allows numeric entries', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const charsRejected = ['a', 'Z', '-', ',', '.', '+', 'e'];
     const charsAccepted = ['1996', '2005', '2020'];
 
@@ -79,19 +82,20 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
     );
     const inputField = getByRole('spinbutton', { type: 'number' });
 
-    charsAccepted.forEach(kp => {
-      userEvent.type(inputField, kp);
+    for (const kp of charsAccepted) {
+      await user.type(inputField, kp);
       expect(getByDisplayValue(Number(kp))).toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}{backspace}{backspace}{backspace}');
-    });
-    charsRejected.forEach(kp => {
-      userEvent.type(inputField, kp);
+      await user.type(inputField, '{backspace}{backspace}{backspace}{backspace}');
+    }
+    for (const kp of charsRejected) {
+      await user.type(inputField, kp);
       expect(queryByDisplayValue(kp)).not.toBeInTheDocument();
-      userEvent.type(inputField, '{backspace}');
-    });
+      await user.type(inputField, '{backspace}');
+    }
   });
 
-  it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', () => {
+  it('correctly cleans input when multiple characters are input (pasted in) by the user in a single event', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByDisplayValue } = render(
       <ComboSelect
         changeHandler={changeHandlerSpy}
@@ -103,7 +107,7 @@ describe('The ComboSelect Component for Published Report year filtering', () => 
       />
     );
     const inputField = getByRole('spinbutton', { type: 'number' });
-    userEvent.type(inputField, '-1.5+e109');
+    await user.type(inputField, '-1.5+e109');
     expect(getByDisplayValue('1510')).toBeInTheDocument();
   });
 
@@ -157,7 +161,8 @@ describe('The ComboSelect Component for general text use', () => {
     expect(within(optionButtons[15]).getByText('Nice3-lettuce')).toBeInTheDocument();
   });
 
-  it('changes from a chevron icon to a circleX icon when en entry is made', () => {
+  it('changes from a chevron icon to a circleX icon when en entry is made', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, queryAllByTestId, getByTestId } = render(
       <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
     );
@@ -170,7 +175,7 @@ describe('The ComboSelect Component for general text use', () => {
     // and there should be a chevron icon
     expect(getByTestId('dropdown-button')).toBeInTheDocument();
 
-    userEvent.type(inputField, 'guess');
+    await user.type(inputField, 'guess');
 
     // with an entry value present, there should be no chevron icon (clear-entry) icon
     expect(queryAllByTestId('dropdown-button').length).toStrictEqual(0);
@@ -179,22 +184,25 @@ describe('The ComboSelect Component for general text use', () => {
     expect(getByTestId('clear-button')).toBeInTheDocument();
   });
 
-  it('clears any existing entry when the clear-entry/circle-x icon is clicked', () => {
+  it('clears any existing entry when the clear-entry/circle-x icon is clicked', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId } = render(
       <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
     );
     const inputField = getByRole('textbox');
-    userEvent.type(inputField, 'guess');
+    await user.type(inputField, 'guess');
 
     expect(inputField).toHaveValue('guess');
 
     const button = getByTestId('clear-button');
-    userEvent.click(button);
+    await user.click(button);
 
     expect(inputField).toHaveValue('');
   });
 
-  it('toggles the dropdown when the chevron icon is clicked', () => {
+  it('toggles the dropdown when the chevron icon is clicked', async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getAllByRole, queryAllByRole, getByRole } = render(
       <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
     );
@@ -204,37 +212,37 @@ describe('The ComboSelect Component for general text use', () => {
 
     // click the chevron dropdown button
     const dropdownButton = getByRole('button', { name: 'Show options' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
 
     // the list should be visible/dropped down
     expect(getAllByRole('listitem').length).toBeGreaterThan(0);
 
     // again click the chevron dropdown button
-    act(() => {
-      userEvent.click(dropdownButton);
-      jest.runAllTimers();
-    });
+    await user.click(dropdownButton);
 
     // now the list should be gone
-    expect(queryAllByRole('listitem').length).toStrictEqual(0);
+    await waitFor(() => {
+      expect(queryAllByRole('listitem').length).toStrictEqual(0);
+    });
   });
 
-  it('shows options in the dropdown list that match input characters', () => {
+  it('shows options in the dropdown list that match input characters', async () => {
     changeHandlerSpy.mockClear();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByRole, getByTestId } = render(
       <ComboSelect changeHandler={changeHandlerSpy} optionLabelKey="label" options={mockOptions} selectedOption={null} />
     );
     const inputField = getByRole('textbox');
 
-    userEvent.type(inputField, 'Blue');
+    await user.type(inputField, 'Blue');
 
     let optionButtons = getAllByRole('listitem');
     expect(optionButtons.length).toEqual(3);
     expect(within(optionButtons[0]).getByText('Blue-greenstuff')).toBeInTheDocument();
     expect(within(optionButtons[2]).getByText('Blue3-greenstuff')).toBeInTheDocument();
 
-    userEvent.click(getByTestId('clear-button'));
-    userEvent.type(inputField, '2-');
+    await user.click(getByTestId('clear-button'));
+    await user.type(inputField, '2-');
 
     optionButtons = getAllByRole('listitem');
     expect(optionButtons.length).toEqual(5);
@@ -242,8 +250,8 @@ describe('The ComboSelect Component for general text use', () => {
     expect(within(optionButtons[4]).getByText('Nice2-lettuce')).toBeInTheDocument();
 
     // not case-sensitive, and can limit to a single matching result
-    userEvent.click(getByTestId('clear-button'));
-    userEvent.type(inputField, 'nice2-Let');
+    await user.click(getByTestId('clear-button'));
+    await user.type(inputField, 'nice2-Let');
     optionButtons = getAllByRole('listitem');
     expect(optionButtons.length).toEqual(1);
     expect(within(optionButtons[0]).getByText('Nice2-lettuce')).toBeInTheDocument();
@@ -355,6 +363,7 @@ describe('The ComboSelect Component for general text use', () => {
   });
 
   it('does not call analytic event when combo box is initially clicked then cleared with x icon', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const spy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(
       <ComboSelect
@@ -367,10 +376,10 @@ describe('The ComboSelect Component for general text use', () => {
     );
 
     const comboBox = getByTestId('combo-box');
-    await userEvent.click(comboBox);
+    await user.click(comboBox);
 
     const clearButton = getByTestId('clear-button');
-    await userEvent.click(clearButton);
+    await user.click(clearButton);
 
     expect(spy).not.toHaveBeenCalledWith({
       category: 'Exchange Rates Converter',

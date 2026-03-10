@@ -40,6 +40,7 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it('contains a preset radio button for All which sets is filtered to true', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -49,7 +50,7 @@ describe('Range Presets Component, without the current report radio option', () 
       />
     );
     const radioBtn = getByTestId('preset-radio-all');
-    userEvent.click(radioBtn);
+    await user.click(radioBtn);
     expect(setIsFilteredMock).toHaveBeenCalledWith(true);
   });
 
@@ -79,8 +80,9 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it(`persists the selected year option when changing tables and if the new table has that option
-    available`, () => {
+    available`, async () => {
     // Select the 1 Year option
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, rerender } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -90,7 +92,7 @@ describe('Range Presets Component, without the current report radio option', () 
       />
     );
     const radioBtn = getByTestId('preset-radio-1yr');
-    userEvent.click(radioBtn);
+    await user.click(radioBtn);
     expect(radioBtn).toBeChecked();
 
     const newTable = {
@@ -116,7 +118,8 @@ describe('Range Presets Component, without the current report radio option', () 
   });
 
   it(`selects the default "5 year" option when changing tables if the previously selected date
-    range is not available for the current data table`, () => {
+    range is not available for the current data table`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId, rerender, queryByTestId } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -126,7 +129,7 @@ describe('Range Presets Component, without the current report radio option', () 
       />
     );
     let radioBtn = getByTestId('preset-radio-10yr');
-    userEvent.click(radioBtn);
+    await user.click(radioBtn);
     expect(radioBtn).toBeChecked();
     const newTable = {
       earliestDate: '2012-01-02',
@@ -251,7 +254,8 @@ describe('Range Presets Component, without the current report radio option', () 
     expect(customRangeButton).toBeInTheDocument();
   });
 
-  it('only shows the date pickers when the custom date range button is selected', () => {
+  it('only shows the date pickers when the custom date range button is selected', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { queryAllByRole, getByTestId } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -264,13 +268,14 @@ describe('Range Presets Component, without the current report radio option', () 
     expect(datePickers.length).toBe(0);
 
     const customRangeButton = getByTestId('preset-radio-custom');
-    userEvent.click(customRangeButton);
+    await user.click(customRangeButton);
     jest.runAllTimers();
     datePickers = queryAllByRole('spinbutton');
     expect(datePickers.length).toBeGreaterThan(0);
   });
 
   it('passes in expected parameters to DatePickers', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getAllByRole, getByTestId, getByText } = render(
       <RangePresets
         selectedTable={selectedTable}
@@ -280,7 +285,7 @@ describe('Range Presets Component, without the current report radio option', () 
       />
     );
     const customRangeButton = getByTestId('preset-radio-custom');
-    userEvent.click(customRangeButton);
+    await user.click(customRangeButton);
 
     jest.runAllTimers();
 
@@ -297,7 +302,8 @@ describe('Range Presets Component, without the current report radio option', () 
     compareValues([from, to], ['01/01/2005', '01/01/2019']);
   });
 
-  it(`fits a currently selected custom date to a newly selected table's available date range as needed`, () => {
+  it(`fits a currently selected custom date to a newly selected table's available date range as needed`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const mockFarLateTable = { earliestDate: '2021-01-01', latestDate: '2022-01-01' };
     const mockLateTable = { earliestDate: '2010-01-01', latestDate: '2021-06-01' };
     const mockFarEarlyTable = { earliestDate: '1995-01-01', latestDate: '1999-01-01' };
@@ -322,7 +328,7 @@ describe('Range Presets Component, without the current report radio option', () 
     );
 
     const radioBtn = getByTestId('preset-radio-custom');
-    userEvent.click(radioBtn);
+    await user.click(radioBtn);
 
     const datePickers = getAllByRole('textbox', { hidden: true });
     setDateRangeMock.mockClear();
@@ -365,7 +371,8 @@ describe('Range Presets Component, without the current report radio option', () 
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2004-01-01 - 2020-01-01');
   });
 
-  it('expands the range of available dates when allTablesSelected is set to true', () => {
+  it('expands the range of available dates when allTablesSelected is set to true', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const mockTableRange = { earliestDate: '2005-01-01', latestDate: '2015-01-01' };
 
     const { getByTestId, rerender } = render(
@@ -382,7 +389,7 @@ describe('Range Presets Component, without the current report radio option', () 
     setDateRangeMock.mockClear();
 
     const radioBtn = getByTestId('preset-radio-all');
-    userEvent.click(radioBtn);
+    await user.click(radioBtn);
 
     expect(testReformatter(setDateRangeMock.mock.calls[0][0])).toEqual('2005-01-01 - 2015-01-01');
 

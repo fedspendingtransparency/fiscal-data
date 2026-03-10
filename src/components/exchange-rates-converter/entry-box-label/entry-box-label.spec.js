@@ -4,15 +4,14 @@ import EntryBoxLabel from './entry-box-label';
 import userEvent from '@testing-library/user-event';
 
 describe('Entry Box Label', () => {
-  it('renders the entry box label with a tooltip', () => {
-    jest.useFakeTimers();
+  it('renders the entry box label with a tooltip', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByText } = render(
       <EntryBoxLabel label="Test Label" tooltipBody={<>Tooltip body</>} handleMouseEnter={jest.fn()} handleTooltipClose={jest.fn()} />
     );
     const tooltipButton = getByRole('button', { name: 'More information about Test Label.' });
     expect(tooltipButton).toBeInTheDocument();
-    userEvent.hover(tooltipButton);
-    jest.advanceTimersByTime(3000);
+    await user.hover(tooltipButton);
     expect(getByText('Tooltip body')).toBeInTheDocument();
   });
 

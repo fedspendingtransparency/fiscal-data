@@ -27,49 +27,49 @@ describe('glossary list container', () => {
     expect(getByTestId('topScrollGradient')).not.toHaveClass('scrollGradientTop');
   });
 
-  it('opens a terms definition display on click', () => {
+  it('opens a terms definition display on click', async () => {
+    const user = userEvent.setup();
     const { getByRole, getByText } = render(
       <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} setTabReset={jest.fn()} />
     );
 
     const termButton = getByRole('button', { name: 'Apple' });
-    userEvent.click(termButton);
+    await user.click(termButton);
 
     expect(getByText('Apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
   });
 
-  it('definition display is keyboard accessible', () => {
+  it('definition display is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const { getByRole, getByText } = render(
       <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} setTabReset={jest.fn()} />
     );
-
     const termButton = getByRole('button', { name: 'Another Apple' });
 
-    act(() => {
-      userEvent.tab();
-    });
+    await user.tab();
     expect(termButton).toHaveFocus();
-    act(() => {
-      userEvent.keyboard('[enter]');
-    });
+
+    await user.keyboard('[enter]');
     expect(getByText('Another Apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
   });
 
-  it('renders the back to list button when a definition is displayed', () => {
+  it('renders the back to list button when a definition is displayed', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole } = render(
       <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={''} filterHandler={jest.fn()} setTabReset={jest.fn()} />
     );
 
     const termButton = getByText('Banana');
-    userEvent.click(termButton);
+    await user.click(termButton);
 
     const backButton = getByRole('button', { name: 'Back to list' });
-    userEvent.click(backButton);
+    await user.click(backButton);
   });
 
-  it('renders the back to list button when the list is filtered', () => {
+  it('renders the back to list button when the list is filtered', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole, queryByText } = render(
       <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'Apple'} filterHandler={jest.fn()} />
     );
@@ -78,12 +78,13 @@ describe('glossary list container', () => {
     expect(queryByText('All Terms')).toBeFalsy();
     expect(backButton).toBeInTheDocument();
 
-    userEvent.click(backButton);
+    await user.click(backButton);
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });
 
-  it('renders the back to list button when the no match found message is displayed', () => {
+  it('renders the back to list button when the no match found message is displayed', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole, queryByText } = render(
       <GlossaryListContainer sortedTermList={testSortedGlossaryData} filter={'orange'} filterHandler={jest.fn()} />
     );
@@ -93,7 +94,7 @@ describe('glossary list container', () => {
     expect(queryByText('All Terms')).toBeFalsy();
     expect(backButton).toBeInTheDocument();
 
-    userEvent.click(backButton);
+    await user.click(backButton);
 
     expect(getByText('All Terms')).toBeInTheDocument();
   });

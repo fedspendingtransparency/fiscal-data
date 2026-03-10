@@ -64,7 +64,8 @@ describe('Topics component', () => {
     expect(within(filterGroup).getByText([activeFilterId].length)).toBeInTheDocument();
   });
 
-  it('passes filter changes up to the parent', () => {
+  it('passes filter changes up to the parent', async () => {
+    const user = userEvent.setup();
     const { getAllByRole } = render(
       <Topics
         activeFilters={[activeFilterId]}
@@ -77,7 +78,7 @@ describe('Topics component', () => {
       />
     );
     const topicButtons = getAllByRole('button', { name: '' }); // excludes filter resent
-    userEvent.click(topicButtons[0]);
+    await user.click(topicButtons[0]);
     expect(mockChangeHandler).toHaveBeenCalledWith(mockChange);
   });
 

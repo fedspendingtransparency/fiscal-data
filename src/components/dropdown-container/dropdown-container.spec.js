@@ -23,8 +23,9 @@ describe('Dropdown Container', () => {
     expect(getByText('Test!')).toBeInTheDocument();
   });
 
-  it('closes the dropdown on click outside', () => {
+  it('closes the dropdown on click outside', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <DropdownContainer dropdownButton={button} setActive={mockSetActive}>
         {childElement}
@@ -32,8 +33,8 @@ describe('Dropdown Container', () => {
     );
 
     const dropdownButton = getByRole('button', { name: 'Dropdown Button' });
-    userEvent.click(dropdownButton);
-    userEvent.click(document.body);
+    await user.click(dropdownButton);
+    await user.click(document.body);
     jest.runAllTimers();
     expect(mockSetActive).toHaveBeenCalledWith(false);
   });

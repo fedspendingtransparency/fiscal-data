@@ -53,7 +53,8 @@ describe('filter row', () => {
     });
   });
 
-  it('calls the change handler when the value changes', () => {
+  it('calls the change handler when the value changes', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <FilterRow
         filterKey={filterKey}
@@ -70,14 +71,15 @@ describe('filter row', () => {
     );
     const checkbox = getByRole('checkbox', { name: labelText });
     mockChangeHandler.mockClear();
-    userEvent.click(checkbox);
+    await user.click(checkbox);
     expect(mockChangeHandler).toHaveBeenCalledWith({
       key: filterKey,
       value: true,
     });
   });
 
-  it('submits a tracking action when the value changes to true', () => {
+  it('submits a tracking action when the value changes to true', async () => {
+    const user = userEvent.setup();
     const ananlyticsSpy = jest.spyOn(Analytics, 'event');
     window.dataLayer = window.dataLayer || [];
     const dataLayerSpy = jest.spyOn(window.dataLayer, 'push');
@@ -96,7 +98,7 @@ describe('filter row', () => {
       </FilterRow>
     );
     const checkbox = getByRole('checkbox', { name: labelText });
-    userEvent.click(checkbox);
+    await user.click(checkbox);
     expect(ananlyticsSpy).toHaveBeenCalledWith({
       ...mockAnalyticsObject,
       label: labelText,

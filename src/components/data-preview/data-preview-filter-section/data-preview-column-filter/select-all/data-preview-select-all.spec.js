@@ -44,7 +44,8 @@ describe('Column Selector', () => {
     expect(instance).toBeTruthy();
   });
 
-  it('renders select all button', () => {
+  it('renders select all button', async () => {
+    const user = userEvent.setup();
     const setAllColumnsSelectedSpy = jest.fn();
     const setCheckboxesSelectedSpy = jest.fn();
     const setPendingColumnSelectionSpy = jest.fn();
@@ -62,7 +63,7 @@ describe('Column Selector', () => {
     const selectAllButton = getByRole('checkbox', { name: 'All Columns' });
     expect(selectAllButton).toBeInTheDocument();
 
-    userEvent.click(selectAllButton);
+    await user.click(selectAllButton);
     expect(setAllColumnsSelectedSpy).toHaveBeenCalledWith(true);
     expect(setCheckboxesSelectedSpy).toHaveBeenCalledWith(mockDefaultColumns);
     expect(setPendingColumnSelectionSpy).toHaveBeenCalledWith([mockDefaultColumns[2]]);

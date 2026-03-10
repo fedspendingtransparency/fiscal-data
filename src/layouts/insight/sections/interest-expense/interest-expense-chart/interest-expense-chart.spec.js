@@ -96,21 +96,23 @@ describe('Interest Expense Chart', () => {
   });
 
   it('handles chart mouse events', async () => {
+    const user = userEvent.setup();
     const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
-    userEvent.hover(chart);
-    userEvent.unhover(chart);
+    await user.hover(chart);
+    await user.unhover(chart);
   });
 
   it('fires GA event on chart hover', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
     const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
+    await user.hover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
@@ -122,28 +124,30 @@ describe('Interest Expense Chart', () => {
 
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
-    userEvent.unhover(chartParent);
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).not.toHaveBeenCalled();
     jest.clearAllMocks();
   });
 
   it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     const header = getByTestId('test-header');
     expect(within(header).getByText('2020')).toBeInTheDocument();
-    userEvent.tab();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(within(header).getByText('2021')).toBeInTheDocument();

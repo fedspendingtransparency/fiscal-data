@@ -29,11 +29,12 @@ describe('RelatedDatasets', () => {
     expect(screen.getByTestId('sectionContainer').textContent).toContain(title);
   });
 
-  it('should call analytics event with the appropriate context', () => {
+  it('should call analytics event with the appropriate context', async () => {
+    const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getAllByRole } = render(<RelatedDatasets datasets={mockRelatedDatasets} referrer={referrer} />);
     const datasetCards = getAllByRole('link');
-    userEvent.click(datasetCards[0]);
+    await user.click(datasetCards[0]);
     expect(analyticsSpy).toHaveBeenCalledWith({ action: `${context} Click`, category: `${context} Click`, label: sortedDataset1 });
   });
 });

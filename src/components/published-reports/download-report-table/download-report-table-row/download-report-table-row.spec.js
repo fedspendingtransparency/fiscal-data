@@ -38,11 +38,12 @@ describe('Download report table row component', () => {
     downloadLink.click();
   });
 
-  it('renders a keyboard accessible download button', () => {
+  it('renders a keyboard accessible download button', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
     const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    userEvent.tab();
+    await user.tab();
     expect(downloadButton).toHaveFocus();
-    userEvent.keyboard('Enter');
+    await user.keyboard('Enter');
   });
 });

@@ -41,7 +41,8 @@ describe('OfficialBanner', () => {
     expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
   });
 
-  it('"Here\'s how you know" dropdown is keyboard accessible', () => {
+  it('"Here\'s how you know" dropdown is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const { getByRole, getAllByRole, getByText } = render(<OfficialBanner />);
     const dropdownButton = getByRole('button', { name: "Here's how you know" });
     expect(dropdownButton).toBeInTheDocument();
@@ -51,13 +52,13 @@ describe('OfficialBanner', () => {
 
     //Enter key will toggle the dropdown
     dropdownButton.focus();
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-up');
     expect(getByText('Official websites use .gov')).toBeInTheDocument();
     expect(getByText('Secure .gov websites use HTTPS')).toBeInTheDocument();
 
     //Space key will toggle the dropdown
-    userEvent.keyboard(' ');
+    await user.keyboard(' ');
     expect(getAllByRole('img', { hidden: true })[1]).toHaveClass('fa-chevron-down');
   });
 });

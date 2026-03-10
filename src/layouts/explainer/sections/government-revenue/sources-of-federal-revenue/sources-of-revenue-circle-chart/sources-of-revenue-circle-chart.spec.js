@@ -58,11 +58,12 @@ describe('Circle chart', () => {
   });
 
   it('updates data header when a new bubble is hovered over', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getAllByText, getByText, getByRole } = render(<SourcesOfRevenueCircleChart />);
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
     expect(getByRole('img')).toBeDefined();
     const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
-    userEvent.hover(corporateIncomeTaxesCircle);
+    await user.hover(corporateIncomeTaxesCircle);
     expect(await getAllByText('Corporate Income Taxes', { exact: false })).toHaveLength(3);
     expect(await getByText('$24 B')).toBeInTheDocument();
     expect(await getByText('1%')).toBeInTheDocument();
@@ -100,15 +101,16 @@ describe('Circle chart', () => {
   });
 
   it('resets the chart to default view when mouse leaves the chart area', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getAllByText, getByText, getByTestId, getByRole } = render(<SourcesOfRevenueCircleChart />);
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
 
     const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
-    userEvent.hover(corporateIncomeTaxesCircle);
+    await user.hover(corporateIncomeTaxesCircle);
     expect(await getAllByText('Corporate Income Taxes', { exact: false })).toHaveLength(3);
 
     const chartParent = getByTestId('chartParent');
-    userEvent.unhover(chartParent);
+    await user.unhover(chartParent);
 
     expect(await getAllByText('Individual Income Taxes')).toHaveLength(2);
   });

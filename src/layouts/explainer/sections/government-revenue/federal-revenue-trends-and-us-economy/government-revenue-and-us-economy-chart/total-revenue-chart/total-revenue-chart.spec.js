@@ -47,6 +47,7 @@ describe('Total Revenue Chart', () => {
   };
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
@@ -56,11 +57,11 @@ describe('Total Revenue Chart', () => {
     const customSlices = await findByTestId('customSlices');
     expect(customSlices).toBeInTheDocument();
 
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.keyboard('{Enter}');
+    await user.tab();
+    await user.tab();
+    await user.keyboard('{Enter}');
     const allSlices = await findAllByTestId('customSlice');
-    userEvent.tab();
+    await user.tab();
     expect(allSlices[0]).toHaveFocus();
     // 2015 is in the header after slice was focused
     const year = await findAllByText('2015');
@@ -68,6 +69,7 @@ describe('Total Revenue Chart', () => {
   });
 
   it('chart fires on mouse over leave - for total revenue', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
       <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
     );
@@ -76,9 +78,9 @@ describe('Total Revenue Chart', () => {
     expect(totalRevenue.length).toBe(3);
     expect(await findByTestId('customSlices')).toBeInTheDocument();
     const allSlices = await findAllByTestId('customSlice');
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
     expect(allSlices[0]).toHaveFocus();
     // 2015 is in the header after slice was focused
     const year = await findAllByText('2015');

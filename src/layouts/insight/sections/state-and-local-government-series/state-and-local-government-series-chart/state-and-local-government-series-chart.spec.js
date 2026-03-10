@@ -95,12 +95,13 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('handles chart mouse events', async () => {
+    const user = userEvent.setup();
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[0].children[0];
     expect(chart).toBeInTheDocument();
-    userEvent.hover(chart);
-    userEvent.unhover(chart);
+    await user.hover(chart);
+    await user.unhover(chart);
   });
 
   it('formats axis values', () => {
@@ -110,22 +111,23 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const { getByRole, getByText, getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chart = getByRole('application');
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(within(getByTestId('chartHeader')).getByText('Aug 2020')).toBeInTheDocument();
     expect(within(getByTestId('chartHeader')).getByText('$600 B')).toBeInTheDocument();
     expect(within(getByTestId('chartHeader')).getByText('25,000')).toBeInTheDocument();
-    userEvent.tab();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(within(getByTestId('chartHeader')).getByText('Sep 2020')).toBeInTheDocument();
@@ -133,11 +135,12 @@ describe('State and Local Government Series Chart', () => {
 
   it('fires GA event on chart hover', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
+    await user.hover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
@@ -149,21 +152,23 @@ describe('State and Local Government Series Chart', () => {
 
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chartParent = getByTestId('chartGrandParent');
-    userEvent.hover(chartParent);
-    userEvent.unhover(chartParent);
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).not.toHaveBeenCalled();
     jest.clearAllMocks();
   });
 
   it('fires GA event on csv download button click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const downloadButton = getByTestId('csv-download-button');
-    userEvent.click(downloadButton);
+    await user.click(downloadButton);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Download CSV Click',
       category: 'State and Local Government Series',
@@ -172,10 +177,11 @@ describe('State and Local Government Series Chart', () => {
   });
 
   it('fires GA event on chart table toggle click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const toggleButton = getByTestId('toggleButtonRight');
-    userEvent.click(toggleButton);
+    await user.click(toggleButton);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Table Toggle Click',
       category: 'State and Local Government Series',

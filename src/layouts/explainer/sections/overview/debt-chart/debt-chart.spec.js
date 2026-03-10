@@ -54,12 +54,13 @@ describe('AFG Debt Chart', () => {
   });
 
   it('enables keyboard accessibility on chart', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByTestId } = render(<DebtChart />);
     const bars = await findAllByTestId('debtBar');
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
     expect(bars[0]).toHaveFocus();
-    userEvent.tab();
+    await user.tab();
     expect(bars[1]).toHaveFocus();
   });
 });

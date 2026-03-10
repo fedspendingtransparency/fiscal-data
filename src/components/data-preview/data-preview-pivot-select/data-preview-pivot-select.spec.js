@@ -30,13 +30,13 @@ describe('Pivot select', () => {
     pivotView: { title: 'By Type of Account', dimensionField: 'account_type' },
   };
 
-  it('renders Raw Data radio button', () => {
+  it('renders Raw Data radio button', async () => {
     const setTableViewSelectionSpy = jest.fn();
-
+    const user = userEvent.setup();
     const { getByRole } = render(<DataPreviewPivotSelect tableViewSelection="pivotData" setTableViewSelection={setTableViewSelectionSpy} />);
     const rawDataRadioButton = getByRole('radio', { name: 'Raw Data' });
     expect(rawDataRadioButton).toBeInTheDocument();
-    userEvent.click(rawDataRadioButton);
+    await user.click(rawDataRadioButton);
     expect(setTableViewSelectionSpy).toHaveBeenCalledWith('rawData');
   });
 
@@ -48,6 +48,7 @@ describe('Pivot select', () => {
   it('renders Pivot Data radio button when pivot views are configured', async () => {
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
+    const user = userEvent.setup();
 
     const { findByRole } = render(
       <DataPreviewPivotSelect
@@ -62,7 +63,7 @@ describe('Pivot select', () => {
     const pivotRadioButton = await findByRole('radio', { name: 'Pivot Data' });
 
     expect(pivotRadioButton).toBeInTheDocument();
-    userEvent.click(pivotRadioButton);
+    await user.click(pivotRadioButton);
     expect(setTableViewSelectionSpy).toBeCalledWith('pivotData');
   });
 
@@ -113,6 +114,7 @@ describe('Pivot select', () => {
   });
 
   it('calls setSelectedPivotView on Pivot View update', async () => {
+    const user = userEvent.setup();
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
     const { findByRole } = render(
@@ -125,7 +127,7 @@ describe('Pivot select', () => {
       />
     );
     const pivotViewDropdown = await findByRole('button', { name: 'Select Pivot View' });
-    userEvent.click(pivotViewDropdown);
+    await user.click(pivotViewDropdown);
     const pivotViewOption = await findByRole('button', { name: 'By Type of Account' });
     fireEvent.click(pivotViewOption);
 
@@ -136,6 +138,7 @@ describe('Pivot select', () => {
   });
 
   it('calls setSelectedPivotValue on Pivot View update', async () => {
+    const user = userEvent.setup();
     const setTableViewSelectionSpy = jest.fn();
     const setPivotToApplySpy = jest.fn();
     const { findByRole } = render(
@@ -148,7 +151,7 @@ describe('Pivot select', () => {
       />
     );
     const pivotValueDropdown = await findByRole('button', { name: 'Select Pivot Value' });
-    userEvent.click(pivotValueDropdown);
+    await user.click(pivotValueDropdown);
     const pivotValueOption = await findByRole('button', { name: 'Opening Balance This Month' });
     fireEvent.click(pivotValueOption);
     expect(setPivotToApplySpy).toHaveBeenCalledWith({

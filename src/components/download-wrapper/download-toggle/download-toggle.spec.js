@@ -28,6 +28,7 @@ describe('DownloadToggle', () => {
 
   it(`when a radio button is clicked, it updates the selected button and calls the onChange function
     with the radio button value`, async () => {
+    const user = userEvent.setup();
     const { getAllByRole } = render(
       <DownloadToggle
         onChange={toggleFn}
@@ -38,17 +39,17 @@ describe('DownloadToggle', () => {
     );
     const radioButtons = getAllByRole('radio');
 
-    await userEvent.click(radioButtons[1]);
+    await user.click(radioButtons[1]);
 
     expect(setSelectedFileTypeMock).toHaveBeenCalledWith('json');
     expect(toggleFn).toHaveBeenCalledWith('json');
 
-    userEvent.click(radioButtons[2]);
+    await user.click(radioButtons[2]);
 
     expect(setSelectedFileTypeMock).toHaveBeenCalledWith('xml');
     expect(toggleFn).toHaveBeenCalledWith('xml');
 
-    userEvent.click(radioButtons[0]);
+    await user.click(radioButtons[0]);
 
     expect(setSelectedFileTypeMock).toHaveBeenCalledWith('csv');
     expect(toggleFn).toHaveBeenCalledWith('csv');

@@ -111,15 +111,14 @@ describe('Download Report Table', () => {
     expect(setApiError).toHaveBeenCalledWith(false);
   });
 
-  it('renders pagination Controls when there are more than five reports', () => {
+  it('renders pagination Controls when there are more than five reports', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole } = render(<DownloadReportTable reports={mockPaginatedReports} width={breakpointLg + 1} />);
 
     expect(getByText('Rows Per Page')).toBeInTheDocument();
 
     const nextPage = getByRole('button', { name: 'published-report-table-page2' });
-    act(() => {
-      userEvent.click(nextPage);
-    });
+    await user.click(nextPage);
     expect(getByText('6 - 6')).toBeInTheDocument();
     expect(getByText('rows of 6 rows', { exact: false })).toBeInTheDocument();
   });

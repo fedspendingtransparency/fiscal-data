@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('UserFilter Component', () => {
   it('sends expected properties to dropdown', async () => {
+    const user = userEvent.setup();
     const setFilterMapSpy = jest.fn();
     const { getByRole } = render(
       <UserFilterDropdown
@@ -16,18 +17,19 @@ describe('UserFilter Component', () => {
       />
     );
     const dropdownButton = getByRole('button', { name: '(None selected)' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
     const optionsFromBuildTimeData = mockTable.userFilter.optionValues.map(optionValue => ({ label: optionValue, value: optionValue }));
 
     expect(getByRole('button', { name: optionsFromBuildTimeData[0].label })).toBeInTheDocument();
     expect(getByRole('button', { name: optionsFromBuildTimeData[1].label })).toBeInTheDocument();
     expect(getByRole('button', { name: optionsFromBuildTimeData[2].label })).toBeInTheDocument();
 
-    userEvent.click(getByRole('button', { name: optionsFromBuildTimeData[0].label }));
+    await user.click(getByRole('button', { name: optionsFromBuildTimeData[0].label }));
     expect(setFilterMapSpy).toHaveBeenCalledWith({ country_currency_desc: { filterValue: '', pendingValue: optionsFromBuildTimeData[0].label } });
   });
 
   it("resets filterMap on '(None selected)' click", async () => {
+    const user = userEvent.setup();
     const setFilterMapSpy = jest.fn();
     const { getByRole } = render(
       <UserFilterDropdown
@@ -39,14 +41,14 @@ describe('UserFilter Component', () => {
       />
     );
     const dropdownButton = getByRole('button', { name: '(None selected)' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
     const optionsFromBuildTimeData = mockTable.userFilter.optionValues.map(optionValue => ({ label: optionValue, value: optionValue }));
 
-    userEvent.click(getByRole('button', { name: optionsFromBuildTimeData[0].label }));
+    await user.click(getByRole('button', { name: optionsFromBuildTimeData[0].label }));
     expect(setFilterMapSpy).toHaveBeenCalledWith({ country_currency_desc: { filterValue: '', pendingValue: optionsFromBuildTimeData[0].label } });
 
-    userEvent.click(dropdownButton);
-    userEvent.click(getByRole('button', { name: '(None selected)' }));
+    await user.click(dropdownButton);
+    await user.click(getByRole('button', { name: '(None selected)' }));
     expect(setFilterMapSpy).toHaveBeenCalledWith({ country_currency_desc: { filterValue: '', pendingValue: '' } });
   });
 

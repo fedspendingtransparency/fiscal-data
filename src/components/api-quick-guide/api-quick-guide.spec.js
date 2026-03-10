@@ -41,9 +41,10 @@ describe('API Quick Guide', () => {
       expect(getByRole('heading', { level: 2, name: titleText })).toBeInTheDocument();
     });
 
-    it('should present an ApiQuickGuideSection for Methods with a title and description', () => {
+    it('should present an ApiQuickGuideSection for Methods with a title and description', async () => {
+      const user = userEvent.setup();
       const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
-      userEvent.click(getByRole('button', { name: 'Show More' }));
+      await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText(methods.title)).toBeInTheDocument();
       expect(getByText(methods.desc)).toBeInTheDocument();
     });
@@ -53,9 +54,10 @@ describe('API Quick Guide', () => {
       expect(getByText('Fields')).toBeInTheDocument();
     });
 
-    it('renders the Accordions component', () => {
+    it('renders the Accordions component', async () => {
+      const user = userEvent.setup();
       const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
-      userEvent.click(getByRole('button', { name: 'Show More' }));
+      await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText('Parameters')).toBeInTheDocument();
     });
 
@@ -64,9 +66,10 @@ describe('API Quick Guide', () => {
       expect(getByText('Endpoint')).toBeInTheDocument();
     });
 
-    it('renders the DatasetDetailExamples component', () => {
+    it('renders the DatasetDetailExamples component', async () => {
+      const user = userEvent.setup();
       const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
-      userEvent.click(getByRole('button', { name: 'Show More' }));
+      await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText('Example Request & Response')).toBeInTheDocument();
     });
   });

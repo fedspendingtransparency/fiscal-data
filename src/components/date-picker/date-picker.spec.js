@@ -26,7 +26,7 @@ describe('Month Picker', () => {
     expect(within(button).getByText('August 2024')).toBeInTheDocument();
   });
 
-  it('Opens and closes date picker dropdown on click', () => {
+  it('Opens and closes date picker dropdown on click', async () => {
     const { getByRole, getAllByRole } = render(
       <DatePicker
         latestDate={new Date('8/8/2024')}
@@ -48,7 +48,8 @@ describe('Month Picker', () => {
     expect(getAllByRole('button').length).toBe(1);
   });
 
-  it('Opens date picker dropdown on enter key press', () => {
+  it('Opens date picker dropdown on enter key press', async () => {
+    const user = userEvent.setup();
     const { getByRole, getAllByRole } = render(
       <DatePicker
         latestDate={new Date('8/8/2024')}
@@ -59,15 +60,11 @@ describe('Month Picker', () => {
       />
     );
     const button = getByRole('button', { name: 'Select Published Date' });
-    act(() => {
-      userEvent.tab();
-      expect(button).toHaveFocus();
-      userEvent.keyboard('{Enter}');
-    });
+    await user.tab();
+    expect(button).toHaveFocus();
+    await user.keyboard('{Enter}');
     expect(getAllByRole('button').length).toBeGreaterThan(1);
-    act(() => {
-      userEvent.keyboard('{Enter}');
-    });
+    await user.keyboard('{Enter}');
     expect(getAllByRole('button').length).toBe(1);
   });
 

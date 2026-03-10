@@ -77,11 +77,12 @@ describe('Select All component', () => {
     expect(checkbox).not.toBeChecked();
   });
 
-  it('Updates fields on click', () => {
+  it('Updates fields on click', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<SelectAll isVisible fields={uncheckedMockFields} onUpdateFields={mockOnUpdateFields} resetToFalse={true} />);
     const checkbox = getByRole('checkbox', { name: 'Select All' });
     expect(checkbox).not.toBeChecked();
-    userEvent.click(checkbox);
+    await user.click(checkbox);
     expect(mockOnUpdateFields).toHaveBeenCalled();
   });
 });

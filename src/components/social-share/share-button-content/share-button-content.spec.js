@@ -15,15 +15,16 @@ describe('Social Share component', () => {
     expect(icon).toBeInTheDocument();
   });
 
-  it('icon color changes to grey on hover', () => {
+  it('icon color changes to grey on hover', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<ShareButtonContent name="facebook" width={breakpointLg} displayStyle="responsive" />);
 
     const icon = getByRole('img', { hidden: true });
 
-    userEvent.hover(icon);
+    await user.hover(icon);
     expect(icon).toHaveStyle({ color: 'rgb(85, 85, 85)' });
 
-    userEvent.unhover(icon);
+    await user.unhover(icon);
     expect(icon).not.toHaveStyle({ color: 'rgb(85, 85, 85)' });
   });
 });

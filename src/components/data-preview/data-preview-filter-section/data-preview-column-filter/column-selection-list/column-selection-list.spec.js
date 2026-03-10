@@ -67,7 +67,8 @@ describe('Column Selection List', () => {
     expect(queryByText('ADDITIONAL')).not.toBeInTheDocument();
   });
 
-  it('updates pendingColumnSelection on checkbox click', () => {
+  it('updates pendingColumnSelection on checkbox click', async () => {
+    const user = userEvent.setup();
     const setPendingColumnSelection = jest.fn();
     const { getAllByRole } = render(
       <ColumnSelectionList
@@ -83,11 +84,12 @@ describe('Column Selection List', () => {
       />
     );
     const checkboxes = getAllByRole('checkbox');
-    userEvent.click(checkboxes[3]);
+    await user.click(checkboxes[3]);
     expect(setPendingColumnSelection).toHaveBeenCalledWith([mockColumnConfigs[2]]);
   });
 
-  it('removes checked column from pendingColumnSelection on checkbox click', () => {
+  it('removes checked column from pendingColumnSelection on checkbox click', async () => {
+    const user = userEvent.setup();
     const setPendingColumnSelection = jest.fn();
     const { getAllByRole } = render(
       <ColumnSelectionList
@@ -103,7 +105,7 @@ describe('Column Selection List', () => {
       />
     );
     const checkboxes = getAllByRole('checkbox');
-    userEvent.click(checkboxes[3]);
+    await user.click(checkboxes[3]);
     expect(setPendingColumnSelection).toHaveBeenCalledWith([]);
   });
 });

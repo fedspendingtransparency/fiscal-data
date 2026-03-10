@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SocialShareDropdown from './social-share-dropdown';
 import { RecoilRoot } from 'recoil';
@@ -32,39 +32,41 @@ describe('exchange rates banner', () => {
     expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
   });
 
-  it('opens the dropdown on click', () => {
+  it('opens the dropdown on click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
     render(<SocialShareDropdown copy={testCopy} pageName="" />);
     expect(screen.queryByText('Facebook')).toBeNull();
 
     const shareBtn = screen.getByRole('button', { name: 'Share' });
-    userEvent.click(shareBtn);
+    await user.click(shareBtn);
 
     expect(screen.getByText('Facebook')).toBeInTheDocument();
   });
 
-  it('closes the dropdown when a social button is clicked', () => {
+  it('closes the dropdown when a social button is clicked', async () => {
     const { getByRole } = render(
       <RecoilRoot>
         <SocialShareDropdown copy={testCopy} pageName="" />
       </RecoilRoot>
     );
     const shareBtn = getByRole('button', { name: 'Share' });
-    userEvent.click(shareBtn);
+    fireEvent.click(shareBtn);
     const facebookBtn = getByRole('button', { name: 'facebook' });
-    userEvent.click(facebookBtn);
-
-    act(() => {
-      jest.advanceTimersByTime(1000);
+    fireEvent.click(facebookBtn);
+    await waitFor(() => {
+      expect(screen.queryByText('Facebook')).toBeNull();
     });
-    expect(screen.queryByText('Facebook')).toBeNull();
   });
 
-  it('closes the dropdown on scroll', () => {
+  it('closes the dropdown on scroll', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
     window.pageYOffset = 40;
     const { getByRole, queryByText } = render(<SocialShareDropdown copy={testCopy} pageName="" />);
 
     const shareBtn = getByRole('button', { name: 'Share' });
-    userEvent.click(shareBtn);
+    await user.click(shareBtn);
     expect(queryByText('Facebook')).toBeInTheDocument();
 
     act(() => {

@@ -437,6 +437,7 @@ describe('TableSectionContainer with Pivot Options', () => {
   width, but once the user interactively toggles the state, changes in screen size are ignored
   with respect to legend visibility`, async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
     const { getByTestId, rerender, findByRole, getByRole } = render(
       <RecoilRoot>
@@ -459,14 +460,14 @@ describe('TableSectionContainer with Pivot Options', () => {
     let datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).toHaveClass('legendActive');
     // "interactively" toggle the legend to INVISIBLE
-    userEvent.click(getByRole('button', { name: 'Hide Legend' }));
+    await user.click(getByRole('button', { name: 'Hide Legend' }));
     datasetChart = getByTestId('dataset-chart');
     jest.runAllTimers();
 
     await waitFor(() => expect(datasetChart).not.toHaveClass('legendActive'));
 
     // "interactively" toggle the legend to VISIBLE
-    userEvent.click(getByRole('button', { name: 'Show Legend' }));
+    await user.click(getByRole('button', { name: 'Show Legend' }));
     datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).toHaveClass('legendActive');
 
@@ -496,7 +497,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     expect(datasetChart).toHaveClass('legendActive');
 
     // "interactively" toggle the legend to INVISIBLE
-    userEvent.click(getByRole('button', { name: 'Hide Legend' }));
+    await user.click(getByRole('button', { name: 'Hide Legend' }));
 
     datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).not.toHaveClass('legendActive');

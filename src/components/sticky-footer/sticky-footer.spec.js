@@ -95,7 +95,8 @@ describe('StickyFooterComponent (React 18)', () => {
     expect(mockOnClosed).toHaveBeenCalledTimes(1);
   });
 
-  it('temporarily halts the slide-down transition upon interaction', () => {
+  it('temporarily halts the slide-down transition upon interaction', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     render(
       <StickyFooterComponent hideAfterTime={4500}>
         <span>Test</span>
@@ -108,8 +109,8 @@ describe('StickyFooterComponent (React 18)', () => {
     expect(container).toHaveStyle(footerStyle);
     expect(container).toHaveClass(closingStyle);
 
-    userEvent.click(container);
-    userEvent.unhover(container);
+    await user.click(container);
+    await user.unhover(container);
 
     expect(container).not.toHaveStyle(footerStyle);
     expect(container).not.toHaveClass(closingStyle);

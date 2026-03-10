@@ -75,18 +75,19 @@ describe('Time Range Filter', () => {
   });
 
   it('triggers the dateRangeFilter call and context setters when both dates are set properly', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext({ beginDate: null, endDate: null });
     dateRangeFilter.mockClear();
 
     const from = screen.getByRole('button', { name: 'Choose date, selected date is Jan 1, 2020' });
-    userEvent.click(from);
+    await user.click(from);
     let newDateButton = within(screen.getByRole('grid', { name: 'January 2020' })).getByRole('gridcell', { name: '11' });
-    userEvent.click(newDateButton);
+    await user.click(newDateButton);
 
     const to = screen.getByRole('button', { name: 'Choose date, selected date is Jun 1, 2020' });
-    userEvent.click(to);
+    await user.click(to);
     newDateButton = within(screen.getByRole('grid', { name: 'June 2020' })).getByRole('gridcell', { name: '11' });
-    userEvent.click(newDateButton);
+    await user.click(newDateButton);
 
     expect(dateRangeFilter).toHaveBeenCalledTimes(2);
     expect(setBeginDateSpy).toHaveBeenCalled();
@@ -118,37 +119,41 @@ describe('Time Range Filter', () => {
   });
 
   it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     dateRangeFilter.mockClear();
 
     const checkbox = screen.getByRole('checkbox');
-    await userEvent.click(checkbox);
+    await user.click(checkbox);
 
     expect(dateRangeFilter).toHaveBeenCalledWith(expect.objectContaining({ exactRange: true }), true);
     expect(setExactRangeSpy).toHaveBeenCalledWith(true);
   });
 
   it('triggers a GA event when the checkbox is checked and the time range has valid dates', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     analyticsSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
   });
 
   it('triggers a datalayer push when the checkbox is checked and the time range has valid dates', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     analyticsSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
     expect(analyticsSpy).toHaveBeenCalledWith(spanTimeRangeAnalyticsObject);
   });
 
   it('triggers a datalayer push when the checkbox is checked', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     datalayerSpy.mockClear();
 
-    await userEvent.click(screen.getByRole('checkbox'));
+    await user.click(screen.getByRole('checkbox'));
 
     expect(datalayerSpy).toHaveBeenCalledWith({ event: 'Time Range Click' });
   });
@@ -163,11 +168,12 @@ describe('Time Range Filter', () => {
   });
 
   it('triggers GA4 datalayer push when info tip click button is pushed', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     renderContext();
     datalayerSpy.mockClear();
 
     const infoBtn = within(screen.getByTestId('checkbox')).getByTestId('infoTipButton');
-    await userEvent.click(infoBtn);
+    await user.click(infoBtn);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Info Button Click',

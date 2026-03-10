@@ -31,31 +31,28 @@ describe('Search Field', () => {
     expect(inputField).toHaveAttribute('placeholder', 'Search for Datasets by Keyword...');
   });
 
-  it('calls supplied change handler when text value changes', () => {
+  it('calls supplied change handler when text value changes', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     queryTerm = 'something else';
     const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
     const inputField = getByRole('textbox');
 
-    act(() => {
-      userEvent.click(inputField);
-      userEvent.keyboard(testString);
-    });
+    await user.click(inputField);
+    await user.keyboard(testString);
 
-    jest.runAllTimers();
+    jest.runOnlyPendingTimers();
 
     expect(queryTerm).toBe(testString);
   });
 
   it(`displays a functional "clear" icon button (with screen-reader accessible label "clear")
-    when text is present in the field`, () => {
+    when text is present in the field`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId, queryByTestId } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
     const inputField = getByRole('textbox');
 
-    act(() => {
-      userEvent.click(inputField);
-      userEvent.keyboard(testString);
-      jest.runAllTimers();
-    });
+    await user.click(inputField);
+    await user.keyboard(testString);
 
     const button = getByRole('button', { name: 'clear' });
     expect(button).not.toBeDisabled(); // button is present and not disabled
@@ -97,13 +94,14 @@ describe('Search Field', () => {
     expect(tooltip).toBeInTheDocument();
   });
 
-  it('tracks when a user enters text into the search field and also test GA4 datalayer push', () => {
+  it('tracks when a user enters text into the search field and also test GA4 datalayer push', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const testString = 'Testing123';
     const { getByRole } = render(<SearchField changeHandler={mockChangeHandler} searchTerm="debt program" />);
     const input = getByRole('textbox');
-    userEvent.click(input);
-    userEvent.keyboard(testString);
-    jest.runAllTimers();
+    await user.click(input);
+    await user.keyboard(testString);
+    jest.runOnlyPendingTimers();
 
     expect(queryTerm).toBe(testString);
     expect(gaSpy).toHaveBeenLastCalledWith({
@@ -140,7 +138,8 @@ describe('search field persistence', () => {
     expect(mockChangeHandler).toHaveBeenCalledWith(persistentTerms);
   });
 
-  it('stores keywords as they are entered', () => {
+  it('stores keywords as they are entered', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <siteContext.Provider
         value={{
@@ -152,9 +151,9 @@ describe('search field persistence', () => {
       </siteContext.Provider>
     );
     const inputField = getByRole('textbox');
-    userEvent.click(inputField);
-    userEvent.keyboard(testString);
-    jest.runAllTimers();
+    await user.click(inputField);
+    await user.keyboard(testString);
+    jest.runOnlyPendingTimers();
 
     expect(setKeywordsSpy).toHaveBeenCalledWith(persistentTerms + testString);
   });

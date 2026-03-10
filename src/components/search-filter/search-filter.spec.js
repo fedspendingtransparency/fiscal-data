@@ -13,7 +13,8 @@ describe('Search Filter', () => {
     expect(getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('updates list on search text change', () => {
+  it('updates list on search text change', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <SearchFilter
         columnConfig={mockColumnConfig}
@@ -24,8 +25,8 @@ describe('Search Filter', () => {
       />
     );
     const searchBar = getByRole('textbox');
-    userEvent.click(searchBar);
-    userEvent.keyboard('search filter text...');
+    await user.click(searchBar);
+    await user.keyboard('search filter text...');
     expect(setFilterMapSpy).toHaveBeenCalledWith({ testCol: { pendingValue: 'search filter text...', filterValue: '' } });
   });
 });
