@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { a11yProps } from '../datasets/filters/dateFilterTabs/dateFilterTabs';
 import { ThemeProvider } from '@mui/material/styles';
 import { dpTheme } from '../../theme';
@@ -10,11 +10,8 @@ import DataDictionary from '../data-dictionary/data-dictionary';
 import NotesAndLimitations from './notes-and-limitations/notes-and-limitations';
 import MetadataTab from '../metadata-tab/metadata-tab';
 import DataTablesTab from '../datatables-tab/datatables-tab';
-import { withWindowSize } from 'react-fns';
-import { breakpointSm } from '../../variables.module.scss';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 
-const DatasetPropertiesTabs = ({ config, test, width }) => {
+const DatasetPropertiesTabs = ({ config, test }) => {
   const dictionaryPerPage = 5;
   const hideRawDataTable = config?.hideRawDataTable;
   const TabPanel = ({ children, value, index, ...other }) => (
@@ -30,13 +27,7 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     </Typography>
   );
 
-  const SCROLL_TYPE = {
-    AUTO: 'auto',
-    ON: 'on',
-  };
-
   const [value, setValue] = useState(0);
-  const [scrollButton, setScrollButton] = useState(SCROLL_TYPE.ON);
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
@@ -67,10 +58,6 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
 
   const tabs = !hideRawDataTable ? [...rawDataTableTabs, ...datasetTabs] : [...datasetTabs];
 
-  useEffect(() => {
-    setScrollButton(width <= pxToNumber(breakpointSm) ? SCROLL_TYPE.ON : SCROLL_TYPE.AUTO);
-  }, [width]);
-
   return (
     <div data-testid="tabsContainer">
       <ThemeProvider theme={dpTheme}>
@@ -79,7 +66,6 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
             value={value}
             onChange={handleChange}
             variant={test ? 'standard' : 'scrollable'}
-            scrollButtons={scrollButton}
             aria-label="Dataset properties tabs"
             indicatorColor="primary"
           >
@@ -97,4 +83,4 @@ const DatasetPropertiesTabs = ({ config, test, width }) => {
     </div>
   );
 };
-export default withWindowSize(DatasetPropertiesTabs);
+export default DatasetPropertiesTabs;
