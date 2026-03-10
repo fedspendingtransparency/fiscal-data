@@ -4,7 +4,6 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import About from './about-section/about-section';
 import FAQ from './faq-section/faq-section';
 import Contact from './contact-section/contact-section';
-// todo - toc cms
 import TOCData from './toc-data.json';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';

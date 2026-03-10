@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { sectionContainer } from './section-content.module.scss';
 
 const SectionContent = ({ id, children, className, headingLevel, title }) => {
-  const [header, setHeader] = useState(null);
-
-  const createHeader = () => {
-    switch (headingLevel) {
-      case 2:
-        return <h2>{title}</h2>;
-      case 3:
-        return <h3>{title}</h3>;
-      case 4:
-        return <h4>{title}</h4>;
-      case 5:
-        return <h5>{title}</h5>;
-      case 6:
-        return <h6>{title}</h6>;
-      default:
-        return <h2>{title}</h2>;
-    }
-  };
-
-  useEffect(() => {
-    setHeader(createHeader());
-  }, []);
+  // applies to headingLevels 2-6, anything else defaults to h2 tag
+  const Tag = headingLevel >= 2 && headingLevel <= 6 ? `h${headingLevel}` : 'h2';
 
   return (
     <section id={id} className={`${sectionContainer} ${className || ''}`} data-testid="section-content">
-      {header}
+      <Tag>{title}</Tag>
       {children}
     </section>
   );
