@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons/faArrowLeftLong';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
@@ -73,6 +73,17 @@ const TableSectionContainer = ({
   allActiveFilters,
   setAllActiveFilters,
 }) => {
+  /*
+      Methods for fetching data:
+        -depaginated
+        -rawData
+        -tableData
+        -tableProps.data ?
+
+
+        can depaginated and rawData be combined?
+   */
+
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
@@ -225,20 +236,26 @@ const TableSectionContainer = ({
     });
   };
 
-  useMemo(async () => {
-    await refreshTable();
+  useEffect(() => {
+    (async () => {
+      await refreshTable();
+    })();
   }, [apiData, userFilterSelection, apiError]);
 
-  useMemo(async () => {
-    if (serverSidePagination || userFilterSelection) {
-      await refreshTable();
-    }
+  useEffect(() => {
+    (async () => {
+      if (serverSidePagination || userFilterSelection) {
+        await refreshTable();
+      }
+    })();
   }, [dateRange]);
 
-  useMemo(async () => {
-    if (config?.sharedApiFilterOptions && userFilterSelection) {
-      await refreshTable();
-    }
+  useEffect(() => {
+    (async () => {
+      if (config?.sharedApiFilterOptions && userFilterSelection) {
+        await refreshTable();
+      }
+    })();
   }, [selectedTable]);
 
   const handlePivotConfigUpdated = () => {

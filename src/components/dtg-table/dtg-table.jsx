@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { loadingTimeout, netLoadingDelay } from './dtg-table-helper';
 import { defaultPerPageOptions } from '../pagination/pagination-controls';
-import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
+import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './dtg-table.module.scss';
 import DataTable from '../data-table/data-table';
@@ -10,7 +10,7 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
-import dayjs from 'dayjs';
+import { activePivot, getDateFilters, getPaginationValues } from './helper';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -54,16 +54,16 @@ export default function DtgTable({
     selectColumns,
   } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
-  const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
+  // const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
-    perPage ? perPage : !shouldPage && data.length > defaultRowsPerPage ? data.length : defaultRowsPerPage
+    perPage ? perPage : !shouldPage && rawData?.data?.length > defaultRowsPerPage ? rawData?.data?.length : defaultRowsPerPage
   );
-  const [tableData, setTableData] = useState(!shouldPage ? data : []);
+  const [tableData, setTableData] = useState([]);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
-  const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
+  const [maxRows, setMaxRows] = useState(rawData?.data?.length > 0 ? rawData?.data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
@@ -104,25 +104,6 @@ export default function DtgTable({
     }
   };
 
-  const getDateFilters = () => {
-    let from, to;
-    const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
-    if (recordDateColumnFilter) {
-      from =
-        recordDateColumnFilter?.from && dayjs(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
-          ? recordDateColumnFilter?.from.format('YYYY-MM-DD')
-          : formatDateForApi(dateRange.from);
-      to =
-        recordDateColumnFilter?.from && dayjs(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
-          ? recordDateColumnFilter?.to.format('YYYY-MM-DD')
-          : formatDateForApi(dateRange.to);
-    } else {
-      from = formatDateForApi(dateRange.from);
-      to = formatDateForApi(dateRange.to);
-    }
-    return { from, to };
-  };
-
   const makePagedRequest = async resetPage => {
     if (
       selectedTable &&
@@ -134,7 +115,7 @@ export default function DtgTable({
           tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
-      const { from, to } = getDateFilters();
+      const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
       pagedDatatableRequest(
         selectedTable,
@@ -161,16 +142,10 @@ export default function DtgTable({
                 />
               );
             }
-            const totalCount = res.meta['total-count'];
-            const start = startPage === 1 ? 0 : (startPage - 1) * itemsPerPage;
-            const rowsToShow = start + itemsPerPage;
-            const stop = rowsToShow > totalCount ? totalCount : rowsToShow;
-            setRowsShowing({
-              begin: start + 1,
-              end: stop,
-            });
-            setMaxPage(res.meta['total-pages']);
-            if (maxRows !== totalCount) setMaxRows(totalCount);
+            const paginationValues = getPaginationValues(res, startPage, itemsPerPage);
+            setRowsShowing(paginationValues.rowsShowing);
+            setMaxPage(paginationValues.maxPage);
+            if (maxRows !== paginationValues.maxRows) setMaxRows(paginationValues.maxRows);
             setTableData(res);
           }
         })
@@ -193,19 +168,17 @@ export default function DtgTable({
     }
   };
 
-  const getCurrentData = () => {
-    if (tableProps.apiError && currentPage === 1) {
-      setRowsShowing({ begin: 0, end: 0 });
-      setMaxRows(0);
-    } else {
-      const start = currentPage === 1 ? 0 : (currentPage - 1) * itemsPerPage;
-      const rowsToShow = start + itemsPerPage;
-      const stop = rowsToShow > data.length ? data.length : rowsToShow;
-      setRowsShowing({ begin: start + 1, end: stop });
-      setMaxPage(Math.ceil(data.length / itemsPerPage));
-      setTableData(data.slice(start, stop));
-    }
-  };
+  // const getCurrentData = () => {
+  //   if (tableProps.apiError && currentPage === 1) {
+  //     setRowsShowing({ begin: 0, end: 0 });
+  //     setMaxRows(0);
+  //   } else {
+  //     const paginationValues = getCurrentDataPaginationValues(data, currentPage, itemsPerPage);
+  //     setRowsShowing(paginationValues.rowsShowing);
+  //     setMaxPage(paginationValues.maxPage);
+  //     setTableData(paginationValues.tableData);
+  //   }
+  // };
 
   const handleJump = page => {
     const pageNum = Math.max(1, page);
@@ -222,7 +195,7 @@ export default function DtgTable({
   const updateTable = resetPage => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
-    ssp !== undefined && ssp !== null ? getPagedData(resetPage) : getCurrentData();
+    ssp !== undefined && ssp !== null && getPagedData(resetPage);
     return () => {
       loadCanceled = true;
     };
@@ -254,20 +227,20 @@ export default function DtgTable({
     }
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
-  useMemo(() => {
-    if (data && data.length) {
-      setMaxRows(apiError ? 0 : data.length);
-    }
-  }, [data]);
+  // useMemo(() => {
+  //   if (data && data.length) {
+  //     setMaxRows(apiError ? 0 : data.length);
+  //   }
+  // }, [data]);
 
-  useEffect(() => {
-    if (!tableProps.data) {
-      setCurrentPage(1);
-    }
-    if (tableProps.chartTable === false) {
-      updateTable(tableProps.data);
-    }
-  }, [tableProps.data]);
+  // useEffect(() => {
+  //   if (!tableProps.data) {
+  //     setCurrentPage(1);
+  //   }
+  //   if (tableProps.chartTable === false) {
+  //     updateTable(tableProps.data);
+  //   }
+  // }, [tableProps.data]);
 
   useEffect(() => {
     setShowPaginationControls(isPaginationControlNeeded());
@@ -287,9 +260,6 @@ export default function DtgTable({
     maxRows,
   };
 
-  const activePivot = (data, pivot) => {
-    return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
-  };
   const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
   const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
   const isDepaginatedSize = () => tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
