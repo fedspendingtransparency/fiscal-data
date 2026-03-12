@@ -101,7 +101,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-
+    console.log('refresh table', columnConfig);
     // DetailColumnConfig is used for the TIPS and CPI detail view table
     const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
     let displayData = apiData ? apiData.data : null;
@@ -147,7 +147,7 @@ const TableSectionContainer = ({
       selectColumns: selectedTable.selectColumns ? selectedTable.selectColumns : [], // if selectColumns is not defined in endpointConfig.js, default to allowing all columns be selectable
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
-      // aria: { 'aria-labelledby': 'main-data-table-title' },
+      aria: { 'aria-labelledby': 'main-data-table-title' },
       customFormatting,
     });
   };

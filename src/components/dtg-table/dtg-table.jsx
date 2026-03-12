@@ -1,16 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { loadingTimeout, netLoadingDelay } from './dtg-table-helper';
 import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './dtg-table.module.scss';
-import DataTable from '../data-table/data-table';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
-import { activePivot, getDateFilters, getPaginationValues } from './helper';
+import { activePivot, constructDefaultColumnsFromTableData, getDateFilters, getPaginationValues } from './helper';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { columnsConstructorData } from '../data-table/data-table-helper';
+import DataTableBody from '../data-table/data-table-body/data-table-body';
+import {
+  rawDataTableContainer,
+  selectColumnPanelActive,
+  selectColumnPanelInactive,
+  selectColumnsWrapper,
+  tableStyle,
+} from '../data-table/data-table.module.scss';
+import DataTableColumnSelector from '../data-table/column-select/data-table-column-selector';
+import DataTableHeader from '../data-table/data-table-header/data-table-header';
+import DataTableFooter from '../data-table/data-table-footer/data-table-footer';
+import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -39,7 +52,20 @@ export default function DtgTable({
   disableDateRangeFilter,
   hasDownloadTimestamp,
 }) {
-  const { rawData, tableName, shouldPage, selectedTable, selectedPivot, dateRange, config, detailColumnConfig, selectColumns } = tableProps;
+  const {
+    rawData,
+    tableName,
+    shouldPage,
+    selectedTable,
+    selectedPivot,
+    dateRange,
+    config,
+    detailColumnConfig,
+    selectColumns,
+    hideColumns,
+    columnConfig,
+    customFormatting,
+  } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
@@ -55,6 +81,7 @@ export default function DtgTable({
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
   const [tableSorting, setTableSorting] = useState([]);
+  const [configOption, setConfigOption] = useState(columnConfig);
 
   let loadCanceled = false;
 
@@ -271,6 +298,70 @@ export default function DtgTable({
     }
   }, [tableData]);
 
+  const [allColumns, setAllColumns] = useState([]);
+
+  const defaultInvisibleColumns = {};
+  const defaultSelectedColumns = config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns;
+  const [columnVisibility, setColumnVisibility] = useState(
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+  );
+  const [defaultColumns, setDefaultColumns] = useState([]);
+  const [additionalColumns, setAdditionalColumns] = useState([]);
+  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
+
+  const table = useReactTable({
+    columns: allColumns,
+    data: reactTableData?.data,
+    columnResizeMode: 'onChange',
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: pagingProps.itemsPerPage,
+      },
+    },
+    state: {
+      columnVisibility,
+      sorting,
+    },
+    onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    manualPagination: manualPagination,
+  });
+
+  useEffect(() => {
+    const hideCols = hideColumns; //detailViewState ? detailViewAPI.hideColumns : hideColumns;
+    if (reactTableData?.data) {
+      const cols = columnsConstructorData(reactTableData, hideCols, tableName, configOption, customFormatting);
+      console.log('setting all columns', cols, configOption);
+      setAllColumns(cols);
+    }
+  }, [configOption, reactTableData]);
+
+  useEffect(() => {
+    console.log('*************************************', !!defaultSelectedColumns);
+    if (!!defaultSelectedColumns && !pivotSelected?.pivotValue) {
+      const columns = constructDefaultColumnsFromTableData(table, defaultSelectedColumns);
+      console.log('*************************************2', columns);
+      setDefaultColumns(columns.defaults);
+      setAdditionalColumns(columns.additional);
+    }
+    if (detailViewState) {
+      setColumnVisibility(defaultInvisibleColumns);
+    }
+  }, [configOption]);
+
+  const selectColumnsRef = useRef(null);
+
+  useEffect(() => {
+    if (selectColumnPanel) {
+      selectColumnsRef.current?.focus();
+    }
+  });
+
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
@@ -285,35 +376,59 @@ export default function DtgTable({
             </>
           )}
           <ErrorBoundary FallbackComponent={() => <></>}>
-            <DataTable
-              rawData={reactTableData}
-              detailViewState={detailViewState}
-              setDetailViewState={setDetailViewState}
-              detailColumnConfig={detailColumnConfig}
-              detailViewAPI={detailViewAPIConfig}
-              detailView={config?.detailView}
-              defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-              setTableColumnSortData={setTableColumnSortData}
-              pagingProps={pagingProps}
-              showPaginationControls={showPaginationControls}
-              setSelectColumnPanel={setSelectColumnPanel}
-              selectColumnPanel={selectColumnPanel}
-              resetFilters={resetFilters}
-              setResetFilters={setResetFilters}
-              manualPagination={manualPagination}
-              rowsShowing={rowsShowing}
-              pivotSelected={pivotSelected?.pivotValue}
-              setSummaryValues={setSummaryValues}
-              sorting={sorting}
-              setSorting={setSorting}
-              allActiveFilters={allActiveFilters}
-              setAllActiveFilters={setAllActiveFilters}
-              setTableSorting={setTableSorting}
-              disableDateRangeFilter={disableDateRangeFilter}
-              datasetName={datasetName}
-              hasDownloadTimestamp={hasDownloadTimestamp}
-              tableProps={tableProps}
-            />
+            <>
+              <div data-testid="table-content" className={overlayContainerNoFooter}>
+                <div className={selectColumnsWrapper}>
+                  {defaultSelectedColumns && (
+                    <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
+                      <DataTableColumnSelector
+                        dataTableRef={selectColumnsRef}
+                        selectColumnPanel={selectColumnPanel}
+                        fields={allColumns}
+                        resetToDefault={() => setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {})}
+                        setSelectColumnPanel={setSelectColumnPanel}
+                        defaultSelectedColumns={defaultSelectedColumns}
+                        table={table}
+                        additionalColumns={additionalColumns}
+                        defaultColumns={defaultColumns}
+                      />
+                    </div>
+                  )}
+                  <div className={tableStyle}>
+                    <div data-test-id="table-content" className={rawDataTableContainer}>
+                      <table {...tableProps.aria}>
+                        <DataTableHeader
+                          table={table}
+                          dataTypes={reactTableData.meta.dataTypes}
+                          resetFilters={resetFilters}
+                          manualPagination={manualPagination}
+                          allActiveFilters={allActiveFilters}
+                          setAllActiveFilters={setAllActiveFilters}
+                          disableDateRangeFilter={disableDateRangeFilter}
+                        />
+                        <DataTableBody
+                          table={table}
+                          dataTypes={reactTableData.meta.dataTypes}
+                          // detailViewConfig={detailView}
+                          setDetailViewState={setDetailViewState}
+                          setSummaryValues={setSummaryValues}
+                        />
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {shouldPage && (
+                <DataTableFooter
+                  table={table}
+                  showPaginationControls={showPaginationControls}
+                  pagingProps={pagingProps}
+                  manualPagination={manualPagination}
+                  rowsShowing={rowsShowing}
+                  setTableDownload={setTableRowSizeData}
+                />
+              )}
+            </>
           </ErrorBoundary>
         </div>
       )}

@@ -49,3 +49,21 @@ export const getDateFilters = (filteredDateRange, dateRange) => {
   }
   return { from, to };
 };
+
+// data table
+export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns) => {
+  const constructedDefaultColumns = [];
+  const constructedAdditionalColumns = [];
+  for (const column of table.getAllLeafColumns()) {
+    if (defaultSelectedColumns.includes(column.id)) {
+      constructedDefaultColumns.push(column);
+    } else if (!defaultSelectedColumns.includes(column.id)) {
+      constructedAdditionalColumns.push(column);
+    }
+  }
+  constructedAdditionalColumns.sort((a, b) => {
+    return a.id.localeCompare(b.id);
+  });
+  console.log(constructedDefaultColumns);
+  return { defaults: constructedDefaultColumns, additional: constructedAdditionalColumns };
+};
