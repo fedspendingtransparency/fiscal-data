@@ -1512,6 +1512,7 @@ const endpointConfig = {
       'cnc_total_amt',
       'cnc_closed_out_current_fy_amt',
     ],
+    additionalColumns: ['agency_code', 'receivable_type_id', 'funding_type_description', 'funding_type_id'],
   },
   '164': {
     endpoint: 'v2/debt/tror/collected_outstanding_recv',
