@@ -15,30 +15,28 @@ import { activePivot, getDateFilters, getPaginationValues } from './helper';
 const defaultRowsPerPage = 10;
 export default function DtgTable({
   tableProps,
-  perPage,
-  setPerPage,
   selectColumnPanel,
   setSelectColumnPanel,
+  tableColumnSortData,
   setTableColumnSortData,
+  detailViewState,
+  setDetailViewState,
+  setSummaryValues,
+  pivotSelected,
   resetFilters,
   setResetFilters,
   tableMeta,
-  tableColumnSortData,
   manualPagination,
   setManualPagination,
-  pivotSelected,
-  setDetailViewState,
-  detailViewState,
-  setSummaryValues,
+  datasetName,
+  userFilterSelection,
   setIsLoading,
   isLoading,
   sorting,
   setSorting,
   allActiveFilters,
   setAllActiveFilters,
-  userFilterSelection,
   disableDateRangeFilter,
-  datasetName,
   hasDownloadTimestamp,
 }) {
   const {
@@ -54,11 +52,9 @@ export default function DtgTable({
     selectColumns,
   } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
-  // const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
-    perPage ? perPage : !shouldPage && rawData?.data?.length > defaultRowsPerPage ? rawData?.data?.length : defaultRowsPerPage
+    !shouldPage && rawData?.data?.length > defaultRowsPerPage ? rawData?.data?.length : defaultRowsPerPage
   );
   const [tableData, setTableData] = useState([]);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
@@ -88,9 +84,6 @@ export default function DtgTable({
       end: numItems,
     });
     setCurrentPage(1);
-    if (setPerPage) {
-      setPerPage(numRows);
-    }
   };
 
   const getPagedData = resetPage => {
@@ -109,11 +102,11 @@ export default function DtgTable({
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
-      (!selectedTable?.apiFilter ||
-        ((selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
-          tableMeta &&
-          tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+      (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
+      tableMeta &&
+      tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE
     ) {
+      console.log('makePagedRequest');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
@@ -168,18 +161,6 @@ export default function DtgTable({
     }
   };
 
-  // const getCurrentData = () => {
-  //   if (tableProps.apiError && currentPage === 1) {
-  //     setRowsShowing({ begin: 0, end: 0 });
-  //     setMaxRows(0);
-  //   } else {
-  //     const paginationValues = getCurrentDataPaginationValues(data, currentPage, itemsPerPage);
-  //     setRowsShowing(paginationValues.rowsShowing);
-  //     setMaxPage(paginationValues.maxPage);
-  //     setTableData(paginationValues.tableData);
-  //   }
-  // };
-
   const handleJump = page => {
     const pageNum = Math.max(1, page);
     setCurrentPage(Math.min(pageNum, maxPage));
@@ -227,21 +208,6 @@ export default function DtgTable({
     }
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
-  // useMemo(() => {
-  //   if (data && data.length) {
-  //     setMaxRows(apiError ? 0 : data.length);
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (!tableProps.data) {
-  //     setCurrentPage(1);
-  //   }
-  //   if (tableProps.chartTable === false) {
-  //     updateTable(tableProps.data);
-  //   }
-  // }, [tableProps.data]);
-
   useEffect(() => {
     setShowPaginationControls(isPaginationControlNeeded());
   }, [maxRows]);
@@ -277,8 +243,9 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    const shouldUseRawData = rawData?.hasOwnProperty('data') && !dePaginated;
-    if (tableProps && !isLargeTable() && noPivotApplied() && shouldUseRawData) {
+    const shouldUseRawData = rawData?.hasOwnProperty('data') && isDepaginatedSize();
+    console.log('rawData', rawData, isDepaginatedSize(), tableMeta);
+    if (tableProps && noPivotApplied() && shouldUseRawData) {
       if (detailViewState && detailViewState?.secondary !== null && config?.detailView) {
         // Nested table detail view with secondary filter
         // ex. Buybacks
@@ -292,22 +259,22 @@ export default function DtgTable({
     }
   }, [rawData]);
 
-  useMemo(() => {
-    if (isDepaginatedSize() && dePaginated) {
-      if (userFilterSelection) {
-        // User filter tables
-        // ex. UTF / FBP
-        updateTablePaginatedData(dePaginated);
-        setMaxRows(dePaginated.data.length);
-        setIsLoading(false);
-      } else if (noPivotApplied()) {
-        // Use depaginated table data
-        // Large table with current date range results <= 20000
-        updateTablePaginatedData(dePaginated);
-        setIsLoading(false);
-      }
-    }
-  }, [dePaginated]);
+  // useMemo(() => {
+  //   if (isDepaginatedSize() && dePaginated) {
+  //     if (userFilterSelection) {
+  //       // User filter tables
+  //       // ex. UTF / FBP
+  //       updateTablePaginatedData(dePaginated);
+  //       setMaxRows(dePaginated.data.length);
+  //       setIsLoading(false);
+  //     } else if (noPivotApplied()) {
+  //       // Use depaginated table data
+  //       // Large table with current date range results <= 20000
+  //       updateTablePaginatedData(dePaginated);
+  //       setIsLoading(false);
+  //     }
+  //   }
+  // }, [dePaginated]);
 
   useMemo(() => {
     // Pivot table data
@@ -321,6 +288,7 @@ export default function DtgTable({
     // Current date range results > 20000
     const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
     if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
+      console.log('are we here???????????????????????');
       updateServerPaginatedData(tableData);
     }
   }, [tableData]);

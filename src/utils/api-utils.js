@@ -39,7 +39,7 @@ export const monthFullNames = [
 ];
 
 export const MAX_PAGE_SIZE = 10000;
-export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
+export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = MAX_PAGE_SIZE * 2;
 
 export const formatDateForApi = d => {
   return format(d, 'yyyy-MM-dd');
@@ -219,6 +219,7 @@ export const datatableRequest = async (
     }
     if (dateRanges && dateRanges.length) {
       const fetchers = [];
+      console.log(dateRanges);
       dateRanges.forEach(range => {
         const from = formatDateForApi(range.from);
         const to = formatDateForApi(range.to);
@@ -372,7 +373,6 @@ const convertAggregateValuesToDate = (row, aggregateOn) => {
     return row[aggregateOn[0].field];
   } else {
     aggregateOn.forEach(ag => {
-      // eslint-disable-next-line default-case
       switch (ag.type) {
         case 'MONTH':
           month = Number(row[ag.field]);
@@ -567,7 +567,7 @@ export const serializeFilters = filters => {
     } else if (filter.operator === 'mostRecentDatePeriod') {
       const currentDate = new Date(Date.now());
       let startDate;
-      // eslint-disable-next-line default-case
+
       switch (filter.unit) {
         case 'DAY':
           startDate = subDays(currentDate, filter.amount);
@@ -638,8 +638,8 @@ export const buildDateFilter = (selectedTable, from, to) => {
   return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
 };
 
-export const fetchTableMeta = async (sortParam, selectedTable, apiFilterParam, dateFilter) => {
-  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[size]=1`);
+export const fetchTableMeta = async (selectedTable, dateFilter) => {
+  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}&page[size]=1`);
 };
 
 export const fetchAllTableData = async (sortParam, totalCount, selectedTable, apiFilterParam, dateFilter) => {

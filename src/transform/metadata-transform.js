@@ -6,7 +6,7 @@ const { getConfigByApiId } = require('./endpointConfig');
 const { processFilters } = require('./filters/filterDefinitions');
 const { largeDatasetThreshold } = require('../helpers/largeDatasetThreshold');
 const matchedApiConfigs = [];
-
+const byPageThreshold = 20000;
 const { getPublishedReports } = require('../helpers/published-reports/published-reports');
 
 let camelcaseKeys;
@@ -154,6 +154,9 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
           if (Number(api.rowCount) > 5000 && Number(api.rowCount) < 8500) {
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
+          }
+          if (Number(api.rowCount) > byPageThreshold && !api.userFilter) {
+            api.byPage = true;
           }
           if (Number(api.rowCount) > largeDatasetThreshold && !api.userFilter) {
             api.isLargeDataset = true;

@@ -14,7 +14,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+
 import {
   active,
   barContainer,
@@ -35,7 +35,6 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { queryClient } from '../../../../react-query-client';
 import Analytics from '../../../utils/analytics/analytics';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
 import dayjs from 'dayjs';
@@ -72,6 +71,7 @@ const TableSectionContainer = ({
   setSummaryValues,
   allActiveFilters,
   setAllActiveFilters,
+  tableMeta,
 }) => {
   /*
       Methods for fetching data:
@@ -96,9 +96,8 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [perPage, setPerPage] = useState(null);
+  // const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
-  const [tableMeta, setTableMeta] = useState(null);
   const [manualPagination, setManualPagination] = useState(false);
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
@@ -112,71 +111,72 @@ const TableSectionContainer = ({
 
   const formattedDetailViewState = formatDate(detailViewState?.value);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  // const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
-  const getDepaginatedData = async () => {
-    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-      let from = formatDateForApi(dateRange.from);
-      let to = formatDateForApi(dateRange.to);
-
-      // redemption_tables and sb_value are exception scenarios where the date string needs to
-      // be YYYY-MM.
-      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-        from = from.substring(0, from.lastIndexOf('-'));
-        to = to.substring(0, to.lastIndexOf('-'));
-      }
-
-      const dateFilter = buildDateFilter(selectedTable, from, to);
-      const sortParam = buildSortParams(selectedTable, selectedPivot);
-      const apiFilterParam =
-        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
-          ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
-          : '';
-      let meta;
-      return await queryClient
-        .ensureQueryData({
-          queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
-        })
-        .then(async res => {
-          const totalCount = res.meta['total-count'];
-          if (!selectedPivot?.pivotValue) {
-            meta = res.meta;
-            if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
-              try {
-                return await queryClient.ensureQueryData({
-                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
-                });
-              } catch (error) {
-                console.warn(error);
-              }
-            } else if (totalCount === 0) {
-              setIsLoading(false);
-              setUserFilterUnmatchedForDateRange(true);
-              setManualPagination(false);
-              return null;
-            }
-          }
-        })
-        .catch(err => {
-          if (err.name === 'AbortError') {
-            console.info('Action cancelled.');
-          } else {
-            console.error('API error', err);
-            setApiError(err);
-          }
-        })
-        .finally(() => {
-          if (meta) {
-            setTableMeta(meta);
-            setApiError(false);
-          }
-        });
-    } else if (selectedTable?.apiFilter && userFilterSelection === null) {
-      setIsLoading(false);
-    }
-  };
+  // const getDepaginatedData = async () => {
+  //   console.log('getDepaginatedData');
+  //   if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
+  //     let from = formatDateForApi(dateRange.from);
+  //     let to = formatDateForApi(dateRange.to);
+  //
+  //     // redemption_tables and sb_value are exception scenarios where the date string needs to
+  //     // be YYYY-MM.
+  //     if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+  //       from = from.substring(0, from.lastIndexOf('-'));
+  //       to = to.substring(0, to.lastIndexOf('-'));
+  //     }
+  //
+  //     const dateFilter = buildDateFilter(selectedTable, from, to);
+  //     const sortParam = buildSortParams(selectedTable, selectedPivot);
+  //     const apiFilterParam =
+  //       selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
+  //         ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+  //         : '';
+  //     let meta;
+  //     return await queryClient
+  //       .ensureQueryData({
+  //         queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
+  //         queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
+  //       })
+  //       .then(async res => {
+  //         meta = res.meta;
+  //         const totalCount = meta['total-count'];
+  //         if (!selectedPivot?.pivotValue) {
+  //           if (totalCount !== 0 && totalCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+  //             try {
+  //               return await queryClient.ensureQueryData({
+  //                 queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+  //                 queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
+  //               });
+  //             } catch (error) {
+  //               console.warn(error);
+  //             }
+  //           } else if (totalCount === 0) {
+  //             setIsLoading(false);
+  //             setUserFilterUnmatchedForDateRange(true);
+  //             setManualPagination(false);
+  //             return null;
+  //           }
+  //         }
+  //       })
+  //       .catch(err => {
+  //         if (err.name === 'AbortError') {
+  //           console.info('Action cancelled.');
+  //         } else {
+  //           console.error('API error', err);
+  //           setApiError(err);
+  //         }
+  //       })
+  //       .finally(() => {
+  //         if (meta) {
+  //           setTableMeta(meta);
+  //           setApiError(false);
+  //         }
+  //       });
+  //   } else if (selectedTable?.apiFilter && userFilterSelection === null) {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const refreshTable = async () => {
     if (allTablesSelected) return;
@@ -211,11 +211,10 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
-      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
+      dePaginated: null, //selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
       hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
-      data: displayData, //null for server-side pagination
       config,
       columnConfig,
       detailColumnConfig,
@@ -433,18 +432,15 @@ const TableSectionContainer = ({
                 table={
                   tableProps ? (
                     <DtgTable
-                      selectColumnPanel={selectColumnPanel}
-                      setDetailViewState={setDetailViewState}
-                      detailViewState={detailViewState}
-                      setSummaryValues={setSummaryValues}
-                      pivotSelected={selectedPivot}
-                      setSelectColumnPanel={setSelectColumnPanel}
                       tableProps={tableProps}
-                      selectedTable={selectedTable}
-                      perPage={perPage}
-                      setPerPage={setPerPage}
+                      selectColumnPanel={selectColumnPanel}
+                      setSelectColumnPanel={setSelectColumnPanel}
                       tableColumnSortData={tableColumnSortData}
                       setTableColumnSortData={setTableColumnSortData}
+                      detailViewState={detailViewState}
+                      setDetailViewState={setDetailViewState}
+                      setSummaryValues={setSummaryValues}
+                      pivotSelected={selectedPivot}
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}
                       tableMeta={tableMeta}

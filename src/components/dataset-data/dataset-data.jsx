@@ -20,6 +20,7 @@ import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import BannerCallout from '../banner-callout/banner-callout';
+import { buildDateFilter, fetchTableMeta, formatDateForApi } from '../../utils/api-utils';
 
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
   // config.apis should always be available; but, fallback in case
@@ -50,8 +51,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const [tableMeta, setTableMeta] = useState(null);
 
+  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  // console.log(config);
+  //TODO: in metadata transform, set value for should page ??
+  // if more than 20K rows
 
   let loadByPage;
   const title = 'Data Preview';
@@ -59,8 +64,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
+  const shouldUsePaginated = () => {
+    return selectedTable && selectedTable.byPage;
+  };
+
   const clearDisplayData = () => {
-    loadByPage = shouldUseLoadByPage(selectedPivot);
+    loadByPage = shouldUsePaginated(); //shouldUseLoadByPage(selectedPivot);
 
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
@@ -165,24 +174,34 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       } else {
         clearDisplayData();
         let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        if (!loadByPage || ignorePivots) {
-          getApiData(
-            dateRange,
-            displayedTable,
-            selectedPivot,
-            setIsLoading,
-            setApiData,
-            setApiError,
-            canceledObj,
-            tableCaches[displayedTable.apiId],
-            detailViewState,
-            config?.detailView?.field,
-            queryClient
-          ).then(() => {
-            // nothing to cancel if the request completes normally.
-            canceledObj = null;
-          });
-        }
+        const from = formatDateForApi(dateRange.from);
+        const to = formatDateForApi(dateRange.to);
+        const dateFilter = buildDateFilter(selectedTable, from, to);
+        let skipthis;
+        (async () => {
+          const test = await fetchTableMeta(selectedTable, dateFilter);
+          setTableMeta(test.meta);
+          skipthis = test.meta && test.meta['total-count'] <= 20000;
+          console.log('??????????????????????', loadByPage, test, skipthis);
+          if (!loadByPage || skipthis || ignorePivots) {
+            getApiData(
+              dateRange,
+              displayedTable,
+              selectedPivot,
+              setIsLoading,
+              setApiData,
+              setApiError,
+              canceledObj,
+              tableCaches[displayedTable.apiId],
+              detailViewState,
+              config?.detailView?.field,
+              queryClient
+            ).then(() => {
+              // nothing to cancel if the request completes normally.
+              canceledObj = null;
+            });
+          }
+        })();
         return () => {
           if (!canceledObj) return;
           canceledObj.isCanceled = true;
@@ -326,6 +345,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setSummaryValues={setSummaryValues}
             allActiveFilters={allActiveFilters}
             setAllActiveFilters={setAllActiveFilters}
+            tableMeta={tableMeta}
           />
         )}
       </DatasetSectionContainer>
