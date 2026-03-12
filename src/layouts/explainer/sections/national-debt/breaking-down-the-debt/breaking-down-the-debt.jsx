@@ -42,7 +42,7 @@ let ga4Timer;
 
 const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [data, setData] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
@@ -313,8 +313,8 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           customTopMargin="-16px"
         >
           <p>
-            As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which is{' '}
-            {debtExpensePercent} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear}.
+            As of {interestExpenseEndMonth || '--'} {interestExpenseEndYear || '--'} it costs ${shortenedDebtExpense ?? '--'} billion to maintain the
+            debt, which is {debtExpensePercent || '--'} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear || '--'}.
           </p>
         </QuoteBox>
         <p>
@@ -342,7 +342,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
               data-testid="debt-breakdown-section-graph"
             >
               <p className={`${title} ${simple}`}>
-                Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}
+                Interest Rate and Total Debt, {multichartStartYear || '--'} – {multichartEndYear || '--'}
               </p>
               <div className={headerContainer} data-testid="interest-and-debt-chart-header">
                 <div>
@@ -381,7 +381,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                 <p>
                   Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
                 </p>
-                <p>Last Updated: September 30, {multichartEndYear}</p>
+                <p>Last Updated: September 30, {multichartEndYear || '--'}</p>
               </div>
             </div>
           </div>

@@ -19,11 +19,11 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const endpointUrl = `v1/accounting/od/securities_sales?${filter}&${sort}&${pagination}`;
   const securitiesSalesUrl = `${apiPrefix}${endpointUrl}`;
 
-  const [totalSavingsBondsInvested, setTotalSavingsBondsInvested] = useState('');
-  const [priorFiscalYear, setPriorFiscalYear] = useState('');
-  const [priorCalendarYear, setPriorCalendarYear] = useState('');
-  const [recordCalendarMonth, setRecordCalendarMonth] = useState('');
-  const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('');
+  const [totalSavingsBondsInvested, setTotalSavingsBondsInvested] = useState('--');
+  const [priorFiscalYear, setPriorFiscalYear] = useState('--');
+  const [priorCalendarYear, setPriorCalendarYear] = useState('--');
+  const [recordCalendarMonth, setRecordCalendarMonth] = useState('--');
+  const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('--');
   const [savingsBondChange, setSavingsBondChange] = useState(0);
   const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(0);
 
@@ -105,8 +105,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The American public invested ${getShortForm(totalSavingsBondsInvested, false)} in {savingsBonds} this {fiscalYear} to finance the federal
-        government.
+        The American public invested ${totalSavingsBondsInvested ? getShortForm(totalSavingsBondsInvested, false) : '--'} in {savingsBonds} this{' '}
+        {fiscalYear} to finance the federal government.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -123,7 +123,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
         <div className={footNotesPillData}>
           <p>
             Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), investments in
-            savings bonds have {savingsBondChangeLabel} by ${getShortForm(savingsBondChange.toString(), false)}.
+            savings bonds have {savingsBondChangeLabel} by ${savingsBondChange ? getShortForm(savingsBondChange.toString(), false) : '--'}.
           </p>
           {getPillData(
             savingsBondChange,

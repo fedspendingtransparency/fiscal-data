@@ -33,7 +33,7 @@ type CalloutProps = {
 const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPercentChange, cpiDataByYear }: CalloutProps) => {
   const [chartData, setChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [curFy, setCurFy] = useState<string>();
-  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(null);
   const [inflationChartData, setInflationChartData] = useState<ISavingBondsByTypeChartData[]>();
   const [mostBondSalesYear, setMostBondSalesYear] = useState<string | null>(null);
   const [mostBondSales, setMostBondSales] = useState<number>(0);
@@ -158,8 +158,9 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
         <SavingsBondsSoldByTypeChart chartData={chartData} curFy={curFy} chartDate={historyChartDate} inflationChartData={inflationChartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds were most popular in {mostBondSalesYear} and {secondMostBondSalesYear} when ${getShortForm(mostBondSales)} and $
-            {getShortForm(secondMostBondSales)} bonds were sold, respectively.
+            Savings bonds were most popular in {mostBondSalesYear ?? '--'} and {secondMostBondSalesYear ?? '--'} when $
+            {mostBondSales ? getShortForm(mostBondSales) : '--'} and ${secondMostBondSales ? getShortForm(secondMostBondSales) : '--'} bonds were
+            sold, respectively.
           </p>
         </VisualizationCallout>
       </figure>

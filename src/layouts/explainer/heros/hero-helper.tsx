@@ -35,6 +35,7 @@ const spendEndpointUrl = `v1/accounting/mts/mts_table_5?${spendFields}&${spendFi
 export const spendingUrl = `${apiPrefix}${spendEndpointUrl}`;
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
+  if (!priorFY || !currentFY || !currentRecordMonth) return '--';
   const date = new Date();
   date.setDate(15);
   date.setMonth(parseInt(currentRecordMonth) - 1);

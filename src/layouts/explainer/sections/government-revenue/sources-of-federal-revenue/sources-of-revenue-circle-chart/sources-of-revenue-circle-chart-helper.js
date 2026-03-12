@@ -10,11 +10,9 @@ import {
 import React from 'react';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
-
 export const title = `Sources of Revenue for the U.S. Federal Government, FYTD `;
 export const subTitle = 'Revenue by Source Categories';
 const { mtsReceipts } = explainerCitationsMap['government-revenue'];
-
 export const footer = (
   <div className={footerContainer}>
     <p>
@@ -23,18 +21,17 @@ export const footer = (
     <p>Visit the {mtsReceipts} dataset to explore and download this data.</p>
   </div>
 );
-
 export const dataHeader = (categoryName, revenueAmount, revenuePercent) => (
   <div className={dataHeaderContainer}>
-    <div className={header}>{categoryName}</div>
+    <div className={header}>{categoryName || '--'}</div>
     <div className={category}>Category</div>
     <div className={dataLabels}>
       <div>
-        <div className={headerTitle}>${getShortForm(revenueAmount)}</div>
+        <div className={headerTitle}>${revenueAmount ? getShortForm(revenueAmount) : '--'}</div>
         <span className={subHeader}>Revenue Amount</span>
       </div>
       <div>
-        <div className={headerTitle}>{revenuePercent.toFixed()}%</div>
+        <div className={headerTitle}>{revenuePercent != null ? revenuePercent.toFixed() : '--'}%</div>
         <span className={subHeader}>% of Total Revenue</span>
       </div>
     </div>

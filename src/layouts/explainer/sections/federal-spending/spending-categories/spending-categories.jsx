@@ -31,7 +31,7 @@ export const SpendingCategories = () => {
       <p>
         The government buys a variety of products and services used to serve the public - everything from military aircraft, construction and highway
         maintenance equipment, buildings, and livestock, to research, education, and training. The chart below shows the top 10 categories and
-        agencies for federal spending in FY {latestCompleteFiscalYear}.
+        agencies for federal spending in FY {latestCompleteFiscalYear || '--'}.
       </p>
       <figure className={visWithCallout}>
         <HowMuchDoesTheGovtSpend />

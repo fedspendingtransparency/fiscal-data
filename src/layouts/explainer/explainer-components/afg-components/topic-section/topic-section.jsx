@@ -35,8 +35,8 @@ const TopicSection = ({ fiscalYear, width }) => {
   const [spendingHas, setSpendingHas] = useState('has');
   const [deficitExceeds, setDeficitExceeds] = useState('exceeds');
   const [debtContributed, setDebtContributed] = useState('has contributed');
-  const [debtDate, setDebtDate] = useState('month year');
-  const [debtToPennyDate, setDebtToPennyDate] = useState('month DD, year');
+  const [debtDate, setDebtDate] = useState('--');
+  const [debtToPennyDate, setDebtToPennyDate] = useState('--');
   const [debtChange, setDebtChange] = useState('');
   const [debtDirection, setDebtDirection] = useState('');
 
@@ -64,19 +64,19 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(priorRevenueRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setPriorFyRevenue(getShortForm(data?.current_fytd_net_rcpt_amt.toString(), false));
         }
       });
       basicFetch(priorRevenueCategoryRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
-          setRevenueCategory(data.classification_desc);
+          setRevenueCategory(data?.classification_desc);
         }
       });
       basicFetch(new ApiRequest(spendingRequest).getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setFytdSpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
           if (data.record_calendar_month === '09') {
@@ -85,19 +85,19 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(priorSpendingRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setPriorFySpending(getShortForm(data.current_fytd_net_outly_amt.toString(), false));
         }
       });
       basicFetch(priorSpendingCategoryRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setSpendingCategory(data?.classification_desc);
         }
       });
       basicFetch(new ApiRequest(deficitRequest).getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           const deficitAmount = Math.abs(Number(data.current_fytd_net_outly_amt));
           const formattedAmount = getShortForm(deficitAmount.toString(), false);
@@ -108,7 +108,7 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(priorDeficitRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           // This is the deficit amount from 1 FY ago
           const deficitAmount = Number(data.current_fytd_net_outly_amt);
@@ -129,7 +129,7 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(`${apiPrefix}${mtsDebtEndpoint}`).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const mtsData = res.data[0];
           const mtsMonth = mtsData.record_calendar_month;
 
@@ -137,7 +137,7 @@ const TopicSection = ({ fiscalYear, width }) => {
           const mspdDebtEndpoint = `v1/debt/mspd/mspd_table_1?filter=security_type_desc:eq:Total%20Public%20Debt%20Outstanding,record_calendar_month:eq:${mtsMonth}&sort=-record_date&page[size]=1`;
 
           basicFetch(`${apiPrefix}${mspdDebtEndpoint}`).then(res => {
-            if (res.data) {
+            if (res.data && res.data.length > 0) {
               const mspdData = res.data.find(entry => entry.record_calendar_month === mtsData.record_calendar_month);
               if (mspdData.record_calendar_month === '09') {
                 setDebtContributed('contributed');
@@ -152,7 +152,7 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(new ApiRequest(debtRequest).getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
           const date = new Date(data.record_date);
@@ -162,7 +162,7 @@ const TopicSection = ({ fiscalYear, width }) => {
         }
       });
       basicFetch(priorDebtRequest.getUrl()).then(res => {
-        if (res.data) {
+        if (res.data && res.data.length > 0) {
           const data = res.data[0];
           setPriorFyDebt(getShortForm(data.tot_pub_debt_out_amt.toString(), false));
           basicFetch(priorPriorDebtRequest.getUrl()).then(priorRes => {
@@ -192,27 +192,29 @@ const TopicSection = ({ fiscalYear, width }) => {
 
   const revenueHeading = (
     <>
-      In fiscal year {fiscalYear}
-      {anchorTextLatestFY(fiscalYear, 0, 0)}, the federal government {revenueHas} ${fytdRevenue} in{' '}
+      In fiscal year {fiscalYear || '--'}
+      {anchorTextLatestFY(fiscalYear, 0, 0)}, the federal government {revenueHas} ${fytdRevenue || '--'} in{' '}
       <span style={{ fontStyle: 'italic' }}>revenue.</span>
     </>
   );
 
   const spendingHeading = (
     <>
-      In fiscal year {fiscalYear}, the federal government {spendingHas} <span style={{ fontStyle: 'italic' }}>spent</span> ${fytdSpending}.
+      In fiscal year {fiscalYear || '--'}, the federal government {spendingHas} <span style={{ fontStyle: 'italic' }}>spent</span> $
+      {fytdSpending || '--'}.
     </>
   );
 
   const deficitHeading = (
     <>
-      The amount by which spending {deficitExceeds} revenue, ${fytdDeficit} in {fiscalYear}, is referred to as{' '}
+      The amount by which spending {deficitExceeds} revenue, ${fytdDeficit || '--'} in {fiscalYear || '--'}, is referred to as{' '}
       <span style={{ fontStyle: 'italic' }}>deficit</span> spending.
     </>
   );
   const debtHeading = (
     <>
-      The deficit this year {debtContributed} to a national <span style={{ fontStyle: 'italic' }}>debt</span> of ${latestDebt} through {debtDate}.
+      The deficit this year {debtContributed} to a national <span style={{ fontStyle: 'italic' }}>debt</span> of ${latestDebt || '--'} through{' '}
+      {debtDate}.
     </>
   );
 
@@ -229,9 +231,9 @@ const TopicSection = ({ fiscalYear, width }) => {
         and {exciseTaxes} taxes. It also collects revenue from services like admission to national parks and customs duties.
       </p>
       <p>
-        In {priorFiscalYear}
-        {anchorTextLatestFY(priorFiscalYear, 1, 0)}, the federal government collected ${priorFyRevenue}. The primary source of revenue for the U.S.
-        government in {priorFiscalYear} was {revenueCategory}.
+        In {priorFiscalYear || '--'}
+        {anchorTextLatestFY(priorFiscalYear, 1, 0)}, the federal government collected ${priorFyRevenue || '--'}. The primary source of revenue for the
+        U.S. government in {priorFiscalYear || '--'} was {revenueCategory || '--'}.
       </p>
     </>
   );
@@ -242,7 +244,7 @@ const TopicSection = ({ fiscalYear, width }) => {
         it has incurred on outstanding federal debt, including Treasury notes and bonds.
       </p>
       <p>
-        In {priorFiscalYear} the federal government spent ${priorFySpending}, with the majority spent on {spendingCategory}.
+        In {priorFiscalYear || '--'} the federal government spent ${priorFySpending || '--'}, with the majority spent on {spendingCategory || '--'}.
       </p>
     </>
   );
@@ -251,13 +253,15 @@ const TopicSection = ({ fiscalYear, width }) => {
       <p>A budget deficit occurs when the money spent exceeds the money collected for a given period.</p>
       {deficitDirection !== 'has not changed' ? (
         <p>
-          In {priorFiscalYear}, the federal government spent ${priorFyDeficit} more than it collected, resulting in a deficit. Compared to{' '}
-          {priorPriorYear}, the national deficit {deficitDirection} by ${deficitChange} in {priorFiscalYear}.
+          In {priorFiscalYear || '--'}, the federal government spent ${priorFyDeficit || '--'} more than it collected, resulting in a deficit.
+          Compared to {priorPriorYear || '--'}, the national deficit {deficitDirection || '--'} by ${deficitChange || '--'} in{' '}
+          {priorFiscalYear || '--'}.
         </p>
       ) : (
         <p>
-          In {priorFiscalYear}, the federal government spent ${priorFyDeficit} more than it collected, resulting in a deficit. Compared to{' '}
-          {priorPriorYear}, the national deficit {deficitDirection}, remaining at ${priorFyDeficit} in {priorFiscalYear}.
+          In {priorFiscalYear || '--'}, the federal government spent ${priorFyDeficit || '--'} more than it collected, resulting in a deficit.
+          Compared to {priorPriorYear || '--'}, the national deficit {deficitDirection || '--'}, remaining at ${priorFyDeficit || '--'} in{' '}
+          {priorFiscalYear || '--'}.
         </p>
       )}
     </>
@@ -267,18 +271,18 @@ const TopicSection = ({ fiscalYear, width }) => {
       <p>
         The national debt is the money the federal government has borrowed to cover the outstanding balance of expenses incurred over time. To pay for
         a deficit, the federal government borrows additional funds, which increases the debt. Other activities contribute to the change in federal
-        debt, such as changes in the Treasury’s operating cash account and federal student loans. The total debt for the U.S. through{' '}
-        {debtToPennyDate} is ${debt}.
+        debt, such as changes in the Treasury's operating cash account and federal student loans. The total debt for the U.S. through{' '}
+        {debtToPennyDate} is ${debt || '--'}.
       </p>
       {debtDirection !== 'did not change' ? (
         <p>
-          At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection}{' '}
-          by ${debtChange} compared to {priorPriorYear}.
+          At the end of {priorFiscalYear || '--'} the government had ${priorFyDebt || '--'} in federal debt. In {priorFiscalYear || '--'}, the
+          national debt {debtDirection || '--'} by ${debtChange || '--'} compared to {priorPriorYear || '--'}.
         </p>
       ) : (
         <p>
-          At the end of {priorFiscalYear} the government had ${priorFyDebt} in federal debt. In {priorFiscalYear}, the national debt {debtDirection},{' '}
-          remaining at ${priorFyDebt} in {priorPriorYear}.
+          At the end of {priorFiscalYear || '--'} the government had ${priorFyDebt || '--'} in federal debt. In {priorFiscalYear || '--'}, the
+          national debt {debtDirection || '--'}, remaining at ${priorFyDebt || '--'} in {priorPriorYear || '--'}.
         </p>
       )}
     </>

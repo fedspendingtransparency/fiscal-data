@@ -86,8 +86,9 @@ const UnderstandingDeficit = ({ sectionId }) => {
         <div className={textContent} data-testid="textContent">
           <p>
             A budget deficit occurs when money going out ({spending}) exceeds money coming in ({revenue}) during a defined period. In FY{' '}
-            {lastFiscalYear}, the federal government spent ${spendingLabel} trillion and collected ${revenueLabel} trillion in revenue, resulting in a
-            deficit. The amount by which spending exceeds revenue, ${deficitLabel} trillion in {lastFiscalYear}, is referred to as deficit spending.
+            {lastFiscalYear || '--'}, the federal government spent ${spendingLabel || '--'} trillion and collected ${revenueLabel || '--'} trillion in
+            revenue, resulting in a deficit. The amount by which spending exceeds revenue, ${deficitLabel || '--'} trillion in{' '}
+            {lastFiscalYear || '--'}, is referred to as deficit spending.
           </p>
           <p>
             The opposite of a budget deficit is a budget {surplus}, which occurs when the federal government collects more money than it spends. The

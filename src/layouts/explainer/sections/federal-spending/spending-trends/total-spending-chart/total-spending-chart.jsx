@@ -53,7 +53,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxAmount, setMaxAmount] = useState(0);
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastSpendingValue, setLastSpendingValue] = useState('');
   const [maxSpendingValue, setMaxSpendingValue] = useState(0);
@@ -67,7 +67,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const chartWidth = 550;
   const chartHeight = 490;
 
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({
+    fiscalYear: '--',
+    totalSpending: '',
+    gdp: '',
+    gdpRatio: '',
+  });
 
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
 
@@ -105,7 +110,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         setCallOutYear(res.data[0].record_fiscal_year);
       }
     });
@@ -115,7 +120,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     const { finalGDPData, gdpMaxYear, gdpMaxAmount } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         let finalSpendingChartData = [];
 
         res.data.forEach(spending => {
@@ -418,7 +423,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, {calloutCopy}.
+              Since {callOutYear || '--'}, {calloutCopy || '--'}.
             </p>
           </VisualizationCallout>
         </figure>

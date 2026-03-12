@@ -37,11 +37,11 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [minYear, setMinYear] = useState();
   const [maxYear, setMaxYear] = useState();
   const [maxAmount, setMaxAmount] = useState(0);
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '-', totalDebt: '-' });
+  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
@@ -251,7 +251,8 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
         <VisualizationCallout color="">
           <p>
-            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
+            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue || '--'} in {minYear || '--'} to {lastDebtValue || '--'}{' '}
+            in {maxYear || '--'}.
           </p>
         </VisualizationCallout>
       </figure>

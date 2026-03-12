@@ -110,7 +110,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
 
   return (
     <figure className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
-      <div className={chartTitle}>{`Deficit: FYTD ${currentFY} and Last 4 Years in Trillions of USD`}</div>
+      <div className={chartTitle}>Deficit: FYTD {currentFY ?? '--'} and Last 4 Years in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
         <>

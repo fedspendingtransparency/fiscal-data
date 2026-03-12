@@ -66,8 +66,8 @@ const GovernmentRevenueHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        Government revenue is income received from taxes and other sources to pay for government {expenditures}. The U.S. government has collected $
-        {getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear}.
+        Government revenue is income received from taxes and other sources to pay for government {expenditures ?? '--'}. The U.S. government has
+        collected ${currentRevenue ? getShortForm(currentRevenue, false) : '--'} in fiscal year {recordFiscalYear ?? '--'}.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -79,12 +79,12 @@ const GovernmentRevenueHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mtsReceipts} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear ?? '--'}) total updated monthly using the {mtsReceipts} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
-            Compared to the federal revenue of ${getShortForm(priorYearRevenue.toString(), false)} for the same period last year (
-            {getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}) federal revenue has {revenueChangeLabel} by $
+            Compared to the federal revenue of ${priorYearRevenue ? getShortForm(priorYearRevenue.toString(), false) : '--'} for the same period last
+            year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}) federal revenue has {revenueChangeLabel} by $
             {getShortForm(revenueChange.toString(), false)}.
           </p>
           {getPillData(

@@ -250,7 +250,7 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     return new Date(value).getFullYear() + 1;
   };
 
-  const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15} – FYTD ${curFy}`;
+  const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15 ?? '--'} – FYTD ${curFy ?? '--'}`;
   return (
     <div className={container}>
       <ChartContainer

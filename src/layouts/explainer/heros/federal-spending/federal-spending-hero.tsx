@@ -49,8 +49,8 @@ const FederalSpendingHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The U.S. government has spent ${getShortForm(totalSpending, false)} in fiscal year {recordFiscalYear} to ensure the well-being of the people
-        of the United States.
+        The U.S. government has spent ${totalSpending ? getShortForm(totalSpending, false) : '--'} in fiscal year {recordFiscalYear || '--'} to ensure
+        the well-being of the people of the United States.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -62,13 +62,13 @@ const FederalSpendingHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mtsOutlays} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear || '--'}) total updated monthly using the {mtsOutlays} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
             Compared to the federal spending of ${getShortForm(priorYearSpending.toString(), false)} for the same period last year (
             {getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}) our federal spending has {spendingChangeLabel} by $
-            {getShortForm(spendingChange.toString(), false)}.
+            {spendingChange ? getShortForm(spendingChange.toString(), false) : '--'}.
           </p>
           {getPillData(
             spendingChange,
