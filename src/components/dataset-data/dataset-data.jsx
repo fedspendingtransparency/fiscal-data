@@ -334,7 +334,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             handleConfigUpdate={() => setConfigUpdated(true)}
             tableColumnSortData={tableColumnSortData}
             setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
             publishedReports={publishedReports}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}

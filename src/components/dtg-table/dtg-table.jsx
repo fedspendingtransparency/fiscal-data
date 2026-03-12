@@ -39,18 +39,7 @@ export default function DtgTable({
   disableDateRangeFilter,
   hasDownloadTimestamp,
 }) {
-  const {
-    dePaginated,
-    rawData,
-    tableName,
-    shouldPage,
-    selectedTable,
-    selectedPivot,
-    dateRange,
-    config,
-    detailColumnConfig,
-    selectColumns,
-  } = tableProps;
+  const { rawData, tableName, shouldPage, selectedTable, selectedPivot, dateRange, config, detailColumnConfig, selectColumns } = tableProps;
   const [reactTableData, setReactTableData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(
@@ -99,8 +88,7 @@ export default function DtgTable({
 
   const makePagedRequest = async resetPage => {
     if (
-      selectedTable &&
-      selectedTable.endpoint &&
+      selectedTable?.endpoint &&
       !loadCanceled &&
       (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
       tableMeta &&
@@ -188,16 +176,7 @@ export default function DtgTable({
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, dateRange, selectedTable, tableMeta]);
-
-  useMemo(() => {
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      updateSmallFractionDataType();
-      setCurrentPage(1);
-
-      updateTable(true);
-    }
-  }, [filteredDateRange]);
+  }, [tableSorting, dateRange, selectedTable, tableMeta, filteredDateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
@@ -286,9 +265,8 @@ export default function DtgTable({
   useMemo(() => {
     // Serverside paginated data
     // Current date range results > 20000
-    const shouldUseTableData = tableData.data?.length > 0 && !rawData && !dePaginated;
+    const shouldUseTableData = tableData.data?.length > 0 && !rawData;
     if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
-      console.log('are we here???????????????????????');
       updateServerPaginatedData(tableData);
     }
   }, [tableData]);
@@ -316,7 +294,6 @@ export default function DtgTable({
               detailView={config?.detailView}
               defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
               setTableColumnSortData={setTableColumnSortData}
-              hideCellLinks={true}
               pagingProps={pagingProps}
               showPaginationControls={showPaginationControls}
               setSelectColumnPanel={setSelectColumnPanel}

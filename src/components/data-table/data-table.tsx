@@ -32,7 +32,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   selectColumnPanel,
   resetFilters,
   setResetFilters,
-  hideCellLinks,
   pagingProps,
   manualPagination,
   rowsShowing,
@@ -53,7 +52,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
   hasDownloadTimestamp,
   tableProps,
 }) => {
-  const { customFormatting, shouldPage, columnConfig, dateRange, tableName, hideColumns, hasPublishedReports, publishedReports } = tableProps;
+  const { customFormatting, shouldPage, columnConfig, dateRange, tableName, hideColumns, publishedReports } = tableProps;
   const [configOption, setConfigOption] = useState(columnConfig);
   const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
   const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
@@ -72,26 +71,6 @@ const DataTable: FunctionComponent<IDataTableProps> = ({
     const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
     return columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
   }, [rawData, configOption]);
-
-  if (hasPublishedReports && !hideCellLinks) {
-    // Must be able to modify allColumns, thus the ignore
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    allColumns[0].cell = ({ getValue }) => {
-      if (
-        publishedReports.find(report => {
-          return report.report_date.toISOString().split('T')[0] === getValue();
-        }) !== undefined
-      ) {
-        const path = publishedReports.find(report => {
-          return report.report_date.toISOString().split('T')[0] === getValue();
-        }).path;
-        return <a href={path}>{getValue()}</a>;
-      } else {
-        return <span>{getValue()}</span>;
-      }
-    };
-  }
 
   const dataTypes = rawData.meta.dataTypes;
 

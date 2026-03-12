@@ -60,7 +60,6 @@ const TableSectionContainer = ({
   handleConfigUpdate,
   tableColumnSortData,
   setTableColumnSortData,
-  hasPublishedReports,
   publishedReports,
   resetFilters,
   setResetFilters,
@@ -73,17 +72,6 @@ const TableSectionContainer = ({
   setAllActiveFilters,
   tableMeta,
 }) => {
-  /*
-      Methods for fetching data:
-        -depaginated
-        -rawData
-        -tableData
-        -tableProps.data ?
-
-
-        can depaginated and rawData be combined?
-   */
-
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
@@ -96,10 +84,8 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  // const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
   const [manualPagination, setManualPagination] = useState(false);
-  const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
@@ -110,73 +96,6 @@ const TableSectionContainer = ({
   };
 
   const formattedDetailViewState = formatDate(detailViewState?.value);
-
-  // const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
-
-  // const getDepaginatedData = async () => {
-  //   console.log('getDepaginatedData');
-  //   if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-  //     let from = formatDateForApi(dateRange.from);
-  //     let to = formatDateForApi(dateRange.to);
-  //
-  //     // redemption_tables and sb_value are exception scenarios where the date string needs to
-  //     // be YYYY-MM.
-  //     if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-  //       from = from.substring(0, from.lastIndexOf('-'));
-  //       to = to.substring(0, to.lastIndexOf('-'));
-  //     }
-  //
-  //     const dateFilter = buildDateFilter(selectedTable, from, to);
-  //     const sortParam = buildSortParams(selectedTable, selectedPivot);
-  //     const apiFilterParam =
-  //       selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
-  //         ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
-  //         : '';
-  //     let meta;
-  //     return await queryClient
-  //       .ensureQueryData({
-  //         queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-  //         queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
-  //       })
-  //       .then(async res => {
-  //         meta = res.meta;
-  //         const totalCount = meta['total-count'];
-  //         if (!selectedPivot?.pivotValue) {
-  //           if (totalCount !== 0 && totalCount <= REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-  //             try {
-  //               return await queryClient.ensureQueryData({
-  //                 queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-  //                 queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
-  //               });
-  //             } catch (error) {
-  //               console.warn(error);
-  //             }
-  //           } else if (totalCount === 0) {
-  //             setIsLoading(false);
-  //             setUserFilterUnmatchedForDateRange(true);
-  //             setManualPagination(false);
-  //             return null;
-  //           }
-  //         }
-  //       })
-  //       .catch(err => {
-  //         if (err.name === 'AbortError') {
-  //           console.info('Action cancelled.');
-  //         } else {
-  //           console.error('API error', err);
-  //           setApiError(err);
-  //         }
-  //       })
-  //       .finally(() => {
-  //         if (meta) {
-  //           setTableMeta(meta);
-  //           setApiError(false);
-  //         }
-  //       });
-  //   } else if (selectedTable?.apiFilter && userFilterSelection === null) {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const refreshTable = async () => {
     if (allTablesSelected) return;
@@ -211,8 +130,6 @@ const TableSectionContainer = ({
     }
 
     setTableProps({
-      dePaginated: null, //selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
-      hasPublishedReports,
       publishedReports,
       rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
       config,
@@ -226,11 +143,11 @@ const TableSectionContainer = ({
       selectedTable,
       selectedPivot,
       dateRange,
-      apiError: apiErrorState,
+      apiError: apiError,
       selectColumns: selectedTable.selectColumns ? selectedTable.selectColumns : [], // if selectColumns is not defined in endpointConfig.js, default to allowing all columns be selectable
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
-      aria: { 'aria-labelledby': 'main-data-table-title' },
+      // aria: { 'aria-labelledby': 'main-data-table-title' },
       customFormatting,
     });
   };
