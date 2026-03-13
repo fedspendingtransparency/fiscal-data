@@ -101,7 +101,6 @@ const TableSectionContainer = ({
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-    console.log('refresh table', columnConfig);
     // DetailColumnConfig is used for the TIPS and CPI detail view table
     const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
     let displayData = apiData ? apiData.data : null;

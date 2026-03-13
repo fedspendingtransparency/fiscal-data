@@ -64,6 +64,5 @@ export const constructDefaultColumnsFromTableData = (table, defaultSelectedColum
   constructedAdditionalColumns.sort((a, b) => {
     return a.id.localeCompare(b.id);
   });
-  console.log(constructedDefaultColumns);
   return { defaults: constructedDefaultColumns, additional: constructedAdditionalColumns };
 };

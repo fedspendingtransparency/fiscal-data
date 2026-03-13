@@ -119,7 +119,6 @@ export const columnsConstructorData = (
   columnConfig: { property: string; name: string }[],
   customFormatConfig: { type: string; fields: string[]; dateFormat: string }[]
 ): ColumnDef<string, string | Date | number>[] => {
-  console.log('&&&&&&&&&&&&&&&', rawData);
   if (rawData.meta && columnConfig) {
     return columnConfig
       .filter(x => !hideColumns?.includes(x.property))

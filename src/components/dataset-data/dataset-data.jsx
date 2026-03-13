@@ -54,10 +54,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableMeta, setTableMeta] = useState(null);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-  // console.log(config);
-  //TODO: in metadata transform, set value for should page ??
-  // if more than 20K rows
-
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
@@ -180,9 +176,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         let skipthis;
         (async () => {
           const test = await fetchTableMeta(selectedTable, dateFilter);
+          console.log('tableMeta: ', test);
           setTableMeta(test.meta);
           skipthis = test.meta && test.meta['total-count'] <= 20000;
-          console.log('??????????????????????', loadByPage, test, skipthis);
           if (!loadByPage || skipthis || ignorePivots) {
             getApiData(
               dateRange,

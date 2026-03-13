@@ -9,7 +9,6 @@ let runOnce;
 const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache) => {
   if (res.data && (res.data.length || selectedTable.apiId !== 149)) {
     // if data [] exists (and it has records, or if it's empty but not for API 149, set the value)
-    console.log('getApiData', res);
     if (customTableSorts[selectedTable.apiId]) {
       res.data = res.data.sort(customTableSorts[selectedTable.apiId]);
     }
