@@ -39,12 +39,18 @@ export const useGetInterestExpenseData = (shouldHaveChartData: boolean, isMobile
 
   useEffect(() => {
     queryClient
-      .ensureQueryData([`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`], getOlderInterestExpData)
+      .ensureQueryData({
+        queryKey: [`${apiPrefix}v2/accounting/od/interest_expense?sort=record_date&page[size]=1`],
+        queryFn: getOlderInterestExpData,
+      })
       .then(res => {
         setOlderResult(res);
       });
     queryClient
-      .ensureQueryData([`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`], getCurrentInterestExpData)
+      .ensureQueryData({
+        queryKey: [`${apiPrefix}v2/accounting/od/interest_expense?sort=-record_date&page[size]=1`],
+        queryFn: getCurrentInterestExpData,
+      })
       .then(res => {
         setCurrentResult(res);
       });

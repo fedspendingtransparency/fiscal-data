@@ -3,12 +3,12 @@ import React from 'react';
 import Persist from './src/components/persist/persist';
 import { RecoilRoot } from 'recoil';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
-import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { queryClient } from './react-query-client';
 
 const isBrowser = () => typeof window !== 'undefined';
 
-const persister = createSyncStoragePersister({
+const persister = createAsyncStoragePersister({
   storage: isBrowser() && window.sessionStorage,
 });
 
