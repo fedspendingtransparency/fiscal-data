@@ -165,7 +165,6 @@
     "@types/d3-selection": "^3.0.11",
     "@types/jest": "^29.5.14",
     "@types/react-scroll": "^1.8.10",
-    "@types/react-test-renderer": "^19.1.0",
     "@typescript-eslint/parser": "^8.56.1",
     "axe-core": "^4.6.3",
     "babel-jest": "^27.0.6",
