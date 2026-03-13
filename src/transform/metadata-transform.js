@@ -189,6 +189,10 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
             }
             api.selectColumns = selectColumns;
           }
+          //TODO: test functionality
+          if (api.apiId === 178) {
+            api.fields[2].dataType = 'SMALL_FRACTION';
+          }
         }
 
         const apiDateRange = getDateRange(dataset.apis);

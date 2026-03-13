@@ -355,15 +355,10 @@ export const columnBodyFilterApplied = (appliedFilters, columnName) => {
   }
 };
 
-export const getSortedColumnsData = (
-  table: Table<Record<string, unknown>>,
-  setTableColumnSortData: (map: Record<string, string>) => void,
-  hideColumns: string[],
-  dataTypes
-): void => {
-  if (setTableColumnSortData) {
-    const columns = table.getVisibleFlatColumns();
-    const mapped = columns.map(column => ({
+export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hideColumns: string[], dataTypes) => {
+  const columns = table?.getVisibleFlatColumns();
+  if (columns) {
+    return columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
@@ -371,7 +366,6 @@ export const getSortedColumnsData = (
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
       allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));
-    setTableColumnSortData(mapped);
   }
 };
 

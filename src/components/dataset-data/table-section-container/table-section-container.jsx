@@ -316,7 +316,7 @@ const TableSectionContainer = ({
         </div>
         <div className={tableContainer}>
           {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
-          {!!detailViewState && (
+          {!!detailViewState && tableProps?.columnConfig && (
             <SummaryTable
               summaryTable={config?.detailView?.summaryTableFields}
               summaryValues={summaryValues}

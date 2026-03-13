@@ -1,9 +1,11 @@
 import React from 'react';
-import { summaryValue, tableContainer, tableHeader, sectionHeader, detailContainer } from './summary-table.module.scss';
+import { detailContainer, sectionHeader, summaryValue, tableContainer, tableHeader } from './summary-table.module.scss';
 import { formatCellValue } from '../../../dtg-table/dtg-table-row/dtg-table-row';
+
 const SummaryTable = ({ summaryValues, summaryTable, columnConfig, customFormatConfig }) => {
   const summaryTypes = {};
   const summaryHeaders = {};
+  console.log(columnConfig);
 
   summaryTable.forEach(header => {
     const col = columnConfig.find(configVal => configVal.property === header);

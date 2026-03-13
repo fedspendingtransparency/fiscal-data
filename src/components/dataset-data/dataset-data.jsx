@@ -140,6 +140,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
       setSelectedTableProp(selectedTable);
     }
+    setTableColumnSortData([]);
   }, [selectedTable]);
 
   useEffect(() => {
@@ -175,11 +176,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         const dateFilter = buildDateFilter(selectedTable, from, to);
         let skipthis;
         (async () => {
-          const test = await fetchTableMeta(selectedTable, dateFilter);
-          console.log('tableMeta: ', test);
-          setTableMeta(test.meta);
-          skipthis = test.meta && test.meta['total-count'] <= 20000;
+          const metaData = await fetchTableMeta(selectedTable, dateFilter);
+          setTableMeta(metaData.meta);
+          skipthis = metaData.meta && metaData.meta['total-count'] <= 20000;
           if (!loadByPage || skipthis || ignorePivots) {
+            setServerSidePagination(null);
             getApiData(
               dateRange,
               displayedTable,
@@ -213,10 +214,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
     setUserFilterSelection(null);
   }, [allTablesSelected]);
-
-  useEffect(() => {
-    setTableColumnSortData([]);
-  }, [selectedTable]);
 
   return (
     <div data-testid="datasetData">

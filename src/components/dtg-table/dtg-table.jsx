@@ -11,7 +11,7 @@ import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
 import { constructDefaultColumnsFromTableData, getDateFilters, getPaginationValues } from './helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { columnsConstructorData } from '../data-table/data-table-helper';
+import { columnsConstructorData, getSortedColumnsData } from '../data-table/data-table-helper';
 import DataTableBody from '../data-table/data-table-body/data-table-body';
 import {
   rawDataTableContainer,
@@ -23,7 +23,13 @@ import {
 import DataTableColumnSelector from '../data-table/column-select/data-table-column-selector';
 import DataTableHeader from '../data-table/data-table-header/data-table-header';
 import DataTableFooter from '../data-table/data-table-footer/data-table-footer';
-import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import {
+  smallTableDownloadDataCSV,
+  smallTableDownloadDataJSON,
+  smallTableDownloadDataXML,
+  tableRowLengthState,
+} from '../../recoil/smallTableDownloadData';
+import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../table-components/helpers/data-download-helper';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -72,7 +78,6 @@ export default function DtgTable({
   const [itemsPerPage, setItemsPerPage] = useState(
     !shouldPage && rawData?.data?.length > defaultRowsPerPage ? rawData?.data?.length : defaultRowsPerPage
   );
-  const [tableData, setTableData] = useState([]);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(rawData?.data?.length > 0 ? rawData?.data.length : 1);
@@ -88,13 +93,16 @@ export default function DtgTable({
 
   const defaultInvisibleColumns = {};
   const defaultSelectedColumns = detailView?.selectColumns && detailViewState ? detailView.selectColumns : selectColumns;
-  const [columnVisibility, setColumnVisibility] = useState(
-    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
-  );
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
   const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
+  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
+  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
+  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
 
+  const [columnVisibility, setColumnVisibility] = useState(
+    defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
+  );
   let loadCanceled = false;
   let debounce;
   let loadTimer;
@@ -164,7 +172,11 @@ export default function DtgTable({
             setRowsShowing(paginationValues.rowsShowing);
             setMaxPage(paginationValues.maxPage);
             if (maxRows !== paginationValues.maxRows) setMaxRows(paginationValues.maxRows);
-            setTableData(res);
+            //Todo: confim if additional if statement is actually needed here
+            const shouldUseTableData = res.data?.length > 0 && !rawData;
+            if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
+              updateTableData(res, true);
+            }
           }
         })
         .catch(err => {
@@ -191,14 +203,6 @@ export default function DtgTable({
     setCurrentPage(Math.min(pageNum, maxPage));
   };
 
-  //TODO: move to metadataTransform ?
-  const updateSmallFractionDataType = () => {
-    //Overwrite type for special case number format handling
-    if (selectedTable && selectedTable.apiId === 178) {
-      selectedTable.fields[2].dataType = 'SMALL_FRACTION';
-    }
-  };
-
   const updateTable = resetPage => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
@@ -210,7 +214,6 @@ export default function DtgTable({
 
   useEffect(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
-      updateSmallFractionDataType();
       setCurrentPage(1);
       updateTable(true);
     }
@@ -252,7 +255,6 @@ export default function DtgTable({
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
     setConfigOption(activeConfig);
-    console.log('??', configOption, data);
     if (data?.data) {
       let hiddenCols = hideColumns;
       if (detailViewState) {
@@ -260,8 +262,16 @@ export default function DtgTable({
         hiddenCols = detailView.hideColumns;
       }
       const col = columnsConstructorData(data, hiddenCols, tableName, activeConfig, customFormatting);
-      console.log('allColumns', col);
       setAllColumns(col);
+      // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
+      if (defaultSelectedColumns) {
+        for (const column of col) {
+          if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
+            defaultInvisibleColumns[column.accessorKey] = false;
+          }
+        }
+        setColumnVisibility(defaultInvisibleColumns);
+      }
     }
   };
 
@@ -272,20 +282,10 @@ export default function DtgTable({
         const detailViewFilteredData = rawData.data.filter(row => row[detailView.secondaryField] === detailViewState?.secondary);
         updateTableData({ data: detailViewFilteredData, meta: rawData.meta }, false, true);
       } else {
-        console.log('rawData:', rawData);
         updateTableData(rawData);
       }
     }
   }, [pivotSelected, rawData]);
-
-  useMemo(() => {
-    // Serverside paginated data (results > 20000)
-    const shouldUseTableData = tableData.data?.length > 0 && !rawData;
-    if (shouldUseTableData && isLargeTable() && noPivotApplied() && !isDepaginatedSize()) {
-      console.log('tableData:', tableData);
-      updateTableData(tableData, true);
-    }
-  }, [tableData]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -311,13 +311,47 @@ export default function DtgTable({
   });
 
   useEffect(() => {
+    //TODO: prevent this from firing on date range change
+    // this should only go when the table changes
     if (!!defaultSelectedColumns && !pivotSelected?.pivotValue) {
       const { defaults, additional } = constructDefaultColumnsFromTableData(table, defaultSelectedColumns);
-      console.log('default and additional columns:', defaults, additional);
       setDefaultColumns(defaults);
       setAdditionalColumns(additional);
     }
   }, [table?.getAllLeafColumns()]);
+
+  useEffect(() => {
+    if (!!reactTableData?.meta?.dataTypes && table && table?.getAllLeafColumns()?.length > 0) {
+      setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
+      setTableSorting(sorting);
+      if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
+        const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
+        const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
+        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+        setXmlDownload(downloadData, setSmallTableXMLData);
+        setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
+      }
+    }
+  }, [columnVisibility, sorting]);
+  //TODO: table deps were causing a runtime error, confirm if they are needed here
+  // }, [columnVisibility, table?.getSortedRowModel(), table?.getVisibleFlatColumns(), sorting]);
+
+  //Todo confirm if this is duplicate of the above hook
+  // useEffect(() => {
+  //   if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
+  //     setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
+  //     setTableSorting(sorting);
+  //   }
+  // }, [sorting]);
+
+  useEffect(() => {
+    if (resetFilters && table) {
+      table.resetColumnFilters();
+      table.resetSorting();
+      setResetFilters(false);
+      setAllActiveFilters([]);
+    }
+  }, [resetFilters]);
 
   return (
     <div className={overlayContainer}>
@@ -365,7 +399,7 @@ export default function DtgTable({
                         <DataTableBody
                           table={table}
                           dataTypes={reactTableData.meta.dataTypes}
-                          // detailViewConfig={detailView}
+                          detailViewConfig={config?.detailView}
                           setDetailViewState={setDetailViewState}
                           setSummaryValues={setSummaryValues}
                         />
