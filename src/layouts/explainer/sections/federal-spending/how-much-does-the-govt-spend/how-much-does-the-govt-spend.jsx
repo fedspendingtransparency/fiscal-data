@@ -60,7 +60,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [width, height] = useWindowSize();
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [fiscalYear, setFiscalYear] = useState('');
   const [animateBars, setAnimateBars] = useState(false);
   const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
@@ -68,7 +68,9 @@ const HowMuchDoesTheGovtSpend = () => {
   const [animationComplete, setAnimationComplete] = useState(false);
 
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
-
+  useEffect(() => {
+    setLastUpdatedDate(new Date());
+  }, []);
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
     Analytics.event({

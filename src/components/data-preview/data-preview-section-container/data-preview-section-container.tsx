@@ -98,7 +98,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const { tableProps, setTableProps } = useContext(DataTableContext);
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
-  const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
+  const [legend, setLegend] = useState(false);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
@@ -261,7 +261,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     if (typeof window !== 'undefined' && !legendToggledByUser) {
       setLegend(window.innerWidth > GLOBALS.breakpoints.large);
     }
-  }, [window.innerWidth]);
+  }, [legendToggledByUser]);
 
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;

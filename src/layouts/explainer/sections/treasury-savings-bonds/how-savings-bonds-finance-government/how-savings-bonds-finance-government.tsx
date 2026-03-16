@@ -56,7 +56,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   const [higherLowerSameAs, setHigherLowerSameAs] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
   const typesData = useRecoilValueLoadable(savingsBondTypesData);
-  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
+  useShouldRefreshCachedData(savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`

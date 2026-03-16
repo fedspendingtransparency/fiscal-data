@@ -39,7 +39,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   const { glossaryClickEvent, setGlossaryClickEvent } = useContext(GlossaryContext);
 
   useEffect(() => {
-    if (!initialQuery) {
+    if (!initialQuery && typeof window !== 'undefined') {
       setInitialQuery(true);
       setActiveState(queryTerm !== null && queryTerm !== undefined);
       removeAddressPathQuery(window.location);
@@ -54,7 +54,9 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
         setTimeout(() => {
           setActiveState(true);
           setGlossaryClickEvent(false);
-          removeAddressPathQuery(window.location);
+          if (typeof window !== 'undefined') {
+            removeAddressPathQuery(window.location);
+          }
         });
       }
     }

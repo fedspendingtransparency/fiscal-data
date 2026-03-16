@@ -53,7 +53,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [maxAmount, setMaxAmount] = useState(0);
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastSpendingValue, setLastSpendingValue] = useState('');
   const [maxSpendingValue, setMaxSpendingValue] = useState(0);
@@ -68,7 +68,9 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const chartHeight = 490;
 
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
-
+  useEffect(() => {
+    setLastUpdatedDate(new Date());
+  }, []);
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
 
   const handleClick = eventNumber => {

@@ -24,7 +24,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
 
   const desktop = width >= pxToNumber(breakpointLg);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
@@ -36,6 +36,9 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [headerDeficit, setHeaderDeficit] = useState('');
   const [lastBar, setLastBar] = useState();
 
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
       return `-$${Math.abs(v)} T`;

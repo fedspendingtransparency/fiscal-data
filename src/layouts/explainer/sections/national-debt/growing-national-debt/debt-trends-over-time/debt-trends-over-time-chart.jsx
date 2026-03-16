@@ -39,7 +39,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
   const data = useRecoilValueLoadable(debtOutstandingData);
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
+  useShouldRefreshCachedData(debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'debtTrendsChart';
   const chartWidth = 550;

@@ -10,10 +10,10 @@ const Analytics = {
     return null;
   },
   get isDAP() {
-    return Boolean(window.gas && typeof window.gas === 'function');
+    return typeof window !== 'undefined' && Boolean(window.gas && typeof window.gas === 'function');
   },
   get isGA() {
-    return Boolean(window.ga && typeof window.ga === 'function');
+    return typeof window !== 'undefined' && Boolean(window.ga && typeof window.ga === 'function');
   },
   event(args) {
     if (!args.category || !args.action) {

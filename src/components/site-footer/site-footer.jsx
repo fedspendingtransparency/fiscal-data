@@ -87,6 +87,7 @@ const SiteFooter = () => {
   const fiscalURL = globalConstants.FISCAL_TREASURY_URL;
   const copyrightDate = new Date().getFullYear();
   const clickHandler = action => {
+    if (typeof window === 'undefined') return;
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Bottom ${action} Click`,
@@ -107,17 +108,17 @@ const SiteFooter = () => {
         <div className={footerMain}>
           <div className={content}>
             <div className={topRow}>
-            <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
-              <StaticImage
-                src="../../images/logos/fd-logo-ko.svg"
-                alt="Fiscal Data logo"
-                height={39.16}
-                width={141.32}
-                placeholder="dominantColor"
-                layout="fixed"
-                aria-label="Fiscal Data logo"
-              />
-            </Link>
+              <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
+                <StaticImage
+                  src="../../images/logos/fd-logo-ko.svg"
+                  alt="Fiscal Data logo"
+                  height={39.16}
+                  width={141.32}
+                  placeholder="dominantColor"
+                  layout="fixed"
+                  aria-label="Fiscal Data logo"
+                />
+              </Link>
               <div className={socialIcons}>
                 <CustomLink
                   url="https://www.facebook.com/fiscalservice"
@@ -126,15 +127,9 @@ const SiteFooter = () => {
                   aria-label="facebook"
                   className={socialIconLink}
                 >
-                  <FacebookIcon  />
+                  <FacebookIcon />
                 </CustomLink>
-                <CustomLink
-                  url="https://x.com/FiscalService"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="x"
-                  className={socialIconLink}
-                >
+                <CustomLink url="https://x.com/FiscalService" target="_blank" rel="noopener noreferrer" aria-label="x" className={socialIconLink}>
                   <XIcon fontSize="small" />
                 </CustomLink>
                 <CustomLink

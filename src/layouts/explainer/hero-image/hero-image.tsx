@@ -11,7 +11,7 @@ import useShouldRefreshCachedData from '../../../recoil/hooks/useShouldRefreshCa
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
   const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  useShouldRefreshCachedData(debtToThePennyData, debtToThePennyLastCachedState);
 
   useEffect(() => {
     if (data.state === 'hasValue') {

@@ -76,7 +76,7 @@ const TableSectionContainer = ({
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
   const [tableProps, setTableProps] = useState();
-  const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
+  const [legend, setLegend] = useState(false);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
   const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
@@ -250,7 +250,7 @@ const TableSectionContainer = ({
     if (typeof window !== 'undefined' && !legendToggledByUser) {
       setLegend(window.innerWidth > GLOBALS.breakpoints.large);
     }
-  }, [window.innerWidth]);
+  }, [legendToggledByUser]);
 
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;

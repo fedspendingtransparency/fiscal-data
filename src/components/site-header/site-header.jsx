@@ -30,7 +30,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const [bannersContent, setBannersContent] = useState(null);
-  useShouldRefreshCachedData(Date.now(), dynamicBannerState, dynamicBannerLastCachedState);
+  useShouldRefreshCachedData(dynamicBannerState, dynamicBannerLastCachedState);
 
   useEffect(() => {
     if (data.state === 'hasValue') {
@@ -65,6 +65,7 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const glossaryData = glossaryCsv?.allGlossaryCsv?.nodes;
 
   const clickHandler = title => {
+    if (typeof window === 'undefined') return;
     Analytics.event({
       category: 'Sitewide Navigation',
       action: `Top ${title} Click`,

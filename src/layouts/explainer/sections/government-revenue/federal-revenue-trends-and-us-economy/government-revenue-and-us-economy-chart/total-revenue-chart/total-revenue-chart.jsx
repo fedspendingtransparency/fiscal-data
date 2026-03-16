@@ -47,7 +47,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [maxYear, setMaxYear] = useState('');
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastRevenueValue, setLastRevenueValue] = useState('');
   const [maxRevenueValue, setMaxRevenueValue] = useState(0);
@@ -56,11 +56,10 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
-  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({ fiscalYear: '-' ,
-  totalRevenue: '',
-  gdp: '',
-  gdpRatio: ''});
-
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({ fiscalYear: '-', totalRevenue: '', gdp: '', gdpRatio: '' });
+  useEffect(() => {
+    setLastUpdatedDate(new Date());
+  }, []);
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
@@ -314,21 +313,21 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   return (
     <>
-        <figure className={visWithCallout}>
-          <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
-              altText={chartAltText}
-              customContainerStyles={{
-                minHeight: 'var(--chart-height)',
-              }}
-            >
-              {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
-              {!isLoading && chartToggleConfig && (
+      <figure className={visWithCallout}>
+        <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
+          <ChartContainer
+            title={chartTitle}
+            subTitle={chartSubtitle}
+            footer={chartFooter}
+            date={lastUpdatedDate}
+            header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
+            altText={chartAltText}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
+          >
+            {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
+            {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
                   <div ref={revenueRef}>
@@ -381,17 +380,16 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
               </div>
-              )}
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color={revenueExplainerPrimary}>
-            <p>
-              Since {callOutYear}, {calloutCopy}.
-            </p>
-          </VisualizationCallout>
-        </figure>
+            )}
+          </ChartContainer>
+        </div>
+        <VisualizationCallout color={revenueExplainerPrimary}>
+          <p>
+            Since {callOutYear}, {calloutCopy}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
-
   );
 };
 

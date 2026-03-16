@@ -43,7 +43,7 @@ describe('useShouldRefreshCachedData', () => {
 
     expect(cacheState.result.current.state).toBe(10);
 
-    const { result } = renderHook(() => useShouldRefreshCachedData(123, debtToThePennyData, debtToThePennyLastCachedState), {
+    const { result } = renderHook(() => useShouldRefreshCachedData(debtToThePennyData, debtToThePennyLastCachedState), {
       wrapper: RecoilRoot,
     });
 

@@ -42,7 +42,7 @@ let ga4Timer;
 
 const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [data, setData] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
@@ -61,7 +61,9 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
 
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
-
+  useEffect(() => {
+    setDate(new Date());
+  }, []);
   const glossaryTerms = {
     interestExpenses: (
       <GlossaryPopoverDefinition term="Interest Expense" page="Debt explainer">

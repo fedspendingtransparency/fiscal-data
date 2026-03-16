@@ -30,7 +30,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [fiscalYear, setFiscalYear] = useState(0);
-  const [recordDate, setRecordDate] = useState(new Date());
+  const [recordDate, setRecordDate] = useState();
 
   const [categoryName, setCategoryName] = useState(defaultCategory.name);
   const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(0);
@@ -52,6 +52,9 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   useEffect(() => {
     addInnerChartAriaLabel(chartParent);
   }, [chartData]);
+  useEffect(() => {
+    setRecordDate(new Date());
+  }, []);
 
   useEffect(() => {
     const url = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -297,71 +300,71 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   return (
     <>
       <div className={container}>
-      <figure className={visWithCallout}>
-        <ChartContainer
-          title={title + fiscalYear}
-          subTitle={subTitle}
-          header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
-          footer={footer}
-          altText={chartAltText}
-          date={recordDate}
-          customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customContainerStyles={{
-            minHeight: 'var(--chart-height)',
-          }}
-        >
-          {chartData.children && chartData.children.length > 0 ? (
-            <div className={dataContent}>
-              <div
-                role="presentation"
-                className={chartSize}
-                data-testid="chartParent"
-                onMouseEnter={handleMouseEnterChart}
-                onMouseLeave={handleOuterChartMouseLeave}
-                onClick={handleOuterChartMouseLeave}
-              >
-                <CirclePacking
-                  data={chartData}
-                  colors={{ datum: 'data.color' }}
-                  margin={{ top: 25, right: 10, bottom: 25, left: 10 }}
-                  height={width < pxToNumber(breakpointLg) ? 350 : 500}
-                  width={width < pxToNumber(breakpointLg) ? 350 : 500}
-                  colorBy={'id'}
-                  leavesOnly
-                  enableLabels={true}
-                  padding={4}
-                  labelsSkipRadius={0}
-                  labelComponent={({ node, label }) => (
-                    <LabelComponent
-                      node={node}
-                      label={label}
-                      width={width}
-                      HandleMouseEnter={HandleMouseEnter}
-                      HandleClick={HandleLabelClick}
-                      HandleMouseLeave={handleChartMouseLeave}
-                    />
-                  )}
-                  animate={false}
-                  onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
-                  onMouseLeave={() => handleChartMouseLeave(true)}
-                  onClick={(node, e) => HandleMouseEnter(node, e)}
-                />
+        <figure className={visWithCallout}>
+          <ChartContainer
+            title={title + fiscalYear}
+            subTitle={subTitle}
+            header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
+            footer={footer}
+            altText={chartAltText}
+            date={recordDate}
+            customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
+          >
+            {chartData.children && chartData.children.length > 0 ? (
+              <div className={dataContent}>
+                <div
+                  role="presentation"
+                  className={chartSize}
+                  data-testid="chartParent"
+                  onMouseEnter={handleMouseEnterChart}
+                  onMouseLeave={handleOuterChartMouseLeave}
+                  onClick={handleOuterChartMouseLeave}
+                >
+                  <CirclePacking
+                    data={chartData}
+                    colors={{ datum: 'data.color' }}
+                    margin={{ top: 25, right: 10, bottom: 25, left: 10 }}
+                    height={width < pxToNumber(breakpointLg) ? 350 : 500}
+                    width={width < pxToNumber(breakpointLg) ? 350 : 500}
+                    colorBy={'id'}
+                    leavesOnly
+                    enableLabels={true}
+                    padding={4}
+                    labelsSkipRadius={0}
+                    labelComponent={({ node, label }) => (
+                      <LabelComponent
+                        node={node}
+                        label={label}
+                        width={width}
+                        HandleMouseEnter={HandleMouseEnter}
+                        HandleClick={HandleLabelClick}
+                        HandleMouseLeave={handleChartMouseLeave}
+                      />
+                    )}
+                    animate={false}
+                    onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+                    onMouseLeave={() => handleChartMouseLeave(true)}
+                    onClick={(node, e) => HandleMouseEnter(node, e)}
+                  />
+                </div>
+                <div className={totalRevenueDataPill}>Total Revenue: ${getShortForm(totalRevenue.toString())}</div>
               </div>
-              <div className={totalRevenueDataPill}>Total Revenue: ${getShortForm(totalRevenue.toString())}</div>
-            </div>
-          ) : (
-            <LoadingIndicator loadingClass={loadingIcon} />
-          )}
-        </ChartContainer>
-        <VisualizationCallout color={revenueExplainerPrimary}>
-          <p>
-            In FY {fiscalYear}, the combined contribution of individual and corporate income taxes is ${getShortForm(combinedIncomeAmount.toString())}
-            , making up {combinedIncomePercent.toFixed()}% of total revenue.
-          </p>
-        </VisualizationCallout>
-      </figure>
+            ) : (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            )}
+          </ChartContainer>
+          <VisualizationCallout color={revenueExplainerPrimary}>
+            <p>
+              In FY {fiscalYear}, the combined contribution of individual and corporate income taxes is $
+              {getShortForm(combinedIncomeAmount.toString())}, making up {combinedIncomePercent.toFixed()}% of total revenue.
+            </p>
+          </VisualizationCallout>
+        </figure>
       </div>
     </>
   );

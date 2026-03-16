@@ -9,7 +9,7 @@ import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers
 const NationalDebtHero = (): JSX.Element => {
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
   const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  useShouldRefreshCachedData(debtToThePennyData, debtToThePennyLastCachedState);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 

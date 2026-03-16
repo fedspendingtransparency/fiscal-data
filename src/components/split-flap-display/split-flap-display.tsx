@@ -67,7 +67,7 @@ const SplitFlapDisplay = ({
   value,
   mobilePrecision,
   valueType = 'currency',
-  precision = typeof window !== 'undefined' ? (window.innerWidth < pxToNumber(breakpointLg) ? mobilePrecision : 0) : 0,
+  precision: precisionProp,
   showCommas = true,
   charSet = numericCharSet,
   stepCycleDelay = globalConstants.config.splitFlap.speed,
@@ -75,7 +75,12 @@ const SplitFlapDisplay = ({
   width,
 }: IFlipCardDisplayProps): JSX.Element => {
   // creates a string of 0s that is the same length as the desired value
-
+  const precision =
+    typeof precisionProp === 'number'
+      ? precisionProp
+      : typeof window !== 'undefined' && window.innerWidth < pxToNumber(breakpointLg)
+      ? mobilePrecision
+      : 0;
   const mobileBreakpoint = useRef<number>(pxToNumber(breakpointLg));
 
   const [minimumDisplayLength, setMinimumDisplayLength] = useState<number>(0);

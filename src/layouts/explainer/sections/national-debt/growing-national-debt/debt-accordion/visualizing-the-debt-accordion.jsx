@@ -24,7 +24,7 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [numberOfSquares, setNumberOfSquares] = useState('0');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
   const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  useShouldRefreshCachedData(debtToThePennyData, debtToThePennyLastCachedState);
   useEffect(() => {
     setIsLoading(false);
 

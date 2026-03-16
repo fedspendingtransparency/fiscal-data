@@ -45,7 +45,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [chartData, setChartData] = useState([]);
   const [lastChartYear, setLastChartYear] = useState(0);
   const [firstChartYear, setFirstChartYear] = useState(0);
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState();
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -256,21 +256,21 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   return (
     <>
-        <div data-testid="revenueTrendsLineChart" className={container}>
-          <ChartContainer
-            title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
-            subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
-            altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear} - ${lastChartYear}`}
-            footer={footer}
-            date={lastUpdatedDate}
-            customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
-            customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_16, color: '#666666' } : {}}
-            customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
-            customContainerStyles={{
-              minHeight: 'var(--chart-height)',
-            }}
-          >
-            {!isLoading ? (
+      <div data-testid="revenueTrendsLineChart" className={container}>
+        <ChartContainer
+          title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
+          subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
+          altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear} - ${lastChartYear}`}
+          footer={footer}
+          date={lastUpdatedDate}
+          customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
+          customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_16, color: '#666666' } : {}}
+          customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
+          customContainerStyles={{
+            minHeight: 'var(--chart-height)',
+          }}
+        >
+          {!isLoading ? (
             <div
               className={lineChart}
               role="presentation"
@@ -369,11 +369,11 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
                 </div>
               </div>
             </div>
-            ) : (
+          ) : (
             <LoadingIndicator loadingClass={loadingIcon} />
-            )}
-          </ChartContainer>
-        </div>
+          )}
+        </ChartContainer>
+      </div>
     </>
   );
 };

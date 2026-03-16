@@ -19,7 +19,7 @@ import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-h
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 const DeficitComparisonBarChart = ({ sectionId, width }) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [lastFiscalYear, setLastFiscalYear] = useState(0);
   const [deficitValue, setDeficitValue] = useState(0);
   const [deficitLabel, setDeficitLabel] = useState('');
