@@ -3,7 +3,12 @@ import { format, subDays, subMonths, subYears } from 'date-fns';
 import queryString from 'query-string';
 import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
-import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
+import {
+  divvyUpFilters,
+  getApiFilterParam,
+  pivotApiData,
+  pivotApiDataFn,
+} from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { buildTableColumnSortParams } from './api-utils-helper';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
@@ -186,6 +191,7 @@ export const datatableRequest = async (
   tableCache,
   detailViewState,
   detailViewFilterParam,
+  userFilterValue,
   queryClient
 ) => {
   const endpoint = table.endpoint;
@@ -225,7 +231,9 @@ export const datatableRequest = async (
         const to = formatDateForApi(range.to);
 
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
-        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
+        const apiFilter = getApiFilterParam(table, userFilterValue);
+        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
+        console.log(uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
@@ -638,8 +646,8 @@ export const buildDateFilter = (selectedTable, from, to) => {
   return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
 };
 
-export const fetchTableMeta = async (selectedTable, dateFilter) => {
-  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}&page[size]=1`);
+export const fetchTableMeta = async (selectedTable, dateFilter, apiFilterParam) => {
+  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&page[size]=1`);
 };
 
 export const fetchAllTableData = async (sortParam, totalCount, selectedTable, apiFilterParam, dateFilter) => {

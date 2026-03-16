@@ -7,7 +7,7 @@ import RangePresets from '../filter-download-container/range-presets/range-prese
 import TableSectionContainer from './table-section-container/table-section-container';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
+import { getApiData, getApiFilterParam } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
@@ -34,7 +34,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [dateRange, setDateRange] = useState();
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!apis[0]?.apiFilter);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -156,9 +156,18 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
+  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (
+      !finalDatesNotFound &&
+      selectedTable &&
+      (selectedPivot || ignorePivots) &&
+      dateRange &&
+      !allTablesSelected &&
+      (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
+    ) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
@@ -170,9 +179,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         const from = formatDateForApi(dateRange.from);
         const to = formatDateForApi(dateRange.to);
         const dateFilter = buildDateFilter(selectedTable, from, to);
+        const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+        //TODO: rename var
         let skipthis;
         (async () => {
-          const metaData = await fetchTableMeta(selectedTable, dateFilter);
+          const metaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
           setTableMeta(metaData.meta);
           skipthis = metaData.meta && metaData.meta['total-count'] <= 20000;
           if (!loadByPage || skipthis || ignorePivots) {
@@ -188,6 +199,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
               tableCaches[displayedTable.apiId],
               detailViewState,
               config?.detailView?.field,
+              userFilterSelection,
               queryClient
             ).then(() => {
               // nothing to cancel if the request completes normally.
@@ -202,7 +214,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         };
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
 
   useEffect(() => {
     if (allTablesSelected) {

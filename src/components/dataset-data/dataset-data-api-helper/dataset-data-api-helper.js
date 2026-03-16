@@ -39,6 +39,7 @@ const makeApiCall = async (
   tableCache,
   detailViewValue,
   detailViewFilterParam,
+  userFilterValue,
   queryClient
 ) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
@@ -51,6 +52,7 @@ const makeApiCall = async (
       tableCache,
       detailViewValue,
       detailViewFilterParam,
+      userFilterValue,
       queryClient
     );
 
@@ -84,6 +86,7 @@ export const getApiData = async (
   _tableCache,
   _detailViewValue,
   _detailViewFilterParam,
+  _userFilterValue,
   _queryClient
 ) => {
   if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
@@ -98,6 +101,7 @@ export const getApiData = async (
       _tableCache,
       _detailViewValue,
       _detailViewFilterParam,
+      _userFilterValue,
       _queryClient
     );
   }
@@ -176,6 +180,12 @@ export const divvyUpFilters = filters => {
     }
   });
   return [serializableFilters, postLoadFilters];
+};
+
+export const getApiFilterParam = (selectedTable, userFilterSelection) => {
+  return selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
+    ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+    : '';
 };
 
 export const unitTestFunctions = {

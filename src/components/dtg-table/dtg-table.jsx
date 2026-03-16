@@ -209,12 +209,12 @@ export default function DtgTable({
     };
   };
 
-  useEffect(() => {
+  useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [tableSorting, dateRange, selectedTable, tableMeta, filteredDateRange]);
+  }, [tableSorting, selectedTable, tableMeta, filteredDateRange]);
 
   useMemo(() => {
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
