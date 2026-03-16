@@ -264,9 +264,9 @@ export default function DtgTable({
       const col = columnsConstructorData(data, hiddenCols, tableName, activeConfig, customFormatting);
       setAllColumns(col);
       // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-      if (defaultSelectedColumns) {
+      if (defaultSelectedColumns?.length > 0) {
         for (const column of col) {
-          if (defaultSelectedColumns && !defaultSelectedColumns?.includes(column.accessorKey)) {
+          if (!defaultSelectedColumns?.includes(column.accessorKey)) {
             defaultInvisibleColumns[column.accessorKey] = false;
           }
         }
@@ -313,7 +313,7 @@ export default function DtgTable({
   useEffect(() => {
     //TODO: prevent this from firing on date range change
     // this should only go when the table changes
-    if (!!defaultSelectedColumns && !pivotSelected?.pivotValue) {
+    if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue) {
       const { defaults, additional } = constructDefaultColumnsFromTableData(table, defaultSelectedColumns);
       setDefaultColumns(defaults);
       setAdditionalColumns(additional);
@@ -359,7 +359,7 @@ export default function DtgTable({
       {!isLoading && !reactTableData && !selectedTable?.apiFilter && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
       {/* Data Dictionary and Dataset Detail tables */}
       {reactTableData?.data && (
-        <div className={overlayContainerNoFooter}>
+        <div data-testid="table-content">
           {/* API Error Message */}
           {(apiError || tableProps.apiError) && !emptyDataMessage && (
             <>

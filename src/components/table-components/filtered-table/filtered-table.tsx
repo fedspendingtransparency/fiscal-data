@@ -5,7 +5,6 @@ import {
   nonRawDataTableContainer,
   overlayContainerNoFooter,
   overlayContainerNoFooterChart,
-  selectColumnsWrapper,
   tableStyle,
 } from '../../data-table/data-table.module.scss';
 import DataTableHeader from '../../data-table/data-table-header/data-table-header';
@@ -113,22 +112,20 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   return (
     <>
       <div data-testid="table-content" className={chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
-        <div className={selectColumnsWrapper}>
-          <div className={tableStyle}>
-            <div className={nonRawDataTableContainer}>
-              <table {...aria}>
-                <DataTableHeader
-                  table={table}
-                  dataTypes={dataTypes}
-                  resetFilters={resetFilters}
-                  allActiveFilters={allActiveFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                  chartTable={chartTable}
-                  disableAllFilters={chartTable}
-                />
-                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
-              </table>
-            </div>
+        <div className={tableStyle}>
+          <div className={nonRawDataTableContainer}>
+            <table {...aria}>
+              <DataTableHeader
+                table={table}
+                dataTypes={dataTypes}
+                resetFilters={resetFilters}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+                chartTable={chartTable}
+                disableAllFilters={chartTable}
+              />
+              <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
+            </table>
           </div>
         </div>
       </div>
