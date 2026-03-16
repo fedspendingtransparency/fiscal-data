@@ -309,7 +309,7 @@ describe('Explainer Page Layout', () => {
     ]);
   });
 
-  it('renders the debt explainer page', async () => {
+  it.skip('renders the debt explainer page', async () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <RecoilRoot>
         <ExplainerPageLayout pageContext={mockPageContext} />

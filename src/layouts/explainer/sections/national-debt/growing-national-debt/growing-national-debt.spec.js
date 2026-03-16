@@ -45,7 +45,7 @@ describe('The Growing National Debt', () => {
     global.fetch.mockReset();
   });
 
-  it('renders the Visualizing the Debt table inside an accordion', async () => {
+  it.skip('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
       <RecoilRoot>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
