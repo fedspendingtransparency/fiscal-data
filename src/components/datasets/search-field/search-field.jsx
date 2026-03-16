@@ -52,18 +52,18 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const searchIsEmpty = !keywords || keywords.length === 0;
 
   const throttleChange = inputVal => {
-    // if (qtUpdate) {
-    //   clearTimeout(qtUpdate);
-    // }
+    if (qtUpdate) {
+      clearTimeout(qtUpdate);
+    }
 
     if (analyticsUpdate) {
       clearTimeout(analyticsUpdate);
     }
 
-    // qtUpdate = setTimeout(() => {
-    //   changeHandler(inputVal);
-    //   setKeywords(inputVal);
-    // }, 300);
+    qtUpdate = setTimeout(() => {
+      changeHandler(inputVal);
+      setKeywords(inputVal);
+    }, 300);
 
     analyticsUpdate = setTimeout(() => {
       // only send tracking event if there's something other than whitespace in search field
