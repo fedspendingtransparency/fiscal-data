@@ -4,7 +4,7 @@ import { basicFetch } from './src/utils/api-utils';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 600000, // 10 minutes, for persistent (browser session storage) caching
+      cacheTime: 300000, // 10 minutes, for persistent (browser session storage) caching
     },
   },
 });
