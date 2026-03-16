@@ -39,17 +39,17 @@ export const lastUpdatedInfoTipAnalyticsObject = {
 const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const context = useContext(siteContext);
   const { keywords, setKeywords } = context;
-  const [localText, setLocalText] = useState(context ? keywords : '');
-  const [searchIsEmpty, setSearchIsEmpty] = useState(!context || !keywords || !keywords.length);
   const searchField = useRef();
 
   const processInput = event => {
-    const searchFieldVal = event.target.value;
-    setSearchIsEmpty(searchFieldVal.length === 0);
-    setLocalText(searchFieldVal);
+    const inputVal = event.target.value;
+    setKeywords(inputVal);
+    changeHandler(inputVal);
   };
 
-  const throttleChange = () => {
+  const searchIsEmpty = !keywords || keywords.length === 0;
+
+  const throttleChange = inputVal => {
     if (qtUpdate) {
       clearTimeout(qtUpdate);
     }
@@ -59,31 +59,30 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     }
 
     qtUpdate = setTimeout(() => {
-      changeHandler(localText);
-      setKeywords(localText);
+      changeHandler(inputVal);
+      setKeywords(inputVal);
     }, 300);
 
     analyticsUpdate = setTimeout(() => {
       // only send tracking event if there's something other than whitespace in search field
-      if (localText && localText.replace(/\s*/, '').length) {
+      if (inputVal && inputVal.replace(/\s*/, '').length) {
         Analytics.event({
           ...searchFieldAnalyticsObject,
-          label: localText,
+          label: inputVal,
         });
 
         // GA4 event
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: 'Keyword Search',
-          eventLabel: localText,
+          eventLabel: inputVal,
         });
       }
     }, 2000);
   };
 
   const clear = () => {
-    setSearchIsEmpty(true);
-    setLocalText('');
+    setKeywords('');
     changeHandler('');
   };
 
@@ -99,9 +98,9 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
 
   useEffect(() => {
     if (!finalDatesNotFound) {
-      throttleChange();
+      throttleChange(keywords);
     }
-  }, [localText, finalDatesNotFound]);
+  }, [finalDatesNotFound]);
 
   useEffect(() => {
     if (searchField.current) {
@@ -114,7 +113,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
       <div className={searchInput}>
         <input
           type="text"
-          value={localText}
+          value={keywords || ''}
           name="components.search"
           placeholder="Search for Datasets by Keyword..."
           onChange={processInput}
