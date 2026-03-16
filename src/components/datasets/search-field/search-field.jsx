@@ -44,24 +44,26 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const processInput = event => {
     const inputVal = event.target.value;
     setKeywords(inputVal);
-    changeHandler(inputVal);
+    console.log('keywords1: ', keywords);
+    console.log('processInput is firing');
+    // changeHandler(inputVal);
   };
 
   const searchIsEmpty = !keywords || keywords.length === 0;
 
   const throttleChange = inputVal => {
-    if (qtUpdate) {
-      clearTimeout(qtUpdate);
-    }
+    // if (qtUpdate) {
+    //   clearTimeout(qtUpdate);
+    // }
 
     if (analyticsUpdate) {
       clearTimeout(analyticsUpdate);
     }
 
-    qtUpdate = setTimeout(() => {
-      changeHandler(inputVal);
-      setKeywords(inputVal);
-    }, 300);
+    // qtUpdate = setTimeout(() => {
+    //   changeHandler(inputVal);
+    //   setKeywords(inputVal);
+    // }, 300);
 
     analyticsUpdate = setTimeout(() => {
       // only send tracking event if there's something other than whitespace in search field
@@ -84,6 +86,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const clear = () => {
     setKeywords('');
     changeHandler('');
+    console.log('clear is firing');
   };
 
   const handleInfoTipClick = () => {
@@ -100,7 +103,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     if (!finalDatesNotFound) {
       throttleChange(keywords);
     }
-  }, [finalDatesNotFound]);
+  }, [keywords, finalDatesNotFound]);
 
   useEffect(() => {
     if (searchField.current) {
