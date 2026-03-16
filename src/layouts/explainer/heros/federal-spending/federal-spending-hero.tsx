@@ -15,8 +15,8 @@ const FederalSpendingHero = (): ReactElement => {
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   const [recordCalendarMonth, setRecordCalendarMonth] = useState(null);
   const [spendingChangeLabel, setSpendingChangeLabel] = useState(null);
-  const [spendingChange, setSpendingChange] = useState(0);
-  const [spendingPercentChange, setSpendingPercentChange] = useState(0);
+  const [spendingChange, setSpendingChange] = useState('--');
+  const [spendingPercentChange, setSpendingPercentChange] = useState('--');
 
   const numberFormat = new Intl.NumberFormat('en-US');
 

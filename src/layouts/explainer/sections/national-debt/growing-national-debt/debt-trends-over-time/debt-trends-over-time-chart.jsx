@@ -134,8 +134,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   const headerContent = () => {
-    const yearDisplay = lastDebtValue.x === undefined ? '-' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
-    const debtToGDPDisplay = lastDebtValue.y === undefined ? '-' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
+    const yearDisplay = lastDebtValue.x === undefined ? '--' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
+    const debtToGDPDisplay = lastDebtValue.y === undefined ? '--' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
     return (
       <div className={headerContainer}>
         <div>
@@ -170,7 +170,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
-              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '-'}`}
+              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '--'}`}
               subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}

@@ -290,12 +290,12 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
         individuals, such as personal credit card debt or mortgages.
       </p>
       <p>
-        The visual below comparing {glossaryTerms.calendarYear} {startYear} and {endYear} displays the difference in growth between debt held by the
-        public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by different amounts in
-        the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of programs and services
-        during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed of debt owed on
-        agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social Security
-        Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
+        The visual below comparing {glossaryTerms.calendarYear} {startYear || '--'} and {endYear || '--'} displays the difference in growth between
+        debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by
+        different amounts in the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of
+        programs and services during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed
+        of debt owed on agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social
+        Security Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
       </p>
       <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} width={width} />
       <div className={postGraphContent} id="maintaining-national-debt">

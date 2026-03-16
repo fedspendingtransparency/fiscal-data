@@ -24,8 +24,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const [priorCalendarYear, setPriorCalendarYear] = useState('--');
   const [recordCalendarMonth, setRecordCalendarMonth] = useState('--');
   const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('--');
-  const [savingsBondChange, setSavingsBondChange] = useState(0);
-  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(0);
+  const [savingsBondChange, setSavingsBondChange] = useState(null);
+  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(null);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 

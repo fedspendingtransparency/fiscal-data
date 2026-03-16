@@ -59,8 +59,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     <div className={headerContainer}>
       <ChartDataHeader
         fiscalYear={curYear}
-        right={{ label: 'I Bonds Sales', value: `${yAxisFormatter(curSales)}` }}
-        left={{ label: 'Inflation', value: `${curInflation}%` }}
+        right={{ label: 'I Bonds Sales', value: `${curSales ? yAxisFormatter(curSales) : '--'}` }}
+        left={{ label: 'Inflation', value: `${curInflation || '--'}%` }}
         dateField="Date"
       />
     </div>
@@ -249,8 +249,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
     // Display tick as the fiscal year for October dates
     return new Date(value).getFullYear() + 1;
   };
-
-  const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy - 15 ?? '--'} – FYTD ${curFy ?? '--'}`;
+  const past15Year = curFy - 15;
+  const chartTitle = `Correlation Between Inflation and I Bond Sales, FY ${curFy ? past15Year : '--'} – FYTD ${curFy ?? '--'}`;
   return (
     <div className={container}>
       <ChartContainer
