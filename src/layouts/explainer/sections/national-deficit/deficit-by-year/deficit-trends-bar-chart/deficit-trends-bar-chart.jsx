@@ -32,8 +32,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
-  const [headerYear, setHeaderYear] = useState('-');
-  const [headerDeficit, setHeaderDeficit] = useState('');
+  const [headerYear, setHeaderYear] = useState('--');
+  const [headerDeficit, setHeaderDeficit] = useState('--');
   const [lastBar, setLastBar] = useState();
 
   const formatCurrency = v => {

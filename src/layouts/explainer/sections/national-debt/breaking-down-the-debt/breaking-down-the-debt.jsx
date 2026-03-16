@@ -47,9 +47,9 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
   const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
-  const [debtValue, setDebtValue] = useState('0');
-  const [interestValue, setInterestValue] = useState('0');
-  const [focalYear, setFocalYear] = useState(1900);
+  const [debtValue, setDebtValue] = useState('--');
+  const [interestValue, setInterestValue] = useState('--');
+  const [focalYear, setFocalYear] = useState('--');
   const [multichartStartYear, setMultichartStartYear] = useState('');
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');

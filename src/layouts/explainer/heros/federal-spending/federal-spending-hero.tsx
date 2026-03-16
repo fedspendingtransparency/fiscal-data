@@ -9,7 +9,7 @@ import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers
 
 const FederalSpendingHero = (): ReactElement => {
   const [totalSpending, setTotalSpending] = useState(null);
-  const [priorYearSpending, setPriorYearSpending] = useState(0);
+  const [priorYearSpending, setPriorYearSpending] = useState('--');
   const [priorFiscalYear, setPriorFiscalYear] = useState(null);
   const [priorCalendarYear, setPriorCalendarYear] = useState(null);
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);

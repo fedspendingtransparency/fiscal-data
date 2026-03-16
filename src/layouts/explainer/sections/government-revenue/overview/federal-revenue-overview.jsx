@@ -61,16 +61,17 @@ const FederalRevenueOverview = () => {
   return (
     <div>
       <p>
-        Where does federal revenue come from? If you lived or worked in the United States in {latestCompleteFiscalYear}, your tax contributions are
-        likely part of the ${priorRevenue || '--'} collected in revenue. The federal government also collects revenue from services like admission to
-        national parks and customs duties on foreign imports and exports. The majority of this revenue is used to pay for government activities
-        (employee salaries, infrastructure maintenance), as well as to pay for goods and services provided to United States citizens and businesses.
+        Where does federal revenue come from? If you lived or worked in the United States in {latestCompleteFiscalYear || '--'}, your tax
+        contributions are likely part of the ${priorRevenue || '--'} collected in revenue. The federal government also collects revenue from services
+        like admission to national parks and customs duties on foreign imports and exports. The majority of this revenue is used to pay for government
+        activities (employee salaries, infrastructure maintenance), as well as to pay for goods and services provided to United States citizens and
+        businesses.
       </p>
       <p>
-        {/* eslint-disable-next-line max-len */}
+        {}
         In FY {latestCompleteFiscalYear || '--'}, the federal government spent ${priorSpend || '--'}. Since the government spent{' '}
-        {spendRevComp || '--'} than it collected, the {deficitLabel || '--'} for {latestCompleteFiscalYear} was ${priorDeficit || '--'}. Visit our{' '}
-        {spending} and {deficit} pages for more information on these activities.
+        {spendRevComp || '--'} than it collected, the {deficitLabel || '--'} for {latestCompleteFiscalYear || '--'} was ${priorDeficit || '--'}. Visit
+        our {spending} and {deficit} pages for more information on these activities.
       </p>
     </div>
   );

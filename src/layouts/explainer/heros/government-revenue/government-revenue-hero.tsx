@@ -48,7 +48,7 @@ const GovernmentRevenueHero = (): ReactElement => {
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   const [recordCalendarMonth, setRecordCalendarMonth] = useState(null);
   const [revenueChangeLabel, setRevenueChangeLabel] = useState(null);
-  const [revenueChange, setRevenueChange] = useState(0);
+  const [revenueChange, setRevenueChange] = useState('--');
   const [revenuePercentChange, setRevenuePercentChange] = useState(0);
 
   const numberFormat = new Intl.NumberFormat('en-US');

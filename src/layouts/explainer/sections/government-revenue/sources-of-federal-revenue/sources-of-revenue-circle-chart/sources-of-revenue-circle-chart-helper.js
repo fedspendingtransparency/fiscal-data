@@ -31,7 +31,7 @@ export const dataHeader = (categoryName, revenueAmount, revenuePercent) => (
         <span className={subHeader}>Revenue Amount</span>
       </div>
       <div>
-        <div className={headerTitle}>{revenuePercent != null ? revenuePercent.toFixed() : '--'}%</div>
+        <div className={headerTitle}>{revenuePercent !== null && !isNaN(revenuePercent) ? revenuePercent.toFixed() : '--'}%</div>
         <span className={subHeader}>% of Total Revenue</span>
       </div>
     </div>
