@@ -53,6 +53,18 @@ export const SpendingOverview = () => {
     </GlossaryPopoverDefinition>
   );
 
+  const outlays = (
+    <GlossaryPopoverDefinition term="Outlay" page="Spending Explainer">
+      outlays
+    </GlossaryPopoverDefinition>
+  );
+
+  const obligation = (
+    <GlossaryPopoverDefinition term="Obligation" page="Spending Explainer">
+      obligation
+    </GlossaryPopoverDefinition>
+  );
+
   useEffect(() => {
     const fields =
       'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
@@ -108,8 +120,8 @@ export const SpendingOverview = () => {
             purchases can also be classified by {objectClass} and {budgetFunctions}.
           </p>
           <p>
-            Throughout this page, we use outlays to represent spending. This is money that has actually been paid out and not just promised to be
-            paid. When issuing a contract or grant, the U.S. government enters a binding agreement called an obligation. This means the government
+            Throughout this page, we use {outlays} to represent spending. This is money that has actually been paid out and not just promised to be
+            paid. When issuing a contract or grant, the U.S. government enters a binding agreement called an {obligation}. This means the government
             promises to spend the money, either immediately or in the future. As an example, an obligation occurs when a federal {agency} signs a
             contract, awards a grant, purchases a service, or takes other actions that require it to make a payment. Obligations do not always result
             in payments being made, which is why we show actual outlays that reflect actual spending occurring.

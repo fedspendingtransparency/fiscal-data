@@ -8,6 +8,8 @@ import {
   currencyBoxContainer,
   headTitle,
   selector,
+  loadingPlaceholderContainer,
+  loadingIcon,
 } from './currency-exchange-rates-converter.module.scss';
 import CurrencyEntryBox from '../currency-entry-box/currency-entry-box';
 import NestSelectControl from '../../select-control/nest-select-control';
@@ -25,6 +27,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
 import EntryBoxLabel from '../entry-box-label/entry-box-label';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 let gaInfoTipTimer: NodeJS.Timeout;
 let gaCurrencyTimer: NodeJS.Timeout;
@@ -279,9 +282,11 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
   return (
     <div className={container} onBlur={handleInfoTipClose} role="presentation">
       <h2 className={headTitle}>Check foreign currency rates against the U.S. Dollar.</h2>
-      {nonUSCurrency && (
-        <div data-testid="box-container" className={boxWidth}>
-          {data && (
+      <div className={loadingPlaceholderContainer}>
+        {!nonUSCurrency ? (
+          <LoadingIndicator loadingClass={loadingIcon} />
+        ) : (
+          <div data-testid="box-container" className={boxWidth}>
             <div className={currencyBoxContainer}>
               <div className={selector}>
                 <NestSelectControl
@@ -293,45 +298,46 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
                 />
               </div>
             </div>
-          )}
-          <div className={currencyBoxContainer}>
-            <CurrencyEntryBox
-              selectedCurrency={{
-                label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
-                value: nonUSCurrency,
-              }}
-              defaultCurrency={nonUSCurrency.country_currency_desc}
-              currencyValue={nonUSCurrencyExchangeValue}
-              dropdown
-              options={dropdownOptions}
-              onCurrencyChange={handleCurrencyChange}
-              onCurrencyValueChange={handleChangeNonUSCurrency}
-              testId="non-us-box"
-              header="FOREIGN CURRENCY"
-              tooltip={currencySelectionInfoIcon.body}
-            />
-            <CurrencyEntryBox
-              defaultCurrency="U.S. Dollar"
-              currencyValue={usDollarValue}
-              onCurrencyValueChange={useHandleChangeUSDollar}
-              testId="us-box"
-              header="U.S. DOLLAR"
-            />
+            <div className={currencyBoxContainer}>
+              <CurrencyEntryBox
+                selectedCurrency={{
+                  label: nonUSCurrency.country_currency_desc ? nonUSCurrency.country_currency_desc : null,
+                  value: nonUSCurrency,
+                }}
+                defaultCurrency={nonUSCurrency.country_currency_desc}
+                currencyValue={nonUSCurrencyExchangeValue}
+                dropdown
+                options={dropdownOptions}
+                onCurrencyChange={handleCurrencyChange}
+                onCurrencyValueChange={handleChangeNonUSCurrency}
+                testId="non-us-box"
+                header="FOREIGN CURRENCY"
+                tooltip={currencySelectionInfoIcon.body}
+              />
+              <CurrencyEntryBox
+                defaultCurrency="U.S. Dollar"
+                currencyValue={usDollarValue}
+                onCurrencyValueChange={useHandleChangeUSDollar}
+                testId="us-box"
+                header="U.S. DOLLAR"
+              />
+            </div>
+            {!inputWarning && nonUSCurrency.exchange_rate ? (
+              <div>
+                <div className={conversionContainer}>
+                  <FontAwesomeIcon icon={faArrowRightArrowLeft} className={arrowsIcon} />
+                  <div className={conversionTitle}>BASE CONVERSION RATE</div>
+                </div>
+                <span data-testId="exchange-values">
+                  1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
+                </span>
+              </div>
+            ) : (
+              <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />
+            )}
           </div>
-        </div>
-      )}
-      {nonUSCurrency && nonUSCurrency.exchange_rate && !inputWarning && (
-        <div>
-          <div className={conversionContainer}>
-            <FontAwesomeIcon icon={faArrowRightArrowLeft} className={arrowsIcon} />
-            <div className={conversionTitle}>BASE CONVERSION RATE</div>
-          </div>
-          <span data-testid="exchange-values">
-            1.00 U.S. Dollar = {nonUSCurrency.exchange_rate} {nonUSCurrency.country_currency_desc}
-          </span>
-        </div>
-      )}
-      {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
+        )}
+      </div>
     </div>
   );
 };
