@@ -47,17 +47,17 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
   const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
-  const [debtValue, setDebtValue] = useState('--');
-  const [interestValue, setInterestValue] = useState('--');
+  const [debtValue, setDebtValue] = useState('$--');
+  const [interestValue, setInterestValue] = useState('--%');
   const [focalYear, setFocalYear] = useState('--');
   const [multichartStartYear, setMultichartStartYear] = useState('');
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
   const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState('');
-  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
-  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
-  const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
+  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('--');
+  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('--');
+  const [debtExpensePercent, setDebtExpensePercent] = useState('--%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
 
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];

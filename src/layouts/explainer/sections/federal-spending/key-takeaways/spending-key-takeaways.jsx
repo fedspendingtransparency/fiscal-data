@@ -86,7 +86,7 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
         services to support the American public and pay interest incurred from borrowing. In
         fiscal year (FY) ${latestCompleteFiscalYear || '--'}, the government spent
         $${priorYearSpendingShort || '--'}, which was ${spendingRevComparison} than it collected (revenue),
-        resulting in a ${deficitLabel}. `,
+        resulting in a ${deficitLabel || '--'}. `,
       icon: faHandHoldingDollar,
       hasGlossaryTerm: true,
       glossaryString: 'fiscal year (FY)',

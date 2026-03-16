@@ -34,10 +34,10 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [categoryName, setCategoryName] = useState(defaultCategory.name);
   const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(0);
-  const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(0);
+  const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(null);
 
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
-  const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
+  const [combinedIncomePercent, setCombinedIncomePercent] = useState(null);
 
   const [chartData, setChartData] = useState({ children: [] });
   const [categoryData, setCategoryData] = useState(null);

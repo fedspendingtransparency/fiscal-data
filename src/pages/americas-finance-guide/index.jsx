@@ -43,7 +43,7 @@ import GlossaryProvider from '../../components/glossary/glossary-context/glossar
 const AmericasFinanceGuidePage = ({ width }) => {
   const pageName = 'americas-finance-guide';
 
-  const [fiscalYear, setFiscalYear] = useState('--');
+  const [fiscalYear, setFiscalYear] = useState(null);
   const [height] = useWindowSize();
   const [containerHeight, setContainerHeight] = useState(765);
   const refSocialShare = useRef(0);

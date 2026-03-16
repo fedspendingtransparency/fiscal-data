@@ -185,9 +185,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         if (chartFirstRatio !== chartLastRatio) {
           setCalloutCopy(
-            ` the Spending to GDP ratio has ${
-              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
-            } from ${chartFirstRatio} to ${chartLastRatio}`
+            ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${chartFirstRatio ||
+              '--'} to ${chartLastRatio || '--'}`
           );
         } else {
           setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
@@ -423,7 +422,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear || '--'}, {calloutCopy || '--'}.
+              Since {callOutYear || '--'}, {calloutCopy}.
             </p>
           </VisualizationCallout>
         </figure>

@@ -19,7 +19,7 @@ import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 
 const TopicSection = ({ fiscalYear, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
-  const [priorFyRevenue, setPriorFyRevenue] = useState('');
+  const [priorFyRevenue, setPriorFyRevenue] = useState('--');
   const [revenueCategory, setRevenueCategory] = useState('');
   const [fytdSpending, setFytdSpending] = useState('');
   const [priorFySpending, setPriorFySpending] = useState('');
@@ -40,7 +40,7 @@ const TopicSection = ({ fiscalYear, width }) => {
   const [debtChange, setDebtChange] = useState('');
   const [debtDirection, setDebtDirection] = useState('');
 
-  const priorFiscalYear = (Number(fiscalYear) - 1).toString();
+  const priorFiscalYear = fiscalYear ? (Number(fiscalYear) - 1).toString() : '--';
   const priorPriorYear = (Number(fiscalYear) - 2).toString();
   const priorRevenueRequest = new ApiRequest(revenueRequest).forEndOfFiscalYear(priorFiscalYear);
   const priorRevenueCategoryRequest = new ApiRequest(revenueCategoryRequest).forEndOfFiscalYear(priorFiscalYear);
@@ -232,8 +232,8 @@ const TopicSection = ({ fiscalYear, width }) => {
       </p>
       <p>
         In {priorFiscalYear || '--'}
-        {anchorTextLatestFY(priorFiscalYear, 1, 0)}, the federal government collected ${priorFyRevenue || '--'}. The primary source of revenue for the
-        U.S. government in {priorFiscalYear || '--'} was {revenueCategory || '--'}.
+        {anchorTextLatestFY(priorFiscalYear, 1, 0)}, the federal government collected ${priorFyRevenue}. The primary source of revenue for the U.S.
+        government in {priorFiscalYear || '--'} was {revenueCategory || '--'}.
       </p>
     </>
   );
