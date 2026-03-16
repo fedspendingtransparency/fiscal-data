@@ -61,7 +61,6 @@ export default function DtgTable({
   const {
     rawData,
     tableName,
-    shouldPage,
     selectedTable,
     selectedPivot,
     dateRange,
@@ -75,9 +74,7 @@ export default function DtgTable({
 
   const [reactTableData, setReactTableData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(
-    !shouldPage && rawData?.data?.length > defaultRowsPerPage ? rawData?.data?.length : defaultRowsPerPage
-  );
+  const [itemsPerPage, setItemsPerPage] = useState(defaultRowsPerPage);
   const [apiError, setApiError] = useState(tableProps.apiError || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(rawData?.data?.length > 0 ? rawData?.data.length : 1);
@@ -272,6 +269,9 @@ export default function DtgTable({
         }
         setColumnVisibility(defaultInvisibleColumns);
       }
+      if (pivotSelected?.pivotValue) {
+        setColumnVisibility({});
+      }
     }
   };
 
@@ -313,10 +313,13 @@ export default function DtgTable({
   useEffect(() => {
     //TODO: prevent this from firing on date range change
     // this should only go when the table changes
-    if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue) {
+    if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue && defaultColumns.length === 0) {
       const { defaults, additional } = constructDefaultColumnsFromTableData(table, defaultSelectedColumns);
       setDefaultColumns(defaults);
       setAdditionalColumns(additional);
+    } else if (pivotSelected?.pivotValue) {
+      setDefaultColumns([]);
+      setAdditionalColumns([]);
     }
   }, [table?.getAllLeafColumns()]);
 
@@ -408,16 +411,15 @@ export default function DtgTable({
                   </div>
                 </div>
               </div>
-              {shouldPage && (
-                <DataTableFooter
-                  table={table}
-                  showPaginationControls={showPaginationControls}
-                  pagingProps={pagingProps}
-                  manualPagination={manualPagination}
-                  rowsShowing={rowsShowing}
-                  setTableDownload={setTableRowSizeData}
-                />
-              )}
+
+              <DataTableFooter
+                table={table}
+                showPaginationControls={showPaginationControls}
+                pagingProps={pagingProps}
+                manualPagination={manualPagination}
+                rowsShowing={rowsShowing}
+                setTableDownload={setTableRowSizeData}
+              />
             </>
           </ErrorBoundary>
         </div>

@@ -57,15 +57,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
-    return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
-  };
-
-  const shouldUsePaginated = () => {
-    return selectedTable && selectedTable.byPage;
+    return selectedTable && selectedTable.byPage && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
   const clearDisplayData = () => {
-    loadByPage = shouldUsePaginated(); //shouldUseLoadByPage(selectedPivot);
+    loadByPage = shouldUseLoadByPage(selectedPivot);
 
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
