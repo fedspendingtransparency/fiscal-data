@@ -46,7 +46,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     setKeywords(inputVal);
     console.log('keywords1: ', keywords);
     console.log('processInput is firing');
-    // changeHandler(inputVal);
+    changeHandler(inputVal);
   };
 
   const searchIsEmpty = !keywords || keywords.length === 0;
