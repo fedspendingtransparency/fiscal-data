@@ -130,7 +130,7 @@ const TableSectionContainer = ({
 
     setTableProps({
       publishedReports,
-      rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
+      rawData: displayData ? { ...apiData, data: displayData } : apiData,
       config,
       columnConfig,
       detailColumnConfig,

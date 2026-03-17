@@ -69,6 +69,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       setServerSidePagination(null);
     }
     setApiData(null);
+    setTableMeta(null);
     setApiError(false);
   };
 
