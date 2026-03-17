@@ -85,7 +85,6 @@ export default function DtgTable({
   const { detailView } = config;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
   const [tableSorting, setTableSorting] = useState([]);
-  const [configOption, setConfigOption] = useState(columnConfig);
   const [allColumns, setAllColumns] = useState([]);
 
   const defaultInvisibleColumns = {};
@@ -251,7 +250,6 @@ export default function DtgTable({
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
-    setConfigOption(activeConfig);
     if (data?.data) {
       let hiddenCols = hideColumns;
       if (detailViewState) {
@@ -311,8 +309,6 @@ export default function DtgTable({
   });
 
   useEffect(() => {
-    //TODO: prevent this from firing on date range change
-    // this should only go when the table changes
     if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue && defaultColumns.length === 0) {
       const { defaults, additional } = constructDefaultColumnsFromTableData(table, defaultSelectedColumns);
       setDefaultColumns(defaults);
@@ -325,8 +321,7 @@ export default function DtgTable({
 
   useEffect(() => {
     if (!!reactTableData?.meta?.dataTypes && table && table?.getAllLeafColumns()?.length > 0) {
-      setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
-      setTableSorting(sorting);
+      // todo: ?????????????????
       if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
         const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
         const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
@@ -336,16 +331,13 @@ export default function DtgTable({
       }
     }
   }, [columnVisibility, sorting]);
-  //TODO: table deps were causing a runtime error, confirm if they are needed here
-  // }, [columnVisibility, table?.getSortedRowModel(), table?.getVisibleFlatColumns(), sorting]);
 
-  //Todo confirm if this is duplicate of the above hook
-  // useEffect(() => {
-  //   if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
-  //     setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
-  //     setTableSorting(sorting);
-  //   }
-  // }, [sorting]);
+  useEffect(() => {
+    if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
+      setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
+      setTableSorting(sorting);
+    }
+  }, [sorting]);
 
   useEffect(() => {
     if (resetFilters && table) {

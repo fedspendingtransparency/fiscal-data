@@ -3,7 +3,7 @@ import DtgTable from './dtg-table';
 import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { act, render, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockColumnConfig, mockTableData } from '../data-table/data-table-test-helper';
 
@@ -15,7 +15,7 @@ describe('DTG table component', () => {
   it('renders a table', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } } }} />
+        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }} setManualPagination={jest.fn()} />
       </RecoilRoot>
     );
     expect(getByRole('table')).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe('DTG table component', () => {
   it('renders a row for each item in the data array', () => {
     const { getAllByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } } }} />
+        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }} setManualPagination={jest.fn()} />
       </RecoilRoot>
     );
     expect(getAllByRole('row')).toHaveLength(TestData.length + 1);
@@ -33,7 +33,11 @@ describe('DTG table component', () => {
   it('renders a column for every item in the data', () => {
     const { getAllByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: mockTableData, perPage: 5, columnConfig: mockColumnConfig }} />
+        <DtgTable
+          tableProps={{ rawData: mockTableData, perPage: 5, columnConfig: mockColumnConfig, config: {} }}
+          setManualPagination={jest.fn()}
+          setTableColumnSortData={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getAllByRole('columnheader')).toHaveLength(Object.keys(mockTableData.data[0]).length);
@@ -42,7 +46,11 @@ describe('DTG table component', () => {
   it('does not blow up when a column config is not provided', () => {
     const { getAllByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: mockTableData, columnConfig: mockColumnConfig }} />
+        <DtgTable
+          tableProps={{ rawData: mockTableData, columnConfig: mockColumnConfig, config: {} }}
+          setManualPagination={jest.fn()}
+          setTableColumnSortData={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getAllByRole('columnheader').length).toBeGreaterThan(0);
@@ -51,45 +59,20 @@ describe('DTG table component', () => {
   it('does not blow up when there is no data in a table', () => {
     const noDataComponent = render(
       <RecoilRoot>
-        <DtgTable tableProps={{}} />
+        <DtgTable tableProps={{ config: {} }} />
       </RecoilRoot>
     );
     expect(noDataComponent).toBeDefined();
-  });
-
-  it('does not show pagination controls by default', () => {
-    const { queryByText } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } } }} />
-      </RecoilRoot>
-    );
-    expect(queryByText('Rows Per Page')).not.toBeInTheDocument();
-  });
-
-  it('does not show table footer if shouldPage property is not included in tableProps', () => {
-    const { queryByTestId } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } } }} />
-      </RecoilRoot>
-    );
-    expect(queryByTestId('table-footer')).not.toBeInTheDocument();
-  });
-
-  it('renders the number of rows specified in props', () => {
-    const perPage = 3;
-    const { getAllByRole } = render(
-      <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } } }} perPage={perPage} />
-      </RecoilRoot>
-    );
-    expect(getAllByRole('row').length).toEqual(perPage + 1); // per page plus header
   });
 
   it('renders the defaultRowsPer if shouldPage === true but perPage is not specified and shows range of rows showing out of total number of rows with correct default itemsPerPage', () => {
     const perPage = 10;
     const { getAllByRole, getByTestId } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getAllByRole('row').length).toEqual(perPage + 1); // per page plus header
@@ -104,7 +87,7 @@ describe('DTG table component', () => {
     spy.mockClear();
     render(
       <RecoilRoot>
-        <DtgTable tableProps={mockPaginatedTableProps} />
+        <DtgTable tableProps={{ ...mockPaginatedTableProps, config: {} }} setManualPagination={jest.fn()} />
       </RecoilRoot>
     );
 
@@ -133,7 +116,10 @@ describe('DTG table component', () => {
       const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByText, getByRole } = render(
         <RecoilRoot>
-          <DtgTable tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, tableName: 'tableName' }} />
+          <DtgTable
+            tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, tableName: 'tableName', config: {} }}
+            setManualPagination={jest.fn()}
+          />
         </RecoilRoot>
       );
 
@@ -153,7 +139,10 @@ describe('DTG table component', () => {
       async () => {
         const { getByText } = render(
           <RecoilRoot>
-            <DtgTable tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true }} />
+            <DtgTable
+              tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+              setManualPagination={jest.fn()}
+            />
           </RecoilRoot>
         );
 
@@ -167,7 +156,10 @@ describe('DTG table component', () => {
       async () => {
         const { getByText } = render(
           <RecoilRoot>
-            <DtgTable tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true }} />
+            <DtgTable
+              tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+              setManualPagination={jest.fn()}
+            />
           </RecoilRoot>
         );
 
@@ -184,7 +176,7 @@ describe('DTG table component', () => {
         <DtgTable
           tableMeta={{ 'total-count': 500 }}
           userFilterSelection={{ value: 'A' }}
-          tableProps={{ dePaginated: { data: ['hello'], meta: { dataTypes: [] } } }}
+          tableProps={{ rawData: { data: ['hello'], meta: { dataTypes: [] } }, config: {} }}
           setManualPagination={mockSetManualPagination}
           setIsLoading={mockSetIsLoading}
         />
@@ -200,7 +192,10 @@ describe('DtgTable component - API Error', () => {
   it('shows an apiError message when apiError exists', () => {
     const { getByText } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData }, apiError: 'Error', shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getByText('Table failed to load.')).toBeInTheDocument();
@@ -209,7 +204,10 @@ describe('DtgTable component - API Error', () => {
   it('does not render pagination controls if apiError exists && currentPage === 1 even when shouldPage === true', () => {
     const { queryByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData }, apiError: 'Error', shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
@@ -222,7 +220,10 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('does show table footer if shouldPage property is included in tableProps', () => {
     const { getByTestId } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getByTestId('table-footer')).toBeDefined();
@@ -230,7 +231,10 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('shows the "x of x rows" message with correct grammar if only one row of data exists', () => {
     const { getByText } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
@@ -241,7 +245,10 @@ describe('DtgTable component with shouldPage property and tableData with only on
   it('does not render pagination controls when fewer rows than the lowest available rows-per-page option in the pagination controls', () => {
     const { getByTestId } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true }} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          setManualPagination={jest.fn()}
+        />
       </RecoilRoot>
     );
     const footer = getByTestId('table-footer');

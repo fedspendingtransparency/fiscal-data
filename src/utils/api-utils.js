@@ -233,7 +233,6 @@ export const datatableRequest = async (
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
         const apiFilter = getApiFilterParam(table, userFilterValue);
         const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
-        console.log(uri);
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
