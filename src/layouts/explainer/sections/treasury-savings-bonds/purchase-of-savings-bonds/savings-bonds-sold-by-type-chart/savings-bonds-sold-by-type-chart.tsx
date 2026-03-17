@@ -38,7 +38,7 @@ let gaTimer;
 const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChart> = ({ chartData, inflationChartData, curFy, chartDate }) => {
   const [selectedChartView, setSelectedChartView] = useState<string>('amounts');
   const [hiddenFields, setHiddenFields] = useState<string[]>([]);
-  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFy}`;
+  const chartTitle = `Savings Bonds Sold by Type Over Time, FY 1935 – FYTD ${curFy ?? '--'}`;
   const [sortedBonds, setSortedBonds] = useState<string[]>();
   const [maxYear, setMaxYear] = useState<number>();
   const [xAxis, setXAxis] = useState<number[]>();

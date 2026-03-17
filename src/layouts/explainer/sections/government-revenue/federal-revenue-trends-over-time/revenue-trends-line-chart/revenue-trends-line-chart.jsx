@@ -45,7 +45,9 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const [chartData, setChartData] = useState([]);
   const [lastChartYear, setLastChartYear] = useState(0);
   const [firstChartYear, setFirstChartYear] = useState(0);
-  const [lastUpdatedDate, setLastUpdatedDate] = useState();
+
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
+
   const [chartYears, setChartYears] = useState([]);
   const [totalRevByYear, setTotalRevByYear] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +65,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         setLastChartYear(res.data[0].record_fiscal_year);
         setFirstChartYear(res.data[res.data.length - 1].record_fiscal_year);
         const chartDate = new Date(res.data[0].record_date);
@@ -258,9 +260,9 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
     <>
       <div data-testid="revenueTrendsLineChart" className={container}>
         <ChartContainer
-          title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear}`}
-          subTitle={`Inflation Adjusted - ${lastChartYear} Dollars`}
-          altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear} - ${lastChartYear}`}
+          title={`Federal Revenue Trends Over Time, FY 2015-${lastChartYear || '--'}`}
+          subTitle={`Inflation Adjusted - ${lastChartYear || '--'} Dollars`}
+          altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear || '--'} - ${lastChartYear || '--'}`}
           footer={footer}
           date={lastUpdatedDate}
           customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}

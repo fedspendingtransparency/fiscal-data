@@ -121,8 +121,8 @@ const BodyCopy = (): ReactElement => {
       school. As a result, state and local governments will invest these funds. The IRS has strict guidelines about how state and local governments
       can invest these funds to ensure they're used properly. SLGS securities are an attractive option because they make it easier to comply with IRS
       regulations. SLGS also serve the federal government as a means of financing the {federalDebt}, similar to other {treasurySecurity}. As of{' '}
-      {lastUpdated}, there are ${getShortForm(slgsTotal, true)} outstanding SLGS securities, {percentCalc(slgsTotal, totalDebtOutstanding)}% of
-      the {totalPublicDebtOutstanding}.
+      {lastUpdated || '--'}, there are ${slgsTotal ? getShortForm(slgsTotal, true) : '--'} outstanding SLGS securities,{' '}
+      {slgsTotal && totalDebtOutstanding ? percentCalc(slgsTotal, totalDebtOutstanding) : '--'}% of the {totalPublicDebtOutstanding}.
     </div>
   );
 };

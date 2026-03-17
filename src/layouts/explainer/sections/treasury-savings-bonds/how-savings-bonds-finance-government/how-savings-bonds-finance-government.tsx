@@ -302,8 +302,9 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         <HowSavingsBondsSoldChart chartData={chartData} />
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds make up {savingBondsPercentage}% of total debt held by the public through {monthYear}. This is {percentageDifference}{' '}
-            percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
+            Savings bonds make up {savingBondsPercentage ?? '--'}% of total debt held by the public through {monthYear ?? '--'}. This is{' '}
+            {percentageDifference ?? '--'} percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago (
+            {historicalSavingBondsPercentage ?? '--'}%).
           </p>
         </VisualizationCallout>
       </figure>

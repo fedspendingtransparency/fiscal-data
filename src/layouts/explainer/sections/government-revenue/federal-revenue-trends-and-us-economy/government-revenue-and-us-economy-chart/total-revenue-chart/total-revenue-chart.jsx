@@ -56,10 +56,14 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
-  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({ fiscalYear: '-', totalRevenue: '', gdp: '', gdpRatio: '' });
-  useEffect(() => {
-    setLastUpdatedDate(new Date());
-  }, []);
+
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
+    fiscalYear: '--',
+    totalRevenue: '',
+    gdp: '',
+    gdpRatio: '',
+  });
+
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
       Analytics.event({
@@ -118,7 +122,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         setCallOutYear(res.data[0].record_fiscal_year);
       }
     });
@@ -128,7 +132,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     const { finalGDPData, gdpMaxYear } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         let finalRevenueChartData = [];
 
         res.data.forEach(revenue => {
@@ -385,7 +389,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
         </div>
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
-            Since {callOutYear}, {calloutCopy}.
+            Since {callOutYear || '--'}, {calloutCopy || '--'}.
           </p>
         </VisualizationCallout>
       </figure>

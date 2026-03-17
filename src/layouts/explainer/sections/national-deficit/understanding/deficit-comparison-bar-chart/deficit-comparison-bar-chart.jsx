@@ -135,9 +135,9 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
     }
 
     if (deficitValue > deficitChangeValue) {
-      setDeficitChangeLabel(`an increase of ${deficitDifferenceText}`);
+      setDeficitChangeLabel(`an increase of ${deficitDifferenceText || '--'}`);
     } else if (deficitValue < deficitChangeValue) {
-      setDeficitChangeLabel(`a decrease of ${deficitDifferenceText}`);
+      setDeficitChangeLabel(`a decrease of ${deficitDifferenceText || '--'}`);
     } else {
       setDeficitChangeLabel('remaining unchanged');
     }
@@ -161,7 +161,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
       <>
         <div data-testid="deficitComparisonChart" className={container}>
           <ChartContainer
-            title={`${chartCopy.title}${lastFiscalYear}`}
+            title={`${chartCopy.title}${lastFiscalYear || '--'}`}
             altText={`${chartCopy.altText}${lastFiscalYear}.`}
             footer={chartCopy.footer}
             date={date}
@@ -201,8 +201,9 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
         </div>
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>
-            In FY {lastFiscalYear} total government spending was ${spendingLabel} trillion and total revenue was ${revenueLabel} trillion, resulting
-            in a deficit of ${deficitLabel} trillion, {deficitChangeLabel} from the previous fiscal year.
+            In FY {lastFiscalYear || '--'} total government spending was ${spendingLabel || '--'} trillion and total revenue was $
+            {revenueLabel || '--'} trillion, resulting in a deficit of ${deficitLabel || '--'} trillion, {deficitChangeLabel} from the previous fiscal
+            year.
           </p>
         </VisualizationCallout>
       </>

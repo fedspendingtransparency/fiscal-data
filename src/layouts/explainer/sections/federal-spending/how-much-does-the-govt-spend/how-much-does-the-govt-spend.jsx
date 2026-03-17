@@ -214,7 +214,7 @@ const HowMuchDoesTheGovtSpend = () => {
       // A lot of this styling code needs to be reworked for consistency across charts
       customTitleStyles={{ paddingLeft: '1.5rem' }}
       customSubTitleStyles={{ paddingLeft: '1.5rem' }}
-      title={`U.S. Government Spending, FYTD ${fiscalYear}`}
+      title={`U.S. Government Spending, FYTD ${fiscalYear || '--'}`}
       subTitle={'Top 10 Spending by Category and Agency'}
       footer={footer}
       date={lastUpdatedDate}

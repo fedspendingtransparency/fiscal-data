@@ -9,8 +9,8 @@ export const SpendingBodyGenerator = () => {
   const pagination = 'page[size]=1';
   const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
   const spendingUrl = `${apiPrefix}${endpointUrl}`;
-  const [amount, setAmount] = useState('0');
-  const [year, setYear] = useState('null');
+  const [amount, setAmount] = useState(null);
+  const [year, setYear] = useState('--');
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`).then(res => {
@@ -24,15 +24,15 @@ export const SpendingBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has spent ${getShortForm(amount, false)} in fiscal year {year} to ensure the well-being of the people of the United States.
-      Learn more about spending categories, types of spending, and spending trends over time.
+      The U.S. government has spent ${amount !== null ? getShortForm(amount, false) : '--'} in fiscal year {year} to ensure the well-being of the
+      people of the United States. Learn more about spending categories, types of spending, and spending trends over time.
     </>
   );
 };
 
 export const RevenueBodyGenerator = () => {
   const [currentRevenue, setCurrentRevenue] = useState(null);
-  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState('--');
   const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
   useEffect(() => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {
@@ -47,14 +47,15 @@ export const RevenueBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has collected ${getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear} in order to pay for the goods and
-      services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
+      The U.S. government has collected ${currentRevenue !== null ? getShortForm(currentRevenue, false) : '--'} in fiscal year {recordFiscalYear} in
+      order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time,
+      and how revenue compares to GDP.
     </>
   );
 };
 
 export const SavingsBondsBodyGenerator = () => {
-  const [currentFiscalYear, setCurrentFiscalYear] = useState(null);
+  const [currentFiscalYear, setCurrentFiscalYear] = useState('--');
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
   const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
 
@@ -80,8 +81,9 @@ export const SavingsBondsBodyGenerator = () => {
 
   return (
     <>
-      In FY {currentFiscalYear}, U.S. citizens have invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. Discover how savings bonds
-      help finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.
+      In FY {currentFiscalYear}, U.S. citizens have invested ${savingsBondsAmount !== null ? getShortForm(savingsBondsAmount, false) : '--'} in
+      savings bonds. Discover how savings bonds help finance the federal government and the benefits these bonds offer to citizens who choose to
+      invest in them.
     </>
   );
 };

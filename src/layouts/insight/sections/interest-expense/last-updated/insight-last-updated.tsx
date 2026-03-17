@@ -26,5 +26,5 @@ export const InsightLastUpdated: FunctionComponent<{ endpoint: string }> = ({ en
       getLastUpdatedDate().then(res => setLastUpdatedDate(res));
     }
   }, []);
-  return <>{<span className={lastUpdated}>Last Updated: {lastUpdatedDate}</span>}</>;
+  return <>{<span className={lastUpdated}>Last Updated: {lastUpdatedDate !== null ? lastUpdatedDate : '--'}</span>}</>;
 };

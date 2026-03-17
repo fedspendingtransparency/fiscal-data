@@ -19,9 +19,9 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rows, setRows] = useState(visualizingTheDebtTableContent.desktop.rows);
   const [columns, setColumns] = useState(visualizingTheDebtTableContent.desktop.columns);
-  const [nationalDebtValue, setNationalDebtValue] = useState('99999999999999.99');
-  const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState('99999999999999.9');
-  const [numberOfSquares, setNumberOfSquares] = useState('0');
+  const [nationalDebtValue, setNationalDebtValue] = useState('--');
+  const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState('--');
+  const [numberOfSquares, setNumberOfSquares] = useState('--');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
   const data = useRecoilValueLoadable(debtToThePennyData);
   useShouldRefreshCachedData(debtToThePennyData, debtToThePennyLastCachedState);

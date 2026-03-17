@@ -67,10 +67,13 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const chartWidth = 550;
   const chartHeight = 490;
 
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({});
-  useEffect(() => {
-    setLastUpdatedDate(new Date());
-  }, []);
+  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({
+    fiscalYear: '--',
+    totalSpending: '',
+    gdp: '',
+    gdpRatio: '',
+  });
+
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
 
   const handleClick = eventNumber => {
@@ -107,7 +110,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         setCallOutYear(res.data[0].record_fiscal_year);
       }
     });
@@ -117,7 +120,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     const { finalGDPData, gdpMaxYear, gdpMaxAmount } = beaGDPData;
 
     basicFetch(chartDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         let finalSpendingChartData = [];
 
         res.data.forEach(spending => {
@@ -182,9 +185,8 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
 
         if (chartFirstRatio !== chartLastRatio) {
           setCalloutCopy(
-            ` the Spending to GDP ratio has ${
-              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
-            } from ${chartFirstRatio} to ${chartLastRatio}`
+            ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${chartFirstRatio ||
+              '--'} to ${chartLastRatio || '--'}`
           );
         } else {
           setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
@@ -420,7 +422,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
           </div>
           <VisualizationCallout color={spendingExplainerPrimary}>
             <p>
-              Since {callOutYear}, {calloutCopy}.
+              Since {callOutYear || '--'}, {calloutCopy}.
             </p>
           </VisualizationCallout>
         </figure>

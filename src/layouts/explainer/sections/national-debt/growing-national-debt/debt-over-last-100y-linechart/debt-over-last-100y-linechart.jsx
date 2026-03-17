@@ -41,7 +41,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '-', totalDebt: '-' });
+  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '$--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const data = useRecoilValueLoadable(debtOutstandingData);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
@@ -251,7 +251,8 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
         </div>
         <VisualizationCallout color="">
           <p>
-            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
+            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue || '$--'} in {minYear || '--'} to{' '}
+            {lastDebtValue || '$--'} in {maxYear || '--'}.
           </p>
         </VisualizationCallout>
       </figure>

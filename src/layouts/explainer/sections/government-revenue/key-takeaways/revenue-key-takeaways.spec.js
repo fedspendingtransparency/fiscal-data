@@ -96,7 +96,7 @@ describe('Revenue Key Takeaways evergreen values', () => {
     const { findByText } = render(<RevenueKeyTakeaways />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await findByText('In fiscal year 2021', { exact: false })).toBeInTheDocument();
-    expect(await findByText('0%', { exact: false })).toBeInTheDocument();
+    expect(await findByText('--%', { exact: false })).toBeInTheDocument();
     expect(await findByText('22.65 trillion', { exact: false })).toBeInTheDocument();
     expect(await findByText('Individual Income Taxes', { exact: false })).toBeInTheDocument();
     expect(await findByText('50.5%', { exact: false })).toBeInTheDocument(); // prior year's %
