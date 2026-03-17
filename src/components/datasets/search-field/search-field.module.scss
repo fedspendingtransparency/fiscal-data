@@ -23,6 +23,10 @@
     &::placeholder {
       color: $placeholder;
     }
+
+    &:disabled {
+      pointer-events: none;
+    }
   }
 
   .searchInput_iconButton {

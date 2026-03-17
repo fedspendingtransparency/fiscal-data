@@ -36,7 +36,7 @@ export const lastUpdatedInfoTipAnalyticsObject = {
   label: 'Keyword Search',
 };
 
-const SearchField = ({ changeHandler, finalDatesNotFound }) => {
+const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
   const context = useContext(siteContext);
   const { keywords, setKeywords } = context;
   const [localText, setLocalText] = useState(context ? keywords : '');
@@ -123,12 +123,13 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           ref={searchField}
           aria-label="Enter search terms"
           title="Enter Search Terms"
+          disabled={isLoading}
         />
         <button
           data-testid="search-button"
           className={searchInput_iconButton}
           onClick={clear}
-          disabled={searchIsEmpty}
+          disabled={isLoading || searchIsEmpty}
           aria-hidden={searchIsEmpty}
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
