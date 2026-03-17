@@ -114,7 +114,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
 
   useEffect(() => {
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
-    setPublishedReports(getPublishedDates(publishedReportsProp));
+    setPublishedReports(getPublishedDates(publishedReportsProp || []));
   }, [publishedReportsProp]);
 
   useEffect(() => {
@@ -373,7 +373,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                       handleConfigUpdate={() => setConfigUpdated(true)}
                       tableColumnSortData={tableColumnSortData}
                       setTableColumnSortData={setTableColumnSortData}
-                      hasPublishedReports={!!publishedReports}
+                      hasPublishedReports={publishedReports.length > 0}
                       publishedReports={publishedReports}
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}

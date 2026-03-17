@@ -52,7 +52,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
 
-
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
@@ -99,7 +98,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
-    setPublishedReports(getPublishedDates(publishedReportsProp));
+    setPublishedReports(getPublishedDates(publishedReportsProp || []));
   }, [publishedReportsProp]);
 
   useEffect(() => {
@@ -315,7 +314,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             handleConfigUpdate={() => setConfigUpdated(true)}
             tableColumnSortData={tableColumnSortData}
             setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
+            hasPublishedReports={publishedReports.length > 0}
             publishedReports={publishedReports}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}

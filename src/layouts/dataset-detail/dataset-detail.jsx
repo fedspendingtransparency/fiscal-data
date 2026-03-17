@@ -52,6 +52,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   const updatedDatasetData = useMetadataUpdater(data.allDatasets.datasets);
   const hideRawDataTable = pageContext.config?.hideRawDataTable;
   const bannerCallout = pageContext.config.bannerCallout;
+  const hasPublishedReports = Boolean(pageConfig?.hasPublishedReports || pageConfig?.publishedReports?.length);
 
   useEffect(() => {
     setPageConfig(updatedPageConfig.config);
@@ -69,7 +70,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <Masthead title={pageContext.config.name} />
-      <DDNav hasPublishedReports={!!pageConfig.publishedReports} hideRawDataTable={hideRawDataTable} />
+      <DDNav hasPublishedReports={hasPublishedReports} hideRawDataTable={hideRawDataTable} />
       <div className="ddpBodyBackground">
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
@@ -94,7 +95,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
                 finalDatesNotFound={finalDatesNotFound}
                 config={pageConfig}
                 location={location}
-                publishedReportsProp={pageConfig.publishedReports}
+                publishedReportsProp={pageConfig.publishedReports || []}
               />
             </Experimental>
             <DatasetData
@@ -102,7 +103,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
               finalDatesNotFound={finalDatesNotFound}
               config={pageConfig}
               location={location}
-              publishedReportsProp={pageConfig.publishedReports}
+              publishedReportsProp={pageConfig.publishedReports || []}
             />
           </>
         )}

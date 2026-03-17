@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import dates from '../../helpers/datasets/dates';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -87,12 +87,16 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
-  const [defaultDatasets, setDefaultDatasets] = useState();
+  // const [defaultDatasets, setDefaultDatasets] = useState();
 
-  useEffect(() => {
-    const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
-    setDefaultDatasets(filteredDatasets);
-  }, []);
+  const defaultDatasets = useMemo(() => {
+    return datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+  });
+
+  // useEffect(() => {
+  //   const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+  //   setDefaultDatasets(filteredDatasets);
+  // }, []);
 
   const breadCrumbLinks = [
     {
@@ -109,26 +113,44 @@ const DatasetsPage = ({ pageContext }) => {
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
   const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
-  const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
-  const fuse = new Fuse(updatedDatasets, options, searchIndex);
+  // const searchIndex = Fuse?.createIndex(options.keys, updatedDatasets);
+  // const fuse = new Fuse(updatedDatasets, options, searchIndex);
+
+  const fuse = useMemo(() => {
+    if (!updatedDatasets?.length) {
+      return null;
+    }
+    const searchIndex = Fuse?.createIndex(options.key, updatedDatasets);
+    return new Fuse(updatedDatasets, options, searchIndex);
+  }, [updatedDatasets]);
 
   useEffect(() => {
     setFinalDatesNotFound(true);
 
-    if (typeof window !== 'undefined') {
+    const updateInnerWidth = () => {
       setInnerWidth(window.innerWidth);
+    };
+
+    if (typeof window !== 'undefined') {
+      updateInnerWidth();
+      window.addEventListener('resize', updateInnerWidth);
     }
 
     // todo - Break out code and add a removeEventListener
-    window.addEventListener('resize', () => {
-      setInnerWidth(window.innerWidth);
-    });
+    // window.addEventListener('resize', () => {
+    //   setInnerWidth(window.innerWidth);
+    // });
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.addEventListener('resize', updateInnerWidth);
+      }
+    };
   }, []);
 
   useEffect(() => {
     setFinalDatesNotFound(false);
     setTimeout(() => {
-      if (updatedDatasets && searchQuery) {
+      if (updatedDatasets && searchQuery && fuse) {
         setSearchResults(
           fuse.search(searchQuery).map(result => {
             return { ...result.item, score: result.score };
@@ -141,7 +163,7 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    if (updatedDatasets && searchQuery) {
+    if (updatedDatasets && searchQuery && fuse) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
           return { ...result.item, score: result.score };

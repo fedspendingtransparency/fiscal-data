@@ -42,6 +42,46 @@ const datasetIdMap = require('./src/transform/static-metadata/datasets.json');
 // with an API call similar to what is in getMetaData below
 const releaseCalendarMockData = require('./src/testData/release-calendar.mock.data.json').data;
 
+const trimDatasetPageConfig = config => {
+  if (!config) {
+    return config;
+  }
+
+  const trimmedConfig = { ...config };
+
+  delete trimmedConfig.allColumnNames;
+  delete trimmedConfig.allPrettyNames;
+  delete trimmedConfig.publishedReports;
+  delete trimmedConfig.relatedDatasets;
+
+  return {
+    ...trimmedConfig,
+    hasPublishedReports: Boolean(config.hasPublishedReports || config.publishedReports?.length),
+  };
+};
+
+const trimRelatedDatasetForCard = dataset => {
+  if (!dataset) {
+    return dataset;
+  }
+
+  return {
+    datasetId: dataset.datasetId,
+    slug: dataset.slug,
+    name: dataset.name,
+    hideRawDataTable: dataset.hideRawDataTable,
+    apis: dataset.apis ? dataset.apis.map(({ apiId }) => ({ apiId })) : [],
+    techSpecs: dataset.techSpecs
+      ? {
+          earliestDate: dataset.techSpecs.earliestDate,
+          latestDate: dataset.techSpecs.latestDate,
+          updateFrequency: dataset.techSpecs.updateFrequency,
+          lastUpdated: dataset.techSpecs.lastUpdated,
+        }
+      : null,
+  };
+};
+
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
   const { createNode } = actions;
   const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
@@ -992,7 +1032,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         matchPath: '/datasets' + config.slug + '*',
         component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
         context: {
-          config: config,
+          config: trimDatasetPageConfig(config),
           relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
           experimental: false,
           seoConfig: config.seoConfig,
@@ -1024,7 +1064,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     if (ENV_ID !== 'production' || explainer.prodReady) {
       const explainerRelatedDatasets = [];
       explainer.relatedDatasets.forEach(dataset => {
-        explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+        explainerRelatedDatasets.push(trimDatasetPageConfig(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset)));
       });
       createPage({
         path: explainer.slug,
