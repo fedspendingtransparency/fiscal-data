@@ -60,7 +60,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [percentDollarToggleChecked, setPercentDollarToggleChecked] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
   const [width, height] = useWindowSize();
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [fiscalYear, setFiscalYear] = useState('');
   const [animateBars, setAnimateBars] = useState(false);
   const [hasAgencyTriggered, setHasAgencyTriggered] = useState(false);
@@ -212,7 +212,7 @@ const HowMuchDoesTheGovtSpend = () => {
       // A lot of this styling code needs to be reworked for consistency across charts
       customTitleStyles={{ paddingLeft: '1.5rem' }}
       customSubTitleStyles={{ paddingLeft: '1.5rem' }}
-      title={`U.S. Government Spending, FYTD ${fiscalYear}`}
+      title={`U.S. Government Spending, FYTD ${fiscalYear || '--'}`}
       subTitle={'Top 10 Spending by Category and Agency'}
       footer={footer}
       date={lastUpdatedDate}

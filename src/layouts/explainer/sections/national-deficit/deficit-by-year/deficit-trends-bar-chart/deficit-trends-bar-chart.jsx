@@ -24,7 +24,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
 
   const desktop = width >= pxToNumber(breakpointLg);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
@@ -32,8 +32,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
-  const [headerYear, setHeaderYear] = useState('-');
-  const [headerDeficit, setHeaderDeficit] = useState('');
+  const [headerYear, setHeaderYear] = useState('--');
+  const [headerDeficit, setHeaderDeficit] = useState('--');
   const [lastBar, setLastBar] = useState();
 
   const formatCurrency = v => {
@@ -264,7 +264,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
     <>
       <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
         <ChartContainer
-          title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
+          title={`Federal Deficit Trends Over Time, FY ${startingYear || '--'}-${mostRecentFiscalYear || '--'}`}
           altText={
             `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
             `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`

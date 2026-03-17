@@ -45,7 +45,7 @@ const InterestExpenseChart = () => {
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
-  const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY} - FYTD ${currentFY}`;
+  const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY ?? '--'} - FYTD ${currentFY ?? '--'}`;
   const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
 
   const resetDataHeader = () => {

@@ -39,7 +39,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [savingBondPercentage, setSavingBondPercentage] = useState<string | null>(null);
   const [nonMarketablePercent, setNonMarketablePercent] = useState<number | null>(null);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
-  const [historyChartDate, setHistoryChartDate] = useState<Date>(new Date());
+  const [historyChartDate, setHistoryChartDate] = useState<Date>(null);
   const [activeIndex, setActiveIndex] = useState<string | null>(null);
   const [activeSecurityType, setActiveSecurityType] = useState<string | null>(null);
   const [chartHeight, setChartHeight] = useState<number>(400);
@@ -85,7 +85,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
     });
   }, []);
 
-  const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : '';
+  const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : '--';
   const intragovernmental = (
     <GlossaryPopoverDefinition
       term="Intragovernmental Holdings"

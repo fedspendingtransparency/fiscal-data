@@ -42,22 +42,22 @@ let ga4Timer;
 
 const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [data, setData] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
   const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
-  const [debtValue, setDebtValue] = useState('0');
-  const [interestValue, setInterestValue] = useState('0');
-  const [focalYear, setFocalYear] = useState(1900);
+  const [debtValue, setDebtValue] = useState('$--');
+  const [interestValue, setInterestValue] = useState('--%');
+  const [focalYear, setFocalYear] = useState('--');
   const [multichartStartYear, setMultichartStartYear] = useState('');
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
   const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState('');
-  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
-  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
-  const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
+  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('--');
+  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('--');
+  const [debtExpensePercent, setDebtExpensePercent] = useState('--%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
 
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
@@ -290,12 +290,12 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
         individuals, such as personal credit card debt or mortgages.
       </p>
       <p>
-        The visual below comparing {glossaryTerms.calendarYear} {startYear} and {endYear} displays the difference in growth between debt held by the
-        public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by different amounts in
-        the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of programs and services
-        during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed of debt owed on
-        agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social Security
-        Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
+        The visual below comparing {glossaryTerms.calendarYear} {startYear || '--'} and {endYear || '--'} displays the difference in growth between
+        debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by
+        different amounts in the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of
+        programs and services during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed
+        of debt owed on agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social
+        Security Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
       </p>
       <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} width={width} />
       <div className={postGraphContent} id="maintaining-national-debt">
@@ -313,8 +313,8 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           customTopMargin="-16px"
         >
           <p>
-            As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which is{' '}
-            {debtExpensePercent} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear}.
+            As of {interestExpenseEndMonth || '--'} {interestExpenseEndYear || '--'} it costs ${shortenedDebtExpense ?? '--'} billion to maintain the
+            debt, which is {debtExpensePercent || '--'} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear || '--'}.
           </p>
         </QuoteBox>
         <p>
@@ -342,7 +342,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
               data-testid="debt-breakdown-section-graph"
             >
               <p className={`${title} ${simple}`}>
-                Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}
+                Interest Rate and Total Debt, {multichartStartYear || '--'} – {multichartEndYear || '--'}
               </p>
               <div className={headerContainer} data-testid="interest-and-debt-chart-header">
                 <div>
@@ -381,7 +381,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
                 <p>
                   Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
                 </p>
-                <p>Last Updated: September 30, {multichartEndYear}</p>
+                <p>Last Updated: September 30, {multichartEndYear || '--'}</p>
               </div>
             </div>
           </div>

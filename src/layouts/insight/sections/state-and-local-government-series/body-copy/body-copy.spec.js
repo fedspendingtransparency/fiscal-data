@@ -33,7 +33,7 @@ describe('State and Local Government Series Body Copy - Calculation Variant #1',
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(<BodyCopy />);
     await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
-    expect(await findByText('0%', { exact: false })).toBeInTheDocument();
+    expect(await findByText('--%', { exact: false })).toBeInTheDocument();
   });
 });
 

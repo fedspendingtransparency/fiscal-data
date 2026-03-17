@@ -30,7 +30,7 @@ describe('Visualing the debt accordion values', () => {
       </RecoilRoot>
     );
     expect(fetchSpy).toBeCalled();
-    await waitForElementToBeRemoved(() => getByText(/99999999999999.99/i));
+    await waitForElementToBeRemoved(() => getByText(/--/i));
     expect(await getByText('Visualizing the debt - How much is $29 trillion dollars?', { exact: false })).toBeInTheDocument();
     global.fetch.mockRestore();
   });

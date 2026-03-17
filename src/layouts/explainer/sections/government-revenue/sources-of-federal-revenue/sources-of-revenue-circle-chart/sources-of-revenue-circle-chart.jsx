@@ -30,14 +30,14 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
 
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [fiscalYear, setFiscalYear] = useState(0);
-  const [recordDate, setRecordDate] = useState(new Date());
+  const [recordDate, setRecordDate] = useState(null);
 
   const [categoryName, setCategoryName] = useState(defaultCategory.name);
-  const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(0);
-  const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(0);
+  const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(null);
+  const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(null);
 
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
-  const [combinedIncomePercent, setCombinedIncomePercent] = useState(0);
+  const [combinedIncomePercent, setCombinedIncomePercent] = useState(null);
 
   const [chartData, setChartData] = useState({ children: [] });
   const [categoryData, setCategoryData] = useState(null);
@@ -56,14 +56,14 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   useEffect(() => {
     const url = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
     basicFetch(`${apiPrefix}${url}`).then(res => {
-      if (res.data[0]) {
+      if (res.data && res.data.length > 0) {
         setFiscalYear(res.data[0].record_fiscal_year);
         setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
       }
     });
     const categoryUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
     basicFetch(`${apiPrefix}${categoryUrl}`).then(res => {
-      if (res.data[0]) {
+      if (res.data && res.data.length > 0) {
         setCategoryData(res.data);
       }
     });
@@ -72,7 +72,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   useEffect(() => {
     const url = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2';
     basicFetch(`${apiPrefix}${url}`).then(res => {
-      if (res.data[0] && res.data[1]) {
+      if (res.data && res.data.length > 1) {
         const income = Number(res.data[0]?.current_fytd_rcpt_outly_amt) + Number(res.data[1].current_fytd_rcpt_outly_amt);
         setCombinedIncomeAmount(income);
         setCombinedIncomePercent((combinedIncomeAmount / totalRevenue) * 100);
@@ -150,7 +150,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         color: 'rgb(136, 60, 127)',
       };
 
-      if (categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
+      if (categoryRevenuePercent === null && categoryRevenueAmount === null) {
         setCategoryRevenuePercent((Number(incomeTax.value) / totalRev) * 100);
         setCategoryRevenueAmount(Number(incomeTax.value));
       }
@@ -297,71 +297,72 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   return (
     <>
       <div className={container}>
-      <figure className={visWithCallout}>
-        <ChartContainer
-          title={title + fiscalYear}
-          subTitle={subTitle}
-          header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
-          footer={footer}
-          altText={chartAltText}
-          date={recordDate}
-          customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
-          customContainerStyles={{
-            minHeight: 'var(--chart-height)',
-          }}
-        >
-          {chartData.children && chartData.children.length > 0 ? (
-            <div className={dataContent}>
-              <div
-                role="presentation"
-                className={chartSize}
-                data-testid="chartParent"
-                onMouseEnter={handleMouseEnterChart}
-                onMouseLeave={handleOuterChartMouseLeave}
-                onClick={handleOuterChartMouseLeave}
-              >
-                <CirclePacking
-                  data={chartData}
-                  colors={{ datum: 'data.color' }}
-                  margin={{ top: 25, right: 10, bottom: 25, left: 10 }}
-                  height={width < pxToNumber(breakpointLg) ? 350 : 500}
-                  width={width < pxToNumber(breakpointLg) ? 350 : 500}
-                  colorBy={'id'}
-                  leavesOnly
-                  enableLabels={true}
-                  padding={4}
-                  labelsSkipRadius={0}
-                  labelComponent={({ node, label }) => (
-                    <LabelComponent
-                      node={node}
-                      label={label}
-                      width={width}
-                      HandleMouseEnter={HandleMouseEnter}
-                      HandleClick={HandleLabelClick}
-                      HandleMouseLeave={handleChartMouseLeave}
-                    />
-                  )}
-                  animate={false}
-                  onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
-                  onMouseLeave={() => handleChartMouseLeave(true)}
-                  onClick={(node, e) => HandleMouseEnter(node, e)}
-                />
+        <figure className={visWithCallout}>
+          <ChartContainer
+            title={title + (fiscalYear || '--')}
+            subTitle={subTitle}
+            header={dataHeader(categoryName, categoryRevenueAmount, categoryRevenuePercent)}
+            footer={footer}
+            altText={chartAltText}
+            date={recordDate}
+            customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12 } : {}}
+            customContainerStyles={{
+              minHeight: 'var(--chart-height)',
+            }}
+          >
+            {chartData.children && chartData.children.length > 0 ? (
+              <div className={dataContent}>
+                <div
+                  role="presentation"
+                  className={chartSize}
+                  data-testid="chartParent"
+                  onMouseEnter={handleMouseEnterChart}
+                  onMouseLeave={handleOuterChartMouseLeave}
+                  onClick={handleOuterChartMouseLeave}
+                >
+                  <CirclePacking
+                    data={chartData}
+                    colors={{ datum: 'data.color' }}
+                    margin={{ top: 25, right: 10, bottom: 25, left: 10 }}
+                    height={width < pxToNumber(breakpointLg) ? 350 : 500}
+                    width={width < pxToNumber(breakpointLg) ? 350 : 500}
+                    colorBy={'id'}
+                    leavesOnly
+                    enableLabels={true}
+                    padding={4}
+                    labelsSkipRadius={0}
+                    labelComponent={({ node, label }) => (
+                      <LabelComponent
+                        node={node}
+                        label={label}
+                        width={width}
+                        HandleMouseEnter={HandleMouseEnter}
+                        HandleClick={HandleLabelClick}
+                        HandleMouseLeave={handleChartMouseLeave}
+                      />
+                    )}
+                    animate={false}
+                    onMouseEnter={(node, e) => HandleMouseEnter(node, e)}
+                    onMouseLeave={() => handleChartMouseLeave(true)}
+                    onClick={(node, e) => HandleMouseEnter(node, e)}
+                  />
+                </div>
+                <div className={totalRevenueDataPill}>Total Revenue: ${totalRevenue ? getShortForm(totalRevenue.toString()) : '--'}</div>
               </div>
-              <div className={totalRevenueDataPill}>Total Revenue: ${getShortForm(totalRevenue.toString())}</div>
-            </div>
-          ) : (
-            <LoadingIndicator loadingClass={loadingIcon} />
-          )}
-        </ChartContainer>
-        <VisualizationCallout color={revenueExplainerPrimary}>
-          <p>
-            In FY {fiscalYear}, the combined contribution of individual and corporate income taxes is ${getShortForm(combinedIncomeAmount.toString())}
-            , making up {combinedIncomePercent.toFixed()}% of total revenue.
-          </p>
-        </VisualizationCallout>
-      </figure>
+            ) : (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            )}
+          </ChartContainer>
+          <VisualizationCallout color={revenueExplainerPrimary}>
+            <p>
+              In FY {fiscalYear || '--'}, the combined contribution of individual and corporate income taxes is $
+              {combinedIncomeAmount ? getShortForm(combinedIncomeAmount.toString()) : '--'}, making up{' '}
+              {combinedIncomePercent ? combinedIncomePercent.toFixed() : '--'}% of total revenue.
+            </p>
+          </VisualizationCallout>
+        </figure>
       </div>
     </>
   );
