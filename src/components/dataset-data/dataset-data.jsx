@@ -53,6 +53,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
 
+  useEffect(() => {
+    console.log('rerender dataset-data');
+  }, []);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   let loadByPage;
   const title = 'Data Preview';
@@ -75,6 +79,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   const updateDataDisplay = data => {
     clearDisplayData();
+    console.log('???????????????????????');
     setTimeout(() => setApiData(data)); // then on the next tick, setup the new data
   };
 
@@ -173,13 +178,22 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
+        console.log('??????????????????????? - 2');
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
+        console.log('??????????????????????? - 3');
+
         setTimeout(() => {
           let canceledObj = { isCanceled: false, abortController: new AbortController() };
-          const from = formatDateForApi(dateRange.from);
-          const to = formatDateForApi(dateRange.to);
+          let from = formatDateForApi(dateRange.from);
+          let to = formatDateForApi(dateRange.to);
+          // redemption_tables and sb_value are exception scenarios where the date string needs to
+          // be YYYY-MM.
+          if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+            from = from.substring(0, from.lastIndexOf('-'));
+            to = to.substring(0, to.lastIndexOf('-'));
+          }
           const dateFilter = buildDateFilter(selectedTable, from, to);
           const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
           //TODO: rename var

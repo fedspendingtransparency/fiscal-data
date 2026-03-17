@@ -128,6 +128,7 @@ const TableSectionContainer = ({
       setChartData({ ...apiData, data: displayData });
     }
 
+    console.log('updating table props', displayData);
     setTableProps({
       publishedReports,
       rawData: displayData ? { ...apiData, data: displayData } : apiData,
@@ -150,7 +151,18 @@ const TableSectionContainer = ({
   };
 
   useEffect(() => {
+    console.log('apiData', apiData);
+  }, [apiData]);
+  useEffect(() => {
+    console.log('userFilterSelection', userFilterSelection);
+  }, [userFilterSelection]);
+  useEffect(() => {
+    console.log('apiError', apiError);
+  }, [apiError]);
+
+  useEffect(() => {
     (async () => {
+      console.log(11);
       await refreshTable();
     })();
   }, [apiData, userFilterSelection, apiError]);
@@ -158,6 +170,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     (async () => {
       if (serverSidePagination || userFilterSelection) {
+        console.log(22);
         await refreshTable();
       }
     })();
@@ -166,6 +179,7 @@ const TableSectionContainer = ({
   useEffect(() => {
     (async () => {
       if (config?.sharedApiFilterOptions && userFilterSelection) {
+        console.log(33);
         await refreshTable();
       }
     })();

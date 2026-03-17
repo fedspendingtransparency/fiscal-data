@@ -166,6 +166,7 @@ export default function DtgTable({
             //Todo: confim if additional if statement is actually needed here
             const shouldUseTableData = res.data?.length > 0 && !rawData;
             if (shouldUseTableData && isLargeTable() && noPivotApplied() && shouldUsePaginatedResponse()) {
+              console.log(1);
               updateTableData(res, true);
             }
           }
@@ -242,7 +243,7 @@ export default function DtgTable({
   const shouldUsePaginatedResponse = () => tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
-    console.log('here', data);
+    console.log('here', data?.data[0], reactTableData?.data[0], data?.data[0] === reactTableData?.data[0]);
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
@@ -303,10 +304,28 @@ export default function DtgTable({
           updateTableData(rawData, false, true);
         }
       } else {
+        console.log(2, tableMeta, rawData);
         updateTableData(rawData);
       }
     }
-  }, [pivotSelected, rawData]);
+  }, [rawData]);
+
+  // useMemo(() => {
+  //   if (tableProps && rawData?.hasOwnProperty('data')) {
+  //     if (detailViewState && detailView) {
+  //       if (detailViewState?.secondary !== null) {
+  //         // Nested table detail view with secondary filter --> ex. Buybacks
+  //         const detailViewFilteredData = rawData.data.filter(row => row[detailView.secondaryField] === detailViewState?.secondary);
+  //         updateTableData({ data: detailViewFilteredData, meta: rawData.meta }, false, true);
+  //       } else {
+  //         updateTableData(rawData, false, true);
+  //       }
+  //     } else {
+  //       console.log(3);
+  //       updateTableData(rawData);
+  //     }
+  //   }
+  // }, [pivotSelected]);
 
   useEffect(() => {
     if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue && defaultColumns.length === 0) {

@@ -225,11 +225,15 @@ export const datatableRequest = async (
     }
     if (dateRanges && dateRanges.length) {
       const fetchers = [];
-      console.log(dateRanges);
       dateRanges.forEach(range => {
-        const from = formatDateForApi(range.from);
-        const to = formatDateForApi(range.to);
-
+        let from = formatDateForApi(range.from);
+        let to = formatDateForApi(range.to);
+        // redemption_tables and sb_value are exception scenarios where the date string needs to
+        // be YYYY-MM.
+        if (table.endpoint.indexOf('redemption_tables') > -1 || table.endpoint.indexOf('sb_value') > -1) {
+          from = from.substring(0, from.lastIndexOf('-'));
+          to = to.substring(0, to.lastIndexOf('-'));
+        }
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
         const apiFilter = getApiFilterParam(table, userFilterValue);
         const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
