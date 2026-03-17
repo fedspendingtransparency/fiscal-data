@@ -175,43 +175,45 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-        let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        const from = formatDateForApi(dateRange.from);
-        const to = formatDateForApi(dateRange.to);
-        const dateFilter = buildDateFilter(selectedTable, from, to);
-        const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
-        //TODO: rename var
-        let skipthis;
-        (async () => {
-          const metaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
-          setTableMeta(metaData.meta);
-          skipthis = metaData.meta && metaData.meta['total-count'] <= 20000;
-          if (!loadByPage || skipthis || ignorePivots) {
-            setServerSidePagination(null);
-            getApiData(
-              dateRange,
-              displayedTable,
-              selectedPivot,
-              setIsLoading,
-              setApiData,
-              setApiError,
-              canceledObj,
-              tableCaches[displayedTable.apiId],
-              detailViewState,
-              config?.detailView?.field,
-              userFilterSelection,
-              queryClient
-            ).then(() => {
-              // nothing to cancel if the request completes normally.
-              canceledObj = null;
-            });
-          }
-        })();
-        return () => {
-          if (!canceledObj) return;
-          canceledObj.isCanceled = true;
-          canceledObj.abortController.abort();
-        };
+        setTimeout(() => {
+          let canceledObj = { isCanceled: false, abortController: new AbortController() };
+          const from = formatDateForApi(dateRange.from);
+          const to = formatDateForApi(dateRange.to);
+          const dateFilter = buildDateFilter(selectedTable, from, to);
+          const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+          //TODO: rename var
+          let skipthis;
+          (async () => {
+            const metaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
+            setTableMeta(metaData.meta);
+            skipthis = metaData.meta && metaData.meta['total-count'] <= 20000;
+            if (!loadByPage || skipthis || ignorePivots) {
+              setServerSidePagination(null);
+              getApiData(
+                dateRange,
+                displayedTable,
+                selectedPivot,
+                setIsLoading,
+                setApiData,
+                setApiError,
+                canceledObj,
+                tableCaches[displayedTable.apiId],
+                detailViewState,
+                config?.detailView?.field,
+                userFilterSelection,
+                queryClient
+              ).then(() => {
+                // nothing to cancel if the request completes normally.
+                canceledObj = null;
+              });
+            }
+          })();
+          return () => {
+            if (!canceledObj) return;
+            canceledObj.isCanceled = true;
+            canceledObj.abortController.abort();
+          };
+        });
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
