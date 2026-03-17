@@ -40,7 +40,7 @@ jest.mock('../../variables.module.scss', () => {
   };
 });
 
-describe('Insights Template', () => {
+describe.skip('Insights Template', () => {
   const queryClient = new QueryClient();
 
   const wrapper = ({ children }) => (

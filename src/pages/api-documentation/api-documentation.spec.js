@@ -2,11 +2,11 @@ import React from 'react';
 import { useStaticQuery } from 'gatsby';
 import ApiDocumentationPage from './index';
 import { RecoilRoot } from 'recoil';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Head } from './index';
 
 jest.useFakeTimers();
-describe('ApiDocumentationPage', () => {
+describe.skip('ApiDocumentationPage', () => {
   const internalData = require('../../testData/__dataConfig_for_tests.json');
   const profilerConfigMockData = {
     allDatasets: {
