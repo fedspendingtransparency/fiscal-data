@@ -33,7 +33,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [recordDate, setRecordDate] = useState(null);
 
   const [categoryName, setCategoryName] = useState(defaultCategory.name);
-  const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(0);
+  const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(null);
   const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(null);
 
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
@@ -150,7 +150,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
         color: 'rgb(136, 60, 127)',
       };
 
-      if (categoryRevenuePercent === 0 && categoryRevenueAmount === 0) {
+      if (categoryRevenuePercent === null && categoryRevenueAmount === null) {
         setCategoryRevenuePercent((Number(incomeTax.value) / totalRev) * 100);
         setCategoryRevenueAmount(Number(incomeTax.value));
       }
