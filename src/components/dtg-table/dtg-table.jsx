@@ -243,7 +243,6 @@ export default function DtgTable({
   const shouldUsePaginatedResponse = () => tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
-    console.log('here', data?.data[0], reactTableData?.data[0], data?.data[0] === reactTableData?.data[0]);
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
@@ -304,28 +303,10 @@ export default function DtgTable({
           updateTableData(rawData, false, true);
         }
       } else {
-        console.log(2, tableMeta, rawData);
         updateTableData(rawData);
       }
     }
   }, [rawData]);
-
-  // useMemo(() => {
-  //   if (tableProps && rawData?.hasOwnProperty('data')) {
-  //     if (detailViewState && detailView) {
-  //       if (detailViewState?.secondary !== null) {
-  //         // Nested table detail view with secondary filter --> ex. Buybacks
-  //         const detailViewFilteredData = rawData.data.filter(row => row[detailView.secondaryField] === detailViewState?.secondary);
-  //         updateTableData({ data: detailViewFilteredData, meta: rawData.meta }, false, true);
-  //       } else {
-  //         updateTableData(rawData, false, true);
-  //       }
-  //     } else {
-  //       console.log(3);
-  //       updateTableData(rawData);
-  //     }
-  //   }
-  // }, [pivotSelected]);
 
   useEffect(() => {
     if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue && defaultColumns.length === 0) {
@@ -340,14 +321,11 @@ export default function DtgTable({
 
   useEffect(() => {
     if (!!reactTableData?.meta?.dataTypes && table && table?.getAllLeafColumns()?.length > 0) {
-      // todo: ?????????????????
-      if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
-        const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
-        const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
-        setSmallTableJSONData(JSON.stringify({ data: downloadData }));
-        setXmlDownload(downloadData, setSmallTableXMLData);
-        setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
-      }
+      const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
+      const downloadData = getDownloadData(table.getSortedRowModel(), downloadHeaderKeys);
+      setSmallTableJSONData(JSON.stringify({ data: downloadData }));
+      setXmlDownload(downloadData, setSmallTableXMLData);
+      setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
     }
   }, [columnVisibility, sorting]);
 

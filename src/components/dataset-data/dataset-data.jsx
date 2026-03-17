@@ -53,10 +53,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
 
-  useEffect(() => {
-    console.log('rerender dataset-data');
-  }, []);
-
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   let loadByPage;
   const title = 'Data Preview';
@@ -178,12 +174,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
-        console.log('??????????????????????? - 2');
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-        console.log('??????????????????????? - 3');
-
         setTimeout(() => {
           let canceledObj = { isCanceled: false, abortController: new AbortController() };
           let from = formatDateForApi(dateRange.from);
@@ -197,12 +190,12 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           const dateFilter = buildDateFilter(selectedTable, from, to);
           const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
           //TODO: rename var
-          let skipthis;
+          let getAllData;
           (async () => {
             const metaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
             setTableMeta(metaData.meta);
-            skipthis = metaData.meta && metaData.meta['total-count'] <= 20000;
-            if (!loadByPage || skipthis || ignorePivots) {
+            getAllData = metaData.meta && metaData.meta['total-count'] <= 20000;
+            if (!loadByPage || getAllData || ignorePivots) {
               setServerSidePagination(null);
               getApiData(
                 dateRange,
