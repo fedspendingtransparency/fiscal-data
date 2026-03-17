@@ -84,6 +84,7 @@ export default function DtgTable({
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const { detailView } = config;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
+  console.log(detailViewAPIConfig, detailView);
   const [tableSorting, setTableSorting] = useState([]);
   const [allColumns, setAllColumns] = useState([]);
 
@@ -247,6 +248,7 @@ export default function DtgTable({
   const isDepaginatedSize = () => tableMeta && tableMeta['total-count'] <= REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
+    console.log('here', data);
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
@@ -254,7 +256,7 @@ export default function DtgTable({
       let hiddenCols = hideColumns;
       if (detailViewState) {
         setColumnVisibility(defaultInvisibleColumns);
-        hiddenCols = detailView.hideColumns;
+        hiddenCols = detailViewAPIConfig.hideColumns;
       }
       const col = columnsConstructorData(data, hiddenCols, tableName, activeConfig, customFormatting);
       setAllColumns(col);
@@ -272,18 +274,6 @@ export default function DtgTable({
       }
     }
   };
-
-  useMemo(() => {
-    if (tableProps && rawData?.hasOwnProperty('data')) {
-      if (detailViewState && detailViewState?.secondary !== null && detailView) {
-        // Nested table detail view with secondary filter --> ex. Buybacks
-        const detailViewFilteredData = rawData.data.filter(row => row[detailView.secondaryField] === detailViewState?.secondary);
-        updateTableData({ data: detailViewFilteredData, meta: rawData.meta }, false, true);
-      } else {
-        updateTableData(rawData);
-      }
-    }
-  }, [pivotSelected, rawData]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -307,6 +297,22 @@ export default function DtgTable({
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: manualPagination,
   });
+
+  useMemo(() => {
+    if (tableProps && rawData?.hasOwnProperty('data')) {
+      if (detailViewState && detailView) {
+        if (detailViewState?.secondary !== null) {
+          // Nested table detail view with secondary filter --> ex. Buybacks
+          const detailViewFilteredData = rawData.data.filter(row => row[detailView.secondaryField] === detailViewState?.secondary);
+          updateTableData({ data: detailViewFilteredData, meta: rawData.meta }, false, true);
+        } else {
+          updateTableData(rawData, false, true);
+        }
+      } else {
+        updateTableData(rawData);
+      }
+    }
+  }, [pivotSelected, rawData]);
 
   useEffect(() => {
     if (defaultSelectedColumns?.length > 0 && !pivotSelected?.pivotValue && defaultColumns.length === 0) {
