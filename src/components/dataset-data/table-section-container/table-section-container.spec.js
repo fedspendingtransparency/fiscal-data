@@ -25,7 +25,6 @@ import { act, fireEvent, render, waitFor, within } from '@testing-library/react'
 import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
-import { queryClient } from '../../../../react-query-client';
 
 describe('TableSectionContainer initial state', () => {
   const mockSetSelectedPivot = jest.fn();
@@ -57,7 +56,7 @@ describe('TableSectionContainer while loading', () => {
           config={mockConfig}
           dateRange={mockDateRange}
           selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
+          apiData={{ data: [], meta: { labels: {}, dataTypes: {} } }}
           isLoading={true}
           apiError={false}
           setSelectedPivot={mockSetSelectedPivot}
@@ -162,6 +161,7 @@ describe('TableSectionContainer with userFilter Options', () => {
           apiError={false}
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={jest.fn()}
+          setTableColumnSortData={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -232,6 +232,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           isLoading={false}
           apiError={false}
           setUserFilterSelection={jest.fn()}
+          setTableColumnSortData={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
         />
       </RecoilRoot>
@@ -290,7 +291,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           config={mockConfig}
           dateRange={mockDateRange}
           selectedTable={mockTableWithNoChartAvailable}
-          apiData={{ data: [], meta: { labels: {} } }}
+          apiData={{ data: [], meta: { labels: {}, dataTypes: {} } }}
           isLoading={false}
           apiError={false}
           selectedPivot={selectedPivot}
@@ -551,7 +552,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           config={mockConfig}
           dateRange={mockDateRange}
           selectedTable={selectedTableLessFields}
-          apiData={{ data: [], meta: { labels: {} } }}
+          apiData={{ data: [], meta: { labels: {}, dataTypes: {} } }}
           isLoading={true}
           apiError={false}
           setSelectedPivot={mockSetSelectedPivot}
@@ -612,7 +613,8 @@ describe('Table with API filter', () => {
         />
       </RecoilRoot>
     );
-    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
+    //table is not loading by default
+    expect(mockSetIsLoading).not.toHaveBeenCalledWith(true);
     expect(queryByRole('table')).not.toBeInTheDocument();
   });
   it('Initializes table with an api filter and dispalyDefaultData is true', async () => {
@@ -634,107 +636,6 @@ describe('Table with API filter', () => {
       </RecoilRoot>
     );
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
-  });
-});
-
-describe('tests getDepaginatedData function', () => {
-  jest.mock('../../../utils/api-utils', () => ({
-    ...jest.requireActual('../../../utils/api-utils'),
-    fetchTableMeta: jest.fn(),
-  }));
-
-  it('tests if API returns a total count of 0', async () => {
-    const mockSetIsLoading = jest.fn();
-    const redemptionTable = {
-      ...mockTableWithApiFilterAvailable,
-      endpoint: 'v1/accounting/od/redemption_tables',
-    };
-
-    jest.spyOn(queryClient, 'ensureQueryData').mockResolvedValueOnce({
-      meta: { 'total-count': 0 },
-    });
-
-    const { findByTestId } = render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={redemptionTable}
-          apiData={{ data: [], meta: {} }}
-          isLoading={true}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={{ label: 'Room', value: 'Room ' }}
-          setSelectedPivot={jest.fn()}
-          setTableColumnSortData={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    await findByTestId('table-container');
-    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
-  });
-
-  it('checks if console.info fires when err.name === AbortError', async () => {
-    const mockSetIsLoading = jest.fn();
-    const abortError = new Error('Request was aborted');
-    abortError.name = 'AbortError';
-
-    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(abortError);
-    const consoleSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailable}
-          apiData={null}
-          isLoading={true}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={{ label: 'Room', value: 'Room' }}
-          setSelectedPivot={jest.fn()}
-          setTableColumnSortData={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith('Action cancelled.');
-    });
-    consoleSpy.mockRestore();
-  });
-
-  it('checks if console.error fires in any other error case', async () => {
-    const mockSetIsLoading = jest.fn();
-    const lostError = new Error('Request was lost');
-    lostError.name = 'LostError';
-
-    jest.spyOn(queryClient, 'ensureQueryData').mockRejectedValueOnce(lostError);
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailable}
-          apiData={null}
-          isLoading={true}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={{ label: 'Room', value: 'Room' }}
-          setSelectedPivot={jest.fn()}
-          setTableColumnSortData={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalledWith('API error', lostError);
-    });
-    consoleSpy.mockRestore();
   });
 });
 

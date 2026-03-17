@@ -5,7 +5,6 @@ import { formatCellValue } from '../../../dtg-table/dtg-table-row/dtg-table-row'
 const SummaryTable = ({ summaryValues, summaryTable, columnConfig, customFormatConfig }) => {
   const summaryTypes = {};
   const summaryHeaders = {};
-  console.log(columnConfig);
 
   summaryTable.forEach(header => {
     const col = columnConfig.find(configVal => configVal.property === header);
