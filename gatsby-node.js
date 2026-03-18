@@ -904,213 +904,213 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
-  for (const config of result.data.allDatasets.datasets) {
-    // datasets must have an api with an endpoint, unless hideRawDataTable is true
-    if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
-      const allResults = [];
-      const allResultsLabels = {};
-      const runTimeReportOptions = [];
-      for (const api of config.apis) {
-        if (config?.runTimeReportConfig) {
-          const filterConfig = config.runTimeReportConfig;
-          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-          filterOptionsUrl += `${api.endpoint}?fields=${filterConfig.filterField}`;
-          filterOptionsUrl += `&page[size]=10000&sort=${filterConfig.filterField}`;
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[filterConfig.filterField]).sort((a, b) => a.localeCompare(b)))
-          );
-          runTimeReportOptions.push(...options);
-        }
-        if (api.userFilter) {
-          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-          filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
-          filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
-
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
-          );
-          api.userFilter.optionValues = [...new Set(options)]; // uniquify results
-        }
-        if (api.apiFilter) {
-          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-          if (api.apiFilter.filterEndpoint) {
-            filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
-          } else {
-            filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
-            if (api.apiFilter?.labelField) {
-              filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
-            } else {
-              filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
-            }
-          }
-
-          if (api.apiFilter.fieldFilter) {
-            // Tables with subheaders within the dropdown (ex. UTF)
-            const multiOptions = {};
-            for (const val of api.apiFilter.fieldFilter.value) {
-              const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
-              const options = await fetch(newUrl).then(res =>
-                res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-              );
-              multiOptions[val] = options;
-            }
-            api.apiFilter.optionValues = multiOptions; // uniquify results
-          } else if (api.apiFilter.labelField) {
-            //Different field used for value vs label (ex. FBP)
-            let options;
-            const labelOptions = {};
-            await fetch(filterOptionsUrl).then(res =>
-              res.json().then(body => {
-                const filterLabels = body.data;
-                if (api.apiFilter?.labelField) {
-                  filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
-                }
-                options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
-              })
-            );
-            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-            api.apiFilter.optionLabels = labelOptions;
-          } else {
-            const options = await fetch(filterOptionsUrl).then(res =>
-              res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-            );
-            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-          }
-        }
-      }
-      if (config?.runTimeReportConfig) {
-        config.runTimeReportConfig.optionValues = [...new Set(runTimeReportOptions)]; // uniquify results
-      }
-      if (allResults.length > 0) {
-        for (const api of config.apis) {
-          api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
-          api.apiFilter.optionLabels = allResultsLabels;
-        }
-      }
-      createPage({
-        path: `/datasets${config.slug}`,
-        matchPath: '/datasets' + config.slug + '*',
-        component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
-        context: {
-          config: config,
-          relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
-          experimental: false,
-          seoConfig: config.seoConfig,
-          isPreProd: ENV_ID === 'preprod',
-        },
-      });
-    }
-  }
-
-  // if (ENV_ID === 'preprod') {
-  //   result.data.allTopics.topics.forEach(config => {
-  //     const slug = `${config.slug.trim()}/`;
+  // for (const config of result.data.allDatasets.datasets) {
+  //   // datasets must have an api with an endpoint, unless hideRawDataTable is true
+  //   if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
+  //     const allResults = [];
+  //     const allResultsLabels = {};
+  //     const runTimeReportOptions = [];
+  //     for (const api of config.apis) {
+  //       if (config?.runTimeReportConfig) {
+  //         const filterConfig = config.runTimeReportConfig;
+  //         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+  //         filterOptionsUrl += `${api.endpoint}?fields=${filterConfig.filterField}`;
+  //         filterOptionsUrl += `&page[size]=10000&sort=${filterConfig.filterField}`;
+  //         const options = await fetch(filterOptionsUrl).then(res =>
+  //           res.json().then(body => body.data.map(row => row[filterConfig.filterField]).sort((a, b) => a.localeCompare(b)))
+  //         );
+  //         runTimeReportOptions.push(...options);
+  //       }
+  //       if (api.userFilter) {
+  //         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+  //         filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
+  //         filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
+  //
+  //         const options = await fetch(filterOptionsUrl).then(res =>
+  //           res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
+  //         );
+  //         api.userFilter.optionValues = [...new Set(options)]; // uniquify results
+  //       }
+  //       if (api.apiFilter) {
+  //         let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+  //         if (api.apiFilter.filterEndpoint) {
+  //           filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
+  //         } else {
+  //           filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+  //           if (api.apiFilter?.labelField) {
+  //             filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
+  //           } else {
+  //             filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+  //           }
+  //         }
+  //
+  //         if (api.apiFilter.fieldFilter) {
+  //           // Tables with subheaders within the dropdown (ex. UTF)
+  //           const multiOptions = {};
+  //           for (const val of api.apiFilter.fieldFilter.value) {
+  //             const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
+  //             const options = await fetch(newUrl).then(res =>
+  //               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+  //             );
+  //             multiOptions[val] = options;
+  //           }
+  //           api.apiFilter.optionValues = multiOptions; // uniquify results
+  //         } else if (api.apiFilter.labelField) {
+  //           //Different field used for value vs label (ex. FBP)
+  //           let options;
+  //           const labelOptions = {};
+  //           await fetch(filterOptionsUrl).then(res =>
+  //             res.json().then(body => {
+  //               const filterLabels = body.data;
+  //               if (api.apiFilter?.labelField) {
+  //                 filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+  //               }
+  //               options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
+  //             })
+  //           );
+  //           api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+  //           api.apiFilter.optionLabels = labelOptions;
+  //         } else {
+  //           const options = await fetch(filterOptionsUrl).then(res =>
+  //             res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+  //           );
+  //           api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+  //         }
+  //       }
+  //     }
+  //     if (config?.runTimeReportConfig) {
+  //       config.runTimeReportConfig.optionValues = [...new Set(runTimeReportOptions)]; // uniquify results
+  //     }
+  //     if (allResults.length > 0) {
+  //       for (const api of config.apis) {
+  //         api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
+  //         api.apiFilter.optionLabels = allResultsLabels;
+  //       }
+  //     }
   //     createPage({
-  //       path: `/topics/${slug}`,
-  //       matchPath: '/topics/' + slug + '*',
-  //       component: path.resolve(`./src/layouts/topics/topics.jsx`),
+  //       path: `/datasets${config.slug}`,
+  //       matchPath: '/datasets' + config.slug + '*',
+  //       component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
   //       context: {
   //         config: config,
-  //         slug: config.slug,
-  //         relatedDatasets: [],
-  //         seoConfig: null,
+  //         relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
+  //         experimental: false,
+  //         seoConfig: config.seoConfig,
   //         isPreProd: ENV_ID === 'preprod',
   //       },
   //     });
-  //   });
+  //   }
   // }
 
-  // result.data.allExplainers.explainers.forEach(explainer => {
-  //   if (ENV_ID !== 'production' || explainer.prodReady) {
-  //     const explainerRelatedDatasets = [];
-  //     explainer.relatedDatasets.forEach(dataset => {
-  //       explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-  //     });
-  //     createPage({
-  //       path: explainer.slug,
-  //       matchPath: `${explainer.slug}*`,
-  //       component: path.resolve('./src/layouts/explainer/explainer.tsx'),
-  //       context: {
-  //         pageName: explainer.pageName,
-  //         breadCrumbLinkName: explainer.breadCrumbLinkName,
-  //         seoConfig: explainer.seoConfig,
-  //         heroImage: explainer.heroImage,
-  //         relatedDatasets: explainerRelatedDatasets,
-  //         isAFG: explainer.isAFG,
-  //         cpiDataByYear: cpiYearMap,
-  //         cpi12MonthPercentChange: cpi12MonthPercentChangeMap,
-  //       },
-  //     });
-  //   }
-  // });
+  if (ENV_ID === 'preprod') {
+    result.data.allTopics.topics.forEach(config => {
+      const slug = `${config.slug.trim()}/`;
+      createPage({
+        path: `/topics/${slug}`,
+        matchPath: '/topics/' + slug + '*',
+        component: path.resolve(`./src/layouts/topics/topics.jsx`),
+        context: {
+          config: config,
+          slug: config.slug,
+          relatedDatasets: [],
+          seoConfig: null,
+          isPreProd: ENV_ID === 'preprod',
+        },
+      });
+    });
+  }
 
-  // result.data.allInsights.insights.forEach(insight => {
-  //   if (ENV_ID !== 'production' || insight.prodReady) {
-  //     createPage({
-  //       path: insight.slug,
-  //       matchPath: `${insight.slug}*`,
-  //       component: path.resolve('./src/layouts/insight/insight.tsx'),
-  //       context: {
-  //         pageName: insight.pageName,
-  //         breadCrumbLinkName: insight.breadCrumbLinkName,
-  //         seoConfig: insight.seoConfig,
-  //         heroImage: insight.heroImage,
-  //       },
-  //     });
-  //   }
-  // });
+  result.data.allExplainers.explainers.forEach(explainer => {
+    if (ENV_ID !== 'production' || explainer.prodReady) {
+      const explainerRelatedDatasets = [];
+      explainer.relatedDatasets.forEach(dataset => {
+        explainerRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+      });
+      createPage({
+        path: explainer.slug,
+        matchPath: `${explainer.slug}*`,
+        component: path.resolve('./src/layouts/explainer/explainer.tsx'),
+        context: {
+          pageName: explainer.pageName,
+          breadCrumbLinkName: explainer.breadCrumbLinkName,
+          seoConfig: explainer.seoConfig,
+          heroImage: explainer.heroImage,
+          relatedDatasets: explainerRelatedDatasets,
+          isAFG: explainer.isAFG,
+          cpiDataByYear: cpiYearMap,
+          cpi12MonthPercentChange: cpi12MonthPercentChangeMap,
+        },
+      });
+    }
+  });
 
-  // createPage({
-  //   path: `/currency-exchange-rates-converter/`,
-  //   matchPath: '/currency-exchange-rates-converter/',
-  //   component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
-  // });
+  result.data.allInsights.insights.forEach(insight => {
+    if (ENV_ID !== 'production' || insight.prodReady) {
+      createPage({
+        path: insight.slug,
+        matchPath: `${insight.slug}*`,
+        component: path.resolve('./src/layouts/insight/insight.tsx'),
+        context: {
+          pageName: insight.pageName,
+          breadCrumbLinkName: insight.breadCrumbLinkName,
+          seoConfig: insight.seoConfig,
+          heroImage: insight.heroImage,
+        },
+      });
+    }
+  });
 
-  // if (ENV_ID !== 'production') {
-  //   createPage({
-  //     path: `/experimental/`,
-  //     matchPath: '/experimental/',
-  //     component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
-  //   });
-  //
-  //   // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
-  //   // const features = await graphql(`
-  //   //   {
-  //   //     allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
-  //   //       edges {
-  //   //         node {
-  //   //           frontmatter {
-  //   //             path
-  //   //             relatedDatasets
-  //   //           }
-  //   //         }
-  //   //       }
-  //   //     }
-  //   //   }
-  //   // `);
-  //   // if (features.errors) {
-  //   //   reporter.panicOnBuild(`Error while running GraphQL query.`);
-  //   //   return;
-  //   // }
-  //   //
-  //   // features.data.allMdx.edges.forEach(({ node }) => {
-  //   //   if (node.frontmatter.path) {
-  //   //     const insightRelatedDatasets = [];
-  //   //     if (node.frontmatter.relatedDatasets) {
-  //   //       node.frontmatter.relatedDatasets.forEach(dataset => {
-  //   //         insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-  //   //       });
-  //   //     }
-  //   //     createPage({
-  //   //       path: node.frontmatter.path,
-  //   //       component: featurePageTemplate,
-  //   //       context: {
-  //   //         relatedDatasets: insightRelatedDatasets,
-  //   //       },
-  //   //     });
-  //   //   }
-  //   // });
-  // }
+  createPage({
+    path: `/currency-exchange-rates-converter/`,
+    matchPath: '/currency-exchange-rates-converter/',
+    component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
+  });
+
+  if (ENV_ID !== 'production') {
+    createPage({
+      path: `/experimental/`,
+      matchPath: '/experimental/',
+      component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
+    });
+
+    // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
+    // const features = await graphql(`
+    //   {
+    //     allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
+    //       edges {
+    //         node {
+    //           frontmatter {
+    //             path
+    //             relatedDatasets
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // `);
+    // if (features.errors) {
+    //   reporter.panicOnBuild(`Error while running GraphQL query.`);
+    //   return;
+    // }
+    //
+    // features.data.allMdx.edges.forEach(({ node }) => {
+    //   if (node.frontmatter.path) {
+    //     const insightRelatedDatasets = [];
+    //     if (node.frontmatter.relatedDatasets) {
+    //       node.frontmatter.relatedDatasets.forEach(dataset => {
+    //         insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+    //       });
+    //     }
+    //     createPage({
+    //       path: node.frontmatter.path,
+    //       component: featurePageTemplate,
+    //       context: {
+    //         relatedDatasets: insightRelatedDatasets,
+    //       },
+    //     });
+    //   }
+    // });
+  }
   createRedirect({
     fromPath: '/government-revenue/',
     toPath: '/americas-finance-guide/government-revenue/',
