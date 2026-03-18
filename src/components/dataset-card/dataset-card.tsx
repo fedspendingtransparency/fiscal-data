@@ -3,8 +3,6 @@ import Analytics from '../../utils/analytics/analytics';
 import { Link } from 'gatsby';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from '../../theme';
 import { IDataset } from '../../models/IDataset';
 import { card, card_withFocus, card_withFocus_FireFox, cardHeroImage, datasetName } from './dataset-card.module.scss';
 import DatasetStats from './dataset-stats/dataset-stats';
@@ -103,24 +101,22 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} id={explainer ? dataset.name : null}>
-        <CardActionArea
-          component={Link}
-          to={cardLink}
-          onClick={clickHandler}
-          onFocus={() => setApplyFocusStyle(true)}
-          onBlur={() => setApplyFocusStyle(false)}
-          style={{ padding: 0 }}
-        >
-          <div>
-            <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
-            <div className={datasetName}>{dataset.name}</div>
-          </div>
-          <DatasetStats dataset={dataset} />
-        </CardActionArea>
-      </Card>
-    </ThemeProvider>
+    <Card className={applyFocusStyle ? focusStyle : card} id={explainer ? dataset.name : null}>
+      <CardActionArea
+        component={Link}
+        to={cardLink}
+        onClick={clickHandler}
+        onFocus={() => setApplyFocusStyle(true)}
+        onBlur={() => setApplyFocusStyle(false)}
+        style={{ padding: 0 }}
+      >
+        <div>
+          <img src={assignHeroImage()} alt="hero" className={cardHeroImage} />
+          <div className={datasetName}>{dataset.name}</div>
+        </div>
+        <DatasetStats dataset={dataset} />
+      </CardActionArea>
+    </Card>
   );
 };
 

@@ -1,6 +1,4 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import { theme } from '../../theme';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
@@ -21,20 +19,18 @@ const ReleaseCalendar = () => {
 
   return (
     <SiteLayout>
-      <ThemeProvider theme={theme}>
-        <div className="pageHeader">
-          <div className="content">
-            <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={pageTitle}>
-              Release Calendar
-            </h1>
-            <p className={tagLine} data-testid="tag-line">
-              {tagLineText}
-            </p>
-          </div>
+      <div className="pageHeader">
+        <div className="content">
+          <BreadCrumbs links={breadCrumbLinks} />
+          <h1 data-testid="page-title" className={pageTitle}>
+            Release Calendar
+          </h1>
+          <p className={tagLine} data-testid="tag-line">
+            {tagLineText}
+          </p>
         </div>
-        <CalendarEntriesList />
-      </ThemeProvider>
+      </div>
+      <CalendarEntriesList />
     </SiteLayout>
   );
 };

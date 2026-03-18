@@ -8,18 +8,18 @@ import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
 
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      lg: pxToNumber(breakpointLg),
+      md: pxToNumber(breakpointMd),
+    },
+  },
+});
+
 export const TopicsSection = ({ images, width }) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
-
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        lg: pxToNumber(breakpointLg),
-        md: pxToNumber(breakpointMd),
-      },
-    },
-  });
 
   const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
 

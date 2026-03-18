@@ -6,8 +6,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { time_range_filter, time_range_filter_datePicker, date_picker_popper } from './datepickers.module.scss';
 import { isBefore, isValid } from 'date-fns';
-import { ThemeProvider } from '@mui/material';
-import { theme } from '../../../theme';
 import { generateAnalyticsEvent, generateFormattedDate } from '../range-presets/helpers/helper';
 import dayjs from 'dayjs';
 
@@ -112,97 +110,95 @@ const DatePickers = ({ availableDateRange, selectedDateRange, setSelectedDates }
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <div className={time_range_filter} data-testid="time-range-filter">
-          <div className={time_range_filter_datePicker}>
-            <label htmlFor="date-picker-from">
-              From:
-              <DatePicker
-                id="date-picker-from"
-                value={beginDate}
-                onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
-                autoOk={true}
-                onOpen={() => setSelecting(true)}
-                onClose={() => setSelecting(false)}
-                onError={error => setBeginErrorMessage(handleError(error))}
-                inputFormat="MM/dd/yyyy"
-                minDate={dayjs(earliestDate)}
-                maxDate={dayjs(latestDate)}
-                slotProps={{
-                  textField: props => ({
-                    ...props,
-                    variant: 'outlined',
-                    helperText: beginErrorMessage,
-                    sx: muiStyle,
-                    inputProps: {
-                      ...props.inputProps,
-                      'aria-label': 'From Date',
-                    },
-                  }),
-                  popper: {
-                    className: date_picker_popper,
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <div className={time_range_filter} data-testid="time-range-filter">
+        <div className={time_range_filter_datePicker}>
+          <label htmlFor="date-picker-from">
+            From:
+            <DatePicker
+              id="date-picker-from"
+              value={beginDate}
+              onChange={dateVal => handleSelectingDates(dateVal, setBeginDate)}
+              autoOk={true}
+              onOpen={() => setSelecting(true)}
+              onClose={() => setSelecting(false)}
+              onError={error => setBeginErrorMessage(handleError(error))}
+              inputFormat="MM/dd/yyyy"
+              minDate={dayjs(earliestDate)}
+              maxDate={dayjs(latestDate)}
+              slotProps={{
+                textField: props => ({
+                  ...props,
+                  variant: 'outlined',
+                  helperText: beginErrorMessage,
+                  sx: muiStyle,
+                  inputProps: {
+                    ...props.inputProps,
+                    'aria-label': 'From Date',
                   },
-                  popover: {
-                    anchorOrigin: {
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    },
-                    transformOrigin: {
-                      vertical: 'top',
-                      horizontal: 'center',
-                    },
+                }),
+                popper: {
+                  className: date_picker_popper,
+                },
+                popover: {
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
                   },
-                }}
-                slots={{ openPickerIcon: pickerIcon }}
-              />
-            </label>
-          </div>
-          <div className={time_range_filter_datePicker}>
-            <label htmlFor="date-picker-to">
-              To:
-              <DatePicker
-                id="date-picker-to"
-                autoOk={true}
-                value={endDate}
-                onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
-                onOpen={() => setSelecting(true)}
-                onClose={() => setSelecting(false)}
-                onError={error => setEndErrorMessage(handleError(error))}
-                inputFormat="MM/dd/yyyy"
-                minDate={dayjs(earliestDate)}
-                maxDate={dayjs(latestDate)}
-                slotProps={{
-                  textField: props => ({
-                    variant: 'outlined',
-                    helperText: endErrorMessage,
-                    sx: muiStyle,
-                    inputProps: {
-                      ...props.inputProps,
-                      'aria-label': 'To Date',
-                    },
-                  }),
-                  popper: {
-                    className: date_picker_popper,
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
                   },
-                  popover: {
-                    anchorOrigin: {
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    },
-                    transformOrigin: {
-                      vertical: 'top',
-                      horizontal: 'center',
-                    },
-                  },
-                }}
-                slots={{ openPickerIcon: pickerIcon }}
-              />
-            </label>
-          </div>
+                },
+              }}
+              slots={{ openPickerIcon: pickerIcon }}
+            />
+          </label>
         </div>
-      </LocalizationProvider>
-    </ThemeProvider>
+        <div className={time_range_filter_datePicker}>
+          <label htmlFor="date-picker-to">
+            To:
+            <DatePicker
+              id="date-picker-to"
+              autoOk={true}
+              value={endDate}
+              onChange={dateVal => handleSelectingDates(dateVal, setEndDate)}
+              onOpen={() => setSelecting(true)}
+              onClose={() => setSelecting(false)}
+              onError={error => setEndErrorMessage(handleError(error))}
+              inputFormat="MM/dd/yyyy"
+              minDate={dayjs(earliestDate)}
+              maxDate={dayjs(latestDate)}
+              slotProps={{
+                textField: props => ({
+                  variant: 'outlined',
+                  helperText: endErrorMessage,
+                  sx: muiStyle,
+                  inputProps: {
+                    ...props.inputProps,
+                    'aria-label': 'To Date',
+                  },
+                }),
+                popper: {
+                  className: date_picker_popper,
+                },
+                popover: {
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  },
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
+                  },
+                },
+              }}
+              slots={{ openPickerIcon: pickerIcon }}
+            />
+          </label>
+        </div>
+      </div>
+    </LocalizationProvider>
   );
 };
 export default DatePickers;

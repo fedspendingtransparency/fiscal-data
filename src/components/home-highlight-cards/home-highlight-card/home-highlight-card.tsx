@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Card from '@mui/material/Card';
-import { ThemeProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
@@ -10,7 +9,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import { fetchHighlights } from '../../../utils/api-utils';
 import drawSparkline, { addHoverEffects, removeHoverEffects } from '../../charts/chart-sparkline';
 import globalConstants from '../../../helpers/constants';
-import { theme } from '../../../theme';
+
 import {
   card,
   cardActionArea,
@@ -285,114 +284,112 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const date: string = tempDate !== null ? formatDateString(tempDate) : stats.upperDate;
 
   return (
-    <ThemeProvider theme={theme}>
-      <Card data-testid="highlight-card" className={card}>
-        <div className={cardActionArea}>
-          <figure className={cardContent}>
-            <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
-              {title}
-            </div>
-            {graphType === 'IMAGE' && (
-              <div
-                id={`chart-${displayOrder}`}
-                className={imageContainer}
-                aria-label={ariaLabels.find(element => element.title === title)?.label}
-                data-testid="image-container"
-                onMouseEnter={handleCardMouseOver}
-                onMouseLeave={handleChartMouseLeave}
-                role="presentation"
-              >
-                {isLoading ? (
-                  <LoadingIndicator />
-                ) : (
-                  <div style={{ position: 'relative' }}>
-                    <img src={data.image.src} alt={data.image.alt} />
-                    {data.image.sparklePoints && <Sparkler coordinates={data.image.sparklePoints} />}
-                  </div>
-                )}
-              </div>
-            )}
-            {graphType === 'LINE' && (
-              <div role="figure" aria-label={ariaLabels.find(element => element.title === title)?.label}>
-                <div
-                  id={`chart-${displayOrder}`}
-                  data-testid="highlight-chart"
-                  className={sparkLine}
-                  onMouseEnter={handleCardMouseOver}
-                  onMouseLeave={handleChartMouseLeave}
-                  role="presentation"
-                >
-                  {apiError && <p>API Error</p>}
-                  {isLoading && <LoadingIndicator />}
+    <Card data-testid="highlight-card" className={card}>
+      <div className={cardActionArea}>
+        <figure className={cardContent}>
+          <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
+            {title}
+          </div>
+          {graphType === 'IMAGE' && (
+            <div
+              id={`chart-${displayOrder}`}
+              className={imageContainer}
+              aria-label={ariaLabels.find(element => element.title === title)?.label}
+              data-testid="image-container"
+              onMouseEnter={handleCardMouseOver}
+              onMouseLeave={handleChartMouseLeave}
+              role="presentation"
+            >
+              {isLoading ? (
+                <LoadingIndicator />
+              ) : (
+                <div style={{ position: 'relative' }}>
+                  <img src={data.image.src} alt={data.image.alt} />
+                  {data.image.sparklePoints && <Sparkler coordinates={data.image.sparklePoints} />}
                 </div>
-              </div>
-            )}
-            {graphType === 'BAR' && (
+              )}
+            </div>
+          )}
+          {graphType === 'LINE' && (
+            <div role="figure" aria-label={ariaLabels.find(element => element.title === title)?.label}>
               <div
                 id={`chart-${displayOrder}`}
                 data-testid="highlight-chart"
                 className={sparkLine}
-                aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
                 role="presentation"
               >
-                <BarGraph
-                  cardId={cardId}
-                  chartTitle={title}
-                  graphData={apiData.data as [{ [key: string]: string | number }]}
-                  graphIndex={data.index}
-                  valueKeys={data.value_fields}
-                  colors={data.colors || null}
-                  isInteractive={false}
-                  setTempValue={setTempValue}
-                  setTempDate={setTempDate}
-                  dateField={api ? api.dateField : ''}
-                  useCustomBarComponent
-                  mouseEnter={barChartMouseEnter}
-                />
-                <div className={xAxis}>
-                  <div data-testid="highlight-stats" className={statsContainer}>
-                    <div data-testid="highlight-stats-lower" className={statLower}>
-                      <span className={statDate}>{stats.lowerDate}</span>
-                    </div>
-                    <div data-testid="highlight-stats-upper" className={statUpper}>
-                      <span className={statDate}>{stats.upperDate}</span>
-                    </div>
-                  </div>
-                </div>
                 {apiError && <p>API Error</p>}
                 {isLoading && <LoadingIndicator />}
               </div>
-            )}
-            <div data-testid="highlight-name" className={datasetName} title={name}>
-              <FontAwesomeIcon icon={faTable as IconProp} className={datasetIcon} />
-              {name}
             </div>
-            <div data-testid="highlight-hero-value">{displayValue(stats.format, value)}</div>
-            <div data-testid="highlight-hero-value-date" className={statDate}>
-              {date}
+          )}
+          {graphType === 'BAR' && (
+            <div
+              id={`chart-${displayOrder}`}
+              data-testid="highlight-chart"
+              className={sparkLine}
+              aria-label={ariaLabels.find(element => element.title === title)?.label}
+              onMouseEnter={handleCardMouseOver}
+              onMouseLeave={handleChartMouseLeave}
+              role="presentation"
+            >
+              <BarGraph
+                cardId={cardId}
+                chartTitle={title}
+                graphData={apiData.data as [{ [key: string]: string | number }]}
+                graphIndex={data.index}
+                valueKeys={data.value_fields}
+                colors={data.colors || null}
+                isInteractive={false}
+                setTempValue={setTempValue}
+                setTempDate={setTempDate}
+                dateField={api ? api.dateField : ''}
+                useCustomBarComponent
+                mouseEnter={barChartMouseEnter}
+              />
+              <div className={xAxis}>
+                <div data-testid="highlight-stats" className={statsContainer}>
+                  <div data-testid="highlight-stats-lower" className={statLower}>
+                    <span className={statDate}>{stats.lowerDate}</span>
+                  </div>
+                  <div data-testid="highlight-stats-upper" className={statUpper}>
+                    <span className={statDate}>{stats.upperDate}</span>
+                  </div>
+                </div>
+              </div>
+              {apiError && <p>API Error</p>}
+              {isLoading && <LoadingIndicator />}
             </div>
-          </figure>
-        </div>
-        <Link
-          to={cardSlug}
-          tabIndex={hidden ? -1 : 0}
-          onMouseOver={handleCardMouseOver}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
-          className={highlightLink}
-          data-testid="highlight-link"
-        >
-          <div className={datasetLineLink}>
-            <div data-testid="dataset-line" className={viewDataset}>
-              Dataset Details
-              <FontAwesomeIcon icon={faArrowRight as IconProp} className={datasetArrow} />
-            </div>
+          )}
+          <div data-testid="highlight-name" className={datasetName} title={name}>
+            <FontAwesomeIcon icon={faTable as IconProp} className={datasetIcon} />
+            {name}
           </div>
-        </Link>
-      </Card>
-    </ThemeProvider>
+          <div data-testid="highlight-hero-value">{displayValue(stats.format, value)}</div>
+          <div data-testid="highlight-hero-value-date" className={statDate}>
+            {date}
+          </div>
+        </figure>
+      </div>
+      <Link
+        to={cardSlug}
+        tabIndex={hidden ? -1 : 0}
+        onMouseOver={handleCardMouseOver}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+        className={highlightLink}
+        data-testid="highlight-link"
+      >
+        <div className={datasetLineLink}>
+          <div data-testid="dataset-line" className={viewDataset}>
+            Dataset Details
+            <FontAwesomeIcon icon={faArrowRight as IconProp} className={datasetArrow} />
+          </div>
+        </div>
+      </Link>
+    </Card>
   );
 };
 

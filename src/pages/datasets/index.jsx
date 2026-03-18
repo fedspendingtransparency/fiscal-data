@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import dates from '../../helpers/datasets/dates';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
@@ -22,7 +22,6 @@ const DatasetsPage = ({ pageContext }) => {
             name
             datasetId
             relatedTopics
-            allColumnNames
             allPrettyNames
             apis {
               endpoint
@@ -87,16 +86,9 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
-  // const [defaultDatasets, setDefaultDatasets] = useState();
-
   const defaultDatasets = useMemo(() => {
     return datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
-  });
-
-  // useEffect(() => {
-  //   const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
-  //   setDefaultDatasets(filteredDatasets);
-  // }, []);
+  }, [datasets]);
 
   const breadCrumbLinks = [
     {
@@ -109,22 +101,22 @@ const DatasetsPage = ({ pageContext }) => {
   ];
   const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [innerWidth, setInnerWidth] = useState();
+  const [innerWidth, setInnerWidth] = useState(null);
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
+  const [hasMounted, setHasMounted] = useState(false);
   const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
-  // const searchIndex = Fuse?.createIndex(options.keys, updatedDatasets);
-  // const fuse = new Fuse(updatedDatasets, options, searchIndex);
-
   const fuse = useMemo(() => {
     if (!updatedDatasets?.length) {
       return null;
     }
-    const searchIndex = Fuse?.createIndex(options.key, updatedDatasets);
+
+    const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
     return new Fuse(updatedDatasets, options, searchIndex);
   }, [updatedDatasets]);
 
   useEffect(() => {
+    setHasMounted(true);
     setFinalDatesNotFound(true);
 
     const updateInnerWidth = () => {
@@ -136,13 +128,9 @@ const DatasetsPage = ({ pageContext }) => {
       window.addEventListener('resize', updateInnerWidth);
     }
 
-    // todo - Break out code and add a removeEventListener
-    // window.addEventListener('resize', () => {
-    //   setInnerWidth(window.innerWidth);
-    // });
     return () => {
       if (typeof window !== 'undefined') {
-        window.addEventListener('resize', updateInnerWidth);
+        window.removeEventListener('resize', updateInnerWidth);
       }
     };
   }, []);
@@ -199,7 +187,7 @@ const DatasetsPage = ({ pageContext }) => {
               topicIcons={topicIcons}
               maxDate={maxDate}
               searchQuery={searchQuery}
-              isHandheld={innerWidth < 992}
+              isHandheld={hasMounted && innerWidth < 992}
             />
           </div>
         </div>
