@@ -129,7 +129,6 @@ export default function DtgTable({
 
   const makePagedRequest = async resetPage => {
     const pagedUserFilterRequest = selectedTable?.apiFilter?.displayDefaultData || userFilterSelection;
-    console.log(tableMeta);
     if (selectedTable?.endpoint && !loadCanceled && (!selectedTable?.apiFilter || pagedUserFilterRequest) && shouldUsePaginatedResponse()) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);

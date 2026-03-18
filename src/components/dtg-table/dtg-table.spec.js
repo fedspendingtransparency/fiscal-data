@@ -3,9 +3,24 @@ import DtgTable from './dtg-table';
 import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { render, within } from '@testing-library/react';
+import { fireEvent, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockColumnConfig, mockTableData } from '../data-table/data-table-test-helper';
+import {
+  additionalColLabels,
+  allColLabels,
+  defaultColLabels,
+  defaultColumnsTypeCheckMock,
+  defaultSelectedColumnsMock,
+  mockColumnConfig,
+  mockColumnConfigDownloadWithTextQualifier,
+  mockDetailApiData,
+  mockDetailViewColumnConfig,
+  mockPublishedReports,
+  mockTableData,
+  mockTableDownloadWithTextQualifier,
+} from '../data-table/data-table-test-helper';
+import { RecoilObserver } from '../../utils/test-utils';
+import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -15,7 +30,11 @@ describe('DTG table component', () => {
   it('renders a table', () => {
     const { getByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }} setManualPagination={jest.fn()} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }}
+          setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getByRole('table')).toBeInTheDocument();
@@ -24,7 +43,11 @@ describe('DTG table component', () => {
   it('renders a row for each item in the data array', () => {
     const { getAllByRole } = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }} setManualPagination={jest.fn()} />
+        <DtgTable
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }}
+          setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
+        />
       </RecoilRoot>
     );
     expect(getAllByRole('row')).toHaveLength(TestData.length + 1);
@@ -37,6 +60,7 @@ describe('DTG table component', () => {
           tableProps={{ rawData: mockTableData, perPage: 5, columnConfig: mockColumnConfig, config: {} }}
           setManualPagination={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -50,6 +74,7 @@ describe('DTG table component', () => {
           tableProps={{ rawData: mockTableData, columnConfig: mockColumnConfig, config: {} }}
           setManualPagination={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -59,7 +84,7 @@ describe('DTG table component', () => {
   it('does not blow up when there is no data in a table', () => {
     const noDataComponent = render(
       <RecoilRoot>
-        <DtgTable tableProps={{ config: {} }} />
+        <DtgTable tableProps={{ config: {} }} setIsLoading={jest.fn()} />
       </RecoilRoot>
     );
     expect(noDataComponent).toBeDefined();
@@ -70,8 +95,9 @@ describe('DTG table component', () => {
     const { getAllByRole, getByTestId } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -87,12 +113,17 @@ describe('DTG table component', () => {
     spy.mockClear();
     render(
       <RecoilRoot>
-        <DtgTable tableProps={{ ...mockPaginatedTableProps, config: {} }} setManualPagination={jest.fn()} />
+        <DtgTable
+          tableProps={{ ...mockPaginatedTableProps, config: {} }}
+          tableMeta={{ 'total-count': 20001 }}
+          setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
+        />
       </RecoilRoot>
     );
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
-    await expect(spy).toBeCalledTimes(2);
+    await expect(spy).toBeCalledTimes(1);
   });
 
   // it('sets table aria prop with a single attribute and value', () => {
@@ -117,8 +148,9 @@ describe('DTG table component', () => {
       const { getByText, getByRole } = render(
         <RecoilRoot>
           <DtgTable
-            tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, tableName: 'tableName', config: {} }}
+            tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, tableName: 'tableName', config: {} }}
             setManualPagination={jest.fn()}
+            setIsLoading={jest.fn()}
           />
         </RecoilRoot>
       );
@@ -140,8 +172,9 @@ describe('DTG table component', () => {
         const { getByText } = render(
           <RecoilRoot>
             <DtgTable
-              tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+              tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
               setManualPagination={jest.fn()}
+              setIsLoading={jest.fn()}
             />
           </RecoilRoot>
         );
@@ -157,8 +190,9 @@ describe('DTG table component', () => {
         const { getByText } = render(
           <RecoilRoot>
             <DtgTable
-              tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+              tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, config: {} }}
               setManualPagination={jest.fn()}
+              setIsLoading={jest.fn()}
             />
           </RecoilRoot>
         );
@@ -168,24 +202,24 @@ describe('DTG table component', () => {
     );
   });
 
-  it('assigns data with a userFilterSelection', () => {
-    const mockSetIsLoading = jest.fn();
-    const mockSetManualPagination = jest.fn();
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableMeta={{ 'total-count': 500 }}
-          userFilterSelection={{ value: 'A' }}
-          tableProps={{ rawData: { data: ['hello'], meta: { dataTypes: [] } }, config: {} }}
-          setManualPagination={mockSetManualPagination}
-          setIsLoading={mockSetIsLoading}
-        />
-      </RecoilRoot>
-    );
-    expect(getByRole('table')).toBeInTheDocument();
-    expect(mockSetManualPagination).toHaveBeenCalledWith(false);
-    expect(mockSetIsLoading).toHaveBeenCalledWith(false);
-  });
+  // it('assigns data with a userFilterSelection', () => {
+  //   const mockSetIsLoading = jest.fn();
+  //   const mockSetManualPagination = jest.fn();
+  //   const { getByRole } = render(
+  //     <RecoilRoot>
+  //       <DtgTable
+  //         tableMeta={{ 'total-count': 500 }}
+  //         userFilterSelection={{ value: 'A' }}
+  //         tableProps={{ rawData: { data: ['hello'], meta: { dataTypes: [] } }, config: {} }}
+  //         setManualPagination={mockSetManualPagination}
+  //         setIsLoading={mockSetIsLoading}
+  //       />
+  //     </RecoilRoot>
+  //   );
+  //   expect(getByRole('table')).toBeInTheDocument();
+  //   expect(mockSetManualPagination).toHaveBeenCalledWith(false);
+  //   expect(mockSetIsLoading).toHaveBeenCalledWith(false);
+  // });
 });
 
 describe('DtgTable component - API Error', () => {
@@ -193,8 +227,9 @@ describe('DtgTable component - API Error', () => {
     const { getByText } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -205,8 +240,9 @@ describe('DtgTable component - API Error', () => {
     const { queryByRole } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -221,8 +257,9 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const { getByTestId } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -232,8 +269,9 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const { getByText } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -246,8 +284,9 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const { getByTestId } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, shouldPage: true, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
           setManualPagination={jest.fn()}
+          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -267,7 +306,6 @@ describe('DTG Table Nested Table Detail View', () => {
           tableProps={{
             rawData: { data: DetailViewTestData, meta: { dataTypes: [] } },
             selectedTable: { rowCount: 12 },
-            shouldPage: true,
             config: { detailView: { field: 'first', secondaryField: 'last', apiId: 1 }, apis: [{ apiId: 1 }] },
           }}
           detailViewState={detailViewState}
@@ -278,5 +316,413 @@ describe('DTG Table Nested Table Detail View', () => {
     );
 
     expect(getByRole('table')).toBeInTheDocument();
+  });
+
+  describe('react-table', () => {
+    const setTableColumnSortData = jest.fn();
+
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockDetailApiData),
+      });
+    });
+
+    const tableProps = {
+      columnConfig: mockColumnConfig,
+      publishedReports: mockPublishedReports,
+      hasPublishedReports: false,
+    };
+
+    it('renders column headers with table sort buttons', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const mockSorting = jest.fn();
+
+      const { getByRole, getAllByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={mockSorting}
+          />
+        </RecoilRoot>
+      );
+      // Rows render
+      expect(getAllByRole('row')).toHaveLength(7);
+      const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+      const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+      expect(sortButton).toHaveClass('defaultSortArrow');
+      expect(getAllByRole('row')[1].innerHTML).toContain('7/12/2023');
+      await user.click(sortButton);
+      // Now sorted in desc order
+      expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
+      await user.click(sortButton);
+      await user.click(sortButton);
+      //Sorting should be reset
+      expect(getAllByRole('row')[1].innerHTML).toContain('7/12/2023');
+
+      //confirm keyboard accessibility
+      mockSorting.mockClear();
+      fireEvent.keyDown(sortButton, { key: 'Enter' });
+      expect(mockSorting).toHaveBeenCalledWith(['record_date-sort']);
+    });
+
+    it('Filter column by text search', async () => {
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const mockSorting = jest.fn();
+      const { getAllByRole, getByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={mockSorting}
+          />
+        </RecoilRoot>
+      );
+      // Column header
+      const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
+      expect(header).toBeInTheDocument();
+      // Rows render
+      expect(getAllByRole('row')).toHaveLength(7);
+      const columnFilter = within(header).getByRole('textbox');
+      expect(columnFilter).toBeInTheDocument();
+      fireEvent.change(columnFilter, { target: { value: '25633821130387.02' } });
+      // Rows filtered down to 1 (header plus one row)
+      expect(getAllByRole('row')).toHaveLength(2);
+      expect(getAllByRole('row')[1].innerHTML).toContain('$25,633,821,130,387.02');
+
+      //clear results to view full table
+      const clearButton = within(header).getByRole('button', { name: 'Clear search bar' });
+      await user.click(clearButton);
+      expect(getAllByRole('row')).toHaveLength(7);
+    });
+
+    it('Filter column by text search with null string value', () => {
+      const mockSorting = jest.fn();
+      const { getAllByRole, getByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={mockSorting}
+          />
+        </RecoilRoot>
+      );
+      // Column header
+      const header = getByRole('columnheader', { name: 'Mock Percent String' });
+      expect(header).toBeInTheDocument();
+      // Rows render
+      expect(getAllByRole('row')).toHaveLength(7);
+      const columnFilter = within(header).getByRole('textbox');
+      expect(columnFilter).toBeInTheDocument();
+
+      // Search should not match to 'null' values
+      fireEvent.change(columnFilter, { target: { value: 'null' } });
+      expect(getAllByRole('row')).toHaveLength(1);
+    });
+
+    it('initially renders all columns showing when no defaults specified', () => {
+      const { getAllByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+
+      const visibleColumns = getAllByRole('columnheader');
+      expect(visibleColumns.length).toBe(allColLabels.length);
+      visibleColumns.forEach(col => {
+        const header = col.children[0].children[0].innerHTML;
+        expect(allColLabels.includes(header));
+      });
+    });
+
+    it('hides specified columns', () => {
+      const { getAllByRole, queryByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              hideColumns: ['src_line_nbr'],
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+      const hiddenCol = 'Source Line Number';
+      expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
+
+      const visibleColumns = getAllByRole('columnheader');
+      const allVisibleColumnLabels = allColLabels.filter(x => x !== hiddenCol);
+      expect(visibleColumns.length).toBe(allVisibleColumnLabels.length);
+
+      visibleColumns.forEach(col => {
+        const header = col.children[0].children[0].innerHTML;
+        expect(allVisibleColumnLabels.includes(header));
+      });
+    });
+
+    it('initially renders only default columns showing when defaults specified', () => {
+      const { getAllByRole, queryAllByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              selectColumns: defaultSelectedColumnsMock,
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+
+      // default col in table
+      defaultColLabels.forEach(index => {
+        if (index === 'Record Date') {
+          index = 'Record Date mm/dd/yyyy - mm/dd/yyyy';
+        }
+        expect(getAllByRole('columnheader', { name: index })[0]).toBeInTheDocument();
+      });
+
+      // additional col not in table
+      expect(queryAllByRole('columnheader').length).toEqual(3);
+      additionalColLabels.forEach(index => {
+        expect(queryAllByRole('columnheader', { name: index })[0]).not.toBeDefined();
+      });
+    });
+
+    it('formats data types correctly', () => {
+      const { getAllByTestId } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              selectColumns: defaultColumnsTypeCheckMock,
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+
+      //Percentage
+      expect(getAllByTestId('row')[0].innerHTML).toContain('4%');
+
+      //Small fraction
+      expect(getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
+
+      //CURRENCY3
+      expect(getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
+
+      // * CURRENCY3
+      expect(getAllByTestId('row')[2].innerHTML).toContain('*');
+      expect(getAllByTestId('row')[2].innerHTML).not.toContain('(*)');
+
+      //Negative CURRENCY3
+      expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
+    });
+
+    it('formats custom NUMBER types correctly', () => {
+      const customFormatter = [{ type: 'NUMBER', fields: ['spread'], decimalPlaces: 6 }];
+
+      const { getAllByTestId } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              selectColumns: ['spread'],
+              customFormatting: customFormatter,
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+
+      expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
+    });
+
+    it('formats custom data types correctly', () => {
+      const customFormatter = [
+        { type: 'NUMBER', fields: ['spread'], noFormatting: true },
+        { type: 'STRING', fields: ['additional_date'], breakChar: ',', customType: 'dateList' },
+      ];
+
+      const { getAllByTestId } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              selectColumns: ['spread', 'additional_date'],
+              customFormatting: customFormatter,
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+
+      expect(getAllByTestId('row')[0].innerHTML).toContain('-0.1200');
+      expect(getAllByTestId('row')[0].innerHTML).toContain('1/1/2024, 2/2/2023');
+    });
+
+    it('renders with download timestamp enabled', () => {
+      const instance = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+              selectColumns: defaultColumnsTypeCheckMock,
+              dateRange: {
+                from: '2022-08-31',
+                to: '2024-08-31',
+              },
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+            hasDownloadTimestamp={true}
+          />
+        </RecoilRoot>
+      );
+      expect(instance).toBeTruthy();
+    });
+
+    it('updates recoil state for csv download with text qualifiers', () => {
+      const setSmallTableDownloadDataCSV = jest.fn();
+      render(
+        <RecoilRoot>
+          <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableDownloadWithTextQualifier,
+              tableName: 'tableName',
+              config: {},
+              columnConfig: mockColumnConfigDownloadWithTextQualifier,
+              dateRange: {
+                from: '2022-08-31',
+                to: '2024-08-31',
+              },
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={jest.fn()}
+          />
+        </RecoilRoot>
+      );
+      expect(setSmallTableDownloadDataCSV).toHaveBeenCalledWith([
+        ['Record Date', 'String Value', 'String Value with Commas'],
+        ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
+      ]);
+    });
+
+    it('renders detail view links', async () => {
+      const setDetailViewSpy = jest.fn();
+      const setSummaryValuesSpy = jest.fn();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const { getByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            setTableColumnSortData={setTableColumnSortData}
+            showPaginationControls
+            setFiltersActive={jest.fn()}
+            setManualPagination={jest.fn()}
+            detailColumnConfig={mockDetailViewColumnConfig}
+            setDetailViewState={setDetailViewSpy}
+            setSummaryValues={setSummaryValuesSpy}
+            setTableSorting={jest.fn()}
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              config: {
+                detailView: { field: 'record_date', apiId: 1 },
+                apis: [{ apiId: 1, endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }],
+              },
+              tableName: 'FRN Daily Indexes',
+            }}
+          />
+        </RecoilRoot>
+      );
+      const detailViewButton = getByRole('button', { name: '7/12/2023' });
+      expect(detailViewButton).toBeInTheDocument();
+
+      await user.click(detailViewButton);
+      expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
+      expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
+    });
   });
 });

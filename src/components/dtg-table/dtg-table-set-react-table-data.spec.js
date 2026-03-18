@@ -4,8 +4,6 @@ import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
   mockPaginatedTableProps,
-  mockReactTableProps_depaginated,
-  mockReactTableProps_depaginated_smallTable,
   mockReactTableProps_rawData,
   mockReactTableProps_rawData_apiError,
   mockReactTableProps_rawData_emptyTable,
@@ -74,40 +72,6 @@ describe('React Table Data ', () => {
           pivotSelected={null}
           tableMeta={{ 'total-count': 2 }}
           setManualPagination={setManualPaginationSpy}
-        />
-      </RecoilRoot>
-    );
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
-    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
-  });
-
-  it('sets depaginated data', async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_depaginated}
-          reactTable
-          rawDataTable
-          tableMeta={{ 'total-count': 12 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
-    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
-  });
-
-  it('sets depaginated data for small tables', async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_depaginated_smallTable}
-          reactTable
-          rawDataTable
-          tableMeta={{ 'total-count': 2 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );

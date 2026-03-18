@@ -355,7 +355,7 @@ export const columnBodyFilterApplied = (appliedFilters, columnName) => {
   }
 };
 
-export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hideColumns: string[], dataTypes) => {
+export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hideColumns: string[], dataTypes = []) => {
   const columns = table?.getVisibleFlatColumns();
   if (columns) {
     return columns.map(column => ({

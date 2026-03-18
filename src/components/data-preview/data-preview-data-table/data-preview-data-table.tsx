@@ -156,7 +156,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   }, [defaultSelectedColumns]);
 
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    setTableColumnSortData(table, hideColumns, dataTypes);
     if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       let downloadData = [];
       const downloadHeaders = [];
