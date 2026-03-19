@@ -241,21 +241,24 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [tableMeta]);
 
-  // useEffect(() => {
-  //   if (
-  //     !finalDatesNotFound &&
-  //     selectedTable &&
-  //     (selectedPivot || ignorePivots) &&
-  //     dateRange &&
-  //     !allTablesSelected &&
-  //     (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
-  //   ) {
-  //     (async () => {
-  //       const metaData = await getMetaData();
-  //       setTableMeta(metaData.meta);
-  //     })();
-  //   }
-  // }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
+  useEffect(() => {
+    if (
+      !finalDatesNotFound &&
+      selectedTable &&
+      (selectedPivot || ignorePivots) &&
+      dateRange &&
+      !allTablesSelected &&
+      (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
+    ) {
+      console.log('should meta data be updating here', selectedTable, tableMeta);
+      if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
+        (async () => {
+          const metaData = await getMetaData();
+          setTableMeta({ meta: metaData.meta, table: selectedTable.tableName });
+        })();
+      }
+    }
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
 
   useEffect(() => {
     if (allTablesSelected) {

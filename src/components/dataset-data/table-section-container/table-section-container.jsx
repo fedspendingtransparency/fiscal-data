@@ -127,8 +127,8 @@ const TableSectionContainer = ({
       });
       setChartData({ ...apiData, data: displayData });
     }
-
-    console.log('updating table props', displayData);
+    setManualPagination(tableMeta?.meta?.['total-count'] > 20000);
+    console.log('updating table props', tableMeta);
     setTableProps({
       publishedReports,
       rawData: displayData ? { ...apiData, data: displayData } : apiData,
@@ -151,8 +151,9 @@ const TableSectionContainer = ({
   };
 
   useEffect(() => {
+    console.log('need to refresh table', tableMeta?.table, selectedTable?.tableName);
     (async () => {
-      await refreshTable();
+      if (tableMeta?.table === selectedTable?.tableName) await refreshTable();
     })();
   }, [apiData, userFilterSelection, apiError]);
 

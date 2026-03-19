@@ -165,7 +165,8 @@ export default function DtgTable({
             if (maxRows !== paginationValues.maxRows) setMaxRows(paginationValues.maxRows);
             //Todo: confim if additional if statement is actually needed here
             const shouldUseTableData = res.data?.length > 0 && !rawData;
-            if (shouldUseTableData && noPivotApplied() && shouldUsePaginatedResponse()) {
+            console.log(2, shouldUseTableData, shouldUsePaginatedResponse(), rawData);
+            if (noPivotApplied() && shouldUsePaginatedResponse()) {
               console.log(1);
               updateTableData(res, true);
             }
@@ -205,7 +206,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log('trigger make paged request', tableMeta, selectedTable);
+    console.log('trigger make paged request', tableMeta, sorting);
     if (tableMeta?.table === selectedTable?.tableName && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setCurrentPage(1);
       updateTable(true);
@@ -213,7 +214,6 @@ export default function DtgTable({
   }, [sorting, tableMeta, filteredDateRange]);
 
   useMemo(() => {
-    // console.log('tablemeta', tableMeta);
     if (tableMeta?.table === selectedTable?.tableName && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
@@ -244,6 +244,7 @@ export default function DtgTable({
   const shouldUsePaginatedResponse = () => tableMeta && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
+    console.log('react table data should be updating ');
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
@@ -268,7 +269,12 @@ export default function DtgTable({
         setColumnVisibility({});
       }
     }
+    console.log('end of updateTable');
   };
+
+  useEffect(() => {
+    console.log(reactTableData, allColumns, columnVisibility, sorting, manualPagination);
+  }, [reactTableData, allColumns, columnVisibility, sorting, manualPagination]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -304,8 +310,12 @@ export default function DtgTable({
           updateTableData(rawData, false, true);
         }
       } else {
+        console.log('rawData updating', rawData);
         updateTableData(rawData);
       }
+    } else {
+      console.log('clearing raw Data');
+      setReactTableData(null);
     }
   }, [rawData]);
 
