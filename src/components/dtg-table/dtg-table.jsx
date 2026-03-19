@@ -165,7 +165,7 @@ export default function DtgTable({
             if (maxRows !== paginationValues.maxRows) setMaxRows(paginationValues.maxRows);
             //Todo: confim if additional if statement is actually needed here
             const shouldUseTableData = res.data?.length > 0 && !rawData;
-            if (shouldUseTableData && isLargeTable() && noPivotApplied() && shouldUsePaginatedResponse()) {
+            if (shouldUseTableData && noPivotApplied() && shouldUsePaginatedResponse()) {
               console.log(1);
               updateTableData(res, true);
             }
@@ -206,15 +206,15 @@ export default function DtgTable({
 
   useMemo(() => {
     console.log('trigger make paged request', tableMeta, selectedTable);
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (tableMeta?.table === selectedTable?.tableName && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setCurrentPage(1);
       updateTable(true);
     }
-  }, [sorting, selectedTable, tableMeta, filteredDateRange]);
+  }, [sorting, tableMeta, filteredDateRange]);
 
   useMemo(() => {
     // console.log('tablemeta', tableMeta);
-    if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    if (tableMeta?.table === selectedTable?.tableName && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {
         updateTable(false);
@@ -241,8 +241,7 @@ export default function DtgTable({
   };
 
   const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
-  const isLargeTable = () => selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
-  const shouldUsePaginatedResponse = () => tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
+  const shouldUsePaginatedResponse = () => tableMeta && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
     setReactTableData(data);
