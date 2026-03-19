@@ -357,7 +357,7 @@ export const columnBodyFilterApplied = (appliedFilters, columnName) => {
 
 export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hideColumns: string[], dataTypes = []) => {
   const columns = table?.getVisibleFlatColumns();
-  if (columns) {
+  if (columns && table) {
     return columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),

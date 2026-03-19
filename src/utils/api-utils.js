@@ -218,7 +218,8 @@ export const datatableRequest = async (
     const fieldsParam = pivotView && pivotView.fields && pivotView.fields.length ? `&fields=${pivotView.fields.join()}` : '';
 
     let dateRanges;
-    if (tableCache.dataCache && tableCache.dataCache.length) {
+    // avoid relying on cached data for user filtered data
+    if (tableCache.dataCache && tableCache.dataCache.length && !userFilterValue) {
       dateRanges = tableCache.findUncachedDateRanges(dateRange);
     } else {
       dateRanges = [dateRange];

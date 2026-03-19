@@ -58,8 +58,6 @@ const TableSectionContainer = ({
   ignorePivots,
   allTablesSelected,
   handleConfigUpdate,
-  tableColumnSortData,
-  setTableColumnSortData,
   publishedReports,
   resetFilters,
   setResetFilters,
@@ -84,7 +82,7 @@ const TableSectionContainer = ({
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [reactTableSorting, setReactTableSort] = useState([]);
+  const [sorting, setSorting] = useState([]);
   const [manualPagination, setManualPagination] = useState(false);
   const [chartData, setChartData] = useState(null);
 
@@ -128,7 +126,6 @@ const TableSectionContainer = ({
       setChartData({ ...apiData, data: displayData });
     }
     setManualPagination(tableMeta?.meta?.['total-count'] > 20000);
-    console.log('updating table props', tableMeta);
     setTableProps({
       publishedReports,
       rawData: displayData ? { ...apiData, data: displayData } : apiData,
@@ -151,8 +148,8 @@ const TableSectionContainer = ({
   };
 
   useEffect(() => {
-    console.log('need to refresh table', tableMeta?.table, selectedTable?.tableName);
     (async () => {
+      console.log(apiData);
       if (tableMeta?.table === selectedTable?.tableName) await refreshTable();
     })();
   }, [apiData, userFilterSelection, apiError]);
@@ -187,7 +184,8 @@ const TableSectionContainer = ({
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
-    setReactTableSort([]);
+    setSorting([]);
+    setResetFilters(true);
     if (!config?.sharedApiFilterOptions) {
       setUserFilterSelection(null);
     }
@@ -353,8 +351,6 @@ const TableSectionContainer = ({
                       tableProps={tableProps}
                       selectColumnPanel={selectColumnPanel}
                       setSelectColumnPanel={setSelectColumnPanel}
-                      tableColumnSortData={tableColumnSortData}
-                      setTableColumnSortData={setTableColumnSortData}
                       detailViewState={detailViewState}
                       setDetailViewState={setDetailViewState}
                       setSummaryValues={setSummaryValues}
@@ -368,8 +364,8 @@ const TableSectionContainer = ({
                       userFilterSelection={userFilterSelection}
                       setIsLoading={setIsLoading}
                       isLoading={isLoading}
-                      sorting={reactTableSorting}
-                      setSorting={setReactTableSort}
+                      sorting={sorting}
+                      setSorting={setSorting}
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
                       disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}

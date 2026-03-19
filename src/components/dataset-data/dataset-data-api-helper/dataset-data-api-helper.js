@@ -57,6 +57,7 @@ const makeApiCall = async (
       queryClient
     );
 
+    console.log('here', data);
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
     }

@@ -36,8 +36,6 @@ export default function DtgTable({
   tableProps,
   selectColumnPanel,
   setSelectColumnPanel,
-  tableColumnSortData,
-  setTableColumnSortData,
   detailViewState,
   setDetailViewState,
   setSummaryValues,
@@ -130,10 +128,17 @@ export default function DtgTable({
   const makePagedRequest = async resetPage => {
     const pagedUserFilterRequest = selectedTable?.apiFilter?.displayDefaultData || userFilterSelection;
     if (selectedTable?.endpoint && !loadCanceled && (!selectedTable?.apiFilter || pagedUserFilterRequest) && shouldUsePaginatedResponse()) {
-      console.log('make paged request');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
+      console.log(table, reactTableData);
+      let sortData;
+      if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
+        console.log(table?.getFilteredRowModel());
+        sortData = table && reactTableData?.data?.length > 0 ? getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes) : [];
+      } else {
+        sortData = [];
+      }
       pagedDatatableRequest(
         selectedTable,
         from,
@@ -141,7 +146,7 @@ export default function DtgTable({
         selectedPivot,
         startPage,
         itemsPerPage,
-        tableColumnSortData,
+        sortData,
         selectedTable?.apiFilter?.field,
         userFilterSelection,
         filteredDateRange
@@ -163,11 +168,7 @@ export default function DtgTable({
             setRowsShowing(paginationValues.rowsShowing);
             setMaxPage(paginationValues.maxPage);
             if (maxRows !== paginationValues.maxRows) setMaxRows(paginationValues.maxRows);
-            //Todo: confim if additional if statement is actually needed here
-            const shouldUseTableData = res.data?.length > 0 && !rawData;
-            console.log(2, shouldUseTableData, shouldUsePaginatedResponse(), rawData);
             if (noPivotApplied() && shouldUsePaginatedResponse()) {
-              console.log(1);
               updateTableData(res, true);
             }
           }
@@ -206,7 +207,6 @@ export default function DtgTable({
   };
 
   useMemo(() => {
-    console.log('trigger make paged request', tableMeta, sorting);
     if (tableMeta?.table === selectedTable?.tableName && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setCurrentPage(1);
       updateTable(true);
@@ -244,7 +244,6 @@ export default function DtgTable({
   const shouldUsePaginatedResponse = () => tableMeta && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
 
   const updateTableData = (data, serverPagination = false, detailViewConfig = false) => {
-    console.log('react table data should be updating ');
     setReactTableData(data);
     setManualPagination(serverPagination);
     const activeConfig = detailViewConfig ? detailColumnConfig : columnConfig;
@@ -269,12 +268,7 @@ export default function DtgTable({
         setColumnVisibility({});
       }
     }
-    console.log('end of updateTable');
   };
-
-  useEffect(() => {
-    console.log(reactTableData, allColumns, columnVisibility, sorting, manualPagination);
-  }, [reactTableData, allColumns, columnVisibility, sorting, manualPagination]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -310,11 +304,9 @@ export default function DtgTable({
           updateTableData(rawData, false, true);
         }
       } else {
-        console.log('rawData updating', rawData);
         updateTableData(rawData);
       }
     } else {
-      console.log('clearing raw Data');
       setReactTableData(null);
     }
   }, [rawData]);
@@ -340,11 +332,11 @@ export default function DtgTable({
     }
   }, [columnVisibility, sorting]);
 
-  useEffect(() => {
-    if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
-      setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
-    }
-  }, [sorting]);
+  // useEffect(() => {
+  //   if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
+  //     setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
+  //   }
+  // }, [sorting]);
 
   useEffect(() => {
     if (resetFilters && table) {
