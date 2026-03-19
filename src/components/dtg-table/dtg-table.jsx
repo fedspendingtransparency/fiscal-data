@@ -130,6 +130,7 @@ export default function DtgTable({
   const makePagedRequest = async resetPage => {
     const pagedUserFilterRequest = selectedTable?.apiFilter?.displayDefaultData || userFilterSelection;
     if (selectedTable?.endpoint && !loadCanceled && (!selectedTable?.apiFilter || pagedUserFilterRequest) && shouldUsePaginatedResponse()) {
+      console.log('make paged request');
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
@@ -204,6 +205,7 @@ export default function DtgTable({
   };
 
   useMemo(() => {
+    console.log('trigger make paged request', tableMeta, selectedTable);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setCurrentPage(1);
       updateTable(true);
@@ -211,6 +213,7 @@ export default function DtgTable({
   }, [sorting, selectedTable, tableMeta, filteredDateRange]);
 
   useMemo(() => {
+    // console.log('tablemeta', tableMeta);
     if (selectedTable?.rowCount > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       //prevent hook from triggering twice on pivot selection
       if ((pivotSelected?.pivotValue && !tableProps.serverSidePagination) || !pivotSelected?.pivotValue) {

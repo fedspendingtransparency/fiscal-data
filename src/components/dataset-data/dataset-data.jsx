@@ -160,6 +160,20 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
+  const getMetaData = async () => {
+    let from = formatDateForApi(dateRange.from);
+    let to = formatDateForApi(dateRange.to);
+    // redemption_tables and sb_value are exception scenarios where the date string needs to
+    // be YYYY-MM.
+    if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+      from = from.substring(0, from.lastIndexOf('-'));
+      to = to.substring(0, to.lastIndexOf('-'));
+    }
+    const dateFilter = buildDateFilter(selectedTable, from, to);
+    const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+    return await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
+  };
+
   // When dateRange changes, fetch new data
   useEffect(() => {
     if (
@@ -170,31 +184,26 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       !allTablesSelected &&
       (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
     ) {
+      let metaData;
+      (async () => {
+        metaData = await getMetaData();
+        console.log('Updating metadata', metaData);
+        setTableMeta(metaData.meta);
+      })();
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay) {
+        console.log('using cache display');
         updateDataDisplay(cachedDisplay);
       } else {
+        console.log('updating without cache');
         clearDisplayData();
         setTimeout(() => {
           let canceledObj = { isCanceled: false, abortController: new AbortController() };
-          let from = formatDateForApi(dateRange.from);
-          let to = formatDateForApi(dateRange.to);
-          // redemption_tables and sb_value are exception scenarios where the date string needs to
-          // be YYYY-MM.
-          if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-            from = from.substring(0, from.lastIndexOf('-'));
-            to = to.substring(0, to.lastIndexOf('-'));
-          }
-          const dateFilter = buildDateFilter(selectedTable, from, to);
-          const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
-          //TODO: rename var
           let getAllData;
           (async () => {
-            const metaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
-            setTableMeta(metaData.meta);
-            getAllData = metaData.meta && metaData.meta['total-count'] <= 20000;
+            getAllData = metaData && metaData['total-count'] <= 20000;
             if (!loadByPage || getAllData || ignorePivots) {
               setServerSidePagination(null);
               getApiData(
@@ -225,6 +234,22 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
     }
   }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
+
+  // useEffect(() => {
+  //   if (
+  //     !finalDatesNotFound &&
+  //     selectedTable &&
+  //     (selectedPivot || ignorePivots) &&
+  //     dateRange &&
+  //     !allTablesSelected &&
+  //     (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
+  //   ) {
+  //     (async () => {
+  //       const metaData = await getMetaData();
+  //       setTableMeta(metaData.meta);
+  //     })();
+  //   }
+  // }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
 
   useEffect(() => {
     if (allTablesSelected) {
