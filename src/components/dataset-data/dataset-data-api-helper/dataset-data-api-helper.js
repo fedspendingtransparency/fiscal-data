@@ -13,7 +13,6 @@ const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot,
       res.data = res.data.sort(customTableSorts[selectedTable.apiId]);
     }
     setApiData(res);
-    console.log(res);
   } else if (!runOnce && selectedTable.apiId === 149) {
     // if no data comes back from the API for id:149, see if there is data for tomorrow
     rangeRequested = {
@@ -56,8 +55,6 @@ const makeApiCall = async (
       userFilterValue,
       queryClient
     );
-
-    console.log('here', data);
     if (!canceledObj.isCanceled) {
       await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
     }

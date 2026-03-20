@@ -140,7 +140,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData)
           await getMetaData().then(res => {
             if (res?.meta) {
-              console.log(res);
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
           });
@@ -165,22 +164,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       );
     }
   }, [detailViewState]);
-
-  const resetCache = apiId => {
-    setDateRange(null);
-    setSelectedPivot(null);
-    setIsFiltered(true);
-    setApiError(false);
-    if (!tableCaches[apiId]) {
-      tableCaches[apiId] = new TableCache();
-    }
-  };
-
-  // useEffect(() => {
-  //   if (selectedTable && userFilterSelection?.value !== null) {
-  //     resetCache(selectedTable.apiId);
-  //   }
-  // }, [userFilterSelection]);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
 
@@ -215,7 +198,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
       if (cachedDisplay && !selectedTable.apiFilter) {
-        console.log('cachedDisplay', cachedDisplay);
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
@@ -226,7 +208,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           (async () => {
             getAllData = tableMeta && tableMeta?.meta?.['total-count'] <= 20000;
             if (!loadByPage || getAllData || ignorePivots) {
-              console.log('nonCachedDisplay', tableMeta);
               setServerSidePagination(null);
               getApiData(
                 dateRange,
