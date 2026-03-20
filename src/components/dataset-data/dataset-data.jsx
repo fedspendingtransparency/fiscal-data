@@ -52,6 +52,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
   const [tableMeta, setTableMeta] = useState(null);
+  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
 
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   let loadByPage;
@@ -129,14 +130,15 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
           setDateRange(null);
         }
-        setSelectedPivot(null);
+        if (!selectedTable.apiFilter) {
+          setSelectedPivot(null);
+        }
         rewriteUrl(selectedTable, config.slug, location);
         setIsFiltered(true);
         setApiError(false);
         if (!tableCaches[selectedTable.apiId]) {
           tableCaches[selectedTable.apiId] = new TableCache();
         }
-        // selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null)
         if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData)
           await getMetaData().then(res => {
             if (res?.meta) {
@@ -166,6 +168,13 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [detailViewState]);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const tableSectionInitialized = () =>
+    !finalDatesNotFound &&
+    selectedTable &&
+    (selectedPivot || ignorePivots || selectedTable.apiFilter) &&
+    dateRange &&
+    !allTablesSelected &&
+    (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()));
 
   const getMetaData = async () => {
     if (dateRange && selectedTable?.endpoint) {
@@ -186,14 +195,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (
-      !finalDatesNotFound &&
-      selectedTable &&
-      (selectedPivot || ignorePivots) &&
-      dateRange &&
-      !allTablesSelected &&
-      (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
-    ) {
+    if (tableSectionInitialized()) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
@@ -201,7 +203,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-
         setTimeout(() => {
           let canceledObj = { isCanceled: false, abortController: new AbortController() };
           let getAllData;
@@ -221,6 +222,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 detailViewState,
                 config?.detailView?.field,
                 userFilterSelection,
+                setUserFilterUnmatchedForDateRange,
                 queryClient
               ).then(() => {
                 // nothing to cancel if the request completes normally.
@@ -239,14 +241,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [tableMeta]);
 
   useEffect(() => {
-    if (
-      !finalDatesNotFound &&
-      selectedTable &&
-      (selectedPivot || ignorePivots) &&
-      dateRange &&
-      !allTablesSelected &&
-      (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()))
-    ) {
+    if (tableSectionInitialized()) {
       if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
         (async () => {
           const metaData = await getMetaData();
@@ -376,6 +371,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             allActiveFilters={allActiveFilters}
             setAllActiveFilters={setAllActiveFilters}
             tableMeta={tableMeta}
+            userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+            setUserFilterUnmatchedForDateRange={setUserFilterUnmatchedForDateRange}
           />
         )}
       </DatasetSectionContainer>

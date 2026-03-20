@@ -27,10 +27,6 @@ export const getCurrentDataPaginationValues = (data, currentPage, itemsPerPage) 
   return { maxPage, rowsShowing, tableData };
 };
 
-export const activePivot = (data, pivot) => {
-  return data?.pivotApplied?.includes(pivot?.pivotValue?.columnName) && data?.pivotApplied?.includes(pivot.pivotView?.title);
-};
-
 export const getDateFilters = (filteredDateRange, dateRange) => {
   let from, to;
   const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');

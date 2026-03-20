@@ -69,6 +69,8 @@ const TableSectionContainer = ({
   setSummaryValues,
   allActiveFilters,
   setAllActiveFilters,
+  userFilterUnmatchedForDateRange,
+  setUserFilterUnmatchedForDateRange,
   tableMeta,
 }) => {
   const tableName = selectedTable.tableName;
@@ -80,7 +82,6 @@ const TableSectionContainer = ({
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
-  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [sorting, setSorting] = useState([]);
