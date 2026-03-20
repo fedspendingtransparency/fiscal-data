@@ -115,6 +115,18 @@ export default function DtgTable({
     setCurrentPage(1);
   };
 
+  const getInvisibleColumns = (defaultCols, columnConstructor) => {
+    const invisibleCols = {};
+    if (defaultCols?.length > 0) {
+      for (const column of columnConstructor) {
+        if (!defaultCols?.includes(column.accessorKey)) {
+          invisibleCols[column.accessorKey] = false;
+        }
+      }
+    }
+    return invisibleCols;
+  };
+
   const getPagedData = resetPage => {
     if (debounce || loadCanceled) {
       clearTimeout(debounce);
@@ -258,17 +270,11 @@ export default function DtgTable({
       }
       const col = columnsConstructorData(data, hiddenCols, tableName, activeConfig, customFormatting);
       setAllColumns(col);
-      // We need to be able to access the accessorKey (which is a type violation) hence the ts ignore
-      if (defaultSelectedColumns?.length > 0) {
-        for (const column of col) {
-          if (!defaultSelectedColumns?.includes(column.accessorKey)) {
-            defaultInvisibleColumns[column.accessorKey] = false;
-          }
-        }
-        setColumnVisibility(defaultInvisibleColumns);
-      }
       if (pivotSelected?.pivotValue) {
         setColumnVisibility({});
+      } else {
+        const invisibleCols = getInvisibleColumns(defaultSelectedColumns, col);
+        setColumnVisibility(invisibleCols);
       }
     }
   };
@@ -335,12 +341,6 @@ export default function DtgTable({
     }
   }, [columnVisibility, sorting]);
 
-  // useEffect(() => {
-  //   if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
-  //     setTableColumnSortData(getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes));
-  //   }
-  // }, [sorting]);
-
   useEffect(() => {
     if (resetFilters && table) {
       table.resetColumnFilters();
@@ -372,7 +372,7 @@ export default function DtgTable({
                       <DataTableColumnSelector
                         selectColumnPanel={selectColumnPanel}
                         fields={allColumns}
-                        resetToDefault={() => setColumnVisibility(defaultSelectedColumns?.length > 0 ? defaultInvisibleColumns : {})}
+                        resetToDefault={() => setColumnVisibility(getInvisibleColumns(defaultSelectedColumns, allColumns))}
                         setSelectColumnPanel={setSelectColumnPanel}
                         defaultSelectedColumns={defaultSelectedColumns}
                         table={table}
@@ -405,7 +405,6 @@ export default function DtgTable({
                   </div>
                 </div>
               </div>
-
               <DataTableFooter
                 table={table}
                 showPaginationControls={showPaginationControls}
