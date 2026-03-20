@@ -70,7 +70,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       setServerSidePagination(null);
     }
     setApiData(null);
-    // setTableMeta(null);
     setApiError(false);
   };
 
@@ -79,7 +78,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     setTimeout(() => setApiData(data)); // then on the next tick, setup the new data
   };
 
-  const handleSelectedTableChange = async table => {
+  const handleSelectedTableChange = table => {
     if (table.allDataTables) {
       setAllTablesSelected(true);
     } else {
@@ -126,27 +125,27 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
+      if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
+        setDateRange(null);
+      }
+      if (!selectedTable.apiFilter) {
+        setSelectedPivot(null);
+      }
+      rewriteUrl(selectedTable, config.slug, location);
+      setIsFiltered(true);
+      setApiError(false);
+      if (!tableCaches[selectedTable.apiId]) {
+        tableCaches[selectedTable.apiId] = new TableCache();
+      }
       (async () => {
-        if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
-          setDateRange(null);
-        }
-        if (!selectedTable.apiFilter) {
-          setSelectedPivot(null);
-        }
-        rewriteUrl(selectedTable, config.slug, location);
-        setIsFiltered(true);
-        setApiError(false);
-        if (!tableCaches[selectedTable.apiId]) {
-          tableCaches[selectedTable.apiId] = new TableCache();
-        }
         if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData)
           await getMetaData().then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
           });
-        setSelectedTableProp(selectedTable);
       })();
+      setSelectedTableProp(selectedTable);
     }
   }, [selectedTable]);
 
