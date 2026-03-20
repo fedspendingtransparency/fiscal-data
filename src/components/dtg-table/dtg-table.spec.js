@@ -115,13 +115,13 @@ describe('DTG table component', () => {
       <RecoilRoot>
         <DtgTable
           tableProps={{ ...mockPaginatedTableProps, config: {} }}
-          tableMeta={{ 'total-count': 20001 }}
+          tableMeta={{ meta: { 'total-count': 20001 } }}
           setManualPagination={jest.fn()}
+          setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
-
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
     await expect(spy).toBeCalledTimes(1);
   });

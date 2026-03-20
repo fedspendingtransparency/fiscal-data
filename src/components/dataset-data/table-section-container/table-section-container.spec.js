@@ -40,6 +40,7 @@ describe('TableSectionContainer initial state', () => {
           config={mockConfig}
           setUserFilterSelection={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -65,6 +66,7 @@ describe('TableSectionContainer while loading', () => {
           selectedPivot={selectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -101,6 +103,8 @@ describe('TableSectionContainer with data', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
+          tableMeta={{ meta: { 'total-count': 5 }, table: selectedTable.tableName }}
         />
       </RecoilRoot>
     );
@@ -123,6 +127,7 @@ describe('TableSectionContainer with data', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -145,6 +150,7 @@ describe('TableSectionContainer with data', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -168,6 +174,7 @@ describe('TableSectionContainer with userFilter Options', () => {
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -199,6 +206,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -221,6 +229,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -243,6 +252,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setTableColumnSortData={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -265,6 +275,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -289,6 +300,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -311,6 +323,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -338,6 +351,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -368,6 +382,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedTab={1}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -392,6 +407,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -417,6 +433,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -438,6 +455,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -458,6 +476,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedPivot={selectedPivotWithAggregation}
           setSelectedPivot={mockSetSelectedPivot}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -488,6 +507,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           selectedTab={1}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -582,6 +602,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           detailViewState="123"
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -609,6 +630,7 @@ describe('formatDate function', () => {
           setUserFilterSelection={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -634,6 +656,7 @@ describe('Table with API filter', () => {
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -657,6 +680,7 @@ describe('Table with API filter', () => {
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -684,6 +708,7 @@ describe('misc tests for component', () => {
           setDetailViewState={mockSetDetailViewState}
           setTableColumnSortData={jest.fn()}
           setResetFilters={jest.fn()}
+          setUserFilterUnmatchedForDateRange={jest.fn()}
         />
       </RecoilRoot>
     );

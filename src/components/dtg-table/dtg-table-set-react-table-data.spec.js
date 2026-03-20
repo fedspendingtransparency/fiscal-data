@@ -54,7 +54,7 @@ describe('React Table Data ', () => {
           reactTable
           rawDataTable={true}
           pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
@@ -70,7 +70,7 @@ describe('React Table Data ', () => {
           tableProps={mockReactTableProps_rawData_smallTable}
           reactTable
           pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
@@ -85,11 +85,12 @@ describe('React Table Data ', () => {
       <RecoilRoot>
         <DtgTable
           tableProps={mockPaginatedTableProps}
-          tableMeta={{ 'total-count': 20001 }}
+          tableMeta={{ meta: { 'total-count': 20001 } }}
           manualPagination={true}
           setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
           setPerPage={jest.fn()}
+          setTableColumnSortData={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -117,7 +118,7 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_rawData_nestedDetailTable}
           pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
           detailViewState={{ secondary: 'last' }}
         />
@@ -137,7 +138,7 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_rawData_pivotTable}
           pivotSelected={mockPivot}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
