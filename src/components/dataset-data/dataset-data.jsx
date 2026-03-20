@@ -371,6 +371,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
             setUserFilterSelection={setUserFilterSelection}
+            setTableColumnSortData={setTableColumnSortData}
             apiData={apiData}
             isLoading={isLoading}
             setIsLoading={setIsLoading}

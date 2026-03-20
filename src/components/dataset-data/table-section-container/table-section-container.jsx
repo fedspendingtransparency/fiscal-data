@@ -47,6 +47,7 @@ const TableSectionContainer = ({
   apiError,
   userFilterSelection,
   setUserFilterSelection,
+  setTableColumnSortData,
   selectedPivot,
   setSelectedPivot,
   serverSidePagination,
@@ -355,6 +356,7 @@ const TableSectionContainer = ({
                       setDetailViewState={setDetailViewState}
                       setSummaryValues={setSummaryValues}
                       pivotSelected={selectedPivot}
+                      setTableColumnSortData={setTableColumnSortData}
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}
                       tableMeta={tableMeta}

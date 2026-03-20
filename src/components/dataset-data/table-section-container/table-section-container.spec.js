@@ -39,6 +39,7 @@ describe('TableSectionContainer initial state', () => {
           setSelectedPivot={mockSetSelectedPivot}
           config={mockConfig}
           setUserFilterSelection={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -63,6 +64,7 @@ describe('TableSectionContainer while loading', () => {
           setUserFilterSelection={jest.fn()}
           selectedPivot={selectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -98,6 +100,7 @@ describe('TableSectionContainer with data', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -106,7 +109,7 @@ describe('TableSectionContainer with data', () => {
   });
 
   it('sends slug and currentTableName props to DatasetChart citation', () => {
-    const { getByTestId, getByText } = render(
+    const { getByText } = render(
       <RecoilRoot>
         <TableSectionContainer
           config={mockConfig}
@@ -119,6 +122,7 @@ describe('TableSectionContainer with data', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -140,6 +144,7 @@ describe('TableSectionContainer with data', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -162,6 +167,7 @@ describe('TableSectionContainer with userFilter Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -192,6 +198,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -213,6 +220,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -234,6 +242,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -255,6 +264,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -278,6 +288,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -299,6 +310,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -325,6 +337,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -354,6 +367,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setSelectedPivot={mockSetSelectedPivot}
           selectedTab={1}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -377,6 +391,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -401,6 +416,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -421,6 +437,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           setSelectedPivot={mockSetSelectedPivot}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -440,6 +457,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           apiError={false}
           selectedPivot={selectedPivotWithAggregation}
           setSelectedPivot={mockSetSelectedPivot}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -469,6 +487,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           tabChangeHandler={jest.fn()}
           selectedTab={1}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -504,6 +523,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             setSelectedPivot={mockSetSelectedPivot}
             selectedTab={1}
             setTableColumnSortData={jest.fn()}
+            setResetFilters={jest.fn()}
           />
         </RecoilRoot>
       );
@@ -536,6 +556,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             setSelectedPivot={mockSetSelectedPivot}
             selectedTab={1}
             setTableColumnSortData={jest.fn()}
+            setResetFilters={jest.fn()}
           />
         </RecoilRoot>
       );
@@ -560,6 +581,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setUserFilterSelection={jest.fn()}
           detailViewState="123"
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -586,6 +608,7 @@ describe('formatDate function', () => {
           detailViewState={{ value: new Date(2023, 5, 1) }}
           setUserFilterSelection={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -610,6 +633,7 @@ describe('Table with API filter', () => {
           userFilterSelection={null}
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -632,6 +656,7 @@ describe('Table with API filter', () => {
           userFilterSelection={null}
           setSelectedPivot={jest.fn()}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -658,6 +683,7 @@ describe('misc tests for component', () => {
           selectedTab={0}
           setDetailViewState={mockSetDetailViewState}
           setTableColumnSortData={jest.fn()}
+          setResetFilters={jest.fn()}
         />
       </RecoilRoot>
     );

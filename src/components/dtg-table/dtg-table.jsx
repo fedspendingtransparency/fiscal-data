@@ -42,6 +42,7 @@ export default function DtgTable({
   pivotSelected,
   resetFilters,
   setResetFilters,
+  setTableColumnSortData,
   tableMeta,
   manualPagination,
   setManualPagination,
@@ -131,14 +132,16 @@ export default function DtgTable({
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
-      console.log(table, reactTableData);
       let sortData;
       if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
-        console.log(table?.getFilteredRowModel());
-        sortData = table && reactTableData?.data?.length > 0 ? getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes) : [];
+        sortData =
+          table && reactTableData?.data?.length > 0 && sorting.length > 0
+            ? getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes)
+            : [];
       } else {
         sortData = [];
       }
+      setTableColumnSortData(sortData);
       pagedDatatableRequest(
         selectedTable,
         from,
