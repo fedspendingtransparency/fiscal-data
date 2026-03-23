@@ -38,7 +38,7 @@ const onDataReturned = async (
     };
 
     runOnce = true; // only try once
-    await makeApiCall(rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache, null, null, null);
+    await makeApiCall(rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
   }
 };
 
