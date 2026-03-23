@@ -168,7 +168,7 @@ const DatasetsPage = ({ pageContext }) => {
           <div className={searchContainer}>
             <BreadCrumbs links={breadCrumbLinks} />
             <h1 className={page_title}>Datasets</h1>
-            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
+            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} isLoading={finalDatesNotFound} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}
               searchResults={searchResults}
