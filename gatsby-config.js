@@ -32,23 +32,6 @@ module.exports = {
           '/about-us/contact-section/contact-section/',
           '/about-us/faq-section/faq-section/',
           // end DTG-2414
-          // remove with DTG-2415
-          '/api-documentation/aggregation/aggregation/',
-          '/api-documentation/endpoints/endpoints/',
-          '/api-documentation/examples/examples/',
-          '/api-documentation/fields/fields/',
-          '/api-documentation/filters/filters/',
-          '/api-documentation/getting-started/getting-started/',
-          '/api-documentation/methods/methods/',
-          '/api-documentation/multi-dimension-datasets/multi-dimension-datasets/',
-          '/api-documentation/parameters/format/format/',
-          '/api-documentation/parameters/pagination/pagination/',
-          '/api-documentation/parameters/parameters/',
-          '/api-documentation/parameters/sorting/sorting/',
-          '/api-documentation/pivoting/pivoting/',
-          '/api-documentation/responses/responses/',
-          '/api-documentation/section-content/section-content/',
-          // end DTG-2415
         ],
       },
     },
