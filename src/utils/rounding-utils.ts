@@ -1,4 +1,5 @@
 export const getShortForm = (value: string, abbreviate: boolean = true, round: boolean = true, fractionDigits: number = 0): string => {
+  if (!value || isNaN(Number(value))) return '--';
   const trimmed = Math.abs(Number(value)).toFixed();
   const inTrillions = trimmed.length > 12;
   const inBillions = trimmed.length > 9;

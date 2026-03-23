@@ -69,8 +69,8 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
       <p>
         Most of the revenue the U.S. government collects comes from contributions from individual taxpayers, small businesses, and corporations
         through taxes. Additional sources of tax revenue consist of {excise} tax, estate tax, and other taxes and fees. So far in FY{' '}
-        {currentFiscalYear}, individual income taxes have accounted for {indvPercent}% of total revenue while Social Security and Medicare taxes made
-        up another {ssPercent}%.
+        {currentFiscalYear || '--'}, individual income taxes have accounted for {indvPercent}% of total revenue while Social Security and Medicare
+        taxes made up another {ssPercent || '--'}%.
       </p>
       <p>
         Government revenue also comes from payments to federal agencies like the U.S. Department of the Interior. Have you visited a national park

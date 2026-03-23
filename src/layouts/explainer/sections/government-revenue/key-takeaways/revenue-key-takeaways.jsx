@@ -92,10 +92,10 @@ const RevenueKeyTakeaways = () => {
     });
   }, []);
 
-  const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear}, the largest source of federal revenue was
-  ${priorFYLargestSource} (${priorFYLargestSourceTotPercent}% of total revenue).
-  So far in fiscal year ${currentFY}, the largest source of federal revenue is
-  ${currentFYLargestSource} (${currentFYLargestSourceTotPercent}% of total revenue).
+  const firstTakeawayText = `In fiscal year (FY)  ${latestCompleteFiscalYear || '--'}, the largest source of federal revenue was
+  ${priorFYLargestSource || '--'} (${priorFYLargestSourceTotPercent || '--'}% of total revenue).
+  So far in fiscal year ${currentFY || '--'}, the largest source of federal revenue is
+  ${currentFYLargestSource || '--'} (${currentFYLargestSourceTotPercent || '--'}% of total revenue).
   Federal revenue is used to fund a variety of goods, programs, and services to support the American public and
   pay interest on government debt. Revenue is typically measured by fiscal year (FY).`;
 
@@ -124,9 +124,9 @@ const RevenueKeyTakeaways = () => {
       text: `Federal revenue is commonly compared to gross domestic product (GDP).
       This comparison provides a sense of the size of the federal government's earnings
       in relation to the total amount of the entire country's economic output. In fiscal
-      year ${latestCompleteFiscalYear}, federal revenue was equal to ${revenuePercentGDP}%
+      year ${latestCompleteFiscalYear || '--'}, federal revenue was equal to ${revenuePercentGDP || '--'}%
       of total gross domestic product (GDP), or economic activity, of the United States that year
-      $${totalGDP} trillion. `,
+      $${totalGDP || '--'} trillion. `,
       icon: faPiggyBank,
     },
   ];

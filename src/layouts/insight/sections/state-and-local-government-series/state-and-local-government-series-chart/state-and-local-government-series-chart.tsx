@@ -194,7 +194,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
               caption: 'State and Local Government Series Table',
               shouldPage: true,
               width: '99%',
-              chartTable: false,
+              chartTable: true,
               noBorder: true,
               customFormatting: [
                 {

@@ -53,6 +53,18 @@ export const SpendingOverview = () => {
     </GlossaryPopoverDefinition>
   );
 
+  const outlays = (
+    <GlossaryPopoverDefinition term="Outlay" page="Spending Explainer">
+      outlays
+    </GlossaryPopoverDefinition>
+  );
+
+  const obligation = (
+    <GlossaryPopoverDefinition term="Obligation" page="Spending Explainer">
+      obligation
+    </GlossaryPopoverDefinition>
+  );
+
   useEffect(() => {
     const fields =
       'fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
@@ -98,9 +110,9 @@ export const SpendingOverview = () => {
           </p>
           <p>
             If the government spends more than it collects in {revenue}, then there is a budget deficit. If the government spends less than it
-            collects in revenue, there is a budget surplus. In fiscal year (FY) {latestCompleteFiscalYear}, the government spent ${priorYearSpending},
-            which was {spendingChange} than it collected (revenue), resulting in a {deficitTerm}. Visit the {deficit} explainer to see how the deficit
-            and revenue compare to federal spending.
+            collects in revenue, there is a budget surplus. In fiscal year (FY) {latestCompleteFiscalYear || '--'}, the government spent $
+            {priorYearSpending || '--'}, which was {spendingChange} than it collected (revenue), resulting in a {deficitTerm}. Visit the {deficit}{' '}
+            explainer to see how the deficit and revenue compare to federal spending.
           </p>
           <p>
             Federal government spending pays for everything from Social Security and Medicare to military equipment, highway maintenance, building
@@ -108,8 +120,8 @@ export const SpendingOverview = () => {
             purchases can also be classified by {objectClass} and {budgetFunctions}.
           </p>
           <p>
-            Throughout this page, we use outlays to represent spending. This is money that has actually been paid out and not just promised to be
-            paid. When issuing a contract or grant, the U.S. government enters a binding agreement called an obligation. This means the government
+            Throughout this page, we use {outlays} to represent spending. This is money that has actually been paid out and not just promised to be
+            paid. When issuing a contract or grant, the U.S. government enters a binding agreement called an {obligation}. This means the government
             promises to spend the money, either immediately or in the future. As an example, an obligation occurs when a federal {agency} signs a
             contract, awards a grant, purchases a service, or takes other actions that require it to make a payment. Obligations do not always result
             in payments being made, which is why we show actual outlays that reflect actual spending occurring.

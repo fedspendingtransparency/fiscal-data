@@ -84,9 +84,9 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     {
       text: `The federal government spends money on a variety of goods, programs, and
         services to support the American public and pay interest incurred from borrowing. In
-        fiscal year (FY) ${latestCompleteFiscalYear}, the government spent
-        $${priorYearSpendingShort}, which was ${spendingRevComparison} than it collected (revenue),
-        resulting in a ${deficitLabel}. `,
+        fiscal year (FY) ${latestCompleteFiscalYear || '--'}, the government spent
+        $${priorYearSpendingShort || '--'}, which was ${spendingRevComparison} than it collected (revenue),
+        resulting in a ${deficitLabel || '--'}. `,
       icon: faHandHoldingDollar,
       hasGlossaryTerm: true,
       glossaryString: 'fiscal year (FY)',
@@ -106,8 +106,8 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     },
     {
       text: `Money for federal spending primarily comes from government tax collection and
-        borrowing. In FY ${latestCompleteFiscalYear} government spending equated to roughly
-        $${spendingGDPSimple} out of every $10 of the goods produced and services provided in the
+        borrowing. In FY ${latestCompleteFiscalYear || '--'} government spending equated to roughly
+        $${spendingGDPSimple || '--'} out of every $10 of the goods produced and services provided in the
         United States.`,
       icon: faPiggyBank,
       page: 'Spending Explainer',

@@ -35,12 +35,14 @@ const spendEndpointUrl = `v1/accounting/mts/mts_table_5?${spendFields}&${spendFi
 export const spendingUrl = `${apiPrefix}${spendEndpointUrl}`;
 
 export const getFootNotesDateRange = (priorFY: string, currentFY: string, currentRecordMonth: string): string => {
+  if (!priorFY || !currentFY || !currentRecordMonth) return '--';
   const date = new Date();
   date.setDate(15);
   date.setMonth(parseInt(currentRecordMonth) - 1);
   const currentMonth = date.toLocaleString('en-US', { month: 'short' });
   const priorFiscalStartYear = Number(priorFY) - 1;
-  return currentRecordMonth === '10' ? `Oct ${priorFiscalStartYear}` : `Oct ${priorFiscalStartYear} - ${currentMonth} ${currentFY}`;
+  if (isNaN(priorFiscalStartYear)) return '--';
+  return currentRecordMonth === '10' ? `Oct ${priorFiscalStartYear || '--'}` : `Oct ${priorFiscalStartYear} - ${currentMonth} ${currentFY}`;
 };
 
 export const getChangeLabel = (current: number, prev: number, altVerbage: boolean): string => {
@@ -62,10 +64,11 @@ export const getPillData = (
   leftPillTooltipText: string,
   rightPillTooltipText: string
 ): JSX.Element => {
-  const displayValue = getShortForm(value.toString());
-  const displayPercent = percent.toFixed();
+  const displayValue = value != null && !isNaN(value) && value !== 0 ? getShortForm(value.toString()) : '--';
+  const displayPercent = percent != null && !isNaN(percent) && percent !== 0 ? percent.toFixed() : '--';
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
+
   const getPillWidth = displayValueLength => (displayValueLength > 4 ? (displayValueLength - 4) / 2 + 4 : 4);
 
   const doubleDash = '/images/double-dash.svg';

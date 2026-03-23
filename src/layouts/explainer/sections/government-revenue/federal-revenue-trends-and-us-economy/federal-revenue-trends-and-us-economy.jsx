@@ -7,27 +7,22 @@ import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../reve
 import { quoteBoxContent } from '../../../explainer.module.scss';
 import { section, totalRevContainer } from './federal-revenue-trends-and-us-economy.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
-
 const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
   const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts4');
-
   const [fiscalYear, setFiscalYear] = useState('');
   const [revenueRatio, setRevenueRatio] = useState('');
   const [revenueTotal, setRevenueTotal] = useState('');
-
   const callBackDataToPage = data => {
     setFiscalYear(data.fiscalYear);
     setRevenueRatio(data.revenueRatio);
     setRevenueTotal(data.revenueTotal);
   };
-
   const { gps } = explainerCitationsMap['government-revenue'];
-
   return (
     <div className={section}>
       <p>
-        In fiscal year {fiscalYear}, federal revenue was equal to {revenueRatio} of total gross domestic product (GDP), or economic activity, of the
-        United States that year ${revenueTotal}.
+        In fiscal year {fiscalYear || '--'}, federal revenue was equal to {revenueRatio || '--'} of total gross domestic product (GDP), or economic
+        activity, of the United States that year ${revenueTotal || '--'}.
       </p>
       <p>
         Why do we compare federal revenue to gross domestic product? The comparison serves as a rough gauge of the size of the federal government's
@@ -47,5 +42,4 @@ const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
     </div>
   );
 };
-
 export default FederalRevenueTrendsAndUSEconomy;

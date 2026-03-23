@@ -71,7 +71,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const calcPercentIncrease = (key, rows) => {
     const row0 = rows?.[0]?.[key];
     const row1 = rows?.[1]?.[key];
-    if (!row0 || !row1) return '0';
+    if (!row0 || !row1) return '--';
     return Math.round(((row1 - row0) / row0) * 100).toFixed();
   };
 
@@ -98,8 +98,8 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
           <ChartContainer
             title={
               <div className={title}>
-                Intragovernmental Holdings and Debt Held by the Public, CY {data?.[0]?.record_calendar_year ?? '1900'} and CY{' '}
-                {data?.[1]?.record_calendar_year ?? '1900'}
+                Intragovernmental Holdings and Debt Held by the Public, CY {data?.[0]?.record_calendar_year ?? '--'} and CY{' '}
+                {data?.[1]?.record_calendar_year ?? '--'}
               </div>
             }
             altText={
@@ -183,9 +183,9 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
           <p>
             The debt held by the public has increased by{' '}
             <span data-testid="public-debt-increase">{calcPercentIncrease('Debt Held by the Public', data)}%</span> since{' '}
-            {data?.[0].record_calendar_year}. Intragovernmental holdings increased by{' '}
+            {data?.[0].record_calendar_year || '--'}. Intragovernmental holdings increased by{' '}
             <span data-testid="govt-debt-increase">{calcPercentIncrease('Intragovernmental Holdings', data)}%</span> since{' '}
-            {data?.[0].record_calendar_year}.
+            {data?.[0].record_calendar_year || '--'}.
           </p>
         </VisualizationCallout>
       </figure>

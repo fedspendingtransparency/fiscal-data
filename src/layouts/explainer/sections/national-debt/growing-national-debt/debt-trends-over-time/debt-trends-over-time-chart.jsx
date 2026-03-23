@@ -134,8 +134,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   const headerContent = () => {
-    const yearDisplay = lastDebtValue.x === undefined ? '-' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
-    const debtToGDPDisplay = lastDebtValue.y === undefined ? '-' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
+    const yearDisplay = lastDebtValue.x === undefined ? '--' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
+    const debtToGDPDisplay = lastDebtValue.y === undefined ? '--%' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
     return (
       <div className={headerContainer}>
         <div>
@@ -170,12 +170,12 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
-              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '-'}`}
+              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '--'}`}
               subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}
-              date={lastDebtValue?.x ? getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`) : new Date()}
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '-'} to ${
+              date={lastDebtValue?.x ? getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`) : null}
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '--'} to ${
                 lastDebtValue.x
               }.`}
               customHeaderStyles={customHeaderStyles}
@@ -260,10 +260,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)}, which was{' '}
-              {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}. This resulted in a
-              Debt to GDP Ratio of {lastDebtValue.y} percent. Generally, a higher Debt to GDP ratio indicates a government will have greater
-              difficulty in repaying its debt.
+              The average GDP for fiscal year {lastDebtValue.x || '--'} was ${lastGDPValue ? getShortForm(lastGDPValue.actual) : '--'}, which was{' '}
+              {lastGDPValue ? getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true) : '--'} the U.S. debt of $
+              {lastRawDebtValue ? getShortForm(lastRawDebtValue) : '--'}. This resulted in a Debt to GDP Ratio of {lastDebtValue.y || '--'} percent.
+              Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
         </figure>

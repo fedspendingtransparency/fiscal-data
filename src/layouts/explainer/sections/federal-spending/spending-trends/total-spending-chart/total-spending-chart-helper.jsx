@@ -19,8 +19,8 @@ const footer = (
 
 export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
-    title: `Government Spending and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
-    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
+    title: `Government Spending and the U.S. Economy (GDP), FY ${minYear || '--'} – ${maxYear || '--'}`,
+    subtitle: `Inflation Adjusted - ${maxYear || '--'} Dollars`,
     footer: footer,
     altText:
       selectedChartView === 'percentageGdp'
@@ -58,13 +58,13 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
         chartId="spending-chart-toggle"
       />
       <ChartDataHeader
-        fiscalYear={fiscalYear}
+        fiscalYear={fiscalYear || '--'}
         right={
           selectedChartView !== 'percentageGdp'
-            ? { label: 'Total Spending', value: `$${totalSpending}` }
-            : { label: 'GDP Ratio', value: `${gdpRatio}` }
+            ? { label: 'Total Spending', value: `$${totalSpending || '--'}` }
+            : { label: 'GDP Ratio', value: `${gdpRatio || '--'}` }
         }
-        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
+        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp || '--'}` } : null}
       />
     </div>
   );
