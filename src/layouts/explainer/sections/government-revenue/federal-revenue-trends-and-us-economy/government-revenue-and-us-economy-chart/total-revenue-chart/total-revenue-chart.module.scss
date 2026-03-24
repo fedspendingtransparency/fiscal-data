@@ -45,10 +45,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 0.125rem;
-  }
-
   :global(.chartContainerFooter) {
     p {
       margin-top: 0.75rem;

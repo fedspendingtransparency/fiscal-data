@@ -1,10 +1,5 @@
 @use 'src/variables.module' as *;
 
-// global stuff from before:
-// font-size: $font-size-14 !important;
-// align-items: center;
-// margin: 1rem 0 1rem 0;
-
 .container {
   overflow: hidden;
 
@@ -53,16 +48,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  //:global(.chartContainerHeader) {
-  //  margin-top: 0.125rem;
-  //  margin-bottom: 0 !important;
-  //}
-  //
-  //:global(.chartContainerFooter) {
-  //  p {
-  //    margin-top: 0.75rem;
-  //  }
-  //}
   .container {
     .headerContainer {
       display: flex;
