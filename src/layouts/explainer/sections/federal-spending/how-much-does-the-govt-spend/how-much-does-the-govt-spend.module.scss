@@ -1,6 +1,8 @@
 @use 'src/variables.module' as *;
 
 .container {
+  margin-bottom: 2rem;
+
   & :global(.chartContainerChart) {
     flex-direction: column;
     margin-left: 0;

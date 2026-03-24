@@ -340,74 +340,77 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       {chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container} style={{}}>
-            <ChartContainer title={chartTitle} subTitle={chartSubtitle} footer={chartFooter} date={lastUpdatedDate} altText={chartAltText}>
+            <ChartContainer
+              title={chartTitle}
+              subTitle={chartSubtitle}
+              footer={chartFooter}
+              header={dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
+              date={lastUpdatedDate}
+              altText={chartAltText}
+            >
               {isLoading ? (
                 <LoadingIndicator loadingClass={loadingIcon} />
               ) : (
-                <div>
-                  {/*TODO: refactor to move this into the chartContainer header prop*/}
-                  {dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
-                  <div
-                    className={lineChart}
-                    data-testid="chartParent"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={() => {
-                      clearTimeout(gaTimer);
-                      clearTimeout(ga4Timer);
-                    }}
-                    role="presentation"
-                  >
-                    {selectedChartView === 'totalSpending' && (
-                      <div ref={spendingRef}>
-                        <Line
-                          {...commonProps}
-                          theme={getChartTheme(width, true)}
-                          axisLeft={chartConfigs.axisLeftSpending}
-                          layers={[
-                            ...chartConfigs.layers,
-                            props =>
-                              LineChartCustomPoints_GDP({
-                                ...props,
-                                seriesId: 'Total Spending',
-                              }),
-                            props =>
-                              CustomSlices({
-                                ...props,
-                                groupMouseLeave: handleGroupOnMouseLeave,
-                                mouseMove: handleMouseLeave,
-                                inView: spendingInView,
-                                duration: 500,
-                                customAnimationTriggeredOnce: animationTriggeredOnce,
-                                setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
-                              }),
-                          ]}
-                        />
-                      </div>
-                    )}
-                    {selectedChartView === 'percentageGdp' && (
-                      <div ref={gdpRef}>
-                        <Line
-                          {...commonProps}
-                          theme={getChartTheme(width, true)}
-                          axisLeft={chartConfigs.axisLeftPercent}
-                          layers={[
-                            ...chartConfigs.layers,
-                            LineChartCustomPoints_GDP,
-                            props =>
-                              CustomSlices({
-                                ...props,
-                                groupMouseLeave: handleGroupOnMouseLeave,
-                                mouseMove: handleMouseLeave,
-                                inView: gdpInView,
-                                duration: 500,
-                                customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
-                                setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
-                              }),
-                          ]}
-                        />
-                      </div>
-                    )}
-                  </div>
+                <div
+                  className={lineChart}
+                  data-testid="chartParent"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={() => {
+                    clearTimeout(gaTimer);
+                    clearTimeout(ga4Timer);
+                  }}
+                  role="presentation"
+                >
+                  {selectedChartView === 'totalSpending' && (
+                    <div ref={spendingRef}>
+                      <Line
+                        {...commonProps}
+                        theme={getChartTheme(width, true)}
+                        axisLeft={chartConfigs.axisLeftSpending}
+                        layers={[
+                          ...chartConfigs.layers,
+                          props =>
+                            LineChartCustomPoints_GDP({
+                              ...props,
+                              seriesId: 'Total Spending',
+                            }),
+                          props =>
+                            CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: spendingInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: animationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                            }),
+                        ]}
+                      />
+                    </div>
+                  )}
+                  {selectedChartView === 'percentageGdp' && (
+                    <div ref={gdpRef}>
+                      <Line
+                        {...commonProps}
+                        theme={getChartTheme(width, true)}
+                        axisLeft={chartConfigs.axisLeftPercent}
+                        layers={[
+                          ...chartConfigs.layers,
+                          LineChartCustomPoints_GDP,
+                          props =>
+                            CustomSlices({
+                              ...props,
+                              groupMouseLeave: handleGroupOnMouseLeave,
+                              mouseMove: handleMouseLeave,
+                              inView: gdpInView,
+                              duration: 500,
+                              customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
+                              setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                            }),
+                        ]}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </ChartContainer>

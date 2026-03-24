@@ -3,11 +3,16 @@
 .container {
   overflow: hidden;
 
+  & :global(.chartContainerHeader) {
+    margin-bottom: 1rem;
+    color: red;
+  }
+
   & :global(.chartContainerChart) {
-    min-height: 24.44rem;
+    min-height: 18.24rem;
 
     @media screen and (min-width: $breakpoint-lg - 1) {
-      min-height: 34.56rem;
+      min-height: 25.81rem;
     }
   }
 

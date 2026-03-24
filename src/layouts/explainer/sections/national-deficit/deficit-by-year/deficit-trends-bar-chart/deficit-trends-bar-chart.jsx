@@ -244,20 +244,20 @@ export const DeficitTrendsBarChart = ({ width }) => {
   );
 
   const header = (
-    <>
-      <div className={headerContainer}>
+    <div className={headerContainer}>
+      <div>
         <div className={headerTitle} data-testid="deficitFiscalYearHeader">
           {headerYear}
         </div>
         <span className={subHeader}>Fiscal Year</span>
       </div>
-      <div className={headerContainer}>
+      <div>
         <div className={headerTitle} data-testid="deficitTotalHeader">
           ${headerDeficit} T
         </div>
         <span className={subHeader}>Total Deficit</span>
       </div>
-    </>
+    </div>
   );
 
   return (
