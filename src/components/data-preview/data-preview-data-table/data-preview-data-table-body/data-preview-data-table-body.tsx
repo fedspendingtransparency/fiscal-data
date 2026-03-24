@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode, useContext } from 'react';
 import { IDataTableBody } from '../../../../models/IDataTableBody';
 import { detailButton, filtersActive, hidden, rightAlignText, tableCell, tableRow } from './data-preview-data-table-body.module.scss';
-import { columnBodyFilterActive, columnBodyFilterApplied, rightAlign } from '../../../data-table/data-table-helper';
+import { columnBodyFilterActive, columnBodyFilterApplied, rightAlign } from '../../../dtg-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import { DataTableContext } from '../../data-preview-context';
 

@@ -1,9 +1,17 @@
 import React from 'react';
 import DtgTable from './dtg-table';
-import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, TestData, TestDataOneRow } from './test-data';
+import {
+  DetailViewTestData,
+  mockPaginatedTableProps,
+  mockReactTableProps_rawData_apiError,
+  mockReactTableProps_rawData_emptyTable,
+  MoreTestData,
+  TestData,
+  TestDataOneRow,
+} from './test-data';
 import * as helpers from './dtg-table-helper';
 import { RecoilRoot } from 'recoil';
-import { fireEvent, render, within } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   additionalColLabels,
@@ -21,6 +29,7 @@ import {
 } from '../data-table/data-table-test-helper';
 import { RecoilObserver } from '../../utils/test-utils';
 import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+import fetchMock from 'fetch-mock';
 
 describe('DTG table component', () => {
   jest.useFakeTimers();
@@ -724,5 +733,77 @@ describe('DTG Table Nested Table Detail View', () => {
       expect(setDetailViewSpy).toHaveBeenCalledWith({ secondary: null, value: '2023-07-12' });
       expect(setSummaryValuesSpy).toHaveBeenCalledWith(mockTableData.data[0]);
     });
+  });
+});
+
+describe('Empty table and API Error', () => {
+  jest.useFakeTimers();
+  const setManualPaginationSpy = jest.fn();
+  const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
+  const table2 = mockReactTableProps_rawData_emptyTable.serverSidePagination;
+  const table3 = mockReactTableProps_rawData_apiError.serverSidePagination;
+
+  beforeAll(() => {
+    fetchMock.get(
+      `${base}${table2}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      { data: [], meta: { 'total-count': 0 } },
+      { overwriteRoutes: true, repeat: 0 }
+    );
+    fetchMock.get(
+      `${base}${table3}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
+      () => {
+        throw new Error('failed to fetch');
+      }
+    );
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('handles an empty api response for server paginated tables', async () => {
+    const setIsLoadingSpy = jest.fn();
+    const { getByRole, findByRole, getByText } = render(
+      <RecoilRoot>
+        <DtgTable
+          tableProps={mockReactTableProps_rawData_emptyTable}
+          tableMeta={{ meta: { 'total-count': 20001 } }}
+          setManualPagination={setManualPaginationSpy}
+          setIsLoading={setIsLoadingSpy}
+          setTableColumnSortData={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    expect(await findByRole('table')).toBeInTheDocument();
+    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
+    //TODO: Add empty data message and api error message to data-table
+    //   expect(getByText('Change selections in order to preview data')).toBeInTheDocument();
+    expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
+  });
+
+  it('catches api errors', async () => {
+    const setIsLoadingSpy = jest.fn();
+    const { getByText } = render(
+      <RecoilRoot>
+        <DtgTable
+          tableProps={mockReactTableProps_rawData_apiError}
+          tableMeta={{ meta: { 'total-count': 20001 } }}
+          setManualPagination={setManualPaginationSpy}
+          setIsLoading={setIsLoadingSpy}
+          setTableColumnSortData={jest.fn()}
+        />
+      </RecoilRoot>
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+    await waitFor(() => expect(getByText('Table failed to load.')).toBeInTheDocument());
+    expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
   });
 });

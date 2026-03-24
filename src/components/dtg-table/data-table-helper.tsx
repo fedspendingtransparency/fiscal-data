@@ -1,10 +1,10 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
-import TextFilter from './data-table-header/text-filter/text-filter';
-import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import TextFilter from '../data-table/data-table-header/text-filter/text-filter';
+import DateRangeFilter from '../data-table/data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
+import { downloadLinkContainer, downloadLinkIcon } from '../data-table/data-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
@@ -381,4 +381,32 @@ export const constructDateHeader = (datasetName, dateRange) => {
   const lastDateOfMonth = `${dateFormatted}`;
   timestampData.push(`As of ${lastDateOfMonth}`);
   return timestampData;
+};
+
+export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns) => {
+  const constructedDefaultColumns = [];
+  const constructedAdditionalColumns = [];
+  for (const column of table.getAllLeafColumns()) {
+    if (defaultSelectedColumns.includes(column.id)) {
+      constructedDefaultColumns.push(column);
+    } else if (!defaultSelectedColumns.includes(column.id)) {
+      constructedAdditionalColumns.push(column);
+    }
+  }
+  constructedAdditionalColumns.sort((a, b) => {
+    return a.id.localeCompare(b.id);
+  });
+  return { defaults: constructedDefaultColumns, additional: constructedAdditionalColumns };
+};
+
+export const getInvisibleColumns = (defaultCols, columnConstructor) => {
+  const invisibleCols = {};
+  if (defaultCols?.length > 0) {
+    for (const column of columnConstructor) {
+      if (!defaultCols?.includes(column.accessorKey)) {
+        invisibleCols[column.accessorKey] = false;
+      }
+    }
+  }
+  return invisibleCols;
 };

@@ -9,7 +9,7 @@ import {
 } from '../../data-table/data-table.module.scss';
 import DataTableHeader from '../../data-table/data-table-header/data-table-header';
 import DataTableBody from '../../data-table/data-table-body/data-table-body';
-import { columnsConstructorGeneric } from '../../data-table/data-table-helper';
+import { columnsConstructorGeneric } from '../../dtg-table/data-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';

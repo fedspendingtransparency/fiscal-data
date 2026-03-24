@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { loadingTimeout, netLoadingDelay } from './dtg-table-helper';
+import { getDateFilters, getPaginationValues, loadingTimeout, netLoadingDelay } from './dtg-table-helper';
 import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
@@ -9,9 +9,8 @@ import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFiltere
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
-import { constructDefaultColumnsFromTableData, getDateFilters, getPaginationValues } from './helper';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { columnsConstructorData, getSortedColumnsData } from '../data-table/data-table-helper';
+import { columnsConstructorData, constructDefaultColumnsFromTableData, getInvisibleColumns, getSortedColumnsData } from './data-table-helper';
 import DataTableBody from '../data-table/data-table-body/data-table-body';
 import {
   rawDataTableContainer,
@@ -115,16 +114,19 @@ export default function DtgTable({
     setCurrentPage(1);
   };
 
-  const getInvisibleColumns = (defaultCols, columnConstructor) => {
-    const invisibleCols = {};
-    if (defaultCols?.length > 0) {
-      for (const column of columnConstructor) {
-        if (!defaultCols?.includes(column.accessorKey)) {
-          invisibleCols[column.accessorKey] = false;
-        }
-      }
-    }
-    return invisibleCols;
+  const handleJump = page => {
+    const pageNum = Math.max(1, page);
+    setCurrentPage(Math.min(pageNum, maxPage));
+  };
+
+  const pagingProps = {
+    itemsPerPage,
+    handlePerPageChange,
+    handleJump,
+    maxPage,
+    tableName,
+    currentPage,
+    maxRows,
   };
 
   const getPagedData = resetPage => {
@@ -207,11 +209,6 @@ export default function DtgTable({
     }
   };
 
-  const handleJump = page => {
-    const pageNum = Math.max(1, page);
-    setCurrentPage(Math.min(pageNum, maxPage));
-  };
-
   const updateTable = resetPage => {
     setApiError(false);
     const ssp = tableProps.serverSidePagination;
@@ -245,15 +242,6 @@ export default function DtgTable({
     rowText[0] = '';
     rowText[1] = 'row';
   }
-  const pagingProps = {
-    itemsPerPage,
-    handlePerPageChange,
-    handleJump,
-    maxPage,
-    tableName,
-    currentPage,
-    maxRows,
-  };
 
   const noPivotApplied = () => !pivotSelected?.pivotValue && !rawData?.pivotApplied;
   const shouldUsePaginatedResponse = () => tableMeta && tableMeta?.meta?.['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE;
@@ -355,14 +343,14 @@ export default function DtgTable({
       {/* Loading Indicator */}
       {!isLoading && !reactTableData && !selectedTable?.apiFilter && <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />}
       {/* Data Dictionary and Dataset Detail tables */}
-      {reactTableData?.data && (
-        <div data-testid="table-content">
-          {/* API Error Message */}
-          {(apiError || tableProps.apiError) && !emptyDataMessage && (
-            <>
-              <DtgTableApiError />
-            </>
-          )}
+      <div data-testid="table-content">
+        {/* API Error Message */}
+        {(apiError || tableProps.apiError) && !emptyDataMessage && (
+          <>
+            <DtgTableApiError />
+          </>
+        )}
+        {reactTableData?.data && (
           <ErrorBoundary FallbackComponent={() => <></>}>
             <>
               <div data-testid="table-content" className={overlayContainerNoFooter}>
@@ -415,8 +403,8 @@ export default function DtgTable({
               />
             </>
           </ErrorBoundary>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

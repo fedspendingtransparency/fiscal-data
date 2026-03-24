@@ -7,7 +7,7 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';

@@ -6,7 +6,7 @@ import { render, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
 import { DataTableContext } from '../data-preview-context';
 import { contextProps } from '../../data-table/data-table-test-helper';
-import { columnsConstructorData } from '../../data-table/data-table-helper';
+import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 
 describe('DataPreviewTable component', () => {
   jest.useFakeTimers();

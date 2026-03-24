@@ -1,4 +1,4 @@
-import { rightAlign } from '../data-table-helper';
+import { rightAlign } from '../../dtg-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import React, { FunctionComponent, ReactNode } from 'react';
 import { cellBorder, cellPadding, cellText, detailButton, fillCellGrey, fillCellWhite, hidden, rightAlignText } from './data-table-body.module.scss';
