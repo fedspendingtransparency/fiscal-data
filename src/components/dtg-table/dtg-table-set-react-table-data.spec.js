@@ -57,7 +57,7 @@ describe('React Table Data ', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const mockSorting = jest.fn();
 
-    const { findByRole, getByRole, getByText, rerender } = render(
+    const { findByRole, getByRole, getByText } = render(
       <RecoilRoot>
         <DtgTable
           tableProps={{ ...tableProps, ...mockPaginatedTableProps }}

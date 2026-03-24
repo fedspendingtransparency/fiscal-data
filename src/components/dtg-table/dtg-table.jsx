@@ -147,7 +147,7 @@ export default function DtgTable({
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
       let sortData;
-      sortData = tableMeta?.meta && table && sorting.length > 0 ? getSortedColumnsData(table, hideColumns, tableMeta.meta.dataTypes) : [];
+      sortData = tableMeta?.meta && table && sorting?.length > 0 ? getSortedColumnsData(table, hideColumns, tableMeta.meta.dataTypes) : [];
       setTableColumnSortData(sortData);
       pagedDatatableRequest(
         selectedTable,

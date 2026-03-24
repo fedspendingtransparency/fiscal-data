@@ -124,7 +124,7 @@ describe('DTG table component', () => {
       <RecoilRoot>
         <DtgTable
           tableProps={{ ...mockPaginatedTableProps, config: {} }}
-          tableMeta={{ meta: { 'total-count': 20001 } }}
+          tableMeta={{ meta: { 'total-count': 20001 }, table: 'test table' }}
           setManualPagination={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
