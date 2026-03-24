@@ -2,37 +2,16 @@ import { chart, chartContainer, headerContainer, footerContainer, chartSubTitle,
 import React from 'react';
 import { format } from 'date-fns';
 
-const ChartContainer = ({
-  title,
-  subTitle = null,
-  altText,
-  header,
-  footer,
-  date,
-  children,
-  customContainerStyles = {},
-  customHeaderStyles = {},
-  customSpacing = {},
-  customFooterStyles = {},
-  customTitleStyles = {},
-  customSubTitleStyles = {},
-  customTestId = null,
-}) => {
+const ChartContainer = ({ title, subTitle = null, altText, header, footer, date, children, customTestId = null }) => {
   return (
-    <div className={chartContainer} role="figure" aria-label={altText} style={{ ...customSpacing }}>
-      <div className={`${chartTitle} chartContainerTitle`} style={{ ...customTitleStyles }}>
-        {title}
-      </div>
-      <div className={`${chartSubTitle} chartContainerSubTitle`} style={{ ...customSubTitleStyles }}>
-        {subTitle}
-      </div>
-      <div className={`${headerContainer} chartContainerHeader`} style={{ ...customHeaderStyles }}>
-        {header}
-      </div>
-      <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`} style={{ ...customContainerStyles }}>
+    <div className={chartContainer} role="figure" aria-label={altText}>
+      <div className={`${chartTitle} chartContainerTitle`}>{title}</div>
+      <div className={`${chartSubTitle} chartContainerSubTitle`}>{subTitle}</div>
+      <div className={`${headerContainer} chartContainerHeader`}>{header}</div>
+      <div data-testid={customTestId ? customTestId : 'chart'} className={`${chart} chartContainerChart`}>
         {children}
       </div>
-      <div className={`${footerContainer} chartContainerFooter`} style={{ ...customFooterStyles }}>
+      <div className={`${footerContainer} chartContainerFooter`}>
         {footer}
         Last Updated: {date ? format(date, 'MMMM d, yyyy') : '--'}
       </div>
