@@ -428,9 +428,32 @@ export const longerPaginatedDataResponse = {
   meta: {
     'total-count': 12,
     'total-pages': 1,
-    dataTypes: [],
+    dataTypes: { record_date: 'DATE', account_type: 'STRING', close_today_bal: 'CURRENCY', open_fiscal_year_bal: 'CURRENCY' },
   },
 };
+
+export const mockColumnConfig = [
+  {
+    property: 'record_date',
+    name: 'Record Date',
+    type: 'DATE',
+  },
+  {
+    property: 'account_type',
+    name: 'Account Type',
+    type: 'STRING',
+  },
+  {
+    property: 'close_today_bal',
+    name: 'Closing Balance',
+    type: 'CURRENCY',
+  },
+  {
+    property: 'open_fiscal_year_bal',
+    name: 'Opening Balance',
+    type: 'CURRENCY',
+  },
+];
 
 const dateRange = {
   from: new Date(2021, 0, 21),
@@ -440,6 +463,7 @@ const dateRange = {
 export const mockPaginatedTableProps = {
   data: null,
   selectedTable: {
+    tableName: 'test table',
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_4',
     rowCount: 21000,

@@ -454,6 +454,35 @@ describe('DTG Table Nested Table Detail View', () => {
       expect(getAllByRole('row')).toHaveLength(1);
     });
 
+    it('renders a calendar filter for date columns', () => {
+      const mockSorting = jest.fn();
+      const { getAllByRole, getByRole } = render(
+        <RecoilRoot>
+          <DtgTable
+            tableProps={{
+              ...tableProps,
+              rawData: mockTableData,
+              tableName: 'tableName',
+              config: {},
+            }}
+            setTableColumnSortData={jest.fn()}
+            selectColumnPanel={true}
+            setManualPagination={jest.fn()}
+            allActiveFilters={[]}
+            setAllActiveFilters={mockSorting}
+          />
+        </RecoilRoot>
+      );
+
+      // Rows render
+      expect(getAllByRole('row')).toHaveLength(7);
+      const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+      // Rows render
+      expect(getAllByRole('row')).toHaveLength(7);
+      const columnFilter = within(header).getByRole('button', { name: 'Open record_date Filter' });
+      expect(columnFilter).toBeInTheDocument();
+    });
+
     it('initially renders all columns showing when no defaults specified', () => {
       const { getAllByRole } = render(
         <RecoilRoot>

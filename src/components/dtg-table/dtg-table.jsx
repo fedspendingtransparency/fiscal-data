@@ -147,14 +147,7 @@ export default function DtgTable({
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
       let sortData;
-      if (reactTableData?.meta && table && table?.getAllLeafColumns()?.length > 0) {
-        sortData =
-          table && reactTableData?.data?.length > 0 && sorting.length > 0
-            ? getSortedColumnsData(table, hideColumns, reactTableData.meta.dataTypes)
-            : [];
-      } else {
-        sortData = [];
-      }
+      sortData = tableMeta?.meta && table && sorting.length > 0 ? getSortedColumnsData(table, hideColumns, tableMeta.meta.dataTypes) : [];
       setTableColumnSortData(sortData);
       pagedDatatableRequest(
         selectedTable,
