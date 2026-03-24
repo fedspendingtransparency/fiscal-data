@@ -4,10 +4,10 @@
   overflow: hidden;
 
   & :global(.chartContainerChart) {
-    min-height: 20.59rem;
+    min-height: 20.84rem;
 
     @media screen and (min-width: $breakpoint-lg - 1) {
-      min-height: 26.71rem;
+      min-height: 26.96rem;
     }
   }
 
