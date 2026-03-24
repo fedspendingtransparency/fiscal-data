@@ -20,7 +20,7 @@ const ChartContainer = ({
 }) => {
   return (
     <div className={chartContainer} role="figure" aria-label={altText} style={{ ...customSpacing }}>
-      <div className={chartTitle} style={{ ...customTitleStyles }}>
+      <div className={`${chartTitle} chartContainerTitle`} style={{ ...customTitleStyles }}>
         {title}
       </div>
       <div className={`${chartSubTitle} chartContainerSubTitle`} style={{ ...customSubTitleStyles }}>
