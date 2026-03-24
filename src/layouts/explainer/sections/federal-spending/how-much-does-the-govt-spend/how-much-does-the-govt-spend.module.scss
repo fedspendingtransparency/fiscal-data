@@ -1,8 +1,16 @@
 @use 'src/variables.module' as *;
 
+.container {
+  & :global(.chartContainerChart) {
+    flex-direction: column;
+    margin-left: 0;
+    max-width: 100%;
+    min-height: 45.8rem;
+  }
+}
+
 .footerStyle {
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: 1rem;
 }
 
 .headerContainer {
@@ -32,7 +40,7 @@
 .chartsContainer {
   display: flex;
   margin-bottom: 16px;
-  margin-left: 7%;
+  margin-left: 1.5rem;
   align-items: center;
 }
 .barContainer {

@@ -340,20 +340,12 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       {chartToggleConfig && (
         <figure className={visWithCallout}>
           <div className={container} style={{}}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              altText={chartAltText}
-              customContainerStyles={{
-                minHeight: 'var(--chart-height)',
-              }}
-            >
+            <ChartContainer title={chartTitle} subTitle={chartSubtitle} footer={chartFooter} date={lastUpdatedDate} altText={chartAltText}>
               {isLoading ? (
                 <LoadingIndicator loadingClass={loadingIcon} />
               ) : (
                 <div>
+                  {/*TODO: refactor to move this into the chartContainer header prop*/}
                   {dataHeader(chartToggleConfig, totalSpendingHeadingValues, handleClick)}
                   <div
                     className={lineChart}

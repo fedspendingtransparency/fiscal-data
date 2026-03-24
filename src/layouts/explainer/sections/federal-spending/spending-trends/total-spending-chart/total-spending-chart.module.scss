@@ -1,44 +1,19 @@
 @use 'src/variables.module' as *;
 
-:global(.chartContainerHeader) {
-  font-size: $font-size-14 !important;
-  align-items: center;
-}
-
 .container {
   overflow: hidden;
-  --chart-height: 25.06rem;
 
-  @media screen and (min-width: $breakpoint-lg - 1) {
-    --chart-height: 35.19rem;
+  & :global(.chartContainerChart) {
+    min-height: 24.44rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 34.56rem;
+    }
   }
 
   .lineChart {
     width: 100%;
-    margin-top: 0.625rem;
   }
-
-  .chartToggle {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 16px;
-    justify-content: center;
-  }
-
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #00766c;
-  }
-}
-
-.dataHeaderContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -51,7 +26,6 @@
 
 .loadingIcon {
   @include grayLargeLoadingIcon;
-  // TODO: Create a loading indicator mixin for all explainer charts
   display: flex;
   align-items: center;
   justify-content: center;
