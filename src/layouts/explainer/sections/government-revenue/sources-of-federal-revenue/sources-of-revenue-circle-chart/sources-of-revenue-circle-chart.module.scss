@@ -1,14 +1,17 @@
 @use 'src/variables.module' as *;
 
 .container {
-  --chart-height: 22.12rem;
-}
+  :global(.chartContainerHeader) {
+    margin-top: 1rem;
+  }
 
-.loadingIcon {
-  @include grayLargeLoadingIcon;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  & :global(.chartContainerChart) {
+    min-height: 22.13rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 32.13rem;
+    }
+  }
 }
 
 .dataHeaderContainer {
@@ -43,6 +46,13 @@
       margin: 0 1.25rem;
     }
   }
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footerContainer {
@@ -134,6 +144,5 @@
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     display: flex;
-    --chart-height: 31.25rem;
   }
 }
