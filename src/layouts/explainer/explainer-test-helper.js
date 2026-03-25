@@ -813,61 +813,42 @@ const mockSavingsBondsSoldByTypeFYData = {
   meta: { 'total-pages': 100 },
 };
 const mockPreviousYearDate = { data: [{ record_fiscal_year: 2024, record_date: '2023-02-28' }] };
+const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service';
 export const mockSavingsBondFetchResponses = () => {
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
-    mockSavingsBondDataNoFilter,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2024`,
-    mockSavingsBondCurrentFY,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:`,
-    mockSavingsBondLastFiscalYearCurrentMonth,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=`,
-    mockSavingsBondsSoldByTypeFYData,
-    { overwriteRoutes: true },
-    { repeat: 0 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
-    IBondMockData,
-    { overwriteRoutes: true },
-    { repeat: 2 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_date:lte:2023-02-28`,
-    mockSavingsBondLastFiscalYearCurrentMonth,
-    { overwriteRoutes: true },
-    { repeat: 0 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:02&sort=-record_date&page[size]=1`,
-    mockPreviousYearDate,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/savings_bonds_mud?sort=-record_date&page[size]=1`,
-    mockPreviousYearDate,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2023-02-28`,
-    savingsBondsMudData,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+  fetchMock
+    .mockGlobal()
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
+      mockSavingsBondDataNoFilter
+    )
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2024`,
+      mockSavingsBondCurrentFY
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:`,
+      mockSavingsBondLastFiscalYearCurrentMonth
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=`,
+      mockSavingsBondsSoldByTypeFYData
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
+      IBondMockData
+    )
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_date:lte:2023-02-28`,
+      mockSavingsBondLastFiscalYearCurrentMonth
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:02&sort=-record_date&page[size]=1`,
+      mockPreviousYearDate
+    )
+    .route(`begin:${base}/v1/accounting/od/savings_bonds_mud?sort=-record_date&page[size]=1`, mockPreviousYearDate)
+    .route(`begin:${base}/v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2023-02-28`, savingsBondsMudData)
+    .route(`begin:${base}/v1/debt/mspd/mspd_table_1`, {})
+    .route(`${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=1`, {});
 };
 
 export const mockSlgsDebtToPennyDate = {
@@ -971,58 +952,55 @@ export const mockSlgsTotalAmount2 = {
 };
 
 export const mockSLGSFetchResponses = () => {
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
-    mockSlgsDebtToPennyDate,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
 
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
-    mockSlgsDebtToPennyAmount,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
-    mockSlgsTotalAmount,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount
+    );
 };
 
 export const mockSLGSFetchResponses2 = () => {
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
-    mockSlgsDebtToPennyAmount,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
-    mockSlgsTotalAmount2,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount2
+    );
 };
 
 export const mockSLGSFetchResponses3 = () => {
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
-    mockSlgsDebtToPennyAmount2,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
-    mockSlgsTotalAmount,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount2
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount
+    );
 };
 
 const savingsBondsMudData = {

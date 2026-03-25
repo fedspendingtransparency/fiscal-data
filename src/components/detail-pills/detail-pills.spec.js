@@ -10,12 +10,15 @@ describe('Detail-Pills component', () => {
 
   beforeAll(() => {
     const mockEndpoint = 'https://www.transparency.treasury.gov/services/calendar/release';
-    fetchMock.get(mockEndpoint, [
+    fetchMock.mockGlobal().route(mockEndpoint, [
       { datasetId: '015-BFS-2014Q3-051', date: '2025-05-02', time: '21:00', released: 'false' },
       { datasetId: '015-BFS-2014Q3-051', date: '2025-05-01', time: '21:00', released: 'false' },
       { datasetId: '015-BFS-2014Q3-051', date: '2025-03-01', time: '21:00', released: 'true' },
       { datasetId: '015-BFS-2014Q3-052', date: '2025-05-01', time: '21:00', released: 'false' },
     ]);
+  });
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('displays pills containing all the proper icons and labels', () => {

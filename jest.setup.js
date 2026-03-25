@@ -1,3 +1,5 @@
+import { ReadableStream } from 'node:stream/web';
+
 import '@testing-library/jest-dom';
 // Polyfill "window.fetch" used in the React components.
 import 'whatwg-fetch';
@@ -47,5 +49,7 @@ global.IntersectionObserver = class IntersectionObserver {
     return null;
   }
 };
+
+global.ReadableStream = ReadableStream;
 
 jest.setTimeout(750000);

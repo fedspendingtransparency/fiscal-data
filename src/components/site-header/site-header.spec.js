@@ -1,7 +1,6 @@
 import React from 'react';
-import { fireEvent, waitFor, render, within, act } from '@testing-library/react';
-import { SiteHeader } from './site-header';
-import SiteHeaderComponent from './site-header';
+import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
+import SiteHeaderComponent, { SiteHeader } from './site-header';
 import * as rdd from 'react-device-detect';
 import SiteLayout from '../siteLayout/siteLayout';
 import Analytics from '../../utils/analytics/analytics';
@@ -34,7 +33,7 @@ describe('SiteHeader', () => {
   });
 
   beforeAll(() => {
-    fetchMock.get(`https://www.transparency.treasury.gov/services/api/fiscal_service/v1/reference/fiscal_data/announcements`, {
+    fetchMock.mockGlobal().route(`https://www.transparency.treasury.gov/services/api/fiscal_service/v1/reference/fiscal_data/announcements`, {
       data: [
         {
           announcement_description: "We're aware of an issue impacting multiple datasets and are working to address it.",
@@ -51,6 +50,10 @@ describe('SiteHeader', () => {
         },
       ],
     });
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('displays the the logo, and resizes on page scroll', async () => {

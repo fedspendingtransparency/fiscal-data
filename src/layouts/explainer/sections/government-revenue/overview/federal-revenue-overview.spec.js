@@ -43,24 +43,24 @@ describe('Spending Key Takeaways evergreen values', () => {
   // Tests were non functional when matcher had line break. Is matcher syntax off?
 
   beforeAll(() => {
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockDataRevenue,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockDataDeficit,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockDataSpending,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+        mockDataRevenue
+      )
+      .route(
+        `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+        mockDataDeficit
+      )
+      .route(
+        `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+        mockDataSpending
+      );
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders the data correctly in the overview section', async () => {

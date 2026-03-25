@@ -185,7 +185,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-unused-imports": "^4.4.1",
     "esm": "^3.2.25",
-    "fetch-mock": "^9.11.0",
+    "fetch-mock": "^12.6.0",
     "gatsby-plugin-dts-css-modules": "^3.0.0",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.32",
     "identity-obj-proxy": "^3.0.0",

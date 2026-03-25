@@ -16,18 +16,20 @@ import {
 
 describe('useGetStateAndLocalGovernmentSeriesData hook', () => {
   beforeEach(() => {
-    fetchMock.get(`begin:${releaseCalendarUrl}`, [{ datasetId: '015-BFS-2014Q3-yy', released: true, date: '2024-11-01' }]);
-    fetchMock.get(`end:${toDateRange}`, { data: [{ record_date: '2024-11-01' }] });
-    fetchMock.get(`end:${fromDateRange}`, { data: [{ record_date: '2022-08-01' }] });
-    fetchMock.get(`end:${chartDates}`, chartDatesRes);
-    fetchMock.get(`end:${chartDatesLargeRange}`, chartDatesLargeRangeRes);
-    fetchMock.get(`end:${chartData}`, chartDataRes);
+    fetchMock
+      .mockGlobal()
+      .route(`begin:${releaseCalendarUrl}`, [{ datasetId: '015-BFS-2014Q3-yy', released: true, date: '2024-11-01' }])
+      .route(`end:${toDateRange}`, { data: [{ record_date: '2024-11-01' }] })
+      .route(`end:${fromDateRange}`, { data: [{ record_date: '2022-08-01' }] })
+      .route(`end:${chartDates}`, chartDatesRes)
+      .route(`end:${chartDatesLargeRange}`, chartDatesLargeRangeRes)
+      .route(`end:${chartData}`, chartDataRes);
     act(() => {
       jest.useFakeTimers().setSystemTime(convertDate('2024-11-01'));
     });
   });
-  afterEach(() => {
-    fetchMock.restore();
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('sets chart values for a date range less than two years', async () => {
