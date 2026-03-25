@@ -2,6 +2,7 @@
 
 .loadingIndicatorContainer {
   min-height: 16.61rem;
+  display: flex;
 
   .loadingIcon {
     @include grayLargeLoadingIcon;
@@ -199,19 +200,11 @@
     padding: 14px;
 
     .headerContainer {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
 
     .title {
-      font-size: $font-size-12;
-    }
-
-    .subTitle {
-      font-size: $font-size-12;
-    }
-
-    .titleBreakdown {
-      font-size: $font-size-12;
+      font-size: $font-size-16;
     }
 
     .header {

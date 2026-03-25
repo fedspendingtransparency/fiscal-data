@@ -253,7 +253,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
       </div>
       <div>
         <div className={headerTitle} data-testid="deficitTotalHeader">
-          ${headerDeficit} T
+          ${headerDeficit} {chartData ? ' T' : ''}
         </div>
         <span className={subHeader}>Total Deficit</span>
       </div>

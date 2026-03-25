@@ -6,10 +6,10 @@
   }
 
   & :global(.chartContainerChart) {
-    min-height: 22.13rem;
+    min-height: 21.51rem;
 
     @media screen and (min-width: $breakpoint-lg - 1) {
-      min-height: 32.13rem;
+      min-height: 31.51rem;
     }
   }
 }
@@ -17,7 +17,6 @@
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
-  margin-top: 0.625rem;
 
   .header {
     font-size: $font-size-24;
@@ -95,10 +94,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 1.0625rem;
-  }
-
   .dataHeaderContainer {
     .header {
       font-size: $font-size-18;
