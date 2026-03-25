@@ -1,6 +1,5 @@
 import { API_BASE_URL, AUTHENTICATE_API } from 'gatsby-env-variables';
 import { format, subDays, subMonths, subYears } from 'date-fns';
-import queryString from 'query-string';
 import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
@@ -372,7 +371,6 @@ const convertAggregateValuesToDate = (row, aggregateOn) => {
     return row[aggregateOn[0].field];
   } else {
     aggregateOn.forEach(ag => {
-      // eslint-disable-next-line default-case
       switch (ag.type) {
         case 'MONTH':
           month = Number(row[ag.field]);
@@ -553,7 +551,7 @@ export const formulateUrl = (endpointPath, filters, fields, limit, sort, format)
   } else {
     params.format = 'json';
   }
-  const queryParams = params !== {} ? '?' + queryString.stringify(params) : '';
+  const queryParams = params !== {} ? '?' + new URLSearchParams(params).toString() : '';
   return apiPrefix + endpointPath + queryParams;
 };
 
@@ -567,7 +565,7 @@ export const serializeFilters = filters => {
     } else if (filter.operator === 'mostRecentDatePeriod') {
       const currentDate = new Date(Date.now());
       let startDate;
-      // eslint-disable-next-line default-case
+
       switch (filter.unit) {
         case 'DAY':
           startDate = subDays(currentDate, filter.amount);
