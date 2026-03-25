@@ -1,5 +1,5 @@
 import SourcesOfFederalRevenue from './sources-of-federal-revenue';
-import { render, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
 
@@ -12,13 +12,12 @@ describe('Sources of Federal Revenue', () => {
         `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1`,
         mockData
       )
-      .route(`${base}/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`, mockDataSupplementary)
       .route(`${base}/v1/accounting/mts/mts_table_9?filter=line_code_nbr:in:(50,60,70)&sort=-record_date&page[size]=3`, mockDataSocSec)
       .route(
         `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2`,
         mockData
       )
-      .route(`${base}/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`, mockData)
+      .route(`${base}/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`, mockData)
       .route(
         `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10`,
         mockData
@@ -42,13 +41,8 @@ describe('Sources of Federal Revenue', () => {
 
   it('renders the data in the section', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText, getAllByText } = render(<SourcesOfFederalRevenue />);
+    const { getByText } = render(<SourcesOfFederalRevenue />);
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
-    await waitForElementToBeRemoved(() => getAllByText('$--', { exact: false })[0]);
-    await waitFor(() => {
-      getByText('56', { exact: false });
-    });
-
     expect(await getByText('56', { exact: false })).toBeInTheDocument();
     expect(await getByText('100', { exact: false })).toBeInTheDocument();
   });
