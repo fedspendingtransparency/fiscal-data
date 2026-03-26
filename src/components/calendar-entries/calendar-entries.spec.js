@@ -90,8 +90,13 @@ const mockReleaseData = [
 
 describe('Calendar Entries List', () => {
   beforeAll(() => {
-    fetchMock.get(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData, { overwriteRoutes: true, repeat: 0 });
-    fetchMock.get('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData, { overwriteRoutes: true, repeat: 0 });
+    fetchMock
+      .mockGlobal()
+      .route(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData)
+      .route('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData);
+  });
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders a list of calendar entries, a sort-by button, and a pagination component', async () => {

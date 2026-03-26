@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import ExplainerTile from './homepage-tile';
 import { SavingsBondsBodyGenerator, SpendingBodyGenerator } from './homepage-tile-helper';
 import fetchMock from 'fetch-mock';
@@ -141,13 +141,11 @@ describe('Explainer Tile', () => {
 });
 
 describe('Spending Body Generator ', () => {
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
   it('renders the amount and year', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData);
     const { getByText } = render(<SpendingBodyGenerator />);
     await waitFor(() => getByText('$4.52 trillion', { exact: false }));
     expect(await getByText('in fiscal year 2022', { exact: false })).toBeInTheDocument();
@@ -155,13 +153,11 @@ describe('Spending Body Generator ', () => {
 });
 
 describe('Savings Bonds Generator', () => {
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
   it('renders and amount', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSavingsBondsData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSavingsBondsData);
     const { getByText } = render(<SavingsBondsBodyGenerator />);
     await waitFor(() => getByText('$7 billion', { exact: false }));
   });

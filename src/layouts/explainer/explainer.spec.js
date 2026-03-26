@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
@@ -7,11 +7,11 @@ import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../..
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
+import * as Gatsby from 'gatsby';
 import { useStaticQuery } from 'gatsby';
 import { RecoilRoot } from 'recoil';
-import * as Gatsby from 'gatsby';
 import Analytics from '../../utils/analytics/analytics';
-import { datasetSectionConfig, explainerHeroMap, explainerCitations } from './explainer-helpers/explainer-helpers';
+import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
 
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
@@ -113,26 +113,19 @@ describe('Spending explainer', () => {
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service
+    fetchMock
+      .mockGlobal()
+      .route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData)
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service
     /v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
+        mockData
+      )
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
     v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+        mockData
+      );
     determineBEAFetchResponse(jest, mockData);
   });
 
@@ -338,7 +331,7 @@ describe('Savings Bonds explainer', () => {
   const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
   const mockUseStaticQuery = {
     allSavingsBondsByTypeHistoricalCsv: {
-      savingsBondsByTypeHistoricalCsv: [{ year: 2023, bond_type: 'A', sales: 1 }],
+      savingsBondsByTypeHistoricalCsv: [{ year: '2023', bond_type: 'A', sales: 1 }],
     },
     allGlossaryCsv: {
       glossaryCsv: [

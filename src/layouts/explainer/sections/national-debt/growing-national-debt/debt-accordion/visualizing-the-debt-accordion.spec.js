@@ -10,8 +10,8 @@ jest.mock('../../../../../../hooks/useBeaGDP', () => {
 });
 
 describe('Visualing the debt accordion values', () => {
-  beforeEach(() => {
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
+  beforeAll(() => {
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
       data: [
         {
           tot_pub_debt_out_amt: '28908004857445.12',
@@ -19,6 +19,10 @@ describe('Visualing the debt accordion values', () => {
         },
       ],
     });
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('makes api call for debt data', async () => {
@@ -32,6 +36,5 @@ describe('Visualing the debt accordion values', () => {
     expect(fetchSpy).toBeCalled();
     await waitForElementToBeRemoved(() => getByText(/--/i));
     expect(await getByText('Visualizing the debt - How much is $29 trillion dollars?', { exact: false })).toBeInTheDocument();
-    global.fetch.mockRestore();
   });
 });

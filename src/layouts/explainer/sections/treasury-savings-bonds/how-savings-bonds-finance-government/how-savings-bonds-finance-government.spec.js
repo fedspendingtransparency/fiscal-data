@@ -67,22 +67,28 @@ describe('How Savings Bonds Finance The Government Section', () => {
 
   beforeAll(() => {
     useStaticQuery.mockReturnValue(mockUseStaticQueryData);
-    fetchMock.get(
-      'begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond',
-      mockSavingsBondTypesData
-    );
-    fetchMock.get(
-      'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=1',
-      mockMSPDData
-    );
-    fetchMock.get(
-      'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?sort=-record_date&page[size]=1',
-      mockMSPDData2
-    );
-    fetchMock.get(
-      'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=30',
-      mockMSPDData2
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        'begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond',
+        mockSavingsBondTypesData
+      )
+      .route(
+        'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=1',
+        mockMSPDData
+      )
+      .route(
+        'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?sort=-record_date&page[size]=1',
+        mockMSPDData2
+      )
+      .route(
+        'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=30',
+        mockMSPDData2
+      );
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders the section', () => {

@@ -10,7 +10,7 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 
 describe('National Debt Over the Last 100 Years Chart', () => {
   beforeAll(() => {
-    fetchMock.get(`v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101`, mockTotalDebt100YData, { overwriteRoutes: true, repeat: 0 });
+    fetchMock.mockGlobal().get(`v2/accounting/od/debt_outstanding?sort=-record_date&page[size]=101`, mockTotalDebt100YData);
     determineBEAFetchResponse(jest, mockTotalDebt100YData);
   });
 

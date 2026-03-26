@@ -41,14 +41,21 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const responseMockData = require('../../../components/__tests__/profilerResponse.json');
 
-fetchMock.get(`begin:http://localhost:3000/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
-fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
-
 jest.mock('../../../utils/analytics/analytics', () => ({
   event: jest.fn(),
 }));
 
 describe('HomeHighlightCard', () => {
+  beforeAll(() => {
+    fetchMock
+      .mockGlobal()
+      .route(`begin:http://localhost:3000/api/fiscal_service/`, responseMockData['noDataPrelimResponse'])
+      .route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
   it('entire card, when clicked, links to relevant dataset detail page', async () => {
     let navTarget = '';
     const { getByTestId } = render(<HomeHighlightCard dataset={mockData} />);
