@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import globalConstants from '../../../helpers/constants';
+import globalConstants from '../../helpers/constants';
 
 import About from './about-section';
 

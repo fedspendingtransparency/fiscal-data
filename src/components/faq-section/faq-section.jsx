@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import SectionContent from '../../../components/api-documentation/section-content/section-content';
-import '../../../styles.scss';
-import { list, noBullets, title, section, customTop } from '../about-us.module.scss';
-import GLOBALS from '../../../helpers/constants';
-import CustomLink from '../../../components/links/custom-link/custom-link';
+import SectionContent from '../api-documentation/section-content/section-content';
+import '../../styles.scss';
+import { list, noBullets, title, section, customTop } from '../../pages/about-us/about-us.module.scss';
+import GLOBALS from '../../helpers/constants';
+import CustomLink from '../links/custom-link/custom-link';
 
 const FAQ = ({ triggerHighlight = 0 }) => {
   const commonSectionHeadingLevel = 3;
