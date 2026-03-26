@@ -2,7 +2,18 @@
 
 .container {
   overflow: hidden;
-  --chart-height: 29.16rem;
+
+  & :global(.chartContainerChart) {
+    min-height: 26.86rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 37.13rem;
+    }
+  }
+
+  & :global(.chartContainerSubTitle) {
+    margin-bottom: 1rem;
+  }
 }
 
 .loadingIcon {
@@ -13,8 +24,7 @@
 }
 
 .lineChart {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -45,7 +55,6 @@
 }
 
 // TOOLTIP STYLES
-
 .tooltipContainer {
   background-color: white;
   padding-top: 0.5rem;
@@ -168,7 +177,6 @@
 }
 
 // Legend rectangles
-
 .estateRect {
   display: inline-block;
   width: 1.5rem;

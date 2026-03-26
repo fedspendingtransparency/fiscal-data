@@ -110,16 +110,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent<ISavingsBondsSoldByTypeChar
   return (
     <>
       <div className={container}>
-        <ChartContainer
-          title={chartTitle}
-          altText={chartCopy.altText}
-          date={chartDate}
-          footer={chartCopy.footer}
-          header={header}
-          customContainerStyles={{
-            minHeight: 'var(--chart-height)',
-          }}
-        >
+        <ChartContainer title={chartTitle} altText={chartCopy.altText} date={chartDate} footer={chartCopy.footer} header={header}>
           {selectedChartView === 'amounts' &&
             (!chartData || !sortedBonds ? (
               <LoadingIndicator loadingClass={loadingIcon} />

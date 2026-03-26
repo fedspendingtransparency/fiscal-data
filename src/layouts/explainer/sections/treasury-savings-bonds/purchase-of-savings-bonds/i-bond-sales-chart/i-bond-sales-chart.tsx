@@ -36,7 +36,7 @@ let gaTimer;
 const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange, curFy }) => {
   const [curInflation, setCurInflation] = useState('');
   const [curSales, setCurSales] = useState('');
-  const [curYear, setCurYear] = useState('-');
+  const [curYear, setCurYear] = useState('');
   const [chartData, setChartData] = useState(null);
   const [xAxisValues, setXAxisValues] = useState(null);
   const [latestData, setLatestData] = useState<{
@@ -58,8 +58,8 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const header = (
     <div className={headerContainer}>
       <ChartDataHeader
-        fiscalYear={curYear}
-        right={{ label: 'I Bonds Sales', value: `${curSales ? yAxisFormatter(curSales) : '--'}` }}
+        fiscalYear={`${curYear || '--'}`}
+        right={{ label: 'I Bonds Sales', value: `${curSales ? yAxisFormatter(curSales) : '$--'}` }}
         left={{ label: 'Inflation', value: `${curInflation || '--'}%` }}
         dateField="Date"
       />
@@ -259,9 +259,6 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
         date={latestData?.recordDate && getDateWithoutOffset(latestData?.recordDate)}
         footer={chartCopy.footer}
         header={header}
-        customContainerStyles={{
-          minHeight: 'var(--chart-height)',
-        }}
       >
         {!chartData ? (
           <LoadingIndicator loadingClass={loadingIcon} />

@@ -162,12 +162,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     clearTimeout(ga4Timer);
   };
 
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
   const { ref, inView } = useInView(chartInViewProps);
 
   return (
@@ -181,11 +175,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             date={lastUpdatedDate}
             header={dataHeader(totalDebtHeadingValues)}
             altText={chartAltText}
-            customHeaderStyles={customHeaderStyles}
-            customFooterSpacing={customFooterSpacing}
-            customContainerStyles={{
-              minHeight: 'var(--chart-height)',
-            }}
           >
             {isLoading ? (
               <LoadingIndicator loadingClass={loadingIcon} />
