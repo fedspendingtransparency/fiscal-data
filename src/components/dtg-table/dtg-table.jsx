@@ -78,7 +78,6 @@ export default function DtgTable({
   const [maxRows, setMaxRows] = useState(rawData?.data?.length > 0 ? rawData?.data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
-  const [showPaginationControls, setShowPaginationControls] = useState();
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
   const { detailView } = config;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
@@ -102,7 +101,9 @@ export default function DtgTable({
 
   const rowText = ['rows', 'rows'];
 
-  const isPaginationControlNeeded = () => currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+  const showPaginationControls = useMemo(() => {
+    return currentPage >= 1 || (!apiError && !tableProps.apiError && maxRows > defaultPerPageOptions[0]);
+  }, [maxRows]);
 
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -226,10 +227,6 @@ export default function DtgTable({
       }
     }
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
-
-  useEffect(() => {
-    setShowPaginationControls(isPaginationControlNeeded());
-  }, [maxRows]);
 
   if (maxRows === 1) {
     rowText[0] = '';

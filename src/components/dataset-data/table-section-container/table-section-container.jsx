@@ -47,7 +47,6 @@ const TableSectionContainer = ({
   apiError,
   userFilterSelection,
   setUserFilterSelection,
-  setTableColumnSortData,
   selectedPivot,
   setSelectedPivot,
   serverSidePagination,
@@ -59,6 +58,7 @@ const TableSectionContainer = ({
   ignorePivots,
   allTablesSelected,
   handleConfigUpdate,
+  setTableColumnSortData,
   publishedReports,
   resetFilters,
   setResetFilters,
@@ -237,7 +237,6 @@ const TableSectionContainer = ({
     setShowPivotBar(!showPivotBar);
   };
 
-  //TODO: add to a helper
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation

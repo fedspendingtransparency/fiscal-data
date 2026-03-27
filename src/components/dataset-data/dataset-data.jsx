@@ -22,10 +22,8 @@ import DatatableBanner from '../filter-download-container/datatable-banner/datat
 import BannerCallout from '../banner-callout/banner-callout';
 import { buildDateFilter, fetchTableMeta, formatDateForApi } from '../../utils/api-utils';
 
-export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
-  // config.apis should always be available; but, fallback in case
-
-  const apis = config ? config.apis : [null];
+export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
+  const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
@@ -167,6 +165,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   }, [detailViewState]);
 
   const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+
   const tableSectionInitialized = () =>
     !finalDatesNotFound &&
     selectedTable &&
