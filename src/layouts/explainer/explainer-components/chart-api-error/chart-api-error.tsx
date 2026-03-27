@@ -5,7 +5,6 @@ import { apiErrorStyle, apiErrorWrapper } from '../chart-api-error/chart-api-err
 export default function ChartApiError() {
   return (
     <div className={apiErrorWrapper}>
-      {/*<div data-testid="error-overlay" className={overlay} />*/}
       <div data-testid="api-error" className={apiErrorStyle}>
         <p>
           <strong>Chart failed to load.</strong>

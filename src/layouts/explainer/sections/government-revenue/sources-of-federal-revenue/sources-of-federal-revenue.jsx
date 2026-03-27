@@ -9,6 +9,8 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import Accordion from '../../../../../components/accordion/accordion';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
@@ -78,7 +80,9 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
         natural resources, and various usage and licensing fees.
       </p>
       <figure className={visWithCallout}>
-        <SourcesOfRevenueCircleChart />
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <SourcesOfRevenueCircleChart />
+        </ErrorBoundary>
       </figure>
       <div className={revenueAccordion}>
         <Accordion

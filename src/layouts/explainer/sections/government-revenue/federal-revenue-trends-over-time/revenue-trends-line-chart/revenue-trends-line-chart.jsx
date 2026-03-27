@@ -173,7 +173,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
       })
       .catch(err => {
         showBoundary(err);
-        console.log('there was an error bruh');
       })
       .finally(() => {
         setIsLoading(false);

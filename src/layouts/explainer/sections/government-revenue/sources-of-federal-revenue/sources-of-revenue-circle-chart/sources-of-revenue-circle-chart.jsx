@@ -16,6 +16,7 @@ import { getShortForm } from '../../../../../../utils/rounding-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
 
 let gaTimerRevenueCircle;
 let ga4Timer;
@@ -31,42 +32,46 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [fiscalYear, setFiscalYear] = useState(0);
   const [recordDate, setRecordDate] = useState(null);
-
   const [categoryName, setCategoryName] = useState(defaultCategory.name);
   const [categoryRevenueAmount, setCategoryRevenueAmount] = useState(null);
   const [categoryRevenuePercent, setCategoryRevenuePercent] = useState(null);
-
   const [combinedIncomeAmount, setCombinedIncomeAmount] = useState(0);
   const [combinedIncomePercent, setCombinedIncomePercent] = useState(null);
-
   const [chartData, setChartData] = useState({ children: [] });
   const [categoryData, setCategoryData] = useState(null);
-
   const [chartAltText, setChartAltText] = useState('');
   const [elementToFocus, setElementToFocus] = useState(null);
-
   const [chartGAHover, setChartGAHover] = useState(false);
 
   const chartParent = 'chartParent';
+  const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
     addInnerChartAriaLabel(chartParent);
   }, [chartData]);
 
   useEffect(() => {
-    const url = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
-    basicFetch(`${apiPrefix}${url}`).then(res => {
-      if (res.data && res.data.length > 0) {
-        setFiscalYear(res.data[0].record_fiscal_year);
-        setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
-      }
-    });
+    const url = 'v1/accounting/mts/mts_table_9?filter=line_wcode_nbr:eq:120&sort=-record_date&page[size]=1';
+    basicFetch(`${apiPrefix}${url}`)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          setFiscalYear(res.data[0].record_fiscal_year);
+          setTotalRevenue(res.data[0]?.current_fytd_rcpt_outly_amt);
+        }
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
     const categoryUrl = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10';
-    basicFetch(`${apiPrefix}${categoryUrl}`).then(res => {
-      if (res.data && res.data.length > 0) {
-        setCategoryData(res.data);
-      }
-    });
+    basicFetch(`${apiPrefix}${categoryUrl}`)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          setCategoryData(res.data);
+        }
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   useEffect(() => {
