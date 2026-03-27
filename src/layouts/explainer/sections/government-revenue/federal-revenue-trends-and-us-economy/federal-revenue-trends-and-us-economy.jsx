@@ -7,6 +7,9 @@ import { revenueExplainerLightSecondary, revenueExplainerPrimary } from '../reve
 import { quoteBoxContent } from '../../../explainer.module.scss';
 import { section, totalRevContainer } from './federal-revenue-trends-and-us-economy.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+
 const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
   const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts4');
   const [fiscalYear, setFiscalYear] = useState('');
@@ -30,7 +33,11 @@ const FederalRevenueTrendsAndUSEconomy = ({ cpiDataByYear }) => {
         businesses, as people and businesses earn more the federal revenue from taxes increases.
       </p>
       <div className={totalRevContainer}>
-        {!beaGDPData.isGDPLoading && <TotalRevenueChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />}
+        {!beaGDPData.isGDPLoading && (
+          <ErrorBoundary fallback={<ChartApiError />}>
+            <TotalRevenueChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />
+          </ErrorBoundary>
+        )}
       </div>
       <QuoteBox icon={faMapLocationDot} primaryColor={revenueExplainerPrimary} secondaryColor={revenueExplainerLightSecondary}>
         <p className={quoteBoxContent}>

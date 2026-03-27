@@ -5,7 +5,7 @@ import { apiErrorStyle, overlay } from '../dtg-table.module.scss';
 export default function DtgTableApiError() {
   return (
     <>
-      <div data-test-id="error-overlay" className={overlay} />
+      <div data-testid="error-overlay" className={overlay} />
       <div data-testid="api-error" className={apiErrorStyle}>
         <p>
           <strong>Table failed to load.</strong>
