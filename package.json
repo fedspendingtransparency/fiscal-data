@@ -6,7 +6,7 @@
     "build": "cross-env BUILD_ENV=prod gatsby build",
     "cypress-open": "cypress open",
     "develop-prod": "cross-env BUILD_ENV=prod gatsby develop",
-    "develop-dev": "cross-env BUILD_ENV=dev gatsby develop",
+    "develop-dev": "NODE_TLS_REJECT_UNAUTHORIZED='0' cross-env BUILD_ENV=dev Gatsby develop",
     "develop-qat": "cross-env BUILD_ENV=qat gatsby develop",
     "develop-stg": "cross-env BUILD_ENV=stg gatsby develop",
     "develop-uat": "cross-env BUILD_ENV=uat gatsby develop",
