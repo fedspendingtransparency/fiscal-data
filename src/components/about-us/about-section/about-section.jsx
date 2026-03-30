@@ -1,9 +1,9 @@
 import React from 'react';
-import globalConstants from '../../helpers/constants';
-import SectionContent from '../api-documentation/section-content/section-content';
-import '../../styles.scss';
-import { section, list } from '../../pages/about-us/about-us.module.scss';
-import CustomLink from '../links/custom-link/custom-link';
+import globalConstants from '../../../helpers/constants';
+import SectionContent from '../../api-documentation/section-content/section-content';
+import '../../../styles.scss';
+import { section, list } from '../../../pages/about-us/about-us.module.scss';
+import CustomLink from '../../links/custom-link/custom-link';
 
 const AboutUs = () => {
   return (

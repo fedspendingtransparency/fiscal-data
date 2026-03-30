@@ -1,8 +1,8 @@
 import React from 'react';
-import SectionContent from '../api-documentation/section-content/section-content';
+import SectionContent from '../../api-documentation/section-content/section-content';
 import { mainSection } from './contact-section.module.scss';
-import { section } from '../../pages/about-us/about-us.module.scss';
-import CustomLink from '../links/custom-link/custom-link';
+import { section } from '../../../pages/about-us/about-us.module.scss';
+import CustomLink from '../../links/custom-link/custom-link';
 
 const Contact = () => {
   return (

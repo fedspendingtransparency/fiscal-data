@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import About from '../../components/about-section/about-section';
-import FAQ from '../../components/faq-section/faq-section';
-import Contact from '../../components/contact-section/contact-section';
+import About from '../../components/about-us/about-section/about-section';
+import FAQ from '../../components/about-us/faq-section/faq-section';
+import Contact from '../../components/about-us/contact-section/contact-section';
 import TOCData from './toc-data.json';
 import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
