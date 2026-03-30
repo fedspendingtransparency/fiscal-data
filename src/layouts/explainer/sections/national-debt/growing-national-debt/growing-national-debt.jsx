@@ -24,9 +24,10 @@ export const GrowingNationalDebtSection = withWindowSize(({ sectionId, glossary,
   return (
     <div>
       <p>
-        The U.S. has carried debt since its inception. Debts incurred during the American Revolutionary War amounted to over $75 million by January 1,
-        1791. Over the next 45 years, the debt continued to grow until 1835 when it notably shrank due to the sale of federally-owned lands and cuts
-        to the federal budget. Shortly thereafter, an economic depression caused the debt to again grow into the millions. The debt grew over 4,000%
+        The U.S. has carried debt almost continuously since its inception.
+        Debts incurred during the Revolutionary War amounted to over $75 million by January 1, 1791.
+        Over the next 45 years, the debt continued to grow until 1835 when it was briefly eliminated due to the sale of federally-owned lands and cuts
+        to the federal budget. Shortly thereafter, additional wars caused the debt to increase again. The debt grew over 4,000%
         through the course of the American Civil War, increasing from $65 million in 1860 to $1 billion in 1863 and almost $3 billion shortly after
         the conclusion of the war in 1865. The debt grew steadily into the 20th century and was roughly $22 billion after the country financed its
         involvement in World War I.
