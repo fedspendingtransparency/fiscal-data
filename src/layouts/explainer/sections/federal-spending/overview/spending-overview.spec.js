@@ -41,21 +41,22 @@ describe('Federal Spending Overview', () => {
     ],
   };
 
-  beforeEach(() => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
-      mockFiscalYearData,
-      { overwriteRoutes: true }
-    );
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
-      mockSurplusData,
-      { overwriteRoutes: true }
-    );
+  beforeAll(() => {
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
+        mockFiscalYearData
+      )
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
+        mockSurplusData,
+        { name: 'surplus' }
+      );
   });
 
-  afterEach(() => {
-    fetchMock.restore();
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders the deficit link', () => {
@@ -90,11 +91,13 @@ describe('Federal Spending Overview', () => {
   });
 
   it('loads the evergreen data correctly for a deficit', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
-      mockDeficitData,
-      { overwriteRoutes: true }
-    );
+    fetchMock.removeRoute('surplus');
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
+        mockDeficitData
+      );
 
     const { getByText } = render(<SpendingOverview />);
 

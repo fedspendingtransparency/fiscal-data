@@ -90,8 +90,10 @@ const mockReleaseData = [
 describe('Release Calendar', () => {
   beforeAll(() => {
     jest.useFakeTimers();
-    fetchMock.get(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData, { overwriteRoutes: true, repeat: 0 });
-    fetchMock.get('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData, { overwriteRoutes: true, repeat: 0 });
+    fetchMock
+      .mockGlobal()
+      .route(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData)
+      .route('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData);
   });
 
   it('includes the SiteLayout component', async () => {

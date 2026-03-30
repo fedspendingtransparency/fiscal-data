@@ -13,12 +13,12 @@ describe('AFGSpendingChart Component', () => {
   window.ResizeObserver = ResizeObserver;
 
   beforeEach(() => {
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
-      mockSpendingChartData,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
+        mockSpendingChartData
+      );
   });
 
   afterEach(() => {

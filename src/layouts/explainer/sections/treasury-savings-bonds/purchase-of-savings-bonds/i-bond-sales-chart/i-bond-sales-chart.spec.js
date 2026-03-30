@@ -1,10 +1,11 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import IBondSalesChart from './i-bond-sales-chart';
-import { CustomTooltip, chartCopy } from './i-bond-sales-chart-helper';
+import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import fetchMock from 'fetch-mock';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -29,6 +30,8 @@ describe('I Bond Sales Chart', () => {
   window.ResizeObserver = ResizeObserver;
 
   beforeAll(() => mockSavingsBondFetchResponses());
+
+  afterAll(() => fetchMock.hardReset());
 
   afterEach(() => {
     jest.resetModules();

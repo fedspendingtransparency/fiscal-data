@@ -2,15 +2,21 @@
 @use '../../treasury-savings-bonds.module.scss' as *;
 @use '../../../../explainer.module' as *;
 
+.container {
+  & :global(.chartContainerChart) {
+    min-height: 31.44rem;
+  }
+}
+
 .dataHeader {
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
+
   .inflationToggleContainer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin: 1.75rem 0 1rem;
+    margin: 0rem 0 1.5rem;
 
     .inflationLabel {
       color: $treasury-savings-bonds-explainer-darker-secondary;
@@ -23,10 +29,6 @@
       margin-left: 0.25rem;
     }
   }
-}
-
-.container {
-  --chart-height: 31.44rem;
 }
 
 .loadingIcon {

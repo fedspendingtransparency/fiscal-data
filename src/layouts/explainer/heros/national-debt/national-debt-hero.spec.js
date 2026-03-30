@@ -17,7 +17,7 @@ jest.mock('../../../../components/split-flap-display/split-flap-display', () => 
 
 describe('National Debt Hero', () => {
   beforeAll(() => {
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
       data: [
         {
           tot_pub_debt_out_amt: '28908004857445.12',
@@ -25,6 +25,9 @@ describe('National Debt Hero', () => {
         },
       ],
     });
+  });
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('makes api call for debt data', async () => {

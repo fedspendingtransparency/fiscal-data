@@ -66,29 +66,19 @@ describe('Revenue Key Takeaways evergreen values', () => {
   const baseUrl = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
   beforeAll(() => {
     // Prior mocks
-    fetchMock.get(baseUrl + revenueConstants.PRIOR_FY, mockData);
-
-    // PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(baseUrl + revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT, mockPriorSngl_FROA);
-
-    // PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(baseUrl + revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT, mockPriorMulti_FROA);
-
-    // current mocks
-    // CURRENT_FY mock
-    fetchMock.get(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFY_FROA);
-
-    // CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(baseUrl + revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT, mockCurrentSngl_FROA);
-
-    // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
-    fetchMock.get(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti_FROA);
-
-    fetchMock.get('begin:https://apps.bea.gov/api/', beaResponse);
+    fetchMock
+      .mockGlobal()
+      .route(baseUrl + revenueConstants.PRIOR_FY, mockData)
+      .route(baseUrl + revenueConstants.PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT, mockPriorSngl_FROA) // PRIOR_SINGLE_FYTD_RCPT_OUTLY_AMT
+      .route(baseUrl + revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT, mockPriorMulti_FROA) // PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT
+      .route(baseUrl + revenueConstants.CURRENT_FY, mockCurrentFY_FROA) // CURRENT_FY mock
+      .route(baseUrl + revenueConstants.CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT, mockCurrentSngl_FROA) // CURRENT_SINGLE_FYTD_RCPT_OUTLY_AMT
+      .route(baseUrl + revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT, mockCurrentMulti_FROA) // CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT
+      .route('begin:https://apps.bea.gov/api/', beaResponse);
   });
 
   afterAll(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   it('renders the data correctly', async () => {
@@ -118,17 +108,17 @@ describe('Revenue Key Takeaways no GDP Q3 scenario', () => {
   };
 
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockNoQ3Data,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+        mockNoQ3Data
+      );
     determineBEANoQ3FetchResponse(jest, mockNoQ3Data);
   });
 
   afterAll(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   it('renders the data correctly in takeaway 3 with 3 total quarters when GDP Q3 is not in but mts 4 is', async () => {
@@ -156,17 +146,17 @@ describe('Revenue Key Takeaways containing GDP Q3 scenario', () => {
   };
 
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
-      mockQ3Data,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=-record_date&page%5bsize%5d=1`,
+        mockQ3Data
+      );
     determineBEANoQ3FetchResponse(jest, mockQ3Data);
   });
 
   afterAll(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   it('renders the data correctly in takeaway 3 with 4 total quarters when GDP Q3 is present', async () => {

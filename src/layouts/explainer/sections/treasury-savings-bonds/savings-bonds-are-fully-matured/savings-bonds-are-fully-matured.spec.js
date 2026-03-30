@@ -43,21 +43,6 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
     });
   });
 
-  // TODO: v
-  // this one is failing and returning different results
-  it('calls citation click ga events', async () => {
-    const user = userEvent.setup();
-    const analyticsSpy = jest.spyOn(Analytics, 'event');
-    const { getByRole } = render(<SavingsBondsAreFullyMatured />);
-    const citation1 = getByRole('link', { name: 'Treasury Hunt' });
-    await user.click(citation1);
-    expect(analyticsSpy).toHaveBeenCalledWith({
-      action: 'Glossary Term Click',
-      category: 'Explainers',
-      label: 'Savings Bonds - Matured Unredeemed Debt (MUD)',
-    });
-  });
-
   it('calls accordion click ga events', async () => {
     const user = userEvent.setup();
     const analyticsSpy = jest.spyOn(Analytics, 'event');

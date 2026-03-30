@@ -12,11 +12,13 @@ describe('Interest Expense Hero', () => {
   const wrapper = ({ children }) => <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 
   beforeEach(() => {
-    fetchMock.get(currentUrl, mockInterestExpenseHeroCurrentResponse);
-    fetchMock.get(olderUrl, mockInterestExpenseHeroOlderResponse);
+    fetchMock
+      .mockGlobal()
+      .route(currentUrl, mockInterestExpenseHeroCurrentResponse)
+      .route(olderUrl, mockInterestExpenseHeroOlderResponse);
   });
   afterEach(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   it('Hero Image section loads with relevant data', async () => {

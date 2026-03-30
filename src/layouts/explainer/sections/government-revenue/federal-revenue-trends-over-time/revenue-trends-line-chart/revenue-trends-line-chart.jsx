@@ -271,12 +271,6 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
           altText={`Area chart showing federal revenue totals by revenue category from ${firstChartYear || '--'} - ${lastChartYear || '--'}`}
           footer={footer}
           date={lastUpdatedDate}
-          customFooterSpacing={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
-          customTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_16, color: '#666666' } : {}}
-          customSubTitleStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_14 } : {}}
-          customContainerStyles={{
-            minHeight: 'var(--chart-height)',
-          }}
         >
           {!isLoading ? (
             <div

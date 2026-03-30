@@ -28,68 +28,74 @@ const apiMock = {
 jest.spyOn(ApiUtils, 'basicFetch');
 
 describe('Run Time Filter Report Section', () => {
-  fetchMock.get(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=1234202406`, {});
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=auction_date:eq:2024-06-30,account:eq:1234&fields=pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results`,
-    {
-      data: [
-        {
-          pdf_filenm_announcemt: 'A_20251023_2.pdf',
-          pdf_filenm_comp_results: 'R_20251027_1.pdf',
-          pdf_filenm_noncomp_results: 'null',
-          xml_filenm_announcemt: 'null',
-          xml_filenm_comp_results: 'R_20251027_1.xml',
-        },
-      ],
-    }
-  );
-  fetchMock.get(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=spec-ann`, [
-    {
-      report_date: '2025-10-27',
-      path: '/static-data/published-reports/auctions-query/spec-ann/A_20251027_1.pdf',
-      report_group_desc: 'Special Announcement (.pdf)',
-      report_group_id: '24',
-      report_group_sort_order_nbr: '5',
-    },
-  ]);
-  fetchMock.get(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/A_20251023_2.pdf`, [
-    {
-      report_date: '2025-10-27',
-      path: '/static-data/published-reports/auctions-query/results/A_20251027_1.pdf',
-      report_group_desc: 'Auction Announcement (.pdf)',
-      report_group_id: '24',
-      report_group_sort_order_nbr: '5',
-    },
-  ]);
-  fetchMock.get(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/R_20251027_1.pdf`, [
-    {
-      report_date: '2025-10-27',
-      path: '/static-data/published-reports/auctions-query/results/R_20251027_1.pdf',
-      report_group_desc: 'Auction Results (.pdf)',
-      report_group_id: '24',
-      report_group_sort_order_nbr: '5',
-    },
-  ]);
-  fetchMock.get(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/R_20251027_1.xml`, [
-    {
-      report_date: '2025-10-27',
-      path: '/static-data/published-reports/auctions-query/results/R_20251027_1.xml',
-      report_group_desc: 'Auction Results (.xml)',
-      report_group_id: '24',
-      report_group_sort_order_nbr: '5',
-    },
-  ]);
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=account:eq:1234&fields=auction_date&sort=-auction_date&page[size]=10000`,
-    [
+  fetchMock
+    .mockGlobal()
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=1234202406`, {})
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=auction_date:eq:2024-06-30,account:eq:1234&fields=pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results`,
       {
-        data: [{ auction_date: '2024-06-30' }, { auction_date: '2024-09-30' }],
+        data: [
+          {
+            pdf_filenm_announcemt: 'A_20251023_2.pdf',
+            pdf_filenm_comp_results: 'R_20251027_1.pdf',
+            pdf_filenm_noncomp_results: 'null',
+            xml_filenm_announcemt: 'null',
+            xml_filenm_comp_results: 'R_20251027_1.xml',
+          },
+        ],
+      }
+    )
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=spec-ann`, [
+      {
+        report_date: '2025-10-27',
+        path: '/static-data/published-reports/auctions-query/spec-ann/A_20251027_1.pdf',
+        report_group_desc: 'Special Announcement (.pdf)',
+        report_group_id: '24',
+        report_group_sort_order_nbr: '5',
       },
-    ]
-  );
-  fetchMock.head(`/static-data/published-reports/auctions-query/results/A_20251027_1.pdf`, [{}]);
-  fetchMock.head(`/static-data/published-reports/auctions-query/results/R_20251027_1.pdf`, [{}]);
-  fetchMock.head(`/static-data/published-reports/auctions-query/results/R_20251027_1.xml`, [{}]);
+    ])
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/A_20251023_2.pdf`, [
+      {
+        report_date: '2025-10-27',
+        path: '/static-data/published-reports/auctions-query/results/A_20251027_1.pdf',
+        report_group_desc: 'Auction Announcement (.pdf)',
+        report_group_id: '24',
+        report_group_sort_order_nbr: '5',
+      },
+    ])
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/R_20251027_1.pdf`, [
+      {
+        report_date: '2025-10-27',
+        path: '/static-data/published-reports/auctions-query/results/R_20251027_1.pdf',
+        report_group_desc: 'Auction Results (.pdf)',
+        report_group_id: '24',
+        report_group_sort_order_nbr: '5',
+      },
+    ])
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=/R_20251027_1.xml`, [
+      {
+        report_date: '2025-10-27',
+        path: '/static-data/published-reports/auctions-query/results/R_20251027_1.xml',
+        report_group_desc: 'Auction Results (.xml)',
+        report_group_id: '24',
+        report_group_sort_order_nbr: '5',
+      },
+    ])
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/auctions_query?filter=account:eq:1234&fields=auction_date&sort=-auction_date&page[size]=10000`,
+      [
+        {
+          data: [{ auction_date: '2024-06-30' }, { auction_date: '2024-09-30' }],
+        },
+      ]
+    )
+    .head(`/static-data/published-reports/auctions-query/results/A_20251027_1.pdf`, [{}])
+    .head(`/static-data/published-reports/auctions-query/results/R_20251027_1.pdf`, [{}])
+    .head(`/static-data/published-reports/auctions-query/results/R_20251027_1.xml`, [{}]);
+
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
 
   it('Should check to see if the api call was fetched', async () => {
     const mockResponse = [{ file_name: 'mock-file.csv', report_Date: '2024-06-04' }];

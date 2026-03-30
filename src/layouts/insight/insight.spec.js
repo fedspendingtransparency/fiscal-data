@@ -51,11 +51,17 @@ describe('Insights Template', () => {
 
   beforeAll(() => {
     useStaticQuery.mockReturnValue(glossaryMock);
-    fetchMock.get(currentUrl, mockInterestExpenseHeroCurrentResponse);
-    fetchMock.get(olderUrl, mockInterestExpenseHeroOlderResponse);
-    fetchMock.get(expenseChartDataUrl, mockInterestExpenseHeroCurrentResponse);
-    fetchMock.get(avgRateChartDataUrl, mockAvgInterestRateResponse);
-    fetchMock.get(summableRecentExpenseUrl, mockInterestExpenseSummableAmountResponse);
+    fetchMock
+      .mockGlobal()
+      .route(currentUrl, mockInterestExpenseHeroCurrentResponse)
+      .route(olderUrl, mockInterestExpenseHeroOlderResponse)
+      .route(expenseChartDataUrl, mockInterestExpenseHeroCurrentResponse)
+      .route(avgRateChartDataUrl, mockAvgInterestRateResponse)
+      .route(summableRecentExpenseUrl, mockInterestExpenseSummableAmountResponse);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   class ResizeObserver {
@@ -108,7 +114,7 @@ describe('Insights Template', () => {
       value: 400,
     });
 
-    const { findByRole, queryByRole, findByTestId, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, getByTestId } = render(<InsightPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 

@@ -91,14 +91,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     addInnerChartAriaLabel(chartParent);
   }, [isLoadingDebtTrends]);
 
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
-
   const handleMouseMove = slice => {
     const debtData = slice.points[0].data;
     if (debtData) {
@@ -178,11 +170,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '--'} to ${
                 lastDebtValue.x
               }.`}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
-              customContainerStyles={{
-                minHeight: 'var(--chart-height)',
-              }}
             >
               {isLoadingDebtTrends ? (
                 <LoadingIndicator loadingClass={loadingIcon} />

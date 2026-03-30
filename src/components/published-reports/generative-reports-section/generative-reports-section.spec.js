@@ -20,30 +20,32 @@ describe('Generative Report Footer', () => {
   jest.useFakeTimers();
   beforeEach(() => {
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
-    fetchMock.get(
-      mockEndpointBase +
-        'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr&page[size]=10000',
-      { data: [{ eff_date: '1/3/2024', shares_per_par: '123' }] }
-    );
-    fetchMock.get(
-      mockEndpointBase +
-        'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr&page[size]=10000',
-      { data: [{ eff_date: '1/3/2024' }] }
-    );
-    fetchMock.get(
-      mockEndpointBase +
-        'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr&page[size]=10000',
-      { data: [] }
-    );
-    fetchMock.get(
-      mockEndpointBase +
-        'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr&page[size]=10000',
-      { data: [] }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        mockEndpointBase +
+          'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr&page[size]=10000',
+        { data: [{ eff_date: '1/3/2024', shares_per_par: '123' }] }
+      )
+      .route(
+        mockEndpointBase +
+          'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr&page[size]=10000',
+        { data: [{ eff_date: '1/3/2024' }] }
+      )
+      .route(
+        mockEndpointBase +
+          'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr&page[size]=10000',
+        { data: [] }
+      )
+      .route(
+        mockEndpointBase +
+          'v1/table2/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option2&sort=-eff_date,memo_nbr&page[size]=10000',
+        { data: [] }
+      );
   });
 
-  afterEach(() => {
-    fetchMock.restore();
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders empty table with default banner messaging', async () => {
@@ -100,12 +102,15 @@ describe('Generative Report Footer', () => {
   });
 
   it('renders the error message when an api error is encountered', async () => {
-    fetchMock.restore();
+    fetchMock.hardReset();
     const mockEndpointBase = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
-    fetchMock.get(
-      mockEndpointBase + 'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
-      { throws: new Error('api error') }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        mockEndpointBase +
+          'v1/table1/mockendpoint?filter=eff_date:gte:2024-07-01,eff_date:lte:2024-07-31,acct_desc:eq:option1&sort=-eff_date,memo_nbr',
+        { throws: new Error('api error') }
+      );
     const { getByRole, findByText } = render(<GenerativeReportsSection dataset={mockDataset} />);
     fireEvent.click(getByRole('button', { name: 'Account: (None selected)' }));
     fireEvent.click(getByRole('button', { name: 'option1' }));

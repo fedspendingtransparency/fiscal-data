@@ -5,7 +5,13 @@
 }
 
 .container {
-  --chart-height: 16.44rem;
+  & :global(.chartContainerChart) {
+    min-height: 16.44rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 27.69rem;
+    }
+  }
 }
 
 .loadingIcon {
@@ -16,18 +22,5 @@
 }
 
 .title {
-  margin-bottom: 18px;
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .container {
-    --chart-height: 27.69rem;
-  }
-}
-
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .title {
-    font-size: $font-size-12;
-    margin-bottom: 12px;
-  }
+  margin-bottom: 1rem;
 }

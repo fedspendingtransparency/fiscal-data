@@ -187,9 +187,6 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
             altText={`${chartCopy.altText}${lastFiscalYear}.`}
             footer={chartCopy.footer}
             date={date}
-            customContainerStyles={{
-              minHeight: 'var(--chart-height)',
-            }}
           >
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />

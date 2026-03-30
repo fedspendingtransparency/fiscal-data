@@ -2,10 +2,19 @@
 
 .container {
   overflow: hidden;
-  --chart-height: 13.89rem;
+  margin-bottom: 1rem;
+
+  & :global(.chartContainerChart) {
+    min-height: 13.89rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 26.11rem;
+    }
+  }
+
   .lineChartContainer {
     width: 100%;
-    margin: 0 auto;
+    margin-bottom: 0.625rem;
     &.inAnimation > div > svg > g > line {
       opacity: 0;
       &.animationCrosshair {
@@ -13,7 +22,6 @@
       }
     }
   }
-  margin-bottom: 1rem;
 
   .title {
     margin-top: 0;
@@ -40,7 +48,9 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    font-size: $font-size-14 !important;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
 
     div {
       text-align: center;
@@ -76,7 +86,6 @@
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     margin-bottom: 2.75rem;
-    --chart-height: 26.11rem;
 
     .title {
       font-size: $font-size-18;

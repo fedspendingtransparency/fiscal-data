@@ -331,9 +331,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             date={lastUpdatedDate}
             header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
             altText={chartAltText}
-            customContainerStyles={{
-              minHeight: 'var(--chart-height)',
-            }}
           >
             {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
             {!isLoading && chartToggleConfig && (

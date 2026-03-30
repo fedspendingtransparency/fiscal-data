@@ -1,7 +1,7 @@
 import { Bar } from '@nivo/bar';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import React, { useEffect, useState } from 'react';
-import { barChart, container, headerTitle, subHeader, loadingIcon } from './deficit-trends-bar-chart.module.scss';
+import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
@@ -251,7 +251,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   );
 
   const header = (
-    <>
+    <div className={headerContainer}>
       <div>
         <div className={headerTitle} data-testid="deficitFiscalYearHeader">
           {headerYear}
@@ -260,11 +260,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
       </div>
       <div>
         <div className={headerTitle} data-testid="deficitTotalHeader">
-          ${headerDeficit} T
+          ${headerDeficit} {chartData ? 'T' : ''}
         </div>
         <span className={subHeader}>Total Deficit</span>
       </div>
-    </>
+    </div>
   );
 
   return (
@@ -279,9 +279,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
           header={header}
           footer={footer}
           date={date}
-          customContainerStyles={{
-            minHeight: 'var(--chart-height)',
-          }}
         >
           {!chartData ? (
             <LoadingIndicator loadingClass={loadingIcon} />

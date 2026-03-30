@@ -4,96 +4,28 @@ import React from 'react';
 import fetchMock from 'fetch-mock';
 
 describe('Sources of Federal Revenue', () => {
-  const mockData = {
-    data: [
-      {
-        current_fytd_rcpt_outly_amt: '2404419075372.07',
-        record_calendar_month: '06',
-        record_calendar_year: '2022',
-        record_date: '2022-06-30',
-        record_fiscal_year: '2022',
-      },
-    ],
-  };
-
-  const mockDataSupplementary = {
-    data: [
-      {
-        current_fytd_rcpt_outly_amt: '4408451733324.00',
-        record_calendar_month: '06',
-        record_calendar_year: '2022',
-        record_date: '2022-06-30',
-        record_fiscal_year: '2022',
-      },
-    ],
-  };
-
-  const mockDataSocSec = {
-    data: [
-      {
-        current_fytd_rcpt_outly_amt: '1284877566101.73',
-        record_calendar_month: '06',
-        record_calendar_year: '2022',
-        record_date: '2022-06-30',
-        record_fiscal_year: '2022',
-      },
-      {
-        current_fytd_rcpt_outly_amt: '66097914778.76',
-        record_calendar_month: '06',
-        record_calendar_year: '2022',
-        record_date: '2022-06-30',
-        record_fiscal_year: '2022',
-      },
-      {
-        current_fytd_rcpt_outly_amt: '5667980667.19',
-        record_calendar_month: '06',
-        record_calendar_year: '2022',
-        record_date: '2022-06-30',
-        record_fiscal_year: '2022',
-      },
-    ],
-  };
-
   beforeAll(() => {
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`,
-      mockDataSupplementary,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=line_code_nbr:in:(50,60,70)&sort=-record_date&page[size]=3`,
-      mockDataSocSec,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service';
+    fetchMock
+      .mockGlobal()
+      .route(
+        `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:eq:1.1&sort=-record_date&page%5bsize%5d=1`,
+        mockData
+      )
+      .route(`${base}/v1/accounting/mts/mts_table_9?filter=line_code_nbr:in:(50,60,70)&sort=-record_date&page[size]=3`, mockDataSocSec)
+      .route(
+        `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2`,
+        mockData
+      )
+      .route(`${base}/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`, mockData)
+      .route(
+        `${base}/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10`,
+        mockData
+      );
+  });
 
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,sequence_number_cd:in:(1.1,1.2)&sort=-record_date&page[size]=2`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=10`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('renders the category sub header', () => {
@@ -120,3 +52,53 @@ describe('Sources of Federal Revenue', () => {
     expect(getByText('Why does the Federal Reserve send money to the federal government?')).toBeInTheDocument();
   });
 });
+
+const mockData = {
+  data: [
+    {
+      current_fytd_rcpt_outly_amt: '2404419075372.07',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+  ],
+};
+
+const mockDataSupplementary = {
+  data: [
+    {
+      current_fytd_rcpt_outly_amt: '4408451733324.00',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+  ],
+};
+
+const mockDataSocSec = {
+  data: [
+    {
+      current_fytd_rcpt_outly_amt: '1284877566101.73',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+    {
+      current_fytd_rcpt_outly_amt: '66097914778.76',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+    {
+      current_fytd_rcpt_outly_amt: '5667980667.19',
+      record_calendar_month: '06',
+      record_calendar_year: '2022',
+      record_date: '2022-06-30',
+      record_fiscal_year: '2022',
+    },
+  ],
+};
