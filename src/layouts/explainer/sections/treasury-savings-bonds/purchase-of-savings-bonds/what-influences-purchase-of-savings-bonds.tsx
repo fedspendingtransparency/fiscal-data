@@ -18,6 +18,8 @@ import { getSaleBondsFootNotes } from '../learn-more/learn-more-helper';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
 import { ICpiDataMap } from '../../../../../models/ICpiDataMap';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
 
 interface BondSaleEntry {
   year: string;
@@ -39,6 +41,7 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
   const [mostBondSales, setMostBondSales] = useState<number>(0);
   const [secondMostBondSalesYear, setSecondMostBondSalesYear] = useState<string | null>(null);
   const [secondMostBondSales, setSecondMostBondSales] = useState<number>(0);
+  const { showBoundary } = useErrorBoundary();
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
       query {
@@ -60,47 +63,51 @@ const WhatInfluencesPurchaseOfSavingsBonds: FunctionComponent = ({ cpi12MonthPer
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
         const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`).then(res => {
-          if (res.data) {
-            const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
-            const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-            const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`)
+          .then(res => {
+            if (res.data) {
+              const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+              const historicalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
+              const allData = [...historicalData, ...currentData].sort((a, b) => a.year - b.year);
 
-            res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
-            const inflationCurrentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
+              res.data = adjustDataForInflation(res.data, 'net_sales_amt', 'record_fiscal_year', cpiDataByYear);
+              const inflationCurrentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
 
-            savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
-            const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
-            const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData]
-              .sort((a, b) => a.year - b.year)
-              .filter(entry => cpiDataByYear[entry.year]);
+              savingsBondsByTypeHistorical = adjustDataForInflation(savingsBondsByTypeHistorical, 'sales', 'year', cpiDataByYear);
+              const inflationHistoricalData = sortByType(savingsBondsByTypeHistorical, 'year', 'bond_type', 'sales');
+              const inflationAllData = [...inflationHistoricalData, ...inflationCurrentData]
+                .sort((a, b) => a.year - b.year)
+                .filter(entry => cpiDataByYear[entry.year]);
 
-            const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
-              const totalSalesForYear = acc[entry.year] || 0;
-              const yearlySales = Object.keys(entry)
-                .filter(key => key !== 'year')
-                .reduce((sum, key) => sum + Number(entry[key]), 0);
+              const salesByYear: SalesData = allData.reduce((acc, entry: BondSaleEntry) => {
+                const totalSalesForYear = acc[entry.year] || 0;
+                const yearlySales = Object.keys(entry)
+                  .filter(key => key !== 'year')
+                  .reduce((sum, key) => sum + Number(entry[key]), 0);
 
-              acc[entry.year] = totalSalesForYear + yearlySales;
-              return acc;
-            }, {});
+                acc[entry.year] = totalSalesForYear + yearlySales;
+                return acc;
+              }, {});
 
-            const sortedYears = Object.entries(salesByYear)
-              .map(([year, totalSales]) => ({ year, totalSales }))
-              .sort((a, b) => b.totalSales - a.totalSales);
+              const sortedYears = Object.entries(salesByYear)
+                .map(([year, totalSales]) => ({ year, totalSales }))
+                .sort((a, b) => b.totalSales - a.totalSales);
 
-            if (sortedYears.length > 0) {
-              setMostBondSalesYear(sortedYears[0].year);
-              setMostBondSales(sortedYears[0].totalSales);
-              if (sortedYears.length > 1) {
-                setSecondMostBondSalesYear(sortedYears[1].year);
-                setSecondMostBondSales(sortedYears[1].totalSales);
+              if (sortedYears.length > 0) {
+                setMostBondSalesYear(sortedYears[0].year);
+                setMostBondSales(sortedYears[0].totalSales);
+                if (sortedYears.length > 1) {
+                  setSecondMostBondSalesYear(sortedYears[1].year);
+                  setSecondMostBondSales(sortedYears[1].totalSales);
+                }
               }
+              setChartData(allData);
+              setInflationChartData(inflationAllData);
             }
-            setChartData(allData);
-            setInflationChartData(inflationAllData);
-          }
-        });
+          })
+          .catch(err => {
+            showBoundary(err);
+          });
       }
     });
   }, []);
