@@ -27,10 +27,6 @@ module.exports = {
         excludes: [
           `/buildtime-data-store/`,
           '/search-x/',
-          // remove with DTG-2414
-          '/about-us/about-section/about-section/',
-          '/about-us/contact-section/contact-section/',
-          '/about-us/faq-section/faq-section/',
           // end DTG-2414
         ],
       },
