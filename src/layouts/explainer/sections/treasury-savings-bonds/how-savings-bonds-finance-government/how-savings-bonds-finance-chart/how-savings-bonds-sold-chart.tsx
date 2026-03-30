@@ -80,7 +80,7 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   });
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}www${fyEndpoint}`)
+    basicFetch(`${apiPrefix}${fyEndpoint}`)
       .then(res => {
         if (res.data) {
           const data = res.data[0];

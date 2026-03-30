@@ -20,20 +20,20 @@ import classNames from 'classnames';
 import { treasurySavingsBondsExplainerSecondary } from '../../treasury-savings-bonds.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { ICpiDataMap } from '../../../../../../models/ICpiDataMap';
-import { yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { fyEndpoint, yAxisFormatter } from '../savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
 import { analyticsEventHandler, getDateWithoutOffset } from '../../../../explainer-helpers/explainer-helpers';
 import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 
 interface IIBondsSalesChart {
   cpi12MonthPercentChange: ICpiDataMap;
-  curFy: number;
 }
 
 let gaTimer;
 
-const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange, curFy }) => {
+const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPercentChange }) => {
   const [curInflation, setCurInflation] = useState('');
   const [curSales, setCurSales] = useState('');
   const [curYear, setCurYear] = useState('');
@@ -49,11 +49,21 @@ const IBondSalesChart: FunctionComponent<IIBondsSalesChart> = ({ cpi12MonthPerce
   const [salesAxis, setSalesAxis] = useState<number[]>();
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
+  const [curFy, setCurFy] = useState<string>();
 
   const defaultInflationAxis: number[] = [-2.5, 0, 2.5, 5, 7.5, 10];
   const inflationAxisInterval = 2.5;
   const defaultSalesAxis: number[] = [0, 2000000000, 4000000000, 6000000000];
   const salesAxisInterval = 2000000000;
+
+  useEffect(() => {
+    basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
+      if (res.data) {
+        const data = res.data[0];
+        setCurFy(data.record_fiscal_year);
+      }
+    });
+  }, []);
 
   const header = (
     <div className={headerContainer}>
