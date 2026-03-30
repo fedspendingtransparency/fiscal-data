@@ -1,3 +1,5 @@
+@use '../../../../variables.module' as *;
+
 .apiErrorWrapper {
   min-height: 30rem;
   max-width: 36.75rem;
@@ -6,6 +8,7 @@
   display: flex;
   align-items: center;
 
+  // figure out long term what css to do for this
   @media screen and (max-width: $breakpoint-lg - 1) {
     margin: auto;
   }

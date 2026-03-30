@@ -26,6 +26,7 @@ import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
 
 dayjs.extend(minMax);
 
@@ -68,6 +69,7 @@ const HowMuchDoesTheGovtSpend = () => {
   const [animationComplete, setAnimationComplete] = useState(false);
 
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
+  const { showBoundary } = useErrorBoundary();
 
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
@@ -93,16 +95,22 @@ const HowMuchDoesTheGovtSpend = () => {
       basicFetch(apiPrefix + 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:F&sort=-record_date,-current_fytd_rcpt_outly_amt&page[size]=19'),
       basicFetch(
         apiPrefix +
-          'v1/accounting/mts/mts_table_5?filter=data_type_cd:eq:T,' +
+          'v1/accounting/mts/mts_tablew_5?filter=data_type_cd:eq:T,' +
           'sequence_level_nbr:eq:2,line_code_nbr:lte:5690&sort=-record_date,-current_fytd_net_outly_amt&page[size]=30'
       ),
-    ]).then(result => {
-      setChartData({
-        category: result[0],
-        agency: result[1],
+    ])
+      .then(result => {
+        setChartData({
+          category: result[0],
+          agency: result[1],
+        });
+      })
+      .catch(err => {
+        showBoundary(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      setLoading(false);
-    });
   };
   useEffect(() => {
     getChartData();

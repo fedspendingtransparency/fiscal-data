@@ -29,6 +29,7 @@ import {
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -37,7 +38,7 @@ const callOutDataEndPoint =
 
 const chartDataEndPoint =
   apiPrefix +
-  'v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
+  'v1/accounting/mts/mts_wwwtable_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year' +
   '&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date';
 
 let gaTimer;
@@ -75,6 +76,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   });
 
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
+  const { showBoundary } = useErrorBoundary();
 
   const handleClick = eventNumber => {
     const gaEvent = getGAEvent(eventNumber);
@@ -119,110 +121,115 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   useEffect(() => {
     const { finalGDPData, gdpMaxYear, gdpMaxAmount } = beaGDPData;
 
-    basicFetch(chartDataEndPoint).then(res => {
-      if (res.data && res.data.length > 0) {
-        let finalSpendingChartData = [];
+    basicFetch(chartDataEndPoint)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          let finalSpendingChartData = [];
 
-        res.data.forEach(spending => {
-          finalSpendingChartData.push({
-            x: parseInt(spending.record_fiscal_year),
-            actual: parseInt(spending.current_fytd_net_outly_amt),
-            fiscalYear: spending.record_fiscal_year,
-            record_date: spending.record_date,
+          res.data.forEach(spending => {
+            finalSpendingChartData.push({
+              x: parseInt(spending.record_fiscal_year),
+              actual: parseInt(spending.current_fytd_net_outly_amt),
+              fiscalYear: spending.record_fiscal_year,
+              record_date: spending.record_date,
+            });
           });
-        });
 
-        finalSpendingChartData = finalSpendingChartData.filter(s => s.x <= gdpMaxYear);
+          finalSpendingChartData = finalSpendingChartData.filter(s => s.x <= gdpMaxYear);
 
-        const lastUpdatedDateSpending = new Date(finalSpendingChartData[finalSpendingChartData.length - 1].record_date);
-        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateSpending));
+          const lastUpdatedDateSpending = new Date(finalSpendingChartData[finalSpendingChartData.length - 1].record_date);
+          setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateSpending));
 
-        finalSpendingChartData = adjustDataForInflation(finalSpendingChartData, 'actual', 'fiscalYear', cpiDataByYear);
+          finalSpendingChartData = adjustDataForInflation(finalSpendingChartData, 'actual', 'fiscalYear', cpiDataByYear);
 
-        finalSpendingChartData.forEach(spending => {
-          spending.y = parseFloat(simplifyNumber(spending.actual, false).slice(0, -2));
-        });
-
-        setSpendingChartData(finalSpendingChartData);
-
-        const spendingMinYear = finalSpendingChartData[0].x;
-        const theMinYear = spendingMinYear;
-        setMinYear(theMinYear);
-
-        const spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
-        const theMaxYear = Math.min(gdpMaxYear, spendingMaxYear);
-        setMaxYear(theMaxYear);
-
-        const spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => (max > spending.y ? max : spending.y));
-
-        setMaxSpendingValue(spendingMaxAmount);
-
-        const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear);
-
-        const finalGdpRatioChartData = [];
-        finalSpendingChartData.forEach(spending => {
-          const spendingYear = spending.fiscalYear;
-          const spendingAmount = spending.y;
-          const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === spendingYear).map(g => g.y);
-          const gdpRatio = numeral(spendingAmount / matchingGDP).format('0%');
-          finalGdpRatioChartData.push({
-            x: spendingYear,
-            y: gdpRatio,
+          finalSpendingChartData.forEach(spending => {
+            spending.y = parseFloat(simplifyNumber(spending.actual, false).slice(0, -2));
           });
-        });
 
-        setRatioGdpChartData(finalGdpRatioChartData);
+          setSpendingChartData(finalSpendingChartData);
 
-        const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
-        setMaxAmount(maxAmountLocal);
+          const spendingMinYear = finalSpendingChartData[0].x;
+          const theMinYear = spendingMinYear;
+          setMinYear(theMinYear);
 
-        const chartFirstRatio = numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%');
-        const chartLastRatio = numeral(
-          finalSpendingChartData[finalSpendingChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
-        ).format('0%');
+          const spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
+          const theMaxYear = Math.min(gdpMaxYear, spendingMaxYear);
+          setMaxYear(theMaxYear);
 
-        setLastRatio(chartLastRatio);
+          const spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => (max > spending.y ? max : spending.y));
 
-        if (chartFirstRatio !== chartLastRatio) {
-          setCalloutCopy(
-            ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${chartFirstRatio ||
-              '--'} to ${chartLastRatio || '--'}`
-          );
-        } else {
-          setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          setMaxSpendingValue(spendingMaxAmount);
+
+          const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear);
+
+          const finalGdpRatioChartData = [];
+          finalSpendingChartData.forEach(spending => {
+            const spendingYear = spending.fiscalYear;
+            const spendingAmount = spending.y;
+            const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === spendingYear).map(g => g.y);
+            const gdpRatio = numeral(spendingAmount / matchingGDP).format('0%');
+            finalGdpRatioChartData.push({
+              x: spendingYear,
+              y: gdpRatio,
+            });
+          });
+
+          setRatioGdpChartData(finalGdpRatioChartData);
+
+          const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
+          setMaxAmount(maxAmountLocal);
+
+          const chartFirstRatio = numeral(finalSpendingChartData[0].y / filteredGDPData[0].y).format('0%');
+          const chartLastRatio = numeral(
+            finalSpendingChartData[finalSpendingChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
+          ).format('0%');
+
+          setLastRatio(chartLastRatio);
+
+          if (chartFirstRatio !== chartLastRatio) {
+            setCalloutCopy(
+              ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${chartFirstRatio ||
+                '--'} to ${chartLastRatio || '--'}`
+            );
+          } else {
+            setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          }
+
+          const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual;
+          setLastSpendingValue(chartLastSpendingValue);
+
+          const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
+          setLastGDPValue(chartLastGDPValue);
+
+          setTotalSpendingHeadingValues({
+            fiscalYear: spendingMaxYear,
+            totalSpending: simplifyNumber(chartLastSpendingValue, false),
+            gdp: simplifyNumber(chartLastGDPValue, false),
+            gdpRatio: chartLastRatio,
+          });
+
+          const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
+
+          setMaxGDPValue(chartMaxGDPValue);
+          setGdpChartData(filteredGDPData);
+
+          applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+          addInnerChartAriaLabel(chartParent);
+
+          copyPageData({
+            fiscalYear: theMaxYear,
+            totalSpending: getShortForm(chartLastSpendingValue, false),
+            percentOfGDP: chartLastRatio,
+            numOfYearsInChart: theMaxYear - theMinYear + 1,
+          });
         }
-
-        const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual;
-        setLastSpendingValue(chartLastSpendingValue);
-
-        const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
-        setLastGDPValue(chartLastGDPValue);
-
-        setTotalSpendingHeadingValues({
-          fiscalYear: spendingMaxYear,
-          totalSpending: simplifyNumber(chartLastSpendingValue, false),
-          gdp: simplifyNumber(chartLastGDPValue, false),
-          gdpRatio: chartLastRatio,
-        });
-
-        const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
-
-        setMaxGDPValue(chartMaxGDPValue);
-        setGdpChartData(filteredGDPData);
-
+      })
+      .catch(err => {
+        showBoundary(err);
+      })
+      .finally(() => {
         setIsLoading(false);
-
-        applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-        addInnerChartAriaLabel(chartParent);
-
-        copyPageData({
-          fiscalYear: theMaxYear,
-          totalSpending: getShortForm(chartLastSpendingValue, false),
-          percentOfGDP: chartLastRatio,
-          numOfYearsInChart: theMaxYear - theMinYear + 1,
-        });
-      }
-    });
+      });
   }, []);
 
   useEffect(() => {

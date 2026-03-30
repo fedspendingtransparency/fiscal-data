@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TotalSpendingChart from './total-spending-chart/total-spending-chart';
 import useBeaGDP from '../../../../../hooks/useBeaGDP';
 import { totalSpendingChartContainer } from '../spending-trends/spending-trends.module.scss';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
 export const SpendingTrends = ({ cpiDataByYear }) => {
   const beaGDPData = useBeaGDP(cpiDataByYear, true, 'mts5');
 
@@ -30,7 +32,11 @@ export const SpendingTrends = ({ cpiDataByYear }) => {
         total spending compared to GDP.
       </p>
       <div className={totalSpendingChartContainer}>
-        {!beaGDPData.isGDPLoading && <TotalSpendingChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />}
+        {!beaGDPData.isGDPLoading && (
+          <ErrorBoundary fallback={<ChartApiError />}>
+            <TotalSpendingChart cpiDataByYear={cpiDataByYear} beaGDPData={beaGDPData} copyPageData={callBackDataToPage} />
+          </ErrorBoundary>
+        )}
       </div>
     </>
   );

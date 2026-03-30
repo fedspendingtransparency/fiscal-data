@@ -7,6 +7,8 @@ import { spendingAccordion, spendingExplainerPrimary } from '../federal-spending
 import HowMuchDoesTheGovtSpend from '../how-much-does-the-govt-spend/how-much-does-the-govt-spend';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../../explainer/explainer-components/chart-api-error/chart-api-error';
 
 export const SpendingCategories = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
@@ -34,7 +36,9 @@ export const SpendingCategories = () => {
         agencies for federal spending in FY {latestCompleteFiscalYear || '--'}.
       </p>
       <figure className={visWithCallout}>
-        <HowMuchDoesTheGovtSpend />
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit USAspending.gov’s {USAsExplorerPage} and {USAsAgencyPage}{' '}
