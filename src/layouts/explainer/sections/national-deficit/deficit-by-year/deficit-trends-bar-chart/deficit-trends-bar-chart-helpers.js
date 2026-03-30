@@ -7,7 +7,7 @@ import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 
 const fields = 'fields=current_fytd_net_outly_amt,record_date,record_calendar_month,record_fiscal_year';
 const sort = 'sort=record_date';
-export const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
+export const endpointUrl = `v1/accounting/mts/mts_tableww_5?${fields}&filter=line_code_nbr:eq:5694,record_calendar_month:eq:09&${sort}`;
 
 export const preAPIData = [
   {

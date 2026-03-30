@@ -17,6 +17,7 @@ import CustomBar from './custom-bar/customBar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [date, setDate] = useState(null);
@@ -36,6 +37,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const { mtsOutlays } = explainerCitationsMap['national-deficit'];
   const desktop = width >= pxToNumber(breakpointLg);
   const chartParent = 'chartParentDiv';
+  const { showBoundary } = useErrorBoundary();
 
   const setAnimationDurations = data => {
     if (data && data.length >= 2) {
@@ -87,41 +89,61 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   }, [data]);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${dateEndpoint.path}`).then(response => {
-      setDate(getDateWithoutTimeZoneAdjust(response.data[0][dateEndpoint.dateField]));
-      setLastFiscalYear(response.data[0][dateEndpoint.valueField]);
-    });
+    basicFetch(`${apiPrefix}${dateEndpoint.path}`)
+      .then(response => {
+        setDate(getDateWithoutTimeZoneAdjust(response.data[0][dateEndpoint.dateField]));
+        setLastFiscalYear(response.data[0][dateEndpoint.valueField]);
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${deficitEndpoint.path}`).then(response => {
-      const value = Math.abs(response.data[0][deficitEndpoint.valueField]);
-      setDeficitValue(value);
-      setDeficitLabel((value / 1000000000000).toFixed(2));
-    });
+    basicFetch(`${apiPrefix}${deficitEndpoint.path}`)
+      .then(response => {
+        const value = Math.abs(response.data[0][deficitEndpoint.valueField]);
+        setDeficitValue(value);
+        setDeficitLabel((value / 1000000000000).toFixed(2));
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${revenueEndpoint.path}`).then(response => {
-      const value = response.data[0][revenueEndpoint.valueField];
-      setRevenueValue(value);
-      setRevenueLabel((value / 1000000000000).toFixed(2));
-    });
+    basicFetch(`${apiPrefix}${revenueEndpoint.path}`)
+      .then(response => {
+        const value = response.data[0][revenueEndpoint.valueField];
+        setRevenueValue(value);
+        setRevenueLabel((value / 1000000000000).toFixed(2));
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${spendingEndpoint.path}`).then(response => {
-      const value = response.data[0][spendingEndpoint.valueField];
-      setSpendingValue(value);
-      setSpendingLabel((value / 1000000000000).toFixed(2));
-    });
+    basicFetch(`${apiPrefix}11111${spendingEndpoint.path}`)
+      .then(response => {
+        const value = response.data[0][spendingEndpoint.valueField];
+        setSpendingValue(value);
+        setSpendingLabel((value / 1000000000000).toFixed(2));
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${deficitChangeEndpoint.path}`).then(response => {
-      const value = Math.abs(response.data[0][deficitChangeEndpoint.valueField]);
-      setDeficitChangeValue(value);
-    });
+    basicFetch(`${apiPrefix}${deficitChangeEndpoint.path}`)
+      .then(response => {
+        const value = Math.abs(response.data[0][deficitChangeEndpoint.valueField]);
+        setDeficitChangeValue(value);
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   if (!data && deficitValue && revenueValue && spendingValue && deficitChangeValue) {
