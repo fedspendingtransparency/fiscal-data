@@ -1,7 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { fontBodyCopy } from '../../../explainer.module.scss';
 import {
   holdingBondsContainer,
   holdingBondsFooter,
@@ -11,9 +8,7 @@ import {
   image1,
   image3,
 } from './savings-bonds-are-fully-matured.module.scss';
-import { mudAccordion, postQuoteBoxAccordionContainer, treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
-import QuoteBox from '../../../quote-box/quote-box';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
+import { mudAccordion, postQuoteBoxAccordionContainer } from '../treasury-savings-bonds.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import Accordion from '../../../../../components/accordion/accordion';
 import illustration1 from '../../../../../../static/images/savings-bonds/Fully-Matured-Bonds-Story_Illustration-1.svg';
@@ -138,25 +133,6 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
 
         <p className={holdingBondsFooter}>*Please note this visual uses fictional data</p>
       </div>
-
-      <QuoteBox
-        icon={faMagnifyingGlass as IconProp}
-        primaryColor={fontBodyCopy}
-        secondaryColor={treasurySavingsBondsExplainerSecondary}
-        customTopMargin="0"
-      >
-        <p>
-          Could there be a savings bond in your name that you might not know about? Go on a{' '}
-          <CustomLink
-            url="https://treasurydirect.gov/savings-bonds/treasury-hunt/"
-            id="Treasury Hunt"
-            onClick={() => analyticsEventHandler('Treasury Hunt', 'Savings Bonds Citation Click')}
-          >
-            Treasury Hunt
-          </CustomLink>{' '}
-          and see what bonds might be waiting for you to cash in!
-        </p>
-      </QuoteBox>
 
       <div className={postQuoteBoxAccordionContainer}>
         <div className={mudAccordion}>
