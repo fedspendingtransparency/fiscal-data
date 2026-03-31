@@ -149,7 +149,7 @@ describe('Api Utils function library', () => {
       new QueryClient()
     );
     expect(global.fetch.mock.calls[0][0]).toContain(
-      '&filter=test_date_field%3Agte%3A2021-01-01%2Ctest_date_field%3Alte%3A2021-02-01%2Cfield1%3Aeq%3ABanana%2Cfield3%3Aeq%3AOrange&'
+      'filter=test_date_field%3Agte%3A2021-01-01%2Ctest_date_field%3Alte%3A2021-02-01%2Cfield1%3Aeq%3ABanana%2Cfield3%3Aeq%3AOrange&'
     );
   });
 

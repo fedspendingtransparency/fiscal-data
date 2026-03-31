@@ -2,22 +2,13 @@
 
 .container {
   overflow: hidden;
-  --chart-height: 15.12rem;
 
-  .chartToggle {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 16px;
-    justify-content: center;
-  }
+  & :global(.chartContainerChart) {
+    min-height: 20.84rem;
 
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #0a2f5a;
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 26.96rem;
+    }
   }
 
   .lineChart {
@@ -50,15 +41,10 @@
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     margin-bottom: 2rem;
-    --chart-height: 26.69rem;
   }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 0.125rem;
-  }
-
   :global(.chartContainerFooter) {
     p {
       margin-top: 0.75rem;

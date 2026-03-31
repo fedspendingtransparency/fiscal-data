@@ -3,7 +3,13 @@
 @use '../../treasury-savings-bonds.module' as *;
 
 .container {
-  --chart-height: 27.375rem;
+  & :global(.chartContainerChart) {
+    min-height: 26.38rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 25.88rem;
+    }
+  }
 }
 
 .chartLegend {
@@ -45,7 +51,7 @@
 }
 
 .headerContainer {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .loadingIcon {
@@ -57,7 +63,7 @@
 
 .chartStyle {
   @include reChartsBaseStyle;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -70,11 +76,5 @@
 
   .headerContainer {
     margin-top: 1.875rem;
-  }
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .container {
-    --chart-height: 26.875rem;
   }
 }

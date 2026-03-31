@@ -48,4 +48,6 @@ global.IntersectionObserver = class IntersectionObserver {
   }
 };
 
+global.ReadableStream = class ReadableStream {};
+
 jest.setTimeout(750000);

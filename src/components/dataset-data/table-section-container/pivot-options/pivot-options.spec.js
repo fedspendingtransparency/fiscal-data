@@ -280,4 +280,23 @@ describe('PivotOptions component does render children', () => {
       pivotView: { chartType: 'none', dimensionField: null, title: 'Complete Table' },
     });
   });
+
+  it('hides pivot options when all data tables is selected', () => {
+    const setSelectedPivotSpy = jest.fn();
+    const selectedPivotView = selectedTable.dataDisplays[4];
+    const selectedPivotValue = selectedTable.fields[9];
+    const { queryByRole } = render(
+      <PivotOptions
+        table={selectedTable}
+        pivotSelection={{
+          pivotView: selectedPivotView,
+          pivotValue: selectedPivotValue,
+        }}
+        setSelectedPivot={setSelectedPivotSpy}
+        allTablesSelected={true}
+      />
+    );
+
+    expect(queryByRole('button', { name: 'Change pivot view from Complete Table' })).not.toBeInTheDocument();
+  });
 });

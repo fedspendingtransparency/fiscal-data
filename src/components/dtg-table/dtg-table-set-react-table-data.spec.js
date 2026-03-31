@@ -29,11 +29,16 @@ describe('React Table Data ', () => {
   };
 
   beforeAll(() => {
-    fetchMock.get(`begin:${base}${table1}`, longerPaginatedDataResponse, { overwriteRoutes: true });
+    fetchMock.mockGlobal()
+      .route(`begin:${base}${table1}`, longerPaginatedDataResponse, { overwriteRoutes: true });
   });
 
   afterEach(() => {
     jest.resetAllMocks();
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('sets raw data', async () => {

@@ -27,19 +27,21 @@ describe('Total Revenue Chart', () => {
   const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1`,
-      mockCallOutData,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_datet`,
-      mockRevenueData,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date&page[size]=1`,
+        mockCallOutData
+      )
+      .route(
+        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_datet`,
+        mockRevenueData
+      );
     determineBEAFetchResponse(jest, mockRevenueData);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   const mockPageFunction = () => {
@@ -172,13 +174,17 @@ describe('Total Revenue Chart', () => {
 
 describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
-      mockRevenueData_decreased,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
+        mockRevenueData_decreased
+      );
     determineBEAFetchResponse(jest, mockRevenueData_decreased);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   const mockPageFunction = () => {
@@ -196,13 +202,17 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
 
 describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
   beforeAll(() => {
-    fetchMock.get(
-      `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
-      mockRevenueData_NoChange,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
+        mockRevenueData_NoChange
+      );
     determineBEAFetchResponse(jest, mockRevenueData_NoChange);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   const mockPageFunction = () => {

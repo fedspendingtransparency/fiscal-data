@@ -308,6 +308,7 @@ const TableSectionContainer = ({
                 pivotSelection={selectedPivot}
                 setSelectedPivot={setSelectedPivot}
                 pivotsUpdated={pivotsUpdated}
+                allTablesSelected={allTablesSelected}
               />
             </div>
           </div>

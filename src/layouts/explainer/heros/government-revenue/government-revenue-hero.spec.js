@@ -7,16 +7,15 @@ import { queryClient } from '../../../../../react-query-client';
 
 describe('Government Revenue Hero', () => {
   beforeAll(() => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockRevenueHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockRevenueHeroData);
   });
 
   afterEach(() => {
     queryClient.clear();
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('Hero Image section loads with relevant data', async () => {
@@ -39,15 +38,11 @@ describe('Government Revenue Hero', () => {
 describe('Pill data section', () => {
   afterEach(() => {
     queryClient.clear();
+    fetchMock.hardReset();
   });
 
   it('correctly renders the pill data, when revenue has increased', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockRevenueHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockRevenueHeroData);
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole, getAllByText } = render(<GovernmentRevenueHero />);
@@ -61,12 +56,7 @@ describe('Pill data section', () => {
   });
 
   it('correctly renders the pill data, when revenue has decreased', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockRevenueHeroData_decrease,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockRevenueHeroData_decrease);
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole, getAllByText } = render(<GovernmentRevenueHero />);

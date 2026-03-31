@@ -1,6 +1,5 @@
 import { API_BASE_URL, AUTHENTICATE_API } from 'gatsby-env-variables';
 import { format, subDays, subMonths, subYears } from 'date-fns';
-import queryString from 'query-string';
 import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
 import {
@@ -566,7 +565,7 @@ export const formulateUrl = (endpointPath, filters, fields, limit, sort, format)
   } else {
     params.format = 'json';
   }
-  const queryParams = params !== {} ? '?' + queryString.stringify(params) : '';
+  const queryParams = params !== {} ? '?' + new URLSearchParams(params).toString() : '';
   return apiPrefix + endpointPath + queryParams;
 };
 

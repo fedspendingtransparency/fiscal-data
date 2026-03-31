@@ -31,13 +31,16 @@ describe('verifyAdditionalChartData return true', () => {
     jest.useFakeTimers('modern');
     jest.setSystemTime(new Date(2020, 9, 1));
 
-    fetchMock.get(`${debtOutstanding}`, mockDebtOutstandingCurrentData, { overwriteRoutes: true }, { repeat: 0 });
-    fetchMock.get(`${mts4}`, mockMtsSeptemberData, { overwriteRoutes: true }, { repeat: 0 });
-    fetchMock.get(`${mts5}`, mockMtsSeptemberData, { overwriteRoutes: true }, { repeat: 0 });
+    fetchMock
+      .mockGlobal()
+      .route(`${debtOutstanding}`, mockDebtOutstandingCurrentData)
+      .route(`${mts4}`, mockMtsSeptemberData)
+      .route(`${mts5}`, mockMtsSeptemberData);
   });
 
   afterAll(() => {
     jest.useRealTimers();
+    fetchMock.hardReset();
   });
 
   it('will return true when debtOutstanding flagged and in with 2020 data as the most recent', async () => {
@@ -84,13 +87,16 @@ describe('verifyAdditionalChartData return false', () => {
     jest.useFakeTimers('modern');
     jest.setSystemTime(new Date(2020, 9, 1));
 
-    fetchMock.get(`${debtOutstanding}`, mockDebtOutstandingNotCurrentData, { overwriteRoutes: true }, { repeat: 0 });
-    fetchMock.get(`${mts4}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 0 });
-    fetchMock.get(`${mts5}`, mockMtsAugustData, { overwriteRoutes: true }, { repeat: 0 });
+    fetchMock
+      .mockGlobal()
+      .route(`${debtOutstanding}`, mockDebtOutstandingNotCurrentData)
+      .route(`${mts4}`, mockMtsAugustData)
+      .route(`${mts5}`, mockMtsAugustData);
   });
 
   afterAll(() => {
     jest.useRealTimers();
+    fetchMock.hardReset();
   });
 
   it('will return false when debtOutstanding flagged and in with 2019 data as the most recent', async () => {
