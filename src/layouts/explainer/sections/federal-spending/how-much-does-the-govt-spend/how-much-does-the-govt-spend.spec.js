@@ -4,6 +4,7 @@ import React from 'react';
 import fetchMock from 'fetch-mock';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 import { mockAgencyData, mockAgencyEndpoint, mockCategoryData, mockCategoryEndpoint, mockNegative } from './test-helper';
+import { ErrorBoundary } from 'react-error-boundary';
 
 describe('Federal spending explainer page sections', () => {
   describe('Standard Category Data', () => {
@@ -19,12 +20,20 @@ describe('Federal spending explainer page sections', () => {
     });
 
     it('renders', () => {
-      const instance = render(<HowMuchDoesTheGovtSpend />);
+      const instance = render(
+        <ErrorBoundary>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
+      );
       expect(instance).toBeTruthy();
     });
 
     it('has the right sections, toggle view', async () => {
-      const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+      const { getByText, getByTestId } = render(
+        <ErrorBoundary>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
+      );
       await waitFor(() => {
         expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
         expect(getByTestId('toggle-button-category')).toBeInTheDocument();
@@ -46,7 +55,11 @@ describe('Federal spending explainer page sections', () => {
 
       window.dispatchEvent(new Event('resize'));
 
-      const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+      const { getByText, getByTestId } = render(
+        <ErrorBoundary>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
+      );
 
       await waitFor(() => {
         expect(getByTestId('toggle-button-agency')).toBeInTheDocument();
@@ -59,7 +72,11 @@ describe('Federal spending explainer page sections', () => {
     });
 
     it('dollar / percent toggle renders and is functional', async () => {
-      const { getByText, getByTestId } = render(<HowMuchDoesTheGovtSpend />);
+      const { getByText, getByTestId } = render(
+        <ErrorBoundary>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
+      );
       await waitFor(() => {
         expect(getByText('Dollars')).toBeInTheDocument();
         expect(getByTestId('switch')).toBeInTheDocument();
@@ -84,7 +101,11 @@ describe('Federal spending explainer page sections', () => {
     });
 
     it('formats the Other dollars value using formatDollars showing negative values', async () => {
-      const { getByTestId, getByText } = render(<HowMuchDoesTheGovtSpend />);
+      const { getByTestId, getByText } = render(
+        <ErrorBoundary>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
+      );
       await waitFor(() => {
         expect(getByTestId('switch')).toBeInTheDocument();
       });

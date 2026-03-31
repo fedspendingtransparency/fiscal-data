@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { sourcesOfRevenueCircleChartMatcher } from '../../../../explainer-helpers/government-revenue/government-revenue-test-helper';
 import { setGlobalFetchMatchingResponse } from '../../../../../../utils/mock-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import { ErrorBoundary } from 'react-error-boundary';
 
 // Mock Analytics to track calls
 jest.mock('../../../../../../utils/analytics/analytics', () => ({
@@ -31,7 +32,11 @@ describe('Circle chart', () => {
   });
 
   it('renders the chart category labels', async () => {
-    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
     expect(await getAllByText('Individual Income Taxes')).toHaveLength(2);
     expect(await getByText('Income Taxes')).toBeInTheDocument();
@@ -40,18 +45,30 @@ describe('Circle chart', () => {
   });
 
   it('renders the chart copy', () => {
-    const { getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     expect(getByText('Revenue Amount')).toBeInTheDocument();
     expect(getByText('% of Total Revenue')).toBeInTheDocument();
   });
 
   it('renders the data pill', async () => {
-    const { getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Total Revenue: $22.38 T', { exact: false })).toBeInTheDocument());
   });
 
   it('defaults data header to Individual Income Taxes', async () => {
-    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getAllByText('Individual Income Taxes')).toHaveLength(2));
     expect(await getByText('$2.40 T')).toBeInTheDocument();
     expect(await getByText('65%')).toBeInTheDocument();
@@ -59,7 +76,11 @@ describe('Circle chart', () => {
 
   it('updates data header when a new bubble is hovered over', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const { getAllByText, getByText, getByRole } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText, getByRole } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
     expect(getByRole('img')).toBeDefined();
     const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
@@ -70,14 +91,22 @@ describe('Circle chart', () => {
   });
 
   it('renders the callout text', async () => {
-    const { getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('In FY 2015', { exact: false })).toBeInTheDocument());
     expect(await getByText('corporate income taxes is $2.43 T', { exact: false })).toBeInTheDocument();
     await waitFor(() => expect(getByText('making up 11%', { exact: false })).toBeInTheDocument());
   });
 
   it('ignores keyboard interaction if key is not "Enter"', async () => {
-    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
 
     const labelText = getByText('Corporate').closest('text');
@@ -89,7 +118,11 @@ describe('Circle chart', () => {
   });
 
   it('updates the header on keyboard "Enter" interaction with a label', async () => {
-    const { getAllByText, getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
 
     const labelText = getByText('Corporate').closest('text');
@@ -102,7 +135,11 @@ describe('Circle chart', () => {
 
   it('resets the chart to default view when mouse leaves the chart area', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const { getAllByText, getByText, getByTestId, getByRole } = render(<SourcesOfRevenueCircleChart />);
+    const { getAllByText, getByText, getByTestId, getByRole } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
 
     const corporateIncomeTaxesCircle = getByRole('img').children[1].children[1];
@@ -117,7 +154,11 @@ describe('Circle chart', () => {
 
   it('tracks analytics event on chart hover', async () => {
     jest.useFakeTimers();
-    const { getByTestId, getByText } = render(<SourcesOfRevenueCircleChart />);
+    const { getByTestId, getByText } = render(
+      <ErrorBoundary>
+        <SourcesOfRevenueCircleChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(getByText('Corporate')).toBeInTheDocument());
 
     const chartParent = getByTestId('chartParent');
