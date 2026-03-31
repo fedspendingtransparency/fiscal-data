@@ -2,7 +2,7 @@ module.exports = {
   ENV_ID: 'dev',
   BASE_URL: 'https://dev.fiscaldata.treasury.gov',
   API_BASE_URL: 'https://api-dev.dev01.dtas.ts.aws.frb.pvt',
-  DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
+  DATA_DOWNLOAD_BASE_URL: 'http://dev.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   EXPERIMENTAL_WHITELIST: ['experimental-page', 'not-found-md', 'apiNKL', 'publishedReportsSection', 'chartingConfigurationTool'],
   ADDITIONAL_DATASETS: {
