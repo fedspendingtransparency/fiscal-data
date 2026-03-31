@@ -30,14 +30,30 @@ import {
   title,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
-import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
+import {
+  analyticsEventHandler,
+  explainerCitationsMap,
+  getDateWithoutOffset,
+} from '../../../explainer-helpers/explainer-helpers';
 import QuoteBox from '../../../quote-box/quote-box';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import CustomLink from '../../../../../components/links/custom-link/custom-link';
+
 
 
 
 export const percentageFormatter = value => (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = value => `$${(Number(value) / 1000000).toFixed(2)} T`;
+
+export const interestExpenseInsight = (
+<CustomLink
+  url="/interest-expense-avg-interest-rates/"
+  id="Interest Expense"
+  onClick={() => analyticsEventHandler('Interest Expense', 'Interest Expense Insight Click')}
+>
+  Interest Expense Insight
+  </CustomLink>
+)
 
 let gaTimerDualChart;
 let ga4Timer;
@@ -391,8 +407,8 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
             <p>
               As interest rates increase, the cost of maintaining the national debt also increases.
               These impacts grow as the debt also increases.
-              To view the relationship with interest rates and interest expense, check out this
-
+              To view the relationship with interest rates and interest expense,
+              check out this {interestExpenseInsight}
             </p>
           </VisualizationCallout>
         </figure>
