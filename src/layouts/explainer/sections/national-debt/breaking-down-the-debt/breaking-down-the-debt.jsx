@@ -408,7 +408,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
               As interest rates increase, the cost of maintaining the national debt also increases.
               These impacts grow as the debt also increases.
               To view the relationship with interest rates and interest expense,
-              check out this {interestExpenseInsight}
+              check out this {interestExpenseInsight}.
             </p>
           </VisualizationCallout>
         </figure>
