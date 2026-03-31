@@ -773,17 +773,15 @@ describe('Empty table and API Error', () => {
   const table3 = mockReactTableProps_rawData_apiError.serverSidePagination;
 
   beforeAll(() => {
-    fetchMock.get(
-      `${base}${table2}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
-      { data: [], meta: { 'total-count': 0 } },
-      { overwriteRoutes: true, repeat: 0 }
-    );
-    fetchMock.get(
-      `${base}${table3}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
-      () => {
+    fetchMock
+      .mockGlobal()
+      .route(`${base}${table2}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`, {
+        data: [],
+        meta: { 'total-count': 0 },
+      })
+      .route(`${base}${table3}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`, () => {
         throw new Error('failed to fetch');
-      }
-    );
+      });
   });
 
   afterEach(() => {
