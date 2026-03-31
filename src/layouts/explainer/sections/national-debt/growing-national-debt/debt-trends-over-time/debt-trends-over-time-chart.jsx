@@ -49,7 +49,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const processData = () => {
     const { finalGDPData } = beaGDPData;
-    console.log('beaGDPData: ', beaGDPData);
     const debtData = data.contents.payload;
     const lastGDPValue = finalGDPData[finalGDPData.length - 1];
     const debtToGDP = [];
