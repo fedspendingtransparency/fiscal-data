@@ -95,7 +95,7 @@ const SavingsBondsSoldByTypeChart: FunctionComponent = ({ cpiDataByYear }) => {
     basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=1`).then(metaRes => {
       if (metaRes.meta && typeof metaRes.meta['total-pages'] !== 'undefined') {
         const pageSize = metaRes.meta['total-pages'];
-        basicFetch(`${apiPrefix}ww${savingsBondsEndpoint}&page[size]=${pageSize}`)
+        basicFetch(`${apiPrefix}${savingsBondsEndpoint}&page[size]=${pageSize}`)
           .then(res => {
             if (res.data) {
               const currentData = sortByType(res.data, 'record_fiscal_year', 'security_class_desc', 'net_sales_amt');
