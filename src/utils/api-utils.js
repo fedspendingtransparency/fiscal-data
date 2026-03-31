@@ -646,7 +646,6 @@ export const buildDateFilter = (selectedTable, from, to) => {
   const startDateField = customFilter ? customFilter.startDateField : selectedTable.dateField;
   const startDateValue = getStartDate(customFilter?.dateRange, from, to);
   const endDateField = customFilter ? customFilter.endDateField : selectedTable.dateField;
-  console.log(`${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`);
   return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
 };
 
