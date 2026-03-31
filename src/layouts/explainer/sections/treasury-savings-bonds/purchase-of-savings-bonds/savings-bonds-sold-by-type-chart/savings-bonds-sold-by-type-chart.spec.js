@@ -6,11 +6,20 @@ import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useStaticQuery } from 'gatsby';
 
 const mockUseStaticQueryData = {
   allSavingsBondsByTypeHistoricalCsv: {
     savingsBondsByTypeHistoricalCsv: [{ year: '2021', bond_type: 'Series I', sales: 153000000000 }],
   },
+};
+
+const cpiDataByYear = {
+  '2011': '10',
+  '2012': '5',
+  '2013': '5',
+  '2023': '15',
+  '2024': '15',
 };
 
 jest.mock('recharts', () => {
@@ -32,7 +41,10 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
-  beforeAll(() => mockSavingsBondFetchResponses());
+  beforeAll(() => {
+    mockSavingsBondFetchResponses();
+    useStaticQuery.mockReturnValue(mockUseStaticQueryData);
+  });
 
   afterEach(() => {
     jest.resetModules();
