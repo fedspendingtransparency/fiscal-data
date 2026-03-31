@@ -63,7 +63,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    const endPointURL = 'v1/accounting/mts/mts_tawwble_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
+    const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
     basicFetch(`${apiPrefix}${endPointURL}`)
       .then(res => {
         if (res.data && res.data.length > 0) {

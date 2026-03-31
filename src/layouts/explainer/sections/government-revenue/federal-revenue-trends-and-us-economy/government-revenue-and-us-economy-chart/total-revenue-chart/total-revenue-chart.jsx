@@ -37,7 +37,7 @@ let ga4Timer;
 const callOutDataEndPoint =
   apiPrefix + 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date&page[size]=1';
 
-const chartDataEndPoint = apiPrefix + 'v1/accounting/mts/mtsw_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
+const chartDataEndPoint = apiPrefix + 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
 
 const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) => {
   const [revenueChartData, setRevenueChartData] = useState([]);

@@ -124,7 +124,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}11111${spendingEndpoint.path}`)
+    basicFetch(`${apiPrefix}${spendingEndpoint.path}`)
       .then(response => {
         const value = response.data[0][spendingEndpoint.valueField];
         setSpendingValue(value);

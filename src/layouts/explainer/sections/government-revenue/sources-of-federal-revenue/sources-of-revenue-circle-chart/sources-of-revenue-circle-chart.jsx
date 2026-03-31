@@ -51,7 +51,7 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   }, [chartData]);
 
   useEffect(() => {
-    const url = 'v1/accounting/mts/mts_table_9?filter=line_wcode_nbr:eq:120&sort=-record_date&page[size]=1';
+    const url = 'v1/accounting/mts/mts_table_9?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
     basicFetch(`${apiPrefix}${url}`)
       .then(res => {
         if (res.data && res.data.length > 0) {
