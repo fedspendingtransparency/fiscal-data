@@ -13,7 +13,7 @@ import {
   stickyHeader,
   tableHeader,
 } from './data-preview-data-table-header.module.scss';
-import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from '../../../data-table/data-table-helper';
+import { columnHeaderFilterActive, columnHeaderFilterApplied, rightAlign } from '../../../dtg-table/data-table-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons/faArrowDownWideShort';
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';

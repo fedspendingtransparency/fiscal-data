@@ -19,7 +19,7 @@ import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons/faArrowD
 import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
 import { faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons/faArrowUpShortWide';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { getColumnFilter, rightAlign } from '../data-table-helper';
+import { getColumnFilter, rightAlign } from '../../dtg-table/data-table-helper';
 import React, { FunctionComponent } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import { IDataTableHeader } from '../../../models/IDataTableHeader';

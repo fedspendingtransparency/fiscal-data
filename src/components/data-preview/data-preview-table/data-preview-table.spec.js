@@ -6,7 +6,7 @@ import { render, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
 import { DataTableContext } from '../data-preview-context';
 import { contextProps } from '../../data-table/data-table-test-helper';
-import { columnsConstructorData } from '../../data-table/data-table-helper';
+import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 
 describe('DataPreviewTable component', () => {
   jest.useFakeTimers();
@@ -72,7 +72,7 @@ describe('DataPreviewTable component', () => {
         }}
       >
         <RecoilRoot>
-          <DataPreviewTable setManualPagination={jest.fn()} perPage={perPage} />
+          <DataPreviewTable setManualPagination={jest.fn()} perPage={perPage} setTableColumnSortData={jest.fn()} />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -94,7 +94,7 @@ describe('DataPreviewTable component', () => {
         }}
       >
         <RecoilRoot>
-          <DataPreviewTable setManualPagination={jest.fn()} />
+          <DataPreviewTable setManualPagination={jest.fn()} setTableColumnSortData={jest.fn()} />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -143,7 +143,7 @@ describe('DataPreviewTable component', () => {
         }}
       >
         <RecoilRoot>
-          <DataPreviewTable setManualPagination={jest.fn()} />
+          <DataPreviewTable setManualPagination={jest.fn()} setTableColumnSortData={jest.fn()} />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -155,10 +155,17 @@ describe('DataPreviewTable component', () => {
   it('renders pagination Controls when there are more rows than the minimum rows-per-page-option and shouldPage is set to true', async () => {
     const { getByText } = render(
       <DataTableContext.Provider
-        value={{ ...contextProps, tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true } }}
+        value={{
+          ...contextProps,
+          tableProps: {
+            rawData: { data: MoreTestData, meta: { dataTypes: { record_date: 'DATE' } } },
+            selectedTable: { rowCount: 11 },
+            shouldPage: true,
+          },
+        }}
       >
         <RecoilRoot>
-          <DataPreviewTable setManualPagination={jest.fn()} isLoading={false} />
+          <DataPreviewTable setManualPagination={jest.fn()} isLoading={false} setTableColumnSortData={jest.fn()} />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -221,6 +228,7 @@ describe('DataPreviewTable component', () => {
             userFilterSelection={{ value: 'A' }}
             setManualPagination={mockSetManualPagination}
             setIsLoading={mockSetIsLoading}
+            setTableColumnSortData={jest.fn()}
           />
         </RecoilRoot>
       </DataTableContext.Provider>
@@ -296,7 +304,12 @@ describe('Data Preview Table detail view', () => {
         }}
       >
         <RecoilRoot>
-          <DataPreviewTable detailViewState={detailViewState} setManualPagination={mockSetManualPagination} setIsLoading={mockSetIsLoading} />
+          <DataPreviewTable
+            detailViewState={detailViewState}
+            setManualPagination={mockSetManualPagination}
+            setIsLoading={mockSetIsLoading}
+            setTableColumnSortData={jest.fn()}
+          />
         </RecoilRoot>
       </DataTableContext.Provider>
     );
@@ -326,6 +339,7 @@ describe('Loading table data', () => {
             selectedTable: { rowCount: 12 },
             shouldPage: true,
           }}
+          setTableColumnSortData={jest.fn()}
           setManualPagination={mockSetManualPagination}
           setIsLoading={mockSetIsLoading}
         />
@@ -349,7 +363,12 @@ describe('Loading table data', () => {
           },
         }}
       >
-        <DataPreviewTable tableMeta={{ 'total-count': 12 }} setManualPagination={mockSetManualPagination} setIsLoading={mockSetIsLoading} />
+        <DataPreviewTable
+          tableMeta={{ 'total-count': 12 }}
+          setManualPagination={mockSetManualPagination}
+          setIsLoading={mockSetIsLoading}
+          setTableColumnSortData={jest.fn()}
+        />
       </DataTableContext.Provider>,
       { wrapper: RecoilRoot }
     );

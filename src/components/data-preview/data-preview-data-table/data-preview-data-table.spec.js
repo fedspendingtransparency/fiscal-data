@@ -24,7 +24,7 @@ import DataPreviewDataTable from './data-preview-data-table';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
 import { RecoilObserver } from '../../../utils/test-utils';
 import { DataTableContext } from '../data-preview-context';
-import { columnsConstructorData } from '../../data-table/data-table-helper';
+import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
