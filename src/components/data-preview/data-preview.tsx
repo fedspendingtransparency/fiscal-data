@@ -212,6 +212,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
           tableCaches[displayedTable.apiId],
           detailViewState,
           config?.detailView?.field,
+          null,
           queryClient
         ).then(() => {
           // nothing to cancel if the request completes normally.

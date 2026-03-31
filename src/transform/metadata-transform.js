@@ -6,7 +6,7 @@ const { getConfigByApiId } = require('./endpointConfig');
 const { processFilters } = require('./filters/filterDefinitions');
 const { largeDatasetThreshold } = require('../helpers/largeDatasetThreshold');
 const matchedApiConfigs = [];
-
+const byPageThreshold = 20000;
 const { getPublishedReports } = require('../helpers/published-reports/published-reports');
 
 let camelcaseKeys;
@@ -155,6 +155,9 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
           }
+          if (Number(api.rowCount) > byPageThreshold && !api.userFilter) {
+            api.byPage = true;
+          }
           if (Number(api.rowCount) > largeDatasetThreshold && !api.userFilter) {
             api.isLargeDataset = true;
             const aggregateLargeDatasetPivot = true; // TODO: set by environmental variable
@@ -185,6 +188,10 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
               }
             }
             api.selectColumns = selectColumns;
+          }
+          //TODO: test functionality
+          if (api.apiId === 178) {
+            api.fields[2].dataType = 'SMALL_FRACTION';
           }
         }
 

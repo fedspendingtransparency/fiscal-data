@@ -3,15 +3,7 @@ import DtgTableHeading from '../../dtg-table/dtg-table-heading/dtg-table-heading
 import DtgTableRow from '../../dtg-table/dtg-table-row/dtg-table-row';
 import { setColumns } from '../../dtg-table/dtg-table-helper';
 import PaginationControls, { defaultPerPageOptions } from '../../pagination/pagination-controls';
-import {
-  noBorderStyle,
-  overlayContainer,
-  overlayContainerNoFooter,
-  rowsShowingStyle,
-  selectColumnsWrapper,
-  tableFooter,
-  wrapper,
-} from '../../dtg-table/dtg-table.module.scss';
+import { noBorderStyle, overlayContainer, rowsShowingStyle, tableFooter, wrapper } from '../../dtg-table/dtg-table.module.scss';
 
 const defaultRowsPerPage = 10;
 export default function Table({ tableProps, perPage }) {
@@ -136,19 +128,14 @@ export default function Table({ tableProps, perPage }) {
 
   return (
     <div className={overlayContainer}>
-      {/*Endpoints and Fields tables*/}
-      <div data-testid="table-content" className={overlayContainerNoFooter}>
-        <div className={selectColumnsWrapper}>
-          {/* Table Wrapper */}
-          <div data-testid="table-wrapper" className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
-            {/* Table */}
-            <table {...tableProps.aria} style={{ width: tableWidth }}>
-              {caption !== undefined && <caption className="sr-only">{caption}</caption>}
-              <DtgTableHeading columns={columns} />
-              <tbody>{rows}</tbody>
-            </table>
-          </div>
-        </div>
+      {/* Table Wrapper */}
+      <div data-testid="table-wrapper" className={noBorder ? [wrapper, noBorderStyle].join(' ') : wrapper}>
+        {/* Table */}
+        <table {...tableProps.aria} style={{ width: tableWidth }}>
+          {caption !== undefined && <caption className="sr-only">{caption}</caption>}
+          <DtgTableHeading columns={columns} />
+          <tbody>{rows}</tbody>
+        </table>
       </div>
       {/* Table Footer */}
       {shouldPage && (

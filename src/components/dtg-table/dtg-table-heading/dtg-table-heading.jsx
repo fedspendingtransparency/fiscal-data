@@ -1,5 +1,5 @@
 import React from 'react';
-import { rightAlign } from '../../data-table/data-table-helper';
+import { rightAlign } from '../data-table-helper';
 
 export default function DtgTableHeading({ columns }) {
   const setStyle = column => {

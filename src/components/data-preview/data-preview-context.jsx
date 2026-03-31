@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react';
-import { columnsConstructorData } from '../data-table/data-table-helper';
+import { columnsConstructorData } from '../dtg-table/data-table-helper';
 
 export const DataTableContext = createContext({});
 

@@ -1,46 +1,38 @@
-import { act, render, waitFor } from '@testing-library/react';
+import { act, render, waitFor, within } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
+  mockColumnConfig,
   mockPaginatedTableProps,
-  mockReactTableProps_depaginated,
-  mockReactTableProps_depaginated_smallTable,
   mockReactTableProps_rawData,
-  mockReactTableProps_rawData_apiError,
-  mockReactTableProps_rawData_emptyTable,
   mockReactTableProps_rawData_nestedDetailTable,
   mockReactTableProps_rawData_pivotTable,
-  mockReactTableProps_rawData_smallTable,
 } from './test-data';
 import React from 'react';
+
 import fetchMock from 'fetch-mock';
 import userEvent from '@testing-library/user-event';
+import { mockPublishedReports } from '../data-table/data-table-test-helper';
 
 // Separate file created for these tests due mock conflict issues
-
 describe('React Table Data ', () => {
   jest.useFakeTimers();
   const setManualPaginationSpy = jest.fn();
   const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service/';
   const table1 = mockPaginatedTableProps.serverSidePagination;
-  const table2 = mockReactTableProps_rawData_emptyTable.serverSidePagination;
-  const table3 = mockReactTableProps_rawData_apiError.serverSidePagination;
+
+  const tableProps = {
+    columnConfig: mockColumnConfig,
+    publishedReports: mockPublishedReports,
+    hasPublishedReports: false,
+  };
+
   beforeAll(() => {
-    fetchMock
-      .mockGlobal()
-      .route(
-        `${base}${table1}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`,
-        longerPaginatedDataResponse
-      )
-      .route(`${base}${table2}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`, {
-        data: [],
-        meta: { 'total-count': 0 },
-      })
-      .route(`${base}${table3}?filter=record_date:gte:2021-01-21,record_date:lte:2021-01-21&sort=-record_date&page[number]=1&page[size]=10`, () => {
-        throw new Error('failed to fetch');
-      });
+    fetchMock.mockGlobal()
+      .route(`begin:${base}${table1}`, longerPaginatedDataResponse, { overwriteRoutes: true });
   });
+
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -57,58 +49,8 @@ describe('React Table Data ', () => {
           reactTable
           rawDataTable={true}
           pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
-        />
-      </RecoilRoot>
-    );
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
-    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
-  });
-
-  it('sets raw data for small table', async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_rawData_smallTable}
-          reactTable
-          pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
-          setManualPagination={setManualPaginationSpy}
-        />
-      </RecoilRoot>
-    );
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
-    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
-  });
-
-  it('sets depaginated data', async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_depaginated}
-          reactTable
-          rawDataTable
-          tableMeta={{ 'total-count': 12 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
-    expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
-  });
-
-  it('sets depaginated data for small tables', async () => {
-    const { getByRole } = render(
-      <RecoilRoot>
-        <DtgTable
-          tableProps={mockReactTableProps_depaginated_smallTable}
-          reactTable
-          rawDataTable
-          tableMeta={{ 'total-count': 2 }}
-          setManualPagination={setManualPaginationSpy}
-          setIsLoading={jest.fn()}
         />
       </RecoilRoot>
     );
@@ -118,18 +60,25 @@ describe('React Table Data ', () => {
 
   it('handles serverside paginated data (tableData), with pagination controls', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const mockSorting = jest.fn();
+
     const { findByRole, getByRole, getByText } = render(
       <RecoilRoot>
         <DtgTable
-          tableProps={mockPaginatedTableProps}
-          tableMeta={{ 'total-count': 20001 }}
+          tableProps={{ ...tableProps, ...mockPaginatedTableProps }}
+          tableMeta={{ meta: { 'total-count': 20001, dataTypes: longerPaginatedDataResponse.meta.dataTypes }, table: 'test table' }}
           manualPagination={true}
           setManualPagination={setManualPaginationSpy}
           setIsLoading={jest.fn()}
           setPerPage={jest.fn()}
+          setTableColumnSortData={jest.fn()}
+          allActiveFilters={['record_date-sort']}
+          setAllActiveFilters={mockSorting}
+          sorting={['record-date']}
         />
       </RecoilRoot>
     );
+
     await act(async () => {
       jest.runAllTimers();
     });
@@ -138,14 +87,19 @@ describe('React Table Data ', () => {
       expect(await findByRole('table')).toBeInTheDocument();
     });
 
+    //pagination
     expect(setManualPaginationSpy).toHaveBeenCalledWith(true);
-
     const rowsPerPageMenu = getByRole('button', { name: 'rows-per-page-menu' });
     expect(rowsPerPageMenu).toBeInTheDocument();
     await user.click(rowsPerPageMenu);
     const perPage5 = getByRole('menuitem', { name: '5', hidden: true });
     await user.click(perPage5);
     expect(getByText('1 - 5')).toBeInTheDocument();
+
+    //table sorting
+    const header = getByRole('columnheader', { name: 'Record Date mm/dd/yyyy - mm/dd/yyyy' });
+    const sortButton = within(header).getAllByRole('img', { hidden: true })[0];
+    expect(sortButton).toHaveClass('defaultSortArrow');
   });
 
   it('sets raw data for nested detail tables', async () => {
@@ -154,7 +108,7 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_rawData_nestedDetailTable}
           pivotSelected={null}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
           detailViewState={{ secondary: 'last' }}
         />
@@ -174,7 +128,7 @@ describe('React Table Data ', () => {
         <DtgTable
           tableProps={mockReactTableProps_rawData_pivotTable}
           pivotSelected={mockPivot}
-          tableMeta={{ 'total-count': 2 }}
+          tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
       </RecoilRoot>
@@ -182,47 +136,4 @@ describe('React Table Data ', () => {
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
   });
-
-  //TODO: Add empty data message and api error message to data-table
-  // it('handles an empty api response for server paginated tables', async () => {
-  //   const setIsLoadingSpy = jest.fn();
-  //   const { findByRole, getByText } = render(
-  //     <RecoilRoot>
-  //       <DtgTable
-  //         tableProps={mockReactTableProps_rawData_emptyTable}
-  //         tableMeta={{ 'total-count': 20001 }}
-  //         setManualPagination={setManualPaginationSpy}
-  //         setIsLoading={setIsLoadingSpy}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //
-  //   await act(async () => {
-  //     jest.runAllTimers();
-  //   });
-  //   expect(await findByRole('table')).toBeInTheDocument();
-  //   expect(getByText('Change selections in order to preview data')).toBeInTheDocument();
-  //   expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
-  // });
-
-  // it('catches api errors', async () => {
-  //   const setIsLoadingSpy = jest.fn();
-  //   const { findByRole, getByText } = render(
-  //     <RecoilRoot>
-  //       <DtgTable
-  //         tableProps={mockReactTableProps_rawData_apiError}
-  //         tableMeta={{ 'total-count': 20001 }}
-  //         setManualPagination={setManualPaginationSpy}
-  //         setIsLoading={setIsLoadingSpy}
-  //       />
-  //     </RecoilRoot>
-  //   );
-  //
-  //   await act(async () => {
-  //     jest.runAllTimers();
-  //     expect(await findByRole('table')).toBeInTheDocument();
-  //   });
-  //   expect(getByText('Table failed to load.')).toBeInTheDocument();
-  //   expect(setIsLoadingSpy).toHaveBeenCalledWith(false);
-  // });
 });

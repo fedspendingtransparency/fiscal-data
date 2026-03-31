@@ -7,7 +7,7 @@ import {
   smallTableDownloadDataXML,
   tableRowLengthState,
 } from '../../../recoil/smallTableDownloadData';
-import { constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
+import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
@@ -156,7 +156,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   }, [defaultSelectedColumns]);
 
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    setTableColumnSortData(getSortedColumnsData(table, hideColumns, dataTypes));
     if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       let downloadData = [];
       const downloadHeaders = [];

@@ -1,0 +1,70 @@
+@use 'src/variables.module' as *;
+$borderRadius: 5px;
+
+.tableStyle {
+  overflow-x: auto;
+  width: 100%;
+  order: 1;
+
+  th,
+  .th {
+    cursor: default;
+    background-color: white;
+    position: relative;
+    font-weight: bold;
+    text-align: center;
+    height: 1.875rem;
+    padding: 0.25rem 0.5rem 0.75rem;
+  }
+
+  .tr {
+    display: flex;
+  }
+
+  tr,
+  .tr {
+    width: fit-content;
+    height: 1.875rem;
+  }
+
+  td,
+  .td {
+    padding: 0.25rem 0.5rem;
+  }
+
+  #th-parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  td,
+  .td {
+    height: 1.875rem;
+  }
+}
+
+.nonRawDataTableContainer {
+  position: relative;
+  box-sizing: border-box;
+  border-top: 0;
+  background-color: white;
+  overflow-y: auto;
+  max-height: 521px;
+}
+
+.overlayContainerNoFooter {
+  position: relative;
+  border: 1px solid $dd-border-color;
+  border-top: 0;
+  border-bottom-left-radius: $borderRadius;
+  border-bottom-right-radius: $borderRadius;
+}
+
+.overlayContainerNoFooterChart {
+  border: none;
+}
+
+.selectColumnsWrapper {
+  display: flex;
+}
