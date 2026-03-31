@@ -5,6 +5,13 @@ import { mockData, mockInflationData, yAxisFormatter } from './savings-bonds-sol
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import { ErrorBoundary } from 'react-error-boundary';
+
+const mockUseStaticQueryData = {
+  allSavingsBondsByTypeHistoricalCsv: {
+    savingsBondsByTypeHistoricalCsv: [{ year: '2021', bond_type: 'Series I', sales: 153000000000 }],
+  },
+};
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -32,7 +39,11 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('renders the chart', () => {
-    const { container, getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
+    const { container, getByText } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />
+      </ErrorBoundary>
+    );
     expect(container).toBeInTheDocument();
     expect(getByText('Adjust for Inflation')).toBeInTheDocument();
   });
@@ -48,7 +59,11 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('formats y axis values', () => {
-    const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />
+      </ErrorBoundary>
+    );
     expect(getByText('$24.5 B')).toBeInTheDocument();
     expect(getByText('$21.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
@@ -69,12 +84,18 @@ describe('Savings Bonds by Type Over Time Chart', () => {
 
   it('switches chart data on inflation toggle', async () => {
     const { getByText, rerender, getByTestId } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />
+      </ErrorBoundary>
     );
     expect(getByText('$21.0 B')).toBeInTheDocument();
     const inflationToggle = getByTestId('inflation-check-box', { name: /adjust for inflation/i });
     fireEvent.click(inflationToggle);
-    rerender(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />);
+    rerender(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />
+      </ErrorBoundary>
+    );
 
     await waitFor(() => {
       expect(getByText('$24.5 B')).toBeInTheDocument();
@@ -84,7 +105,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   it('chart is keyboard accessible', async () => {
     const user = userEvent.setup();
     const { getByRole, getAllByText } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
     const chart = getByRole('application');
     expect(getAllByText('1935').length).toBe(1);
@@ -106,7 +129,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     jest.useFakeTimers();
     const gaSpy = jest.spyOn(Analytics, 'event');
     const { getByText, getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
     expect(getByText('$21.0 B')).toBeInTheDocument();
 
@@ -124,7 +149,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
 
     const infoTip = getByRole('button', { name: 'More information about adjusting for inflation.' });
@@ -142,7 +169,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
 
     const chart = getByRole('application');
@@ -161,7 +190,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
 
     const chart = getByRole('application');
@@ -178,7 +209,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      </ErrorBoundary>
     );
 
     const citation1 = getByRole('link', { name: 'Electronic Securities Transactions' });

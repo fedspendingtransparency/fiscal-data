@@ -6,6 +6,7 @@ import { calculatePercentage } from '../../../../../../utils/api-utils';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
 import * as apiUtils from '../../../../../../utils/api-utils';
+import { ErrorBoundary } from 'react-error-boundary';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -27,7 +28,11 @@ describe('HowSavingsBondsSoldChart', () => {
   }
   window.ResizeObserver = ResizeObserver;
   beforeEach(() => {
-    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
+    render(
+      <ErrorBoundary>
+        <HowSavingsBondsSoldChart chartData={mockDatasetTwo} />
+      </ErrorBoundary>
+    );
   });
 
   it('renders pie chart with provided mock data', () => {
@@ -112,7 +117,11 @@ describe('HowSavingsBondsSoldChart api return test suite', () => {
       data: [{ record_date: '2026-01-01' }],
     };
     basicFetchSpy.mockResolvedValue(mockApiResponse);
-    render(<HowSavingsBondsSoldChart chartData={mockDatasetTwo} />);
+    render(
+      <ErrorBoundary>
+        <HowSavingsBondsSoldChart chartData={mockDatasetTwo} />
+      </ErrorBoundary>
+    );
     const dateElement = await screen.findByText(/January 2026/);
     expect(dateElement).toBeInTheDocument();
   });
