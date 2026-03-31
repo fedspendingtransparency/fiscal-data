@@ -1,5 +1,13 @@
 @use 'src/variables.module' as *;
 
+.desktopView {
+  display: none;
+}
+
+.mobileView {
+  display: block;
+}
+
 .topicSection {
   margin-top: 1rem;
   margin-bottom: 2rem;
