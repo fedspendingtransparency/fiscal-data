@@ -61,7 +61,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
-
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
     } else {
@@ -123,6 +122,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
+      // setUserFilterSelection(null);
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
@@ -136,12 +136,17 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       (async () => {
-        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData)
+        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData) {
           await getMetaData().then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
           });
+        } else {
+          console.log('resetting data');
+          setTableMeta(null);
+          setApiData(null);
+        }
       })();
       setSelectedTableProp(selectedTable);
     }

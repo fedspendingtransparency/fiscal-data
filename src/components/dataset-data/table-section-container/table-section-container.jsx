@@ -187,9 +187,7 @@ const TableSectionContainer = ({
     setHasPivotOptions(hasPivotOptions);
     setSorting([]);
     setResetFilters(true);
-    if (!config?.sharedApiFilterOptions) {
-      setUserFilterSelection(null);
-    }
+    setUserFilterSelection(null);
   }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
@@ -325,7 +323,7 @@ const TableSectionContainer = ({
             />
           )}
           <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
-            {(apiData || serverSidePagination || apiError) && (
+            {(apiData || serverSidePagination || apiError || apiFilterDefault) && (
               <ChartTableToggle
                 legend={legend}
                 selectedTab={selectedTab}

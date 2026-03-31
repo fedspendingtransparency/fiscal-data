@@ -235,9 +235,10 @@ export const datatableRequest = async (
           from = from.substring(0, from.lastIndexOf('-'));
           to = to.substring(0, to.lastIndexOf('-'));
         }
+        const dateFilter = buildDateFilter(table, from, to);
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
         const apiFilter = getApiFilterParam(table, userFilterValue);
-        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
+        const uri = `${apiPrefix}${endpoint}?filter=${dateFilter}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
@@ -646,7 +647,7 @@ export const buildDateFilter = (selectedTable, from, to) => {
   const startDateField = customFilter ? customFilter.startDateField : selectedTable.dateField;
   const startDateValue = getStartDate(customFilter?.dateRange, from, to);
   const endDateField = customFilter ? customFilter.endDateField : selectedTable.dateField;
-
+  console.log(`${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`);
   return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
 };
 
