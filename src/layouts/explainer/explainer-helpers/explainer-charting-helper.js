@@ -55,17 +55,10 @@ export const formatPercentage = v => {
   return `${v}%`;
 };
 
-export const getChartTheme = (width, markers) => {
+export const getChartTheme = () => {
   const fontSize = { fontSize: fontSize_14 };
-  const markerFontSize =
-    width && markers
-      ? {
-          fontSize: fontSize_14,
-        }
-      : {};
   return {
     ...fontSize,
-    ...markerFontSize,
     textColor: '#666666',
     axis: {
       domain: {
