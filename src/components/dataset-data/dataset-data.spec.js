@@ -356,7 +356,10 @@ describe('DatasetData', () => {
     await user.click(tableSelect);
     await user.click(getByRole('button', { name: 'Table 7' })); // confirm that the second table's api url was called only once
     const callsToApiForUpdatedTable = fetchSpy.mock.calls.filter(callSig => callSig[0].indexOf('/mockEndpoint6?') !== -1);
-    expect(callsToApiForUpdatedTable.length).toEqual(1);
+    // 1 call to fetch metadata, 1 call to fully fetch the data
+    expect(callsToApiForUpdatedTable.length).toEqual(2);
+    expect(callsToApiForUpdatedTable[0][0]).toContain('page[size]=1');
+    expect(callsToApiForUpdatedTable[1][0]).toContain('page%5Bsize%5D=10000');
   });
 
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {

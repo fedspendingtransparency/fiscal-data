@@ -7,7 +7,7 @@ import RangePresets from '../filter-download-container/range-presets/range-prese
 import TableSectionContainer from './table-section-container/table-section-container';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
+import { getApiData, getApiFilterParam } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
@@ -20,11 +20,10 @@ import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import BannerCallout from '../banner-callout/banner-callout';
+import { buildDateFilter, fetchTableMeta, formatDateForApi } from '../../utils/api-utils';
 
-export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
-  // config.apis should always be available; but, fallback in case
-
-  const apis = config ? config.apis : [null];
+export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
+  const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
@@ -33,7 +32,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [dateRange, setDateRange] = useState();
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!apis[0]?.apiFilter);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -50,18 +49,18 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
+  const [tableMeta, setTableMeta] = useState(null);
+  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
+
   const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-
-
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
-    return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
+    return selectedTable && selectedTable.byPage && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
-
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
     } else {
@@ -123,16 +122,32 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
+      // setUserFilterSelection(null);
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
-      setSelectedPivot(null);
+      if (!selectedTable.apiFilter) {
+        setSelectedPivot(null);
+      }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
       if (!tableCaches[selectedTable.apiId]) {
         tableCaches[selectedTable.apiId] = new TableCache();
       }
+      (async () => {
+        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData) {
+          await getMetaData().then(res => {
+            if (res?.meta) {
+              setTableMeta({ meta: res.meta, table: selectedTable.tableName });
+            }
+          });
+        } else {
+          console.log('resetting data');
+          setTableMeta(null);
+          setApiData(null);
+        }
+      })();
       setSelectedTableProp(selectedTable);
     }
   }, [selectedTable]);
@@ -154,146 +169,180 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
+  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+
+  const tableSectionInitialized = () =>
+    !finalDatesNotFound &&
+    selectedTable &&
+    (selectedPivot || ignorePivots || selectedTable.apiFilter) &&
+    dateRange &&
+    !allTablesSelected &&
+    (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()));
+
+  const getMetaData = async () => {
+    if (dateRange && selectedTable?.endpoint) {
+      let from = formatDateForApi(dateRange.from);
+      let to = formatDateForApi(dateRange.to);
+      // redemption_tables and sb_value are exception scenarios where the date string needs to
+      // be YYYY-MM.
+      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+        from = from.substring(0, from.lastIndexOf('-'));
+        to = to.substring(0, to.lastIndexOf('-'));
+      }
+      const dateFilter = buildDateFilter(selectedTable, from, to);
+      const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+      return await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
+    }
+    return null;
+  };
+
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (tableSectionInitialized()) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
-      if (cachedDisplay) {
+      if (cachedDisplay && !selectedTable.apiFilter) {
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-        let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        if (!loadByPage || ignorePivots) {
-          getApiData(
-            dateRange,
-            displayedTable,
-            selectedPivot,
-            setIsLoading,
-            setApiData,
-            setApiError,
-            canceledObj,
-            tableCaches[displayedTable.apiId],
-            detailViewState,
-            config?.detailView?.field,
-            queryClient
-          ).then(() => {
-            // nothing to cancel if the request completes normally.
-            canceledObj = null;
-          });
-        }
-        return () => {
-          if (!canceledObj) return;
-          canceledObj.isCanceled = true;
-          canceledObj.abortController.abort();
-        };
+        setTimeout(() => {
+          let canceledObj = { isCanceled: false, abortController: new AbortController() };
+          let getAllData;
+          (async () => {
+            getAllData = tableMeta && tableMeta?.meta?.['total-count'] <= 20000;
+            if (!loadByPage || getAllData || ignorePivots) {
+              setServerSidePagination(null);
+              getApiData(
+                dateRange,
+                displayedTable,
+                selectedPivot,
+                setIsLoading,
+                setApiData,
+                setApiError,
+                canceledObj,
+                tableCaches[displayedTable.apiId],
+                detailViewState,
+                config?.detailView?.field,
+                userFilterSelection,
+                setUserFilterUnmatchedForDateRange,
+                queryClient
+              ).then(() => {
+                // nothing to cancel if the request completes normally.
+                canceledObj = null;
+              });
+            }
+          })();
+          return () => {
+            if (!canceledObj) return;
+            canceledObj.isCanceled = true;
+            canceledObj.abortController.abort();
+          };
+        });
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [tableMeta]);
 
   useEffect(() => {
-    if (allTablesSelected) {
-      setTableColumnSortData([]);
+    if (tableSectionInitialized()) {
+      if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
+        (async () => {
+          const metaData = await getMetaData();
+          setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
+        })();
+      }
     }
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
+
+  useEffect(() => {
     setUserFilterSelection(null);
   }, [allTablesSelected]);
-
-  useEffect(() => {
-    setTableColumnSortData([]);
-  }, [selectedTable]);
 
   return (
     <div data-testid="datasetData">
       <DatasetSectionContainer id="data-table" title={title}>
-        {tableColumnSortData && (
-          <FilterAndDownload
-            data-testid="filterAndDownload"
-            dateRange={dateRange}
-            isFiltered={isFiltered}
-            selectedTable={!!detailViewState ? detailApi : selectedTable}
-            dataset={config}
+        <FilterAndDownload
+          data-testid="filterAndDownload"
+          dateRange={dateRange}
+          isFiltered={isFiltered}
+          selectedTable={!!detailViewState ? detailApi : selectedTable}
+          dataset={config}
+          allTablesSelected={allTablesSelected}
+          isCustomDateRange={isCustomDateRange}
+          selectedUserFilter={userFilterSelection}
+          tableColumnSortData={tableColumnSortData}
+          filteredDateRange={filteredDateRange}
+          selectedDetailViewFilter={detailViewDownloadFilter}
+          setDisableDownloadBanner={setDisableDownloadBanner}
+          selectedPivot={selectedPivot}
+        >
+          <DataTableSelect
+            apis={filteredApis}
+            selectedTable={selectedTable}
+            setSelectedTable={handleSelectedTableChange}
             allTablesSelected={allTablesSelected}
-            isCustomDateRange={isCustomDateRange}
-            selectedUserFilter={userFilterSelection}
-            tableColumnSortData={tableColumnSortData}
-            filteredDateRange={filteredDateRange}
-            selectedDetailViewFilter={detailViewDownloadFilter}
-            setDisableDownloadBanner={setDisableDownloadBanner}
-            selectedPivot={selectedPivot}
-          >
-            <DataTableSelect
-              apis={filteredApis}
-              selectedTable={selectedTable}
-              setSelectedTable={handleSelectedTableChange}
-              allTablesSelected={allTablesSelected}
-              earliestDate={config.techSpecs.earliestDate}
-              latestDate={config.techSpecs.latestDate}
-              disableAllTables={config?.disableAllTables}
-            />
-            {selectedTable && (
-              <>
-                {!selectedTable?.apiFilter?.disableDateRangeFilter && (
-                  <RangePresets
-                    setDateRange={setDateRange}
-                    handleDateRangeChange={handleDateRangeChange}
-                    selectedTable={!!detailViewState ? detailApi : selectedTable}
-                    apiData={apiData}
-                    onUserFilter={setUserFilterSelection}
-                    setIsFiltered={setIsFiltered}
-                    currentDateButton={config.currentDateButton}
-                    datePreset={config.datePreset}
-                    customRangePreset={config.customRangePreset}
-                    setIsCustomDateRange={setIsCustomDateRange}
-                    allTablesSelected={allTablesSelected}
-                    datasetDateRange={{
-                      earliestDate: config.techSpecs.earliestDate,
-                      latestDate: config.techSpecs.latestDate,
-                    }}
-                    finalDatesNotFound={finalDatesNotFound}
-                    setResetFilters={setResetFilters}
-                    datatableBanner={config.datatableBanner}
-                    hideButtons={detailApi && !detailViewState}
-                  />
-                )}
-                {disableDownloadBanner && (
-                  <div className={bannerContainer}>
-                    <BannerCallout bannerCallout={{ banner: 'XMLLargeDownloadDisabled' }} bannerType="infoYellow" />
-                  </div>
-                )}
-                {selectedTable.userFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    apiData={apiData}
-                    setResetFilters={setResetFilters}
-                  />
-                )}
-                {selectedTable.apiFilter && (
-                  <UserFilter
-                    selectedTable={selectedTable}
-                    onUserFilter={setUserFilterSelection}
-                    setResetFilters={setResetFilters}
-                    allTablesSelected={allTablesSelected}
-                    setDateRange={setDateRange}
-                  />
-                )}
-              </>
-            )}
-            {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
-            {!selectedTable && (
-              <div data-testid="dateRangePlaceholder">
-                <h3 className={placeholderText}>Date Range</h3>
-                <div className={placeholderButton} />
-              </div>
-            )}
-            {detailApi && !detailViewState && (
-              <div className={detailViewNotice}>
-                <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
-              </div>
-            )}
-          </FilterAndDownload>
-        )}
+            earliestDate={config.techSpecs.earliestDate}
+            latestDate={config.techSpecs.latestDate}
+            disableAllTables={config?.disableAllTables}
+          />
+          {selectedTable && (
+            <>
+              {!selectedTable?.apiFilter?.disableDateRangeFilter && (
+                <RangePresets
+                  setDateRange={setDateRange}
+                  handleDateRangeChange={handleDateRangeChange}
+                  selectedTable={!!detailViewState ? detailApi : selectedTable}
+                  apiData={apiData}
+                  onUserFilter={setUserFilterSelection}
+                  setIsFiltered={setIsFiltered}
+                  currentDateButton={config.currentDateButton}
+                  datePreset={config.datePreset}
+                  customRangePreset={config.customRangePreset}
+                  setIsCustomDateRange={setIsCustomDateRange}
+                  allTablesSelected={allTablesSelected}
+                  datasetDateRange={{
+                    earliestDate: config.techSpecs.earliestDate,
+                    latestDate: config.techSpecs.latestDate,
+                  }}
+                  finalDatesNotFound={finalDatesNotFound}
+                  setResetFilters={setResetFilters}
+                  datatableBanner={config.datatableBanner}
+                  hideButtons={detailApi && !detailViewState}
+                />
+              )}
+              {disableDownloadBanner && (
+                <div className={bannerContainer}>
+                  <BannerCallout bannerCallout={{ banner: 'XMLLargeDownloadDisabled' }} bannerType="infoYellow" />
+                </div>
+              )}
+              {selectedTable.userFilter && (
+                <UserFilter selectedTable={selectedTable} onUserFilter={setUserFilterSelection} apiData={apiData} setResetFilters={setResetFilters} />
+              )}
+              {selectedTable.apiFilter && (
+                <UserFilter
+                  selectedTable={selectedTable}
+                  onUserFilter={setUserFilterSelection}
+                  setResetFilters={setResetFilters}
+                  allTablesSelected={allTablesSelected}
+                  setDateRange={setDateRange}
+                />
+              )}
+            </>
+          )}
+          {config.datatableBanner && <DatatableBanner bannerNotice={config.datatableBanner} />}
+          {!selectedTable && (
+            <div data-testid="dateRangePlaceholder">
+              <h3 className={placeholderText}>Date Range</h3>
+              <div className={placeholderButton} />
+            </div>
+          )}
+          {detailApi && !detailViewState && (
+            <div className={detailViewNotice}>
+              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+            </div>
+          )}
+        </FilterAndDownload>
+
         {dateRange && (
           <TableSectionContainer
             config={config}
@@ -301,6 +350,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             selectedTable={selectedTable}
             userFilterSelection={userFilterSelection}
             setUserFilterSelection={setUserFilterSelection}
+            setTableColumnSortData={setTableColumnSortData}
             apiData={apiData}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
@@ -313,9 +363,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             handleIgnorePivots={setIgnorePivots}
             allTablesSelected={allTablesSelected}
             handleConfigUpdate={() => setConfigUpdated(true)}
-            tableColumnSortData={tableColumnSortData}
-            setTableColumnSortData={setTableColumnSortData}
-            hasPublishedReports={!!publishedReports}
             publishedReports={publishedReports}
             resetFilters={resetFilters}
             setResetFilters={setResetFilters}
@@ -326,6 +373,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             setSummaryValues={setSummaryValues}
             allActiveFilters={allActiveFilters}
             setAllActiveFilters={setAllActiveFilters}
+            tableMeta={tableMeta}
+            userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+            setUserFilterUnmatchedForDateRange={setUserFilterUnmatchedForDateRange}
           />
         )}
       </DatasetSectionContainer>

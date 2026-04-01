@@ -10,7 +10,7 @@ import Responses from '../../components/api-documentation/responses/responses';
 import Aggregation from '../../components/api-documentation/aggregation/aggregation';
 import Examples from '../../components/api-documentation/examples/examples';
 import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
-import { activeLink, hoverLink, content, apiPageWrapper } from './api.module.scss';
+import { activeLink, apiPageWrapper, content, hoverLink } from './api.module.scss';
 import DataRegistry from '../../components/api-documentation/data-registry/data-registry';
 import tocList from './toc-data.json';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
@@ -42,7 +42,7 @@ const ApiDocumentationPage: FunctionComponent = () => {
       </div>
       <div className={`pageWrapper ${apiPageWrapper}`}>
         <SecondaryNav sections={tocList} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
-          <div id={content} className={content} data-testId="componentWrapper">
+          <div id={content} className={content} data-testid="componentWrapper">
             <GettingStarted />
             <Endpoints />
             <DataRegistry />

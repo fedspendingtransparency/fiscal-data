@@ -268,7 +268,7 @@ export const mockDetailConfig = {
   name: 'my name',
   slug: 'mock/slug/here',
   apis: [selectedTableLessFields, selectedTableMoreFields],
-  detailView: { apiId: 4, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
+  detailView: { apiId: 2, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
 };
 
 export const pivotFields = [

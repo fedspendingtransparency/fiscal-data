@@ -2,7 +2,12 @@ import { API_BASE_URL, AUTHENTICATE_API } from 'gatsby-env-variables';
 import { format, subDays, subMonths, subYears } from 'date-fns';
 import GLOBALS from '../helpers/constants';
 import authenticatingFetch from './authenticating-fetch/authenticating-fetch';
-import { divvyUpFilters, pivotApiData, pivotApiDataFn } from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
+import {
+  divvyUpFilters,
+  getApiFilterParam,
+  pivotApiData,
+  pivotApiDataFn,
+} from '../components/dataset-data/dataset-data-api-helper/dataset-data-api-helper';
 import { buildTableColumnSortParams } from './api-utils-helper';
 
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
@@ -38,7 +43,7 @@ export const monthFullNames = [
 ];
 
 export const MAX_PAGE_SIZE = 10000;
-export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = 20000;
+export const REACT_TABLE_MAX_NON_PAGINATED_SIZE = MAX_PAGE_SIZE * 2;
 
 export const formatDateForApi = d => {
   return format(d, 'yyyy-MM-dd');
@@ -185,6 +190,7 @@ export const datatableRequest = async (
   tableCache,
   detailViewState,
   detailViewFilterParam,
+  userFilterValue,
   queryClient
 ) => {
   const endpoint = table.endpoint;
@@ -211,7 +217,8 @@ export const datatableRequest = async (
     const fieldsParam = pivotView && pivotView.fields && pivotView.fields.length ? `&fields=${pivotView.fields.join()}` : '';
 
     let dateRanges;
-    if (tableCache.dataCache && tableCache.dataCache.length) {
+    // avoid relying on cached data for user filtered data
+    if (tableCache.dataCache && tableCache.dataCache.length && !userFilterValue) {
       dateRanges = tableCache.findUncachedDateRanges(dateRange);
     } else {
       dateRanges = [dateRange];
@@ -219,11 +226,18 @@ export const datatableRequest = async (
     if (dateRanges && dateRanges.length) {
       const fetchers = [];
       dateRanges.forEach(range => {
-        const from = formatDateForApi(range.from);
-        const to = formatDateForApi(range.to);
-
+        let from = formatDateForApi(range.from);
+        let to = formatDateForApi(range.to);
+        // redemption_tables and sb_value are exception scenarios where the date string needs to
+        // be YYYY-MM.
+        if (table.endpoint.indexOf('redemption_tables') > -1 || table.endpoint.indexOf('sb_value') > -1) {
+          from = from.substring(0, from.lastIndexOf('-'));
+          to = to.substring(0, to.lastIndexOf('-'));
+        }
+        const dateFilter = buildDateFilter(table, from, to);
         const detailViewFilter = detailViewFilterParam && detailViewValue ? `,${detailViewFilterParam}:eq:${detailViewValue}` : '';
-        const uri = `${apiPrefix}${endpoint}?filter=${dateField}:gte:${from},${dateField}:lte:${to}${fieldsParam}${detailViewFilter}&sort=${sortParamValue}`;
+        const apiFilter = getApiFilterParam(table, userFilterValue);
+        const uri = `${apiPrefix}${endpoint}?filter=${dateFilter}${fieldsParam}${detailViewFilter}${apiFilter}&sort=${sortParamValue}`;
         fetchers.push(
           fetchAllPages(uri, canceledObj).then(res => {
             res.range = range;
@@ -632,12 +646,11 @@ export const buildDateFilter = (selectedTable, from, to) => {
   const startDateField = customFilter ? customFilter.startDateField : selectedTable.dateField;
   const startDateValue = getStartDate(customFilter?.dateRange, from, to);
   const endDateField = customFilter ? customFilter.endDateField : selectedTable.dateField;
-
   return `${startDateField}:gte:${startDateValue},${endDateField}:lte:${to}`;
 };
 
-export const fetchTableMeta = async (sortParam, selectedTable, apiFilterParam, dateFilter) => {
-  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&sort=${sortParam}&page[size]=1`);
+export const fetchTableMeta = async (selectedTable, dateFilter, apiFilterParam) => {
+  return basicFetch(`${apiPrefix}${selectedTable.endpoint}?filter=${dateFilter}${apiFilterParam}&page[size]=1`);
 };
 
 export const fetchAllTableData = async (sortParam, totalCount, selectedTable, apiFilterParam, dateFilter) => {

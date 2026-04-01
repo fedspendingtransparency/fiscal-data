@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons/faArrowLeftLong';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
@@ -14,7 +14,7 @@ import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
-import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
+
 import {
   active,
   barContainer,
@@ -35,7 +35,6 @@ import {
 import SummaryTable from './summary-table/summary-table';
 import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import { queryClient } from '../../../../react-query-client';
 import Analytics from '../../../utils/analytics/analytics';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
 import dayjs from 'dayjs';
@@ -59,9 +58,7 @@ const TableSectionContainer = ({
   ignorePivots,
   allTablesSelected,
   handleConfigUpdate,
-  tableColumnSortData,
   setTableColumnSortData,
-  hasPublishedReports,
   publishedReports,
   resetFilters,
   setResetFilters,
@@ -72,6 +69,9 @@ const TableSectionContainer = ({
   setSummaryValues,
   allActiveFilters,
   setAllActiveFilters,
+  userFilterUnmatchedForDateRange,
+  setUserFilterUnmatchedForDateRange,
+  tableMeta,
 }) => {
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
@@ -82,14 +82,10 @@ const TableSectionContainer = ({
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
-  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
   const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
-  const [perPage, setPerPage] = useState(null);
-  const [reactTableSorting, setReactTableSort] = useState([]);
-  const [tableMeta, setTableMeta] = useState(null);
+  const [sorting, setSorting] = useState([]);
   const [manualPagination, setManualPagination] = useState(false);
-  const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
@@ -101,82 +97,15 @@ const TableSectionContainer = ({
 
   const formattedDetailViewState = formatDate(detailViewState?.value);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
-
-  const getDepaginatedData = async () => {
-    if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
-      let from = formatDateForApi(dateRange.from);
-      let to = formatDateForApi(dateRange.to);
-
-      // redemption_tables and sb_value are exception scenarios where the date string needs to
-      // be YYYY-MM.
-      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-        from = from.substring(0, from.lastIndexOf('-'));
-        to = to.substring(0, to.lastIndexOf('-'));
-      }
-
-      const dateFilter = buildDateFilter(selectedTable, from, to);
-      const sortParam = buildSortParams(selectedTable, selectedPivot);
-      const apiFilterParam =
-        selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
-          ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
-          : '';
-      let meta;
-      return await queryClient
-        .ensureQueryData({
-          queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
-        })
-        .then(async res => {
-          const totalCount = res.meta['total-count'];
-          if (!selectedPivot?.pivotValue) {
-            meta = res.meta;
-            if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
-              try {
-                return await queryClient.ensureQueryData({
-                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
-                });
-              } catch (error) {
-                console.warn(error);
-              }
-            } else if (totalCount === 0) {
-              setIsLoading(false);
-              setUserFilterUnmatchedForDateRange(true);
-              setManualPagination(false);
-              return null;
-            }
-          }
-        })
-        .catch(err => {
-          if (err.name === 'AbortError') {
-            console.info('Action cancelled.');
-          } else {
-            console.error('API error', err);
-            setApiError(err);
-          }
-        })
-        .finally(() => {
-          if (meta) {
-            setTableMeta(meta);
-            setApiError(false);
-          }
-        });
-    } else if (selectedTable?.apiFilter && userFilterSelection === null) {
-      setIsLoading(false);
-    }
-  };
-
   const refreshTable = async () => {
     if (allTablesSelected) return;
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
-
     // DetailColumnConfig is used for the TIPS and CPI detail view table
     const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
     let displayData = apiData ? apiData.data : null;
 
-    if (userFilterSelection?.value && apiData?.data) {
+    if (userFilterSelection?.value && selectedTable.userFilter && apiData?.data) {
       displayData = apiData.data.filter(rr => rr[selectedTable.userFilter.field] === userFilterSelection.value);
       setUserFilteredData({ ...apiData, data: displayData });
     } else {
@@ -198,25 +127,20 @@ const TableSectionContainer = ({
       });
       setChartData({ ...apiData, data: displayData });
     }
-
+    setManualPagination(tableMeta?.meta?.['total-count'] > 20000);
     setTableProps({
-      dePaginated: selectedTable.isLargeDataset === true ? await getDepaginatedData() : null,
-      hasPublishedReports,
       publishedReports,
-      rawData: { ...apiData, data: displayData }.data ? { ...apiData, data: displayData } : apiData,
-      data: displayData, //null for server-side pagination
+      rawData: displayData ? { ...apiData, data: displayData } : apiData,
       config,
       columnConfig,
       detailColumnConfig,
       width,
-      noBorder: true,
-      shouldPage: true,
       tableName,
       serverSidePagination,
       selectedTable,
       selectedPivot,
       dateRange,
-      apiError: apiErrorState,
+      apiError: apiError,
       selectColumns: selectedTable.selectColumns ? selectedTable.selectColumns : [], // if selectColumns is not defined in endpointConfig.js, default to allowing all columns be selectable
       hideColumns: selectedTable.hideColumns,
       excludeCols: ['CHART_DATE'],
@@ -225,20 +149,26 @@ const TableSectionContainer = ({
     });
   };
 
-  useMemo(async () => {
-    await refreshTable();
+  useEffect(() => {
+    (async () => {
+      if (tableMeta?.table === selectedTable?.tableName) await refreshTable();
+    })();
   }, [apiData, userFilterSelection, apiError]);
 
-  useMemo(async () => {
-    if (serverSidePagination || userFilterSelection) {
-      await refreshTable();
-    }
+  useEffect(() => {
+    (async () => {
+      if (serverSidePagination || userFilterSelection) {
+        await refreshTable();
+      }
+    })();
   }, [dateRange]);
 
-  useMemo(async () => {
-    if (config?.sharedApiFilterOptions && userFilterSelection) {
-      await refreshTable();
-    }
+  useEffect(() => {
+    (async () => {
+      if (config?.sharedApiFilterOptions && userFilterSelection) {
+        await refreshTable();
+      }
+    })();
   }, [selectedTable]);
 
   const handlePivotConfigUpdated = () => {
@@ -255,10 +185,9 @@ const TableSectionContainer = ({
   useEffect(() => {
     const hasPivotOptions = selectedTable.dataDisplays && selectedTable.dataDisplays.length > 1;
     setHasPivotOptions(hasPivotOptions);
-    setReactTableSort([]);
-    if (!config?.sharedApiFilterOptions) {
-      setUserFilterSelection(null);
-    }
+    setSorting([]);
+    setResetFilters(true);
+    setUserFilterSelection(null);
   }, [selectedTable, allTablesSelected]);
 
   useEffect(() => {
@@ -305,6 +234,7 @@ const TableSectionContainer = ({
     }
     setShowPivotBar(!showPivotBar);
   };
+
   const getDateFieldForChart = () => {
     if (selectedPivot && selectedPivot.pivotView && selectedPivot.pivotView.aggregateOn && selectedPivot.pivotView.aggregateOn.length) {
       return 'CHART_DATE'; // aggregation cases in pivoted data this only for charting calculation
@@ -378,13 +308,14 @@ const TableSectionContainer = ({
                 pivotSelection={selectedPivot}
                 setSelectedPivot={setSelectedPivot}
                 pivotsUpdated={pivotsUpdated}
+                allTablesSelected={allTablesSelected}
               />
             </div>
           </div>
         </div>
         <div className={tableContainer}>
           {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
-          {!!detailViewState && (
+          {!!detailViewState && tableProps?.columnConfig && (
             <SummaryTable
               summaryTable={config?.detailView?.summaryTableFields}
               summaryValues={summaryValues}
@@ -393,7 +324,7 @@ const TableSectionContainer = ({
             />
           )}
           <div className={selectedTab === 0 && !allTablesSelected ? tableSection : ''}>
-            {(apiData || serverSidePagination || apiError) && (
+            {(apiData || serverSidePagination || apiError || apiFilterDefault) && (
               <ChartTableToggle
                 legend={legend}
                 selectedTab={selectedTab}
@@ -416,17 +347,13 @@ const TableSectionContainer = ({
                 table={
                   tableProps ? (
                     <DtgTable
+                      tableProps={tableProps}
                       selectColumnPanel={selectColumnPanel}
-                      setDetailViewState={setDetailViewState}
+                      setSelectColumnPanel={setSelectColumnPanel}
                       detailViewState={detailViewState}
+                      setDetailViewState={setDetailViewState}
                       setSummaryValues={setSummaryValues}
                       pivotSelected={selectedPivot}
-                      setSelectColumnPanel={setSelectColumnPanel}
-                      tableProps={tableProps}
-                      selectedTable={selectedTable}
-                      perPage={perPage}
-                      setPerPage={setPerPage}
-                      tableColumnSortData={tableColumnSortData}
                       setTableColumnSortData={setTableColumnSortData}
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}
@@ -437,8 +364,8 @@ const TableSectionContainer = ({
                       userFilterSelection={userFilterSelection}
                       setIsLoading={setIsLoading}
                       isLoading={isLoading}
-                      sorting={reactTableSorting}
-                      setSorting={setReactTableSort}
+                      sorting={sorting}
+                      setSorting={setSorting}
                       allActiveFilters={allActiveFilters}
                       setAllActiveFilters={setAllActiveFilters}
                       disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}

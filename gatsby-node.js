@@ -777,6 +777,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               tableName
             }
             isLargeDataset
+            byPage
             lastUpdated
             latestDate
             apiNotesAndLimitations

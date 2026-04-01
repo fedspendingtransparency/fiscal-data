@@ -1,10 +1,10 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
-import TextFilter from './data-table-header/text-filter/text-filter';
-import DateRangeFilter from './data-table-header/date-range-filter/date-range-filter';
+import TextFilter from '../data-table/data-table-header/text-filter/text-filter';
+import DateRangeFilter from '../data-table/data-table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { downloadLinkContainer, downloadLinkIcon } from './data-table.module.scss';
+import { downloadLinkContainer, downloadLinkIcon } from '../data-table/data-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
@@ -249,31 +249,6 @@ export const columnsConstructorData = (
   }
 };
 
-export const columnsConstructorGeneric = (
-  columns: { property: string; name: string; type: string }[],
-  customFormatting: { type: string; fields: string[]; dateFormat: string }[]
-): ColumnDef<string, string | Date>[] => {
-  return columns.map(
-    ({ property, name, type }): ColumnDef<string, string | Date> => {
-      let colConfig;
-      if (type === 'DATE') {
-        colConfig = {
-          accessorKey: property,
-          header: name,
-          filterFn: 'arrIncludesSome',
-          cell: ({ getValue }) => {
-            const customFormat = customFormatting?.find(config => config.type === 'DATE' && config.fields.includes(property));
-            return dayjs(getValue()).format(customFormat?.dateFormat ? customFormat.dateFormat : 'M/D/YYYY');
-          },
-        } as ColumnDef<string, Date>;
-      } else {
-        colConfig = { accessorKey: property, header: name, property: property, type: type } as ColumnDef<string, string>;
-      }
-      return colConfig;
-    }
-  );
-};
-
 export const getColumnFilter: (
   header,
   type: string,
@@ -355,15 +330,10 @@ export const columnBodyFilterApplied = (appliedFilters, columnName) => {
   }
 };
 
-export const getSortedColumnsData = (
-  table: Table<Record<string, unknown>>,
-  setTableColumnSortData: (map: Record<string, string>) => void,
-  hideColumns: string[],
-  dataTypes
-): void => {
-  if (setTableColumnSortData) {
-    const columns = table.getVisibleFlatColumns();
-    const mapped = columns.map(column => ({
+export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hideColumns: string[], dataTypes = []) => {
+  const columns = table?.getVisibleFlatColumns();
+  if (columns && table) {
+    return columns.map(column => ({
       id: column.id,
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
@@ -371,7 +341,6 @@ export const getSortedColumnsData = (
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
       allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));
-    setTableColumnSortData(mapped);
   }
 };
 
@@ -387,4 +356,32 @@ export const constructDateHeader = (datasetName, dateRange) => {
   const lastDateOfMonth = `${dateFormatted}`;
   timestampData.push(`As of ${lastDateOfMonth}`);
   return timestampData;
+};
+
+export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns) => {
+  const constructedDefaultColumns = [];
+  const constructedAdditionalColumns = [];
+  for (const column of table.getAllLeafColumns()) {
+    if (defaultSelectedColumns.includes(column.id)) {
+      constructedDefaultColumns.push(column);
+    } else if (!defaultSelectedColumns.includes(column.id)) {
+      constructedAdditionalColumns.push(column);
+    }
+  }
+  constructedAdditionalColumns.sort((a, b) => {
+    return a.id.localeCompare(b.id);
+  });
+  return { defaults: constructedDefaultColumns, additional: constructedAdditionalColumns };
+};
+
+export const getInvisibleColumns = (defaultCols, columnConstructor) => {
+  const invisibleCols = {};
+  if (defaultCols?.length > 0) {
+    for (const column of columnConstructor) {
+      if (!defaultCols?.includes(column.accessorKey)) {
+        invisibleCols[column.accessorKey] = false;
+      }
+    }
+  }
+  return invisibleCols;
 };

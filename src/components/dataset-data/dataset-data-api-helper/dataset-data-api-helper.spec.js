@@ -1,6 +1,6 @@
 import { divvyUpFilters, getApiData, pivotApiData, pivotApiDataFn, unitTestFunctions } from './dataset-data-api-helper';
 import * as TestHelpers from '../test-helper';
-import { createFilter, mockApiData, filteringOperators } from '../test-helper';
+import { createFilter, filteringOperators, mockApiData } from '../test-helper';
 import * as ApiUtils from '../../../utils/api-utils';
 import { TableCache } from '../table-cache/table-cache';
 import { act } from 'react';
@@ -22,6 +22,7 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
   const createTestObj = val => ({ testVal: val });
   const mockSelectedTable149 = {
     apiId: 149,
+    endpoint: 'endpoint',
   };
   const datatableRequestSpy = jest.spyOn(ApiUtils, 'datatableRequest');
 
@@ -97,6 +98,7 @@ describe('DatasetDataApiHelper with proper dataset table props', () => {
         mockSetIsLoading,
         mockSetApiData,
         mockSetApiError,
+        jest.fn(),
         mockCanceledObj,
         new TableCache()
       );

@@ -145,6 +145,7 @@ describe('Api Utils function library', () => {
       new TableCache(),
       '2022-10-10',
       'index_date',
+      null,
       new QueryClient()
     );
     expect(global.fetch.mock.calls[0][0]).toContain(

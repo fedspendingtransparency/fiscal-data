@@ -20,6 +20,13 @@ $borderRadius: 5px;
 .overlayContainerNoFooter {
   position: relative;
 }
+
+.overlayContainerNoFooter {
+  border: 1px solid $dd-border-color;
+  border-top: 0;
+  border-bottom-left-radius: $borderRadius;
+  border-bottom-right-radius: $borderRadius;
+}
 .overlayContainerReactTableHeight {
   min-height: 521px;
 }

@@ -5,12 +5,11 @@ import {
   nonRawDataTableContainer,
   overlayContainerNoFooter,
   overlayContainerNoFooterChart,
-  selectColumnsWrapper,
   tableStyle,
 } from '../../data-table/data-table.module.scss';
 import DataTableHeader from '../../data-table/data-table-header/data-table-header';
 import DataTableBody from '../../data-table/data-table-body/data-table-body';
-import { columnsConstructorGeneric } from '../../data-table/data-table-helper';
+import { columnsConstructorGeneric } from './filtered-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
@@ -113,22 +112,20 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
   return (
     <>
       <div data-testid="table-content" className={chartTable ? overlayContainerNoFooterChart : overlayContainerNoFooter}>
-        <div className={selectColumnsWrapper}>
-          <div className={tableStyle}>
-            <div className={nonRawDataTableContainer}>
-              <table {...aria}>
-                <DataTableHeader
-                  table={table}
-                  dataTypes={dataTypes}
-                  resetFilters={resetFilters}
-                  allActiveFilters={allActiveFilters}
-                  setAllActiveFilters={setAllActiveFilters}
-                  chartTable={chartTable}
-                  disableAllFilters={chartTable}
-                />
-                <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
-              </table>
-            </div>
+        <div className={tableStyle}>
+          <div className={nonRawDataTableContainer}>
+            <table {...aria}>
+              <DataTableHeader
+                table={table}
+                dataTypes={dataTypes}
+                resetFilters={resetFilters}
+                allActiveFilters={allActiveFilters}
+                setAllActiveFilters={setAllActiveFilters}
+                chartTable={chartTable}
+                disableAllFilters={chartTable}
+              />
+              <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
+            </table>
           </div>
         </div>
       </div>

@@ -36,9 +36,11 @@ const DataTableColumnSelector = ({
   table,
   defaultColumns,
   additionalColumns,
-  dataTableRef,
   selectColumnPanel,
 }) => {
+  let dataTableRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
   const displayDefault = defaultSelectedColumns && defaultSelectedColumns.length > 0;
   const CheckBoxList = columnList => (
     <>
@@ -66,13 +68,17 @@ const DataTableColumnSelector = ({
     </>
   );
 
-  const closeButtonRef = useRef(null);
-
   useEffect(() => {
     if (closeButtonRef.current) {
       closeButtonRef.current.focus();
     }
   }, [selectColumnPanel]);
+
+  useEffect(() => {
+    if (selectColumnPanel) {
+      dataTableRef.current?.focus();
+    }
+  });
 
   dataTableRef = closeButtonRef;
 
