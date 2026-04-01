@@ -58,13 +58,13 @@ export const formatPercentage = v => {
 export const getChartTheme = (width, markers) => {
   const fontSize = width
     ? {
-        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+        fontSize: fontSize_14,
       }
     : {};
   const markerFontSize =
     width && markers
       ? {
-          fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
+          fontSize: fontSize_14,
         }
       : {};
   return {
