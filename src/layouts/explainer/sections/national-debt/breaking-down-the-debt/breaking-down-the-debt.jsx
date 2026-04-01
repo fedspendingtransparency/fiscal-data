@@ -49,7 +49,6 @@ export const interestExpenseInsight = (
 <CustomLink
   url="/interest-expense-avg-interest-rates/"
   id="Interest Expense"
-  onClick={() => analyticsEventHandler('Interest Expense', 'Interest Expense Insight Click')}
 >
   Interest Expense Insight
   </CustomLink>
