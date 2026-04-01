@@ -58,8 +58,8 @@ const AfgTopicCard = ({
   return (
     <>
       <section>
-        <div className={desktopView} data-testid='desktop-view'>
-          {id && (<HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />)}
+        {id && (<HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />)}
+        <div className={desktopView}>
           <div className={topicSection}>
             <div className={textContainer}>
               <h5 className={topicHeading}>{heading}</h5>
