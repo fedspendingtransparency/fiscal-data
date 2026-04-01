@@ -58,7 +58,8 @@ const AfgTopicCard = ({
   return (
     <>
       <section>
-        {id &&  ( <HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} /> )}
+        <div className={desktopView} data-testid='desktop-view'>
+          {id && (<HeaderChip text={explainerAnalyticsLabelMap[id]} color={explainerColorMap[id].primary} />)}
           <div className={topicSection}>
             <div className={textContainer}>
               <h5 className={topicHeading}>{heading}</h5>
@@ -72,6 +73,23 @@ const AfgTopicCard = ({
               <div>{chart}</div>
             </div>
           </div>
+        </div>
+
+        <div className={mobileView}>
+          <div className={topicSection}>
+            <div className={textContainer}>
+              <h5 className={topicHeading}>{heading}</h5>
+              <div className={imageContainer}>
+                <div>{chart}</div>
+              </div>
+              <div className={body}>{body}</div>
+              <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
+                {linkText}
+                <FontAwesomeIcon icon={faArrowRightLong} title="right arrow" className={arrow} />
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
