@@ -25,7 +25,7 @@ const DownloadItemButton: FunctionComponent = ({
   smallTableDownloadData,
 }) => {
   const [downloadName, setDownloadName] = useState(null);
-
+  console.log('LKHLSH:LJKHE:ORKJE:O');
   useEffect(() => {
     setDownloadName(constructDownloadFileName(dateRange, selectedTable, formatDownloadDate));
   }, [dateRange, selectedTable]);
@@ -34,6 +34,7 @@ const DownloadItemButton: FunctionComponent = ({
     if (handleClick && !directDownload) {
       handleClick();
     }
+
 
     if (download) {
       // Downloading a published report

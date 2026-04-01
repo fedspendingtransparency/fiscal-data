@@ -1,18 +1,34 @@
 import React, { FunctionComponent } from 'react';
 import { timestampDownloadButton, downloadItemBtn } from '../download-button.module.scss';
 
-const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleClick, downloadTimestamp, children }) => {
+interface CsvDirectDownloadProps {
+  filename: string;
+  downloadData: any[][];
+  handleClick?: () => void;
+  downloadTimestamp?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const CsvDirectDownload: FunctionComponent<CsvDirectDownloadProps> = ({
+  filename,
+  downloadData,
+  handleClick,
+  downloadTimestamp,
+  children,
+  className,
+}) => {
   const formatCsvWithCRLF = (data: any[][]): string => {
     return data.map(row => row.map(field => `"${(field ?? '').toString().replace(/"/g, '""')}"`).join(',')).join('\r\n');
   };
 
   const downloadWithCRLF = (data: any[][]) => {
     const csv = formatCsvWithCRLF(data);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob([csv], { type: 'text/csv;chartset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `${filename}.csv`);
+    link.setAttribute('download', filename + '.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -44,11 +60,15 @@ const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleCl
   };
 
   return downloadTimestamp ? (
-    <button data-testid="csv-timestamp-download-button" onClick={captureTimestampAndDownload} className={timestampDownloadButton}>
+    <button
+      data-testid="csv-timestamp-download-button"
+      onClick={captureTimestampAndDownload}
+      className={className ? className : timestampDownloadButton}
+    >
       {children}
     </button>
   ) : (
-    <button data-testid="csv-download-button" onClick={handleNonTimestampDownload} className={downloadItemBtn}>
+    <button data-testid="csv-download-button" onClick={handleNonTimestampDownload} className={className ? className : downloadItemBtn}>
       {children}
     </button>
   );
