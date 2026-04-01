@@ -1,51 +1,56 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import { CSVLink } from 'react-csv/lib';
-import { downloadItemBtn, timestampDownloadButton } from '../download-button.module.scss';
+import React, { FunctionComponent } from 'react';
+import { timestampDownloadButton, downloadItemBtn } from '../download-button.module.scss';
 
 const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleClick, downloadTimestamp, children }) => {
-  const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
-  const ref = useRef();
-  const captureTimestamp = () => {
-    const currentDate = new Date();
-    const formattedTimestamp = `Report Run: ${currentDate.getFullYear()}${currentDate.getMonth() + 1}${currentDate
-      .getDate()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate
-      .getHours()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}${currentDate
-      .getMinutes()
-      .toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
-    const newDownloadData = structuredClone(downloadData);
-    newDownloadData[0].push(formattedTimestamp);
-    setCSVDataWithTimestamp(newDownloadData);
+  const formatCsvWithCRLF = (data: any[][]): string => {
+    return data.map(row => row.map(field => `"${(field ?? '').toString().replace(/"/g, '""')}"`).join(',')).join('\r\n');
   };
 
-  useEffect(() => {
-    if (csvDataWithTimestamp) {
-      ref.current.link.click();
-    }
-  }, [csvDataWithTimestamp]);
+  const downloadWithCRLF = (data: any[][]) => {
+    const csv = formatCsvWithCRLF(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${filename}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
-  return (
-    <>
-      {downloadTimestamp && (
-        <button data-testid="csv-timestamp-download-button" onClick={() => captureTimestamp()} className={timestampDownloadButton}>
-          {children}
-        </button>
-      )}
-      <CSVLink
-        data-testid="csv-download-button"
-        className={downloadTimestamp ? null : downloadItemBtn}
-        data={csvDataWithTimestamp ? csvDataWithTimestamp : downloadData}
-        filename={filename + '.csv'}
-        onClick={handleClick}
-        ref={ref}
-        aria-hidden={downloadTimestamp}
-        enclosingCharacter=""
-        tabIndex={downloadTimestamp ? -1 : 0}
-      >
-        {!downloadTimestamp && children}
-      </CSVLink>
-    </>
+  const captureTimestampAndDownload = () => {
+    const currentDate = new Date();
+    const formattedTimestamp = `Report Run: ${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate
+      .getDate()
+      .toString()
+      .padStart(2, '0')}${currentDate
+      .getHours()
+      .toString()
+      .padStart(2, '0')}${currentDate
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
+
+    const newDownloadData = structuredClone(downloadData);
+    newDownloadData[0].push(formattedTimestamp);
+    handleClick?.();
+    downloadWithCRLF(newDownloadData);
+  };
+
+  const handleNonTimestampDownload = () => {
+    handleClick?.();
+    downloadWithCRLF(downloadData);
+  };
+
+  return downloadTimestamp ? (
+    <button data-testid="csv-timestamp-download-button" onClick={captureTimestampAndDownload} className={timestampDownloadButton}>
+      {children}
+    </button>
+  ) : (
+    <button data-testid="csv-download-button" onClick={handleNonTimestampDownload} className={downloadItemBtn}>
+      {children}
+    </button>
   );
 };
 
