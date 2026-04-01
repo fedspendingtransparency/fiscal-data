@@ -340,32 +340,32 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
   // fs.readFile('./static/data/CPI/bls-data-fallback.json', 'utf8', async (err, data) => {
-  fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
-    if (err) {
-      resultDataBLS = await getBLSData()
-        .then(res => res)
-        .catch(error => {
-          throw error;
-        });
-      console.warn('USING BLS API RESPONSE');
-    } else {
-      resultDataBLS = JSON.parse(data);
-    }
-    resultDataBLS.Results.series[0].data.forEach(blsRow => {
-      blsRow.id = createNodeId(blsRow.year + blsRow.period);
-      const node = {
-        ...blsRow,
-        _12mo_percentage_change: blsRow['12mo_percentage_change'],
-        parent: null,
-        children: [],
-        internal: {
-          type: `BLSPublicAPIData`,
-        },
-      };
-      node.internal.contentDigest = createContentDigest(node);
-      createNode(node);
-    });
-  });
+  // fs.readFile('./static/data/bls-data.json', 'utf8', async (err, data) => {
+  //   if (err) {
+  //     resultDataBLS = await getBLSData()
+  //       .then(res => res)
+  //       .catch(error => {
+  //         throw error;
+  //       });
+  //     console.warn('USING BLS API RESPONSE');
+  //   } else {
+  //     resultDataBLS = JSON.parse(data);
+  //   }
+  //   resultDataBLS.Results.series[0].data.forEach(blsRow => {
+  //     blsRow.id = createNodeId(blsRow.year + blsRow.period);
+  //     const node = {
+  //       ...blsRow,
+  //       _12mo_percentage_change: blsRow['12mo_percentage_change'],
+  //       parent: null,
+  //       children: [],
+  //       internal: {
+  //         type: `BLSPublicAPIData`,
+  //       },
+  //     };
+  //     node.internal.contentDigest = createContentDigest(node);
+  //     createNode(node);
+  //   });
+  // });
 
   const beaURL = `https://apps.bea.gov/api/data/?UserID=F9C35FFF-7425-45B0-B988-9F10E3263E9E&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
@@ -389,37 +389,37 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
   // fs.readFile('./static/data/bea/bea-data-fallback.json', 'utf8', async (err, data) => {
-  fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
-    if (err) {
-      resultDataBEA = await fetchBEA()
-        .then(res => res)
-        .catch(error => {
-          throw error;
-        });
-      console.warn('USING BEA API RESPONSE');
-    } else {
-      console.warn('USING BEA CACHED FILE');
-      resultDataBEA = JSON.parse(data);
-    }
-    resultDataBEA.BEAAPI.Results.Data.forEach(bea => {
-      if (bea.LineDescription === 'Gross domestic product') {
-        const node = {
-          id: bea.TableName + bea.TimePeriod,
-          lineDescription: bea.LineDescription,
-          timePeriod: bea.TimePeriod,
-          dataValue: bea.DataValue,
-          parent: null,
-          children: [],
-          internal: {
-            type: `BeaGDP`,
-          },
-        };
-        node.internal.contentDigest = createContentDigest(node);
-        createNode(node);
-      }
-    });
-  });
-};
+//   fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
+//     if (err) {
+//       resultDataBEA = await fetchBEA()
+//         .then(res => res)
+//         .catch(error => {
+//           throw error;
+//         });
+//       console.warn('USING BEA API RESPONSE');
+//     } else {
+//       console.warn('USING BEA CACHED FILE');
+//       resultDataBEA = JSON.parse(data);
+//     }
+//     resultDataBEA.BEAAPI.Results.Data.forEach(bea => {
+//       if (bea.LineDescription === 'Gross domestic product') {
+//         const node = {
+//           id: bea.TableName + bea.TimePeriod,
+//           lineDescription: bea.LineDescription,
+//           timePeriod: bea.TimePeriod,
+//           dataValue: bea.DataValue,
+//           parent: null,
+//           children: [],
+//           internal: {
+//             type: `BeaGDP`,
+//           },
+//         };
+//         node.internal.contentDigest = createContentDigest(node);
+//         createNode(node);
+//       }
+//     });
+//   });
+// };
 
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
