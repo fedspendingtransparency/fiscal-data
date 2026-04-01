@@ -56,11 +56,7 @@ export const formatPercentage = v => {
 };
 
 export const getChartTheme = (width, markers) => {
-  const fontSize = width
-    ? {
-        fontSize: fontSize_14,
-      }
-    : {};
+  const fontSize = fontSize_14;
   const markerFontSize =
     width && markers
       ? {
