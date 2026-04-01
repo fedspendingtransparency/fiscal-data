@@ -7,7 +7,7 @@ import useGAEventTracking from '../../../../../hooks/useGAEventTracking';
 
 jest.mock('../../../../../hooks/useGAEventTracking');
 
-describe.skip('Topic Section Component', () => {
+describe('Topic Section Component', () => {
   class ResizeObserver {
     observe() {}
     unobserve() {}
