@@ -40,12 +40,15 @@
       max-width: 28.5rem;
     }
   }
+
+  .mobileView {
+    display: none;
+  }
 }
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .topicSection {
-    flex-direction: column;
     justify-content: center;
-    margin-bottom: 2rem;
 
     .imageContainer {
       order: 1;
@@ -66,5 +69,9 @@
     .link {
       margin-top: 10px;
     }
+  }
+
+  .desktopView {
+    display: none;
   }
 }
