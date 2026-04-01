@@ -3,15 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudDownload } from '@fortawesome/free-solid-svg-icons/faCloudDownload';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointXl } from '../../../../../variables.module.scss';
-import {
-  border,
-  buttonActive,
-  buttonText,
-  container,
-  downloadButton,
-  icon,
-  parent,
-} from './data-preview-download-select.module.scss';
+import { border, buttonActive, buttonText, container, downloadButton, icon, parent } from './data-preview-download-select.module.scss';
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
 import DataPreviewMobileDialog from '../../../data-preview-mobile-dialog/data-preview-mobile-dialog';
@@ -34,7 +26,7 @@ import { IDataset } from '../../../../../models/IDataset';
 import { IDatasetApi } from '../../../../../models/IDatasetApi';
 import { IPivotOption } from '../../../../../models/data-preview/IPivotOption';
 import { constructDownloadFileName } from '../../../../download-wrapper/download-helpers';
-import DataPreviewMobileDownloadOptions from './data-preview-mobile-downloads/data-preview-mobile-downloads';
+import DataPreviewMobileDownloadOptions from '../data-preview-mobile-downloads/data-preview-mobile-downloads';
 
 interface IDownloadButtonProps {
   dateRange: { from: Date; to: Date };
