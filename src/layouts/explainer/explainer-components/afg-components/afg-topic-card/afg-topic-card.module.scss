@@ -1,12 +1,5 @@
 @use 'src/variables.module' as *;
 
-.desktopView {
-  display: none;
-}
-
-.mobileView {
-  display: block;
-}
 
 .topicSection {
   margin-top: 1rem;
@@ -50,7 +43,9 @@
 }
 @media screen and (max-width: $breakpoint-lg - 1) {
   .topicSection {
+    flex-direction: column;
     justify-content: center;
+    margin-bottom: 2rem;
 
     .imageContainer {
       order: 1;
