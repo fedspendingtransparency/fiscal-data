@@ -19,6 +19,8 @@ import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../
 import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 import { glossaryGAEvent } from '../treasury-savings-bonds';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 interface ChartDataItem {
   name: string;
@@ -299,7 +301,9 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         up the total {debtHeldByPublic}.
       </span>
       <figure className={visWithCallout}>
-        <HowSavingsBondsSoldChart chartData={chartData} />
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <HowSavingsBondsSoldChart chartData={chartData} />
+        </ErrorBoundary>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
             Savings bonds make up {savingBondsPercentage ?? '--'}% of total debt held by the public through {monthYear ?? '--'}. This is{' '}

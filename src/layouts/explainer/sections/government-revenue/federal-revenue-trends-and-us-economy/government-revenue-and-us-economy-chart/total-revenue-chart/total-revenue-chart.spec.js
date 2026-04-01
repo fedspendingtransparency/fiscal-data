@@ -14,6 +14,7 @@ import {
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
+import { ErrorBoundary } from 'react-error-boundary';
 
 class ResizeObserver {
   observe() {}
@@ -51,7 +52,9 @@ describe('Total Revenue Chart', () => {
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
@@ -73,7 +76,9 @@ describe('Total Revenue Chart', () => {
   it('chart fires on mouse over leave - for total revenue', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
@@ -91,7 +96,11 @@ describe('Total Revenue Chart', () => {
 
   it('chart fires ga4 event on mouse over', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByRole } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByRole } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const chart = await findByRole('presentation');
     expect(chart).toBeInTheDocument();
@@ -106,7 +115,11 @@ describe('Total Revenue Chart', () => {
   it('calls the appropriate analytics event when selecting ChartToggle', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const spy = jest.spyOn(Analytics, 'event');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
     expect(await findByTestId('leftChartToggle')).toBeInTheDocument();
@@ -121,7 +134,11 @@ describe('Total Revenue Chart', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false })).toBeInTheDocument();
@@ -129,14 +146,20 @@ describe('Total Revenue Chart', () => {
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
   });
 
   it('renders the chart markers and data header labels', async () => {
     const { findAllByText, getByText, findByText } = render(
-      <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitForElementToBeRemoved(() => getByText('Loading...'));
     expect(await findAllByText('Total Revenue')).toHaveLength(3);
@@ -146,7 +169,11 @@ describe('Total Revenue Chart', () => {
 
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customPoints = await findByTestId('customPoints');
     expect(customPoints).toBeInTheDocument();
@@ -155,7 +182,11 @@ describe('Total Revenue Chart', () => {
 
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customSlices = await findByTestId('customSlices');
     expect(customSlices).toBeInTheDocument();
@@ -164,7 +195,11 @@ describe('Total Revenue Chart', () => {
 
   it('renders the chart headers', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
 
     expect(await findByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
@@ -193,7 +228,11 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has decreased from 25% to 13%.', { exact: false })).toBeInTheDocument();
@@ -221,7 +260,11 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();

@@ -17,6 +17,7 @@ import globalConstants from '../../../../../../helpers/constants';
 import { ga4DataLayerPush } from '../../../../../../helpers/google-analytics/google-analytics-helper';
 import { glossaryGAEvent } from '../../treasury-savings-bonds';
 import ChartTopNotch from './chart-top-notch/chart-top-notch';
+import { useErrorBoundary } from 'react-error-boundary';
 
 interface ChartDataItem {
   name: string;
@@ -46,6 +47,8 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   const [chartWidth, setChartWidth] = useState<number>(400);
   const { explainers } = globalConstants;
   const [mouseInactive, setMouseInactive] = useState(true);
+  const { showBoundary } = useErrorBoundary();
+
   const handleChartMouseEnter = () => {
     const eventLabel = 'Savings Bonds - Savings Bonds Sold as a Percentage of Total Debt Held by the Public';
     const eventAction = 'Chart Hover';
@@ -77,12 +80,16 @@ const HowSavingsBondsSoldChart: FunctionComponent<HowSavingsBondsSoldChartProps>
   });
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}${fyEndpoint}`).then(res => {
-      if (res.data) {
-        const data = res.data[0];
-        setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
-      }
-    });
+    basicFetch(`${apiPrefix}${fyEndpoint}`)
+      .then(res => {
+        if (res.data) {
+          const data = res.data[0];
+          setHistoryChartDate(getDateWithoutTimeZoneAdjust(data.record_date));
+        }
+      })
+      .catch(err => {
+        showBoundary(err);
+      });
   }, []);
 
   const monthYear = historyChartDate ? `${monthFullNames[historyChartDate.getMonth()]} ${historyChartDate.getFullYear()}` : '--';

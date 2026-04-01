@@ -5,6 +5,7 @@ import { mockDeficitTrendsData } from '../../../../explainer-test-helper';
 import { DeficitTrendsBarChart } from './deficit-trends-bar-chart';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 import userEvent from '@testing-library/user-event';
+import { ErrorBoundary } from 'react-error-boundary';
 
 describe('Deficit Trends Bar Chart', () => {
   beforeEach(() => {
@@ -12,13 +13,21 @@ describe('Deficit Trends Bar Chart', () => {
   });
 
   it('renders the trends chart', async () => {
-    const { findByTestId } = render(<DeficitTrendsBarChart />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
     expect(await findByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
 
   it('renders the data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<DeficitTrendsBarChart />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
     expect(await getByText('$1.38 T')).toBeInTheDocument();
@@ -31,7 +40,11 @@ describe('Deficit Trends Bar Chart', () => {
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
 
-    const { findAllByTestId, findByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, findByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
 
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customBars = await findAllByTestId('customBar');
@@ -79,7 +92,11 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, getByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();
@@ -118,7 +135,11 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
+    const { findAllByTestId, getByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();

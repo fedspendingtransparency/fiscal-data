@@ -5,6 +5,8 @@ import VisualizationCallout from '../../../../../components/visualization-callou
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import DeficitTrendsBarChart from './deficit-trends-bar-chart/deficit-trends-bar-chart';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const DeficitByYear = () => {
   const { USAsCovidResponse } = explainerCitationsMap['national-deficit'];
@@ -33,7 +35,9 @@ const DeficitByYear = () => {
         </p>
       </div>
       <figure className={visWithCallout}>
-        <DeficitTrendsBarChart />
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <DeficitTrendsBarChart />
+        </ErrorBoundary>
         <VisualizationCallout color={deficitExplainerPrimary}>
           <p>The last surplus for the federal government was in 2001.</p>
         </VisualizationCallout>

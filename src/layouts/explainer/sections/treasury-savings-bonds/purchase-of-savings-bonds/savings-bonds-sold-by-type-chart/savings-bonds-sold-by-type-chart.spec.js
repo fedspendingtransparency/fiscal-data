@@ -1,10 +1,26 @@
 import React from 'react';
 import SavingsBondsSoldByTypeChart from './savings-bonds-sold-by-type-chart';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import { mockData, mockInflationData, yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
+import { act, fireEvent, render } from '@testing-library/react';
+import { yAxisFormatter } from './savings-bonds-sold-by-type-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useStaticQuery } from 'gatsby';
+
+const mockUseStaticQueryData = {
+  allSavingsBondsByTypeHistoricalCsv: {
+    savingsBondsByTypeHistoricalCsv: [{ year: '2021', bond_type: 'Series I', sales: 153000000000 }],
+  },
+};
+
+const cpiDataByYear = {
+  '2011': '10',
+  '2012': '5',
+  '2013': '5',
+  '2023': '15',
+  '2024': '15',
+};
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -25,33 +41,47 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   }
   window.ResizeObserver = ResizeObserver;
 
-  beforeAll(() => mockSavingsBondFetchResponses());
+  beforeAll(() => {
+    mockSavingsBondFetchResponses();
+    useStaticQuery.mockReturnValue(mockUseStaticQueryData);
+  });
 
   afterEach(() => {
     jest.resetModules();
   });
 
   it('renders the chart', () => {
-    const { container, getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
+    const { container, getByText } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
+    );
     expect(container).toBeInTheDocument();
     expect(getByText('Adjust for Inflation')).toBeInTheDocument();
   });
 
-  it('renders the chart toggle', () => {
-    const { getByTestId, queryByTestId, getByRole } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
+  it('renders the chart toggle', async () => {
+    const { findByTestId, queryByTestId, getByRole } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
+    );
     const descriptionsToggle = getByRole('button', { name: 'Description' });
-    expect(getByTestId('chartParent')).toBeInTheDocument();
+    expect(await findByTestId('chartParent')).toBeInTheDocument();
     act(() => {
       fireEvent.click(descriptionsToggle);
     });
     expect(queryByTestId('chartParent')).not.toBeInTheDocument();
   });
 
-  it('formats y axis values', () => {
-    const { getByText } = render(<SavingsBondsSoldByTypeChart chartData={mockData} chartDate={new Date()} />);
-    expect(getByText('$24.5 B')).toBeInTheDocument();
-    expect(getByText('$21.0 B')).toBeInTheDocument();
-    expect(getByText('$0')).toBeInTheDocument();
+  it('formats y axis values', async () => {
+    const { findByText } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
+    );
+    expect(await findByText('$125.0 B')).toBeInTheDocument();
+    expect(await findByText('$150.0 B')).toBeInTheDocument();
   });
 
   it('y axis formatter', () => {
@@ -68,25 +98,31 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   });
 
   it('switches chart data on inflation toggle', async () => {
-    const { getByText, rerender, getByTestId } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />
+    const { findByText, rerender, getByTestId } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
-    expect(getByText('$21.0 B')).toBeInTheDocument();
-    const inflationToggle = getByTestId('inflation-check-box', { name: /adjust for inflation/i });
+    expect(await findByText('$150.0 B')).toBeInTheDocument();
+    const inflationToggle = await getByTestId('inflation-check-box', { name: /adjust for inflation/i });
     fireEvent.click(inflationToggle);
-    rerender(<SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} />);
+    rerender(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
+    );
 
-    await waitFor(() => {
-      expect(getByText('$24.5 B')).toBeInTheDocument();
-    });
+    expect(await findByText('$125.0 B')).toBeInTheDocument();
   });
 
   it('chart is keyboard accessible', async () => {
     const user = userEvent.setup();
-    const { getByRole, getAllByText } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    const { findByRole, getAllByText } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
-    const chart = getByRole('application');
+    const chart = await findByRole('application');
     expect(getAllByText('1935').length).toBe(1);
     await user.tab();
     await user.tab();
@@ -105,10 +141,12 @@ describe('Savings Bonds by Type Over Time Chart', () => {
   it('calls the inflation toggle ga event', async () => {
     jest.useFakeTimers();
     const gaSpy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    const { findByText, getByRole } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
-    expect(getByText('$21.0 B')).toBeInTheDocument();
+    expect(await findByText('$125.0 B')).toBeInTheDocument();
 
     const inflationToggle = getByRole('checkbox', { name: 'inflation toggle switch active: false' });
     fireEvent.click(inflationToggle);
@@ -124,7 +162,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
 
     const infoTip = getByRole('button', { name: 'More information about adjusting for inflation.' });
@@ -141,11 +181,13 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
 
-    const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    const { findByRole } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
 
-    const chart = getByRole('application');
+    const chart = await findByRole('application');
     await user.hover(chart);
     jest.advanceTimersByTime(3001);
     expect(gaSpy).toHaveBeenCalledWith({
@@ -160,11 +202,13 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const gaSpy = jest.spyOn(Analytics, 'event');
 
-    const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+    const { findByRole } = render(
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
 
-    const chart = getByRole('application');
+    const chart = await findByRole('application');
     await user.hover(chart);
     jest.advanceTimersByTime(1000);
     await user.unhover(chart);
@@ -178,7 +222,9 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     const gaSpy = jest.spyOn(Analytics, 'event');
 
     const { getByRole } = render(
-      <SavingsBondsSoldByTypeChart chartData={mockData} inflationChartData={mockInflationData} chartDate={new Date()} curFy={2023} />
+      <ErrorBoundary>
+        <SavingsBondsSoldByTypeChart cpiDataByYear={cpiDataByYear} />
+      </ErrorBoundary>
     );
 
     const citation1 = getByRole('link', { name: 'Electronic Securities Transactions' });

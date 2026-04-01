@@ -37,6 +37,7 @@ import CustomTooltip from './custom-tooltip/custom-tooltip';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './revenue-trends-line-chart.module.scss';
+import { useErrorBoundary } from 'react-error-boundary';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
@@ -54,6 +55,7 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   const chartParent = 'chartParentTrends';
   const chartWidth = 515;
   const chartHeight = 500;
+  const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
@@ -62,113 +64,119 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
 
   useEffect(() => {
     const endPointURL = 'v1/accounting/mts/mts_table_9?filter=record_type_cd:eq:RSG,record_calendar_month:eq:09&page[size]=1000&sort=-record_date';
-    basicFetch(`${apiPrefix}${endPointURL}`).then(res => {
-      if (res.data && res.data.length > 0) {
-        setLastChartYear(res.data[0].record_fiscal_year);
-        setFirstChartYear(res.data[res.data.length - 1].record_fiscal_year);
-        const chartDate = new Date(res.data[0].record_date);
-        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(chartDate));
-        const completeData = [];
-        const filteredData = [];
-        res.data = adjustDataForInflation(res.data, 'current_fytd_rcpt_outly_amt', 'record_date', cpiDataByYear);
-        const incomeTax = {
-          name: 'Individual Income Taxes',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '20';
-          }),
-        };
-        filteredData.push(incomeTax);
-        const combinedSocSecData = [];
-        const socialSecurityData = res.data.filter(record => {
-          return record.line_code_nbr === '50' || record.line_code_nbr === '60' || record.line_code_nbr === '70';
-        });
-        const socSecYears = [...new Set(socialSecurityData.map(entry => entry.record_fiscal_year))];
-        setChartYears(socSecYears);
-        socSecYears.forEach(year => {
-          const forAGivenYear = socialSecurityData.filter(entry => entry.record_fiscal_year === year);
-          const sumOfRevenueForYear = forAGivenYear.map(element => element.current_fytd_rcpt_outly_amt).reduce(sum);
-          combinedSocSecData.push({
-            record_fiscal_year: year,
-            current_fytd_rcpt_outly_amt: sumOfRevenueForYear,
-          });
-        });
-        const socialSecurityMedicare = {
-          name: 'Social Security and Medicare Taxes',
-          data: combinedSocSecData,
-        };
-        filteredData.push(socialSecurityMedicare);
-        const corpTax = {
-          name: 'Corporate Income Taxes',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '30';
-          }),
-        };
-        filteredData.push(corpTax);
-        const misc = {
-          name: 'Miscellaneous Income',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '110';
-          }),
-        };
-        filteredData.push(misc);
-        const exciseTax = {
-          name: 'Excise Taxes',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '80';
-          }),
-        };
-        filteredData.push(exciseTax);
-        const customsDuties = {
-          name: 'Customs Duties',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '100';
-          }),
-        };
-        filteredData.push(customsDuties);
-        const estateTax = {
-          name: 'Estate & Gift Taxes',
-          data: res.data.filter(record => {
-            return record.line_code_nbr === '90';
-          }),
-        };
-        filteredData.push(estateTax);
-        filteredData.forEach(category => {
-          const dataObject = {
-            id: category.name,
-            color: colors.find(entry => category.name === entry.name).value,
-            data: category.data.map(entry => ({
-              x: entry.record_fiscal_year,
-              y: parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000).toFixed(2)),
-              raw: entry.current_fytd_rcpt_outly_amt,
-            })),
+    basicFetch(`${apiPrefix}${endPointURL}`)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          setLastChartYear(res.data[0].record_fiscal_year);
+          setFirstChartYear(res.data[res.data.length - 1].record_fiscal_year);
+          const chartDate = new Date(res.data[0].record_date);
+          setLastUpdatedDate(getDateWithoutTimeZoneAdjust(chartDate));
+          const completeData = [];
+          const filteredData = [];
+          res.data = adjustDataForInflation(res.data, 'current_fytd_rcpt_outly_amt', 'record_date', cpiDataByYear);
+          const incomeTax = {
+            name: 'Individual Income Taxes',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '20';
+            }),
           };
-          completeData.push(dataObject);
-        });
-        const revenueSums = [];
-        socSecYears.forEach(year => {
-          revenueSums.push({
-            year: year,
-            sum: completeData
-              .map(array => {
-                return array.data.find(element => element.x === year).y;
-              })
-              .reduce((prev, a) => prev + a, 0),
+          filteredData.push(incomeTax);
+          const combinedSocSecData = [];
+          const socialSecurityData = res.data.filter(record => {
+            return record.line_code_nbr === '50' || record.line_code_nbr === '60' || record.line_code_nbr === '70';
           });
-        });
-        setRevenueScaleMax(Math.ceil(Math.max(...revenueSums.map(element => element.sum))));
-        const sumRevPerYear = [];
-        for (let i = 0; i < completeData[0].data.length; i++) {
-          const sumYear = completeData.map(entry => entry.data[i].raw).reduce(sum);
-          sumRevPerYear.push({
-            year: completeData[0].data[i].x,
-            value: sumYear,
+          const socSecYears = [...new Set(socialSecurityData.map(entry => entry.record_fiscal_year))];
+          setChartYears(socSecYears);
+          socSecYears.forEach(year => {
+            const forAGivenYear = socialSecurityData.filter(entry => entry.record_fiscal_year === year);
+            const sumOfRevenueForYear = forAGivenYear.map(element => element.current_fytd_rcpt_outly_amt).reduce(sum);
+            combinedSocSecData.push({
+              record_fiscal_year: year,
+              current_fytd_rcpt_outly_amt: sumOfRevenueForYear,
+            });
           });
+          const socialSecurityMedicare = {
+            name: 'Social Security and Medicare Taxes',
+            data: combinedSocSecData,
+          };
+          filteredData.push(socialSecurityMedicare);
+          const corpTax = {
+            name: 'Corporate Income Taxes',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '30';
+            }),
+          };
+          filteredData.push(corpTax);
+          const misc = {
+            name: 'Miscellaneous Income',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '110';
+            }),
+          };
+          filteredData.push(misc);
+          const exciseTax = {
+            name: 'Excise Taxes',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '80';
+            }),
+          };
+          filteredData.push(exciseTax);
+          const customsDuties = {
+            name: 'Customs Duties',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '100';
+            }),
+          };
+          filteredData.push(customsDuties);
+          const estateTax = {
+            name: 'Estate & Gift Taxes',
+            data: res.data.filter(record => {
+              return record.line_code_nbr === '90';
+            }),
+          };
+          filteredData.push(estateTax);
+          filteredData.forEach(category => {
+            const dataObject = {
+              id: category.name,
+              color: colors.find(entry => category.name === entry.name).value,
+              data: category.data.map(entry => ({
+                x: entry.record_fiscal_year,
+                y: parseFloat((entry.current_fytd_rcpt_outly_amt / 1000000000000).toFixed(2)),
+                raw: entry.current_fytd_rcpt_outly_amt,
+              })),
+            };
+            completeData.push(dataObject);
+          });
+          const revenueSums = [];
+          socSecYears.forEach(year => {
+            revenueSums.push({
+              year: year,
+              sum: completeData
+                .map(array => {
+                  return array.data.find(element => element.x === year).y;
+                })
+                .reduce((prev, a) => prev + a, 0),
+            });
+          });
+          setRevenueScaleMax(Math.ceil(Math.max(...revenueSums.map(element => element.sum))));
+          const sumRevPerYear = [];
+          for (let i = 0; i < completeData[0].data.length; i++) {
+            const sumYear = completeData.map(entry => entry.data[i].raw).reduce(sum);
+            sumRevPerYear.push({
+              year: completeData[0].data[i].x,
+              value: sumYear,
+            });
+          }
+          setTotalRevByYear(sumRevPerYear);
+          setChartData(completeData);
         }
-        setTotalRevByYear(sumRevPerYear);
-        setChartData(completeData);
+      })
+      .catch(err => {
+        showBoundary(err);
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    });
+      });
   }, []);
 
   const handleChartMouseEnter = () => {
