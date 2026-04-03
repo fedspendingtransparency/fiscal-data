@@ -29,7 +29,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
   const parentContainer = useRef(null);
-  const { setGlossaryClickEvent, glossary } = useContext(GlossaryContext);
+  const { setGlossaryClickEvent, setGlossaryTriggerEl, glossary } = useContext(GlossaryContext);
 
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
@@ -82,6 +82,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
 
     if (window.history.pushState) {
       if (setGlossaryClickEvent) {
+        setGlossaryTriggerEl(anchorEl);
         const newurl = new URL(window.location.href);
         newurl.searchParams.set('glossary', slug);
         window.history.pushState(null, '', newurl);
