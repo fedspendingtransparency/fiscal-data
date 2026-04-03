@@ -62,7 +62,11 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
     }
   };
 
-  const handleClose = () => {
+  const handleClose = e => {
+    if (e && e.key === 'Tab') {
+      return;
+    }
+
     setAnchorEl(null);
     setButtonFocus(false);
   };
@@ -70,7 +74,12 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const glossaryNavigation = () => {
+  const glossaryNavigation = e => {
+    if (e && e.key && e.key !== 'Enter' && e.key !== ' ') {
+      handleClose();
+      return;
+    }
+
     if (window.history.pushState) {
       if (setGlossaryClickEvent) {
         const newurl = new URL(window.location.href);
