@@ -132,6 +132,10 @@
     margin-left: 3.5rem;
     margin-top: 3.5rem;
   }
+
+  .mobileView {
+    display: none;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -196,5 +200,9 @@
 
   .bottomContainer img {
     margin-top: 1rem !important;
+  }
+
+  .desktopView {
+    display: none;
   }
 }
