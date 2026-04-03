@@ -35,8 +35,8 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
   const [initialQuery, setInitialQuery] = useState(false);
   const [tabReset, setTabReset] = useState(false);
-  const glossaryRef = useRef(null);
-  const { glossaryClickEvent, setGlossaryClickEvent } = useContext(GlossaryContext);
+  const glossaryRef = useRef<HTMLDivElement>(null);
+  const { glossaryClickEvent, setGlossaryClickEvent, glossaryTriggerEl, setGlossaryTriggerEl } = useContext(GlossaryContext);
 
   useEffect(() => {
     if (!initialQuery) {
@@ -61,10 +61,20 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   }, [glossaryClickEvent]);
 
   useEffect(() => {
+    // focus shifts to glossary
     if (activeState) {
       const node = glossaryRef.current;
       if (node) {
         node.focus();
+      }
+    } else {
+      // focus shifts back to the clicked term
+      if (glossaryTriggerEl) {
+        setTimeout(() => {
+          glossaryTriggerEl.focus();
+          glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setGlossaryTriggerEl(null);
+        }, 100);
       }
     }
   }, [activeState]);
