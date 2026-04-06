@@ -7,6 +7,8 @@ const GlossaryProvider = ({ children }) => {
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
   const [glossaryTriggerEl, setGlossaryTriggerEl] = useState(null);
 
+  console.log('glossaryTriggerEl: ', glossaryTriggerEl);
+
   const allGlossary = useStaticQuery(
     graphql`
       query {
