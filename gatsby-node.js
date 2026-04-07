@@ -50,11 +50,10 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const releaseCalendarUrl = `${API_BASE_URL}/services/calendar/release`;
   const metadataUrl = `${API_BASE_URL}/services/dtg/metadata/`;
 
-  console.info(`Loading metadata from ${metadataUrl} ` + `with${apiKey ? '' : 'out'} authentication. :) :)`);
+  console.info(`Loading metadata from ${metadataUrl} ` + `with${apiKey ? '' : 'out'} authentication.`);
   console.info(`Loading release calendar from ${releaseCalendarUrl} ` + `with${apiKey ? '' : 'out'} authentication.`);
 
   if (ENV_ID !== 'production') {
-    process.env.NODE_TLS_REJCT_UNAUTHRIZED = '0';
     console.info('App is including datasets whitelisted for lower environments');
     if (ADDITIONAL_DATASETS && Object.keys(ADDITIONAL_DATASETS).length) {
       Object.assign(datasetIdMap, ADDITIONAL_DATASETS);
