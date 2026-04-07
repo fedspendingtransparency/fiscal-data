@@ -151,7 +151,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     (async () => {
-      if (tableMeta?.table === selectedTable?.tableName) await refreshTable();
+      if (tableMeta?.table === selectedTable?.tableName || apiError) await refreshTable();
     })();
   }, [apiData, userFilterSelection, apiError]);
 
