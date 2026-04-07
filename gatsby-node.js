@@ -22,7 +22,7 @@ const activeEnv = varToEnvironmentConfig[process.env.BUILD_ENV] || 'index';
 const {
   ENV_ID,
   API_BASE_URL,
-  // STRICT_SSL,
+  STRICT_SSL,
   ADDITIONAL_DATASETS,
   ADDITIONAL_ENDPOINTS,
   EXCLUDED_ENDPOINT_IDS,
@@ -35,7 +35,7 @@ const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 const path = require(`path`);
 const metadataTransform = require('./src/transform/metadata-transform').metadataTransform;
 const fetchUtil = require('make-fetch-happen').defaults({
-  strictSSL: false,
+  strictSSL: STRICT_SSL,
 });
 const authenticatingFetch = require('./src/utils/authenticating-fetch/authenticating-fetch');
 const fetch = apiKey ? authenticatingFetch(apiKey, fetchUtil) : fetchUtil;
