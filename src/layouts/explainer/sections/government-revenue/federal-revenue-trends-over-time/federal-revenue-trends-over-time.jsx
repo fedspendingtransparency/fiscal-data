@@ -7,6 +7,8 @@ import RevenueTrendsLineChart from './revenue-trends-line-chart/revenue-trends-l
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../helpers/inflation-adjust/inflation-adjust';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
 
 const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
   const [firstChartYear, setFirstChartYear] = useState(0);
@@ -78,7 +80,9 @@ const FederalRevenueTrendsOverTime = ({ cpiDataByYear }) => {
       </figure>
       <p>The chart below shows how federal revenue has changed over time, broken out by the various source categories.</p>
       <figure className={visWithCallout}>
-        <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <RevenueTrendsLineChart cpiDataByYear={cpiDataByYear} />
+        </ErrorBoundary>
         <VisualizationCallout color={revenueExplainerPrimary}>
           <p>
             Total revenue has {revenueTag || '--'} from ${firstRevenue || '--'} in {firstChartYear || '--'} to ${lastRevenue || '--'} in{' '}

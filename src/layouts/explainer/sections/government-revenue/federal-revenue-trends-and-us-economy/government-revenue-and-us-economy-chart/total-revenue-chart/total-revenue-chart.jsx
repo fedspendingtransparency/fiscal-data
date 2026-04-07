@@ -29,6 +29,7 @@ import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './total-revenue-chart.module.scss';
+import { useErrorBoundary } from 'react-error-boundary';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -62,6 +63,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     gdp: '',
     gdpRatio: '',
   });
+  const { showBoundary } = useErrorBoundary();
 
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
@@ -130,102 +132,106 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   useEffect(() => {
     const { finalGDPData, gdpMaxYear } = beaGDPData;
 
-    basicFetch(chartDataEndPoint).then(res => {
-      if (res.data && res.data.length > 0) {
-        let finalRevenueChartData = [];
+    basicFetch(chartDataEndPoint)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          let finalRevenueChartData = [];
 
-        res.data.forEach(revenue => {
-          if (parseInt(revenue.record_fiscal_year) <= gdpMaxYear)
-            finalRevenueChartData.push({
-              x: parseInt(revenue.record_fiscal_year),
-              actual: parseInt(revenue.current_fytd_net_rcpt_amt),
-              fiscalYear: revenue.record_fiscal_year,
-              record_date: revenue.record_date,
-            });
-        });
-
-        finalRevenueChartData = finalRevenueChartData.filter(s => s.x <= gdpMaxYear);
-
-        finalRevenueChartData = adjustDataForInflation(finalRevenueChartData, 'actual', 'fiscalYear', cpiDataByYear);
-
-        finalRevenueChartData.forEach(revenue => {
-          revenue.y = parseFloat(simplifyNumber(revenue.actual, false).slice(0, -2));
-        });
-
-        setRevenueChartData(finalRevenueChartData);
-
-        const revenueMaxYear = finalRevenueChartData.reduce((max, revenue) => (max.x > revenue.x ? max : revenue));
-        setMaxYear(revenueMaxYear.x);
-
-        const revenueMinYear = finalRevenueChartData.reduce((min, revenue) => (min.x < revenue.x ? min : revenue));
-        setMinYear(revenueMinYear.x);
-
-        const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) => (min.y > revenue.y ? min : revenue));
-
-        const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
-
-        setLastRevenueValue(revenueLastAmountActual);
-
-        setMaxRevenueValue(revenueMaxAmount.y);
-
-        const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
-        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
-
-        const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= revenueMaxYear.x && g.fiscalYear >= revenueMinYear.x);
-
-        const finalGdpRatioChartData = [];
-        finalRevenueChartData.forEach(revenue => {
-          const revenueYear = revenue.fiscalYear;
-          const revenueAmount = revenue.y;
-          const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === revenueYear).map(g => g.y);
-          const gdpRatio = numeral(revenueAmount / matchingGDP).format('0%');
-          finalGdpRatioChartData.push({
-            x: revenueYear,
-            y: gdpRatio,
+          res.data.forEach(revenue => {
+            if (parseInt(revenue.record_fiscal_year) <= gdpMaxYear)
+              finalRevenueChartData.push({
+                x: parseInt(revenue.record_fiscal_year),
+                actual: parseInt(revenue.current_fytd_net_rcpt_amt),
+                fiscalYear: revenue.record_fiscal_year,
+                record_date: revenue.record_date,
+              });
           });
-        });
 
-        setRatioGdpChartData(finalGdpRatioChartData);
+          finalRevenueChartData = finalRevenueChartData.filter(s => s.x <= gdpMaxYear);
 
-        const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
-        const chartLastRatio = numeral(
-          finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
-        ).format('0%');
-        setLastRatio(chartLastRatio);
-        if (chartFirstRatio !== chartLastRatio) {
-          setCalloutCopy(
-            `the Revenue-to-GDP ratio has ${
-              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
-            } from ${chartFirstRatio} to ${chartLastRatio}`
-          );
-        } else {
-          setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          finalRevenueChartData = adjustDataForInflation(finalRevenueChartData, 'actual', 'fiscalYear', cpiDataByYear);
+
+          finalRevenueChartData.forEach(revenue => {
+            revenue.y = parseFloat(simplifyNumber(revenue.actual, false).slice(0, -2));
+          });
+
+          setRevenueChartData(finalRevenueChartData);
+
+          const revenueMaxYear = finalRevenueChartData.reduce((max, revenue) => (max.x > revenue.x ? max : revenue));
+          setMaxYear(revenueMaxYear.x);
+
+          const revenueMinYear = finalRevenueChartData.reduce((min, revenue) => (min.x < revenue.x ? min : revenue));
+          setMinYear(revenueMinYear.x);
+
+          const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) => (min.y > revenue.y ? min : revenue));
+
+          const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
+
+          setLastRevenueValue(revenueLastAmountActual);
+
+          setMaxRevenueValue(revenueMaxAmount.y);
+
+          const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
+          setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
+
+          const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= revenueMaxYear.x && g.fiscalYear >= revenueMinYear.x);
+
+          const finalGdpRatioChartData = [];
+          finalRevenueChartData.forEach(revenue => {
+            const revenueYear = revenue.fiscalYear;
+            const revenueAmount = revenue.y;
+            const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === revenueYear).map(g => g.y);
+            const gdpRatio = numeral(revenueAmount / matchingGDP).format('0%');
+            finalGdpRatioChartData.push({
+              x: revenueYear,
+              y: gdpRatio,
+            });
+          });
+
+          setRatioGdpChartData(finalGdpRatioChartData);
+
+          const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
+          const chartLastRatio = numeral(
+            finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
+          ).format('0%');
+          setLastRatio(chartLastRatio);
+          if (chartFirstRatio !== chartLastRatio) {
+            setCalloutCopy(
+              `the Revenue-to-GDP ratio has ${
+                chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
+              } from ${chartFirstRatio} to ${chartLastRatio}`
+            );
+          } else {
+            setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          }
+
+          const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
+          const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
+          setLastGDPValue(chartLastGDPValue);
+          setGdpChartData(filteredGDPData);
+
+          setMaxGDPValue(chartMaxGDPValue);
+          setTotalRevenueHeadingValues({
+            fiscalYear: revenueMaxYear.x,
+            totalRevenue: simplifyNumber(revenueLastAmountActual, false),
+            gdp: simplifyNumber(chartLastGDPValue, false),
+            gdpRatio: chartLastRatio,
+          });
+
+          copyPageData({
+            fiscalYear: revenueMaxYear.x,
+            revenueTotal: getShortForm(revenueLastAmountActual, false),
+            revenueRatio: chartLastRatio,
+          });
         }
-
-        const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
-        const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
-        setLastGDPValue(chartLastGDPValue);
-        setGdpChartData(filteredGDPData);
-
-        setMaxGDPValue(chartMaxGDPValue);
-        setTotalRevenueHeadingValues({
-          fiscalYear: revenueMaxYear.x,
-          totalRevenue: simplifyNumber(revenueLastAmountActual, false),
-          gdp: simplifyNumber(chartLastGDPValue, false),
-          gdpRatio: chartLastRatio,
-        });
-
+      })
+      .catch(err => {
+        showBoundary(err);
+      })
+      .finally(() => {
         setIsLoading(false);
-
         applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-
-        copyPageData({
-          fiscalYear: revenueMaxYear.x,
-          revenueTotal: getShortForm(revenueLastAmountActual, false),
-          revenueRatio: chartLastRatio,
-        });
-      }
-    });
+      });
   }, []);
 
   useEffect(() => {

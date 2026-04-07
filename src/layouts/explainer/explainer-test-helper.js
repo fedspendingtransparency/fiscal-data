@@ -807,8 +807,26 @@ export const mockSavingsBondLastFiscalYearCurrentMonth = {
 
 const mockSavingsBondsSoldByTypeFYData = {
   data: [
-    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 5000 },
-    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 7000 },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'I' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'I' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'E' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'E' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'EE' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'EE' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'F' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'F' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'G' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'G' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'H' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'H' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'HH' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'HH' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 0, security_class_desc: 'J' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'J' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'J' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'K' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'K' },
+    { record_fiscal_year: '1935', record_date: '1935-12-12', net_sales_amt: 110000000000, security_class_desc: 'K' },
   ],
   meta: { 'total-pages': 100 },
 };

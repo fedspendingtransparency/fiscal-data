@@ -16,6 +16,7 @@ import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
 
 let gaTimerChart;
 let ga4Timer;
@@ -35,6 +36,8 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [headerYear, setHeaderYear] = useState('--');
   const [headerDeficit, setHeaderDeficit] = useState('--');
   const [lastBar, setLastBar] = useState();
+
+  const { showBoundary } = useErrorBoundary();
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -92,30 +95,34 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
-      let deficitSum = 0;
-      result.data.forEach(entry => {
-        const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
-        deficitSum += deficitValue;
-        apiData.push({
-          year: entry.record_fiscal_year,
-          deficit: deficitValue.toFixed(2),
-          deficitColor: deficitExplainerPrimary,
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then(result => {
+        let deficitSum = 0;
+        result.data.forEach(entry => {
+          const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
+          deficitSum += deficitValue;
+          apiData.push({
+            year: entry.record_fiscal_year,
+            deficit: deficitValue.toFixed(2),
+            deficitColor: deficitExplainerPrimary,
+          });
         });
+        preAPIData.forEach(entry => {
+          deficitSum += Math.abs(entry.deficit);
+        });
+        setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
+        const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
+        const latestYear = newData[newData.length - 1].year;
+        const latestDeficit = newData[newData.length - 1].deficit;
+        setMostRecentFiscalYear(latestYear);
+        setHeaderYear(latestYear);
+        setMostRecentDeficit(latestDeficit);
+        setHeaderDeficit(latestDeficit);
+        setChartData(newData);
+      })
+      .catch(err => {
+        showBoundary(err);
       });
-      preAPIData.forEach(entry => {
-        deficitSum += Math.abs(entry.deficit);
-      });
-      setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
-      const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
-      const latestYear = newData[newData.length - 1].year;
-      const latestDeficit = newData[newData.length - 1].deficit;
-      setMostRecentFiscalYear(latestYear);
-      setHeaderYear(latestYear);
-      setMostRecentDeficit(latestDeficit);
-      setHeaderDeficit(latestDeficit);
-      setChartData(newData);
-    });
   };
 
   const resetHeaderValues = () => {

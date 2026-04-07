@@ -12,6 +12,7 @@ import {
   mockSpendingData_NoChange,
 } from '../../../../explainer-helpers/federal-spending/federal-spending-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
+import { ErrorBoundary } from 'react-error-boundary';
 
 describe('Total Spending Chart', () => {
   const mockPageFunction = () => {
@@ -38,7 +39,11 @@ describe('Total Spending Chart', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
@@ -46,7 +51,11 @@ describe('Total Spending Chart', () => {
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('chartParent')).toBeInTheDocument();
   });
@@ -54,7 +63,9 @@ describe('Total Spending Chart', () => {
   it('renders the chart markers and data header labels', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getAllByText, getByText } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(getAllByText('Total Spending')).toHaveLength(3);
@@ -65,7 +76,9 @@ describe('Total Spending Chart', () => {
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const customPoints = await findByTestId('customPoints');
@@ -75,7 +88,11 @@ describe('Total Spending Chart', () => {
 
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByTestId } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByTestId('customSlices')).toBeInTheDocument();
     expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
@@ -83,7 +100,11 @@ describe('Total Spending Chart', () => {
 
   it('renders the chart headers', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { getByText } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     expect(await getByText('Government Spending and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
@@ -96,7 +117,9 @@ describe('Total Spending Chart', () => {
     const ga4Spy = jest.spyOn(window.dataLayer, 'push');
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const chart = await findByTestId('chartParent');
@@ -111,7 +134,9 @@ describe('Total Spending Chart', () => {
   it('fires the mouse events for Total Spending view', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId, getByRole } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const slices = await findByTestId('customSlices');
@@ -126,7 +151,9 @@ describe('Total Spending Chart', () => {
   it('fires the mouse events for GDP view', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByTestId, findByRole } = render(
-      <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const gdpButton = await findByRole('button', { name: 'Percentage of GDP' });
@@ -160,7 +187,11 @@ describe('Total Spending Chart Spending to GDP Ratio Decreased', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has decreased from 35% to 13%', { exact: false })).toBeInTheDocument();
@@ -188,7 +219,11 @@ describe('Total Spending Chart Spending to GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(<TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
     await waitFor(() => expect(fetchSpy).toBeCalled());
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has not changed, remaining at 25%', { exact: false })).toBeInTheDocument();

@@ -213,24 +213,6 @@ module.exports = {
         'outstanding_amt',
       ],
     },
-    '325': {
-      endpoint: 'v1/accounting/mts/mts_table_9_outlays_functions_subfunctions',
-      dateField: 'record_date',
-      downloadName: 'MTS_OutlyFcnSubFcn',
-      alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      dataDisplays: [
-        {
-          title: 'Outlays by Function',
-          dimensionField: 'function_desc',
-        },
-        {
-          title: 'Outlays by Sub Function',
-          dimensionField: 'sub_function_desc',
-        },
-      ],
-
-      valueFieldOptions: ['current_month_outly_amt', 'current_fytd_outly_amt', 'prior_fytd_outly_amt'],
-    },
     '326': {
       endpoint: 'v1/accounting/mts/mts_table_5m',
       dateField: 'record_date',

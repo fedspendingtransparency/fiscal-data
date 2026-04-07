@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from '@nivo/bar';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import {
-  fontBodyCopy,
-  fontSize_16,
-  fontSize_12,
-  debtExplainerPrimary,
-  debtExplainerLightSecondary,
-  breakpointLg,
-} from '../../../../../../variables.module.scss';
+import { fontBodyCopy, fontSize_16, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../../variables.module.scss';
 import { barChartContainer, title, loadingIcon, container } from './intragovernmental-holdings-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import CustomBar from './custom-bar/customBar';
 import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+
 const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
@@ -62,6 +55,13 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     legends: {
       text: {
         fontSize: fontSize_16,
+      },
+    },
+    axis: {
+      ticks: {
+        text: {
+          fontSize: fontSize_14,
+        },
       },
     },
   };

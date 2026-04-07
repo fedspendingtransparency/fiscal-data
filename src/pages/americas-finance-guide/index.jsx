@@ -6,8 +6,10 @@ import DataSourcesMethodologies from '../../layouts/explainer/data-sources-metho
 import {
   bottomContainer,
   citation,
+  desktopView,
   constitutionImg,
   mainContainer,
+  mobileView,
   quote,
   quoteBar,
   quoteContainer,
@@ -18,8 +20,6 @@ import {
   treasuryReportImg,
 } from './afg-overview.module.scss';
 import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
-import { breakpointLg } from '../../../src/variables.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons/faQuoteLeft';
 import DeskTopSubNav from '../../layouts/explainer/explainer-components/explainer-sub-nav/explainer-sub-nav';
@@ -70,16 +70,22 @@ const AmericasFinanceGuidePage = ({ width }) => {
         <AfgHero />
         <div className={mainContainer}>
           <Container classes={{ root: topContainer }} maxWidth={false} data-testid="topContainer">
-            {width < pxToNumber(breakpointLg) ? <MobileSubNav hidePosition={1162} /> : <DeskTopSubNav hidePosition={630} />}
-            <div className={socialShare} ref={refSocialShare}>
-              <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]} displayStyle="horizontal" />
+            <div className={mobileView}> <MobileSubNav hidePosition={1162} />
             </div>
-            <TopicSection fiscalYear={fiscalYear} width={width} />
-            {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
-            <DataSourcesMethodologies pageName="afg-overview">
-              Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from the {mtsSummary}. The {mspdOutstanding}{' '}
-              and the {debtToThePenny} datasets are the data sources for federal debt.
-            </DataSourcesMethodologies>
+            <div className={desktopView}>
+              <DeskTopSubNav hidePosition={630} />
+            </div>
+              <div className={socialShare} ref={refSocialShare}>
+                <SocialShare copy={explainerSocialShareMap[pageName]} pageName={explainerAnalyticsLabelMap[pageName]}
+                             displayStyle="horizontal" />
+              </div>
+              <TopicSection fiscalYear={fiscalYear} width={width} />
+              {fiscalYear && <Footnote footnotes={getAFGFootnotes(fiscalYear)} width="100%" />}
+              <DataSourcesMethodologies pageName="afg-overview">
+                Current and prior fiscal year values for federal revenue, spending, and deficit are sourced from
+                the {mtsSummary}. The {mspdOutstanding}{' '}
+                and the {debtToThePenny} datasets are the data sources for federal debt.
+              </DataSourcesMethodologies>
           </Container>
         </div>
         <div className={constitutionImg} data-testid="quoteContainer">
