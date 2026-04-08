@@ -82,17 +82,15 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   useEffect(() => {
     if (!activeState || !glossaryTriggerEl) return;
     let hasReturnedFocus = false;
+
     const handleKeyDown = e => {
       if (e.key !== 'Tab' || hasReturnedFocus) return;
 
       const trayElement = document.querySelector(`.${tray}.${open}`);
       if (!trayElement) return;
 
-      // Check if focus left the tray after Tab completes
       setTimeout(() => {
         if (!trayElement.contains(document.activeElement)) {
-          // Focus escaped - return to the glossary trigger element
-          e.preventDefault();
           glossaryTriggerEl.focus();
           glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
           hasReturnedFocus = true;

@@ -87,6 +87,13 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
         newurl.searchParams.set('glossary', slug);
         window.history.pushState(null, '', newurl);
         setGlossaryClickEvent(true);
+        setTimeout(() => {
+          // checks if popup is already open (case: user selects a term, tabs out of the popup (keeps it open), then selects a new term)
+          const glossaryNode = document.querySelector('[data-testid="glossaryContainer"] input, [data-testid="glossaryContainer"] button');
+          if (glossaryNode) {
+            glossaryNode.focus();
+          }
+        }, 150);
       }
       handleClose();
     }
