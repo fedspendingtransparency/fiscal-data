@@ -14,9 +14,7 @@ import {
   spendingRequest,
 } from '../../../explainer-helpers/afg-overview-helpers';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-import { breakpointLg } from '../../../../../variables.module.scss';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
-
+import { topicSectionContainer } from './topic-section.module.scss';
 const TopicSection = ({ fiscalYear, width }) => {
   const [fytdRevenue, setFytdRevenue] = useState('');
   const [priorFyRevenue, setPriorFyRevenue] = useState('--');
@@ -328,7 +326,7 @@ const TopicSection = ({ fiscalYear, width }) => {
   ];
 
   return (
-    <div style={width < pxToNumber(breakpointLg) ? { paddingTop: '1.5rem' } : { paddingTop: '2rem' }} data-testid="topic-section">
+    <div className={topicSectionContainer} data-testid="topic-section">
       {topicSectionMap.map((section, index) => {
         return (
           <React.Fragment key={index}>

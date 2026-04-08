@@ -25,17 +25,17 @@ describe('Topic Section Component', () => {
   const header = 'The amount by which spending exceeds revenue, $X.X in YYYY, is referred to as deficit spending.';
 
   it('renders the component for deficit', () => {
-    const { getByText, getByRole } = render(
+    const { getByText, getAllByRole } = render(
       <AfgTopicCard heading={header} body={body} linkUrl="/national-deficit" linkText="Learn more about national deficit" id="national-deficit" />
     );
     expect(getByText('Deficit')).toBeInTheDocument();
     expect(getByText(header)).toBeInTheDocument();
     expect(getByText(body)).toBeInTheDocument();
-    expect(getByRole('figure')).toBeInTheDocument();
+    expect(getAllByRole('figure')).toHaveLength(2); //chart renders separately for desktop and mobile in test environment
   });
 
   it('renders the component for revenue', () => {
-    const { getByText, getByRole } = render(
+    const { getByText, getAllByRole } = render(
       <AfgTopicCard
         heading={header}
         body={body}
@@ -47,27 +47,27 @@ describe('Topic Section Component', () => {
     expect(getByText('Revenue')).toBeInTheDocument();
     expect(getByText(header)).toBeInTheDocument();
     expect(getByText(body)).toBeInTheDocument();
-    expect(getByRole('figure')).toBeInTheDocument();
+    expect(getAllByRole('figure')).toHaveLength(2);
   });
 
   it('renders the component for spending', () => {
-    const { getByText, getByRole } = render(
+    const { getByText, getAllByRole } = render(
       <AfgTopicCard heading={header} body={body} linkUrl="/federal-spending" linkText="Learn more about federal spending" id="federal-spending" />
     );
     expect(getByText('Spending')).toBeInTheDocument();
     expect(getByText(header)).toBeInTheDocument();
     expect(getByText(body)).toBeInTheDocument();
-    expect(getByRole('figure')).toBeInTheDocument();
+    expect(getAllByRole('figure')).toHaveLength(2);
   });
 
   it('renders the component for debt', () => {
-    const { getByText, getByRole } = render(
+    const { getByText, getAllByRole } = render(
       <AfgTopicCard heading={header} body={body} linkUrl="/national-debt" linkText="Learn more about national debt" id="national-debt" />
     );
     expect(getByText('Debt')).toBeInTheDocument();
     expect(getByText(header)).toBeInTheDocument();
     expect(getByText(body)).toBeInTheDocument();
-    expect(getByRole('figure')).toBeInTheDocument();
+    expect(getAllByRole('figure')).toHaveLength(2);
   });
 
   it('renders an empty div if an id is not passed in', () => {

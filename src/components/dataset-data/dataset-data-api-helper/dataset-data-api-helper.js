@@ -1,4 +1,4 @@
-import { datatableRequest, pivotData } from '../../../utils/api-utils';
+import { buildDateFilter, datatableRequest, fetchTableMeta, formatDateForApi, pivotData } from '../../../utils/api-utils';
 import { addDays } from 'date-fns';
 import { customTableSorts } from '../../custom-table-sorts';
 
@@ -132,6 +132,30 @@ export const getApiData = async (
       _queryClient
     );
   }
+};
+
+export const getMetaData = async (dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading) => {
+  let tableMetaData = null;
+  if (dateRange && selectedTable?.endpoint) {
+    let from = formatDateForApi(dateRange.from);
+    let to = formatDateForApi(dateRange.to);
+    // redemption_tables and sb_value are exception scenarios where the date string needs to
+    // be YYYY-MM.
+    if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+      from = from.substring(0, from.lastIndexOf('-'));
+      to = to.substring(0, to.lastIndexOf('-'));
+    }
+    const dateFilter = buildDateFilter(selectedTable, from, to);
+    const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+    try {
+      tableMetaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
+    } catch (err) {
+      console.error('API error', err);
+      setApiError(err);
+      setIsLoading(false);
+    }
+  }
+  return tableMetaData;
 };
 
 export const pivotApiDataFn = (row, filters) => {
