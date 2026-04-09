@@ -70,11 +70,8 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     } else {
       // focus shifts back to the last clicked term when active state changes
       if (glossaryTriggerEl) {
-        setTimeout(() => {
-          glossaryTriggerEl.focus();
-          glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setGlossaryTriggerEl(null);
-        }, 100);
+        glossaryTriggerEl.focus();
+        glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
   }, [activeState]);
