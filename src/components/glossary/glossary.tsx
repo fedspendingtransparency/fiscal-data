@@ -88,6 +88,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
     const lastElement = focusableElements[focusableElements.length - 1];
     if (!e.shiftKey && document.activeElement === lastElement) {
+      // prevents focus from jumping outside (top of page where glossary component is imported)
       e.preventDefault();
       glossaryTriggerEl.focus();
     }
