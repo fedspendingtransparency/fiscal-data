@@ -127,4 +127,40 @@ describe('glossary', () => {
     expect(getByText('An apple')).toBeInTheDocument();
     expect(addressPathMock).toHaveBeenCalledWith(window.location);
   });
+
+  it('returns focus to the glossaryTriggerEl when user tabs past the last element in the overlay', async () => {
+    const mockTriggerElement = document.createElement('button');
+    mockTriggerElement.textContent = 'Mock Glossary Term';
+    mockTriggerElement.focus = jest.fn();
+    mockTriggerElement.scrollIntoView = jest.fn();
+    document.body.appendChild(mockTriggerElement);
+
+    const { getByTestId } = render(
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+          glossaryTriggerEl: mockTriggerElement,
+          setGlossaryTriggerEl: jest.fn(),
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
+    );
+
+    const container = getByTestId('glossaryContainer');
+    const focusableElements = container.querySelectorAll('button, a[href]');
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    // find the last element and simulate the user pressing 'tab'
+    lastElement.focus();
+    const glossaryOverlay = getByTestId('glossary-tray');
+    fireEvent.keyDown(glossaryOverlay, {
+      key: 'Tab',
+    });
+    await waitFor(() => {
+      expect(mockTriggerElement.focus).toHaveBeenCalled();
+      expect(mockTriggerElement.scrollIntoView).toHaveBeenCalled();
+    });
+  });
 });

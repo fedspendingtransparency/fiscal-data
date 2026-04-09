@@ -71,7 +71,6 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
       // focus shifts back to the last clicked term when active state changes to false
       if (glossaryTriggerEl) {
         glossaryTriggerEl.focus();
-        glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
   }, [activeState]);
@@ -83,21 +82,20 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   };
 
-  // function to restore view to last clicked term (when user tabs through the overlay
+  // function to restore view to last clicked term (when user tabs through the overlay)
   const handleOverlayTab = e => {
     const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
     const lastElement = focusableElements[focusableElements.length - 1];
     if (!e.shiftKey && document.activeElement === lastElement) {
       e.preventDefault();
       glossaryTriggerEl.focus();
-      glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
   return (
     <div className={`${glossaryContainer} ${activeState ? open : ''}`} data-testid="glossaryContainer">
       <div className={overlay} data-testid="overlay" onClick={toggleState} role="presentation" />
-      <div className={`${tray} ${activeState ? open : ''}`} onKeyDown={handleOverlayTab}>
+      <div className={`${tray} ${activeState ? open : ''}`} onKeyDown={handleOverlayTab} data-testid="glossary-tray">
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
