@@ -63,6 +63,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   };
 
   const handleClose = e => {
+    // prevents popover from closing when user is tabbing through it
     if (e && e.key === 'Tab') {
       return;
     }
