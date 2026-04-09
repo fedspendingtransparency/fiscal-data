@@ -84,6 +84,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
 
   // function to restore view to last clicked term (when user tabs through the overlay)
   const handleOverlayTab = e => {
+    if (e.key !== 'Tab') return;
     const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
     const lastElement = focusableElements[focusableElements.length - 1];
     if (!e.shiftKey && document.activeElement === lastElement) {
