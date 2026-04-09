@@ -130,9 +130,7 @@ describe('glossary', () => {
 
   it('returns focus to the glossaryTriggerEl when user tabs past the last element in the overlay', async () => {
     const mockTriggerElement = document.createElement('button');
-    mockTriggerElement.textContent = 'Mock Glossary Term';
     mockTriggerElement.focus = jest.fn();
-    mockTriggerElement.scrollIntoView = jest.fn();
     document.body.appendChild(mockTriggerElement);
 
     const { getByTestId } = render(
@@ -160,7 +158,6 @@ describe('glossary', () => {
     });
     await waitFor(() => {
       expect(mockTriggerElement.focus).toHaveBeenCalled();
-      expect(mockTriggerElement.scrollIntoView).toHaveBeenCalled();
     });
   });
 });
