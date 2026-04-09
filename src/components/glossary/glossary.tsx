@@ -60,8 +60,8 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   }, [glossaryClickEvent]);
 
+  // handles focus between glossary term/overlay when overlay is opened/closed
   useEffect(() => {
-    // focus shifts to glossary
     if (activeState) {
       const node = glossaryRef.current;
       if (node) {
@@ -76,30 +76,6 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   }, [activeState]);
 
-  // shifts focus back to the last clicked term when the user tabs out of the glossary overlay (but keeps it open)
-  useEffect(() => {
-    if (!activeState || !glossaryTriggerEl) return;
-    let hasReturnedFocus = false;
-
-    const handleKeyDown = e => {
-      if (e.key !== 'Tab' || hasReturnedFocus) return;
-
-      const trayElement = document.querySelector(`.${tray}.${open}`);
-      if (!trayElement) return;
-
-      setTimeout(() => {
-        if (!trayElement.contains(document.activeElement)) {
-          glossaryTriggerEl.focus();
-          glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          hasReturnedFocus = true;
-        }
-      }, 0);
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [activeState, glossaryTriggerEl]);
-
   const toggleState = e => {
     if (!e.key || e.key === 'Enter') {
       setActiveState(!activeState);
@@ -107,10 +83,21 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   };
 
+  // function to restore view to last clicked term (when user tabs through the overlay
+  const handleTrayKeyDown = e => {
+    const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
+    const lastElement = focusableElements[focusableElements.length - 1];
+    if (!e.shiftKey && document.activeElement === lastElement) {
+      e.preventDefault();
+      glossaryTriggerEl.focus();
+      glossaryTriggerEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
   return (
     <div className={`${glossaryContainer} ${activeState ? open : ''}`} data-testid="glossaryContainer">
       <div className={overlay} data-testid="overlay" onClick={toggleState} role="presentation" />
-      <div className={`${tray} ${activeState ? open : ''}`}>
+      <div className={`${tray} ${activeState ? open : ''}`} onKeyDown={handleTrayKeyDown}>
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
