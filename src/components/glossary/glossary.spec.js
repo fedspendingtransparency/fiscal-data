@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import Glossary from './glossary';
 import { testGlossaryData } from './test-helper';
@@ -60,7 +60,7 @@ describe('glossary', () => {
     expect(getByTestId('overlay')).toBeDefined();
   });
 
-  it('after the glossary is open, calls to change glossary cative state when overlay is clicked', () => {
+  it('after the glossary is open, calls to change glossary active state when overlay is clicked', () => {
     const { getByTestId } = render(
       <GlossaryContext.Provider
         value={{

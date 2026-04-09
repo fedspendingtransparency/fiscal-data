@@ -68,7 +68,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
         node.focus();
       }
     } else {
-      // focus shifts back to the clicked term
+      // focus shifts back to the last clicked term when active state changes
       if (glossaryTriggerEl) {
         setTimeout(() => {
           glossaryTriggerEl.focus();
@@ -79,6 +79,7 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   }, [activeState]);
 
+  // shifts focus back to the last clicked term when the user tabs out of the glossary overlay (but keeps it open)
   useEffect(() => {
     if (!activeState || !glossaryTriggerEl) return;
     let hasReturnedFocus = false;
