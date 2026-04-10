@@ -30,6 +30,8 @@ import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './total-revenue-chart.module.scss';
 import { useErrorBoundary } from 'react-error-boundary';
+const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
+const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -57,12 +59,18 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
+  const [revenueHoverDisabled, setRevenueHoverDisabled] = useState(true);
+  const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
   const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
     fiscalYear: '--',
     totalRevenue: '',
     gdp: '',
     gdpRatio: '',
   });
+
+  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
+
   const { showBoundary } = useErrorBoundary();
 
   const handleMouseEnterChart = () => {
@@ -128,6 +136,24 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (revenueInView && revenueHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setRevenueHoverDisabled(false);
+      }, 5500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [revenueInView]);
+
+  useEffect(() => {
+    if (gdpInView && gdpHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setGdpHoverDisabled(false);
+      }, 5500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [gdpInView]);
 
   useEffect(() => {
     const { finalGDPData, gdpMaxYear } = beaGDPData;
@@ -287,10 +313,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     selectedChartView
   );
 
-  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
-
-  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
-
   const xScale = {
     type: 'linear',
     min: minYear,
@@ -336,7 +358,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
-                  <div ref={revenueRef}>
+                  <div ref={revenueRef} style={{ pointerEvents: revenueHoverDisabled ? 'none' : 'auto' }}>
                     <Line
                       {...commonProps}
                       layers={[
@@ -361,7 +383,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
                 {selectedChartView === 'percentageGdp' && (
-                  <div ref={gdpRef}>
+                  <div ref={gdpRef} style={{ pointerEvents: gdpHoverDisabled ? 'none' : 'auto' }}>
                     <Line
                       {...commonProps}
                       layers={[
