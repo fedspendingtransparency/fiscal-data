@@ -30,8 +30,6 @@ import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './total-revenue-chart.module.scss';
 import { useErrorBoundary } from 'react-error-boundary';
-const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
-const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
 
 let gaTimerTotalRevenue;
 let ga4Timer;
