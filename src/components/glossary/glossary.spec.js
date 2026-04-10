@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import Glossary from './glossary';
 import { testGlossaryData } from './test-helper';
@@ -60,7 +60,7 @@ describe('glossary', () => {
     expect(getByTestId('overlay')).toBeDefined();
   });
 
-  it('after the glossary is open, calls to change glossary cative state when overlay is clicked', () => {
+  it('after the glossary is open, calls to change glossary active state when overlay is clicked', () => {
     const { getByTestId } = render(
       <GlossaryContext.Provider
         value={{
@@ -126,5 +126,38 @@ describe('glossary', () => {
     expect(getByText('apple')).toBeInTheDocument();
     expect(getByText('An apple')).toBeInTheDocument();
     expect(addressPathMock).toHaveBeenCalledWith(window.location);
+  });
+
+  it('returns focus to the glossaryTriggerEl when user tabs past the last element in the overlay', async () => {
+    const mockTriggerElement = document.createElement('button');
+    mockTriggerElement.focus = jest.fn();
+    document.body.appendChild(mockTriggerElement);
+
+    const { getByTestId } = render(
+      <GlossaryContext.Provider
+        value={{
+          glossaryClickEvent: false,
+          setGlossaryClickEvent: mockGlossaryClickHandler,
+          glossaryTriggerEl: mockTriggerElement,
+          setGlossaryTriggerEl: jest.fn(),
+        }}
+      >
+        <Glossary termList={testGlossaryData} activeState={true} setActiveState={setActiveStateMock} />
+      </GlossaryContext.Provider>
+    );
+
+    const container = getByTestId('glossaryContainer');
+    const focusableElements = container.querySelectorAll('button, a[href]');
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    // find the last element and simulate the user pressing 'tab'
+    lastElement.focus();
+    const glossaryOverlay = getByTestId('glossary-tray');
+    fireEvent.keyDown(glossaryOverlay, {
+      key: 'Tab',
+    });
+    await waitFor(() => {
+      expect(mockTriggerElement.focus).toHaveBeenCalled();
+    });
   });
 });

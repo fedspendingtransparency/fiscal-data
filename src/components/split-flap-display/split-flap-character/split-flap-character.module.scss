@@ -47,7 +47,6 @@ $flap-padding: 0.5rem;
     height: 1.25em;
 
     border-radius: $flap-border-radius;
-    @include mid-card-line($mid-card-line);
 
     .half-panel {
       position: relative;
@@ -92,6 +91,9 @@ $flap-padding: 0.5rem;
           background-size: 200% 200%;
         }
       }
+    }
+    &:has(.flip) {
+      @include mid-card-line($mid-card-line);
     }
   }
 }

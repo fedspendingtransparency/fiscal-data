@@ -35,8 +35,8 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   const [queryTerm, setQueryTerm] = useState(getQueryTerm(termList));
   const [initialQuery, setInitialQuery] = useState(false);
   const [tabReset, setTabReset] = useState(false);
-  const glossaryRef = useRef(null);
-  const { glossaryClickEvent, setGlossaryClickEvent } = useContext(GlossaryContext);
+  const glossaryRef = useRef<HTMLDivElement>(null);
+  const { glossaryClickEvent, setGlossaryClickEvent, glossaryTriggerEl, setGlossaryTriggerEl } = useContext(GlossaryContext);
 
   useEffect(() => {
     if (!initialQuery) {
@@ -60,11 +60,17 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   }, [glossaryClickEvent]);
 
+  // handles focus between glossary term/overlay when overlay is opened/closed
   useEffect(() => {
     if (activeState) {
       const node = glossaryRef.current;
       if (node) {
         node.focus();
+      }
+    } else {
+      // focus shifts back to the last clicked term when active state changes to false
+      if (glossaryTriggerEl) {
+        glossaryTriggerEl.focus();
       }
     }
   }, [activeState]);
@@ -76,10 +82,22 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
     }
   };
 
+  // function to restore view to last clicked term (when user tabs through the overlay)
+  const handleOverlayTab = e => {
+    if (e.key !== 'Tab') return;
+    const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
+    const lastElement = focusableElements[focusableElements.length - 1];
+    if (!e.shiftKey && document.activeElement === lastElement) {
+      // prevents focus from jumping outside (top of page where glossary component is imported)
+      e.preventDefault();
+      glossaryTriggerEl.focus();
+    }
+  };
+
   return (
     <div className={`${glossaryContainer} ${activeState ? open : ''}`} data-testid="glossaryContainer">
       <div className={overlay} data-testid="overlay" onClick={toggleState} role="presentation" />
-      <div className={`${tray} ${activeState ? open : ''}`}>
+      <div className={`${tray} ${activeState ? open : ''}`} onKeyDown={handleOverlayTab} data-testid="glossary-tray">
         {activeState && (
           <>
             <div className={glossaryHeaderContainer}>
