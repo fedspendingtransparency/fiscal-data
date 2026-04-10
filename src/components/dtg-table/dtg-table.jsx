@@ -142,8 +142,7 @@ export default function DtgTable({
   };
 
   const makePagedRequest = async resetPage => {
-    const pagedUserFilterRequest = selectedTable?.apiFilter?.displayDefaultData || userFilterSelection;
-    if (selectedTable?.endpoint && !loadCanceled && (!selectedTable?.apiFilter || pagedUserFilterRequest) && shouldUsePaginatedResponse()) {
+    if (selectedTable?.endpoint && !loadCanceled && (!selectedTable?.apiFilter || userFilterSelection) && shouldUsePaginatedResponse()) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
       const { from, to } = getDateFilters(filteredDateRange, dateRange);
       const startPage = resetPage ? 1 : currentPage;
