@@ -135,7 +135,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       (async () => {
-        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData) {
+        if (!selectedTable?.apiFilter) {
           await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading).then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
@@ -167,7 +167,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
   const tableSectionInitialized = () =>
     !finalDatesNotFound &&

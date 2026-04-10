@@ -190,10 +190,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
-      (!selectedTable?.apiFilter ||
-        ((selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
-          tableMeta &&
-          tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+      (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
