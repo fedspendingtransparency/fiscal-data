@@ -29,7 +29,7 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
   const parentContainer = useRef(null);
-  const { setGlossaryClickEvent, glossary } = useContext(GlossaryContext);
+  const { setGlossaryClickEvent, setGlossaryTriggerEl, glossary } = useContext(GlossaryContext);
 
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
@@ -62,7 +62,12 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
     }
   };
 
-  const handleClose = () => {
+  const handleClose = e => {
+    // prevents popover from closing when user is tabbing through it
+    if (e && e.key === 'Tab') {
+      return;
+    }
+
     setAnchorEl(null);
     setButtonFocus(false);
   };
@@ -70,13 +75,26 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const glossaryNavigation = () => {
+  const glossaryNavigation = e => {
+    if (e && e.key && e.key !== 'Enter' && e.key !== ' ') {
+      handleClose();
+      return;
+    }
+
     if (window.history.pushState) {
       if (setGlossaryClickEvent) {
+        setGlossaryTriggerEl(anchorEl);
         const newurl = new URL(window.location.href);
         newurl.searchParams.set('glossary', slug);
         window.history.pushState(null, '', newurl);
         setGlossaryClickEvent(true);
+        setTimeout(() => {
+          // checks if popup is already open (case: user selects a term, tabs out of the popup (keeps it open), then selects a new term)
+          const glossaryNode = document.querySelector('[data-testid="glossaryContainer"] input, [data-testid="glossaryContainer"] button');
+          if (glossaryNode) {
+            glossaryNode.focus();
+          }
+        }, 150);
       }
       handleClose();
     }
