@@ -1,4 +1,4 @@
-import { columnsConstructorData } from '../dtg-table/data-table-helper';
+import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 
 export const mockMeta = {
   count: 2,
