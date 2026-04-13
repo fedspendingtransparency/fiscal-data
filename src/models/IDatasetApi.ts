@@ -34,7 +34,6 @@ export interface IDatasetApi {
     labelField: string;
     downloadLabel: string;
     field: string;
-    displayDefaultData: boolean;
     notice: string;
     optionValues: string[];
     dataUnmatchedHeader: string;
