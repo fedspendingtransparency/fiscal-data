@@ -13,6 +13,11 @@ import {
 } from '../../../../explainer-helpers/federal-spending/federal-spending-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useInView } from 'react-intersection-observer';
+
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn().mockReturnValue({ ref: jest.fn(), inView: false }),
+}));
 
 describe('Total Spending Chart', () => {
   const mockPageFunction = () => {
@@ -163,6 +168,23 @@ describe('Total Spending Chart', () => {
     const slice = slices?.querySelector('rect');
     fireEvent.mouseOver(slice);
     fireEvent.mouseMove(slice);
+  });
+
+  it('enables spending hover after timer ends', async () => {
+    jest.useFakeTimers();
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const spendingLineChart = await findByTestId('spendingLineChart');
+    expect(spendingLineChart).toHaveStyle('pointer-events: none');
+    jest.advanceTimersByTime(6000);
+    await waitFor(() => expect(spendingLineChart).toHaveStyle('pointer-events: auto'));
   });
 });
 
