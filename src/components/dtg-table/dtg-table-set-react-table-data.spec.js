@@ -13,7 +13,7 @@ import React from 'react';
 
 import fetchMock from 'fetch-mock';
 import userEvent from '@testing-library/user-event';
-import { mockPublishedReports } from '../table-components/table-test-helper';
+import { mockPublishedReports } from '../table-components/helpers/table-test-helper';
 
 // Separate file created for these tests due mock conflict issues
 describe('React Table Data ', () => {

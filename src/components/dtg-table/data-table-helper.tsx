@@ -4,7 +4,7 @@ import { currencyFormatter, customNumberFormatter, numberFormatter } from '../..
 import TextFilter from '../table-components/table-header/text-filter/text-filter';
 import DateRangeFilter from '../table-components/table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { downloadLinkContainer, downloadLinkIcon } from '../table-components/table.module.scss';
+import { downloadLinkIcon, downloadLinkContainer } from './dtg-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';

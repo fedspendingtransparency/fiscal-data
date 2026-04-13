@@ -18,7 +18,7 @@ import {
   mockTableData,
   mockTableData1Row,
   mockTableDownloadWithTextQualifier,
-} from '../../table-components/table-test-helper';
+} from '../../table-components/helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDataTable from './data-preview-data-table';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';

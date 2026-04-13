@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
-import { nonRawDataTableContainer, overlayContainerNoFooter, overlayContainerNoFooterChart, tableStyle } from '../table.module.scss';
+import { tableStyle, nonRawDataTableContainer, overlayContainerNoFooter, overlayContainerNoFooterChart } from './filtered-table.module.scss';
 import TableHeader from '../../table-components/table-header/table-header';
 import TableBody from '../../table-components/table-body/table-body';
 import TableFooter from '../../table-components/table-footer/table-footer';

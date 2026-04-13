@@ -1,8 +1,7 @@
-import { rowsShowing, tableFooter, tableFooterChart } from '../../dtg-table/dtg-table.module.scss';
+import { rowsShowing, tableFooter, tableFooterChart, range } from '../../dtg-table/dtg-table.module.scss';
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
-import { range } from '../table.module.scss';
 
 interface ITableFooter {
   table?: Table<Record<string, unknown>>;
