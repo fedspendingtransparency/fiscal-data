@@ -388,7 +388,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   role="presentation"
                 >
                   {selectedChartView === 'totalSpending' && (
-                    <div ref={spendingRef} style={{ pointerEvents: spendingHoverDisabled ? 'none' : 'auto' }}>
+                    <div data-testid="spendingLineChart" ref={spendingRef} style={{ pointerEvents: spendingHoverDisabled ? 'none' : 'auto' }}>
                       <Line
                         {...commonProps}
                         theme={getChartTheme(width, true)}

@@ -356,7 +356,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
             {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
-                  <div ref={revenueRef} style={{ pointerEvents: revenueHoverDisabled ? 'none' : 'auto' }}>
+                  <div data-testid="revenueLineChart" ref={revenueRef} style={{ pointerEvents: revenueHoverDisabled ? 'none' : 'auto' }}>
                     <Line
                       {...commonProps}
                       layers={[
