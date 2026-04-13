@@ -13,7 +13,7 @@ import React from 'react';
 
 import fetchMock from 'fetch-mock';
 import userEvent from '@testing-library/user-event';
-import { mockPublishedReports } from '../data-table/data-table-test-helper';
+import { mockPublishedReports } from '../table-components/table-test-helper';
 
 // Separate file created for these tests due mock conflict issues
 describe('React Table Data ', () => {
@@ -29,8 +29,7 @@ describe('React Table Data ', () => {
   };
 
   beforeAll(() => {
-    fetchMock.mockGlobal()
-      .route(`begin:${base}${table1}`, longerPaginatedDataResponse, { overwriteRoutes: true });
+    fetchMock.mockGlobal().route(`begin:${base}${table1}`, longerPaginatedDataResponse, { overwriteRoutes: true });
   });
 
   afterEach(() => {

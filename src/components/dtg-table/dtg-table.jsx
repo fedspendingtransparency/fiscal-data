@@ -11,17 +11,18 @@ import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { columnsConstructorData, constructDefaultColumnsFromTableData, getInvisibleColumns, getSortedColumnsData } from './data-table-helper';
-import DataTableBody from '../data-table/data-table-body/data-table-body';
 import {
   rawDataTableContainer,
   selectColumnPanelActive,
   selectColumnPanelInactive,
   selectColumnsWrapper,
   tableStyle,
-} from '../data-table/data-table.module.scss';
-import DataTableColumnSelector from '../data-table/column-select/data-table-column-selector';
-import DataTableHeader from '../data-table/data-table-header/data-table-header';
-import DataTableFooter from '../data-table/data-table-footer/data-table-footer';
+} from '../table-components/table.module.scss';
+
+import TableColumnSelector from '../table-components/column-select/table-column-selector';
+import TableHeader from '../table-components/table-header/table-header';
+import TableBody from '../table-components/table-body/table-body';
+import TableFooter from '../table-components/table-footer/table-footer';
 import {
   smallTableDownloadDataCSV,
   smallTableDownloadDataJSON,
@@ -342,7 +343,7 @@ export default function DtgTable({
               <div className={selectColumnsWrapper}>
                 {defaultSelectedColumns && (
                   <div className={selectColumnPanel ? selectColumnPanelActive : selectColumnPanelInactive} data-testid="selectColumnsMainContainer">
-                    <DataTableColumnSelector
+                    <TableColumnSelector
                       selectColumnPanel={selectColumnPanel}
                       fields={allColumns}
                       resetToDefault={() => setColumnVisibility(getInvisibleColumns(defaultSelectedColumns, allColumns))}
@@ -357,7 +358,7 @@ export default function DtgTable({
                 <div className={tableStyle}>
                   <div data-test-id="table-content" className={rawDataTableContainer}>
                     <table {...tableProps.aria}>
-                      <DataTableHeader
+                      <TableHeader
                         table={table}
                         dataTypes={reactTableData.meta.dataTypes}
                         resetFilters={resetFilters}
@@ -366,7 +367,7 @@ export default function DtgTable({
                         setAllActiveFilters={setAllActiveFilters}
                         disableDateRangeFilter={disableDateRangeFilter}
                       />
-                      <DataTableBody
+                      <TableBody
                         table={table}
                         dataTypes={reactTableData.meta.dataTypes}
                         detailViewConfig={config?.detailView}
@@ -378,7 +379,7 @@ export default function DtgTable({
                 </div>
               </div>
             </div>
-            <DataTableFooter
+            <TableFooter
               table={table}
               showPaginationControls={showPaginationControls}
               pagingProps={pagingProps}

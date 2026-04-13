@@ -10,7 +10,7 @@ import {
 import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
-import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
+import TableFooter from '../../table-components/table-footer/table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 import { DataTableContext } from '../data-preview-context';
@@ -242,7 +242,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
         </div>
       </div>
       {shouldPage && (
-        <DataTableFooter
+        <TableFooter
           table={table}
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}

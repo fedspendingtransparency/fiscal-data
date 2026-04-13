@@ -2,9 +2,9 @@ import { rowsShowing, tableFooter, tableFooterChart } from '../../dtg-table/dtg-
 import PaginationControls from '../../pagination/pagination-controls';
 import React, { FunctionComponent, useEffect } from 'react';
 import { Table } from '@tanstack/react-table';
-import { range } from '../data-table.module.scss';
+import { range } from '../table.module.scss';
 
-interface IDataTableFooter {
+interface ITableFooter {
   table?: Table<Record<string, unknown>>;
   showPaginationControls: boolean;
   pagingProps;
@@ -14,7 +14,7 @@ interface IDataTableFooter {
   chartTable?: boolean;
 }
 
-const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
+const TableFooter: FunctionComponent<ITableFooter> = ({
   table,
   showPaginationControls,
   pagingProps,
@@ -95,4 +95,4 @@ const DataTableFooter: FunctionComponent<IDataTableFooter> = ({
   );
 };
 
-export default DataTableFooter;
+export default TableFooter;

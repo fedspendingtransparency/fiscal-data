@@ -26,7 +26,7 @@ import {
   mockPublishedReports,
   mockTableData,
   mockTableDownloadWithTextQualifier,
-} from '../data-table/data-table-test-helper';
+} from '../table-components/table-test-helper';
 import { RecoilObserver } from '../../utils/test-utils';
 import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
 import fetchMock from 'fetch-mock';

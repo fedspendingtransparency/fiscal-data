@@ -1,10 +1,10 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
 import React from 'react';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
-import TextFilter from '../data-table/data-table-header/text-filter/text-filter';
-import DateRangeFilter from '../data-table/data-table-header/date-range-filter/date-range-filter';
+import TextFilter from '../table-components/table-header/text-filter/text-filter';
+import DateRangeFilter from '../table-components/table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { downloadLinkContainer, downloadLinkIcon } from '../data-table/data-table.module.scss';
+import { downloadLinkContainer, downloadLinkIcon } from '../table-components/table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';

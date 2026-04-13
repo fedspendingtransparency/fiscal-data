@@ -8,7 +8,7 @@ import {
   mockGenericTableData,
   mockTableData,
   mockTableData1Row,
-} from '../../data-table/data-table-test-helper';
+} from '../table-test-helper';
 import userEvent from '@testing-library/user-event';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
 import { RecoilObserver } from '../../../utils/test-utils';

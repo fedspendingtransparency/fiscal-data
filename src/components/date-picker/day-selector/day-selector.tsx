@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DateDropdown from '../date-dropdown/date-dropdown';
 import { DayPicker } from 'react-day-picker';
-import '../../data-table/data-table-header/date-range-filter/day-picker-overrides.css';
+import '../../table-components/table-header/date-range-filter/day-picker-overrides.css';
 import 'react-day-picker/dist/style.css';
 import { datePickerSelected } from './day-selector.module.scss';
 import { formatReportDate } from '../../../helpers/dataset-detail/report-helpers';

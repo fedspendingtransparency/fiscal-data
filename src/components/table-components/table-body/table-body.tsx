@@ -1,11 +1,11 @@
 import { rightAlign } from '../../dtg-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
 import React, { FunctionComponent, ReactNode } from 'react';
-import { cellBorder, cellPadding, cellText, detailButton, fillCellGrey, fillCellWhite, hidden, rightAlignText } from './data-table-body.module.scss';
+import { cellBorder, cellPadding, cellText, detailButton, fillCellGrey, fillCellWhite, hidden, rightAlignText } from './table-body.module.scss';
 import classNames from 'classnames';
-import { IDataTableBody } from '../../../models/IDataTableBody';
+import { ITableBody } from '../../../models/ITableBody';
 
-const DataTableBody: FunctionComponent<IDataTableBody> = ({
+const TableBody: FunctionComponent<ITableBody> = ({
   table,
   dataTypes,
   allowColumnWrap,
@@ -65,4 +65,4 @@ const DataTableBody: FunctionComponent<IDataTableBody> = ({
   );
 };
 
-export default DataTableBody;
+export default TableBody;
