@@ -32,4 +32,9 @@ describe('About section', () => {
     const headers = getAllByRole('heading', { level: 3 });
     expect(headers.length).toEqual(h3Headers.length);
   });
+
+  it('provides a link to Fiscal Service About Us', () => {
+    const { getByTestId } = render(<About />);
+    expect(getByTestId('fsLink')).toHaveAttribute('href', `${globalConstants.FISCAL_TREASURY_URL}/about.html`);
+  });
 });
