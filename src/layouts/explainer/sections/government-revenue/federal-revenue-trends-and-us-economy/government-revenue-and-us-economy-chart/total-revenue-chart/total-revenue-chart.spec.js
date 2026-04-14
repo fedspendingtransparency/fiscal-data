@@ -224,7 +224,7 @@ describe('Total Revenue Chart', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const revenueLineChart = await findByTestId('revenueLineChart');
     expect(revenueLineChart).toHaveStyle('pointer-events: none');
-    jest.advanceTimersByTime(6000);
+    jest.advanceTimersByTime(6500);
     await waitFor(() => expect(revenueLineChart).toHaveStyle('pointer-events: auto'));
   });
 });
