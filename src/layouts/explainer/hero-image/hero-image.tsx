@@ -2,14 +2,15 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IHeroImage } from '../../../models/IHeroImage';
 
 import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
-import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { useRecoilValueLoadable } from 'recoil';
 import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../recoil/debtToThePennyDataState';
 import useShouldRefreshCachedData from '../../../recoil/hooks/useShouldRefreshCachedData';
+import { useWindowSize } from 'usehooks-ts';
 
-const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
+const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
+  const { width } = useWindowSize();
   const data = useRecoilValueLoadable(debtToThePennyData);
   useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
 
@@ -67,4 +68,4 @@ const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primary
   );
 };
 
-export default withWindowSize(HeroImage);
+export default HeroImage;

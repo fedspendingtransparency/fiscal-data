@@ -23,7 +23,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DataPreviewFilterSection from './data-preview-filter-section/data-preview-filter-section';
 import DataPreviewTableSelectDropdown from './data-preview-dropdown/data-preview-table-select-dropdown';
 import Analytics from '../../utils/analytics/analytics';
-import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import DataPreviewChart from './data-preview-chart/data-preview-chart';
@@ -31,6 +30,7 @@ import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import dayjs from 'dayjs';
+import { useWindowSize } from 'usehooks-ts';
 
 export const DataPreview: FunctionComponent<IDataPreview> = ({
   config,
@@ -38,10 +38,10 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   location,
   publishedReportsProp,
   setSelectedTableProp,
-  width,
 }) => {
   // config.apis should always be available; but, fallback in case
   const apis = config ? config.apis : [null];
+  const { width } = useWindowSize();
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
@@ -413,4 +413,4 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
   );
 };
 
-export default withWindowSize(DataPreview);
+export default DataPreview;

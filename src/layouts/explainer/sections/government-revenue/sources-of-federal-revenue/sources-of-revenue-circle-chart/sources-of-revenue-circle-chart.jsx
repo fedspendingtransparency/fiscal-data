@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { CirclePacking } from '@nivo/circle-packing';
 import { totalRevenueDataPill, dataContent, chartSize, container, loadingIcon } from './sources-of-revenue-circle-chart.module.scss';
-import { withWindowSize } from 'react-fns';
-import { breakpointLg, fontSize_12 } from '../../../../../../variables.module.scss';
+import { breakpointLg } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { visWithCallout } from '../../../../explainer.module.scss';
@@ -17,17 +16,19 @@ import Analytics from '../../../../../../utils/analytics/analytics';
 import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerRevenueCircle;
 let ga4Timer;
 
 const focusDelay = 1000;
-const SourcesOfRevenueCircleChart = ({ width }) => {
+const SourcesOfRevenueCircleChart = () => {
   const defaultCategory = {
     name: 'Individual Income Taxes',
     color: 'rgb(10, 47, 90)',
     location: 0,
   };
+  const { width } = useWindowSize();
 
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [fiscalYear, setFiscalYear] = useState(0);
@@ -367,4 +368,4 @@ const SourcesOfRevenueCircleChart = ({ width }) => {
   );
 };
 
-export default withWindowSize(SourcesOfRevenueCircleChart);
+export default SourcesOfRevenueCircleChart;

@@ -7,7 +7,6 @@ import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
@@ -21,6 +20,7 @@ import { analyticsEventHandler } from '../../../explainer-helpers/explainer-help
 import { glossaryGAEvent } from '../treasury-savings-bonds';
 import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 interface ChartDataItem {
   name: string;
@@ -49,8 +49,9 @@ export const higherOrLowerOrSameAs = difference => {
   }
 };
 
-const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
+const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+  const { width } = useWindowSize();
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
@@ -323,4 +324,4 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   );
 };
 
-export default withWindowSize(HowSavingsBondsFinanceGovernment);
+export default HowSavingsBondsFinanceGovernment;

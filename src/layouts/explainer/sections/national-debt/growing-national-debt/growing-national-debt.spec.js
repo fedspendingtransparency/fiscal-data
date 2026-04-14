@@ -22,6 +22,10 @@ jest.mock('./variables.module.scss', content => ({
 jest.mock('../../../../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useWindowSize: () => ({ width: 1025, height: 768 }),
+}));
 
 describe('The Growing National Debt', () => {
   const sectionId = nationalDebtSectionIds[3];

@@ -3,7 +3,6 @@ import React from 'react';
 import GlitchGraphic from '../page-glitch-graphic/page-glitch-graphic';
 import { graphicPlacement, headerSubText, textBox, unavailableHeader, pText, logo } from '../page-unavailable/page-unavailable.module.scss';
 import { StaticImage } from 'gatsby-plugin-image';
-import { withWindowSize } from 'react-fns';
 
 export const Wrapper = ({ children }) => {
   return <div className={textBox}>{children}</div>;
@@ -62,7 +61,7 @@ const UnavailableText = () => {
   );
 };
 
-const PageUnavailableText = ({ fallback, width }) => {
+const PageUnavailableText = ({ fallback }) => {
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -93,4 +92,4 @@ export const UnavailableComponents = {
   p: PTag,
   Wrapper,
 };
-export default withWindowSize(PageUnavailableText);
+export default PageUnavailableText;

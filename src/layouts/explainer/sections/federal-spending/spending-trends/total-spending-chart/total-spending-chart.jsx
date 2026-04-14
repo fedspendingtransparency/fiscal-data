@@ -3,7 +3,6 @@ import ChartContainer from '../../../../explainer-components/chart-container/cha
 import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
-import { withWindowSize } from 'react-fns';
 import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
@@ -30,6 +29,7 @@ import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -44,7 +44,7 @@ const chartDataEndPoint =
 let gaTimer;
 let ga4Timer;
 
-const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) => {
+const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [spendingChartData, setSpendingChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
@@ -65,6 +65,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [calloutCopy, setCalloutCopy] = useState('');
   const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
   const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
+  const { width } = useWindowSize();
 
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
   const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
@@ -452,4 +453,4 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   );
 };
 
-export default withWindowSize(TotalSpendingChart);
+export default TotalSpendingChart;
