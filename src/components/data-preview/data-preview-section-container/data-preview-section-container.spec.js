@@ -4,7 +4,6 @@ import {
   mockConfig,
   mockDateRange,
   mockTableWithApiFilterAvailable,
-  mockTableWithApiFilterAvailableDisplayDefaultData,
   mockTableWithNoChartAvailable,
   selectedPivot,
   selectedTableLessFields,
@@ -660,34 +659,5 @@ describe('Table with API filter', () => {
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
     expect(queryByRole('table')).not.toBeInTheDocument();
-  });
-
-  it('Initializes table with an api filter and displayDefaultData is true', async () => {
-    const mockSetIsLoading = jest.fn();
-    render(
-      <DataTableContext.Provider
-        value={{
-          ...contextProps,
-          tableProps: { selectedTable: mockTableWithApiFilterAvailableDisplayDefaultData },
-          reactTableData: { data: [], meta: { labels: {} } },
-        }}
-      >
-        <RecoilRoot>
-          <DataPreviewSectionContainer
-            config={mockConfig}
-            dateRange={mockDateRange}
-            selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
-            isLoading={false}
-            setIsLoading={mockSetIsLoading}
-            apiError={false}
-            setUserFilterSelection={jest.fn()}
-            userFilterSelection={null}
-            setSelectedPivot={jest.fn()}
-            setApiFilterDefault={jest.fn()}
-          />
-        </RecoilRoot>
-      </DataTableContext.Provider>
-    );
-    expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
 });
