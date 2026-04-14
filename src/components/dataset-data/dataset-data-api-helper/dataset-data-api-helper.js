@@ -9,7 +9,7 @@ let runOnce;
 const onDataReturned = async (
   res,
   rangeRequested,
-  selectedTable,Add Caching to getMetaData Function
+  selectedTable,
   selectedPivot,
   setIsLoading,
   setApiData,
