@@ -32,4 +32,27 @@ describe('MultichartRenderer class', () => {
       ['2012-12-31'],
     ]);
   });
+
+  it('resets hover state on mouseOut after timeout', () => {
+    jest.useFakeTimers();
+
+    const mockElem: HTMLElement = document.createElement('div');
+    const multichart = new MultichartRenderer(mockChartConfigs, mockElem, 'mockMulti');
+
+    multichart.hoverFunction = jest.fn();
+    multichart.placeMarker = jest.fn();
+    multichart.connectMarkers = jest.fn();
+
+    multichart.mouseout();
+
+    expect(multichart.hoverFunction).not.toHaveBeenCalled();
+    expect(multichart.placeMarker).not.toHaveBeenCalled();
+    expect(multichart.connectMarkers).not.toHaveBeenCalled();
+
+    jest.advanceTimersByTime(500);
+
+    expect(multichart.hoverFunction).toHaveBeenCalledWith(null);
+    expect(multichart.placeMarker).toHaveBeenCalledWith(expect.any(Object), 0);
+    expect(multichart.connectMarkers).toHaveBeenCalledWith(0);
+  });
 });
