@@ -114,7 +114,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
@@ -274,7 +274,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   useEffect(() => {
     if (!allTablesSelected) {
-      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+      setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
     } else {
       setDisableDownloadButton(false);
     }
@@ -284,7 +284,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     if (allTablesSelected) {
       setDisableDownloadButton(false);
     }
-    if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+    if (userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
     }

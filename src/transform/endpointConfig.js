@@ -715,6 +715,19 @@ const endpointConfig = {
     ],
     valueFieldOptions: ['current_month_outly_amt', 'current_fytd_outly_amt', 'prior_fytd_outly_amt'],
   },
+  '326': {
+    endpoint: 'v1/accounting/mts/mts_table_5m',
+    dateField: 'record_date',
+    downloadName: 'MTS_RcptsOffstAgnstOutlys',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    dataDisplays: [
+      {
+        title: 'Classification Description',
+        dimensionField: 'classification_desc',
+      },
+    ],
+    valueFieldOptions: ['curr_fytd_rcpt_offset_amt', 'prior_fytd_rcpt_offset_amt'],
+  },
   '123': {
     endpoint: 'v1/debt/mspd/mspd_table_4',
     dateField: 'record_date',

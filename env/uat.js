@@ -213,18 +213,5 @@ module.exports = {
         'outstanding_amt',
       ],
     },
-    '326': {
-      endpoint: 'v1/accounting/mts/mts_table_5m',
-      dateField: 'record_date',
-      downloadName: 'MTS_RcptsOffstAgnstOutlys',
-      alwaysSortWith: ['-record_date', 'src_line_nbr'],
-      dataDisplays: [
-        {
-          title: 'Classification Description',
-          dimensionField: 'classification_desc',
-        },
-      ],
-      valueFieldOptions: ['curr_fytd_rcpt_offset_amt', 'prior_fytd_rcpt_offset_amt'],
-    },
   },
 };
