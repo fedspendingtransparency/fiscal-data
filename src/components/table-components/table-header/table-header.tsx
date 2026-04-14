@@ -12,7 +12,7 @@ import {
   stickyHeader,
   textChartHeaderContainer,
   textHeaderContainer,
-} from './data-table-header.module.scss';
+} from './table-header.module.scss';
 import { flexRender } from '@tanstack/react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons/faArrowDownWideShort';
@@ -22,10 +22,10 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { getColumnFilter, rightAlign } from '../../dtg-table/data-table-helper';
 import React, { FunctionComponent } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import { IDataTableHeader } from '../../../models/IDataTableHeader';
+import { ITableHeader } from '../../../models/ITableHeader';
 import { fontTitle } from '../../../variables.module.scss';
 
-const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
+const TableHeader: FunctionComponent<ITableHeader> = ({
   table,
   dataTypes,
   resetFilters,
@@ -166,4 +166,4 @@ const DataTableHeader: FunctionComponent<IDataTableHeader> = ({
   );
 };
 
-export default DataTableHeader;
+export default TableHeader;

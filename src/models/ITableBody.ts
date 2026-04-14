@@ -1,6 +1,6 @@
 import { Table } from '@tanstack/react-table';
 
-export interface IDataTableBody {
+export interface ITableBody {
   table: Table<Record<string, unknown>>;
   dataTypes: { [key: string]: string };
   allowColumnWrap: string[];

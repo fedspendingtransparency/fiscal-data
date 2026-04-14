@@ -14,7 +14,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import HideLegendToggle from '../hide-legend-toggle/hideLegendToggle';
 import { chartTableToggleContainer, tabIcon } from './chart-table-toggle.module.scss';
 import { getMessageForDefaultApiFilter, getMessageForUnmatchedUserFilter } from '../../filter-download-container/user-filter/user-filter';
-import ResetTableSection from '../../data-table/reset-table-section/reset-table-section';
+import ResetTableSection from '../../table-components/reset-table-section/reset-table-section';
 import { chartToggleTheme } from '../../../theme';
 
 export const allTablesSelectedBody =

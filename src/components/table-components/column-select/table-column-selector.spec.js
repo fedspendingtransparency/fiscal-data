@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import DataTableColumnSelector from './data-table-column-selector';
+import TableColumnSelector from './table-column-selector';
 
 describe('Column Selector', () => {
   const mockAdditionalColumns = [
@@ -40,7 +40,7 @@ describe('Column Selector', () => {
 
   it('renders column selector', () => {
     const instance = render(
-      <DataTableColumnSelector
+      <TableColumnSelector
         table={mockTable}
         resetToDefault={jest.fn()}
         setSelectColumnPanel={jest.fn()}
@@ -55,7 +55,7 @@ describe('Column Selector', () => {
   it('renders close button', () => {
     const mockSelectColumnPanel = jest.fn();
     const { getByRole } = render(
-      <DataTableColumnSelector
+      <TableColumnSelector
         table={mockTable}
         resetToDefault={jest.fn()}
         setSelectColumnPanel={mockSelectColumnPanel}
@@ -75,7 +75,7 @@ describe('Column Selector', () => {
 
   it('renders all default columns in the selection list', () => {
     const { getByRole } = render(
-      <DataTableColumnSelector
+      <TableColumnSelector
         table={mockTable}
         resetToDefault={jest.fn()}
         setSelectColumnPanel={jest.fn()}
@@ -92,7 +92,7 @@ describe('Column Selector', () => {
 
   it('renders no default columns when none are specified', () => {
     const { getByRole, queryByText } = render(
-      <DataTableColumnSelector
+      <TableColumnSelector
         table={mockTable}
         resetToDefault={jest.fn()}
         setSelectColumnPanel={jest.fn()}

@@ -44,12 +44,19 @@ $borderRadius: 5px;
   }
 }
 
+.rawDataTableContainer,
 .nonRawDataTableContainer {
   position: relative;
   box-sizing: border-box;
   border-top: 0;
   background-color: white;
   overflow-y: auto;
+}
+
+.rawDataTableContainer {
+  height: 521px;
+}
+.nonRawDataTableContainer {
   max-height: 521px;
 }
 
