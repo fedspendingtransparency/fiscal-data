@@ -12,7 +12,7 @@ beforeEach(() => {
 
   useInView.mockReturnValue({
     ref: jest.fn(),
-    inViews: false,
+    inView: false,
   });
 });
 jest.mock('react-intersection-observer', () => ({
@@ -172,7 +172,7 @@ describe('Multichart', () => {
 
 
   it('animates the chart when it comes into view', async ()=> {
-    useInView.mockReturnValueOnce({
+    useInView.mockReturnValue({
       ref: jest.fn(),
       inView: true,
     });
