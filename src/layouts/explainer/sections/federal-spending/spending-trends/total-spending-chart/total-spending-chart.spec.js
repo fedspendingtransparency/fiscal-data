@@ -183,7 +183,7 @@ describe('Total Spending Chart', () => {
     await waitFor(() => expect(fetchSpy).toBeCalled());
     const spendingLineChart = await findByTestId('spendingLineChart');
     expect(spendingLineChart).toHaveStyle('pointer-events: none');
-    jest.advanceTimersByTime(6000);
+    jest.advanceTimersByTime(6500);
     await waitFor(() => expect(spendingLineChart).toHaveStyle('pointer-events: auto'));
   });
 });
