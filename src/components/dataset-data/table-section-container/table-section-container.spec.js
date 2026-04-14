@@ -8,7 +8,6 @@ import {
   mockDateRange,
   mockDetailConfig,
   mockTableWithApiFilterAvailable,
-  mockTableWithApiFilterAvailableDisplayDefaultData,
   mockTableWithNoChartAvailable,
   mockTableWithPivot,
   mockTableWithUserFilterAvailable,
@@ -663,28 +662,6 @@ describe('Table with API filter', () => {
     //table is not loading by default
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(true);
     expect(queryByRole('table')).not.toBeInTheDocument();
-  });
-  it('Initializes table with an api filter and dispalyDefaultData is true', async () => {
-    const mockSetIsLoading = jest.fn();
-    render(
-      <RecoilRoot>
-        <TableSectionContainer
-          config={mockConfig}
-          dateRange={mockDateRange}
-          selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
-          isLoading={false}
-          setIsLoading={mockSetIsLoading}
-          apiError={false}
-          setUserFilterSelection={jest.fn()}
-          userFilterSelection={null}
-          setSelectedPivot={jest.fn()}
-          setTableColumnSortData={jest.fn()}
-          setResetFilters={jest.fn()}
-          setUserFilterUnmatchedForDateRange={jest.fn()}
-        />
-      </RecoilRoot>
-    );
-    expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
 });
 

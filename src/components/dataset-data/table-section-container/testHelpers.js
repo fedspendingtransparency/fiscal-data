@@ -211,51 +211,6 @@ export const mockTableWithApiFilterAvailable = {
     dataDefaultMessage: 'Default Message.',
   },
 };
-export const mockTableWithApiFilterAvailableDisplayDefaultData = {
-  apiId: 4,
-  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
-  tableName: 'Exchange Rates',
-  isLargeDataset: true,
-  dataDefaultHeader: true,
-  fields: [
-    { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
-    { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
-  ],
-  dataDisplays: [{ chartType: 'none', dimensionField: null, title: 'Complete Table' }],
-  apiFilter: {
-    label: 'Facility Description',
-    field: 'facility_desc',
-    notice: 'hello',
-    displayDefaultData: true,
-    optionValues: ['Building', 'Room', 'Venue', 'Campus', 'Auditorium'],
-    dataUnmatchedMessage: 'Sorry, no facilities of that type for the date range.',
-    dataDefaultHeader: 'Default Header.',
-    dataDefaultMessage: 'Default Message.',
-  },
-};
-
-export const mockTableWithApiFilterAvailableDisplayDefaultData52 = {
-  apiId: 4,
-  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
-  tableName: 'Exchange Rates',
-  isLargeDataset: true,
-  dataDefaultHeader: true,
-  fields: [
-    { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
-    { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
-  ],
-  dataDisplays: [{ chartType: 'none', dimensionField: null, title: 'Complete Table' }],
-  apiFilter: {
-    label: 'Facility Description',
-    field: 'facility_desc',
-    notice: 'hello',
-    displayDefaultData: true,
-    optionValues: ['Building', 'Room', 'Venue', 'Campus', 'Auditorium'],
-    dataUnmatchedMessage: 'Sorry, no facilities of that type for the date range.',
-    dataDefaultHeader: 'Default Header.',
-    dataDefaultMessage: 'Default Message.',
-  },
-};
 
 export const mockConfig = {
   name: 'my name',

@@ -7,6 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { useInView } from 'react-intersection-observer';
 
+
 beforeEach(() => {
   jest.clearAllMocks();
 
@@ -18,6 +19,7 @@ beforeEach(() => {
 jest.mock('react-intersection-observer', () => ({
   useInView: jest.fn()
 }))
+
 
 export const mockChartConfigs = [
   {
@@ -191,4 +193,17 @@ describe('Multichart', () => {
       expect(hoverEffectHandler).toHaveBeenCalled();
     });
   });
+
+
+  it('enables hover after timer ends', async () => {
+    jest.useFakeTimers();
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+    const { findByTestId } = render(<Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
+    const multichart = await findByTestId('multichart');
+    expect(multichart).toHaveStyle('pointer-events: none');
+    jest.advanceTimersByTime(6000);
+    await waitFor(() => expect(multichart).toHaveStyle('pointer-events: auto'));
+
+  });
 });
+

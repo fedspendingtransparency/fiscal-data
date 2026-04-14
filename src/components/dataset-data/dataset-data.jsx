@@ -7,7 +7,7 @@ import RangePresets from '../filter-download-container/range-presets/range-prese
 import TableSectionContainer from './table-section-container/table-section-container';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import { getApiData, getApiFilterParam } from './dataset-data-api-helper/dataset-data-api-helper';
+import { getApiData, getMetaData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
@@ -20,7 +20,6 @@ import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import BannerCallout from '../banner-callout/banner-callout';
-import { buildDateFilter, fetchTableMeta, formatDateForApi } from '../../utils/api-utils';
 
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
   const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
@@ -136,14 +135,13 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       (async () => {
-        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData) {
-          await getMetaData().then(res => {
+        if (!selectedTable?.apiFilter) {
+          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient).then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
           });
         } else {
-          console.log('resetting data');
           setTableMeta(null);
           setApiData(null);
         }
@@ -169,7 +167,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
   const tableSectionInitialized = () =>
     !finalDatesNotFound &&
@@ -178,23 +176,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     dateRange &&
     !allTablesSelected &&
     (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()));
-
-  const getMetaData = async () => {
-    if (dateRange && selectedTable?.endpoint) {
-      let from = formatDateForApi(dateRange.from);
-      let to = formatDateForApi(dateRange.to);
-      // redemption_tables and sb_value are exception scenarios where the date string needs to
-      // be YYYY-MM.
-      if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
-        from = from.substring(0, from.lastIndexOf('-'));
-        to = to.substring(0, to.lastIndexOf('-'));
-      }
-      const dateFilter = buildDateFilter(selectedTable, from, to);
-      const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
-      return await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
-    }
-    return null;
-  };
 
   // When dateRange changes, fetch new data
   useEffect(() => {
@@ -247,8 +228,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     if (tableSectionInitialized()) {
       if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
         (async () => {
-          const metaData = await getMetaData();
-          setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
+          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient);
+          if (metaData?.meta) {
+            setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
+          }
         })();
       }
     }

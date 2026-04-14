@@ -127,6 +127,16 @@ $borderRadius: 5px;
   }
 }
 
+.downloadLinkContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.downloadLinkIcon {
+  color: $primary;
+}
+
 @media screen and (max-width: $breakpoint-lg) {
   .loadingSection {
     height: calc(100% - 5.875rem);
@@ -150,6 +160,10 @@ $borderRadius: 5px;
     border-right: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
   }
+}
+
+.range {
+  font-weight: $semi-bold-weight;
 }
 
 @media screen and (max-width: $breakpoint-md) {

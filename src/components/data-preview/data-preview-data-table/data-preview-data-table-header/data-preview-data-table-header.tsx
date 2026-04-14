@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { IDataTableHeader } from '../../../../models/IDataTableHeader';
+import { ITableHeader } from '../../../../models/ITableHeader';
 import {
   defaultSortArrow,
   defaultSortArrowPill,
@@ -21,7 +21,7 @@ import { faArrowUpShortWide } from '@fortawesome/free-solid-svg-icons/faArrowUpS
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { DataTableContext } from '../../data-preview-context';
 
-const DataPreviewDataTableHeader: FunctionComponent<IDataTableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
+const DataPreviewDataTableHeader: FunctionComponent<ITableHeader> = ({ table, dataTypes, allActiveFilters, setAllActiveFilters }) => {
   const { appliedFilters } = useContext(DataTableContext);
 
   const iconClick = (state, header, e) => {

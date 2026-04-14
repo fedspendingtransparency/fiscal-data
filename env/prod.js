@@ -4,5 +4,6 @@ module.exports = {
   API_BASE_URL: 'https://api.fiscaldata.treasury.gov',
   DATA_DOWNLOAD_BASE_URL: 'https://fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.fiscaldata.treasury.gov/main',
+  STRICT_SSL: true,
   ADDITIONAL_ENDPOINTS: {},
 };

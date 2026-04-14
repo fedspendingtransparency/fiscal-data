@@ -1,6 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
-import SelectAll from './data-table-select-all';
+import SelectAll from './table-select-all';
 
 describe('Column Selector', () => {
   const mockDefaultColumns = [

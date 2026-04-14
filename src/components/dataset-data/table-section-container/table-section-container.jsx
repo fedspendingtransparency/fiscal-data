@@ -151,7 +151,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     (async () => {
-      if (tableMeta?.table === selectedTable?.tableName) await refreshTable();
+      if (tableMeta?.table === selectedTable?.tableName || apiError) await refreshTable();
     })();
   }, [apiData, userFilterSelection, apiError]);
 
@@ -192,7 +192,7 @@ const TableSectionContainer = ({
 
   useEffect(() => {
     if (!allTablesSelected) {
-      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+      setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
     } else {
       setDisableDownloadButton(false);
     }
@@ -202,7 +202,7 @@ const TableSectionContainer = ({
     if (allTablesSelected) {
       setDisableDownloadButton(false);
     }
-    if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+    if (selectedTable?.apiFilter && userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
     }
@@ -331,7 +331,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                apiFilterDefault={apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData}
+                apiFilterDefault={apiFilterDefault && !selectedTable}
                 onToggleLegend={legendToggler}
                 emptyData={
                   !isLoading && !serverSidePagination && !userFilterSelection && (!apiData || !apiData.data || !apiData.data.length) && !apiError

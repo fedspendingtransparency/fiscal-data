@@ -32,13 +32,9 @@ const AboutUs = () => {
         </SectionContent>
         <SectionContent id="who-we-are" headingLevel={3} title="Who We Are">
           <p>
-            This site was created by the Office of the Chief Data Officer (OCDO) at the{' '}
-            <CustomLink url={`${globalConstants.FISCAL_TREASURY_URL}/about.html`} data-testid="fsLink">
-              Bureau of the Fiscal Service (Fiscal Service)
-            </CustomLink>
-            , which is part of the Department of the Treasury. Fiscal Service is responsible for managing public debt, central payment systems, and
-            government accounting. Our team is comprised of data analysts, developers, and UX designers who are passionate about putting trusted data
-            in the hands of the people.
+            This site was created by the Department of the Treasury's Bureau of Fiscal Service, which is responsible for managing public debt, central
+            payment systems, and government accounting. Our team is comprised of data analysts, developers, and UX designers who are passionate about
+            putting trusted data in the hands of the people.
           </p>
         </SectionContent>
         <SectionContent id="what-makes-fiscal-data-different" headingLevel={3} title="What Makes Fiscal Data Different">

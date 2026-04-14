@@ -213,6 +213,7 @@ describe('glossary term', () => {
         value={{
           glossaryClickEvent: false,
           setGlossaryClickEvent: jest.fn(),
+          setGlossaryTriggerEl: jest.fn(),
           glossary: testGlossary,
         }}
       >
@@ -243,6 +244,7 @@ describe('glossary term', () => {
         value={{
           glossaryClickEvent: false,
           setGlossaryClickEvent: jest.fn(),
+          setGlossaryTriggerEl: jest.fn(),
           glossary: testGlossary,
         }}
       >
