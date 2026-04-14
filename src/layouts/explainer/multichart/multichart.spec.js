@@ -5,6 +5,11 @@ import { percentageFormatter, trillionsFormatter } from '../sections/national-de
 import { mockInterestRatesData, mockTotalDebtData } from '../explainer-test-helper';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { useInView } from 'react-intersection-observer';
+
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn().mockReturnValue({ ref: jest.fn(), inView: false }),
+}));
 
 export const mockChartConfigs = [
   {
@@ -155,5 +160,15 @@ describe('Multichart', () => {
     expect(accessibilityMarkers[1]).toHaveFocus();
 
     jest.runAllTimers();
+  });
+
+  it('enables hover after timer ends', async () => {
+    jest.useFakeTimers();
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+    const { findByTestId } = render(<Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
+    const multichart = await findByTestId('multichart');
+    expect(multichart).toHaveStyle('pointer-events: none');
+    jest.advanceTimersByTime(6000);
+    await waitFor(() => expect(multichart).toHaveStyle('pointer-events: auto'));
   });
 });
