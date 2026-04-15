@@ -82,7 +82,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
     } else {
       setServerSidePagination(null);
     }
-    setApiData([]);
+    setApiData(null);
     setApiError(false);
   };
 
@@ -212,7 +212,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
           tableCaches[displayedTable.apiId],
           detailViewState,
           config?.detailView?.field,
-          userFilterSelection,
+          null,
           queryClient
         ).then(() => {
           // nothing to cancel if the request completes normally.
