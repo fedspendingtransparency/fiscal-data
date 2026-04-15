@@ -25,7 +25,7 @@ describe('Interest Expense Hero', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(<InterestExpenseHero />, { wrapper });
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getByText('2012', { exact: false }));
     expect(

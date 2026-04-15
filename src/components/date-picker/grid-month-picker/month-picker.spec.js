@@ -62,7 +62,7 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(marchButton);
     });
-    expect(scrollIntoViewMock).toBeCalled();
+    expect(scrollIntoViewMock).toHaveBeenCalled;
     expect(marchButton).toBeInTheDocument();
     expect(getByRole('button', { name: mockMonthDropdownOptions[1] })).toBeInTheDocument();
     expect(getByRole('button', { name: mockMonthDropdownOptions[2] })).toBeInTheDocument();

@@ -63,19 +63,19 @@ const DataPreviewColumnFilter: FunctionComponent<iColumnFilter> = ({ allTablesSe
       <div className={noMatch} hidden={!noResults}>
         No match for <span className={unmatchedTerm}>'{filter}'</span>. Please revise your search and try again.
       </div>
-      <div hidden={noResults}>
-        <ColumnSelectionList
-          defaultColumns={defaultColumns}
-          additionalColumns={additionalColumns}
-          displayDefault={displayDefault}
-          filter={filter}
-          filteredColumns={filteredColumns}
-          setPendingColumnSelection={setPendingColumnSelection}
-          pendingColumnSelection={pendingColumnSelection}
-          table={table}
-          disabledFields={pivotDisplay ? [dateField, 'Time Period'] : []}
-        />
-      </div>
+      {/*<div hidden={noResults}>*/}
+      {/*  <ColumnSelectionList*/}
+      {/*    defaultColumns={defaultColumns}*/}
+      {/*    additionalColumns={additionalColumns}*/}
+      {/*    displayDefault={displayDefault}*/}
+      {/*    filter={filter}*/}
+      {/*    filteredColumns={filteredColumns}*/}
+      {/*    setPendingColumnSelection={setPendingColumnSelection}*/}
+      {/*    pendingColumnSelection={pendingColumnSelection}*/}
+      {/*    table={table}*/}
+      {/*    disabledFields={pivotDisplay ? [dateField, 'Time Period'] : []}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </>
   );
 

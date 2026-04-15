@@ -88,7 +88,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
         <PublishedReports pageConfig={pageConfig} />
         {!hideRawDataTable && (
           <>
-            <Experimental featureId="dataPreview">
+            <Experimental featureId="experimental-page">
               <DataPreview
                 setSelectedTableProp={setSelectedTable}
                 finalDatesNotFound={finalDatesNotFound}

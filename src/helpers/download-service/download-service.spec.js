@@ -580,7 +580,7 @@ describe('Dataset Download Service', () => {
       const hot$ = watchSignal(downloadService.downloadStatus(testRequestId));
       await expect(hot$).toEmit();
       jest.runOnlyPendingTimers();
-      await expect(global.fetch).toBeCalled();
+      await expect(global.fetch).toHaveBeenCalled;
       expect(global.fetch.mock.calls[0][0]).toContain(`/this/isalongpath/string`);
       const expected = {};
       expected[testDatasetId] = [expectedMsg];
@@ -837,7 +837,7 @@ describe('Dataset Download Service', () => {
       });
       const hot$ = watchSignal(downloadService.startPollingByRequestToken(requestToken));
       jest.advanceTimersByTime(1000);
-      await expect(global.fetch).toBeCalledTimes(1);
+      await expect(global.fetch).toHaveBeenCalledTimes(1);
       await expect(hot$).toEmitValue({
         file_path: `zip/${failedRequestToken}/TOP_FedClct_20131101_20181001.zip`,
         status: 'failed',
@@ -847,9 +847,9 @@ describe('Dataset Download Service', () => {
 
       // We're running the timers long enough to give it a chance to call again.
       jest.advanceTimersByTime(30001);
-      await expect(global.fetch).toBeCalledTimes(1);
+      await expect(global.fetch).toHaveBeenCalledTimes(1);
       jest.advanceTimersByTime(30001);
-      await expect(global.fetch).toBeCalledTimes(1);
+      await expect(global.fetch).toHaveBeenCalledTimes(1);
     });
   });
 });

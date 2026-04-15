@@ -355,7 +355,7 @@ describe('TableSectionContainer with Pivot Options', () => {
       </RecoilRoot>
     );
 
-    expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
+    expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
 
     // in place of a chart it sends the message returned to chart table toggle
     expect(getByText('No-Chart Message Mock')).toBeInTheDocument();
@@ -386,7 +386,7 @@ describe('TableSectionContainer with Pivot Options', () => {
       </RecoilRoot>
     );
 
-    expect(setNoChartMessageMod.SetNoChartMessage).toBeCalled();
+    expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
     expect(getByText('Hide Legend')).toBeInTheDocument();
     expect(getByTestId('dataviz-line')).toBeInTheDocument();
   });
