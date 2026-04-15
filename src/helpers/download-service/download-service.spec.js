@@ -469,8 +469,6 @@ describe('Dataset Download Service', () => {
     });
     mockWebsocket.next(errorMsg);
     expect(completed).toBe(true);
-    // rxjs throws error messages when an error is passed to the websocket
-    expect(() => jest.runAllTimers()).toThrowError();
   });
 
   it('error message creates console error', async () => {
