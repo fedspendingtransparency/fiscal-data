@@ -1,4 +1,4 @@
-import { act, render } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import React from 'react';
 import { getGreatestProgress } from './downloads-persist';
 import { ReplaySubject } from 'rxjs';
@@ -36,8 +36,6 @@ jest.mock('../../../helpers/download-service/download-service', function() {
   };
 });
 
-const socketConnectionInitiatorSpy = jest.spyOn(mockSpies, 'initiator');
-
 describe('Downloads Persist', () => {
   let persistedsiteContext;
 
@@ -69,11 +67,6 @@ describe('Downloads Persist', () => {
   });
 
   it('initiates a download and subscribes to its progress with the download service', async () => {
-    // mock setting the window.location
-    const locationMock = jest.fn();
-    delete window.location;
-    window.location = { assign: locationMock };
-
     render(<DownloadsPersist element={<CaptureCtx />} />);
 
     const downloadRequest = {
@@ -104,8 +97,11 @@ describe('Downloads Persist', () => {
       jest.runOnlyPendingTimers();
     });
 
+    expect(persistedsiteContext.downloadsPrepared.length).toBe(1);
     expect(persistedsiteContext.downloadsPrepared[0].status).toBe('completed');
-    expect(locationMock).toHaveBeenCalledWith('/someTable_someDateRange.type.zip');
+    expect(persistedsiteContext.downloadsPrepared[0].readyForDownload).toBe(true);
+    expect(persistedsiteContext.downloadsPrepared[0].fullFileUrl).toBe('/someTable_someDateRange.type.zip');
+    expect(persistedsiteContext.downloadsPrepared[0].progressPct).toBe(100);
   });
 
   it('is able to cancel an item', () => {
@@ -332,5 +328,28 @@ describe('Downloads Persist', () => {
     });
 
     expect(persistedsiteContext.downloadQueue.length).toBe(0);
+  });
+
+  it('moves completed resumed downloads to downloadsPrepared', async () => {
+    render(<DownloadsPersist element={<CaptureCtx />} />);
+
+    const mockCompletedDownload = {
+      status: 'completed',
+      final_file_name: '/resumed-download.csv',
+      requestId: 'resumed-123',
+    };
+
+    act(() => {
+      persistedsiteContext.setResumeDownloadModalIsOpen(false);
+      persistedsiteContext.setResumedDownloads([mockCompletedDownload]);
+    });
+
+    await waitFor(() => {
+      expect(persistedsiteContext.downloadsPrepared.length).toBe(1);
+    });
+
+    const preparedDownload = persistedsiteContext.downloadsPrepared[0];
+    expect(preparedDownload.readyForDownload).toBe(true);
+    expect(preparedDownload.fullFileUrl).toBe('/resumed-download.csv');
   });
 });
