@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import DataPreviewSectionContainer from './data-preview-section-container/data-preview-section-container';
 import {
@@ -27,7 +27,7 @@ import { withWindowSize } from 'react-fns';
 import DataPreviewDatatableBanner from './data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDataPreview } from '../../models/data-preview/IDataPreview';
 import DataPreviewChart from './data-preview-chart/data-preview-chart';
-import DataTableProvider, { DataTableContext } from './data-preview-context';
+import DataTableProvider from './data-preview-context';
 import SummaryTable from './data-preview-summary-table/data-preview-summary-table';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import dayjs from 'dayjs';
