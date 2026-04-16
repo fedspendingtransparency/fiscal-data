@@ -534,6 +534,10 @@ describe('Dataset Download Service', () => {
     });
 
     beforeEach(async () => {
+      jest.useFakeTimers();
+      jest.clearAllMocks();
+      jest.clearAllTimers();
+
       global.fetch = jest.fn(() => {
         return Promise.resolve({
           ok: true,
