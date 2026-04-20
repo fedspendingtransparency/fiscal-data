@@ -149,6 +149,9 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
         // setSelectedYear({ value: defaultYear, label: defaultYear });
         setDateRange({ from: startDate, to: endDate });
       }
+      if (!selectedTable?.apiFilter) {
+        setSelectedPivot(null);
+      }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
@@ -212,6 +215,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
           tableCaches[displayedTable.apiId],
           detailViewState,
           config?.detailView?.field,
+          null,
           null,
           queryClient
         ).then(() => {
