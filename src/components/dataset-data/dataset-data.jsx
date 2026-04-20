@@ -126,6 +126,9 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
+      if (!selectedTable.apiFilter) {
+        setSelectedPivot(null);
+      }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);

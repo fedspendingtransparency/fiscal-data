@@ -149,10 +149,6 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
         // setSelectedYear({ value: defaultYear, label: defaultYear });
         setDateRange({ from: startDate, to: endDate });
       }
-      if (!selectedTable?.apiFilter) {
-        setSelectedPivot(null);
-        console.log('bat o00000000');
-      }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
