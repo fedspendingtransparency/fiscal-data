@@ -136,7 +136,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       }
       (async () => {
         if (!selectedTable?.apiFilter) {
-          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient).then(res => {
+          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading).then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
@@ -228,7 +228,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     if (tableSectionInitialized()) {
       if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
         (async () => {
-          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient);
+          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading);
           if (metaData?.meta) {
             setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
           }

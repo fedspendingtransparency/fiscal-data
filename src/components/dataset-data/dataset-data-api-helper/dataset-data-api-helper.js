@@ -134,7 +134,7 @@ export const getApiData = async (
   }
 };
 
-export const getMetaData = async (dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient) => {
+export const getMetaData = async (dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading) => {
   let tableMetaData = null;
   if (dateRange && selectedTable?.endpoint) {
     let from = formatDateForApi(dateRange.from);
@@ -148,10 +148,7 @@ export const getMetaData = async (dateRange, selectedTable, userFilterSelection,
     const dateFilter = buildDateFilter(selectedTable, from, to);
     const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
     try {
-      tableMetaData = await queryClient.ensureQueryData({
-        queryKey: ['tableMetaData', selectedTable.endpoint, dateFilter, apiFilterParam],
-        queryFn: () => fetchTableMeta(selectedTable, dateFilter, apiFilterParam),
-      });
+      tableMetaData = await fetchTableMeta(selectedTable, dateFilter, apiFilterParam);
     } catch (err) {
       console.error('API error', err);
       setApiError(err);
