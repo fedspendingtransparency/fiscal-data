@@ -80,6 +80,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setAllTablesSelected(false);
       setSelectedTable(table);
+      setSelectedPivot(null);
     }
 
     Analytics.event({
@@ -124,9 +125,6 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       // setUserFilterSelection(null);
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
-      }
-      if (!selectedTable.apiFilter) {
-        setSelectedPivot(null);
       }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);

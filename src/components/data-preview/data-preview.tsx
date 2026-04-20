@@ -151,6 +151,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
       }
       if (!selectedTable?.apiFilter) {
         setSelectedPivot(null);
+        console.log('bat o00000000');
       }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
