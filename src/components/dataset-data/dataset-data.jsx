@@ -79,6 +79,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setAllTablesSelected(false);
       setSelectedTable(table);
+      setSelectedPivot(null);
     }
 
     Analytics.event({

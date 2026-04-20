@@ -213,6 +213,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
           detailViewState,
           config?.detailView?.field,
           null,
+          null,
           queryClient
         ).then(() => {
           // nothing to cancel if the request completes normally.
