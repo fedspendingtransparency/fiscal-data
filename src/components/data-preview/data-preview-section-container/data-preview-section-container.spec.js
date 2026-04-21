@@ -4,7 +4,6 @@ import {
   mockConfig,
   mockDateRange,
   mockTableWithApiFilterAvailable,
-  mockTableWithApiFilterAvailableDisplayDefaultData,
   mockTableWithNoChartAvailable,
   selectedPivot,
   selectedTableLessFields,
@@ -16,7 +15,7 @@ import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import DataPreviewSectionContainer from './data-preview-section-container';
 import { DataTableContext } from '../data-preview-context';
-import { contextProps } from '../../data-table/data-table-test-helper';
+import { contextProps } from '../../table-components/helpers/table-test-helper';
 import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 import { mockApiData } from '../../dataset-data/test-helper';
 // describe('DataPreviewSectionContainer initial state', () => {
@@ -660,34 +659,5 @@ describe('Table with API filter', () => {
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
     expect(queryByRole('table')).not.toBeInTheDocument();
-  });
-
-  it('Initializes table with an api filter and displayDefaultData is true', async () => {
-    const mockSetIsLoading = jest.fn();
-    render(
-      <DataTableContext.Provider
-        value={{
-          ...contextProps,
-          tableProps: { selectedTable: mockTableWithApiFilterAvailableDisplayDefaultData },
-          reactTableData: { data: [], meta: { labels: {} } },
-        }}
-      >
-        <RecoilRoot>
-          <DataPreviewSectionContainer
-            config={mockConfig}
-            dateRange={mockDateRange}
-            selectedTable={mockTableWithApiFilterAvailableDisplayDefaultData}
-            isLoading={false}
-            setIsLoading={mockSetIsLoading}
-            apiError={false}
-            setUserFilterSelection={jest.fn()}
-            userFilterSelection={null}
-            setSelectedPivot={jest.fn()}
-            setApiFilterDefault={jest.fn()}
-          />
-        </RecoilRoot>
-      </DataTableContext.Provider>
-    );
-    expect(mockSetIsLoading).not.toHaveBeenCalledWith(false);
   });
 });

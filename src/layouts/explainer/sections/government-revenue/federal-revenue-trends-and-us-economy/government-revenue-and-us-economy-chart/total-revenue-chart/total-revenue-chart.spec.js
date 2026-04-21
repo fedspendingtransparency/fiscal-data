@@ -15,11 +15,16 @@ import {
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useInView } from 'react-intersection-observer';
 
 class ResizeObserver {
   observe() {}
   unobserve() {}
 }
+
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn().mockReturnValue({ ref: jest.fn(), inView: false }),
+}));
 
 jest.useFakeTimers();
 describe('Total Revenue Chart', () => {
@@ -204,6 +209,23 @@ describe('Total Revenue Chart', () => {
 
     expect(await findByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await findByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
+  });
+
+  it('enables revenue hover after timer ends', async () => {
+    jest.useFakeTimers();
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
+      </ErrorBoundary>
+    );
+    await waitFor(() => expect(fetchSpy).toBeCalled());
+    const revenueLineChart = await findByTestId('revenueLineChart');
+    expect(revenueLineChart).toHaveStyle('pointer-events: none');
+    jest.advanceTimersByTime(7000);
+    await waitFor(() => expect(revenueLineChart).toHaveStyle('pointer-events: auto'));
   });
 });
 

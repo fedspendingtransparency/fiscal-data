@@ -4,7 +4,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
 import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
 import React from 'react';
-import { reset, resetIcon, selectAll, selectAllContainer } from '../data-table-column-selector.module.scss';
+import { reset, resetIcon, selectAll, selectAllContainer } from '../table-column-selector.module.scss';
 
 const SelectAll = ({ table, resetToDefault, defaultColumns }) => {
   const defaultState = () => {

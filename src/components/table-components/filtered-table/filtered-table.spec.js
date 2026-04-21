@@ -2,13 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import FilteredTable from './filtered-table';
 import { RecoilRoot } from 'recoil';
-import {
-  mockColumnConfig,
-  mockGenericTableColumns,
-  mockGenericTableData,
-  mockTableData,
-  mockTableData1Row,
-} from '../../data-table/data-table-test-helper';
+import { mockColumnConfig, mockGenericTableColumns, mockGenericTableData, mockTableData, mockTableData1Row } from '../helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
 import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
 import { RecoilObserver } from '../../../utils/test-utils';

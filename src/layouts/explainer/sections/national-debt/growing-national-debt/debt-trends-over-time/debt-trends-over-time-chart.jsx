@@ -38,7 +38,12 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState({});
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
+  const [hoverDisabled, setHoverDisabled] = useState(true);
   const data = useRecoilValueLoadable(debtOutstandingData);
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'debtTrendsChart';
@@ -81,6 +86,15 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
       processData();
     }
   }, [data.state]);
+
+  useEffect(() => {
+    if (inView && hoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setHoverDisabled(false);
+      }, 5000);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [inView]);
 
   useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
@@ -151,11 +165,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     </>
   );
 
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
-
   return (
     <>
       {debtTrendsData && (
@@ -176,6 +185,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               ) : (
                 <div
                   className={lineChartContainer}
+                  style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
                   data-testid={`${chartParent}`}
                   onMouseEnter={handleMouseEnterLineChart}
                   onMouseLeave={handleMouseLeaveLineChart}

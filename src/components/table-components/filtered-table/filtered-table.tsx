@@ -1,14 +1,9 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
-import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
-import {
-  nonRawDataTableContainer,
-  overlayContainerNoFooter,
-  overlayContainerNoFooterChart,
-  tableStyle,
-} from '../../data-table/data-table.module.scss';
-import DataTableHeader from '../../data-table/data-table-header/data-table-header';
-import DataTableBody from '../../data-table/data-table-body/data-table-body';
+import { tableStyle, nonRawDataTableContainer, overlayContainerNoFooter, overlayContainerNoFooterChart } from './filtered-table.module.scss';
+import TableHeader from '../../table-components/table-header/table-header';
+import TableBody from '../../table-components/table-body/table-body';
+import TableFooter from '../../table-components/table-footer/table-footer';
 import { columnsConstructorGeneric } from './filtered-table-helper';
 import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
 import { useSetRecoilState } from 'recoil';
@@ -115,7 +110,7 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
         <div className={tableStyle}>
           <div className={nonRawDataTableContainer}>
             <table {...aria}>
-              <DataTableHeader
+              <TableHeader
                 table={table}
                 dataTypes={dataTypes}
                 resetFilters={resetFilters}
@@ -124,14 +119,12 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
                 chartTable={chartTable}
                 disableAllFilters={chartTable}
               />
-              <DataTableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
+              <TableBody table={table} dataTypes={dataTypes} allowColumnWrap={allowColumnWrap} chartTable={chartTable} />
             </table>
           </div>
         </div>
       </div>
-      {shouldPage && (
-        <DataTableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} chartTable={chartTable} />
-      )}
+      {shouldPage && <TableFooter table={table} showPaginationControls={showPaginationControls} pagingProps={pagingProps} chartTable={chartTable} />}
     </>
   );
 };

@@ -80,6 +80,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setAllTablesSelected(false);
       setSelectedTable(table);
+      setSelectedPivot(null);
     }
 
     Analytics.event({
@@ -135,8 +136,8 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[selectedTable.apiId] = new TableCache();
       }
       (async () => {
-        if (!selectedTable?.apiFilter || selectedTable?.apiFilter?.displayDefaultData) {
-          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading).then(res => {
+        if (!selectedTable?.apiFilter) {
+          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient).then(res => {
             if (res?.meta) {
               setTableMeta({ meta: res.meta, table: selectedTable.tableName });
             }
@@ -167,7 +168,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
   const tableSectionInitialized = () =>
     !finalDatesNotFound &&
@@ -228,7 +229,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     if (tableSectionInitialized()) {
       if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
         (async () => {
-          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading);
+          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient);
           if (metaData?.meta) {
             setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
           }

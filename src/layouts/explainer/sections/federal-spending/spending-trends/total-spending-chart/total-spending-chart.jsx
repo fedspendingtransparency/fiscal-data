@@ -63,6 +63,11 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
+  const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
+  const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
+
+  const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
   const chartParent = 'chartParent';
   const chartWidth = 550;
@@ -117,6 +122,24 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (spendingInView && spendingHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setSpendingHoverDisabled(false);
+      }, 6500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [spendingInView]);
+
+  useEffect(() => {
+    if (gdpInView && gdpHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setGdpHoverDisabled(false);
+      }, 6500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [gdpInView]);
 
   useEffect(() => {
     const { finalGDPData, gdpMaxYear, gdpMaxAmount } = beaGDPData;
@@ -311,10 +334,6 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
     selectedChartView
   );
 
-  const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
-
-  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
-
   const xScale = {
     type: 'linear',
     min: minYear,
@@ -369,7 +388,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                   role="presentation"
                 >
                   {selectedChartView === 'totalSpending' && (
-                    <div ref={spendingRef}>
+                    <div data-testid="spendingLineChart" ref={spendingRef} style={{ pointerEvents: spendingHoverDisabled ? 'none' : 'auto' }}>
                       <Line
                         {...commonProps}
                         theme={getChartTheme(width, true)}
@@ -396,7 +415,7 @@ const TotalSpendingChart = ({ width, cpiDataByYear, beaGDPData, copyPageData }) 
                     </div>
                   )}
                   {selectedChartView === 'percentageGdp' && (
-                    <div ref={gdpRef}>
+                    <div ref={gdpRef} style={{ pointerEvents: gdpHoverDisabled ? 'none' : 'auto' }}>
                       <Line
                         {...commonProps}
                         theme={getChartTheme(width, true)}

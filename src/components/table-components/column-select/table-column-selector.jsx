@@ -8,7 +8,7 @@ import {
   headingWrapper,
   selectedValues,
   title,
-} from './data-table-column-selector.module.scss';
+} from './table-column-selector.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
@@ -24,11 +24,11 @@ import {
   sectionHeading,
 } from '../../checkbox/checkbox.module.scss';
 import classnames from 'classnames';
-import DataTableSelectAll from './select-all/data-table-select-all';
+import TableSelectAll from './select-all/table-select-all';
 
 const desktop = 1015;
 
-const DataTableColumnSelector = ({
+const TableColumnSelector = ({
   fields,
   resetToDefault,
   setSelectColumnPanel,
@@ -105,11 +105,7 @@ const DataTableColumnSelector = ({
           {table.getVisibleFlatColumns().length} selected of {fields?.length}
         </div>
       </div>
-      <DataTableSelectAll
-        table={table}
-        resetToDefault={resetToDefault}
-        defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns}
-      />
+      <TableSelectAll table={table} resetToDefault={resetToDefault} defaultColumns={displayDefault ? defaultSelectedColumns : additionalColumns} />
       <div className={buttonContainer}>
         {displayDefault ? (
           <div>
@@ -130,4 +126,4 @@ const DataTableColumnSelector = ({
   );
 };
 
-export default DataTableColumnSelector;
+export default TableColumnSelector;

@@ -58,6 +58,7 @@ export type MultichartProperties = {
 const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
   const [chartRenderer, setChartRenderer] = useState(null);
   const [animateChart, setAnimateChart] = useState(false);
+  const [hoverDisabled, setHoverDisabled] = useState(true);
 
   const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
@@ -104,6 +105,12 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     if (inView) {
       // animate data series display on chart upon initial scroll
       setAnimateChart(true);
+      if (hoverDisabled === true) {
+        const hoverTimer = setTimeout(() => {
+          setHoverDisabled(false);
+        }, 6000);
+        return () => clearTimeout(hoverTimer);
+      }
     }
   }, [inView]);
 
@@ -116,6 +123,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
           style={{
             display: 'block',
             backgroundColor: '#f1f1f1',
+            pointerEvents: hoverDisabled ? 'none' : 'auto',
           }}
           data-testid="multichart"
           onMouseEnter={handleMouseEnter}

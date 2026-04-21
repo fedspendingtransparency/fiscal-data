@@ -43,7 +43,9 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   const [chartData, setChartData] = useState(null);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '$--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
+  const [hoverDisabled, setHoverDisabled] = useState(true);
   const data = useRecoilValueLoadable(debtOutstandingData);
+  const { ref, inView } = useInView(chartInViewProps);
   useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'totalDebtChartParent';
@@ -115,6 +117,15 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   }, [data.state]);
 
   useEffect(() => {
+    if (inView && hoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setHoverDisabled(false);
+      }, 6000);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [inView]);
+
+  useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width]);
 
@@ -162,8 +173,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     clearTimeout(ga4Timer);
   };
 
-  const { ref, inView } = useInView(chartInViewProps);
-
   return (
     <>
       <figure className={visWithCallout}>
@@ -181,6 +190,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
             ) : (
               <div
                 className={lineChart}
+                style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
                 data-testid="totalDebtChartParent"
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}

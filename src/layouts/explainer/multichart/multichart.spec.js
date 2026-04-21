@@ -5,6 +5,19 @@ import { percentageFormatter, trillionsFormatter } from '../sections/national-de
 import { mockInterestRatesData, mockTotalDebtData } from '../explainer-test-helper';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { useInView } from 'react-intersection-observer';
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  useInView.mockReturnValue({
+    ref: jest.fn(),
+    inView: false,
+  });
+});
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn(),
+}));
 
 export const mockChartConfigs = [
   {
@@ -155,5 +168,32 @@ describe('Multichart', () => {
     expect(accessibilityMarkers[1]).toHaveFocus();
 
     jest.runAllTimers();
+  });
+
+  it('animates the chart when it comes into view', async () => {
+    useInView.mockReturnValue({
+      ref: jest.fn(),
+      inView: true,
+    });
+
+    const hoverEffectHandler = jest.fn();
+
+    render(<Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={hoverEffectHandler} />);
+
+    jest.runAllTimers();
+
+    await waitFor(() => {
+      expect(hoverEffectHandler).toHaveBeenCalled();
+    });
+  });
+
+  it('enables hover after timer ends', async () => {
+    jest.useFakeTimers();
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+    const { findByTestId } = render(<Multichart chartId="testy" chartConfigs={mockChartConfigs} hoverEffectHandler={jest.fn()} />);
+    const multichart = await findByTestId('multichart');
+    expect(multichart).toHaveStyle('pointer-events: none');
+    jest.advanceTimersByTime(6500);
+    await waitFor(() => expect(multichart).toHaveStyle('pointer-events: auto'));
   });
 });
