@@ -85,12 +85,19 @@ const Glossary: FunctionComponent<IGlossary> = ({ termList, activeState, setActi
   // function to restore view to last clicked term (when user tabs through the overlay)
   const handleOverlayTab = e => {
     if (e.key !== 'Tab') return;
-    const focusableElements = e.currentTarget.querySelectorAll('button, a[href]');
+    const focusableElements = e.currentTarget.querySelectorAll('button, a[href], input, textarea, select');
     const lastElement = focusableElements[focusableElements.length - 1];
     if (!e.shiftKey && document.activeElement === lastElement) {
       // prevents focus from jumping outside (top of page where glossary component is imported)
       e.preventDefault();
-      glossaryTriggerEl.focus();
+      if (glossaryTriggerEl) {
+        glossaryTriggerEl.focus();
+      } else {
+        const firstElement = focusableElements[0];
+        if (firstElement) {
+          firstElement.focus();
+        }
+      }
     }
   };
 
