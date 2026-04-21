@@ -108,7 +108,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
       if (hoverDisabled === true) {
         const hoverTimer = setTimeout(() => {
           setHoverDisabled(false);
-        }, 5500);
+        }, 6000);
         return () => clearTimeout(hoverTimer);
       }
     }

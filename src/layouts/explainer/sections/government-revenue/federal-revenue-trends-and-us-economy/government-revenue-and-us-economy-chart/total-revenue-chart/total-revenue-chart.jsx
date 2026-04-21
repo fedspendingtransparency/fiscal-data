@@ -139,7 +139,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     if (revenueInView && revenueHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setRevenueHoverDisabled(false);
-      }, 6000);
+      }, 6500);
       return () => clearTimeout(hoverTimer);
     }
   }, [revenueInView]);
@@ -148,7 +148,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     if (gdpInView && gdpHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setGdpHoverDisabled(false);
-      }, 6000);
+      }, 6500);
       return () => clearTimeout(hoverTimer);
     }
   }, [gdpInView]);
