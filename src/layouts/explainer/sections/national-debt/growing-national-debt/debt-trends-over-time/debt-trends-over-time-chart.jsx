@@ -91,7 +91,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     if (inView && hoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setHoverDisabled(false);
-      }, 4500);
+      }, 5000);
       return () => clearTimeout(hoverTimer);
     }
   }, [inView]);
