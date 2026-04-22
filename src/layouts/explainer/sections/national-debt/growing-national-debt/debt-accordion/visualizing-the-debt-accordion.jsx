@@ -11,9 +11,7 @@ import {
 import { debtAccordion } from '../../national-debt.module.scss';
 import Accordion from '../../../../../../components/accordion/accordion';
 import { visualizingTheDebtTableContent } from '../../national-debt';
-import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { debtToThePennyData } from '../../../../../../recoil/debtToThePennyDataState';
 
 export const VisualizingTheDebtAccordion = ({ width }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,8 +21,13 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   const [nationalDebtValueInTenths, setNationalDebtValueInTenths] = useState('--');
   const [numberOfSquares, setNumberOfSquares] = useState('--');
   const [dynamicGaEventValue, setDynamicGaEventValue] = useState(null);
-  const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  const payload = debtToThePennyData(state => state.payload);
+  const status = debtToThePennyData(state => state.status);
+  const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
+
   useEffect(() => {
     setIsLoading(false);
 
@@ -60,15 +63,15 @@ export const VisualizingTheDebtAccordion = ({ width }) => {
   };
 
   useEffect(() => {
-    if (data.state === 'hasValue') {
-      const totalPublicDebtOutstanding = Math.trunc(data.contents.payload[0]['tot_pub_debt_out_amt']);
+    if (status === 'hasValue' && payload) {
+      const totalPublicDebtOutstanding = Math.trunc(payload[0]['tot_pub_debt_out_amt']);
       const dividedDebt = totalPublicDebtOutstanding / 1000000000000;
       setNationalDebtValue(dividedDebt.toFixed());
       setNationalDebtValueInTenths(dividedDebt.toFixed(1));
       setDynamicGaEventValue(dividedDebt.toFixed());
       setNumberOfSquares((dividedDebt * 1000).toFixed().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     }
-  }, [data.state]);
+  }, [status, payload]);
 
   return (
     <div className={debtAccordion}>
