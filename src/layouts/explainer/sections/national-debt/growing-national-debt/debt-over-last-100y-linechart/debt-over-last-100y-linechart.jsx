@@ -51,7 +51,6 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   }, [refreshIfStale]);
 
   const { ref, inView } = useInView(chartInViewProps);
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'totalDebtChartParent';
   const chartWidth = 550;

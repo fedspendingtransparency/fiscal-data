@@ -37,19 +37,18 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [hoverDisabled, setHoverDisabled] = useState(true);
- const payload = debtOutstandingData(state => state.payload);
+  const payload = debtOutstandingData(state => state.payload);
   const status = debtOutstandingData(state => state.status);
   const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
 
   useEffect(() => {
     refreshIfStale();
-  },[refreshIfStale])
+  }, [refreshIfStale]);
 
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
   });
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'debtTrendsChart';
   const chartWidth = 550;
