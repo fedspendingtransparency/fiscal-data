@@ -44,7 +44,7 @@ const chartDimensions = {
   xAxisHeight: 30,
   yAxisWidth: baseYAxisWidth,
   marginTop: 10,
-  marginRight: 16,
+  marginRight: 13,
 };
 const duration = 1000;
 const parseTime = d3.timeParse('%Y-%m-%d');
