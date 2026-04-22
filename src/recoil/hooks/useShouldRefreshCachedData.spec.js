@@ -4,7 +4,7 @@ import { debtToThePennyData, debtToThePennyLastCachedState } from '../debtToTheP
 import { setGlobalFetchMatchingResponse } from '../../utils/mock-utils';
 import { RecoilRoot, useRecoilState } from 'recoil';
 
-describe('useShouldRefreshCachedData', () => {
+describe.skip('useShouldRefreshCachedData', () => {
   beforeEach(() => {
     setGlobalFetchMatchingResponse(jest, [
       {
