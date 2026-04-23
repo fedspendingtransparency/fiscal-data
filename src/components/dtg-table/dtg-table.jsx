@@ -4,7 +4,7 @@ import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './dtg-table.module.scss';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
@@ -18,12 +18,7 @@ import TableColumnSelector from '../table-components/column-select/table-column-
 import TableHeader from '../table-components/table-header/table-header';
 import TableBody from '../table-components/table-body/table-body';
 import TableFooter from '../table-components/table-footer/table-footer';
-import {
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-  tableRowLengthState,
-} from '../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../recoil/smallTableDownloadData';
 import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../table-components/helpers/data-download-helper';
 
 const defaultRowsPerPage = 10;
@@ -83,10 +78,10 @@ export default function DtgTable({
   const defaultSelectedColumns = detailView?.selectColumns && detailViewState ? detailView.selectColumns : selectColumns;
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
-  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
-  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
-  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
+  const setTableRowSizeData = smallTableDownloadData(state => state.setTableRowLength());
+  const setSmallTableCSVData = smallTableDownloadData(state => state.setCsv);
+  const setSmallTableJSONData = smallTableDownloadData(state => state.setJson);
+  const setSmallTableXMLData = smallTableDownloadData(state => state.setXml);
 
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}

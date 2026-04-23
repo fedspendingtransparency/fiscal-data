@@ -16,7 +16,7 @@ import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
@@ -58,7 +58,7 @@ const DownloadWrapper = ({
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
   const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
-  const tableSize = useRecoilValue(tableRowLengthState);
+  const tableSize = smallTableDownloadData(state => state.tableRowLength);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {

@@ -10,8 +10,7 @@ import { chartTableBorder, container, loadingIcon, overlay } from './state-and-l
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
 import { format } from 'date-fns';
 import { convertDate } from '../../../../../components/dataset-data/dataset-data-helper/dataset-data-helper';
-import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
-import { useRecoilValue } from 'recoil';
+import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
 import { analyticsEventHandler } from '../../../../../helpers/insights/insight-helpers';
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import globalConstants from '../../../../../helpers/constants';
@@ -32,7 +31,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [downloadData, setDownloadData] = useState([]);
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
-  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
+  const tableCSVData = smallTableDownloadData(state => state.csv);
 
   const {
     chartData,

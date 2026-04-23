@@ -27,8 +27,8 @@ import {
   mockTableData,
   mockTableDownloadWithTextQualifier,
 } from '../table-components/helpers/table-test-helper';
-import { RecoilObserver } from '../../utils/test-utils';
-import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+
+import { smallTableDownloadData } from '../../recoil/smallTableDownloadData';
 import fetchMock from 'fetch-mock';
 
 describe('DTG table component', () => {
@@ -697,11 +697,10 @@ describe('DTG Table Nested Table Detail View', () => {
       expect(instance).toBeTruthy();
     });
 
-    it('updates recoil state for csv download with text qualifiers', () => {
-      const setSmallTableDownloadDataCSV = jest.fn();
+    it('updates csv download state with text qualifers', () => {
+      smallTableDownloadData.setState({ csv: [] });
       render(
         <RecoilRoot>
-          <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
           <DtgTable
             tableProps={{
               ...tableProps,
@@ -722,7 +721,7 @@ describe('DTG Table Nested Table Detail View', () => {
           />
         </RecoilRoot>
       );
-      expect(setSmallTableDownloadDataCSV).toHaveBeenCalledWith([
+      expect(smallTableDownloadData.getState().csv).toEqual([
         ['Record Date', 'String Value', 'String Value with Commas'],
         ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
       ]);
