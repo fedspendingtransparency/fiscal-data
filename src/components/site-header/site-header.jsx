@@ -33,17 +33,19 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const status = dynamicBannerData(state => state.status);
   const refreshIfStale = dynamicBannerData(state => state.refreshIfStale);
 
-  console.log('payload: ', payload);
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
 
-  // useEffect(() => {
-  //   if (status === 'hasValue' && payload) {
-  //     const refinedBanners = payload.filter(
-  //       announcement =>
-  //         location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
-  //     );
-  //     setBannersContent(refinedBanners);
-  //   }
-  // }, [status, payload]);
+  useEffect(() => {
+    if (status === 'hasValue' && payload) {
+      const refinedBanners = payload.filter(
+        announcement =>
+          location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
+      );
+      setBannersContent(refinedBanners);
+    }
+  }, [status, payload]);
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
