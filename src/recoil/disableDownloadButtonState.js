@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { create } from 'zustand';
 
-export const disableDownloadButtonState = atom({
-  key: 'disableDownloadButtonState',
-  default: false,
-});
+export const disableDownloadButtonState = create(set => ({
+  disabled: false,
+  setDisabled: disabled => set({ disabled}),
+}))
