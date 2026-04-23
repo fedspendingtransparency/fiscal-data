@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { buttonContainer, header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { useWindowSize } from 'usehooks-ts';
 
 const style = {
   popOver: {
@@ -24,10 +24,10 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click',
 };
 
-const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, children, displayTitle }) => {
+const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, displayTitle }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
-
+  const { width } = useWindowSize();
   const handleScroll = () => {
     const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
@@ -133,4 +133,4 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   );
 };
 
-export default withWindowSize(InfoTip);
+export default InfoTip;

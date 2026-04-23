@@ -4,7 +4,6 @@ import ChartTableContainer from '../../../../../components/chart-with-table/char
 import { chartConfig, formatDate, infoTipTitle, Legend } from './state-and-local-government-series-chart-helper';
 import { useGetStateAndLocalGovernmentSeriesData } from '../useGetStateAndLocalGovernmentSeriesData';
 import { getShortForm } from '../../../../../utils/rounding-utils';
-import { withWindowSize } from 'react-fns';
 import { customNumberFormatter } from '../../../../../helpers/text-format/text-format';
 import { chartTableBorder, container, loadingIcon, overlay } from './state-and-local-government-series-chart.module.scss';
 import SLGSBarChart from './SLGS-bar-chart/SLGS-bar-chart';
@@ -16,10 +15,11 @@ import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google
 import globalConstants from '../../../../../helpers/constants';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 import FilteredTable from '../../../../../components/table-components/filtered-table/filtered-table';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimer;
 
-const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
+const StateAndLocalGovernmentSeriesChart: FunctionComponent = () => {
   const { explainers } = globalConstants;
   const [chartFocus, setChartFocus] = useState<boolean>(false);
   const [chartHover, setChartHover] = useState<boolean>(false);
@@ -32,6 +32,7 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   const [monthRange, setMonthRange] = useState<{ from: string; to: string }>();
   const [isChartLoading, setIsChartLoading] = useState<boolean>(false);
   const tableCSVData = smallTableDownloadData(state => state.csv);
+  const { width } = useWindowSize();
 
   const {
     chartData,
@@ -214,4 +215,4 @@ const StateAndLocalGovernmentSeriesChart: FunctionComponent = ({ width }) => {
   );
 };
 
-export default withWindowSize(StateAndLocalGovernmentSeriesChart);
+export default StateAndLocalGovernmentSeriesChart;

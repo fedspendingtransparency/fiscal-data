@@ -183,7 +183,7 @@ describe('TableCache Utility Class', () => {
       .spyOn(datasetDataApiHelpers, 'pivotApiData')
       .mockReturnValue({ data: 'recently pivoted rows..', pivotApplied: 'By Desc:transaction_count' });
     tableCache.getCachedDataDisplay(mockRequestedRange, mockSelectedPivot3, mockTable);
-    expect(pivotApiDataSpy).toBeCalledWith(mockTable, mockSelectedPivot3, { data: 'more rows..' }, '2015-01-01', '2021-04-28');
+    expect(pivotApiDataSpy).toHaveBeenCalledWith(mockTable, mockSelectedPivot3, { data: 'more rows..' }, '2015-01-01', '2021-04-28');
     expect(tableCache.dataDisplayCache['2015-01-01:2021-04-28']['By Desc:transaction_count'].data).toEqual('recently pivoted rows..');
 
     // when attempting to retrieve display data for which nothing has been cached, return falsy (null)

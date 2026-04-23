@@ -39,7 +39,7 @@ describe('WhatInfluencesPurchaseOfSavingsBonds Component - Comprehensive Test', 
     const { getByText } = render(
       <WhatInfluencesPurchaseOfSavingsBonds cpiDataByYear={cpiDataByYear} cpi12MonthPercentChange={cpi12MonthPercentChange} />
     );
-    await waitFor(() => expect(fetchSpy).toBeCalledTimes(6));
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(6));
     expect(getByText('The chart below shows savings bond sales over time for all savings bond types', { exact: false })).toBeInTheDocument();
   });
 

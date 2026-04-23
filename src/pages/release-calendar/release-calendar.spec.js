@@ -103,7 +103,7 @@ describe('Release Calendar', () => {
         <ReleaseCalendar />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const siteLayout = await findByTestId('officialBanner');
     // officialBanner is included in SiteLayout component
     expect(siteLayout).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('Release Calendar', () => {
         <ReleaseCalendar />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const homeLink = await getByRole('link', { name: 'Home' });
     expect(homeLink).toBeInTheDocument();
   });
@@ -128,7 +128,7 @@ describe('Release Calendar', () => {
         <ReleaseCalendar />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const pageTitle = await getByRole('heading', { level: 1, name: 'Release Calendar' });
     const tagline = await getByText('The Fiscal Data Release Calendar', { exact: false });
     expect(pageTitle).toBeInTheDocument();

@@ -4,7 +4,6 @@ import VisualizationCallout from '../../../../../../components/visualization-cal
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { withWindowSize } from 'react-fns';
 import { barChart, container, loadingIcon } from './deficit-comparison-bar-chart.module.scss';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { breakpointLg, fontBodyCopy } from '../../../../../../variables.module.scss';
@@ -18,8 +17,9 @@ import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
-const DeficitComparisonBarChart = ({ sectionId, width }) => {
+const DeficitComparisonBarChart = ({ sectionId }) => {
   const [date, setDate] = useState(null);
   const [lastFiscalYear, setLastFiscalYear] = useState(0);
   const [deficitValue, setDeficitValue] = useState(0);
@@ -32,6 +32,7 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   const [spendingLabel, setSpendingLabel] = useState('');
   const [data, setData] = useState(null);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
+  const { width } = useWindowSize();
 
   const { endpoints } = nationalDeficitSectionConfigs[sectionId];
   const { mtsOutlays } = explainerCitationsMap['national-deficit'];
@@ -230,4 +231,4 @@ const DeficitComparisonBarChart = ({ sectionId, width }) => {
   );
 };
 
-export default withWindowSize(DeficitComparisonBarChart);
+export default DeficitComparisonBarChart;

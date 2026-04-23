@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
 import DataTableSelect from '../datatable-select/datatable-select';
@@ -370,4 +369,4 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 // that the [location] prop can easily be directly specified in unit test renders without any
 // use or mocking of [withWindowSize] - tlp 2021-11-17
 
-export default withWindowSize(DatasetDataComponent);
+export default DatasetDataComponent;
