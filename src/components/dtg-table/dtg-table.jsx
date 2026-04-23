@@ -4,8 +4,7 @@ import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
 import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './dtg-table.module.scss';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
@@ -69,7 +68,7 @@ export default function DtgTable({
   const [maxRows, setMaxRows] = useState(rawData?.data?.length > 0 ? rawData?.data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
   const { detailView } = config;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
   const [allColumns, setAllColumns] = useState([]);
