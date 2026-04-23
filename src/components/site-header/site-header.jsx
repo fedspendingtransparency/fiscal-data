@@ -16,12 +16,11 @@ import { container, content, logo, stickyHeader } from './site-header.module.scs
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
-import { dynamicBannerState } from '../../recoil/dynamicBannerState';
+import { dynamicBannerData } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
 
 //Additional export for page width testability
 export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
-  const data = useRecoilValueLoadable(dynamicBannerState);
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -30,18 +29,21 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [imageWidth, setImageWidth] = useState(defaultLogoWidth);
   const [bannersContent, setBannersContent] = useState(null);
-  useShouldRefreshCachedData(Date.now(), dynamicBannerState, dynamicBannerLastCachedState);
+  const payload = dynamicBannerData(state => state.payload);
+  const status = dynamicBannerData(state => state.status);
+  const refreshIfStale = dynamicBannerData(state => state.refreshIfStale);
 
-  useEffect(() => {
-    if (data.state === 'hasValue') {
-      const res = data.contents.payload;
-      const refinedBanners = res.filter(
-        announcement =>
-          location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
-      );
-      setBannersContent(refinedBanners);
-    }
-  }, [data.state]);
+  console.log('payload: ', payload);
+
+  // useEffect(() => {
+  //   if (status === 'hasValue' && payload) {
+  //     const refinedBanners = payload.filter(
+  //       announcement =>
+  //         location?.pathname === announcement.path || (announcement.recursive_path === 'true' && location?.pathname.includes(announcement.path))
+  //     );
+  //     setBannersContent(refinedBanners);
+  //   }
+  // }, [status, payload]);
 
   const getButtonHeight = imgWidth => (defaultLogoHeight * imgWidth) / defaultLogoWidth;
 
