@@ -4,20 +4,23 @@ import { IHeroImage } from '../../../models/IHeroImage';
 import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
 import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
-import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../recoil/hooks/useShouldRefreshCachedData';
+import { debtToThePennyData } from '../../../recoil/debtToThePennyDataState';
 
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
-  const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  const payload = debtToThePennyData(state => state.payload);
+  const status = debtToThePennyData(state => state.status);
+  const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
 
   useEffect(() => {
-    if (data.state === 'hasValue') {
-      setDebtAmount(data.contents.payload[0]?.tot_pub_debt_out_amt);
+    refreshIfStale();
+  }, [refreshIfStale]);
+
+  useEffect(() => {
+    if (status === 'hasValue' && payload) {
+      setDebtAmount(payload[0]?.tot_pub_debt_out_amt);
     }
-  }, [data.state]);
+  }, [status, payload]);
 
   const getSubHeading = subHeading => {
     if (pageName === 'national-debt') {

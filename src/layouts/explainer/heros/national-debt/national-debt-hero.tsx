@@ -1,28 +1,26 @@
 import { counterContainer, counterSourceInfo, debt } from '../../hero-image/hero-image.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import React, { useEffect, useState } from 'react';
-import { useRecoilValueLoadable } from 'recoil';
-import { debtToThePennyData, debtToThePennyLastCachedState } from '../../../../recoil/debtToThePennyDataState';
-import useShouldRefreshCachedData from '../../../../recoil/hooks/useShouldRefreshCachedData';
+import { debtToThePennyData } from '../../../../recoil/debtToThePennyDataState';
 import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
 
 const NationalDebtHero = (): JSX.Element => {
   const [nationalDebtValue, setNationalDebtValue] = useState<string | null>(null);
-  const data = useRecoilValueLoadable(debtToThePennyData);
-  useShouldRefreshCachedData(Date.now(), debtToThePennyData, debtToThePennyLastCachedState);
+  const payload = debtToThePennyData(state => state.payload);
+  const status = debtToThePennyData(state => state.status);
+  const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
-  const getCurrentNationalDebt = () => {
-    if (data.state === 'hasValue') {
-      const totalPublicDebtOutstanding: string = Math.trunc(data.contents.payload[0]['tot_pub_debt_out_amt']).toString();
+  useEffect(() => {
+    if (status === 'hasValue' && payload) {
+      const totalPublicDebtOutstanding: string = Math.trunc(payload[0]['tot_pub_debt_out_amt']).toString();
       setNationalDebtValue(totalPublicDebtOutstanding);
     }
-  };
-
-  useEffect(() => {
-    getCurrentNationalDebt();
-  }, [data.state]);
+  }, [status, payload]);
 
   const { debtToThePenny } = explainerCitationsMap['national-debt'];
 
