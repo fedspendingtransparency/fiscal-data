@@ -78,7 +78,7 @@ export default function DtgTable({
   const defaultSelectedColumns = detailView?.selectColumns && detailViewState ? detailView.selectColumns : selectColumns;
   const [defaultColumns, setDefaultColumns] = useState([]);
   const [additionalColumns, setAdditionalColumns] = useState([]);
-  const setTableRowSizeData = smallTableDownloadData(state => state.setTableRowLength());
+  const setTableRowSizeData = smallTableDownloadData(state => state.setTableRowLength);
   const setSmallTableCSVData = smallTableDownloadData(state => state.setCsv);
   const setSmallTableJSONData = smallTableDownloadData(state => state.setJson);
   const setSmallTableXMLData = smallTableDownloadData(state => state.setXml);

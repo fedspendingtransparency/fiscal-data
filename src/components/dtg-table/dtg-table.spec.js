@@ -697,7 +697,7 @@ describe('DTG Table Nested Table Detail View', () => {
       expect(instance).toBeTruthy();
     });
 
-    it('updates csv download state with text qualifers', () => {
+    it('updates csv download state with text qualifiers', () => {
       smallTableDownloadData.setState({ csv: [] });
       render(
         <RecoilRoot>

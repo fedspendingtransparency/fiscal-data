@@ -668,7 +668,7 @@ describe('react-table', () => {
           </RecoilRoot>
         </DataTableContext.Provider>
       );
-      expect(smallTableDownloadData).toEqual([
+      expect(smallTableDownloadData.getState().csv).toEqual([
         ['Record Date', 'String Value', 'String Value with Commas'],
         ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
       ]);

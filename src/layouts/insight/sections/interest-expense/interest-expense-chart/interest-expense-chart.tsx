@@ -11,7 +11,6 @@ import { analyticsEventHandler } from '../../../../../helpers/insights/insight-h
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
-
 import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
 import FilteredTable from '../../../../../components/table-components/filtered-table/filtered-table';
 
