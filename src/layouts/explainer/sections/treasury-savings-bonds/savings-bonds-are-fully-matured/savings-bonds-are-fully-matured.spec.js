@@ -26,7 +26,7 @@ describe('What Happens when Savings Bonds are Fully Matured Section', () => {
   it('fetches evergreen values', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(<SavingsBondsAreFullyMatured />);
-    await waitFor(() => expect(fetchSpy).toBeCalledTimes(2));
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2));
     expect(await findByText('As of February 2023, there were 22 million', { exact: false })).toBeInTheDocument();
   });
 

@@ -12,13 +12,13 @@ describe('Data Preview Dropdown Dialog', () => {
     const handleApplySpy = jest.fn();
     const { getByRole } = render(<FilterButtons handleApply={handleApplySpy} />);
     getByRole('button', { name: 'Apply' }).click();
-    expect(handleApplySpy).toBeCalled();
+    expect(handleApplySpy).toHaveBeenCalled;
   });
 
   it('calls handleCancel on button click', () => {
     const handleCancelSpy = jest.fn();
     const { getByRole } = render(<FilterButtons handleCancel={handleCancelSpy} />);
     getByRole('button', { name: 'Cancel' }).click();
-    expect(handleCancelSpy).toBeCalled();
+    expect(handleCancelSpy).toHaveBeenCalled;
   });
 });
