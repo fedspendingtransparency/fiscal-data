@@ -56,7 +56,7 @@ const DownloadWrapper = ({
   const setDapGaEventLabel = dataTableDapGaEventLabelState(state => state.setLabel);
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
-  const globalDisableDownloadButton = disableDownloadButtonState(state => state.disable);
+  const globalDisableDownloadButton = disableDownloadButtonState(state => state.disabled);
   const tableSize = smallTableDownloadData(state => state.tableRowLength);
 
   const makeDownloadButtonAvailable = () => {

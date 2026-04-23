@@ -425,7 +425,7 @@ describe('DownloadWrapper', () => {
   });
 
   it('disables the download button when the disabled state is set to true', () => {
-    disableDownloadButtonState({ disabled: true });
+    disableDownloadButtonState.setState({ disabled: true });
     const { getByRole } = render(
       <RecoilRoot>
         <downloadsContext.Provider value={mockSiteProviderValue}>

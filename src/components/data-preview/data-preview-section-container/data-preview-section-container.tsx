@@ -111,7 +111,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
-  const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisable);
+  const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisabled);
 
   const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
