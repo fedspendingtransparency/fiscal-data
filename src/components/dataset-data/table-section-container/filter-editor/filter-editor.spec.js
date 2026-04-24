@@ -10,7 +10,7 @@ describe('FilterEditor Component', () => {
 
     const { getByTestId } = render(<FilterEditor filters={[]} columnNames={mockColumns} onUpdate={updateSpy} />);
     getByTestId('add-filter').click();
-    expect(updateSpy).toBeCalledWith(mockDefaultBlankFilter);
+    expect(updateSpy).toHaveBeenCalledWith(mockDefaultBlankFilter);
   });
 
   it('allows a user to select from all fields for the filter key', async () => {
@@ -24,7 +24,7 @@ describe('FilterEditor Component', () => {
       },
     });
 
-    expect(updateSpy).toBeCalledWith([{ key: 'desc', operator: 'eq', value: '' }]);
+    expect(updateSpy).toHaveBeenCalledWith([{ key: 'desc', operator: 'eq', value: '' }]);
   });
 
   it('allows a user to select from available operators for a filter row', () => {
@@ -38,7 +38,7 @@ describe('FilterEditor Component', () => {
       },
     });
 
-    expect(updateSpy).toBeCalledWith([{ key: 'rec_date', operator: 'in', value: '' }]);
+    expect(updateSpy).toHaveBeenCalledWith([{ key: 'rec_date', operator: 'in', value: '' }]);
   });
 
   it('allows a user to indicate the value to test against for a filter', () => {
@@ -52,7 +52,7 @@ describe('FilterEditor Component', () => {
       },
     });
 
-    expect(updateSpy).toBeCalledWith([{ key: 'rec_date', operator: 'eq', value: '2020-11-25' }]);
+    expect(updateSpy).toHaveBeenCalledWith([{ key: 'rec_date', operator: 'eq', value: '2020-11-25' }]);
   });
 
   it('allows a user to remove a filter row', () => {
@@ -61,6 +61,6 @@ describe('FilterEditor Component', () => {
 
     getByTestId('remove-row-0').click();
 
-    expect(updateSpy).toBeCalledWith([]);
+    expect(updateSpy).toHaveBeenCalledWith([]);
   });
 });

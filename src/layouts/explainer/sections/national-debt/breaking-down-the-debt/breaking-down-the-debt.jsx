@@ -1,4 +1,3 @@
-import { withWindowSize } from 'react-fns';
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
@@ -30,34 +29,25 @@ import {
   title,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
-import {
-  analyticsEventHandler,
-  explainerCitationsMap,
-  getDateWithoutOffset,
-} from '../../../explainer-helpers/explainer-helpers';
+import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import QuoteBox from '../../../quote-box/quote-box';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
-
-
-
+import { useWindowSize } from 'usehooks-ts';
 
 export const percentageFormatter = value => (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = value => `$${(Number(value) / 1000000).toFixed(2)} T`;
 
 export const interestExpenseInsight = (
-<CustomLink
-  url="/interest-expense-avg-interest-rates/"
-  id="Interest Expense"
->
-  Interest Expense Insight
+  <CustomLink url="/interest-expense-avg-interest-rates/" id="Interest Expense">
+    Interest Expense Insight
   </CustomLink>
-)
+);
 
 let gaTimerDualChart;
 let ga4Timer;
 
-const BreakingDownTheDebt = ({ sectionId, width }) => {
+const BreakingDownTheDebt = ({ sectionId }) => {
   const [data, setData] = useState();
   const [date, setDate] = useState(null);
   const [startYear, setStartYear] = useState('');
@@ -76,6 +66,7 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   const [shortenedDebtExpense, setShortenedDebtExpense] = useState('--');
   const [debtExpensePercent, setDebtExpensePercent] = useState('--%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
+  const { width } = useWindowSize();
 
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
 
@@ -404,10 +395,8 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              As interest rates increase, the cost of maintaining the national debt also increases.
-              These impacts grow as the debt also increases.
-              To view the relationship with interest rates and interest expense,
-              check out this {interestExpenseInsight}.
+              As interest rates increase, the cost of maintaining the national debt also increases. These impacts grow as the debt also increases. To
+              view the relationship with interest rates and interest expense, check out this {interestExpenseInsight}.
             </p>
           </VisualizationCallout>
         </figure>
@@ -432,4 +421,4 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   );
 };
 
-export default withWindowSize(BreakingDownTheDebt);
+export default BreakingDownTheDebt;

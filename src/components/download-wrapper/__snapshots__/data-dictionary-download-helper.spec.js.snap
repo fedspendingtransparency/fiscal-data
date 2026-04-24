@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Data Dictionary Helper function collection correctly applies the csv formatting to the data dictionary 1`] = `
 "dataset,data_table_name,field_name,display_name,description,data_type,is_required

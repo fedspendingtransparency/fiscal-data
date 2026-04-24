@@ -382,7 +382,7 @@ describe('DataPreview', () => {
         />
       </RecoilRoot>
     );
-    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
 
     config.datasetId = origId;
@@ -397,7 +397,7 @@ describe('DataPreview', () => {
         <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReports} />
       </RecoilRoot>
     );
-    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
 
     const updatedMockPublishedReportsMTS = [
@@ -426,7 +426,7 @@ describe('DataPreview', () => {
       </RecoilRoot>
     );
 
-    expect(getPublishedDates).toBeCalledTimes(2);
+    expect(getPublishedDates).toHaveBeenCalledTimes(2);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
   });
 

@@ -1,5 +1,5 @@
 import { DownloadReportTable } from './download-report-table';
-import { act, render, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 
@@ -19,6 +19,10 @@ jest.mock('../../variables.module.scss', () => {
     breakpointLg: `${breakpointLg}px`,
   };
 });
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useWindowSize: () => ({ width: 1024, height: 768 }),
+}));
 
 // Mocks for react-pdf components can be found at __mocks__/react-pdf.js
 describe('Download Report Table', () => {

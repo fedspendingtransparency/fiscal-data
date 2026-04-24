@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontSize_14 } from '../../../../../../variables.module.scss';
-import { withWindowSize } from 'react-fns';
+
 import {
   container,
   corpRect,
@@ -19,7 +17,6 @@ import {
   socialSecRect,
 } from './revenue-trends-line-chart.module.scss';
 import { Line } from '@nivo/line';
-import { fontSize_16 } from '../../../../explainer.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { colors, sum } from './revenue-trends-line-chart-helpers';
@@ -38,12 +35,14 @@ import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-h
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './revenue-trends-line-chart.module.scss';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerRevenueTrends;
 let ga4Timer;
 
-const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
+const RevenueTrendsLineChart = ({ cpiDataByYear }) => {
   const [chartData, setChartData] = useState([]);
+  const { width } = useWindowSize();
   const [lastChartYear, setLastChartYear] = useState(0);
   const [firstChartYear, setFirstChartYear] = useState(0);
   const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
@@ -380,4 +379,4 @@ const RevenueTrendsLineChart = ({ width, cpiDataByYear }) => {
   );
 };
 
-export default withWindowSize(RevenueTrendsLineChart);
+export default RevenueTrendsLineChart;

@@ -53,7 +53,7 @@ describe('Split Flap Display ', () => {
 
   it('includes user selectable number for copying and pasting', () => {
     const { getByTestId } = render(<SplitFlapDisplay value={'1234567890'} minLength={10} />);
-
+    setWindowWidth(1024);
     expect(getByTestId('selectable-digits').textContent).toBe('$1,234,567,890');
   });
 });

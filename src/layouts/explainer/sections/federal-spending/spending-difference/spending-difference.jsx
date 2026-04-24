@@ -2,7 +2,6 @@ import React from 'react';
 import { mandatorySpendingContainer, mandatorySpendingImgStyle, spendingDifferenceContent } from './spending-difference.module.scss';
 import { spendingAccordion } from '../federal-spending.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
-import { withWindowSize } from 'react-fns';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
@@ -13,7 +12,7 @@ import MandatorySpendingImgDesktop from '../../../../../../static/images/mandato
 import MandatorySpendingImgMobile from '../../../../../../static/images/mandatory-spending_mobile.png';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
-export const SpendingDifference = ({ width }) => {
+export const SpendingDifference = () => {
   const appropriations = (
     <GlossaryPopoverDefinition term="appropriations" page="Spending Explainer">
       appropriations
@@ -128,4 +127,4 @@ export const SpendingDifference = ({ width }) => {
   );
 };
 
-export default withWindowSize(SpendingDifference);
+export default SpendingDifference;

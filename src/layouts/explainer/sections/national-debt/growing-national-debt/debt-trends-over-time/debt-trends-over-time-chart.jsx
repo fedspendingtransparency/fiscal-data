@@ -18,9 +18,7 @@ import {
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
-import { useRecoilValueLoadable } from 'recoil';
-import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDataState';
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
@@ -39,12 +37,18 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [hoverDisabled, setHoverDisabled] = useState(true);
-  const data = useRecoilValueLoadable(debtOutstandingData);
+  const payload = debtOutstandingData(state => state.payload);
+  const status = debtOutstandingData(state => state.status);
+  const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
+
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
+
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
   });
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
 
   const chartParent = 'debtTrendsChart';
   const chartWidth = 550;
@@ -54,7 +58,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const processData = () => {
     const { finalGDPData } = beaGDPData;
-    const debtData = data.contents.payload;
+    const debtData = payload;
     const lastGDPValue = finalGDPData[finalGDPData.length - 1];
     const debtToGDP = [];
     const lastRawDebtMatchedValue = debtData.find(entry => entry.record_date.includes(lastGDPValue.fiscalYear));
@@ -82,10 +86,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   useEffect(() => {
-    if (data.state === 'hasValue') {
+    if (status === 'hasValue' && payload) {
       processData();
     }
-  }, [data.state]);
+  }, [status, payload]);
 
   useEffect(() => {
     if (inView && hoverDisabled === true) {

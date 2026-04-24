@@ -103,26 +103,34 @@ describe('date range filter', () => {
 
   it('closes the dropdown on blur', async () => {
     const user = userEvent.setup();
-    const { getByRole, queryByRole } = render(
+    const { getByRole, queryByTestId } = render(
       <RecoilRoot>
-        <DateRangeFilter
-          column={mockColumn}
-          resetFilters={mockResetFilters}
-          setFiltersActive={mockSetFiltersActive}
-          allActiveFilters={mockAllActiveFilters}
-          setAllActiveFilters={mockSetAllActiveFilters}
-        />
+        <div>
+          <DateRangeFilter
+            column={mockColumn}
+            resetFilters={mockResetFilters}
+            setFiltersActive={mockSetFiltersActive}
+            allActiveFilters={mockAllActiveFilters}
+            setAllActiveFilters={mockSetAllActiveFilters}
+          />
+          <button>Outside Button</button>
+        </div>
       </RecoilRoot>
     );
-    const dateRangeButton = getByRole('button');
-    fireEvent.click(dateRangeButton);
-    const clearButton = getByRole('button', { name: 'Clear' });
-    act(() => {
-      clearButton.focus();
-    });
-    expect(clearButton).toHaveFocus();
+    const dateRangeButton = getByRole('button', { name: `Open ${mockColumn.id} Filter` });
+    await user.click(dateRangeButton);
+    expect(queryByTestId('Date Picker Dropdown')).toBeInTheDocument();
+
+    const todayButton = getByRole('button', { name: 'Today' });
+    todayButton.focus();
+
+    // tab away to the outside button (triggering the blur)
     await user.tab();
-    await waitFor(() => expect(queryByRole('button', { name: 'Clear' })).not.toBeInTheDocument());
+    await user.tab();
+
+    await waitFor(() => {
+      expect(queryByTestId('Date Picker Dropdown')).not.toBeInTheDocument();
+    });
   });
 
   it('calls mouse handlers ', async () => {

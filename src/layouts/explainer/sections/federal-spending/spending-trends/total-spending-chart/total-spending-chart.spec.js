@@ -49,7 +49,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
   });
@@ -61,7 +61,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('chartParent')).toBeInTheDocument();
   });
 
@@ -72,7 +72,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(getAllByText('Total Spending')).toHaveLength(3);
     expect(getAllByText('GDP')).toHaveLength(2);
     expect(await getByText('Fiscal Year')).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customPoints = await findByTestId('customPoints');
     expect(customPoints).toBeInTheDocument();
     expect(customPoints.querySelector('circle').length === 4);
@@ -98,7 +98,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
     expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
   });
@@ -110,7 +110,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByText('Government Spending and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await getByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
   });
@@ -126,7 +126,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const chart = await findByTestId('chartParent');
     fireEvent.mouseEnter(chart);
 
@@ -143,7 +143,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const slices = await findByTestId('customSlices');
     const spendingButton = getByRole('button', { name: 'Total Spending' });
     fireEvent.click(spendingButton);
@@ -160,7 +160,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const gdpButton = await findByRole('button', { name: 'Percentage of GDP' });
     fireEvent.click(gdpButton);
     const slices = await getByTestId('customSlices');
@@ -180,7 +180,7 @@ describe('Total Spending Chart', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const spendingLineChart = await findByTestId('spendingLineChart');
     expect(spendingLineChart).toHaveStyle('pointer-events: none');
     jest.advanceTimersByTime(7000);
@@ -214,7 +214,7 @@ describe('Total Spending Chart Spending to GDP Ratio Decreased', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has decreased from 35% to 13%', { exact: false })).toBeInTheDocument();
   });
@@ -246,7 +246,7 @@ describe('Total Spending Chart Spending to GDP Ratio No Change', () => {
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has not changed, remaining at 25%', { exact: false })).toBeInTheDocument();
   });

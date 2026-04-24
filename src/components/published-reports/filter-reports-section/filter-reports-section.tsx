@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import { withWindowSize } from 'react-fns';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import DatePicker from '../../../components/date-picker/date-picker';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
@@ -13,9 +12,11 @@ import { DownloadReportTable } from '../download-report-table/download-report-ta
 import { sectionTitle } from '../published-reports';
 import { filterContainer } from './filter-report-section.module.scss';
 import { SPECIAL_LABEL, useFilterReports } from './filter-reports-section-helpers/useFilterReports';
+import { useWindowSize } from 'usehooks-ts';
 
-const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
+const FilterReportsSection: FunctionComponent<any> = ({ dataset }) => {
   const { runTimeReportConfig: reportConfig, apis } = dataset;
+  const { width } = useWindowSize();
 
   const { filterOptions, dateOptionsNested, reports, apiError, setApiError, updateAvailableDates, getReports } = useFilterReports(
     dataset,
@@ -187,4 +188,4 @@ const FilterReportsSection: FunctionComponent<any> = ({ dataset, width }) => {
   );
 };
 
-export default withWindowSize(FilterReportsSection);
+export default FilterReportsSection;
