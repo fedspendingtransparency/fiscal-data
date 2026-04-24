@@ -5,17 +5,17 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { SocialShareComponent } from '../social-share';
 import Popover from '@mui/material/Popover';
-import { withWindowSize } from 'react-fns';
 import { breakpointLg } from '../../../variables.module.scss';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { ISocialShareDropdown } from '../../../models/ISocialShareDropdown';
 import SocialMetaData from '../social-metadata/social-metadata';
+import { useWindowSize } from 'usehooks-ts';
 
-const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pageName, width }) => {
+const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pageName }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [socialButtonClick, setSocialButtonClick] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
-
+  const { width } = useWindowSize();
   const handleScroll = () => {
     const position = window.pageYOffset;
     const previousScrollPosition = scrollPosition;
@@ -92,4 +92,4 @@ const SocialShareDropdown: FunctionComponent<ISocialShareDropdown> = ({ copy, pa
   );
 };
 
-export default withWindowSize(SocialShareDropdown);
+export default SocialShareDropdown;

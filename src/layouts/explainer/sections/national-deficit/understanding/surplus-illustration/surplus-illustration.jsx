@@ -13,7 +13,6 @@ import balancedBudget from '../../../../../../images/explainer/national-deficit/
 import deficit from '../../../../../../images/explainer/national-deficit/deficit.png';
 import React, { useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import GlossaryPopoverDefinition from '../../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import FolderTabEdgeRight from './folder-illustration-svgs/folder-tab-edge-right';
@@ -26,10 +25,11 @@ import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
+import { useWindowSize } from 'usehooks-ts';
 
-const SurplusIllustration = ({ width }) => {
+const SurplusIllustration = () => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
-
+  const { width } = useWindowSize();
   const edgeBreakPoint = pxToNumber(1188);
   const centerBreakPoint = pxToNumber(1128);
 
@@ -172,4 +172,4 @@ const SurplusIllustration = ({ width }) => {
   );
 };
 
-export default withWindowSize(SurplusIllustration);
+export default SurplusIllustration;

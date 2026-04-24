@@ -26,7 +26,7 @@ describe('AFG Revenue Chart', () => {
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const instance = render(<RevenueChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(instance).toBeDefined();
   });
 

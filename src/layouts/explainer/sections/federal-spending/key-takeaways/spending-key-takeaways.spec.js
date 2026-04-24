@@ -42,7 +42,7 @@ describe('Spending Key Takeaways evergreen values', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(<SpendingKeyTakeaways />);
 
-    await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
     await waitFor(() => getByText('2021, the government spent $4.52 trillion', { exact: false }));
     expect(await getByText('which was less than', { exact: false })).toBeInTheDocument();
     expect(await getByText('resulting in a surplus', { exact: false })).toBeInTheDocument();

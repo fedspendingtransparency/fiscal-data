@@ -77,7 +77,7 @@ describe('Example Response', () => {
     rendered.rerender(<DatasetDetailExamples isAccordionOpen selectedTable={selectedTable} />);
 
     await waitForElementToBeRemoved(() => rendered.getByTestId('loadingIcon'));
-    expect(fetchMock).toBeCalled();
+    expect(fetchMock).toHaveBeenCalled;
     const responseEl = rendered.getByTestId('exampleResponse').textContent;
 
     expect(responseEl).toContain(`"record_date": "2020-03-01"`);

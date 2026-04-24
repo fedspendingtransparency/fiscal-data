@@ -64,7 +64,7 @@ describe('Pivot select', () => {
 
     expect(pivotRadioButton).toBeInTheDocument();
     await user.click(pivotRadioButton);
-    expect(setTableViewSelectionSpy).toBeCalledWith('pivotData');
+    expect(setTableViewSelectionSpy).toHaveBeenCalledWith('pivotData');
   });
 
   it('renders Pivot View and Pivot Value dropdowns', async () => {

@@ -23,7 +23,7 @@ describe('Federal Spending Overview deficit data', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(<SpendingOverview />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
     await waitFor(() => getByText('In fiscal year (FY) 2022', { exact: false }));
     expect(await getByText('2.52 trillion', { exact: false })).toBeInTheDocument();
     expect(await getByText('which was more than', { exact: false })).toBeInTheDocument();

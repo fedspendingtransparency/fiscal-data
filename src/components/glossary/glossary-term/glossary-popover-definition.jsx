@@ -17,19 +17,20 @@ import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons/faArrowRight
 import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { glossaryLookup } from '../../../helpers/glossary-helper/glossary-lookup';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { GlossaryContext } from '../glossary-context/glossary-context';
 import { searchBarTheme } from '../glossary-header/theme';
 import { ThemeProvider } from '@mui/material/styles';
+import { useWindowSize } from 'usehooks-ts';
 
-const GlossaryPopoverDefinition = ({ term, page, children, width = null, customFormat = null, handleClick }) => {
+const GlossaryPopoverDefinition = ({ term, page, children, customFormat = null, handleClick }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [buttonFocus, setButtonFocus] = useState(false);
   const parentContainer = useRef(null);
   const { setGlossaryClickEvent, setGlossaryTriggerEl, glossary } = useContext(GlossaryContext);
+  const { width } = useWindowSize();
 
   const displayText = children.toString();
   const { termName, definition, slug } = glossaryLookup(term, glossary, page, customFormat);
@@ -149,4 +150,4 @@ const GlossaryPopoverDefinition = ({ term, page, children, width = null, customF
   );
 };
 
-export default withWindowSize(GlossaryPopoverDefinition);
+export default GlossaryPopoverDefinition;

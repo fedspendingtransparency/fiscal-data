@@ -23,12 +23,7 @@ describe('glossary', () => {
   const mockGlossaryClickHandler = jest.fn();
 
   beforeEach(() => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        pathname: '',
-        search: '?glossary=apple',
-      },
-    });
+    window.history.pushState({}, 'Test Title', '/?glossary=apple');
   });
 
   it('renders the glossary', () => {

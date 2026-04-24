@@ -20,7 +20,8 @@ import { dynamicBannerData } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
 
 //Additional export for page width testability
-export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+export const SiteHeader = ({ lowerEnvMsg, location }) => {
+  const data = useRecoilValueLoadable(dynamicBannerState);
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -167,4 +168,4 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   );
 };
 
-export default LocationAware(withWindowSize(SiteHeader));
+export default LocationAware(SiteHeader);

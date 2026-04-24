@@ -5,7 +5,6 @@ import { barChart, container, headerTitle, subHeader, headerContainer, loadingIc
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
-import { withWindowSize } from 'react-fns';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
@@ -17,13 +16,14 @@ import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerChart;
 let ga4Timer;
 
-export const DeficitTrendsBarChart = ({ width }) => {
+export const DeficitTrendsBarChart = () => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
-
+  const { width } = useWindowSize();
   const desktop = width >= pxToNumber(breakpointLg);
   const [date, setDate] = useState(null);
   const [chartData, setChartData] = useState(null);
@@ -326,4 +326,4 @@ export const DeficitTrendsBarChart = ({ width }) => {
   );
 };
 
-export default withWindowSize(DeficitTrendsBarChart);
+export default DeficitTrendsBarChart;

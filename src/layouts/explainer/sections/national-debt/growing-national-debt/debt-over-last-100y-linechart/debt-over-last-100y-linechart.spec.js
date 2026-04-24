@@ -21,7 +21,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all API calls were successful.
     expect(
       await findByText('Over the past 100 years, the U.S. federal debt has increased from $410 B in 1922 to $30.93 T in 2022.', { exact: false })
@@ -35,7 +35,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('totalDebtChartParent')).toBeInTheDocument();
   });
 
@@ -46,7 +46,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByText('Total Debt')).toBeInTheDocument();
     expect(await getByText('Fiscal Year')).toBeInTheDocument();
   });
@@ -58,7 +58,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('customPoints')).toBeInTheDocument();
     expect((await getByTestId('customPoints').querySelector('circle')?.length) === 2);
   });
@@ -70,7 +70,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
     expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 100);
   });
@@ -82,7 +82,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(
       await getByText('U.S. National Debt Over the Last 100 Years', {
         exact: false,
@@ -101,7 +101,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await findByTestId('customSlices')).toBeInTheDocument();
 
     // explicitly declare that the chart is not scrolled into view
@@ -169,7 +169,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const chart = await getByTestId('totalDebtChartParent');
     fireEvent.mouseEnter(chart);
 

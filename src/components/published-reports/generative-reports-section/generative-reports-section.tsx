@@ -7,17 +7,18 @@ import { buildEndpoint } from './generative-report-helper';
 import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
 import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
 import DatePicker from '../../date-picker/date-picker';
-import { withWindowSize } from 'react-fns';
 import { reportsBannerCopy, reportsConfig } from './reports-config';
 import { DownloadReportTable } from '../download-report-table/download-report-table';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { sectionTitle } from '../published-reports';
+import { useWindowSize } from 'usehooks-ts';
 
 export const defaultSelection = { label: '(None selected)', value: '' };
 
-const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; width: number }> = ({ width, dataset }) => {
+const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { apis: apisProp, reportGenKey } = dataset;
+  const { width } = useWindowSize();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
@@ -250,4 +251,4 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig; wid
   );
 };
 
-export default withWindowSize(GenerativeReportsSection);
+export default GenerativeReportsSection;

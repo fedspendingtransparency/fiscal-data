@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 
 export const separateEntriesByName = entries => {
   const separators = {};
@@ -47,5 +47,5 @@ export const convertDateAndTimeToDateTime = (dateString, timeStringInUTC) => {
   const time = `${timeStringInUTC[0]}${timeStringInUTC[1]}:${timeStringInUTC[2]}${timeStringInUTC[3]}:00`;
   const dateTimeString = `${dateString}T${time}.000Z`;
   const utcDateTime = new Date(dateTimeString);
-  return utcToZonedTime(utcDateTime, 'America/New_York');
+  return toZonedTime(utcDateTime, 'America/New_York');
 };
