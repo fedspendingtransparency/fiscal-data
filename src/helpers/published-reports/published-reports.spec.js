@@ -50,7 +50,7 @@ describe('Published Reports helpers', () => {
     const publishedReports = await getPublishedReports('015-BFS-2014Q1-11', 'http://mock.base.url', mockUtils.mockRequestUtil);
 
     // url only called for whitelisted dataset and is correctly formulated
-    expect(mockRequestSpy).toBeCalledTimes(1);
+    expect(mockRequestSpy).toHaveBeenCalledTimes(1);
     expect(mockRequestSpy).toHaveBeenCalledWith('http://mock.base.url/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q1-11');
 
     // returns empty array for non-whitelisted dataset ID

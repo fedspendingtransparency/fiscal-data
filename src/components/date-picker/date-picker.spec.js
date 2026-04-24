@@ -40,7 +40,7 @@ describe('Month Picker', () => {
     act(() => {
       fireEvent.click(button);
     });
-    expect(mockScrollIntoView).toBeCalled();
+    expect(mockScrollIntoView).toHaveBeenCalled;
     expect(getAllByRole('button').length).toBeGreaterThan(1);
     act(() => {
       fireEvent.click(button);
@@ -88,7 +88,7 @@ describe('Month Picker', () => {
       fireEvent.click(getByRole('button', { name: 'March' }));
       fireEvent.click(getByRole('button', { name: 'Toggle Year Dropdown' }));
     });
-    expect(mockScrollIntoView).toBeCalled();
+    expect(mockScrollIntoView).toHaveBeenCalled;
     act(() => {
       fireEvent.click(getByRole('button', { name: '2022' }));
     });

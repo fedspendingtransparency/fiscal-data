@@ -31,7 +31,7 @@ describe('Debt Trends Over Time Chart', () => {
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
       </RecoilRoot>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
   });

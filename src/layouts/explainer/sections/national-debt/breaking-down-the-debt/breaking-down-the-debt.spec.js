@@ -160,7 +160,7 @@ describe('Breaking Down the Debt', () => {
     jest.useFakeTimers();
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const chart = await findByTestId('debt-breakdown-section-graph');
     expect(chart).toBeInTheDocument();
     fireEvent.mouseOver(chart);

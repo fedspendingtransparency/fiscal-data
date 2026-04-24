@@ -10,13 +10,13 @@ import {
   stickyMainWidth,
 } from './masthead.module.scss';
 import BreadCrumbs from '../breadcrumbs/breadcrumbs';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { useWindowSize } from 'usehooks-ts';
 
-const Masthead = ({ title, width }) => {
+const Masthead = ({ title }) => {
   const [stickyView, setStickyView] = useState(false);
-
+  const { width } = useWindowSize();
   const breadCrumbLinks = [
     {
       name: title,
@@ -61,4 +61,4 @@ const Masthead = ({ title, width }) => {
   );
 };
 
-export default withWindowSize(Masthead);
+export default Masthead;

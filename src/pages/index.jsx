@@ -9,7 +9,6 @@ import HomeFeatures from '../components/home-features/home-features';
 import LocationAware from '../components/location-aware/location-aware';
 import TopicsSection from '../components/topics-section/topics-section';
 import { graphql, useStaticQuery } from 'gatsby';
-import { withWindowSize } from 'react-fns';
 import PageHelmet from '../components/page-helmet/page-helmet';
 
 export const Index = ({ width }) => {
@@ -27,6 +26,7 @@ export const Index = ({ width }) => {
       }
     `
   );
+  // const { width } = useWindowSize();
 
   return (
     <>
@@ -41,7 +41,7 @@ export const Index = ({ width }) => {
   );
 };
 
-export default LocationAware(withWindowSize(Index));
+export default LocationAware(Index);
 
 export const Head = () => (
   <PageHelmet

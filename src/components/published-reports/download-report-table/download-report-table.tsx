@@ -14,24 +14,25 @@ import {
   tableFooter,
 } from './download-report-table.module.scss';
 import DownloadReportTableRow from './download-report-table-row/download-report-table-row';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
 import GenReportDownloadTableRow from './gen-report-download-table-row/gen-report-download-table-row';
 import PaginationControls from '../../pagination/pagination-controls';
+import { useWindowSize } from 'usehooks-ts';
 
 // Exporting here for unit testing purposes
 export const DownloadReportTable: FunctionComponent<{
   reports?: IPublishedReportDataJson[];
   isDailyReport: boolean;
-  width?: number;
   generatedReports?;
   setApiErrorMessage?: (errorState: boolean) => void;
   isLoading?: boolean;
   setIsLoading?: (loadingState: boolean) => void;
-}> = ({ reports, isDailyReport, width, generatedReports, setApiErrorMessage, isLoading, setIsLoading }) => {
+}> = ({ reports, isDailyReport, generatedReports, width, setApiErrorMessage, isLoading, setIsLoading }) => {
+  const { width: windowWidth } = useWindowSize();
+  const effectiveWidth = width ?? windowWidth;
   const [mobileView, setMobileView] = useState(pxToNumber(breakpointLg) > width);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
@@ -80,8 +81,8 @@ export const DownloadReportTable: FunctionComponent<{
   };
 
   useEffect(() => {
-    setMobileView(pxToNumber(breakpointLg) > width);
-  }, [width]);
+    setMobileView(pxToNumber(breakpointLg) > effectiveWidth);
+  }, [effectiveWidth]);
 
   const visibleRows = () => {
     const rowText = maxRows === 1 ? '' : 'rows';
@@ -153,4 +154,4 @@ export const DownloadReportTable: FunctionComponent<{
   );
 };
 
-export default withWindowSize(DownloadReportTable);
+export default DownloadReportTable;

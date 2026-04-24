@@ -4,6 +4,11 @@ import SearchResultCards from './search-result-cards';
 import { SortOptions } from '../search-results-helper';
 import { setWindowMockFontSize } from '../../../../utils/mock-utils';
 
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useWindowSize: () => ({ width: 100, height: 768 }),
+}));
+
 const mockAllDatasets = [
   { name: 'Dataset A', datasetId: '0' },
   { name: 'Dataset B', datasetId: '1' },

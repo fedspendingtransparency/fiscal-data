@@ -65,7 +65,7 @@ describe('AFG Deficit Chart with Surplus Year', () => {
   it('adds surplus to legend if any surplus years are included', async () => {
     const { findByText, findByTestId, getByTestId } = render(<DeficitChart />);
     const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
     expect(await findByText('Spending')).toBeInTheDocument();
     expect(await findByText('Revenue')).toBeInTheDocument();

@@ -22,7 +22,7 @@ describe('Government Revenue Hero', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(<GovernmentRevenueHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getByText('$4.10 trillion', { exact: false }));
     expect(await getByText('in fiscal year 2022', { exact: false })).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('Pill data section', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole, getAllByText } = render(<GovernmentRevenueHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getAllByText('$787 B', { exact: false }));
     expect(await getByRole('img', { name: 'up arrow' })).toBeInTheDocument();
@@ -60,7 +60,7 @@ describe('Pill data section', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole, getAllByText } = render(<GovernmentRevenueHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getAllByText('$213 B', { exact: false }));
     expect(await getByRole('img', { name: 'down arrow' })).toBeInTheDocument();

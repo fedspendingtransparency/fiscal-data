@@ -22,7 +22,7 @@ describe('State and Local Government Series Body Copy', () => {
     it('fetches evergreen values', async () => {
       const fetchSpy = jest.spyOn(global, 'fetch');
       const { findByText } = render(<BodyCopy />);
-      await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+      await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
       expect(await findByText('June 25, 2025', { exact: false })).toBeInTheDocument();
       expect(await findByText('$88 B outstanding SLGS securities', { exact: false })).toBeInTheDocument();
       expect(await findByText('<1%', { exact: false })).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('State and Local Government Series Body Copy', () => {
     it('fetches slgs total amount mock data values with an expected value of 0', async () => {
       const fetchSpy = jest.spyOn(global, 'fetch');
       const { findByText } = render(<BodyCopy />);
-      await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+      await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
       expect(await findByText('--%', { exact: false })).toBeInTheDocument();
     });
   });
@@ -56,7 +56,7 @@ describe('State and Local Government Series Body Copy', () => {
     it('fetches slgs debt to penny amount mock data values  with an expected value of 2', async () => {
       const fetchSpy = jest.spyOn(global, 'fetch');
       const { findByText } = render(<BodyCopy />);
-      await waitFor(() => expect(fetchSpy).toBeCalledTimes(3));
+      await waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(3));
       expect(await findByText('2%', { exact: false })).toBeInTheDocument();
     });
   });

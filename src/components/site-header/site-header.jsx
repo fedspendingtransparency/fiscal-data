@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import MobileMenu from './mobile-menu/mobile-menu';
-import { withWindowSize } from 'react-fns';
 import PageNotice from '../page-notice/page-notice';
 import OfficialBanner from './official-banner/official-banner';
 import { isIE } from 'react-device-detect';
@@ -18,10 +17,12 @@ import { breakpointLg } from '../../variables.module.scss';
 import { useRecoilValueLoadable } from 'recoil';
 import { dynamicBannerLastCachedState, dynamicBannerState } from '../../recoil/dynamicBannerState';
 import useShouldRefreshCachedData from '../../recoil/hooks/useShouldRefreshCachedData';
+import { useWindowSize } from 'usehooks-ts';
 
 //Additional export for page width testability
-export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
+export const SiteHeader = ({ lowerEnvMsg, location }) => {
   const data = useRecoilValueLoadable(dynamicBannerState);
+  const { width } = useWindowSize();
   const defaultLogoWidth = 192;
   const defaultLogoHeight = 55;
   const reducedImageSize = 130;
@@ -163,4 +164,4 @@ export const SiteHeader = ({ lowerEnvMsg, location, width }) => {
   );
 };
 
-export default LocationAware(withWindowSize(SiteHeader));
+export default LocationAware(SiteHeader);
