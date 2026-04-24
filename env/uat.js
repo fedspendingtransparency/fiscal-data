@@ -38,7 +38,7 @@ module.exports = {
       },
       topics: ['financial-summaries', 'revenue', 'spending'],
       relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03'],
-      // leaving out '015-BFS-2026Q1-001' because it's not released yet
+      // leaving out '015-BFS-2026Q1-001' from relatedDatasets because it's not released yet
       hideRawDataTable: true,
       hideReportDatePicker: true,
     },
