@@ -106,7 +106,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const chart = await findByRole('presentation');
     expect(chart).toBeInTheDocument();
     fireEvent.mouseOver(chart);
@@ -125,7 +125,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
     expect(await findByTestId('leftChartToggle')).toBeInTheDocument();
     fireEvent.click(await findByTestId('leftChartToggle'));
@@ -144,7 +144,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false })).toBeInTheDocument();
   });
@@ -156,7 +156,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await findByTestId('totalRevenueChartParent')).toBeInTheDocument();
   });
 
@@ -179,7 +179,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customPoints = await findByTestId('customPoints');
     expect(customPoints).toBeInTheDocument();
     expect(customPoints.querySelector('circle')?.length === 4);
@@ -192,7 +192,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customSlices = await findByTestId('customSlices');
     expect(customSlices).toBeInTheDocument();
     expect(customSlices?.querySelector('rect')?.length === 8);
@@ -205,7 +205,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
     expect(await findByText('Federal Revenue and the U.S. Economy (GDP), FY 2015 – 2022', { exact: false })).toBeInTheDocument();
     expect(await findByText('Inflation Adjusted - 2022 Dollars', { exact: false })).toBeInTheDocument();
@@ -221,7 +221,7 @@ describe('Total Revenue Chart', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const revenueLineChart = await findByTestId('revenueLineChart');
     expect(revenueLineChart).toHaveStyle('pointer-events: none');
     jest.advanceTimersByTime(7000);
@@ -255,7 +255,7 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio Decreased', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has decreased from 25% to 13%.', { exact: false })).toBeInTheDocument();
   });
@@ -287,7 +287,7 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();
   });

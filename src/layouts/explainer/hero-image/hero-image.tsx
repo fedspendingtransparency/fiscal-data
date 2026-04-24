@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IHeroImage } from '../../../models/IHeroImage';
-
 import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
-import { withWindowSize } from 'react-fns';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { debtToThePennyData } from '../../../recoil/debtToThePennyDataState';
 
-const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, width, children, pageName }) => {
+const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
+
   const payload = debtToThePennyData(state => state.payload);
   const status = debtToThePennyData(state => state.status);
   const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     refreshIfStale();
@@ -70,4 +70,4 @@ const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primary
   );
 };
 
-export default withWindowSize(HeroImage);
+export default HeroImage;

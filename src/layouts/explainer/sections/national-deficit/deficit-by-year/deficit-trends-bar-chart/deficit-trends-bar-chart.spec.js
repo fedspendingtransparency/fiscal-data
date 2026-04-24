@@ -28,7 +28,7 @@ describe('Deficit Trends Bar Chart', () => {
         <DeficitTrendsBarChart />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
     expect(await getByText('$1.38 T')).toBeInTheDocument();
     expect(await getByText('Last Updated: September 30, 2022')).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('Deficit Trends Bar Chart', () => {
       </ErrorBoundary>
     );
 
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();
 
@@ -97,7 +97,7 @@ describe('Deficit Trends Bar Chart', () => {
         <DeficitTrendsBarChart />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();
 
@@ -140,7 +140,7 @@ describe('Deficit Trends Bar Chart', () => {
         <DeficitTrendsBarChart />
       </ErrorBoundary>
     );
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customBars = await findAllByTestId('customBar');
     expect(customBars[0]).toBeInTheDocument();
 

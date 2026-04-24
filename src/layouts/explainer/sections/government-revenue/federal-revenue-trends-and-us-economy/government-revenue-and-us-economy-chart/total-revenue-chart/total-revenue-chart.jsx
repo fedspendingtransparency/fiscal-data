@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from '@nivo/line';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
@@ -30,6 +29,7 @@ import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 import { loadingIcon } from './total-revenue-chart.module.scss';
 import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -39,8 +39,9 @@ const callOutDataEndPoint =
 
 const chartDataEndPoint = apiPrefix + 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
 
-const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) => {
+const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [revenueChartData, setRevenueChartData] = useState([]);
+  const { width } = useWindowSize();
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -419,4 +420,4 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   );
 };
 
-export default withWindowSize(TotalRevenueChart);
+export default TotalRevenueChart;

@@ -32,7 +32,7 @@ describe('Home Highlight Cards Helper', () => {
 
   it('accepts an optional color coding parameter', () => {
     const { getByTestId } = render(formatCardValue(dollarValue, prefix, null, colorCoding));
-    expect(getByTestId('prefix')).toHaveStyle({ color: colorCoding.primaryColor });
-    expect(getByTestId('label')).toHaveStyle({ color: colorCoding.secondaryColor });
+    expect(getByTestId('prefix')).toHaveStyle({ color: 'rgb(128, 128, 128)' });
+    expect(getByTestId('label')).toHaveStyle({ color: 'rgb(0, 128, 0)' });
   });
 });

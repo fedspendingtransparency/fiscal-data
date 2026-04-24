@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from '@nivo/line';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
@@ -26,11 +25,12 @@ import { useInView } from 'react-intersection-observer';
 import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDataState';
 import { debtExplainerPrimary } from '../../../../../../variables.module.scss';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
 
-const DebtOverLast100y = ({ cpiDataByYear, width }) => {
+const DebtOverLast100y = ({ cpiDataByYear }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState();
   const [maxYear, setMaxYear] = useState();
@@ -49,6 +49,8 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   useEffect(() => {
     refreshIfStale();
   }, [refreshIfStale]);
+
+  const { width } = useWindowSize();
 
   const { ref, inView } = useInView(chartInViewProps);
 
@@ -263,4 +265,4 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   );
 };
 
-export default withWindowSize(DebtOverLast100y);
+export default DebtOverLast100y;

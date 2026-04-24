@@ -132,7 +132,7 @@ describe('DTG table component', () => {
       </RecoilRoot>
     );
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
-    await expect(spy).toBeCalledTimes(1);
+    await expect(spy).toHaveBeenCalledTimes(1);
   });
 
   // it('sets table aria prop with a single attribute and value', () => {

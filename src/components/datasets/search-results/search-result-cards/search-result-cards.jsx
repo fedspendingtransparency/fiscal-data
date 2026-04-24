@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import DatasetCard from '../../../dataset-card/dataset-card';
 import { cardContainer, cardPlacement, hiddenCard } from './search-result-cards.module.scss';
 import { PerformSort } from '../search-results-helper';
-import { withWindowSize } from 'react-fns';
 import { currentFontSize } from '../../../../utils/browser-font-size';
+import { useWindowSize } from 'usehooks-ts';
 
 /*
   currentFontSize is divided by 16 because 16px is the standard (medium) browser font-size. That
@@ -22,9 +22,9 @@ const breakpoint = {
   tablet: 600,
 };
 
-const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets }) => {
+const SearchResultCards = ({ filteredDatasets, activeSort, allDatasets }) => {
   const [fauxIndex, setFauxIndex] = useState({});
-
+  const { width } = useWindowSize();
   let cardsPerRow = 1,
     cardWidth = 100;
 
@@ -105,4 +105,4 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   );
 };
 
-export default withWindowSize(SearchResultCards);
+export default SearchResultCards;

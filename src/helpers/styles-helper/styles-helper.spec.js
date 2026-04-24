@@ -7,17 +7,13 @@ describe('Styles helper', () => {
   });
 
   it('gets computed style', () => {
-    const windowSpy = jest.spyOn(global, 'window', 'get');
-    windowSpy.mockImplementation(() => ({
-      getComputedStyle: (el, pseudoEl) => {
-        return {
-          getPropertyValue: prop => {
-            const out = { 'font-size': '40px' };
-            return out[prop];
-          },
-        };
+    const styleSpy = jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+      getPropertyValue: prop => {
+        const out = { 'font-size': '40px' };
+        return out[prop];
       },
     }));
     expect(getComputedStyle('font-size')).toEqual('40px');
+    styleSpy.mockRestore();
   });
 });

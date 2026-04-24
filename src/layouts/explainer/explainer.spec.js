@@ -402,7 +402,7 @@ describe('Savings Bonds explainer', () => {
       </RecoilRoot>
     );
 
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);

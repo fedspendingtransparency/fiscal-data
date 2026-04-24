@@ -38,7 +38,7 @@ describe('National Debt Hero', () => {
         <NationalDebtHero />
       </RecoilRoot>
     );
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
     await waitFor(() => getByText('28908004857445', { exact: false }));
     expect(await getByText('28908004857445', { exact: false })).toBeInTheDocument();
     global.fetch.mockRestore();

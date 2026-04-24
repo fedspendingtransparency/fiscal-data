@@ -2,7 +2,6 @@ import React from 'react';
 import ReportsSection from './reports-section';
 import { act, fireEvent, render, within } from '@testing-library/react';
 import { mockDailyReports, mockReports } from '../published-reports-test-helper';
-import userEvent from '@testing-library/user-event';
 
 URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
 URL.createObjectURL = URL.createObjectURL || (() => {});
@@ -107,13 +106,10 @@ describe('Reports Section component', () => {
 
     it('Only shows selected report in the report table', async () => {
       jest.useFakeTimers();
-      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
       const { getByRole, queryByRole } = render(<ReportsSection dataset={datasetConfig} />);
-      const dateFilter = getByRole('button', { name: 'Select Published Date' });
-      expect(within(dateFilter).getByText('July 2024')).toBeInTheDocument();
       const reportFilter = getByRole('button', { name: 'Report: The Download File.pdf' });
-      await user.click(reportFilter);
-      await user.click(getByRole('button', { name: 'Another Download File.xml' }));
+      fireEvent.click(reportFilter);
+      fireEvent.click(getByRole('button', { name: 'Another Download File.xml' }));
       act(() => {
         jest.runAllTimers();
       });

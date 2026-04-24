@@ -123,7 +123,7 @@ describe('DataPreviewTable component', () => {
     );
 
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
-    await expect(spy).toBeCalledTimes(1);
+    await expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('sets table aria prop with a single attribute and value', () => {
@@ -188,7 +188,7 @@ describe('DataPreviewTable component', () => {
   //     jest.runAllTimers();
   //   });
   //   const updated = newComponent.root;
-  //   expect(requestSpy).toBeCalled();
+  //   expect(requestSpy).toHaveBeenCalled;
   //   const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
   //   expect(rowsShowing.props.children).toMatch('Showing 1 - 10 rows of 11 rows');
   //   expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);
@@ -210,7 +210,7 @@ describe('DataPreviewTable component', () => {
   //     jest.runAllTimers();
   //   });
   //   const updated = newComponent.root;
-  //   expect(requestSpy).toBeCalled();
+  //   expect(requestSpy).toHaveBeenCalled;
   //   const rowsShowing = updated.findByProps({ 'data-test-id': 'rows-showing' });
   //   expect(rowsShowing.props.children).toMatch('Showing 1 - 3 rows of 3 rows');
   //   expect(updated.findAllByType(PaginationControls).length).toStrictEqual(1);

@@ -401,7 +401,7 @@ describe('DatasetData', () => {
         />
       </RecoilRoot>
     );
-    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
 
     config.datasetId = origId;
@@ -416,7 +416,7 @@ describe('DatasetData', () => {
         <DatasetDataComponent config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReports} />
       </RecoilRoot>
     );
-    expect(getPublishedDates).toBeCalledTimes(1);
+    expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
 
     const updatedMockPublishedReportsMTS = [
@@ -445,7 +445,7 @@ describe('DatasetData', () => {
       </RecoilRoot>
     );
 
-    expect(getPublishedDates).toBeCalledTimes(2);
+    expect(getPublishedDates).toHaveBeenCalledTimes(2);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
   });
 

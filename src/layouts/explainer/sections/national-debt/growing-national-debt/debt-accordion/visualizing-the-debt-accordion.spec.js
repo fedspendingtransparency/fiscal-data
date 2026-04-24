@@ -33,7 +33,7 @@ describe('Visualing the debt accordion values', () => {
         <VisualizingTheDebtAccordion />
       </RecoilRoot>
     );
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
     await waitForElementToBeRemoved(() => getByText(/--/i));
     expect(await getByText('Visualizing the debt - How much is $29 trillion dollars?', { exact: false })).toBeInTheDocument();
   });

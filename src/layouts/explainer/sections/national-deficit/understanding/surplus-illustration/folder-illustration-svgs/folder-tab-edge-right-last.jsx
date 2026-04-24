@@ -1,4 +1,3 @@
-import { withWindowSize } from 'react-fns';
 import React from 'react';
 import { tabEdgeRight } from '../surplus-illustration.module.scss';
 
@@ -38,4 +37,4 @@ const FolderTabEdgeRightLast = () => {
   );
 };
 
-export default withWindowSize(FolderTabEdgeRightLast);
+export default FolderTabEdgeRightLast;
