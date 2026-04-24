@@ -33,7 +33,6 @@ import {
   titleContainer,
 } from './table-section-container.module.scss';
 import SummaryTable from './summary-table/summary-table';
-import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import Analytics from '../../../utils/analytics/analytics';
 import LoadingIndicator from '../../loading-indicator/loading-indicator';
@@ -88,7 +87,7 @@ const TableSectionContainer = ({
   const [manualPagination, setManualPagination] = useState(false);
   const [chartData, setChartData] = useState(null);
 
-  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+  const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisabled);
   const formatDate = detailDate => {
     const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');

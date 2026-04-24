@@ -10,8 +10,7 @@ import { getApiData, getMetaData } from './dataset-data-api-helper/dataset-data-
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
@@ -50,7 +49,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [tableMeta, setTableMeta] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
 
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {

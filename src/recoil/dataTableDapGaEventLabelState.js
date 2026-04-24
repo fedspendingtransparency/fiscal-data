@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { create } from 'zustand';
 
-export const dataTableDapGaEventLabelState = atom({
-  key: 'dataTableDapGaEventLabelState',
-  default: '',
-});
+export const dataTableDapGaEventLabelState = create(set => ({
+  label: '',
+  setLabel: label => set({ label }),
+}));

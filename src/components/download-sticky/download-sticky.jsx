@@ -40,7 +40,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import buttons from '../buttons/buttons';
 import globalConstants from '../../helpers/constants';
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
-import { useRecoilValue } from 'recoil';
 import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
@@ -110,7 +109,7 @@ const DownloadSticky = () => {
   const [resumedInProgress, setResumedInProgress] = useState([]);
   const [triggerCleanupAfterClose, setTriggerCleanupAfterClose] = useState(0);
   const [allPrepared, setAllPrepared] = useState([]);
-  const dapGaEventLabel = useRecoilValue(dataTableDapGaEventLabelState);
+  const dapGaEventLabel = dataTableDapGaEventLabelState(state => state.label);
 
   const fileFromPath = download => {
     let path;

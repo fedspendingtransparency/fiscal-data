@@ -11,8 +11,7 @@ import { analyticsEventHandler } from '../../../../../helpers/insights/insight-h
 import { ga4DataLayerPush } from '../../../../../helpers/google-analytics/google-analytics-helper';
 import ChartTableContainer from '../../../../../components/chart-with-table/chart-table-container/chart-table-container';
 import { chartTableBoarder } from './interest-expense-chart.module.scss';
-import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV } from '../../../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
 import FilteredTable from '../../../../../components/table-components/filtered-table/filtered-table';
 
 const breakpoint = {
@@ -46,7 +45,7 @@ const InterestExpenseChart = () => {
   const [chartHover, setChartHover] = useState<boolean>(false);
   const [sorting, setSorting] = useState([]);
   const chartTitle = `Interest Expense and Average Interest Rates on the National Debt FY ${startFY ?? '--'} - FYTD ${currentFY ?? '--'}`;
-  const tableCSVData = useRecoilValue(smallTableDownloadDataCSV);
+  const tableCSVData = smallTableDownloadData(state => state.csv);
 
   const resetDataHeader = () => {
     if (latestChartData) {

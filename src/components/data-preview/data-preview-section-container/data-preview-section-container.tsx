@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
-import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
 import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import { queryClient } from '../../../../react-query-client';
@@ -112,7 +111,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
-  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
+  const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisabled);
 
   const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 

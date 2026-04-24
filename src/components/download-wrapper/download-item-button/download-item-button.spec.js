@@ -5,7 +5,7 @@ import React from 'react';
 import Analytics from '../../../utils/analytics/analytics';
 import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
@@ -83,10 +83,14 @@ describe('DownloadItemButton for direct download file', () => {
   ];
   const mockedJSONState = 'JSON String';
   const mockedXMLState = 'XML String';
+  afterEach(() => {
+    smallTableDownloadData.setState({ csv: [], json: '', xml: {}, tableRowLength: null });
+  });
 
   it('direct CSV download', () => {
+    smallTableDownloadData.setState({ csv: mockedCSVState });
     const { getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
+      <RecoilRoot>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" />
       </RecoilRoot>
     );
@@ -94,9 +98,10 @@ describe('DownloadItemButton for direct download file', () => {
   });
 
   it('direct CSV download with timestamp', async () => {
+    smallTableDownloadData.setState({ csv: mockedCSVState });
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataCSV, mockedCSVState)}>
+      <RecoilRoot>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
       </RecoilRoot>
     );
@@ -106,8 +111,9 @@ describe('DownloadItemButton for direct download file', () => {
   });
 
   it('direct XML download', () => {
+    smallTableDownloadData.setState({ xml: mockedXMLState });
     const { getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
+      <RecoilRoot>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" />
       </RecoilRoot>
     );
@@ -115,8 +121,9 @@ describe('DownloadItemButton for direct download file', () => {
     expect(getByTestId('xml-download-button')).toBeInTheDocument();
   });
   it('disables XML download when a pivot is selected', () => {
+    smallTableDownloadData.setState({ xml: mockedXMLState });
     const { getByRole } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataXML, mockedXMLState)}>
+      <RecoilRoot>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" selectedPivot={{ pivotValue: 'something' }} />
       </RecoilRoot>
     );
@@ -125,8 +132,9 @@ describe('DownloadItemButton for direct download file', () => {
   });
 
   it('direct JSON download', () => {
+    smallTableDownloadData.setState({ json: mockedJSONState });
     const { getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(smallTableDownloadDataJSON, mockedJSONState)}>
+      <RecoilRoot>
         <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} selectedFileType="json" />
       </RecoilRoot>
     );
