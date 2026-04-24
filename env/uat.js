@@ -141,6 +141,9 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
+    '328': {
+      endpoint: '',
+    },
     '139': {
       endpoint: 'v1/debt/mspd/mspd_table_3_market',
       dateField: 'record_date',
