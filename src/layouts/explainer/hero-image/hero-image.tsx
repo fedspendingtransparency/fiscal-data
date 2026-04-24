@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { IHeroImage } from '../../../models/IHeroImage';
-
 import { mainContainer, heroImageHeading, heroImageSubHeading, heroBorder } from './hero-image.module.scss';
 import { getShortForm } from '../../../utils/rounding-utils';
 import { debtToThePennyData } from '../../../recoil/debtToThePennyDataState';
