@@ -13,9 +13,6 @@ import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savi
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { apiPrefix, basicFetch, monthFullNames } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
-import { useRecoilValueLoadable } from 'recoil';
-import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
-import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
 import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
 import { glossaryGAEvent } from '../treasury-savings-bonds';
 import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
@@ -58,8 +55,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   const [monthYear, setMonthYear] = useState<string | null>(null);
   const [higherLowerSameAs, setHigherLowerSameAs] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
-  const typesData = useRecoilValueLoadable(savingsBondTypesData);
-  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
