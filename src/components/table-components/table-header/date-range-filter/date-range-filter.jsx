@@ -23,8 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDay } from '@fortawesome/free-solid-svg-icons/faCalendarDay';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons/faCircleXmark';
 import { convertDate } from '../../../dataset-data/dataset-data-helper/dataset-data-helper';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../../recoil/reactTableFilteredState';
+import { reactTableFilteredState } from '../../../../recoil/reactTableFilteredState';
 import dayjs from 'dayjs';
 
 let mouseOverDropdown = null;
@@ -41,8 +40,8 @@ const DateRangeFilter = ({ column, resetFilters, allActiveFilters, setAllActiveF
   const [beginTextStyle, setBeginTextStyle] = useState(noTextHighLight);
   const [endTextStyle, setEndTextStyle] = useState(noTextHighLight);
   const [active, setActive] = useState(false);
-  const setFilteredDateRange = useSetRecoilState(reactTableFilteredDateRangeState);
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const setFilteredDateRange = reactTableFilteredState(state => state.setDateRange);
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
 
   const dropdownRef = useRef();
   const displayRef = useRef();

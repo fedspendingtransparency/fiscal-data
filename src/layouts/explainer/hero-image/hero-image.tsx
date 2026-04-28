@@ -5,10 +5,8 @@ import { getShortForm } from '../../../utils/rounding-utils';
 import { debtToThePennyData } from '../../../recoil/debtToThePennyDataState';
 import { useWindowSize } from 'usehooks-ts';
 
-
 const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primaryColor, secondaryColor, children, pageName }) => {
   const [debtAmount, setDebtAmount] = useState('');
-
   const payload = debtToThePennyData(state => state.payload);
   const status = debtToThePennyData(state => state.status);
   const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
