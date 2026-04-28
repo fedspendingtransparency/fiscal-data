@@ -5,8 +5,7 @@ import TableHeader from '../../table-components/table-header/table-header';
 import TableBody from '../../table-components/table-body/table-body';
 import TableFooter from '../../table-components/table-footer/table-footer';
 import { columnsConstructorGeneric } from './filtered-table-helper';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
-import { useSetRecoilState } from 'recoil';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
 import { getDataTypes, getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../helpers/data-download-helper';
 import { IFilteredTableProps } from '../../../models/IFilteredTableProps';
@@ -45,9 +44,9 @@ const FilteredTable: FunctionComponent<IFilteredTableProps> = ({
     handlePerPageChange,
   };
 
-  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
-  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
-  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
+  const setSmallTableCSVData = smallTableDownloadData(state => state.setCsv);
+  const setSmallTableJSONData = smallTableDownloadData(state => state.setJson);
+  const setSmallTableXMLData = smallTableDownloadData(state => state.setXml);
 
   const allColumns = useMemo(() => {
     const columnConstructor = columnsConstructorGeneric(columnConfig, customFormatting);

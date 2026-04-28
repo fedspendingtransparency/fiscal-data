@@ -21,8 +21,7 @@ import {
 } from '../../table-components/helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
 import DataPreviewDataTable from './data-preview-data-table';
-import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
-import { RecoilObserver } from '../../../utils/test-utils';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import { DataTableContext } from '../data-preview-context';
 import { columnsConstructorData } from '../../dtg-table/data-table-helper';
 
@@ -642,8 +641,8 @@ describe('react-table', () => {
       expect(instance).toBeTruthy();
     });
 
-    it('updates recoil state for csv download with text qualifiers', () => {
-      const setSmallTableDownloadDataCSV = jest.fn();
+    it('updates csv download state with text qualifiers', () => {
+      smallTableDownloadData.setState({ csv: [] });
       render(
         <DataTableContext.Provider
           value={{
@@ -653,7 +652,6 @@ describe('react-table', () => {
           }}
         >
           <RecoilRoot>
-            <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -670,7 +668,7 @@ describe('react-table', () => {
           </RecoilRoot>
         </DataTableContext.Provider>
       );
-      expect(setSmallTableDownloadDataCSV).toHaveBeenCalledWith([
+      expect(smallTableDownloadData.getState().csv).toEqual([
         ['Record Date', 'String Value', 'String Value with Commas'],
         ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
       ]);

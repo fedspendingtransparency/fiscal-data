@@ -182,9 +182,9 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: [],
     };
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
-
+    dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryByTestId, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(dataTableDapGaEventLabelState, 'Table Info')}>
+      <RecoilRoot>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -402,9 +402,9 @@ describe('DownloadSticky component', () => {
       downloadsInProgress: mockDownload,
       downloadsPrepared: [],
     };
-
+    dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryAllByText, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(dataTableDapGaEventLabelState, 'Table Info')}>
+      <RecoilRoot>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>

@@ -7,13 +7,7 @@ import { border, buttonActive, buttonText, container, downloadButton, icon, pare
 import DropdownContainer from '../../../../dropdown-container/dropdown-container';
 import DownloadItemButton from '../download-button/download-button';
 import DataPreviewMobileDialog from '../../../data-preview-mobile-dialog/data-preview-mobile-dialog';
-import { useRecoilValue } from 'recoil';
-import {
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-  tableRowLengthState,
-} from '../../../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
 import Analytics from '../../../../../utils/analytics/analytics';
 import {
   calcDictionaryDownloadSize,
@@ -69,10 +63,10 @@ const DataPreviewDownloadSelect: FunctionComponent<IDownloadButtonProps> = ({
     if (!shouldUseDirectDownload(tableSize, allTablesSelected)) downloadClickHandler(fileType);
   };
 
-  const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
-  const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
-  const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
-  const tableSize = useRecoilValue(tableRowLengthState);
+  const smallTableCSVData = smallTableDownloadData(state => state.csv);
+  const smallTableJSONData = smallTableDownloadData(state => state.json);
+  const smallTableXMLData = smallTableDownloadData(state => state.xml);
+  const tableSize = smallTableDownloadData(state => state.tableRowLength);
   useEffect(() => {
     const direct = shouldUseDirectDownload(tableSize, allTablesSelected);
 

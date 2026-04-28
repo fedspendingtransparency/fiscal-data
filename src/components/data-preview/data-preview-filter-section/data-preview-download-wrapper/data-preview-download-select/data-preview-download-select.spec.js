@@ -5,12 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { RecoilRoot } from 'recoil';
 import * as downloadHelper from '../download-wrapper-helper';
 import * as ddHelper from '../../../../download-wrapper/data-dictionary-download-helper';
-import {
-  tableRowLengthState,
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-} from '../../../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
 
 jest.mock('../../../../../variables.module.scss', () => {
   return {
@@ -51,12 +46,18 @@ describe('DataPreviewDownloadSelect', () => {
   };
   const baseProps = { ...defaultProps, width: 1000 };
 
-  const initSmallTableState = ({ set }) => {
-    set(tableRowLengthState, 5);
-    set(smallTableDownloadDataCSV, 'csv blob');
-    set(smallTableDownloadDataJSON, 'json blob');
-    set(smallTableDownloadDataXML, 'xml blob');
+  const seedSmallTableState = () => {
+    smallTableDownloadData.setState({
+      tableRowLength: 5,
+      csv: 'csv blob',
+      json: 'json blob',
+      xml: 'xml blob',
+    });
   };
+
+  afterEach(() => {
+    smallTableDownloadData.setState({ csv: [], json: '', xml: {}, tableRowLength: null });
+  });
 
   it('renders the desktop button default state', () => {
     const { getByRole } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />, { wrapper: RecoilRoot });
@@ -135,10 +136,8 @@ describe('DataPreviewDownloadSelect', () => {
     const sizeSpy = jest.spyOn(ddHelper, 'prettySize').mockReturnValue('1 KB');
     const dictSpy = jest.spyOn(ddHelper, 'calcDictionaryDownloadSize').mockReturnValue('2 KB');
     const directSpy = jest.spyOn(downloadHelper, 'shouldUseDirectDownload').mockReturnValue(true);
-
-    render(<DataPreviewDownloadSelect {...baseProps} />, {
-      wrapper: ({ children }) => <RecoilRoot initializeState={initSmallTableState}>{children}</RecoilRoot>,
-    });
+    seedSmallTableState();
+    render(<DataPreviewDownloadSelect {...baseProps} />, { wrapper: RecoilRoot });
 
     await user.click(screen.getByRole('button', { name: /download/i }));
 

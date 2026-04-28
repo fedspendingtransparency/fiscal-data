@@ -4,8 +4,7 @@ import FilteredTable from './filtered-table';
 import { RecoilRoot } from 'recoil';
 import { mockColumnConfig, mockGenericTableColumns, mockGenericTableData, mockTableData, mockTableData1Row } from '../helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
-import { smallTableDownloadDataCSV } from '../../../recoil/smallTableDownloadData';
-import { RecoilObserver } from '../../../utils/test-utils';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 
 describe('react-table', () => {
   const setTableColumnSortData = jest.fn();
@@ -278,11 +277,10 @@ describe('react-table', () => {
   });
 
   it('set data for download', () => {
-    const setSmallTableDownloadDataCSV = jest.fn();
+    smallTableDownloadData.setState({ csv: [] });
 
     render(
       <RecoilRoot>
-        <RecoilObserver node={smallTableDownloadDataCSV} onChange={setSmallTableDownloadDataCSV} />
         <FilteredTable
           tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}
@@ -294,6 +292,6 @@ describe('react-table', () => {
       </RecoilRoot>
     );
 
-    expect(setSmallTableDownloadDataCSV).toHaveBeenCalled();
+    expect(smallTableDownloadData.getState().csv.length).toBeGreaterThan(0);
   });
 });

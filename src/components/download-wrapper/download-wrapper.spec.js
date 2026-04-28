@@ -424,10 +424,10 @@ describe('DownloadWrapper', () => {
     mockSetDownloadRequest.mockClear();
   });
 
-  it('disables the download button when the recoil state is set to true', () => {
-    const mockedState = { disableDownloadButtonState: false };
+  it('disables the download button when the disabled state is set to true', () => {
+    disableDownloadButtonState.setState({ disabled: true });
     const { getByRole } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(disableDownloadButtonState, mockedState)}>
+      <RecoilRoot>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadWrapper
             allTablesSelected={false}
@@ -441,5 +441,6 @@ describe('DownloadWrapper', () => {
       </RecoilRoot>
     );
     expect(getByRole('button', { name: 'Download CSV File' })).toBeDisabled();
+    disableDownloadButtonState.setState({ disabled: false });
   });
 });

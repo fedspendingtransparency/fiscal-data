@@ -1,12 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
-import { useSetRecoilState } from 'recoil';
-import {
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-  tableRowLengthState,
-} from '../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
@@ -50,10 +44,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     DataTableContext
   );
 
-  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
-  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
-  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
-  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
+  const setSmallTableCSVData = smallTableDownloadData(state => state.setCsv);
+  const setSmallTableJSONData = smallTableDownloadData(state => state.setJson);
+  const setSmallTableXMLData = smallTableDownloadData(state => state.setXml);
+  const setTableRowSizeData = smallTableDownloadData(state => state.setTableRowLength);
 
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
