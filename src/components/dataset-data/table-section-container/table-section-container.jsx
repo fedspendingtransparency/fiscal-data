@@ -330,7 +330,7 @@ const TableSectionContainer = ({
                 showToggleChart={!noChartMessage}
                 showToggleTable={tableProps?.selectColumns}
                 userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
-                apiFilterDefault={apiFilterDefault && !selectedTable}
+                apiFilterDefault={apiFilterDefault}
                 onToggleLegend={legendToggler}
                 emptyData={
                   !isLoading && !serverSidePagination && !userFilterSelection && (!apiData || !apiData.data || !apiData.data.length) && !apiError
