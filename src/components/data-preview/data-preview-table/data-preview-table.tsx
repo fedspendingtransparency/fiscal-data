@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
+import { reactTableFilteredState } from '../../../recoil/reactTableFilteredState';
 import { loadingTimeout, netLoadingDelay } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
@@ -130,7 +129,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
   const [tableSorting, setTableSorting] = useState([]);
 

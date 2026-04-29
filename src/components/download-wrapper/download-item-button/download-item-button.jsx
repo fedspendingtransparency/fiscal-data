@@ -4,8 +4,7 @@ import Analytics from '../../../utils/analytics/analytics';
 import { generateAnalyticsEvent } from '../../../layouts/dataset-detail/helper';
 import globalConstants from '../../../helpers/constants';
 import { CSVLink } from 'react-csv';
-import { useRecoilValue } from 'recoil';
-import { smallTableDownloadDataCSV, smallTableDownloadDataJSON, smallTableDownloadDataXML } from '../../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import { constructDownloadFileName } from '../download-helpers';
 
 export const downloadFileEventStr = globalConstants.gaEventLabels.downloadFile;
@@ -25,9 +24,9 @@ const DownloadItemButton = ({
   downloadTimestamp,
   selectedPivot,
 }) => {
-  const smallTableCSVData = useRecoilValue(smallTableDownloadDataCSV);
-  const smallTableJSONData = useRecoilValue(smallTableDownloadDataJSON);
-  const smallTableXMLData = useRecoilValue(smallTableDownloadDataXML);
+  const smallTableCSVData = smallTableDownloadData(state => state.csv);
+  const smallTableJSONData = smallTableDownloadData(state => state.json);
+  const smallTableXMLData = smallTableDownloadData(state => state.xml);
   const [csvDataWithTimestamp, setCSVDataWithTimestamp] = useState(null);
   const [downloadName, setDownloadName] = useState(null);
   const ref = useRef();
