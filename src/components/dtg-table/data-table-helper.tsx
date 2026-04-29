@@ -337,7 +337,7 @@ export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hide
       id: column.id,
       sorted: column.getIsSorted(),
       filterValue: column.getFilterValue(),
-      downloadFilter: dataTypes[column.id] !== 'DATE',
+      downloadFilter: dataTypes?.[column.id] !== 'DATE',
       rowValues: table.getFilteredRowModel().flatRows.map(row => row.original[column.id]),
       allColumnsSelected: hideColumns ? false : table.getIsAllColumnsVisible(),
     }));

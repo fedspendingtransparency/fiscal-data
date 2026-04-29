@@ -150,7 +150,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   }, [defaultSelectedColumns]);
 
   useEffect(() => {
-    setTableColumnSortData(getSortedColumnsData(table, hideColumns, dataTypes));
+    if (typeof setTableColumnSortData === 'function') {
+      setTableColumnSortData(getSortedColumnsData(table, hideColumns, dataTypes));
+    }
+
     if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       let downloadData = [];
       const downloadHeaders = [];
@@ -196,7 +199,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    if (typeof setTableColumnSortData === 'function') {
+      getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    }
+
     setTableSorting(sorting);
   }, [sorting]);
 

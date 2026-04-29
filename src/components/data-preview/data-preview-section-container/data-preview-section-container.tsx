@@ -137,7 +137,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return await queryClient
         .ensureQueryData({
           queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
+          queryFn: () => fetchTableMeta(selectedTable, dateFilter, apiFilterParam),
         })
         .then(async res => {
           const totalCount = res.meta['total-count'];
@@ -257,6 +257,10 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   };
 
   useEffect(() => {
+    setApiError(apiError || false);
+  }, [apiError]);
+
+  useEffect(() => {
     if (typeof window !== 'undefined' && !legendToggledByUser) {
       setLegend(window.innerWidth > GLOBALS.breakpoints.large);
     }
@@ -371,7 +375,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
               !isLoading &&
               !serverSidePagination &&
               (!apiData || !apiData.data || !apiData.data.length) &&
-              (!tableMeta || tableMeta?.count === 0) &&
+              (!tableMeta || tableMeta?.['total-count'] === 0) &&
               !apiError
             }
             table={
