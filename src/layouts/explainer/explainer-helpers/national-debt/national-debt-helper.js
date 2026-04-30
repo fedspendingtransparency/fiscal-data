@@ -28,7 +28,7 @@ export const debtLearnMoreLinks = [
   },
   {
     title: 'America’s Fiscal Future: Federal Debt',
-    url: 'https://www.gao.gov/americas-fiscal-future/federal-debt',
+    url: 'https://www.gao.gov/americas-fiscal-future',
     onClick: () => diveDeeperCitationClick('America’s Fiscal Future: Federal Debt'),
   },
   {
