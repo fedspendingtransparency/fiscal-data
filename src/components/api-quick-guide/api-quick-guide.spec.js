@@ -1,6 +1,5 @@
 import React from 'react';
 import ApiQuickGuide, { methods } from './api-quick-guide';
-import { RecoilRoot } from 'recoil';
 import { selectedTable } from './test-helpers/test-helpers';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -30,27 +29,27 @@ describe('API Quick Guide', () => {
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
 
   it('displays as collapsed by default', () => {
-    const { getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
     expect(getByRole('button', { name: 'Show More' })).toBeInTheDocument();
   });
 
   // Other tests that depend on expanding the component state
   describe('When expanded', () => {
     it('should pass along its title param to the DatasetSectionContainer component', () => {
-      const { getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       expect(getByRole('heading', { level: 2, name: titleText })).toBeInTheDocument();
     });
 
     it('should present an ApiQuickGuideSection for Methods with a title and description', async () => {
       const user = userEvent.setup();
-      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText(methods.title)).toBeInTheDocument();
       expect(getByText(methods.desc)).toBeInTheDocument();
     });
 
     it('renders the DatasetDetailFields component', () => {
-      const { getByText } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByText } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       expect(getByText('Fields')).toBeInTheDocument();
     });
 
