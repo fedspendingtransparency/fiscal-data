@@ -1,12 +1,11 @@
 import React from 'react';
 import PageErrorText from './page-error-text';
 import { render, within } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 
 describe('404 Not Found Text', () => {
   it('includes an h1 header', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText />
       </RecoilRoot>
     );
@@ -16,7 +15,7 @@ describe('404 Not Found Text', () => {
 
   it('includes 404 header', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText />
       </RecoilRoot>
     );
@@ -26,7 +25,7 @@ describe('404 Not Found Text', () => {
 
   it('includes a list with 3 links', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText />
       </RecoilRoot>
     );
@@ -37,7 +36,7 @@ describe('404 Not Found Text', () => {
 
   it('includes the not found graphic', () => {
     const { getByAltText } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText />
       </RecoilRoot>
     );
@@ -49,7 +48,7 @@ describe('404 Not Found Text', () => {
 describe('Fallback for Error Boundary', () => {
   it('includes an h1 header', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText fallback={true} />
       </RecoilRoot>
     );
@@ -59,7 +58,7 @@ describe('Fallback for Error Boundary', () => {
 
   it('includes fallback header', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText fallback={true} />
       </RecoilRoot>
     );
@@ -69,7 +68,7 @@ describe('Fallback for Error Boundary', () => {
 
   it('includes the not found graphic', () => {
     const { getByAltText } = render(
-      <RecoilRoot>
+      <>
         <PageErrorText fallback={true} />
       </RecoilRoot>
     );

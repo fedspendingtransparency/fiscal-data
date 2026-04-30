@@ -1,6 +1,6 @@
 import React from 'react';
 import ReleaseCalendar from './index';
-import { RecoilRoot } from 'recoil';
+
 import fetchMock from 'fetch-mock';
 import { render, waitFor } from '@testing-library/react';
 
@@ -99,7 +99,7 @@ describe('Release Calendar', () => {
   it('includes the SiteLayout component', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
       </RecoilRoot>
     );
@@ -112,7 +112,7 @@ describe('Release Calendar', () => {
   it('includes breadcrumbs', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
       </RecoilRoot>
     );
@@ -124,7 +124,7 @@ describe('Release Calendar', () => {
   it('includes the page title and tagline', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByRole, getByText } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
       </RecoilRoot>
     );

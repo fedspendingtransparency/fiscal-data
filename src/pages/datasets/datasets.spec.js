@@ -4,7 +4,6 @@ import DatasetsPage from './index';
 import { mockDatasets, pageQueryMock } from '../../components/datasets/mockData/mockDatasets';
 import * as Gatsby from 'gatsby';
 import { mockFilters } from '../../components/datasets/mockData/mockFilters';
-import { RecoilRoot } from 'recoil';
 import Fuse from 'fuse.js';
 
 const useStaticQueryMock = jest.spyOn(Gatsby, 'useStaticQuery');
@@ -35,26 +34,26 @@ describe('Dataset Page', () => {
 
   it('includes breadcrumbs', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('breadcrumbs')).toBeInTheDocument();
   });
 
   it('displays the page title', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
     const title = getByRole('heading', { level: 1, name: 'Datasets' });
     expect(title).toBeInTheDocument();
@@ -62,13 +61,13 @@ describe('Dataset Page', () => {
 
   it('initially passes all datasets to the filter component', async () => {
     const { findAllByText } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
 
     const datasetCount = pageQueryMock.allDatasets.datasets.length;
@@ -78,13 +77,13 @@ describe('Dataset Page', () => {
 
   it('filters datasets when search is activated', async () => {
     const { findAllByTestId, getByRole, findAllByText } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
     const searchField = getByRole('textbox', { name: 'Enter search terms' });
 
@@ -100,26 +99,26 @@ describe('Dataset Page', () => {
 
   it('includes the search field', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('textbox', { name: 'Enter search terms' })).toBeInTheDocument();
   });
 
   it('reports whether search is active or not', async () => {
     const { getByRole, findByRole } = render(
-      <RecoilRoot>
+      <>
         <DatasetsPage
           pageContext={{
             filters: mockFilters,
           }}
         />
-      </RecoilRoot>
+      </>
     );
     const searchField = getByRole('textbox', { name: 'Enter search terms' });
     const sortByAlphabetical = await findByRole('button', { name: 'Change sort order from Alphabetical (A to Z)' });

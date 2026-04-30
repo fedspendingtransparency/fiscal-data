@@ -5,7 +5,7 @@ import { downloadsContext } from '../persist/download-persist/downloads-persist'
 import { collapsed, minimizedStyle } from './download-sticky.module.scss';
 import '@testing-library/jest-dom';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
-import { RecoilRoot } from 'recoil';
+
 import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 import userEvent from '@testing-library/user-event';
 
@@ -51,7 +51,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -75,7 +75,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -101,7 +101,7 @@ describe('DownloadSticky component', () => {
     let component = null;
     act(() => {
       component = render(
-        <RecoilRoot>
+        <>
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
@@ -127,7 +127,7 @@ describe('DownloadSticky component', () => {
 
     act(() => {
       component = render(
-        <RecoilRoot>
+        <>
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
@@ -156,7 +156,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -184,7 +184,7 @@ describe('DownloadSticky component', () => {
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
     dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryByTestId, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -250,7 +250,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryAllByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -298,7 +298,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -361,7 +361,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -404,7 +404,7 @@ describe('DownloadSticky component', () => {
     };
     dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryAllByText, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -460,7 +460,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -504,7 +504,7 @@ describe('DownloadSticky component', () => {
 
     jest.useFakeTimers();
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
@@ -569,7 +569,7 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryAllByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>

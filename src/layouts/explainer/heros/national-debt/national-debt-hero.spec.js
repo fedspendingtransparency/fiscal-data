@@ -3,7 +3,6 @@ import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import NationalDebtHero from './national-debt-hero';
 import Analytics from '../../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../../components/split-flap-display/split-flap-display', () => {
   return ({ value, valueType, minLength }) => (
@@ -34,7 +33,7 @@ describe('National Debt Hero', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <NationalDebtHero />
       </RecoilRoot>
     );
@@ -47,7 +46,7 @@ describe('National Debt Hero', () => {
   it('calls the appropriate analytics event when link is clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <NationalDebtHero />
       </RecoilRoot>
     );

@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react';
 import MobileMenuDropdown from './mobile-menu-dropdown';
 import React from 'react';
 import Analytics from '../../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 const testSections = [
   {
@@ -229,7 +228,7 @@ describe('Mobile Menu Dropdown', () => {
     ];
 
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <MobileMenuDropdown header={'Header'} sections={externalSection} defaultOpen />
       </RecoilRoot>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, fireEvent, act, cleanup } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
+
 import { redirectModalState } from '../redirect-modal-helper';
 import RedirectModalRenderer from './redirect-modal-renderer';
 

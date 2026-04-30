@@ -1,7 +1,7 @@
 import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import FilteredTable from './filtered-table';
-import { RecoilRoot } from 'recoil';
+
 import { mockColumnConfig, mockGenericTableColumns, mockGenericTableData, mockTableData, mockTableData1Row } from '../helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
 import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
@@ -11,7 +11,7 @@ describe('react-table', () => {
 
   it('table renders', () => {
     const instance = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockGenericTableData, columnConfig: mockGenericTableColumns, shouldPage: true }}
           pagingProps={{ itemsPerPage: 10 }}
@@ -26,7 +26,7 @@ describe('react-table', () => {
   it('renders headers', () => {
     const mockResetFilter = jest.fn();
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockGenericTableData, columnConfig: mockGenericTableColumns, shouldPage: true }}
           pagingProps={{ itemsPerPage: 10 }}
@@ -43,7 +43,7 @@ describe('react-table', () => {
     const user = userEvent.setup();
     const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 10 }}
@@ -74,7 +74,7 @@ describe('react-table', () => {
   it('column sort keyboard accessibility', () => {
     const mockSorting = jest.fn();
     const { getAllByTestId, getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 10 }}
@@ -105,7 +105,7 @@ describe('react-table', () => {
   it('Filter column by text search', async () => {
     const user = userEvent.setup();
     const { getAllByRole, getByRole, getAllByTestId } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockGenericTableData.data, columnConfig: mockGenericTableColumns, shouldPage: true }}
           pagingProps={{ itemsPerPage: 5 }}
@@ -141,7 +141,7 @@ describe('react-table', () => {
 
   it('Filter column by text search with null string value', () => {
     const { getByRole, getAllByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockGenericTableData.data, columnConfig: mockGenericTableColumns }}
           setTableColumnSortData={setTableColumnSortData}
@@ -170,7 +170,7 @@ describe('react-table', () => {
   it('pagination', async () => {
     const user = userEvent.setup();
     const { getAllByTestId, getByText, getByRole, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
           perPage={2}
@@ -199,7 +199,7 @@ describe('react-table', () => {
 
   it('pagination for 0 rows of data', () => {
     const { getByText, getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: [], columnConfig: mockGenericTableColumns, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}
@@ -217,7 +217,7 @@ describe('react-table', () => {
 
   it('pagination for 1 row of data', () => {
     const { getByText, getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}
@@ -238,7 +238,7 @@ describe('react-table', () => {
   it('updates rows per page', async () => {
     const user = userEvent.setup();
     const { getByText, getByRole } = render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: mockTableData.data, columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 10 }}
@@ -258,7 +258,7 @@ describe('react-table', () => {
     const activeFilterSpy = jest.fn();
     const setResetFiltersSpy = jest.fn();
     render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}
@@ -280,7 +280,7 @@ describe('react-table', () => {
     smallTableDownloadData.setState({ csv: [] });
 
     render(
-      <RecoilRoot>
+      <>
         <FilteredTable
           tableProps={{ data: [mockTableData1Row], columnConfig: mockColumnConfig, shouldPage: true }}
           pagingProps={{ itemsPerPage: 2 }}

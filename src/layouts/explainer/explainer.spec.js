@@ -9,7 +9,7 @@ import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
 import * as Gatsby from 'gatsby';
 import { useStaticQuery } from 'gatsby';
-import { RecoilRoot } from 'recoil';
+
 import Analytics from '../../utils/analytics/analytics';
 import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
 
@@ -77,7 +77,7 @@ describe('Deficit explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={deficitPageContext} />
       </RecoilRoot>
     );
@@ -172,7 +172,7 @@ describe('Spending explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
     );
@@ -237,7 +237,7 @@ describe('Revenue explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
       </RecoilRoot>
     );
@@ -304,7 +304,7 @@ describe('Explainer Page Layout', () => {
 
   it('renders the debt explainer page', async () => {
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={mockPageContext} />
       </RecoilRoot>
     );
@@ -397,7 +397,7 @@ describe('Savings Bonds explainer', () => {
     };
 
     const { findAllByTestId, findByText, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
       </RecoilRoot>
     );
@@ -432,7 +432,7 @@ describe('explainer citations', () => {
     pages.forEach(page => {
       const citations = explainerCitations(page);
       render(
-        <RecoilRoot>
+        <>
           <section>{Object.values(citations)}</section>
         </RecoilRoot>
       );

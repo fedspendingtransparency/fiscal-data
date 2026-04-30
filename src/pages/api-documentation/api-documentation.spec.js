@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStaticQuery } from 'gatsby';
 import ApiDocumentationPage from './index';
-import { RecoilRoot } from 'recoil';
+
 import { render, waitFor } from '@testing-library/react';
 import { Head } from './index';
 
@@ -32,7 +32,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Getting Started to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -42,7 +42,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Endpoints to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -52,7 +52,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Data Registry to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -62,7 +62,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Methods to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -72,7 +72,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Parameters to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -82,7 +82,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Responses to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -92,7 +92,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Aggregation to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -102,7 +102,7 @@ describe('ApiDocumentationPage', () => {
 
   it('expects Examples to be within its layout', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );
@@ -112,7 +112,7 @@ describe('ApiDocumentationPage', () => {
 
   it('contains a TOCButton', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiDocumentationPage />
       </RecoilRoot>
     );

@@ -2,8 +2,6 @@ import React from 'react';
 import { getByLabelText, render, screen } from '@testing-library/react';
 import SiteFooter, { siteFooterColumns } from './site-footer';
 import Analytics from '../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
-
 
 jest.mock('../download-sticky/download-sticky', () => () => <div data-testid="download-sticky" />);
 jest.mock('../download-modal/resume-download-modal/resume-download-modal', () => () => <div data-testid="resume-download-modal" />);
@@ -16,7 +14,7 @@ describe('SiteFooter', () => {
   //logo
   it('contains the logo', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -26,7 +24,7 @@ describe('SiteFooter', () => {
   //copyright
   it('contains the copyright date', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -37,7 +35,7 @@ describe('SiteFooter', () => {
   //faq link
   it('contains the link to the faq page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -48,7 +46,7 @@ describe('SiteFooter', () => {
   //contact us
   it('contains the link to the contact us page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -59,7 +57,7 @@ describe('SiteFooter', () => {
   //about
   it('contains the link to the about us page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -70,7 +68,7 @@ describe('SiteFooter', () => {
   //release calendar
   it('contains the link to the release calendar page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -81,7 +79,7 @@ describe('SiteFooter', () => {
   //subscribe
   it('contains the link to the subscribe page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -96,7 +94,7 @@ describe('SiteFooter', () => {
   //usaspending
   it('contains the link to the usaSpending page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -107,7 +105,7 @@ describe('SiteFooter', () => {
   //a11y
   it('contains the link to the accessibility page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -118,7 +116,7 @@ describe('SiteFooter', () => {
   //privacy
   it('contains the link to the privacy page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -129,7 +127,7 @@ describe('SiteFooter', () => {
   //foia
   it('contains the link to the foia page', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -139,7 +137,7 @@ describe('SiteFooter', () => {
 
   it('incorporates the download sticky footer component', () => {
     render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -148,7 +146,7 @@ describe('SiteFooter', () => {
 
   it('incorporates the ResumeDownloadModal component', () => {
     render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -159,7 +157,7 @@ describe('SiteFooter', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const pageTitle = 'test page title';
     const { getByTestId, getByText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
@@ -231,20 +229,18 @@ describe('SiteFooter', () => {
 
   it('contains social links and navigates to profile', () => {
     const { getByLabelText } = render(
-      <RecoilRoot>
+      <>
         <SiteFooter />
       </RecoilRoot>
     );
-    const socialLinks= [
-      { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice'},
-      { testId: 'XIcon', url: 'https://x.com/FiscalService'},
-      { testId: 'LinkedInIcon', url:  'https://www.linkedin.com/company/1722850/'},
-      { testId: 'YouTubeIcon', url: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos'}
-    ]
+    const socialLinks = [
+      { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice' },
+      { testId: 'XIcon', url: 'https://x.com/FiscalService' },
+      { testId: 'LinkedInIcon', url: 'https://www.linkedin.com/company/1722850/' },
+      { testId: 'YouTubeIcon', url: 'https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos' },
+    ];
     socialLinks.forEach(({ testId }) => {
-      expect(screen.getByTestId(testId)).toBeInTheDocument()
+      expect(screen.getByTestId(testId)).toBeInTheDocument();
     });
   });
 });
-
-

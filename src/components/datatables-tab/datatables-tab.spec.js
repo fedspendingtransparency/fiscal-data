@@ -1,6 +1,6 @@
 import React from 'react';
 import DataTablesTab from './datatables-tab';
-import { RecoilRoot } from 'recoil';
+
 import { render } from '@testing-library/react';
 import { numberFormatter } from '../../helpers/text-format/text-format';
 
@@ -22,7 +22,7 @@ describe('DataTablesTab', () => {
 
   it('should pass along its data array to the dtgTable component', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataTablesTab apis={mockData} />
       </RecoilRoot>
     );
@@ -37,7 +37,7 @@ describe('DataTablesTab', () => {
   it('sets aria-label to [dataset name] data tables', () => {
     const name = 'test-dataset';
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataTablesTab apis={mockData} datasetName={name} />
       </RecoilRoot>
     );

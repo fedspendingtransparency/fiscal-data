@@ -5,7 +5,6 @@ import { mockExplainerPageResponse, mockBeaGDPData } from '../../explainer-test-
 import { setGlobalFetchResponse } from '../../../../utils/mock-utils';
 import DataSourcesMethodologies from '../../data-sources-methodologies/data-sources-methodologies';
 import Analytics from '../../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -35,7 +34,7 @@ jest.mock('../../../../hooks/useBeaGDP', () => {
 describe('Data Sources & Methodologies', () => {
   it('contains content for a Data sources and methodologies section', async () => {
     const { findByText, getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
       </RecoilRoot>
     );
@@ -51,7 +50,7 @@ describe('Data Sources & Methodologies', () => {
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText, getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
       </RecoilRoot>
     );

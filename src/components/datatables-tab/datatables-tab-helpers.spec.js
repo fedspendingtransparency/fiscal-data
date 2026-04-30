@@ -2,7 +2,6 @@ import React from 'react';
 import { fileSizeTranslator, fileSizeTranslator2, makeTheDataArray } from './datatables-tab-helpers';
 import { render } from '@testing-library/react';
 import DataTablesTab from './datatables-tab';
-import { RecoilRoot } from 'recoil';
 
 describe('DataTablesTabHelpers', () => {
   const mockData = [
@@ -25,7 +24,7 @@ describe('DataTablesTabHelpers', () => {
       ' the array to send to the dtgTable component for the datatables tab',
     () => {
       render(
-        <RecoilRoot>
+        <>
           <DataTablesTab apis={mockData} />
         </RecoilRoot>
       );

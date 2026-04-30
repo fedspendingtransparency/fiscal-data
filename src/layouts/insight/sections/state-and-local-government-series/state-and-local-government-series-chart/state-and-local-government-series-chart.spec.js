@@ -3,7 +3,6 @@ import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart';
 import { CustomTooltip } from './state-and-local-government-series-chart-helper';
-import { RecoilRoot } from 'recoil';
 import Analytics from '../../../../../utils/analytics/analytics';
 
 jest.mock('recharts', () => {
@@ -46,7 +45,7 @@ const mockHookReturnValues = {
 jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
   useGetStateAndLocalGovernmentSeriesData: () => mockHookReturnValues,
 }));
-const wrapper = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
+const wrapper = ({ children }) => <>{children}</>;
 describe('State and Local Government Series Chart', () => {
   class ResizeObserver {
     observe() {}

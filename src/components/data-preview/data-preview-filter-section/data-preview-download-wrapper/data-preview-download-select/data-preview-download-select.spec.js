@@ -87,8 +87,7 @@ describe('DataPreviewDownloadSelect', () => {
     const user = userEvent.setup();
     const downloadClickHandlerSpy = jest.fn();
     const { getByRole, getAllByTestId } = render(
-      <DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} downloadClickHandler={downloadClickHandlerSpy} />,
-      { wrapper: RecoilRoot }
+      <DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} downloadClickHandler={downloadClickHandlerSpy} />
     );
     const button = getByRole('button', { name: 'Download' });
     await user.click(button);

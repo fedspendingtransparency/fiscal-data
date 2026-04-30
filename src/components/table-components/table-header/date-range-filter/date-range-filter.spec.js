@@ -1,7 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
 import React, { act } from 'react';
-import { RecoilRoot } from 'recoil';
+
 import userEvent from '@testing-library/user-event';
 
 describe('date range filter', () => {
@@ -15,7 +15,7 @@ describe('date range filter', () => {
 
   it('renders the filter', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
       </RecoilRoot>
     );
@@ -25,7 +25,7 @@ describe('date range filter', () => {
 
   it('renders today and clear buttons', () => {
     const { getByRole, getAllByText } = render(
-      <RecoilRoot>
+      <>
         <DateRangeFilter
           column={mockColumn}
           resetFilters={mockResetFilters}
@@ -48,7 +48,7 @@ describe('date range filter', () => {
 
   it('renders clear dates button inside date input field', () => {
     const { getByRole, getAllByText } = render(
-      <RecoilRoot>
+      <>
         <DateRangeFilter
           column={mockColumn}
           resetFilters={mockResetFilters}
@@ -71,7 +71,7 @@ describe('date range filter', () => {
   it('today and clear buttons keyboard accessibility', async () => {
     const user = userEvent.setup();
     const { findByRole, getAllByText } = render(
-      <RecoilRoot>
+      <>
         <DateRangeFilter
           column={mockColumn}
           resetFilters={mockResetFilters}
@@ -104,7 +104,7 @@ describe('date range filter', () => {
   it('closes the dropdown on blur', async () => {
     const user = userEvent.setup();
     const { getByRole, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <div>
           <DateRangeFilter
             column={mockColumn}
@@ -136,7 +136,7 @@ describe('date range filter', () => {
   it('calls mouse handlers ', async () => {
     const user = userEvent.setup();
     const { getByRole, queryByTestId, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DateRangeFilter
           column={mockColumn}
           resetFilters={mockResetFilters}
@@ -158,7 +158,7 @@ describe('date range filter', () => {
 
   // it('adjusts dates entered based on keyboard entry, complete valid range', () => {
   //   const { getByRole } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
@@ -180,7 +180,7 @@ describe('date range filter', () => {
   //
   // it('renders x button when text is entered', () => {
   //   const { getByRole, queryByRole, getByText, queryByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
@@ -205,7 +205,7 @@ describe('date range filter', () => {
   //
   // it('displays error message on invalid date entry', () => {
   //   const { getByRole, getByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
@@ -229,7 +229,7 @@ describe('date range filter', () => {
   //
   // it('highlights the in progress date entry', () => {
   //   const { getByRole, getByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
@@ -264,7 +264,7 @@ describe('date range filter', () => {
   // });
   // it('clear highlights for incomplete date entry', async () => {
   //   const { getByRole, getByText, queryByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
@@ -301,7 +301,7 @@ describe('date range filter', () => {
   //
   // it('displays the keyboard date entry in the calendar', () => {
   //   const { getByRole, getAllByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <RecoilObserver node={reactTableFilteredDateRangeState} onChange={mockSetFilteredDateRange} />
   //       <DateRangeFilter
   //         column={mockColumn}
