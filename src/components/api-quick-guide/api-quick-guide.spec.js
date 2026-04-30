@@ -55,19 +55,19 @@ describe('API Quick Guide', () => {
 
     it('renders the Accordions component', async () => {
       const user = userEvent.setup();
-      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText('Parameters')).toBeInTheDocument();
     });
 
     it('renders the DatasetDetailEndpoints component', () => {
-      const { getByText } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByText } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       expect(getByText('Endpoint')).toBeInTheDocument();
     });
 
     it('renders the DatasetDetailExamples component', async () => {
       const user = userEvent.setup();
-      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />, { wrapper: RecoilRoot });
+      const { getByText, getByRole } = render(<ApiQuickGuide config={config} selectedTable={selectedTable} />);
       await user.click(getByRole('button', { name: 'Show More' }));
       expect(getByText('Example Request & Response')).toBeInTheDocument();
     });

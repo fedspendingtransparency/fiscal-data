@@ -8,13 +8,13 @@ import {
 } from './testHelpers';
 import { SetNoChartMessage } from './set-no-chart-message';
 import { render } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
+
 import React from 'react';
 
 describe('setNoChartMessage helper', () => {
   it('returns an unable-to-render message when All Data Tables is selected', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, true);
-    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText } = render(<>{notShownMessage}</>);
     expect(
       getByText('With the current "All Data Tables" selection, you may download the data, but the table and chart previews are not applicable.')
     ).toBeInTheDocument();
@@ -22,20 +22,20 @@ describe('setNoChartMessage helper', () => {
 
   it('returns a not-available message when a selected table has no pivot options and a chartType of "none" for the default view', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange);
-    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText } = render(<>{notShownMessage}</>);
     expect(getByText('There are no charts for this Data Table.')).toBeInTheDocument();
   });
 
   it('produces chart issue message when customNoChartMessage is true', () => {
     const notShownMessage = SetNoChartMessage(mockTableWithNoChartAvailable, selectedPivot, mockDateRange, null, null, null, true);
-    const { getByText, getByTestId } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText, getByTestId } = render(<>{notShownMessage}</>);
     expect(getByText('This chart is undergoing updates')).toBeInTheDocument();
     expect(getByTestId('mail-to link')).toBeInTheDocument();
   });
 
   it('returns a message prompting the user to select a pivot option to display the data', () => {
     const notShownMessage = SetNoChartMessage(selectedPivot, selectedPivotWithNoChartType);
-    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText } = render(<>{notShownMessage}</>);
     expect(getByText('Use the dropdown to select a pivot option to display the chart')).toBeInTheDocument();
     expect(getByText('This data table cannot be rendered as a chart until a pivot option is applied.')).toBeInTheDocument();
   });
@@ -46,7 +46,7 @@ describe('setNoChartMessage helper', () => {
       to: dateMock,
       from: dateMock,
     });
-    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText } = render(<>{notShownMessage}</>);
     expect(getByText('Select a different date range to display a chart')).toBeInTheDocument();
     expect(getByText('No chart is available for the selected date range because it is too narrow to effectively chart.')).toBeInTheDocument();
   });
@@ -68,7 +68,7 @@ describe('setNoChartMessage helper', () => {
       to: toDateMock,
       from: fromDateMock,
     });
-    const { getByText } = render(<RecoilRoot>{notShownMessage}</RecoilRoot>);
+    const { getByText } = render(<>{notShownMessage}</>);
     expect(getByText('Select from Facility Description options above to display the chart.')).toBeInTheDocument();
   });
 });

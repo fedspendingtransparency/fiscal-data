@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, within, screen } from '@testing-library/react';
 import DataPreviewDownloadSelect from './data-preview-download-select';
 import userEvent from '@testing-library/user-event';
-import { RecoilRoot } from 'recoil';
+
 import * as downloadHelper from '../download-wrapper-helper';
 import * as ddHelper from '../../../../download-wrapper/data-dictionary-download-helper';
 import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';
@@ -60,20 +60,20 @@ describe('DataPreviewDownloadSelect', () => {
   });
 
   it('renders the desktop button default state', () => {
-    const { getByRole } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />);
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(getByRole('img', { hidden: 'true' })).toHaveAttribute('data-icon', 'caret-down');
   });
 
   it('renders the mobile button default state', () => {
-    const { getByRole } = render(<DataPreviewDownloadSelect width={500} dataset={mockDatasetConfig} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DataPreviewDownloadSelect width={500} dataset={mockDatasetConfig} />);
     expect(getByRole('button', { name: 'Download' })).toBeInTheDocument();
     expect(getByRole('img', { hidden: 'true' })).toHaveAttribute('data-icon', 'caret-right');
   });
 
   it('renders the desktop button active state', async () => {
     const user = userEvent.setup();
-    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />, { wrapper: RecoilRoot });
+    const { getByRole, getAllByTestId } = render(<DataPreviewDownloadSelect width={1000} dataset={mockDatasetConfig} />);
     const button = getByRole('button', { name: 'Download' });
     await user.click(button);
     expect(getByRole('img', { hidden: 'true' })).toHaveAttribute('data-icon', 'caret-up');
@@ -106,7 +106,7 @@ describe('DataPreviewDownloadSelect', () => {
 
   it('renders the mobile button active state and shows mobile options', async () => {
     const user = userEvent.setup();
-    const { getByRole, findByText } = render(<DataPreviewDownloadSelect width={500} {...defaultProps} />, { wrapper: RecoilRoot });
+    const { getByRole, findByText } = render(<DataPreviewDownloadSelect width={500} {...defaultProps} />);
     const button = getByRole('button', { name: 'Download' });
     await user.click(button);
     expect(getByRole('img', { hidden: true })).toHaveAttribute('data-icon', 'cloud-arrow-down');
@@ -118,7 +118,7 @@ describe('DataPreviewDownloadSelect', () => {
 
   it('triggers direct download on mobile when a radio option is selected and Download is clicked', async () => {
     const user = userEvent.setup();
-    const { getByRole, findByText } = render(<DataPreviewDownloadSelect width={500} {...defaultProps} />, { wrapper: RecoilRoot });
+    const { getByRole, findByText } = render(<DataPreviewDownloadSelect width={500} {...defaultProps} />);
     const button = getByRole('button', { name: 'Download' });
     await user.click(button);
 
@@ -137,7 +137,7 @@ describe('DataPreviewDownloadSelect', () => {
     const dictSpy = jest.spyOn(ddHelper, 'calcDictionaryDownloadSize').mockReturnValue('2 KB');
     const directSpy = jest.spyOn(downloadHelper, 'shouldUseDirectDownload').mockReturnValue(true);
     seedSmallTableState();
-    render(<DataPreviewDownloadSelect {...baseProps} />, { wrapper: RecoilRoot });
+    render(<DataPreviewDownloadSelect {...baseProps} />);
 
     await user.click(screen.getByRole('button', { name: /download/i }));
 

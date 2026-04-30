@@ -12,7 +12,6 @@ import {
 // import AggregationNotice from './aggregation-notice/aggregation-notice';
 import { render } from '@testing-library/react';
 // import NotShownMessage from './not-shown-message/not-shown-message';
-import { RecoilRoot } from 'recoil';
 import DataPreviewSectionContainer from './data-preview-section-container';
 import { DataTableContext } from '../data-preview-context';
 import { contextProps } from '../../table-components/helpers/table-test-helper';
@@ -24,7 +23,7 @@ import { mockApiData } from '../../dataset-data/test-helper';
 //
 //   beforeAll(() => {
 //     component = renderer.create(
-//       <RecoilRoot>
+//       <>
 //         <DataPreviewSectionContainer
 //           selectedTable={selectedTableLessFields}
 //           dateRange={mockDateRange}
@@ -33,7 +32,7 @@ import { mockApiData } from '../../dataset-data/test-helper';
 //           config={mockConfig}
 //           setUserFilterSelection={jest.fn()}
 //         />
-//       </RecoilRoot>
+//       </>
 //     );
 //
 //     instance = component.root;
@@ -58,7 +57,7 @@ describe('DataPreviewSectionContainer while loading', () => {
           allColumns: columnsConstructorData({ data: [], meta: { labels: {} } }, [], '', []),
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -71,7 +70,7 @@ describe('DataPreviewSectionContainer while loading', () => {
             selectedPivot={selectedPivot}
             setApiFilterDefault={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     queryTestId = queryByTestId;
@@ -101,7 +100,7 @@ describe('DataPreviewSectionContainer with data', () => {
           allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -114,7 +113,7 @@ describe('DataPreviewSectionContainer with data', () => {
             setSelectedPivot={mockSetSelectedPivot}
             setApiFilterDefault={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     // expect(getByRole('table')).toBeInTheDocument();
@@ -133,7 +132,7 @@ describe('DataPreviewSectionContainer with data', () => {
           allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -146,7 +145,7 @@ describe('DataPreviewSectionContainer with data', () => {
             setSelectedPivot={mockSetSelectedPivot}
             setApiFilterDefault={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(mockSetTableProps).toHaveBeenCalledWith(expect.objectContaining({ noBorder: true }));
@@ -161,7 +160,7 @@ describe('DataPreviewSectionContainer with data', () => {
   //   it('shows no pivot options toggle when none are available', () => {
   //     renderer.act(() => {
   //       component.update(
-  //         <RecoilRoot>
+  //         <>
   //           <DataPreviewSectionContainer
   //             config={mockConfig}
   //             dateRange={mockDateRange}
@@ -173,7 +172,7 @@ describe('DataPreviewSectionContainer with data', () => {
   //             setUserFilterSelection={jest.fn()}
   //             setSelectedPivot={mockSetSelectedPivot}
   //           />
-  //         </RecoilRoot>
+  //         </>
   //       );
   //     });
   //     instance = component.root;
@@ -184,7 +183,7 @@ describe('DataPreviewSectionContainer with data', () => {
 describe('DataPreviewSectionContainer with userFilter Options', () => {
   // it('displays the NotShownMessage when a user filter is engaged that matches no rows', () => {
   // const { getByRole, getAllByTestId } = render(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -196,7 +195,7 @@ describe('DataPreviewSectionContainer with userFilter Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={jest.fn()}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //
   // const notShownMessage = getAllByTestId('notShownContainer')[0];
@@ -213,13 +212,13 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   <DataTableContext.Provider
   //     value={{
   //       ...contextProps,
-  //       /RecoilRoot>
+  //       />
   //       </DataTableContext.Provider>      tableProps: { rawData: { data: mockApiData }, selectedTable: mockTableWithPivot, shouldPage: true },
   //       reactTableData: mockApiData,
   //       allColumns: columnsConstructorData(mockApiData, [], '', mockApiDataColumnConfig),
   //     }}
   //   >
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -238,7 +237,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
 
   // it('pivot options are in view by default', () => {
   //   const { getByTestId } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -251,7 +250,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //         setUserFilterSelection={jest.fn()}
   //         setSelectedPivot={mockSetSelectedPivot}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   // });
@@ -262,7 +261,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
 
   // it('collapses/expands the pivot options when the toggle button is clicked', () => {
   //   const { getByTestId } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -275,7 +274,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //         setUserFilterSelection={jest.fn()}
   //         setSelectedPivot={mockSetSelectedPivot}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   //   fireEvent.click(getByTestId('pivotToggle'));
@@ -284,7 +283,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
 
   // it('toggle pivot view with rounding denomination', () => {
   //   const { getByTestId } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -297,7 +296,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //         setUserFilterSelection={jest.fn()}
   //         setSelectedPivot={mockSetSelectedPivot}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   fireEvent.click(getByTestId('pivotToggle'));
   // });
@@ -315,7 +314,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
           allColumns: columnsConstructorData({ data: [], meta: { labels: {} } }, [], '', []),
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -329,7 +328,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
             setSelectedPivot={mockSetSelectedPivot}
             setApiFilterDefault={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -343,7 +342,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => noChartMsg);
   //
   //   const { getByText, queryByText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -355,7 +354,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //         setUserFilterSelection={jest.fn()}
   //         setSelectedPivot={mockSetSelectedPivot}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //
   //   expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
@@ -370,7 +369,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => undefined);
   //
   //   const { getByText, getByTestId } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreviewSectionContainer
   //         config={mockConfig}
   //         dateRange={mockDateRange}
@@ -383,7 +382,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //         setSelectedPivot={mockSetSelectedPivot}
   //         selectedTab={1}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //
   //   expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
@@ -395,7 +394,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   let tableSectionContainer = {};
   //   renderer.act(() => {
   //     tableSectionContainer = renderer.create(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -407,7 +406,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //
@@ -422,7 +421,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large;
   //     tableSectionContainer = renderer.create(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -434,7 +433,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //
@@ -445,7 +444,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large + 6;
   //     tableSectionContainer.update(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -457,7 +456,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //
@@ -468,7 +467,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large - 125;
   //     tableSectionContainer.update(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -479,7 +478,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           selectedPivot={selectedPivotWithAggregation}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //
@@ -497,7 +496,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
   //     tableSectionContainer = renderer.create(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -509,7 +508,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //   let datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -534,7 +533,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large - 5;
   //     tableSectionContainer.update(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -546,7 +545,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //   datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -564,7 +563,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //   renderer.act(() => {
   //     global.window.innerWidth = GLOBALS.breakpoints.large + 50;
   //     tableSectionContainer.update(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -576,7 +575,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           setSelectedPivot={mockSetSelectedPivot}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //   });
   //   datasetChart = tableSectionContainer.root.findByType(DatasetChart);
@@ -586,7 +585,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
 
   //   it('renders selected detail view key with the dataset header', () => {
   //     const { queryByTestId } = render(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockConfig}
   //           dateRange={mockDateRange}
@@ -599,7 +598,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           setUserFilterSelection={jest.fn()}
   //           detailViewState="123"
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //     expect(queryByTestId('tableName')).toBeInTheDocument();
   //   });
@@ -612,7 +611,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //     };
   //
   //     const { getByTestId } = render(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewSectionContainer
   //           config={mockDetailConfig}
   //           dateRange={mockDateRange}
@@ -624,7 +623,7 @@ describe('DataPreviewSectionContainer with Pivot Options', () => {
   //           detailViewState={{ value: new Date(2023, 5, 1) }}
   //           setUserFilterSelection={jest.fn()}
   //         />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //     expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   //   });
@@ -641,7 +640,7 @@ describe('Table with API filter', () => {
           tableProps: { selectedTable: mockTableWithApiFilterAvailable },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -654,7 +653,7 @@ describe('Table with API filter', () => {
             setSelectedPivot={jest.fn()}
             setApiFilterDefault={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(mockSetIsLoading).toHaveBeenCalledWith(false);
