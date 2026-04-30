@@ -97,13 +97,15 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
                 publishedReportsProp={pageConfig.publishedReports}
               />
             </Experimental>
-            <DatasetData
-              setSelectedTableProp={setSelectedTable}
-              finalDatesNotFound={finalDatesNotFound}
-              config={pageConfig}
-              location={location}
-              publishedReportsProp={pageConfig.publishedReports}
-            />
+            <Experimental featureId="datapreview" exclude>
+              <DatasetData
+                setSelectedTableProp={setSelectedTable}
+                finalDatesNotFound={finalDatesNotFound}
+                config={pageConfig}
+                location={location}
+                publishedReportsProp={pageConfig.publishedReports}
+              />
+            </Experimental>
           </>
         )}
         <DatasetAbout config={pageContext.config} test={test} />

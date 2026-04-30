@@ -91,7 +91,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   userFilterSelection,
   disableDateRangeFilter,
   hasDownloadTimestamp,
-  datesetName,
+  datasetName,
   apiErrorState,
   perPage,
   setPerPage,
@@ -141,6 +141,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
+
+  useEffect(() => {
+    setApiError(tableProps.apiError || apiErrorState || false);
+
+  }, [tableProps.apiError, apiErrorState]);
 
   const getAllExcludedCols = () => {
     const allCols = [];
@@ -459,7 +464,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
               setAllActiveFilters={setAllActiveFilters}
               setTableSorting={setTableSorting}
               disableDateRangeFilter={disableDateRangeFilter}
-              datasetName={datesetName}
+              datasetName={datasetName}
               dateRange={tableProps.dateRange}
               hasDownloadTimestamp={hasDownloadTimestamp}
             />

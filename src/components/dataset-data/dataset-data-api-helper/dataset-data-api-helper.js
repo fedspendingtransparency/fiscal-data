@@ -23,7 +23,7 @@ const onDataReturned = async (
     if (customTableSorts[selectedTable.apiId]) {
       res.data = res.data.sort(customTableSorts[selectedTable.apiId]);
     }
-    if (selectedTable?.apiFilter) {
+    if (selectedTable?.apiFilter && setUserFilterUnmatchedForDateRange) {
       setUserFilterUnmatchedForDateRange(res.data.length <= 0);
     }
     setApiData(res);
