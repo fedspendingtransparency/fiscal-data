@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper';
 import { enableFetchMocks } from 'jest-fetch-mock';
-
 import userEvent from '@testing-library/user-event';
 import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
 

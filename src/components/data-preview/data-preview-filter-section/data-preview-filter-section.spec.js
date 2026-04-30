@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewFilterSection from './data-preview-filter-section';
-
 import { DataTableContext } from '../data-preview-context';
 
 const mockContextValue = {

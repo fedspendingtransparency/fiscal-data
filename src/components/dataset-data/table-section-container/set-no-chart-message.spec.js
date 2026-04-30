@@ -8,7 +8,6 @@ import {
 } from './testHelpers';
 import { SetNoChartMessage } from './set-no-chart-message';
 import { render } from '@testing-library/react';
-
 import React from 'react';
 
 describe('setNoChartMessage helper', () => {

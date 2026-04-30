@@ -2,7 +2,6 @@ import React from 'react';
 import { fireEvent, render, within, screen } from '@testing-library/react';
 import DataPreviewDownloadSelect from './data-preview-download-select';
 import userEvent from '@testing-library/user-event';
-
 import * as downloadHelper from '../download-wrapper-helper';
 import * as ddHelper from '../../../../download-wrapper/data-dictionary-download-helper';
 import { smallTableDownloadData } from '../../../../../recoil/smallTableDownloadData';

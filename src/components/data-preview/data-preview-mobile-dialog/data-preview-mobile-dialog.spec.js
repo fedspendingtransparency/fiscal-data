@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-
 import DataPreviewMobileDialog from '../data-preview-mobile-dialog/data-preview-mobile-dialog';
 import React from 'react';
 
