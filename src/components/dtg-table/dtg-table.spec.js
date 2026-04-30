@@ -10,7 +10,6 @@ import {
   TestDataOneRow,
 } from './test-data';
 import * as helpers from './dtg-table-helper';
-
 import { act, fireEvent, render, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {

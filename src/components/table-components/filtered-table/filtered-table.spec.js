@@ -1,7 +1,6 @@
 import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import FilteredTable from './filtered-table';
-
 import { mockColumnConfig, mockGenericTableColumns, mockGenericTableData, mockTableData, mockTableData1Row } from '../helpers/table-test-helper';
 import userEvent from '@testing-library/user-event';
 import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';

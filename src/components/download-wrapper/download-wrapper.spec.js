@@ -4,7 +4,6 @@ import DownloadWrapper from './download-wrapper';
 import Analytics from '../../utils/analytics/analytics';
 import { enableFetchMocks } from 'jest-fetch-mock';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
 import userEvent from '@testing-library/user-event';
 

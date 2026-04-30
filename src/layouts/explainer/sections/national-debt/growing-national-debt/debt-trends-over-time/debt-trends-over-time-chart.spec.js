@@ -6,7 +6,6 @@ import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockBeaGDPData, mockExplainerPageResponse } from '../../../../explainer-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { DebtTrendsOverTimeChart } from './debt-trends-over-time-chart';
-
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 jest.useFakeTimers();

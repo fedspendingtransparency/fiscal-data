@@ -1,7 +1,6 @@
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import DateRangeFilter from './date-range-filter';
 import React, { act } from 'react';
-
 import userEvent from '@testing-library/user-event';
 
 describe('date range filter', () => {

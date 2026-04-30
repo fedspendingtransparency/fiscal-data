@@ -1,6 +1,5 @@
 import React from 'react';
 import DataTablesTab from './datatables-tab';
-
 import { render } from '@testing-library/react';
 import { numberFormatter } from '../../helpers/text-format/text-format';
 

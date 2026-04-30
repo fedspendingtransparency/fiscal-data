@@ -9,7 +9,6 @@ import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
 import * as Gatsby from 'gatsby';
 import { useStaticQuery } from 'gatsby';
-
 import Analytics from '../../utils/analytics/analytics';
 import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
 

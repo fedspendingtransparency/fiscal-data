@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 import React from 'react';
 import Analytics from '../../../utils/analytics/analytics';
-
 import { render, within } from '@testing-library/react';
 import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import userEvent from '@testing-library/user-event';

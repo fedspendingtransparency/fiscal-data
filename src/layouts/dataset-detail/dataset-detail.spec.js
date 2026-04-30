@@ -3,7 +3,6 @@ import { mockAPIs, mockMaxDates, mockSummaryDataset, mockSummaryDatasetNoUpdates
 import DatasetDetail from './dataset-detail';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
-
 import { act, render } from '@testing-library/react';
 import { datasetPageSampleConfig } from './test-helper';
 

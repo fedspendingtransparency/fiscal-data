@@ -5,7 +5,6 @@ import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockCpiDataset, mockTotalDebt100YData } from '../../../../explainer-test-helper';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
-
 import Analytics from '../../../../../../utils/analytics/analytics';
 
 describe('National Debt Over the Last 100 Years Chart', () => {

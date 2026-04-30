@@ -1,6 +1,5 @@
 import React from 'react';
 import MetadataTab from './metadata-tab';
-
 import { render, within } from '@testing-library/react';
 
 describe('MetadataTab', () => {

@@ -10,7 +10,6 @@ import { createHistory, createMemorySource, LocationProvider } from '@gatsbyjs/r
 import 'gatsby-env-variables';
 import '@testing-library/jest-dom';
 import GLOBALS from '../../helpers/constants';
-
 import fetchMock from 'fetch-mock';
 
 jest.useFakeTimers();

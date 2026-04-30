@@ -1,5 +1,4 @@
 import { act, render, waitFor, within } from '@testing-library/react';
-
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
