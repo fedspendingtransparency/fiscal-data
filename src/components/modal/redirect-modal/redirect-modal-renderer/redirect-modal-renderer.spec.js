@@ -33,7 +33,7 @@ describe('<RedirectModalRenderer> integration', () => {
   });
 
   it('clicking X triggers onClose and unmounts modal', () => {
-    redirectModalState.setState({ modal: { open: true, url: 'https://example.com/' } });
+    redirectModalState.setState({ modal: { open: true, url: 'https://example.org/' } });
     const { getByRole, queryByRole } = render(<RedirectModalRenderer />);
 
     act(() => fireEvent.click(getByRole('button', { name: /close modal/i })));
@@ -43,7 +43,7 @@ describe('<RedirectModalRenderer> integration', () => {
   it('clicking “Continue” runs after() once and closes modal', () => {
     const after = jest.fn();
     const url = 'https://example.com/';
-    redirectModalState.setState({ modal: { open: true, url } });
+    redirectModalState.setState({ modal: { open: true, url, after } });
     const { getByRole, queryByRole } = render(<RedirectModalRenderer />);
 
     act(() => fireEvent.click(getByRole('link', { name: url })));
