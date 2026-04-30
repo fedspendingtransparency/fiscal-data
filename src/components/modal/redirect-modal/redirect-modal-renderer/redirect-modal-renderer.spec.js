@@ -1,9 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import { render, fireEvent, act, cleanup } from '@testing-library/react';
+import { fireEvent, act, cleanup } from '@testing-library/react';
 
 import { redirectModalState } from '../redirect-modal-helper';
-import RedirectModalRenderer from './redirect-modal-renderer';
 
 beforeAll(() => {
   jest.spyOn(ReactDOM, 'createPortal').mockImplementation(element => element);
@@ -13,13 +11,8 @@ afterAll(() => {
   ReactDOM.createPortal.mockRestore();
 });
 
-const renderWithState = (e = () => {}) =>
-  render(
-    <RecoilRoot initializeState={e}>
-      <RedirectModalRenderer />
-    </>
-  );
 afterEach(() => {
+  redirectModalState.setState({ modal: { open: false, url: '' } });
   cleanup();
 });
 

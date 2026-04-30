@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStaticQuery } from 'gatsby';
 import ApiDocumentationPage from './index';
-
 import { render } from '@testing-library/react';
 import { Head } from './index';
 
