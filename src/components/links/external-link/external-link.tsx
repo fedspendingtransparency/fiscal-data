@@ -1,6 +1,5 @@
 import React, { FunctionComponent, SyntheticEvent } from 'react';
 import { redirectModalState } from '../../modal/redirect-modal/redirect-modal-helper';
-import { useSetRecoilState } from 'recoil';
 
 type ExternalLinkProps = {
   url: string;
@@ -31,9 +30,9 @@ const ExternalLink: FunctionComponent<ExternalLinkProps> = ({
   className,
   style,
   skipExternalModal = false,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
 }) => {
-  const setModal = useSetRecoilState(redirectModalState);
+  const setModal = redirectModalState(state => state.setModal);
 
   const openModal = (e: SyntheticEvent) => {
     e.preventDefault();
