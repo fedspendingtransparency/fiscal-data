@@ -1,6 +1,5 @@
 import React from 'react';
 import DatasetDetailFields from './dataset-detail-fields';
-
 import { render, within } from '@testing-library/react';
 
 let excluded = [];
