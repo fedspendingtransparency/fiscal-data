@@ -52,7 +52,7 @@ describe('The Growing National Debt', () => {
     const { container } = render(
       <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`)).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('The Growing National Debt', () => {
     const { findByTestId, findAllByTestId, rerender } = render(
       <>
         <VisualizingTheDebtAccordion width={breakpointSm} />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(await findByTestId('button'));
     const rowsDesktop = await findAllByTestId('accordion-table-row');
@@ -70,7 +70,7 @@ describe('The Growing National Debt', () => {
     rerender(
       <>
         <VisualizingTheDebtAccordion width={breakpointSm - 1} />
-      </RecoilRoot>
+      </>
     );
 
     const rowsMobile = await findAllByTestId('accordion-table-row');
@@ -81,7 +81,7 @@ describe('The Growing National Debt', () => {
     const { findAllByTestId } = render(
       <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     const allCharts = await findAllByTestId('chart');
     expect(allCharts.length).toStrictEqual(2);
@@ -94,7 +94,7 @@ describe('The Growing National Debt', () => {
     const { findAllByText, findByText } = render(
       <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -110,7 +110,7 @@ describe('The Growing National Debt', () => {
     const { getByText, getAllByText } = render(
       <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     const historicalDebt = await waitFor(() => getAllByText('Historical Debt Outstanding')[0]);

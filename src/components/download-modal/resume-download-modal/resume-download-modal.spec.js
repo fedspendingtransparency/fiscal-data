@@ -100,7 +100,7 @@ describe('resume download modal (with react testing-library)', () => {
         <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
           <ResumeDownloadModal />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     expect(queryByText(resumeDownloadTitle)).toBeTruthy();
     expect(queryByText(resumeCompletedDownloadTitle)).toBeFalsy();
@@ -116,7 +116,7 @@ describe('resume download modal (with react testing-library)', () => {
         <downloadsContext.Provider value={mockSiteProviderValueInProgress}>
           <ResumeDownloadModal />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     expect(queryByTestId('download-items-container')).toBeDefined();
   });
@@ -127,7 +127,7 @@ describe('resume download modal (with react testing-library)', () => {
         <downloadsContext.Provider value={mockSiteProviderValueMulti}>
           <ResumeDownloadModal />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     expect(queryByText(resumeDownloadTitleMulti)).toBeTruthy();
     expect(queryByText(resumeDownloadSubtitleMulti)).toBeTruthy();

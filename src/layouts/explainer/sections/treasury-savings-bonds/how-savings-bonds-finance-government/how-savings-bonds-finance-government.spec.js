@@ -95,7 +95,7 @@ describe('How Savings Bonds Finance The Government Section', () => {
     render(
       <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     expect(screen.getByText('Different types of securities earn interest in different ways.', { exact: false })).toBeInTheDocument();
     expect(
@@ -112,7 +112,7 @@ describe('How Savings Bonds Finance The Government Section', () => {
     const { getByRole } = render(
       <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(getByRole('link', { name: 'revenue' }));
     expect(analyticsSpy).toHaveBeenCalledWith({
@@ -145,7 +145,7 @@ describe('How Savings Bonds Finance The Government Section', () => {
     const { getByRole } = render(
       <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(getByRole('button', { name: 'marketable' }));
     expect(analyticsSpy).toHaveBeenCalledWith({

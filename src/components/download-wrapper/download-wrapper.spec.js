@@ -58,7 +58,7 @@ describe('DownloadWrapper', () => {
     const { getByTestId } = render(
       <>
         <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
     const theComponent = getByTestId('wrapper');
     expect(theComponent).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe('DownloadWrapper', () => {
     const { getByText } = render(
       <>
         <DownloadWrapper selectedTable={selectedTable} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
 
     const tableName = getByText(curTableName);
@@ -91,7 +91,7 @@ describe('DownloadWrapper', () => {
           isFiltered={isFiltered}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const expectedDateString = '01/01/2020 - 11/01/2020';
@@ -109,7 +109,7 @@ describe('DownloadWrapper', () => {
           dateRange={dateRange}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     rerender(
@@ -120,7 +120,7 @@ describe('DownloadWrapper', () => {
           dateRange={invalidDateRange}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const expectedDateString = '01/01/2020 - 11/01/2020';
@@ -139,7 +139,7 @@ describe('DownloadWrapper', () => {
           isFiltered={isFiltered}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const allString = getByText(nonFilteredDate);
@@ -155,7 +155,7 @@ describe('DownloadWrapper', () => {
     const { getAllByRole } = render(
       <>
         <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock Dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
     const metadataButton = getAllByRole('button')[0];
     const spy = jest.spyOn(Analytics, 'event');
@@ -177,13 +177,13 @@ describe('DownloadWrapper', () => {
     const { getByText, getByTestId, rerender } = render(
       <>
         <DownloadWrapper selectedTable={{}} dataset={{ name: 'Mock dataset' }} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
 
     rerender(
       <>
         <DownloadWrapper selectedTable={{}} dataset={mockMultiTableDataset} allTablesSelected={true} setDisableDownloadBanner={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
 
     const tableName = getByText('All Data Tables (2)');
@@ -243,7 +243,7 @@ describe('DownloadWrapper', () => {
             setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     await user.click(getByTestId('download-button'));
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
@@ -272,7 +272,7 @@ describe('DownloadWrapper', () => {
             setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     await user.click(getByTestId('download-button'));
     expect(mockSetDownloadRequest.mock.calls[0][0]).toMatchObject(expectedArgs);
@@ -287,7 +287,7 @@ describe('DownloadWrapper', () => {
   //     <downloadsContext.Provider value={mockSiteProviderValue}>
   //       <DownloadWrapper selectedTable={mockAnotherTable} dataset={mockDataset} dateRange={mockDateRange} setDisableDownloadBanner={jest.fn()} />
   //     </downloadsContext.Provider>
-  //   </RecoilRoot>
+  //   </>
   // );
   // userEvent.click(getByTestId('download-button'));
   // const cancelButton = await findByRole('button', { name: 'Cancel Download' });
@@ -310,7 +310,7 @@ describe('DownloadWrapper', () => {
           selectedDetailViewFilter={mockSelectedDetailViewFilter}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const filterName = getByTestId('detailViewFilterLabel');
@@ -346,7 +346,7 @@ describe('DownloadWrapper', () => {
             setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     userEvent.click(getByTestId('download-button'));
 
@@ -363,7 +363,7 @@ describe('DownloadWrapper', () => {
           selectedUserFilter={mockSelectedUserFilter}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const filterName = getByTestId('userFilterLabel');
@@ -382,7 +382,7 @@ describe('DownloadWrapper', () => {
           selectedUserFilter={null}
           setDisableDownloadBanner={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const filterName = getByTestId('userFilterLabel');
@@ -416,7 +416,7 @@ describe('DownloadWrapper', () => {
             setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     await user.click(getByTestId('download-button'));
 
@@ -438,7 +438,7 @@ describe('DownloadWrapper', () => {
             setDisableDownloadBanner={jest.fn()}
           />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('button', { name: 'Download CSV File' })).toBeDisabled();
     disableDownloadButtonState.setState({ disabled: false });

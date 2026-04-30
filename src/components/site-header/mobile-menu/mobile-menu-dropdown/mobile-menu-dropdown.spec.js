@@ -230,7 +230,7 @@ describe('Mobile Menu Dropdown', () => {
     const { getByText } = render(
       <>
         <MobileMenuDropdown header={'Header'} sections={externalSection} defaultOpen />
-      </RecoilRoot>
+      </>
     );
     const link = getByText('External Link');
 

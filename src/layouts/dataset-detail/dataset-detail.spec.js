@@ -93,7 +93,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('siteLayout')).toBeInTheDocument();
   });
@@ -109,7 +109,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(await findByTestId('DDNavMenu')).toBeInTheDocument();
   });
@@ -125,7 +125,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('masthead')).toBeInTheDocument();
   });
@@ -141,7 +141,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
     expect(getByRole('heading', { name: 'Data Preview' })).toBeInTheDocument();
@@ -161,7 +161,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('datasetData')).toBeInTheDocument();
   });
@@ -177,7 +177,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByTestId('callout')).toBeInTheDocument();
@@ -261,7 +261,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -281,7 +281,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -301,7 +301,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -318,7 +318,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -335,7 +335,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByTestId('callout')).toBeNull();
   });
@@ -351,7 +351,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
     expect(queryByRole('heading', { name: 'Data Preview' })).not.toBeInTheDocument();

@@ -48,7 +48,7 @@ jest.mock('../useGetInterestExpenseData', () => ({
   useGetInterestExpenseData: () => mockHookReturnValues,
 }));
 
-const wrapper = ({ children }) => <>{children}</RecoilRoot>;
+const wrapper = ({ children }) => <>{children}</>;
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
     observe() {}

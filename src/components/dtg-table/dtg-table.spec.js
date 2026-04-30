@@ -44,7 +44,7 @@ describe('DTG table component', () => {
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('table')).toBeInTheDocument();
   });
@@ -57,7 +57,7 @@ describe('DTG table component', () => {
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getAllByRole('row')).toHaveLength(TestData.length + 1);
   });
@@ -71,7 +71,7 @@ describe('DTG table component', () => {
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getAllByRole('columnheader')).toHaveLength(Object.keys(mockTableData.data[0]).length);
   });
@@ -85,7 +85,7 @@ describe('DTG table component', () => {
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getAllByRole('columnheader').length).toBeGreaterThan(0);
   });
@@ -94,7 +94,7 @@ describe('DTG table component', () => {
     const noDataComponent = render(
       <>
         <DtgTable tableProps={{ config: {} }} setIsLoading={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
     expect(noDataComponent).toBeDefined();
   });
@@ -108,7 +108,7 @@ describe('DTG table component', () => {
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getAllByRole('row').length).toEqual(perPage + 1); // per page plus header
     const maxRows = MoreTestData.length;
@@ -129,7 +129,7 @@ describe('DTG table component', () => {
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     jest.advanceTimersByTime(helpers.loadTimerDelay * 2);
     await expect(spy).toHaveBeenCalledTimes(1);
@@ -145,7 +145,7 @@ describe('DTG table component', () => {
   //           aria: aria,
   //         }}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const table = getByRole('table');
   //   expect(table).toHaveAttribute('aria-describedby', 'my-test-id');
@@ -161,7 +161,7 @@ describe('DTG table component', () => {
             setManualPagination={jest.fn()}
             setIsLoading={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       expect(getByText('Rows Per Page')).toBeInTheDocument();
@@ -185,7 +185,7 @@ describe('DTG table component', () => {
               setManualPagination={jest.fn()}
               setIsLoading={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         );
 
         expect(getByText('Rows Per Page')).toBeInTheDocument();
@@ -203,7 +203,7 @@ describe('DTG table component', () => {
               setManualPagination={jest.fn()}
               setIsLoading={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         );
 
         expect(getByText('Rows Per Page')).toBeInTheDocument();
@@ -223,7 +223,7 @@ describe('DTG table component', () => {
   //         setManualPagination={mockSetManualPagination}
   //         setIsLoading={mockSetIsLoading}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   expect(getByRole('table')).toBeInTheDocument();
   //   expect(mockSetManualPagination).toHaveBeenCalledWith(false);
@@ -240,7 +240,7 @@ describe('DtgTable component - API Error', () => {
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByText('Table failed to load.')).toBeInTheDocument();
   });
@@ -253,7 +253,7 @@ describe('DtgTable component - API Error', () => {
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
     expect(queryByRole('button', { name: 'Next Page' })).not.toBeInTheDocument();
@@ -270,7 +270,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('table-footer')).toBeDefined();
   });
@@ -282,7 +282,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByText('Showing', { exact: false })).toBeInTheDocument();
     expect(getByText('1 - 1', { collapseWhitespace: false })).toBeInTheDocument();
@@ -297,7 +297,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     const footer = getByTestId('table-footer');
     expect(within(footer).getByText('Rows Per Page')).toBeInTheDocument();
@@ -321,7 +321,7 @@ describe('DTG Table Nested Table Detail View', () => {
           setManualPagination={mockSetManualPagination}
           setIsLoading={mockSetIsLoading}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByRole('table')).toBeInTheDocument();
@@ -362,7 +362,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={mockSorting}
           />
-        </RecoilRoot>
+        </>
       );
       // Rows render
       expect(getAllByRole('row')).toHaveLength(7);
@@ -402,7 +402,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={mockSorting}
           />
-        </RecoilRoot>
+        </>
       );
       // Column header
       const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
@@ -439,7 +439,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={mockSorting}
           />
-        </RecoilRoot>
+        </>
       );
       // Column header
       const header = getByRole('columnheader', { name: 'Mock Percent String' });
@@ -471,7 +471,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={mockSorting}
           />
-        </RecoilRoot>
+        </>
       );
 
       // Rows render
@@ -499,7 +499,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       const visibleColumns = getAllByRole('columnheader');
@@ -527,7 +527,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
       const hiddenCol = 'Source Line Number';
       expect(queryByRole('columnheader', { name: hiddenCol })).not.toBeInTheDocument();
@@ -559,7 +559,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       // default col in table
@@ -594,7 +594,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       //Percentage
@@ -634,7 +634,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
@@ -663,7 +663,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
 
       expect(getAllByTestId('row')[0].innerHTML).toContain('-0.1200');
@@ -692,7 +692,7 @@ describe('DTG Table Nested Table Detail View', () => {
             setAllActiveFilters={jest.fn()}
             hasDownloadTimestamp={true}
           />
-        </RecoilRoot>
+        </>
       );
       expect(instance).toBeTruthy();
     });
@@ -719,7 +719,7 @@ describe('DTG Table Nested Table Detail View', () => {
             allActiveFilters={[]}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
       expect(smallTableDownloadData.getState().csv).toEqual([
         ['Record Date', 'String Value', 'String Value with Commas'],
@@ -752,7 +752,7 @@ describe('DTG Table Nested Table Detail View', () => {
               tableName: 'FRN Daily Indexes',
             }}
           />
-        </RecoilRoot>
+        </>
       );
       const detailViewButton = getByRole('button', { name: '7/12/2023' });
       expect(detailViewButton).toBeInTheDocument();
@@ -798,7 +798,7 @@ describe('Empty table and API Error', () => {
           setIsLoading={setIsLoadingSpy}
           setTableColumnSortData={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     act(() => {
@@ -823,7 +823,7 @@ describe('Empty table and API Error', () => {
           setIsLoading={setIsLoadingSpy}
           setTableColumnSortData={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     act(() => {

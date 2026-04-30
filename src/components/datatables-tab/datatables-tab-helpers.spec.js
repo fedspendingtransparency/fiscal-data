@@ -26,7 +26,7 @@ describe('DataTablesTabHelpers', () => {
       render(
         <>
           <DataTablesTab apis={mockData} />
-        </RecoilRoot>
+        </>
       );
       expect(makeTheDataArray(mockData)).toMatchSnapshot();
     }

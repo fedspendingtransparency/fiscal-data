@@ -35,7 +35,7 @@ describe('National Debt Hero', () => {
     const { getByText } = render(
       <>
         <NationalDebtHero />
-      </RecoilRoot>
+      </>
     );
     expect(fetchSpy).toHaveBeenCalled;
     await waitFor(() => getByText('28908004857445', { exact: false }));
@@ -48,7 +48,7 @@ describe('National Debt Hero', () => {
     const { getByText } = render(
       <>
         <NationalDebtHero />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => getByText('28908004857445', { exact: false }));
 

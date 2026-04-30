@@ -60,7 +60,7 @@ describe('SiteHeader', () => {
     const { getByTestId } = render(
       <>
         <SiteHeader width={GLOBALS.breakpoints.large + 50} />
-      </RecoilRoot>
+      </>
     );
     const logoContainer = getByTestId('logoContainer');
     const logo = getByTestId('logo');
@@ -74,7 +74,7 @@ describe('SiteHeader', () => {
     const { getByTestId } = render(
       <>
         <SiteHeaderComponent />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('officialBanner')).toBeDefined();
   });
@@ -88,7 +88,7 @@ describe('SiteHeader', () => {
     const { getByTestId, getByTitle } = render(
       <>
         <SiteHeaderComponent />
-      </RecoilRoot>
+      </>
     );
     const logo = getByTestId('logo');
     expect(logo).toBeDefined();
@@ -100,7 +100,7 @@ describe('SiteHeader', () => {
     const { getByText } = render(
       <>
         <SiteHeaderComponent lowerEnvMsg={message} />
-      </RecoilRoot>
+      </>
     );
     expect(getByText(message)).toBeDefined();
   });
@@ -109,7 +109,7 @@ describe('SiteHeader', () => {
     const { queryAllByTestId } = render(
       <>
         <SiteHeaderComponent />
-      </RecoilRoot>
+      </>
     );
     expect(queryAllByTestId('ieDetected').length).toEqual(0);
   });
@@ -119,7 +119,7 @@ describe('SiteHeader', () => {
     const { getByTestId } = render(
       <>
         <SiteLayout />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('ieDetected')).toBeDefined();
   });
@@ -130,7 +130,7 @@ describe('SiteHeader', () => {
     const { getByTestId, getByText, getByRole } = render(
       <>
         <SiteHeaderComponent />
-      </RecoilRoot>
+      </>
     );
     document.title = pageTitle;
 
@@ -195,7 +195,7 @@ describe('SiteHeader', () => {
     const { getByTestId } = renderWithRouter(
       <>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>,
+      </>,
       '/datasets/'
     );
     await waitFor(() => getByTestId('announcement-banner'));
@@ -206,7 +206,7 @@ describe('SiteHeader', () => {
     const { getAllByTestId } = renderWithRouter(
       <>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>,
+      </>,
       '/datasets/debt-to-the-penny/'
     );
     await waitFor(() => getAllByTestId('announcement-banner'));
@@ -217,7 +217,7 @@ describe('SiteHeader', () => {
     const { queryByTestId } = renderWithRouter(
       <>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>,
+      </>,
       '/americas-finance-guide/national-debt/'
     );
     expect(queryByTestId('announcement-banner')).not.toBeInTheDocument();
@@ -227,7 +227,7 @@ describe('SiteHeader', () => {
     const { getByRole, getByTestId } = render(
       <>
         <SiteHeaderComponent />
-      </RecoilRoot>
+      </>
     );
 
     act(() => {
@@ -247,7 +247,7 @@ describe('SiteHeader', () => {
     const { getByRole, getByTestId } = render(
       <>
         <SiteHeaderComponent glossaryEvent={false} glossaryClickEventHandler={jest.fn()} />
-      </RecoilRoot>
+      </>
     );
 
     act(() => {

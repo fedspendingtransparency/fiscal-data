@@ -18,7 +18,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(instance).toBeTruthy();
   });
@@ -34,7 +34,7 @@ describe('react-table', () => {
           setTableSorting={jest.fn()}
           setResetFilters={mockResetFilter}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
   });
@@ -52,7 +52,7 @@ describe('react-table', () => {
           setAllActiveFilters={mockSorting}
           allActiveFilters={[]}
         />
-      </RecoilRoot>
+      </>
     );
     // Column header
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
@@ -83,7 +83,7 @@ describe('react-table', () => {
           setAllActiveFilters={mockSorting}
           allActiveFilters={[]}
         />
-      </RecoilRoot>
+      </>
     );
     // Column header
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
@@ -116,7 +116,7 @@ describe('react-table', () => {
           setAllActiveFilters={jest.fn()}
           allActiveFilters={[]}
         />
-      </RecoilRoot>
+      </>
     );
     // Column header
     const header = getByRole('columnheader', { name: 'Name' });
@@ -151,7 +151,7 @@ describe('react-table', () => {
           allActiveFilters={[]}
           perPage={10}
         />
-      </RecoilRoot>
+      </>
     );
     // Column header
     const header = getByRole('columnheader', { name: 'Name' });
@@ -178,7 +178,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const header = getByRole('columnheader', { name: 'Record Date' });
@@ -207,7 +207,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const header = getByRole('columnheader', { name: 'Name' });
@@ -225,7 +225,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const header = getByRole('columnheader', { name: 'Record Date' });
@@ -246,7 +246,7 @@ describe('react-table', () => {
           setFiltersActive={jest.fn()}
           setTableSorting={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     await user.click(getByRole('button', { name: 'rows-per-page-menu' }));
@@ -269,7 +269,7 @@ describe('react-table', () => {
           resetFilters={true}
           setResetFilters={setResetFiltersSpy}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(activeFilterSpy).toHaveBeenCalledWith([]);
@@ -289,7 +289,7 @@ describe('react-table', () => {
           setTableSorting={jest.fn()}
           enableDownload={true}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(smallTableDownloadData.getState().csv.length).toBeGreaterThan(0);

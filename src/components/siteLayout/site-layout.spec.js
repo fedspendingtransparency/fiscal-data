@@ -13,7 +13,7 @@ describe('SiteLayout', () => {
         <SiteLayout {...props}>
           <div>child content</div>
         </SiteLayout>
-      </RecoilRoot>
+      </>
     );
 
   beforeEach(() => {

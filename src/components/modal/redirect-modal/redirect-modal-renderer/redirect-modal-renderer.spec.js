@@ -17,7 +17,7 @@ const renderWithState = (e = () => {}) =>
   render(
     <RecoilRoot initializeState={e}>
       <RedirectModalRenderer />
-    </RecoilRoot>
+    </>
   );
 afterEach(() => {
   cleanup();

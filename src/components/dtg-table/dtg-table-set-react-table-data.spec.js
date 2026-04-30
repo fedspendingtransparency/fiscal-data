@@ -51,7 +51,7 @@ describe('React Table Data ', () => {
           tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
@@ -75,7 +75,7 @@ describe('React Table Data ', () => {
           setAllActiveFilters={mockSorting}
           sorting={['record-date']}
         />
-      </RecoilRoot>
+      </>
     );
 
     await act(async () => {
@@ -111,7 +111,7 @@ describe('React Table Data ', () => {
           setManualPagination={setManualPaginationSpy}
           detailViewState={{ secondary: 'last' }}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
@@ -130,7 +130,7 @@ describe('React Table Data ', () => {
           tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);

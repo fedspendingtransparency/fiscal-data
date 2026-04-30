@@ -2,7 +2,7 @@ import React from 'react';
 import { useStaticQuery } from 'gatsby';
 import ApiDocumentationPage from './index';
 
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Head } from './index';
 
 jest.useFakeTimers();
@@ -34,7 +34,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Getting Started' });
     expect(gettingStarted).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Endpoints' });
     expect(gettingStarted).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Fiscal Service Data Registry' });
     expect(gettingStarted).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Methods' });
     expect(gettingStarted).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Parameters' });
     expect(gettingStarted).toBeInTheDocument();
@@ -84,7 +84,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Responses and Response Objects' });
     expect(gettingStarted).toBeInTheDocument();
@@ -94,7 +94,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Aggregation and Sums' });
     expect(gettingStarted).toBeInTheDocument();
@@ -104,7 +104,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const gettingStarted = getByRole('heading', { name: 'Examples and Code Snippets' });
     expect(gettingStarted).toBeInTheDocument();
@@ -114,7 +114,7 @@ describe('ApiDocumentationPage', () => {
     const { getByRole } = render(
       <>
         <ApiDocumentationPage />
-      </RecoilRoot>
+      </>
     );
     const tocButton = getByRole('button', { name: 'Table of Contents' });
     expect(tocButton).toBeInTheDocument();

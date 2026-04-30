@@ -29,7 +29,7 @@ describe('DatasetAboutTabs', () => {
     const { getByText } = render(
       <>
         <DatasetAboutTabs config={tabData} test />
-      </RecoilRoot>
+      </>
     );
     expect(getByText(tabData.notesAndKnownLimitations)).toBeInTheDocument();
   });
@@ -38,7 +38,7 @@ describe('DatasetAboutTabs', () => {
     const { getByTestId } = render(
       <>
         <DatasetAboutTabs config={tabData} test />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('tabsContainer')).toBeDefined();
   });
@@ -47,7 +47,7 @@ describe('DatasetAboutTabs', () => {
     const { getByLabelText } = render(
       <>
         <DatasetAboutTabs config={tabData} test />
-      </RecoilRoot>
+      </>
     );
     expect(getByLabelText('Data Dictionary')).toBeInTheDocument();
     expect(getByLabelText('Data Tables')).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('DatasetAboutTabs', () => {
     const { getByLabelText, queryByLabelText } = render(
       <>
         <DatasetAboutTabs config={{ ...tabData, hideRawDataTable: true }} test />
-      </RecoilRoot>
+      </>
     );
     expect(queryByLabelText('Data Dictionary')).not.toBeInTheDocument();
     expect(queryByLabelText('Data Tables')).not.toBeInTheDocument();

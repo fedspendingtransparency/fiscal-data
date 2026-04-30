@@ -79,7 +79,7 @@ describe('download modal', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadModal open={true} onClose={onClose} />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     expect(mockSiteProviderValue.setDownloadModalIsOpen.mock.calls[0]).toBeTruthy();
     expect(getByTestId('download-modal-title')).toHaveTextContent(downloadModalTitleMulti);
@@ -94,7 +94,7 @@ describe('download modal', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadModal open={true} onClose={onClose} />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     getByTestId('download-modal-close-button').click();
     expect(onClose).toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe('download modal', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadModal open={true} onClose={onClose} />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
 
     // 2 prepared, 1 preparing, 2 queued
@@ -122,7 +122,7 @@ describe('download modal', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadModal open={true} onClose={onClose} setCancelDownloadRequest={mockSetCancelDownloadRequest} />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     jest.advanceTimersByTime(1000);
     const cancelButtons = getAllByText('Cancel Download');

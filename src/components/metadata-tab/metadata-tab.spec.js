@@ -21,7 +21,7 @@ describe('MetadataTab', () => {
     const { getAllByRole, getByRole } = render(
       <>
         <MetadataTab config={mockConfig} />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
     expect(getByRole('columnheader', { name: 'Definition' })).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('MetadataTab', () => {
     const { getByRole } = render(
       <>
         <MetadataTab config={mockConfig} />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('table', { name: `${mockConfig.name} metadata` })).toBeInTheDocument();
   });

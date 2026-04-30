@@ -79,7 +79,7 @@ describe('Deficit explainer', () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <>
         <ExplainerPageLayout pageContext={deficitPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -174,7 +174,7 @@ describe('Spending explainer', () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -239,7 +239,7 @@ describe('Revenue explainer', () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -306,7 +306,7 @@ describe('Explainer Page Layout', () => {
     const { findAllByTestId, findByText, findByTestId } = render(
       <>
         <ExplainerPageLayout pageContext={mockPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -399,7 +399,7 @@ describe('Savings Bonds explainer', () => {
     const { findAllByTestId, findByText, queryByTestId } = render(
       <>
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
@@ -434,7 +434,7 @@ describe('explainer citations', () => {
       render(
         <>
           <section>{Object.values(citations)}</section>
-        </RecoilRoot>
+        </>
       );
       const links = screen.getAllByRole('link');
       links.forEach(link => {

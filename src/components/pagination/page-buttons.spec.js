@@ -17,7 +17,7 @@ describe('PageButtons component', () => {
     const { getAllByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const buttons = getAllByRole('button');
     expect(buttons.length).toBe(pages.length + 2);
@@ -27,7 +27,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const nextButton = getByRole('button', { name: 'Next page' });
     expect(nextButton).toBeInTheDocument();
@@ -38,7 +38,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const prevButton = getByRole('button', { name: 'Previous page' });
     expect(prevButton).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const nextButton = getByRole('button', { name: 'Next page' });
     expect(nextButton).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const activeButton = getByRole('button', { name: `${tableName}-page${maxPage}` });
     expect(activeButton).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const firstButton = getByRole('button', { name: `${tableName}-page1` });
     expect(firstButton).toBeInTheDocument();
@@ -90,7 +90,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const secondButton = getByRole('button', { name: `${tableName}-page2` });
     expect(secondButton).toBeInTheDocument();
@@ -103,7 +103,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const nextButton = getByRole('button', { name: 'Next page' });
     fireEvent.click(nextButton);
@@ -116,7 +116,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const prevButton = getByRole('button', { name: 'Previous page' });
     fireEvent.click(prevButton);
@@ -129,7 +129,7 @@ describe('PageButtons component', () => {
     const { getByRole } = render(
       <>
         <PageButtons pageButtonProps={pageButtonProps} />
-      </RecoilRoot>
+      </>
     );
     const ellipsisButton = getByRole('button', { name: 'Page number overflow ellipsis' });
     expect(ellipsisButton).toBeInTheDocument();

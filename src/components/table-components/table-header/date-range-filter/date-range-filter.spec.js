@@ -17,7 +17,7 @@ describe('date range filter', () => {
     const { getByRole } = render(
       <>
         <DateRangeFilter column={mockColumn} resetFilters={mockResetFilters} setFiltersActive={mockSetFiltersActive} table={mockTable} />
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = getByRole('button');
     expect(dateRangeButton).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe('date range filter', () => {
           allActiveFilters={mockAllActiveFilters}
           setAllActiveFilters={mockSetAllActiveFilters}
         />
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = getByRole('button');
     fireEvent.click(dateRangeButton);
@@ -56,7 +56,7 @@ describe('date range filter', () => {
           allActiveFilters={mockAllActiveFilters}
           setAllActiveFilters={mockSetAllActiveFilters}
         />
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = getByRole('button');
     fireEvent.click(dateRangeButton);
@@ -79,7 +79,7 @@ describe('date range filter', () => {
           allActiveFilters={mockAllActiveFilters}
           setAllActiveFilters={mockSetAllActiveFilters}
         />
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = await findByRole('button');
     await user.tab();
@@ -115,7 +115,7 @@ describe('date range filter', () => {
           />
           <button>Outside Button</button>
         </div>
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = getByRole('button', { name: `Open ${mockColumn.id} Filter` });
     await user.click(dateRangeButton);
@@ -144,7 +144,7 @@ describe('date range filter', () => {
           allActiveFilters={mockAllActiveFilters}
           setAllActiveFilters={mockSetAllActiveFilters}
         />
-      </RecoilRoot>
+      </>
     );
     const dateRangeButton = getByRole('button');
     await user.click(dateRangeButton);
@@ -167,7 +167,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeEntry = getByRole('textbox', { hidden: true });
   //   dateRangeEntry.focus();
@@ -189,7 +189,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeEntry = getByRole('textbox', { hidden: true });
   //   dateRangeEntry.focus();
@@ -214,7 +214,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeButton = getByRole('button');
   //   dateRangeButton.click();
@@ -238,7 +238,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeEntry = getByRole('textbox', { hidden: true });
   //   dateRangeEntry.focus();
@@ -273,7 +273,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeButton = getByRole('button');
   //   dateRangeButton.click();
@@ -310,7 +310,7 @@ describe('date range filter', () => {
   //         allActiveFilters={mockAllActiveFilters}
   //         setAllActiveFilters={mockSetAllActiveFilters}
   //       />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const dateRangeButton = getByRole('button');
   //   dateRangeButton.click();

@@ -47,7 +47,7 @@ describe('exchange rates banner', () => {
     const { getByRole } = render(
       <>
         <SocialShareDropdown copy={testCopy} pageName="" />
-      </RecoilRoot>
+      </>
     );
     const shareBtn = getByRole('button', { name: 'Share' });
     fireEvent.click(shareBtn);

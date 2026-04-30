@@ -55,7 +55,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -79,7 +79,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -105,7 +105,7 @@ describe('DownloadSticky component', () => {
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
-        </RecoilRoot>
+        </>
       );
     });
     act(() => {
@@ -131,7 +131,7 @@ describe('DownloadSticky component', () => {
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
-        </RecoilRoot>
+        </>
       );
     });
     act(() => {
@@ -160,7 +160,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -188,7 +188,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -254,7 +254,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -302,7 +302,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -365,7 +365,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -408,7 +408,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -464,7 +464,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -508,7 +508,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();
@@ -573,7 +573,7 @@ describe('DownloadSticky component', () => {
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
     act(() => {
       jest.runAllTimers();

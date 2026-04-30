@@ -7,7 +7,7 @@ describe('Unavailable Text', () => {
     const { getByRole } = render(
       <>
         <PageUnavailableText />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 1 });
     expect(header).toHaveClass('unavailableHeader');
@@ -17,7 +17,7 @@ describe('Unavailable Text', () => {
     const { getByRole } = render(
       <>
         <PageUnavailableText />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { name: 'Fiscal Data is unavailable right now.' });
     expect(header).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('Unavailable Text', () => {
     const { getByRole } = render(
       <>
         <PageUnavailableText />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 2 });
     expect(within(header).getByText('We will be back shortly.')).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('Unavailable Text', () => {
     const { getByAltText } = render(
       <>
         <PageUnavailableText />
-      </RecoilRoot>
+      </>
     );
     const image = getByAltText('404: Page Not Found');
     expect(image).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByRole } = render(
       <>
         <PageUnavailableText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 1 });
     expect(header).toHaveClass('unavailableHeader');
@@ -59,7 +59,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByRole } = render(
       <>
         <PageUnavailableText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 2 });
     expect(within(header).getByText('This content is currently unavailable.')).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByAltText } = render(
       <>
         <PageUnavailableText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const image = getByAltText('404: Page Not Found');
     expect(image).toBeInTheDocument();

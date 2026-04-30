@@ -101,7 +101,7 @@ describe('Release Calendar', () => {
     const { findByTestId } = render(
       <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const siteLayout = await findByTestId('officialBanner');
@@ -114,7 +114,7 @@ describe('Release Calendar', () => {
     const { getByRole } = render(
       <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const homeLink = await getByRole('link', { name: 'Home' });
@@ -126,7 +126,7 @@ describe('Release Calendar', () => {
     const { getByRole, getByText } = render(
       <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const pageTitle = await getByRole('heading', { level: 1, name: 'Release Calendar' });

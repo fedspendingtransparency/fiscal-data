@@ -18,7 +18,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toBeDefined();
@@ -27,7 +27,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toHaveAttribute('href', hrefStr);
@@ -36,7 +36,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toHaveAttribute('download', downloadStr);
@@ -46,7 +46,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     const icon = within(anchor).getByRole('img', { hidden: true });
@@ -57,7 +57,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(within(anchor).getByText('CSV')).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('DownloadItemButton for static file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(within(anchor).getByText('(200B)')).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe('DownloadItemButton for direct download file', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
   });
@@ -103,7 +103,7 @@ describe('DownloadItemButton for direct download file', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('csv-timestamp-download-button')).toBeInTheDocument();
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe('DownloadItemButton for direct download file', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByTestId('xml-download-button')).toBeInTheDocument();
@@ -125,7 +125,7 @@ describe('DownloadItemButton for direct download file', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" selectedPivot={{ pivotValue: 'something' }} />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByRole('button', { name: 'XML (123MB)' })).toBeDisabled();
@@ -136,7 +136,7 @@ describe('DownloadItemButton for direct download file', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} selectedFileType="json" />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('json-download-button')).toBeInTheDocument();
   });
@@ -149,7 +149,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByText } = render(
       <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByText('CSV')).toBeInTheDocument();
@@ -160,7 +160,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByRole } = render(
       <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} asyncAction={asyncActionMock} />
-      </RecoilRoot>
+      </>
     );
     jest.runAllTimers();
     const button = getByRole('button');
@@ -172,7 +172,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton download="fileName" />
-      </RecoilRoot>
+      </>
     );
 
     const spy = jest.spyOn(Analytics, 'event');
@@ -189,7 +189,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton dapGaEventLabel="test" />
-      </RecoilRoot>
+      </>
     );
 
     const spy = jest.spyOn(Analytics, 'event');
@@ -206,7 +206,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
-      </RecoilRoot>
+      </>
     );
 
     const thisLink = getByTestId('download-button');
@@ -218,7 +218,7 @@ describe('DownloadItemButton for asyncAction', () => {
     const { getByTestId } = render(
       <>
         <DownloadItemButton disabled />
-      </RecoilRoot>
+      </>
     );
     const thisLink = getByTestId('download-button');
 

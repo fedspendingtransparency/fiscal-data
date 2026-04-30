@@ -1,5 +1,5 @@
 import React from 'react';
-import { getByLabelText, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SiteFooter, { siteFooterColumns } from './site-footer';
 import Analytics from '../../utils/analytics/analytics';
 
@@ -16,7 +16,7 @@ describe('SiteFooter', () => {
     const { getByTestId } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('logo')).toBeDefined();
   });
@@ -26,7 +26,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const copyrightDate = new Date().getFullYear();
     expect(getByText(copyrightDate, { exact: false })).toBeDefined();
@@ -37,7 +37,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const faqLink = getByText(siteFooterColumns[0].links[0].title);
     expect(faqLink).toBeDefined();
@@ -48,7 +48,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const contactLink = getByText(siteFooterColumns[0].links[1].title);
     expect(contactLink).toBeDefined();
@@ -59,7 +59,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const aboutLink = getByText(siteFooterColumns[1].links[0].title);
     expect(aboutLink).toBeDefined();
@@ -70,7 +70,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const aboutLink = getByText(siteFooterColumns[1].links[1].title);
     expect(aboutLink).toBeDefined();
@@ -81,7 +81,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const subscribeLink = getByText(siteFooterColumns[1].links[2].title);
     expect(subscribeLink).toBeDefined();
@@ -96,7 +96,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const usaSpendLink = getByText(siteFooterColumns[2].links[0].title);
     expect(usaSpendLink).toBeDefined();
@@ -107,7 +107,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const accessLink = getByText('Accessibility');
     expect(accessLink).toBeDefined();
@@ -118,7 +118,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const privacyLink = getByText('Privacy Policy');
     expect(privacyLink).toBeDefined();
@@ -129,7 +129,7 @@ describe('SiteFooter', () => {
     const { getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const foiaLink = getByText('Freedom of Information Act');
     expect(foiaLink).toBeDefined();
@@ -139,7 +139,7 @@ describe('SiteFooter', () => {
     render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     expect(screen.getByTestId('download-sticky')).toBeInTheDocument();
   });
@@ -148,7 +148,7 @@ describe('SiteFooter', () => {
     render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     expect(screen.getByTestId('resume-download-modal')).toBeInTheDocument();
   });
@@ -159,7 +159,7 @@ describe('SiteFooter', () => {
     const { getByTestId, getByText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     document.title = pageTitle;
 
@@ -231,7 +231,7 @@ describe('SiteFooter', () => {
     const { getByLabelText } = render(
       <>
         <SiteFooter />
-      </RecoilRoot>
+      </>
     );
     const socialLinks = [
       { testId: 'FacebookIcon', url: 'https://www.facebook.com/fiscalservice' },

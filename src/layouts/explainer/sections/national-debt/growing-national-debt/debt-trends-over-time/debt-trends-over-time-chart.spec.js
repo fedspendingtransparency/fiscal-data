@@ -29,7 +29,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findByTestId } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
@@ -40,7 +40,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findByTestId, getByTestId } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findByTestId, getByTestId } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findAllByText } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
     act(() => {
       // explicitly declare that the chart is not scrolled into view
@@ -88,7 +88,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findByText, findByTestId } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -118,7 +118,7 @@ describe('Debt Trends Over Time Chart', () => {
     const { findByTestId } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     const chart = await findByTestId('debtTrendsChart');

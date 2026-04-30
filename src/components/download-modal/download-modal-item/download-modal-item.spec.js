@@ -75,7 +75,7 @@ describe('download modal item', () => {
     component = (
       <>
         <DownloadModalItem datasetId={testId} download={mockPreparedDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId, queryByTestId } = render(component);
 
@@ -91,7 +91,7 @@ describe('download modal item', () => {
     component = (
       <>
         <DownloadModalItem download={mockDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId } = render(component);
 
@@ -110,7 +110,7 @@ describe('download modal item', () => {
     component = (
       <>
         <DownloadModalItem download={mockDownload} resumed />
-      </RecoilRoot>
+      </>
     );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toBeTruthy();
@@ -120,7 +120,7 @@ describe('download modal item', () => {
     component = (
       <>
         <DownloadModalItem download={mockDownload} />
-      </RecoilRoot>
+      </>
     );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toStrictEqual(0);
@@ -130,7 +130,7 @@ describe('download modal item', () => {
     component = (
       <>
         <DownloadModalItem download={mockQueuedDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId } = render(component);
 

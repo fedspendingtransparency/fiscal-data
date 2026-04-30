@@ -11,7 +11,7 @@ describe('Experimental layout page', () => {
     render(
       <>
         <ExperimentalPage />
-      </RecoilRoot>
+      </>
     );
     expect(true).toBe(true);
   });

@@ -36,7 +36,7 @@ describe('Data Sources & Methodologies', () => {
     const { findByText, getByRole } = render(
       <>
         <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
-      </RecoilRoot>
+      </>
     );
     const toggle = getByRole('button');
     act(() => {
@@ -52,7 +52,7 @@ describe('Data Sources & Methodologies', () => {
     const { getByText, getByRole } = render(
       <>
         <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
-      </RecoilRoot>
+      </>
     );
 
     const toggle = getByRole('button');

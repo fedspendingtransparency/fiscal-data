@@ -14,7 +14,7 @@ describe('Hero Image', () => {
     const { getByText, getByTestId } = render(
       <>
         <HeroImage heading={heading} subHeading={subHeading} primaryColor={primaryColor} secondaryColor={secondaryColor} width={0} />
-      </RecoilRoot>
+      </>
     );
     expect(getByText(heading)).toBeInTheDocument();
     expect(getByText(subHeading)).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('National Debt Hero', () => {
     const { getAllByRole, getByTestId } = render(
       <>
         <HeroImage heading={heading} subHeading={subHeading} primaryColor={primaryColor} secondaryColor={secondaryColor} width={0} />
-      </RecoilRoot>
+      </>
     );
   });
 });

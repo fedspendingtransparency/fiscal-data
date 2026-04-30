@@ -8,7 +8,7 @@ const renderTopics = () =>
   render(
     <>
       <Topics pageContext={{ config, isPreProd: true }} />
-    </RecoilRoot>
+    </>
   );
 
 describe('Topics layout', () => {

@@ -30,7 +30,7 @@ describe('Visualing the debt accordion values', () => {
     const { getByText } = render(
       <>
         <VisualizingTheDebtAccordion />
-      </RecoilRoot>
+      </>
     );
     expect(fetchSpy).toHaveBeenCalled;
     await waitForElementToBeRemoved(() => getByText(/--/i));

@@ -7,7 +7,7 @@ describe('404 Not Found Text', () => {
     const { getByRole } = render(
       <>
         <PageErrorText />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 1 });
     expect(header).toHaveClass('notFoundHeader');
@@ -17,7 +17,7 @@ describe('404 Not Found Text', () => {
     const { getByRole } = render(
       <>
         <PageErrorText />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 2 });
     expect(within(header).getByText('404: Page not found')).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('404 Not Found Text', () => {
     const { getByRole } = render(
       <>
         <PageErrorText />
-      </RecoilRoot>
+      </>
     );
     const list = getByRole('list');
     const listLinks = within(list).getAllByRole('link');
@@ -38,7 +38,7 @@ describe('404 Not Found Text', () => {
     const { getByAltText } = render(
       <>
         <PageErrorText />
-      </RecoilRoot>
+      </>
     );
     const image = getByAltText('404: Page Not Found');
     expect(image).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByRole } = render(
       <>
         <PageErrorText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 1 });
     expect(header).toHaveClass('notFoundHeader');
@@ -60,7 +60,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByRole } = render(
       <>
         <PageErrorText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const header = getByRole('heading', { level: 2 });
     expect(within(header).getByText('This content is currently unavailable.')).toBeInTheDocument();
@@ -70,7 +70,7 @@ describe('Fallback for Error Boundary', () => {
     const { getByAltText } = render(
       <>
         <PageErrorText fallback={true} />
-      </RecoilRoot>
+      </>
     );
     const image = getByAltText('404: Page Not Found');
     expect(image).toBeInTheDocument();

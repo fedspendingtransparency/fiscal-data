@@ -24,7 +24,7 @@ describe('DataTablesTab', () => {
     const { getByRole } = render(
       <>
         <DataTablesTab apis={mockData} />
-      </RecoilRoot>
+      </>
     );
     mockData.forEach(row => {
       expect(getByRole('cell', { name: row.tableName })).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('DataTablesTab', () => {
     const { getByRole } = render(
       <>
         <DataTablesTab apis={mockData} datasetName={name} />
-      </RecoilRoot>
+      </>
     );
 
     const table = getByRole('table', { name: `${name} data tables` });

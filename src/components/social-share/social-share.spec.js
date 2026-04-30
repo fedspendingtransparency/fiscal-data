@@ -77,7 +77,7 @@ describe('Social Share component', () => {
     const { getByRole } = render(
       <>
         <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
-      </RecoilRoot>
+      </>
     );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
@@ -133,7 +133,7 @@ describe('Social Share component', () => {
     const { getByRole } = render(
       <>
         <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
-      </RecoilRoot>
+      </>
     );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
