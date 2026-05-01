@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, fireEvent, act, cleanup } from '@testing-library/react';
 import { redirectModalState } from '../redirect-modal-helper';
