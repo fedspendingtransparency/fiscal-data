@@ -3,7 +3,6 @@ import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import { VisualizingTheDebtAccordion } from './visualizing-the-debt-accordion';
 import React from 'react';
 import { mockBeaGDPData } from '../../../../explainer-test-helper';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../../../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
@@ -29,9 +28,9 @@ describe('Visualing the debt accordion values', () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <VisualizingTheDebtAccordion />
-      </RecoilRoot>
+      </>
     );
     expect(fetchSpy).toHaveBeenCalled;
     await waitForElementToBeRemoved(() => getByText(/--/i));

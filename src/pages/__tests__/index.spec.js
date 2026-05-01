@@ -1,9 +1,7 @@
 import React from 'react';
-import { fireEvent, render, waitFor, within } from '@testing-library/react';
-
+import { render } from '@testing-library/react';
 import { Index } from '../index';
 import * as Gatsby from 'gatsby';
-import { RecoilRoot } from "recoil";
 
 const imageQueryMock = {
   allFile: {
@@ -35,17 +33,17 @@ beforeAll(() => {
 
 describe('Site Home Index', () => {
   it('renders the topics section', () => {
-    const { getByTestId } = render(<Index width={900} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('topics-section')).toBeInTheDocument();
   });
 
   it('renders the HomeMainContent component', () => {
-    const { getByTestId } = render(<Index width={900} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('home-main-content')).toBeInTheDocument();
   });
 
   it('renders the HomeFeatures component', () => {
-    const { getByTestId } = render(<Index width={900} />, {wrapper: RecoilRoot});
+    const { getByTestId } = render(<Index width={900} />);
     expect(getByTestId('home-features')).toBeInTheDocument();
   });
 });

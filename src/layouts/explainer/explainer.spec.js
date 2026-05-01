@@ -9,7 +9,6 @@ import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
 import * as Gatsby from 'gatsby';
 import { useStaticQuery } from 'gatsby';
-import { RecoilRoot } from 'recoil';
 import Analytics from '../../utils/analytics/analytics';
 import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
 
@@ -77,9 +76,9 @@ describe('Deficit explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={deficitPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -172,9 +171,9 @@ describe('Spending explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -237,9 +236,9 @@ describe('Revenue explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -304,9 +303,9 @@ describe('Explainer Page Layout', () => {
 
   it('renders the debt explainer page', async () => {
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={mockPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -397,9 +396,9 @@ describe('Savings Bonds explainer', () => {
     };
 
     const { findAllByTestId, findByText, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
@@ -432,9 +431,9 @@ describe('explainer citations', () => {
     pages.forEach(page => {
       const citations = explainerCitations(page);
       render(
-        <RecoilRoot>
+        <>
           <section>{Object.values(citations)}</section>
-        </RecoilRoot>
+        </>
       );
       const links = screen.getAllByRole('link');
       links.forEach(link => {

@@ -1,7 +1,6 @@
 import ApiQuickGuide from './api-quick-guide';
 import { selectedTable } from './test-helpers/test-helpers';
 import React from 'react';
-import { RecoilRoot } from 'recoil';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -36,9 +35,9 @@ describe('API Quick Guide Tab Index', () => {
   it('ensures links are tabIndex: -1 when collapsed and tabIndex: 0 when expanded', async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ApiQuickGuide config={config} selectedTable={selectedTable} />
-      </RecoilRoot>
+      </>
     );
     jest.runAllTimers();
     const datasetProperties = getByRole('link', { name: 'Dataset Properties', hidden: true });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, within } from '@testing-library/react';
 import InsightPageLayout from './insight';
-import { RecoilRoot } from 'recoil';
 import fetchMock from 'fetch-mock';
 import {
   avgRateChartDataUrl,
@@ -44,9 +43,9 @@ describe('Insights Template', () => {
   const queryClient = new QueryClient();
 
   const wrapper = ({ children }) => (
-    <RecoilRoot>
+    <>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </RecoilRoot>
+    </>
   );
 
   beforeAll(() => {

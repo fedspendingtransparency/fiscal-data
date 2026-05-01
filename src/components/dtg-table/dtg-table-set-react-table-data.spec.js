@@ -1,5 +1,4 @@
 import { act, render, waitFor, within } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import DtgTable from './dtg-table';
 import {
   longerPaginatedDataResponse,
@@ -42,7 +41,7 @@ describe('React Table Data ', () => {
 
   it('sets raw data', async () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DtgTable
           tableProps={mockReactTableProps_rawData}
           reactTable
@@ -51,7 +50,7 @@ describe('React Table Data ', () => {
           tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
@@ -62,7 +61,7 @@ describe('React Table Data ', () => {
     const mockSorting = jest.fn();
 
     const { findByRole, getByRole, getByText } = render(
-      <RecoilRoot>
+      <>
         <DtgTable
           tableProps={{ ...tableProps, ...mockPaginatedTableProps }}
           tableMeta={{ meta: { 'total-count': 20001, dataTypes: longerPaginatedDataResponse.meta.dataTypes }, table: 'test table' }}
@@ -75,7 +74,7 @@ describe('React Table Data ', () => {
           setAllActiveFilters={mockSorting}
           sorting={['record-date']}
         />
-      </RecoilRoot>
+      </>
     );
 
     await act(async () => {
@@ -103,7 +102,7 @@ describe('React Table Data ', () => {
 
   it('sets raw data for nested detail tables', async () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DtgTable
           tableProps={mockReactTableProps_rawData_nestedDetailTable}
           pivotSelected={null}
@@ -111,7 +110,7 @@ describe('React Table Data ', () => {
           setManualPagination={setManualPaginationSpy}
           detailViewState={{ secondary: 'last' }}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);
@@ -123,14 +122,14 @@ describe('React Table Data ', () => {
       pivotValue: { columnName: 'First' },
     };
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DtgTable
           tableProps={mockReactTableProps_rawData_pivotTable}
           pivotSelected={mockPivot}
           tableMeta={{ meta: { 'total-count': 2 } }}
           setManualPagination={setManualPaginationSpy}
         />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
     expect(setManualPaginationSpy).toHaveBeenCalledWith(false);

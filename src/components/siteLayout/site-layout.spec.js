@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import SiteLayout, { preProdEnvMsg } from './siteLayout';
-import { RecoilRoot } from 'recoil';
 
 // import * as modules so we can spy on their default exports
 import * as HeaderModule from '../site-header/site-header';
@@ -10,11 +9,11 @@ import * as FooterModule from '../site-footer/site-footer';
 describe('SiteLayout', () => {
   const renderLayout = (props = {}) =>
     render(
-      <RecoilRoot>
+      <>
         <SiteLayout {...props}>
           <div>child content</div>
         </SiteLayout>
-      </RecoilRoot>
+      </>
     );
 
   beforeEach(() => {

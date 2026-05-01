@@ -3,7 +3,6 @@ import { mockAPIs, mockMaxDates, mockSummaryDataset, mockSummaryDatasetNoUpdates
 import DatasetDetail from './dataset-detail';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
-import { RecoilRoot } from 'recoil';
 import { act, render } from '@testing-library/react';
 import { datasetPageSampleConfig } from './test-helper';
 
@@ -84,7 +83,7 @@ describe('Dataset-Detail layout component', () => {
 
   it('has a SiteLayout component placed forevermore within its layout', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -93,14 +92,14 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('siteLayout')).toBeInTheDocument();
   });
 
   it('has a DDNav component placed forevermore within its layout', async () => {
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -109,14 +108,14 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(await findByTestId('DDNavMenu')).toBeInTheDocument();
   });
 
   it('has a Masthead component placed forevermore within its layout', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -125,14 +124,14 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('masthead')).toBeInTheDocument();
   });
 
   it('renders all page sections', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -141,7 +140,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
     expect(getByRole('heading', { name: 'Data Preview' })).toBeInTheDocument();
@@ -152,7 +151,7 @@ describe('Dataset-Detail layout component', () => {
 
   it('has a DatasetData component', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -161,14 +160,14 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('datasetData')).toBeInTheDocument();
   });
 
   it('passes content for the banner callout if set in config', async () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -177,7 +176,7 @@ describe('Dataset-Detail layout component', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByTestId('callout')).toBeInTheDocument();
@@ -252,7 +251,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders callout when specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -261,7 +260,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -269,7 +268,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when SavingsBondsDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -281,7 +280,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -289,7 +288,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when TreasuryDirectDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -301,7 +300,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -309,7 +308,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when not SavingsBondsDelay or TreasuryDirectDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -318,7 +317,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -326,7 +325,7 @@ describe('Dataset - banner callout', () => {
 
   it('does not render callout when not specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -335,14 +334,14 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByTestId('callout')).toBeNull();
   });
 
   it('hides api specific sections when hideRawDataTable is true', () => {
     const { getByRole, queryByRole } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -351,7 +350,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
     expect(queryByRole('heading', { name: 'Data Preview' })).not.toBeInTheDocument();

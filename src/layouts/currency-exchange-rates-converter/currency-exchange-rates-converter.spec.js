@@ -4,7 +4,6 @@ import CurrencyExchangeRatesConverter from './index';
 import { fireEvent } from '@testing-library/dom';
 import Analytics from '../../utils/analytics/analytics';
 import { XRMockData } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-test-helper';
-import { RecoilRoot } from 'recoil';
 import { StaticQuery, useStaticQuery } from 'gatsby';
 
 jest.useFakeTimers();
@@ -28,7 +27,7 @@ describe('exchange rates converter', () => {
   afterEach(cleanup);
 
   it('Renders the exchange rates converter page', async () => {
-    const { getAllByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    const { getAllByText } = render(<CurrencyExchangeRatesConverter />);
 
     await waitFor(() => getAllByText('Currency Exchange Rates Converter'));
 
@@ -36,7 +35,7 @@ describe('exchange rates converter', () => {
   });
 
   it('input boxes do not allow letters', async () => {
-    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -59,7 +58,7 @@ describe('exchange rates converter', () => {
   });
 
   it('typing in the US Dollar box changes the non US currency exchange value appropriately', async () => {
-    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
     const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -81,7 +80,7 @@ describe('exchange rates converter', () => {
   });
 
   it('typing in the non US currency box changes the US dollar exchange value appropriately', async () => {
-    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    const { getByTestId, getByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
 
     const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -104,7 +103,7 @@ describe('exchange rates converter', () => {
   });
 
   // it('renders the most recent effective date', async () => {
-  //   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  //   const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
   //   await waitFor(() => getByText('U.S. Dollar'));
   //   const dropdown = getByTestId('nested-dropdown');
   //   const dropdownButton = within(dropdown).getByTestId('toggle-button');
@@ -119,7 +118,7 @@ describe('exchange rates converter', () => {
   //   expect(getByText('December 31, 2022 to September 30, 2024', { exact: false })).toBeInTheDocument();
   // });
   it('displays -- when the selected currency is not available for a given date', async () => {
-    const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+    const { getByText, getByTestId, getAllByText } = render(<CurrencyExchangeRatesConverter />);
     await waitFor(() => getByText('U.S. Dollar'));
     const dropdown = getByTestId('dropdown-button-container');
     let dropdownButton = within(dropdown).getByTestId('dropdownToggle');
@@ -152,7 +151,7 @@ describe('exchange rates converter', () => {
 
 it('does not call analytic event when Effective Date info tip is hovered over and left before 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('effective-date-info-tip'));
 
   const effectiveDateInfo = getByTestId('effective-date-info-tip');
@@ -171,7 +170,7 @@ it('does not call analytic event when Effective Date info tip is hovered over an
 
 it('does not call analytic event when Effective Date info tip is hovered over in first 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('effective-date-info-tip'));
 
   const effectiveDateInfo = getByTestId('effective-date-info-tip');
@@ -189,7 +188,7 @@ it('does not call analytic event when Effective Date info tip is hovered over in
 
 it('calls the appropriate analytics event when Effective Date info tip is hovered over', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('effective-date-info-tip'));
 
   const effectiveDateInfo = getByTestId('effective-date-info-tip');
@@ -206,7 +205,7 @@ it('calls the appropriate analytics event when Effective Date info tip is hovere
 
 it('does not call analytics event when Foreign Currency info tip is hovered over and left before 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('foreign-currency-info-tip'));
 
   const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
@@ -224,7 +223,7 @@ it('does not call analytics event when Foreign Currency info tip is hovered over
 
 it('does not call analytics event when Foreign Currency info tip is hovered over in first 3 seconds', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('foreign-currency-info-tip'));
 
   const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
@@ -241,7 +240,7 @@ it('does not call analytics event when Foreign Currency info tip is hovered over
 
 it('calls the appropriate analytics event when Foreign Currency info tip is hovered over', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('foreign-currency-info-tip'));
 
   const foreignCurrencyInfo = getByTestId('foreign-currency-info-tip');
@@ -258,7 +257,7 @@ it('calls the appropriate analytics event when Foreign Currency info tip is hove
 
 it('calls the appropriate analytics event when TRRE link is clicked', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByText } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
   const trreLink = getByText('Treasury Reporting Rates of Exchange');
@@ -273,7 +272,7 @@ it('calls the appropriate analytics event when TRRE link is clicked', async () =
 
 it('calls the appropriate analytics event when Treasury Financial Manual link is clicked', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByText } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByText } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
   const treasuryFinancialManualLink = getByText('Treasury Financial Manual, volume 1, part 2, section 3235');
@@ -288,7 +287,7 @@ it('calls the appropriate analytics event when Treasury Financial Manual link is
 
 it('calls the appropriate analytics event when new value is entered into non US currency field', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByText, getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByText('U.S. Dollar'));
 
   const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -308,7 +307,7 @@ it('calls the appropriate analytics event when new value is entered into non US 
 
 it('does not call analytic event when new value is entered into non US currency field before 3 seconds pass', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
   const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -328,7 +327,7 @@ it('does not call analytic event when new value is entered into non US currency 
 
 it('does not call analytic event when non US currency field is empty', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
   const nonUSBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -348,7 +347,7 @@ it('does not call analytic event when non US currency field is empty', async () 
 
 it('calls the appropriate analytics event when new value is entered into US currency field', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
   const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -369,7 +368,7 @@ it('calls the appropriate analytics event when new value is entered into US curr
 
 it('does not call analytic event when new value is entered into US currency field before 3 seconds pass', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
   const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {
@@ -389,7 +388,7 @@ it('does not call analytic event when new value is entered into US currency fiel
 
 it('does not call analytic event when US currency field is empty', async () => {
   const spy = jest.spyOn(Analytics, 'event');
-  const { getByTestId } = render(<CurrencyExchangeRatesConverter />, { wrapper: RecoilRoot });
+  const { getByTestId } = render(<CurrencyExchangeRatesConverter />);
   await waitFor(() => getByTestId('box-container'));
 
   const usBox = within(getByTestId('box-container')).getByRole('spinbutton', {

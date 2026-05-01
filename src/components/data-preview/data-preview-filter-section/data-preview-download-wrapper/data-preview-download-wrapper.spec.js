@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import DataPreviewDownloadWrapper from './data-preview-download-wrapper';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { RecoilRoot } from 'recoil';
 import userEvent from '@testing-library/user-event';
 import { downloadsContext } from '../../../persist/download-persist/downloads-persist';
 
@@ -87,11 +86,11 @@ describe('data preview download', () => {
 
   it('renders a placeholder and triggers download on click', async () => {
     const { getByRole, findAllByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DataPreviewDownloadWrapper {...defaultProps} />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
 
     const downloadButton = getByRole('button', { name: 'Download' });

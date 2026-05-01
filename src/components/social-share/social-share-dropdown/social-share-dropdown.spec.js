@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, act, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SocialShareDropdown from './social-share-dropdown';
-import { RecoilRoot } from 'recoil';
 
 const testCopy = {
   title: 'test',
@@ -46,9 +45,9 @@ describe('exchange rates banner', () => {
 
   it('closes the dropdown when a social button is clicked', async () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <SocialShareDropdown copy={testCopy} pageName="" />
-      </RecoilRoot>
+      </>
     );
     const shareBtn = getByRole('button', { name: 'Share' });
     fireEvent.click(shareBtn);

@@ -21,7 +21,6 @@ import * as setNoChartMessageMod from './set-no-chart-message';
 import GLOBALS from '../../../helpers/constants';
 import globalConstants from '../../../helpers/constants';
 import { act, fireEvent, render, waitFor, within } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import { dataAggregationNotice } from './aggregation-notice/aggregation-notice';
 import userEvent from '@testing-library/user-event';
 
@@ -30,7 +29,7 @@ describe('TableSectionContainer initial state', () => {
 
   it('hides the table component when there is no data', () => {
     const { queryAllByRole } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           selectedTable={selectedTableLessFields}
           dateRange={mockDateRange}
@@ -41,7 +40,7 @@ describe('TableSectionContainer initial state', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryAllByRole('table').length).toBe(0);
   });
@@ -52,7 +51,7 @@ describe('TableSectionContainer while loading', () => {
   let queryTestId;
   beforeAll(() => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -67,7 +66,7 @@ describe('TableSectionContainer while loading', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     queryTestId = queryByTestId;
   });
@@ -90,7 +89,7 @@ describe('TableSectionContainer with data', () => {
 
   it('displays the table component when there is data', async () => {
     const { findByRole } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -105,7 +104,7 @@ describe('TableSectionContainer with data', () => {
           setUserFilterUnmatchedForDateRange={jest.fn()}
           tableMeta={{ meta: { 'total-count': 5 }, table: selectedTable.tableName }}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByRole('table')).toBeInTheDocument();
@@ -113,7 +112,7 @@ describe('TableSectionContainer with data', () => {
 
   it('sends slug and currentTableName props to DatasetChart citation', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -128,7 +127,7 @@ describe('TableSectionContainer with data', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByText(`${globalConstants.BASE_SITE_URL}/datasets${mockConfig.slug}`)).toBeInTheDocument();
     expect(getByText(selectedTable.tableName)).toBeInTheDocument();
@@ -136,7 +135,7 @@ describe('TableSectionContainer with data', () => {
 
   it('shows no pivot options toggle when none are available', () => {
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -151,7 +150,7 @@ describe('TableSectionContainer with data', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByText('Pivot View:')).not.toBeInTheDocument();
   });
@@ -160,7 +159,7 @@ describe('TableSectionContainer with data', () => {
 describe('TableSectionContainer with userFilter Options', () => {
   it('displays the NotShownMessage when a user filter is engaged that matches no rows', () => {
     const { getByRole, getAllByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -175,7 +174,7 @@ describe('TableSectionContainer with userFilter Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     const notShownMessage = getAllByTestId('notShownContainer')[0];
@@ -191,7 +190,7 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('shows a pivot options toggle button when pivots are available', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -207,14 +206,14 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('button', { name: 'Hide Pivot Options' })).toBeInTheDocument();
   });
 
   it('pivot options are in view by default', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -230,14 +229,14 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
   });
 
   it('shows no aggregation notice when the selected pivot is not aggregated', () => {
     const {} = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -253,14 +252,14 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     // expect(instance.findAllByType(AggregationNotice)).toEqual([]);
   });
 
   it('collapses/expands the pivot options when the toggle button is clicked', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -276,7 +275,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
     fireEvent.click(getByTestId('pivotToggle'));
@@ -285,7 +284,7 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('toggle pivot view with rounding denomination', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -301,14 +300,14 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(getByTestId('pivotToggle'));
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
     const {} = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -324,7 +323,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     // const table = instance.findByType(DtgTable);
     // expect(table.props.tableProps.serverSidePagination).toEqual('ssp-endpoint');
@@ -337,7 +336,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => noChartMsg);
 
     const { getByText, queryByText } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -352,7 +351,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
@@ -367,7 +366,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     setNoChartMessageMod['SetNoChartMessage'] = jest.fn().mockImplementation(() => undefined);
 
     const { getByText, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -383,7 +382,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(setNoChartMessageMod.SetNoChartMessage).toHaveBeenCalled;
@@ -393,7 +392,7 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('displays the aggregation notice when an aggregated pivot option is selected', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -408,7 +407,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     const aggNotice = getByText(dataAggregationNotice);
     expect(aggNotice).toBeInTheDocument();
@@ -419,7 +418,7 @@ describe('TableSectionContainer with Pivot Options', () => {
   the state.`, () => {
     global.window.innerWidth = GLOBALS.breakpoints.large;
     const { rerender, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -434,14 +433,14 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     let datasetChart = getByTestId('dataset-chart');
     expect(datasetChart).not.toHaveClass('legendActive');
 
     global.window.innerWidth = GLOBALS.breakpoints.large + 6;
     rerender(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -456,7 +455,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     datasetChart = getByTestId('dataset-chart');
@@ -464,7 +463,7 @@ describe('TableSectionContainer with Pivot Options', () => {
 
     global.window.innerWidth = GLOBALS.breakpoints.large - 125;
     rerender(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -477,7 +476,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     datasetChart = getByTestId('dataset-chart');
@@ -491,7 +490,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     global.window.innerWidth = GLOBALS.breakpoints.large + 1;
     const { getByTestId, rerender, findByRole, getByRole } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -508,7 +507,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
 
     let datasetChart = getByTestId('dataset-chart');
@@ -529,7 +528,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     global.window.innerWidth = GLOBALS.breakpoints.large - 5;
     act(() => {
       rerender(
-        <RecoilRoot>
+        <>
           <TableSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -544,7 +543,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             setTableColumnSortData={jest.fn()}
             setResetFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
     });
 
@@ -562,7 +561,7 @@ describe('TableSectionContainer with Pivot Options', () => {
     global.window.innerWidth = GLOBALS.breakpoints.large + 50;
     act(() => {
       rerender(
-        <RecoilRoot>
+        <>
           <TableSectionContainer
             config={mockConfig}
             dateRange={mockDateRange}
@@ -577,7 +576,7 @@ describe('TableSectionContainer with Pivot Options', () => {
             setTableColumnSortData={jest.fn()}
             setResetFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       );
     });
     datasetChart = getByTestId('dataset-chart');
@@ -587,7 +586,7 @@ describe('TableSectionContainer with Pivot Options', () => {
 
   it('renders selected detail view key with the dataset header', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -603,7 +602,7 @@ describe('TableSectionContainer with Pivot Options', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByTestId('tableName')).toBeInTheDocument();
   });
@@ -616,7 +615,7 @@ describe('formatDate function', () => {
     };
 
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockDetailConfig}
           dateRange={mockDateRange}
@@ -631,7 +630,7 @@ describe('formatDate function', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('tableName').textContent).toContain('Table 1 > 06/01/2023');
   });
@@ -642,7 +641,7 @@ describe('Table with API filter', () => {
     const mockSetIsLoading = jest.fn();
 
     const { queryByRole } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -657,7 +656,7 @@ describe('Table with API filter', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     //table is not loading by default
     expect(mockSetIsLoading).not.toHaveBeenCalledWith(true);
@@ -670,7 +669,7 @@ describe('misc tests for component', () => {
     const mockSetDetailViewState = jest.fn();
 
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <TableSectionContainer
           config={mockConfig}
           dateRange={mockDateRange}
@@ -687,7 +686,7 @@ describe('misc tests for component', () => {
           setResetFilters={jest.fn()}
           setUserFilterUnmatchedForDateRange={jest.fn()}
         />
-      </RecoilRoot>
+      </>
     );
     const button = getByTestId('detailViewCloseButton');
     expect(button).toBeInTheDocument();

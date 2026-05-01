@@ -2,14 +2,13 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import Topics from './topics';
 import { config } from './test-helpers';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('../../components/site-footer/site-footer', () => () => <div data-testid="siteFooter" />);
 const renderTopics = () =>
   render(
-    <RecoilRoot>
+    <>
       <Topics pageContext={{ config, isPreProd: true }} />
-    </RecoilRoot>
+    </>
   );
 
 describe('Topics layout', () => {

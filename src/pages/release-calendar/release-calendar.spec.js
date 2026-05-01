@@ -1,6 +1,5 @@
 import React from 'react';
 import ReleaseCalendar from './index';
-import { RecoilRoot } from 'recoil';
 import fetchMock from 'fetch-mock';
 import { render, waitFor } from '@testing-library/react';
 
@@ -99,9 +98,9 @@ describe('Release Calendar', () => {
   it('includes the SiteLayout component', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const siteLayout = await findByTestId('officialBanner');
@@ -112,9 +111,9 @@ describe('Release Calendar', () => {
   it('includes breadcrumbs', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const homeLink = await getByRole('link', { name: 'Home' });
@@ -124,9 +123,9 @@ describe('Release Calendar', () => {
   it('includes the page title and tagline', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByRole, getByText } = render(
-      <RecoilRoot>
+      <>
         <ReleaseCalendar />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const pageTitle = await getByRole('heading', { level: 1, name: 'Release Calendar' });

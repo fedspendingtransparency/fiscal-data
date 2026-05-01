@@ -12,7 +12,6 @@ import { breakpointSm } from '../../../../variables.module.scss';
 import { growingNationalDebtSectionAccordion } from './debt-accordion/visualizing-the-debt-accordion.module.scss';
 import { waitFor } from '@testing-library/dom';
 import Analytics from '../../../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -51,9 +50,9 @@ describe('The Growing National Debt', () => {
 
   it('renders the Visualizing the Debt table inside an accordion', async () => {
     const { container } = render(
-      <RecoilRoot>
+      <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await container.querySelector(`.${growingNationalDebtSectionAccordion}`)).toBeInTheDocument();
@@ -61,17 +60,17 @@ describe('The Growing National Debt', () => {
 
   it('shows the correct amount of rows and columns for different screen sizes', async () => {
     const { findByTestId, findAllByTestId, rerender } = render(
-      <RecoilRoot>
+      <>
         <VisualizingTheDebtAccordion width={breakpointSm} />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(await findByTestId('button'));
     const rowsDesktop = await findAllByTestId('accordion-table-row');
     expect(rowsDesktop).toHaveLength(visualizingTheDebtTableContent.desktop.rows);
     rerender(
-      <RecoilRoot>
+      <>
         <VisualizingTheDebtAccordion width={breakpointSm - 1} />
-      </RecoilRoot>
+      </>
     );
 
     const rowsMobile = await findAllByTestId('accordion-table-row');
@@ -80,9 +79,9 @@ describe('The Growing National Debt', () => {
 
   it('contains the two charts contained in this section', async () => {
     const { findAllByTestId } = render(
-      <RecoilRoot>
+      <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     const allCharts = await findAllByTestId('chart');
     expect(allCharts.length).toStrictEqual(2);
@@ -93,9 +92,9 @@ describe('The Growing National Debt', () => {
     const latestValue = simplifyNumber(mockExplainerPageResponse.data[0][config.valueField], true);
 
     const { findAllByText, findByText } = render(
-      <RecoilRoot>
+      <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     // Latest year is also the text content for the last value on the graph's x-axis
@@ -109,9 +108,9 @@ describe('The Growing National Debt', () => {
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText, getAllByText } = render(
-      <RecoilRoot>
+      <>
         <GrowingNationalDebtSection sectionId={sectionId} glossary={glossary} cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
 
     const historicalDebt = await waitFor(() => getAllByText('Historical Debt Outstanding')[0]);

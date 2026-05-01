@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import { SocialShareComponent } from './social-share';
 import { breakpointLg, breakpointSm } from '../../../../variables.module.scss';
 import Analytics from '../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('./variables.module.scss', content => ({
   ...content,
@@ -76,9 +75,9 @@ describe('Social Share component', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
-      </RecoilRoot>
+      </>
     );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
@@ -132,9 +131,9 @@ describe('Social Share component', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
-      </RecoilRoot>
+      </>
     );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
