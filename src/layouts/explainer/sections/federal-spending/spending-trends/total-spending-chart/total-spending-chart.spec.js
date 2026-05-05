@@ -88,19 +88,20 @@ describe('Total Spending Chart', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const customPoints = await findByTestId('customPoints');
     expect(customPoints).toBeInTheDocument();
-    expect(customPoints.querySelector('circle').length === 4);
+    await waitFor(() => expect(customPoints.querySelectorAll('circle').length).toBe(4));
   });
 
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    expect(await getByTestId('customSlices')).toBeInTheDocument();
-    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 8);
+    const customSlices = await findByTestId('customSlices');
+    expect(customSlices).toBeInTheDocument();
+    await waitFor(() => expect(customSlices.querySelectorAll('rect').length).toBeGreaterThan(0));
   });
 
   it('renders the chart headers', async () => {

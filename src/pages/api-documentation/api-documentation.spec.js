@@ -15,6 +15,7 @@ describe('ApiDocumentationPage', () => {
       topics: internalData.topics,
     },
   };
+  const realQuerySeletor = document.querySelector.bind(document);
   document.querySelector = jest.fn(() => {
     return {
       appendChild: jest.fn(),
@@ -120,7 +121,13 @@ describe('ApiDocumentationPage', () => {
   });
 
   it('ensures component has the correct page helmet title', () => {
-    render(<Head />);
-    expect(document.title).toBe('API Documentation | U.S. Treasury Fiscal Data');
+    const mockedQuerySelector = document.querySelector;
+    document.querySelector = realQuerySeletor;
+    try {
+      render(<Head />);
+      expect(document.title).toBe('API Documentation | U.S. Treasury Fiscal Data');
+    } finally {
+      document.querySelector = mockedQuerySelector;
+    }
   });
 });

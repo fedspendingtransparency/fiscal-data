@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Persist, { siteContext, Provider } from './persist';
 
 describe('components.persist', () => {
   let persistedsiteContext;
 
   beforeEach(() => {
-    ReactDOM.render(
+    render(
       Persist({
         element: (
           <Provider>
@@ -17,8 +17,7 @@ describe('components.persist', () => {
             </siteContext.Consumer>
           </Provider>
         ),
-      }),
-      document.createElement('div')
+      })
     );
   });
 
