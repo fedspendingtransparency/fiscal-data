@@ -187,13 +187,61 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             <DatePicker
               value={beginDate}
               onChange={handleBeginDate}
+              closeOnSelect={false}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
               onError={error => setBeginErrorMessage(handleError(error))}
               inputFormat="MM/dd/yyyy"
               minDate={dayjs(minAllowedDate)}
               maxDate={dayjs(maxAllowedDate)}
+              localeText={{
+                okButtonLabel: 'Apply',
+                cancelButtonLabel: 'Cancel'
+              }}
               slotProps={{
+                actionBar: {
+                  actions: ['cancel', 'accept'],
+                  sx: {
+                    padding: '0.75rem 1rem',
+                    justifyContent: 'flex-end',
+
+                    '& .MuiButton-root': {
+                      fontFamily: '"Source Sans Pro", sans-serif',
+                      fontWeight: 600,
+                      fontSize: '16px',
+                      textTransform: 'none',
+                      cursor: 'pointer',
+                    },
+
+                    '& .MuiButton-root:first-of-type': {
+                      marginRight: '1rem',
+                      color: '#555',
+                      padding: 0,
+                      background: 'none',
+                      border: 'none',
+                      textDecoration: 'underline',
+                    },
+
+                    '& .MuiButton-root:last-of-type': {
+                      backgroundColor: '#0071bc',
+                      borderRadius: '3px',
+                      border: 'none',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0.5rem 1rem',
+
+                      '&:hover': {
+                        backgroundColor: '#005ea8',
+                      },
+
+                      '&.Mui-disabled': {
+                        cursor: 'default',
+                        opacity: '50%',
+                      },
+                    },
+                  },
+                },
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/dd/yyyy',
@@ -227,17 +275,63 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
             <DatePicker
               value={endDate}
               onChange={handleEndDate}
-              onOpen={() => setSelecting(true)}
-              onClose={() => setSelecting(false)}
+              closeOnSelect={false}
               onError={error => setEndErrorMessage(handleError(error))}
               inputFormat="MM/dd/yyyy"
               inputVariant="outlined"
               minDate={dayjs(minAllowedDate)}
               maxDate={dayjs(maxAllowedDate)}
+              localeText={{
+                okButtonLabel: 'Apply',
+                cancelButtonLabel: 'Cancel'
+              }}
               KeyboardButtonProps={{
                 'aria-label': 'Open calendar view to pick date',
               }}
               slotProps={{
+                actionBar: {
+                  actions: ['cancel', 'accept'],
+                  sx: {
+                    padding: '0.75rem 1rem',
+                    justifyContent: 'flex-end',
+
+                    '& .MuiButton-root': {
+                      fontFamily: '"Source Sans Pro", sans-serif',
+                      fontWeight: 600,
+                      fontSize: '16px',
+                      textTransform: 'none',
+                      cursor: 'pointer',
+                    },
+
+                    '& .MuiButton-root:first-of-type': {
+                      marginRight: '1rem',
+                      color: '#555',
+                      padding: 0,
+                      background: 'none',
+                      border: 'none',
+                      textDecoration: 'underline',
+                    },
+
+                    '& .MuiButton-root:last-of-type': {
+                      backgroundColor: '#0071bc',
+                      borderRadius: '3px',
+                      border: 'none',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0.5rem 1rem',
+
+                      '&:hover': {
+                        backgroundColor: '#005ea8',
+                      },
+
+                      '&.Mui-disabled': {
+                        cursor: 'default',
+                        opacity: '50%',
+                      },
+                    },
+                  },
+                },
                 textField: props => ({
                   variant: 'outlined',
                   placeholder: 'MM/dd/yyyy',
