@@ -9,7 +9,6 @@ import {
   stickyHeight,
   stickyMainWidth,
 } from './masthead.module.scss';
-import BreadCrumbs from '../breadcrumbs/breadcrumbs';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useWindowSize } from 'usehooks-ts';
@@ -48,9 +47,7 @@ const Masthead = ({ title }) => {
   return (
     <>
       <div className={breadCrumbBackground} data-testid="masthead">
-        <div className={breadCrumb}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
+        <div className={breadCrumb}></div>
       </div>
       <section className={`${pageHeader} ${stickyView ? stickyHeight : undefined}`}>
         <div className={`${mainWidth} ${stickyView ? stickyMainWidth : undefined}`}>
