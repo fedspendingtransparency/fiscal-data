@@ -16,14 +16,6 @@
   height: 92px;
 }
 
-.breadCrumb {
-  z-index: $dataset-detail-nav;
-  padding-top: 1rem;
-  max-width: $main-width;
-  width: 100%;
-  margin: 0 auto;
-}
-
 .breadCrumbBackground {
   background-color: $api-header;
   padding: 0 0.75rem;

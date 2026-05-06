@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  breadCrumb,
-  breadCrumbBackground,
-  mainWidth,
-  pageHeader,
-  pageTitle,
-  stickyHeader,
-  stickyHeight,
-  stickyMainWidth,
-} from './masthead.module.scss';
+import { breadCrumbBackground, mainWidth, pageHeader, pageTitle, stickyHeader, stickyHeight, stickyMainWidth } from './masthead.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
 import { useWindowSize } from 'usehooks-ts';
@@ -46,9 +37,7 @@ const Masthead = ({ title }) => {
 
   return (
     <>
-      <div className={breadCrumbBackground} data-testid="masthead">
-        <div className={breadCrumb}></div>
-      </div>
+      <div className={breadCrumbBackground} data-testid="masthead"></div>
       <section className={`${pageHeader} ${stickyView ? stickyHeight : undefined}`}>
         <div className={`${mainWidth} ${stickyView ? stickyMainWidth : undefined}`}>
           <h1 className={`${pageTitle} ${stickyView ? stickyHeader : undefined}`}>{title}</h1>

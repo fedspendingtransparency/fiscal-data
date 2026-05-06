@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import { breadCrumbsContainer, componenentContianer, legalDisclaimer } from './currency-exchange-rates-converter.module.scss';
+import { componenentContianer, legalDisclaimer } from './currency-exchange-rates-converter.module.scss';
 import ExchangeRatesBanner from '../../components/exchange-rates-converter/exchange-rates-banner/exchange-rates-banner';
 import { analyticsHandler, socialCopy } from '../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import CustomLink from '../../components/links/custom-link/custom-link';
@@ -11,7 +11,6 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 const CurrencyExchangeRatesConverter: FunctionComponent = () => {
   return (
     <SiteLayout isPreProd={false}>
-      <div className={breadCrumbsContainer}></div>
       <ExchangeRatesBanner text="Currency Exchange Rates Converter" copy={socialCopy} />
       <div className={componenentContianer}>
         <CurrencyExchangeRateTool />
