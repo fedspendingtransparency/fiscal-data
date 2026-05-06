@@ -116,7 +116,6 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
   };
 
   useEffect(() => {
-    prepDateFilterValue();
     if (beginDate && endDate && !selecting) {
       // GA4 - Time Range Entry
       window.dataLayer = window.dataLayer || [];
@@ -190,6 +189,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
               closeOnSelect={false}
               onOpen={() => setSelecting(true)}
               onClose={() => setSelecting(false)}
+              onAccept={() => prepDateFilterValue()}
               onError={error => setBeginErrorMessage(handleError(error))}
               inputFormat="MM/dd/yyyy"
               minDate={dayjs(minAllowedDate)}
@@ -276,6 +276,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
               value={endDate}
               onChange={handleEndDate}
               closeOnSelect={false}
+              onAccept={() => prepDateFilterValue()}
               onError={error => setEndErrorMessage(handleError(error))}
               inputFormat="MM/dd/yyyy"
               inputVariant="outlined"
