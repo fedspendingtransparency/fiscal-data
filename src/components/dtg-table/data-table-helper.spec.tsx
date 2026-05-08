@@ -1,7 +1,19 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import { columnsConstructorData, getColumnFilter } from './data-table-helper';
+import {
+  columnsConstructorData,
+  getColumnFilter,
+  rightAlign,
+  columnHeaderFilterActive,
+  columnHeaderFilterApplied,
+  columnBodyFilterActive,
+  columnBodyFilterApplied,
+  getSortedColumnsData,
+  constructDateHeader,
+  constructDefaultColumnsFromTableData,
+  getInvisibleColumns,
+} from './data-table-helper';
 
 const buildRawData = dataTypes => ({ meta: { dataTypes }, data: [] });
 const buildColumn = (property, type, tableName = 'tbl', customFormatConfig = []) =>
@@ -134,5 +146,71 @@ describe('getColumnFilter', () => {
     const textFilter = getColumnFilter(header, 'STRING', false, [], jest.fn(), false, false, false);
     expect(dateFilter.type.name || dateFilter.type.displayName).toMatch(/DateRangeFilter/);
     expect(textFilter.type.name || textFilter.type.displayName).toMatch(/TextFilter/);
+  });
+});
+
+describe('rightAlign', () => {
+  it('returns true for right-aligned types and falsy otherwise', () => {
+    ['DATE', 'CURRENCY', 'NUMBER', 'PERCENTAGE', 'CURRENCY3'].forEach(t => expect(rightAlign(t)).toBe(true));
+    expect(rightAlign('STRING')).toBe(false);
+    expect(rightAlign(undefined)).toBeFalsy();
+  });
+});
+
+describe('column header / body filter helpers', () => {
+  it.each([
+    ['columnHeaderFilterActive', columnHeaderFilterActive, ['foo-x'], 'foo'],
+    ['columnHeaderFilterApplied', columnHeaderFilterApplied, ['foo'], 'foo'],
+    ['columnBodyFilterActive', columnBodyFilterActive, ['foo-x'], 'foobar'],
+    ['columnBodyFilterApplied', columnBodyFilterApplied, ['foo'], 'foobar'],
+  ])('%s returns true on match, undefined on miss and on falsy filters', (_name, fn, match, columnName) => {
+    expect(fn(match, columnName)).toBe(true);
+    expect(fn(['nope'], columnName)).toBeUndefined();
+    expect(fn(undefined, columnName)).toBeUndefined();
+  });
+});
+
+describe('getSortedColumnsData', () => {
+  it('returns undefined when there are no visible columns', () => {
+    expect(getSortedColumnsData(undefined, [], [])).toBeUndefined();
+    expect(getSortedColumnsData({ getVisibleFlatColumns: () => undefined }, [], [])).toBeUndefined();
+  });
+
+  it('maps columns with sorted/filter/row data and respects hideColumns for allColumnsSelected', () => {
+    const filteredRows = [{ original: { a: 1, b: 'x' } }, { original: { a: 2, b: 'y' } }];
+    const table = {
+      getVisibleFlatColumns: () => [
+        { id: 'a', getIsSorted: () => 'asc', getFilterValue: () => 'fv-a' },
+        { id: 'b', getIsSorted: () => false, getFilterValue: () => undefined },
+      ],
+      getFilteredRowModel: () => ({ flatRows: filteredRows }),
+      getIsAllColumnsVisible: () => true,
+    };
+    expect(getSortedColumnsData(table, undefined, { a: 'NUMBER', b: 'DATE' })).toEqual([
+      { id: 'a', sorted: 'asc', filterValue: 'fv-a', downloadFilter: true, rowValues: [1, 2], allColumnsSelected: true },
+      { id: 'b', sorted: false, filterValue: undefined, downloadFilter: false, rowValues: ['x', 'y'], allColumnsSelected: true },
+    ]);
+    expect(getSortedColumnsData(table, ['a'])[0].allColumnsSelected).toBe(false);
+  });
+});
+
+describe('miscellaneous helpers', () => {
+  it('constructDateHeader returns a labeled "As of" string with a 2-digit-formatted date', () => {
+    const result = constructDateHeader('My Dataset', { to: '2024-03-15' });
+    expect(result[0]).toBe('My Dataset.');
+    expect(result[1]).toMatch(/^As of \d{2}\/\d{2}\/\d{4}$/);
+  });
+
+  it('constructDefaultColumnsFromTableData partitions columns and alphabetizes additionals', () => {
+    const table = { getAllLeafColumns: () => [{ id: 'beta' }, { id: 'alpha' }, { id: 'record_date' }, { id: 'gamma' }] };
+    const { defaults, additional } = constructDefaultColumnsFromTableData(table, ['record_date']);
+    expect(defaults.map(c => c.id)).toEqual(['record_date']);
+    expect(additional.map(c => c.id)).toEqual(['alpha', 'beta', 'gamma']);
+  });
+
+  it('getInvisibleColumns flags non-default columns and returns {} when defaults are empty/undefined', () => {
+    expect(getInvisibleColumns([], [{ accessorKey: 'a' }])).toEqual({});
+    expect(getInvisibleColumns(undefined, [{ accessorKey: 'a' }])).toEqual({});
+    expect(getInvisibleColumns(['a'], [{ accessorKey: 'a' }, { accessorKey: 'b' }, { accessorKey: 'c' }])).toEqual({ b: false, c: false });
   });
 });
