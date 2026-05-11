@@ -19,10 +19,16 @@ export class MetadataService {
   private readonly METADATA_POLLING_INTERVAL: number = globalConstants.config.metadataUpdateService.pollingInterval;
   private readonly PUBLISHED_REPORT_CACHE_MAX_AGE: number = globalConstants.config.metadataUpdateService.publishedReportsMaxCacheAge;
   private readonly PUBLISHED_REPORTS_DATASET_ALLOW_LIST: string[] = globalConstants.config.publishedReports.datasets;
-  private readonly SUMMARY_DATES = {
-    earliestDate: parseISO('9999-12-31'),
-    latestDate: parseISO('1900-01-01'),
-    lastUpdated: parseISO('1900-01-01'),
+  // private readonly SUMMARY_DATES = {
+  //   earliestDate: parseISO('9999-12-31'),
+  //   latestDate: parseISO('1900-01-01'),
+  //   lastUpdated: parseISO('1900-01-01'),
+  // };
+
+  private readonly SUMMARY_DATES: { earliestDate: Date | null; latestDate: Date | null; lastUpdated: Date | null } = {
+    earliestDate: null,
+    latestDate: null,
+    lastUpdated: null,
   };
 
   private _summaryData: ISummaryData;
@@ -157,7 +163,7 @@ export class MetadataService {
       const summaryData = response.reduce((obj: ISummaryData, dataset) => {
         const indexedApiData = this._indexApiData(dataset.apis);
         const curDatasetObj = this._summaryData && this._summaryData[dataset.dataset_id];
-        const curDatasetDates: IDatasetDates = Object.assign(this.SUMMARY_DATES);
+        const curDatasetDates = { ...this.SUMMARY_DATES };
         if (curDatasetObj) {
           curDatasetDates.earliestDate = curDatasetObj.earliestDate;
           curDatasetDates.latestDate = curDatasetObj.latestDate;
@@ -207,39 +213,38 @@ export class MetadataService {
 
   private _collectDates(
     indexedApiData: Record<number, ISummaryDatasetAPIData>,
-    curDatasetDates = JSON.parse(JSON.stringify(this.SUMMARY_DATES))
+    curDatasetDates: { earliestDate: Date | null; latestDate: Date | null; lastUpdated: Date | null } = { ...this.SUMMARY_DATES }
   ): IDatasetDates | null {
-    const output: IDatasetDates = {
-      earliestDate: curDatasetDates.earliestDate,
-      latestDate: curDatasetDates.latestDate,
-      lastUpdated: curDatasetDates.lastUpdated,
-    };
+    let earliestDate = curDatasetDates.earliestDate;
+    let latestDate = curDatasetDates.latestDate;
+    let lastUpdated = curDatasetDates.lastUpdated;
+
     // Keep track of whether the dates have updated or not.
     let haveDatesUpdated = false;
 
     Object.keys(indexedApiData).forEach((key: string) => {
       const api = indexedApiData[key];
-      if (isBefore(api.earliest_date, output.earliestDate)) {
+      if (!earliestDate || isBefore(api.earliest_date, earliestDate)) {
         haveDatesUpdated = true;
-        output.earliestDate = api.earliest_date;
+        earliestDate = api.earliest_date;
       }
-      if (isAfter(api.latest_date, output.latestDate)) {
+      if (!latestDate || isAfter(api.latest_date, latestDate)) {
         haveDatesUpdated = true;
-        output.latestDate = api.latest_date;
+        latestDate = api.latest_date;
       }
-      if (isAfter(api.last_updated, output.lastUpdated)) {
+      if (!lastUpdated || isAfter(api.last_updated, lastUpdated)) {
         haveDatesUpdated = true;
-        output.lastUpdated = api.last_updated;
+        lastUpdated = api.last_updated;
       }
     });
 
     // If nothing has changed from the summary metadata call,
     // then don't trigger any further actions or changes.
-    if (!haveDatesUpdated) {
+    if (!haveDatesUpdated || !earliestDate || !latestDate || !lastUpdated) {
       return null;
     }
 
-    return output;
+    return { earliestDate, latestDate, lastUpdated };
   }
 
   /**
