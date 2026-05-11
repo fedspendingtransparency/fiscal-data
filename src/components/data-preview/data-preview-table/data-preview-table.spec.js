@@ -1,7 +1,6 @@
 import React from 'react';
 import { DetailViewTestData, mockPaginatedTableProps, MoreTestData, MoreTestDataColumnConfig, TestData } from '../../dtg-table/test-data';
 import * as helpers from '../../dtg-table/dtg-table-helper';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 import DataPreviewTable from './data-preview-table';
 import { DataTableContext } from '../data-preview-context';
@@ -20,9 +19,9 @@ describe('DataPreviewTable component', () => {
           tableProps: {},
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -36,9 +35,9 @@ describe('DataPreviewTable component', () => {
           tableProps: { data: TestData },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
@@ -53,9 +52,9 @@ describe('DataPreviewTable component', () => {
           tableProps: { data: TestData },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(queryByText('Rows Per Page')).not.toBeInTheDocument();
@@ -71,9 +70,9 @@ describe('DataPreviewTable component', () => {
           tableProps: { rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, shouldPage: true },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} perPage={perPage} setTableColumnSortData={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     const tableBody = getAllByRole('rowgroup')[1];
@@ -93,9 +92,9 @@ describe('DataPreviewTable component', () => {
           reactTableData: { data: MoreTestData },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} setTableColumnSortData={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -116,9 +115,9 @@ describe('DataPreviewTable component', () => {
           tableProps: mockPaginatedTableProps,
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -142,9 +141,9 @@ describe('DataPreviewTable component', () => {
           },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} setTableColumnSortData={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -164,9 +163,9 @@ describe('DataPreviewTable component', () => {
           },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} isLoading={false} setTableColumnSortData={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(getByText('Rows Per Page')).toBeInTheDocument();
@@ -181,9 +180,9 @@ describe('DataPreviewTable component', () => {
   //   let newComponent = renderer.create();
   //   await renderer.act(async () => {
   //     newComponent = await renderer.create(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //     jest.runAllTimers();
   //   });
@@ -203,9 +202,9 @@ describe('DataPreviewTable component', () => {
   //   let newComponent = renderer.create();
   //   await renderer.act(async () => {
   //     newComponent = await renderer.create(
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewTable tableProps={mockPaginatedTableProps} setIsLoading={jest.fn()} />
-  //       </RecoilRoot>
+  //       </>
   //     );
   //     jest.runAllTimers();
   //   });
@@ -222,7 +221,7 @@ describe('DataPreviewTable component', () => {
     const mockSetManualPagination = jest.fn();
     const { getByRole } = render(
       <DataTableContext.Provider value={{ ...contextProps, tableProps: { dePaginated: { data: ['hello'] } } }}>
-        <RecoilRoot>
+        <>
           <DataPreviewTable
             tableMeta={{ 'total-count': 500 }}
             userFilterSelection={{ value: 'A' }}
@@ -230,7 +229,7 @@ describe('DataPreviewTable component', () => {
             setIsLoading={mockSetIsLoading}
             setTableColumnSortData={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(getByRole('table')).toBeInTheDocument();
@@ -245,9 +244,9 @@ describe('DataPreviewTable component - API Error', () => {
       <DataTableContext.Provider
         value={{ ...contextProps, tableProps: { rawData: { data: TestData }, selectedTable: { rowCount: 10 }, apiError: 'Error', shouldPage: true } }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable setManualPagination={jest.fn()} />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(getByText('Table failed to load.')).toBeInTheDocument();
@@ -259,9 +258,9 @@ describe('DataPreviewTable component - API Error', () => {
   //     <DataTableContext.Provider
   //       value={{ ...contextProps, tableProps: { rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true } }}
   //     >
-  //       <RecoilRoot>
+  //       <>
   //         <DataPreviewTable setManualPagination={jest.fn()} />
-  //       </RecoilRoot>
+  //       </>
   //     </DataTableContext.Provider>
   //   );
   //   expect(getByText(`Showing 0 - 0 rows of 0 rows`)).toBeInTheDocument();
@@ -272,12 +271,12 @@ describe('DataPreviewTable component - API Error', () => {
       <DataTableContext.Provider
         value={{ ...contextProps, tableProps: { rawData: { data: null }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true } }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable
             tableProps={{ rawData: { data: MoreTestData }, selectedTable: { rowCount: 11 }, apiError: 'Error', shouldPage: true }}
             setManualPagination={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(queryByRole('button', { name: 'Previous Page' })).not.toBeInTheDocument();
@@ -303,14 +302,14 @@ describe('Data Preview Table detail view', () => {
           },
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewTable
             detailViewState={detailViewState}
             setManualPagination={mockSetManualPagination}
             setIsLoading={mockSetIsLoading}
             setTableColumnSortData={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
 
@@ -343,8 +342,7 @@ describe('Loading table data', () => {
           setManualPagination={mockSetManualPagination}
           setIsLoading={mockSetIsLoading}
         />
-      </DataTableContext.Provider>,
-      { wrapper: RecoilRoot }
+      </DataTableContext.Provider>
     );
     expect(getByRole('table')).toBeInTheDocument();
   });
@@ -369,8 +367,7 @@ describe('Loading table data', () => {
           setIsLoading={mockSetIsLoading}
           setTableColumnSortData={jest.fn()}
         />
-      </DataTableContext.Provider>,
-      { wrapper: RecoilRoot }
+      </DataTableContext.Provider>
     );
     expect(getByRole('table')).toBeInTheDocument();
   });

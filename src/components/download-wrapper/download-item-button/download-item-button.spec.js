@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 import React from 'react';
 import Analytics from '../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
 import userEvent from '@testing-library/user-event';
@@ -16,27 +15,27 @@ describe('DownloadItemButton for static file', () => {
 
   it('renders an anchor tag', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toBeDefined();
   });
   it('sets the href as provided', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toHaveAttribute('href', hrefStr);
   });
   it('sets the download prop as provided', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(anchor).toHaveAttribute('download', downloadStr);
@@ -44,9 +43,9 @@ describe('DownloadItemButton for static file', () => {
 
   it('sets the icon as provided', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     const icon = within(anchor).getByRole('img', { hidden: true });
@@ -55,18 +54,18 @@ describe('DownloadItemButton for static file', () => {
   });
   it('sets the label as provided', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(within(anchor).getByText('CSV')).toBeInTheDocument();
   });
   it('sets the fileSize as provided', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton fileSize="200B" icon={csvIcon} label="CSV" href={hrefStr} download={downloadStr} />
-      </RecoilRoot>
+      </>
     );
     const anchor = getByRole('link');
     expect(within(anchor).getByText('(200B)')).toBeInTheDocument();
@@ -90,9 +89,9 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct CSV download', () => {
     smallTableDownloadData.setState({ csv: mockedCSVState });
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
   });
@@ -101,9 +100,9 @@ describe('DownloadItemButton for direct download file', () => {
     smallTableDownloadData.setState({ csv: mockedCSVState });
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} selectedFileType="csv" downloadTimestamp={true} />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('csv-timestamp-download-button')).toBeInTheDocument();
     expect(getByTestId('csv-download-button')).toBeInTheDocument();
@@ -113,9 +112,9 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct XML download', () => {
     smallTableDownloadData.setState({ xml: mockedXMLState });
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByTestId('xml-download-button')).toBeInTheDocument();
@@ -123,9 +122,9 @@ describe('DownloadItemButton for direct download file', () => {
   it('disables XML download when a pivot is selected', () => {
     smallTableDownloadData.setState({ xml: mockedXMLState });
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="XML" fileSize="123MB" icon={csvIcon} selectedFileType="xml" selectedPivot={{ pivotValue: 'something' }} />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByRole('button', { name: 'XML (123MB)' })).toBeDisabled();
@@ -134,9 +133,9 @@ describe('DownloadItemButton for direct download file', () => {
   it('direct JSON download', () => {
     smallTableDownloadData.setState({ json: mockedJSONState });
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="JSON" fileSize="123MB" icon={csvIcon} selectedFileType="json" />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('json-download-button')).toBeInTheDocument();
   });
@@ -147,9 +146,9 @@ describe('DownloadItemButton for asyncAction', () => {
   const asyncActionMock = jest.fn();
   it('sets the label and fileSize as provided', () => {
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
-      </RecoilRoot>
+      </>
     );
 
     expect(getByText('CSV')).toBeInTheDocument();
@@ -158,9 +157,9 @@ describe('DownloadItemButton for asyncAction', () => {
 
   it('calls the asyncAction provided when clicked', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} asyncAction={asyncActionMock} />
-      </RecoilRoot>
+      </>
     );
     jest.runAllTimers();
     const button = getByRole('button');
@@ -170,9 +169,9 @@ describe('DownloadItemButton for asyncAction', () => {
 
   it('tracks when a published report downloads is clicked', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton download="fileName" />
-      </RecoilRoot>
+      </>
     );
 
     const spy = jest.spyOn(Analytics, 'event');
@@ -187,9 +186,9 @@ describe('DownloadItemButton for asyncAction', () => {
 
   it('tracks when a dataset file is downloaded', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton dapGaEventLabel="test" />
-      </RecoilRoot>
+      </>
     );
 
     const spy = jest.spyOn(Analytics, 'event');
@@ -204,9 +203,9 @@ describe('DownloadItemButton for asyncAction', () => {
 
   it('shows a a download link when the disabled prop is not passed in', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton label="CSV" fileSize="123MB" icon={csvIcon} />
-      </RecoilRoot>
+      </>
     );
 
     const thisLink = getByTestId('download-button');
@@ -216,9 +215,9 @@ describe('DownloadItemButton for asyncAction', () => {
 
   it('shows a disabled button when the disabled prop is passed in', () => {
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DownloadItemButton disabled />
-      </RecoilRoot>
+      </>
     );
     const thisLink = getByTestId('download-button');
 

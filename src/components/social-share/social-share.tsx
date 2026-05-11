@@ -15,8 +15,7 @@ import Analytics from '../../utils/analytics/analytics';
 import ShareButtonContent from './share-button-content/share-button-content';
 import { ISocialShareComponent } from '../../models/ISocialShareComponent';
 import Heading from '../heading/heading';
-import { redirectModalState } from '../../components/modal/redirect-modal/redirect-modal-helper';
-import { useSetRecoilState } from 'recoil';
+import { redirectModalState } from '../modal/redirect-modal/redirect-modal-helper';
 import { getFacebookParams, getLinkedInParams, getRedditParams, getTwitterParams } from './social-share-helper';
 import { EmailShareButton } from 'react-share';
 
@@ -48,7 +47,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   explainer,
 }) => {
   const { title, emailSubject, emailBody, url } = copy;
-  const setModal = useSetRecoilState(redirectModalState);
+  const setModal = redirectModalState(state => state.setModal);
 
   let contentStyle = socialShareContent;
   let containerStyle = shareButtonContainer;

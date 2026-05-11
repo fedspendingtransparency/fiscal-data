@@ -5,7 +5,6 @@ import fetchMock from 'fetch-mock';
 import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockCpiDataset, mockTotalDebt100YData } from '../../../../explainer-test-helper';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
-import { RecoilRoot } from 'recoil';
 import Analytics from '../../../../../../utils/analytics/analytics';
 
 describe('National Debt Over the Last 100 Years Chart', () => {
@@ -17,9 +16,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByText } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     //If this is set, that means all API calls were successful.
@@ -31,9 +30,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('totalDebtChartParent')).toBeInTheDocument();
@@ -42,9 +41,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the chart markers and data header labels', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByText('Total Debt')).toBeInTheDocument();
@@ -54,9 +53,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the CustomPoints layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('customPoints')).toBeInTheDocument();
@@ -66,9 +65,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the CustomSlices layer', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('customSlices')).toBeInTheDocument();
@@ -78,9 +77,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
   it('renders the chart headers', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(
@@ -97,9 +96,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await findByTestId('customSlices')).toBeInTheDocument();
@@ -165,9 +164,9 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const chart = await getByTestId('totalDebtChartParent');

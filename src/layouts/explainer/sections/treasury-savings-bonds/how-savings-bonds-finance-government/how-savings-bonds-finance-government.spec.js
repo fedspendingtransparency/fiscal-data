@@ -2,7 +2,6 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HowSavingsBondsFinanceGovernment, { higherOrLowerOrSameAs } from './how-savings-bonds-finance-government';
-import { RecoilRoot } from 'recoil';
 import { useStaticQuery } from 'gatsby';
 import fetchMock from 'fetch-mock';
 import { mockSavingsBondTypesData } from '../../../explainer-test-helper';
@@ -93,9 +92,9 @@ describe('How Savings Bonds Finance The Government Section', () => {
 
   it('renders the section', () => {
     render(
-      <RecoilRoot>
+      <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     expect(screen.getByText('Different types of securities earn interest in different ways.', { exact: false })).toBeInTheDocument();
     expect(
@@ -110,9 +109,9 @@ describe('How Savings Bonds Finance The Government Section', () => {
   it('fires an event when the user clicks on any of the four links', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(getByRole('link', { name: 'revenue' }));
     expect(analyticsSpy).toHaveBeenCalledWith({
@@ -143,9 +142,9 @@ describe('How Savings Bonds Finance The Government Section', () => {
   it('fires an event when the user clicks on any of glossary terms', () => {
     const analyticsSpy = jest.spyOn(Analytics, 'event');
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <HowSavingsBondsFinanceGovernment />
-      </RecoilRoot>
+      </>
     );
     fireEvent.click(getByRole('button', { name: 'marketable' }));
     expect(analyticsSpy).toHaveBeenCalledWith({
