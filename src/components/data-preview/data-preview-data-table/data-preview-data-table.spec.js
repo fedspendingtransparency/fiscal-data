@@ -1,7 +1,6 @@
 import { render, within } from '@testing-library/react';
 import React from 'react';
 import { fireEvent } from '@testing-library/dom';
-import { RecoilRoot } from 'recoil';
 import {
   additionalColLabels,
   allColLabels,
@@ -42,7 +41,7 @@ describe('react-table', () => {
           ...contextProps,
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewDataTable
             pagingProps={{ itemsPerPage: 10 }}
             setTableColumnSortData={setTableColumnSortData}
@@ -55,7 +54,7 @@ describe('react-table', () => {
             columnConfig={mockColumnConfig}
             setTableSorting={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(instance).toBeTruthy();
@@ -69,7 +68,7 @@ describe('react-table', () => {
           ...contextProps,
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewDataTable
             pagingProps={{ itemsPerPage: 10 }}
             setTableColumnSortData={setTableColumnSortData}
@@ -82,7 +81,7 @@ describe('react-table', () => {
             setTableSorting={jest.fn()}
             setAllActiveFilters={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     expect(getByRole('columnheader', { name: 'Record Date' })).toBeInTheDocument();
@@ -98,7 +97,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -110,7 +109,7 @@ describe('react-table', () => {
               setAllActiveFilters={mockSorting}
               allActiveFilters={[]}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       // Column header
@@ -131,7 +130,7 @@ describe('react-table', () => {
     });
     // it('Filter column by text search', () => {
     //   const { getAllByTestId, getByRole } = render(
-    //     <RecoilRoot>
+    //     <>
     //       <DataPreviewDataTable
     //         rawData={mockTableData}
     //         defaultSelectedColumns={null}
@@ -146,7 +145,7 @@ describe('react-table', () => {
     //         setAllActiveFilters={jest.fn()}
     //         allActiveFilters={[]}
     //       />
-    //     </RecoilRoot>
+    //     </>
     //   );
     //   // Column header
     //   const header = getByRole('columnheader', { name: 'Debt Held by the Public' });
@@ -168,7 +167,7 @@ describe('react-table', () => {
 
     // it('Filter column by text search with null string value', () => {
     //   const { getAllByTestId, getByRole, queryAllByTestId } = render(
-    //     <RecoilRoot>
+    //     <>
     //       <DataPreviewDataTable
     //         rawData={mockTableData}
     //         defaultSelectedColumns={null}
@@ -183,7 +182,7 @@ describe('react-table', () => {
     //         maxRows={5}
     //         columnConfig={mockColumnConfig}
     //       />
-    //     </RecoilRoot>
+    //     </>
     //   );
     //   // Column header
     //   const header = getByRole('columnheader', { name: 'Mock Percent String' });
@@ -207,7 +206,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -219,7 +218,7 @@ describe('react-table', () => {
               setAllActiveFilters={mockSorting}
               allActiveFilters={['record_date-sort']}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -239,7 +238,7 @@ describe('react-table', () => {
             ...contextProps,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               rawData={mockTableData}
               defaultSelectedColumns={null}
@@ -251,7 +250,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -279,7 +278,7 @@ describe('react-table', () => {
             reactTableData: { data: [], meta: mockMeta },
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 2 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -289,7 +288,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -307,7 +306,7 @@ describe('react-table', () => {
             reactTableData: { data: [mockTableData1Row], meta: mockMeta },
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 2 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -317,7 +316,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -337,7 +336,7 @@ describe('react-table', () => {
             ...contextProps,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -347,7 +346,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -367,7 +366,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableData, ['src_line_nbr'], '', mockColumnConfig),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -378,7 +377,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       const hiddenCol = 'Source Line Number';
@@ -402,7 +401,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultSelectedColumnsMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -412,7 +411,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
 
@@ -441,7 +440,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -451,7 +450,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('4%');
@@ -465,7 +464,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -475,7 +474,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('0.00067898');
@@ -493,7 +492,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -503,7 +502,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('-0.120000');
@@ -521,7 +520,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig, customFormatter),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -532,7 +531,7 @@ describe('react-table', () => {
               customFormatting={customFormatter}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('1/1/2024, 2/2/2023');
@@ -546,7 +545,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -556,7 +555,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('$6,884,574,686,385.150');
@@ -570,7 +569,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -580,7 +579,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[2].innerHTML).toContain('*');
@@ -595,7 +594,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               setTableColumnSortData={setTableColumnSortData}
               shouldPage
@@ -605,7 +604,7 @@ describe('react-table', () => {
               columnConfig={mockColumnConfig}
               setTableSorting={jest.fn()}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(getAllByTestId('row')[0].innerHTML).toContain('-$134.100');
@@ -619,7 +618,7 @@ describe('react-table', () => {
             defaultSelectedColumns: defaultColumnsTypeCheckMock,
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               defaultSelectedColumns={defaultColumnsTypeCheckMock}
               pagingProps={{ itemsPerPage: 10 }}
@@ -635,7 +634,7 @@ describe('react-table', () => {
                 to: '2024-08-31',
               }}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(instance).toBeTruthy();
@@ -651,7 +650,7 @@ describe('react-table', () => {
             allColumns: columnsConstructorData(mockTableDownloadWithTextQualifier, [], '', mockColumnConfigDownloadWithTextQualifier),
           }}
         >
-          <RecoilRoot>
+          <>
             <DataPreviewDataTable
               pagingProps={{ itemsPerPage: 10 }}
               setTableColumnSortData={setTableColumnSortData}
@@ -665,7 +664,7 @@ describe('react-table', () => {
                 to: '2024-08-31',
               }}
             />
-          </RecoilRoot>
+          </>
         </DataTableContext.Provider>
       );
       expect(smallTableDownloadData.getState().csv).toEqual([
@@ -686,7 +685,7 @@ describe('react-table', () => {
           allColumns: columnsConstructorData(mockTableData, [], '', mockColumnConfig),
         }}
       >
-        <RecoilRoot>
+        <>
           <DataPreviewDataTable
             pagingProps={{ itemsPerPage: 10 }}
             setTableColumnSortData={setTableColumnSortData}
@@ -702,7 +701,7 @@ describe('react-table', () => {
             setSummaryValues={setSummaryValuesSpy}
             setTableSorting={jest.fn()}
           />
-        </RecoilRoot>
+        </>
       </DataTableContext.Provider>
     );
     const detailViewButton = getByRole('button', { name: '7/12/2023' });

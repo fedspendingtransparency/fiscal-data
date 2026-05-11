@@ -6,7 +6,6 @@ import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockBeaGDPData, mockExplainerPageResponse } from '../../../../explainer-test-helper';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { DebtTrendsOverTimeChart } from './debt-trends-over-time-chart';
-import { RecoilRoot } from 'recoil';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 jest.useFakeTimers();
@@ -27,9 +26,9 @@ describe('Debt Trends Over Time Chart', () => {
   it('contains the debt trends line chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
@@ -38,9 +37,9 @@ describe('Debt Trends Over Time Chart', () => {
 
   it('Renders the initial chart point for onScroll animation', async () => {
     const { findByTestId, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -50,9 +49,9 @@ describe('Debt Trends Over Time Chart', () => {
 
   it('Renders the chart slices', async () => {
     const { findByTestId, getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -62,9 +61,9 @@ describe('Debt Trends Over Time Chart', () => {
 
   it('initializes with the earliest data point', async () => {
     const { findAllByText } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
     act(() => {
       // explicitly declare that the chart is not scrolled into view
@@ -86,9 +85,9 @@ describe('Debt Trends Over Time Chart', () => {
   it('calls the appropriate analytics event when links are clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
@@ -116,9 +115,9 @@ describe('Debt Trends Over Time Chart', () => {
   it('calls the appropriate analytics event when the chart is hovered over', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
-      </RecoilRoot>
+      </>
     );
 
     const chart = await findByTestId('debtTrendsChart');

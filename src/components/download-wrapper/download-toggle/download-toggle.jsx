@@ -41,7 +41,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
     <div className={buttonGroup} data-toggle="buttons">
       <input
         type="radio"
-        checked={selectedFileType === 'csv' ? 'checked' : ''}
+        checked={selectedFileType === 'csv'}
         className={radio}
         value="csv"
         id="csv"
@@ -54,7 +54,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
       </label>
       <input
         type="radio"
-        checked={selectedFileType === 'json' ? 'checked' : ''}
+        checked={selectedFileType === 'json'}
         className={radio}
         value="json"
         id="json"
@@ -72,7 +72,7 @@ const DownloadToggle = ({ onChange, downloadLimit, dateRange, setDisableDownload
       </label>
       <input
         type="radio"
-        checked={selectedFileType === 'xml' ? 'checked' : ''}
+        checked={selectedFileType === 'xml'}
         className={radio}
         value="xml"
         id="xml"

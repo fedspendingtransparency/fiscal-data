@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ExperimentalPage from './experimental';
-import { RecoilRoot } from 'recoil';
 
 /**
  * This is an experimental page to show off content that cannot be shown elsewhere on the site at the time of development.
@@ -10,9 +9,9 @@ import { RecoilRoot } from 'recoil';
 describe('Experimental layout page', () => {
   it('launches the component without any issue', () => {
     render(
-      <RecoilRoot>
+      <>
         <ExperimentalPage />
-      </RecoilRoot>
+      </>
     );
     expect(true).toBe(true);
   });

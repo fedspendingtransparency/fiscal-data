@@ -1,6 +1,5 @@
 import React from 'react';
 import MetadataTab from './metadata-tab';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 
 describe('MetadataTab', () => {
@@ -19,9 +18,9 @@ describe('MetadataTab', () => {
 
   it('should pass along its data array to the dtgTable component', () => {
     const { getAllByRole, getByRole } = render(
-      <RecoilRoot>
+      <>
         <MetadataTab config={mockConfig} />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
     expect(getByRole('columnheader', { name: 'Definition' })).toBeInTheDocument();
@@ -35,9 +34,9 @@ describe('MetadataTab', () => {
 
   it('sets aria-label to dataset name metadata', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <MetadataTab config={mockConfig} />
-      </RecoilRoot>
+      </>
     );
     expect(getByRole('table', { name: `${mockConfig.name} metadata` })).toBeInTheDocument();
   });

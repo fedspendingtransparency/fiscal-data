@@ -23,15 +23,15 @@ describe('Deficit Trends Bar Chart', () => {
 
   it('renders the data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(
+    const { findByText } = render(
       <ErrorBoundary>
         <DeficitTrendsBarChart />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    expect(await getByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
-    expect(await getByText('$1.38 T')).toBeInTheDocument();
-    expect(await getByText('Last Updated: September 30, 2022')).toBeInTheDocument();
+    expect(await findByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
+    expect(await findByText('$1.38 T')).toBeInTheDocument();
+    expect(await findByText('Last Updated: September 30, 2022')).toBeInTheDocument();
   });
 
   it('Updates header values while the chart animates when it is scrolled into view', async () => {

@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import DownloadModalItem from './download-modal-item';
 import globalConstants from '../../../helpers/constants';
 import { exportsForUnitTests } from '../../../helpers/download-service/download-service';
-import { RecoilRoot } from 'recoil';
 
 jest.useFakeTimers();
 
@@ -74,9 +73,9 @@ describe('download modal item', () => {
 
   it('Renders a "prepared" download item', async () => {
     component = (
-      <RecoilRoot>
+      <>
         <DownloadModalItem datasetId={testId} download={mockPreparedDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId, queryByTestId } = render(component);
 
@@ -90,9 +89,9 @@ describe('download modal item', () => {
 
   it('Renders a "preparing" download item', async () => {
     component = (
-      <RecoilRoot>
+      <>
         <DownloadModalItem download={mockDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId } = render(component);
 
@@ -109,9 +108,9 @@ describe('download modal item', () => {
 
   it('renders a an indefinite spinner for a resumed "preparing" download item', async () => {
     component = (
-      <RecoilRoot>
+      <>
         <DownloadModalItem download={mockDownload} resumed />
-      </RecoilRoot>
+      </>
     );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toBeTruthy();
@@ -119,9 +118,9 @@ describe('download modal item', () => {
 
   it('does not render a an indefinite spinner for a regular "preparing" download item', async () => {
     component = (
-      <RecoilRoot>
+      <>
         <DownloadModalItem download={mockDownload} />
-      </RecoilRoot>
+      </>
     );
     const { queryAllByTestId } = render(component);
     expect(queryAllByTestId('spinner-icon').length).toStrictEqual(0);
@@ -129,9 +128,9 @@ describe('download modal item', () => {
 
   it('Renders a "queued" download item', async () => {
     component = (
-      <RecoilRoot>
+      <>
         <DownloadModalItem download={mockQueuedDownload} />
-      </RecoilRoot>
+      </>
     );
     const { getByTestId } = render(component);
 
