@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { arrowIcon, backToList, title, listButtons, rightArrowIcon } from './glossary-list-container.module.scss';
+import { leftArrowIcon, backToList, title, listButtons, rightArrowIcon } from './glossary-list-container.module.scss';
 import GlossaryDefinition from '../glossary-definition/glossary-definition';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,7 +30,13 @@ const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermLis
   };
 
   const onClickNext = () => {
-
+    const allTermsList = sortedTermList.flat() as unknown as IGlossaryTerm[];
+    const currentIndex = allTermsList.findIndex(term => term.term === selectedTerm?.term);
+    const nextIndex = currentIndex === allTermsList.length - 1 ? 0 : currentIndex + 1;
+    const nextTerm = allTermsList[nextIndex]
+    if (nextTerm) {
+      setSelectedTerm(nextTerm)
+    }
   };
 
   const filterTermsByEntry = (sortedList: IGlossaryListSection[], entry: string) => {
@@ -67,11 +73,10 @@ const GlossaryListContainer: FunctionComponent<IGlossaryList> = ({ sortedTermLis
       {selectedTerm || displayList.length !== sortedTermList.length ? (
         <div className={listButtons}>
         <button onClick={onClickBack} className={backToList}>
-          <FontAwesomeIcon icon={faArrowLeft as IconProp} className={arrowIcon} />
+          <FontAwesomeIcon icon={faArrowLeft as IconProp} className={leftArrowIcon} />
           Back to list
         </button>
-
-      {  (
+      {selectedTerm && (
         <button onClick={onClickNext} className={backToList}>
     Next Term
           <FontAwesomeIcon icon={faArrowRight as IconProp} className={rightArrowIcon} />
