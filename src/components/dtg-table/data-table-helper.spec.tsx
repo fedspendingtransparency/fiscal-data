@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import {
   columnsConstructorData,
   getColumnFilter,
@@ -18,7 +17,7 @@ import {
 const buildRawData = dataTypes => ({ meta: { dataTypes }, data: [] });
 const buildColumn = (property, type, tableName = 'tbl', customFormatConfig = []) =>
   columnsConstructorData(buildRawData({ [property]: type }), [], tableName, [{ property, name: property }], customFormatConfig)[0];
-const renderJSX = jsx => render(<RecoilRoot>{jsx}</RecoilRoot>);
+const renderJSX = jsx => render(jsx);
 
 describe('columnsConstructorData', () => {
   it('returns [] when meta or columnConfig is missing', () => {
