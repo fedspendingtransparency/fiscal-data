@@ -88,9 +88,10 @@ const ChartTableToggle = ({
     emptyDataMessage = getMessageForUnmatchedUserFilter(selectedTable);
   } else if (apiFilterDefault) {
     emptyDataMessage = getMessageForDefaultApiFilter(selectedTable);
-  } else if (emptyData) {
-    emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
-  }
+  } 
+  // else if (emptyData) {
+  //   emptyDataMessage = <NotShownMessage heading="Change selections in order to preview data" bodyText={emptyDataMessageBody} />;
+  // }
 
   const emptyChartMessage = !unchartable || allTablesSelected ? emptyDataMessage : null;
   return (
