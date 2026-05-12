@@ -1,6 +1,5 @@
 import React from 'react';
 import DatasetDetailFields from './dataset-detail-fields';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 
 let excluded = [];
@@ -60,23 +59,23 @@ describe('DataSetDetailFields', () => {
   const header = 'Fields';
 
   it('displays the correct header text', () => {
-    const { getByText } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByText } = render(<DatasetDetailFields apis={apis} />);
     expect(getByText(header)).toBeInTheDocument();
   });
 
   it('includes a link to the about section', () => {
-    const { getByTestId } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByTestId } = render(<DatasetDetailFields apis={apis} />);
     expect(getByTestId('scroll-link')).toBeInTheDocument();
   });
 
   it('includes data types section with header', () => {
-    const { getByText } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByText } = render(<DatasetDetailFields apis={apis} />);
     const header = getByText('Data Types');
     expect(header).toBeInTheDocument();
   });
 
   it('sets the expected column titles in the expected order', () => {
-    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />);
     const table = getByRole('table');
     const columnHeaders = within(table).getAllByRole('columnheader');
     expect(columnHeaders.length).toBe(4);
@@ -87,14 +86,14 @@ describe('DataSetDetailFields', () => {
   });
 
   it('sends the concatenated table data to the table component', () => {
-    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />);
     const table = getByRole('table');
     expect(within(table).getByRole('cell', { name: 'reporting_date' })).toBeInTheDocument();
     expect(within(table).getByRole('cell', { name: 'record_calendar_month' })).toBeInTheDocument();
   });
 
   it('excludes the correct columns when multiple apis are represented', () => {
-    const { getByRole } = render(<DatasetDetailFields apis={apis} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DatasetDetailFields apis={apis} />);
     const table = getByRole('table');
     expect(within(table).queryByRole('columnheader', { name: 'Definition' })).not.toBeInTheDocument();
     expect(within(table).queryByRole('columnheader', { name: 'Is Required' })).not.toBeInTheDocument();
@@ -102,7 +101,7 @@ describe('DataSetDetailFields', () => {
 
   it('excludes the correct columns if only one api is represented', () => {
     excluded.push('tableName');
-    const { getByRole } = render(<DatasetDetailFields apis={[apis[0]]} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DatasetDetailFields apis={[apis[0]]} />);
     const table = getByRole('table');
     expect(within(table).queryByRole('columnheader', { name: 'Definition' })).not.toBeInTheDocument();
     expect(within(table).queryByRole('columnheader', { name: 'Is Required' })).not.toBeInTheDocument();

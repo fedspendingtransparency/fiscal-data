@@ -1,6 +1,5 @@
 import React from 'react';
 import DataDictionary from './data-dictionary';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 
 describe('DataDictionary', () => {
@@ -49,7 +48,7 @@ describe('DataDictionary', () => {
   ];
 
   it('sets the expected column titles in the expected order', () => {
-    const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
+    const { getAllByRole } = render(<DataDictionary apis={apis} />);
     const columnHeaders = getAllByRole('columnheader');
     expect(within(columnHeaders[0]).getByText('Data Table Name')).toBeInTheDocument();
     expect(within(columnHeaders[1]).getByText('Field Name')).toBeInTheDocument();
@@ -60,7 +59,7 @@ describe('DataDictionary', () => {
   });
 
   it('sends the concatenated table data to the table component', () => {
-    const { getAllByRole, getByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
+    const { getAllByRole, getByRole } = render(<DataDictionary apis={apis} />);
     const table = getByRole('table');
     const rows = getAllByRole('row');
     expect(rows.length).toBe(5);
@@ -69,13 +68,13 @@ describe('DataDictionary', () => {
   });
 
   it('sets the table component width', () => {
-    const { getByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DataDictionary apis={apis} />);
     const table = getByRole('table');
     expect(table).toHaveStyle({ width: 1400 });
   });
 
   it('adds table name to each row', () => {
-    const { getAllByRole } = render(<DataDictionary apis={apis} />, { wrapper: RecoilRoot });
+    const { getAllByRole } = render(<DataDictionary apis={apis} />);
 
     const rows = getAllByRole('row');
     const firstRow = within(rows[1]).getAllByRole('cell');
@@ -86,7 +85,7 @@ describe('DataDictionary', () => {
 
   it('sets aria-label to dataset name', () => {
     const name = 'test-dataset';
-    const { getByRole } = render(<DataDictionary apis={apis} datasetName={name} />, { wrapper: RecoilRoot });
+    const { getByRole } = render(<DataDictionary apis={apis} datasetName={name} />);
     const table = getByRole('table', { name: `${name} data dictionary` });
     expect(table).toBeInTheDocument();
   });

@@ -1,7 +1,6 @@
 import React from 'react';
 import Endpoints from './endpoints';
 import { useStaticQuery } from 'gatsby';
-import { RecoilRoot } from 'recoil';
 import { render, within } from '@testing-library/react';
 
 describe('API Documentation/Endpoints', () => {
@@ -22,7 +21,7 @@ describe('API Documentation/Endpoints', () => {
   it('defines the Endpoints section with expected title and heading level', async () => {
     const titleText = 'Endpoints';
     const headingLevel = 2;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { findByRole } = render(<Endpoints />);
     const heading = await findByRole('heading', { name: titleText, level: headingLevel });
     expect(heading).toBeInTheDocument();
   });
@@ -30,13 +29,13 @@ describe('API Documentation/Endpoints', () => {
   it('defines the List of Endpoints section with expected title and heading level', async () => {
     const titleText = 'List of Endpoints';
     const headingLevel = 3;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { findByRole } = render(<Endpoints />);
     const heading = await findByRole('heading', { name: titleText, level: headingLevel });
     expect(heading).toBeInTheDocument();
   });
 
   it('defines the List of Endpoints table with specified id and column', async () => {
-    const { findByRole, findAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { findByRole, findAllByRole } = render(<Endpoints />);
     const columns = await findAllByRole('columnheader');
     const expectedColumns = ['Dataset', 'Table Name', 'Endpoint', 'Endpoint Description'];
     const expectedColumnLength = 4;
@@ -48,7 +47,7 @@ describe('API Documentation/Endpoints', () => {
   });
 
   it('sorts the endpoint table in alphabetical order of the table name', () => {
-    const { getAllByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { getAllByRole } = render(<Endpoints />);
     const firstTableRow = getAllByRole('row')[1];
     const firstTableName = within(firstTableRow).getAllByRole('cell')[0];
     // We have at least one table whose name starts with "A" and the first dataset in our
@@ -59,13 +58,13 @@ describe('API Documentation/Endpoints', () => {
   it('defines the Fields by Endpoint section with expected title and heading level', async () => {
     const titleText = 'Fields by Endpoint';
     const headingLevel = 3;
-    const { findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { findByRole } = render(<Endpoints />);
     const heading = await findByRole('heading', { name: titleText, level: headingLevel });
     expect(heading).toBeInTheDocument();
   });
 
   it('<table> tag has aria-describedby reference to <p> element id', async () => {
-    const { findByTestId, findByRole } = render(<Endpoints />, { wrapper: RecoilRoot });
+    const { findByTestId, findByRole } = render(<Endpoints />);
     const table = await findByRole('table');
     const p = await findByTestId('list-of-endpoints-id');
     expect(table).toHaveAttribute('aria-describedby', 'list-of-endpoints-id');

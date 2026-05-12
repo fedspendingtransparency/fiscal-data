@@ -15,7 +15,6 @@ import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
 import { DataPreview } from './data-preview';
 import userEvent from '@testing-library/user-event';
 
@@ -75,9 +74,9 @@ describe('DataPreview', () => {
 
   it(`renders the DataPreview component which has the expected title text at desktop mode`, () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     const title = getByRole('heading', { level: 2 });
     expect(title.innerHTML).toBe('Data Preview');
@@ -85,9 +84,9 @@ describe('DataPreview', () => {
 
   it(`contains a DataPreviewFilterSection component`, async () => {
     const { findByTestId } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     const filterDownload = await findByTestId('filterDownloadContainer');
     expect(filterDownload).toBeInTheDocument();
@@ -96,9 +95,9 @@ describe('DataPreview', () => {
   it(`contains a DataTableSelect component with api options`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     const dataTableSelect = getByRole('button', { name: 'Data Table: Table 1' });
     await user.click(dataTableSelect);
@@ -114,9 +113,9 @@ describe('DataPreview', () => {
 
   it(`initializes the selected table to the first element in the apis array`, () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     //selected table name will display within dropdown button
     const tableSelect = getByRole('button', { name: `Data Table: ${config.apis[0].tableName}` });
@@ -125,9 +124,9 @@ describe('DataPreview', () => {
 
   it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
     render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
@@ -137,9 +136,9 @@ describe('DataPreview', () => {
   it('selects the correct table when it is specified in the url', async () => {
     const setSelectedTableFromUrl = jest.fn();
     render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableFromUrl} location={mockLocationWithTablePathName} />
-      </RecoilRoot>
+      </>
     );
 
     expect(setSelectedTableFromUrl).toHaveBeenCalledWith(config.apis[2]);
@@ -194,9 +193,9 @@ describe('DataPreview', () => {
 
     it('display selected pivot with the table name', () => {
       const { getByRole } = render(
-        <RecoilRoot>
+        <>
           <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-        </RecoilRoot>
+        </>
       );
 
       const tableSelect = getByRole('button', { name: `Data Table: ${config.apis[0].tableName}` });
@@ -312,9 +311,9 @@ describe('DataPreview', () => {
   it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
     jest.useFakeTimers();
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     // select one paginated table
     const tableSelect = getByRole('button', { name: 'Data Table: Table 1' });
@@ -344,9 +343,9 @@ describe('DataPreview', () => {
   //   fetchSpy.mockClear();
   //
   //   const { getByRole } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const tableSelect = getByRole('button', { name: 'Data Table: Table 1' });
   //   // select one paginated table
@@ -372,7 +371,7 @@ describe('DataPreview', () => {
 
     getPublishedDates.mockClear();
     render(
-      <RecoilRoot>
+      <>
         <DataPreview
           config={config}
           width={2000}
@@ -380,7 +379,7 @@ describe('DataPreview', () => {
           location={mockLocation}
           publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
         />
-      </RecoilRoot>
+      </>
     );
     expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
@@ -393,9 +392,9 @@ describe('DataPreview', () => {
     const mockPublishedReports = mockPublishedReportsMTS[mockDatasetId];
     getPublishedDates.mockClear();
     const { rerender } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={mockPublishedReports} />
-      </RecoilRoot>
+      </>
     );
     expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReports);
@@ -421,9 +420,9 @@ describe('DataPreview', () => {
     ];
 
     rerender(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={updatedMockPublishedReportsMTS} />
-      </RecoilRoot>
+      </>
     );
 
     expect(getPublishedDates).toHaveBeenCalledTimes(2);
@@ -435,9 +434,9 @@ describe('DataPreview', () => {
   //   analyticsSpy.mockClear();
   //
   //   const { getByLabelText } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreview config={config} publishedReportsProp={reports.slice()} setSelectedTableProp={setSelectedTableMock} />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //
   //   // it's not called at at page load
@@ -480,9 +479,9 @@ describe('DataPreview', () => {
 
   // it("supplies the dataset's full dateRange to DateRangeFilter  ", () => {
   //   const { getByRole, queryByRole } = render(
-  //     <RecoilRoot>
+  //     <>
   //       <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-  //     </RecoilRoot>
+  //     </>
   //   );
   //   const filtersDropdown = getByRole('button', { name: 'Filters: 0 applied' });
   //   fireEvent.click(filtersDropdown);
@@ -502,10 +501,7 @@ describe('DataPreview', () => {
 
   it(`limits table filters to just record date when "All Data Tables" is selected`, async () => {
     const { getByRole, getByText } = render(
-      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />,
-      {
-        wrapper: RecoilRoot,
-      }
+      <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />
     );
 
     await waitFor(() => expect(getByRole('table')).toBeInTheDocument());
@@ -531,18 +527,18 @@ describe('DataPreview', () => {
   it(`renders the datatable banner when datatableBanner exists`, () => {
     const bannerText = 'This is a test';
     const { getByTestId } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={bannerTableConfig} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </RecoilRoot>
+      </>
     );
     expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
 
   it('Updates selected table and pivot view', () => {
     const { getByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={config} width={2000} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />
-      </RecoilRoot>
+      </>
     );
 
     //Select and apply new table and pivot
@@ -568,9 +564,9 @@ describe('DataPreview', () => {
 
   it('hides data table select when there is only one api with no pivot options', () => {
     const { queryByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview config={noPivotConfig} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={null} />
-      </RecoilRoot>
+      </>
     );
     const tableSelectDropdown = queryByRole('button', { name: 'Data Table: Table 1' });
     expect(tableSelectDropdown).not.toBeInTheDocument();
@@ -592,14 +588,14 @@ describe('Nested Data Table', () => {
 
   it('Renders the summary table', async () => {
     const { findByRole } = render(
-      <RecoilRoot>
+      <>
         <DataPreview
           config={{ ...config, detailView: { apiId: 300 } }}
           width={2000}
           setSelectedTableProp={setSelectedTableMock}
           location={mockLocation}
         />
-      </RecoilRoot>
+      </>
     );
     expect(await findByRole('table')).toBeInTheDocument();
   });

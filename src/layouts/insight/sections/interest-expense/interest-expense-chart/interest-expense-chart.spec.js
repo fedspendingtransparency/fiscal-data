@@ -4,7 +4,6 @@ import InterestExpenseChart from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../utils/analytics/analytics';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -49,7 +48,7 @@ jest.mock('../useGetInterestExpenseData', () => ({
   useGetInterestExpenseData: () => mockHookReturnValues,
 }));
 
-const wrapper = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
+const wrapper = ({ children }) => <>{children}</>;
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
     observe() {}

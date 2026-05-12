@@ -325,17 +325,27 @@ describe('Metadata Transform', () => {
 
     seoConfig = determineSEO(dataset, mappedDatasetSomeSEOApproved);
     expect(seoConfig.pageTitle).toStrictEqual(dataset.seoConfig.pageTitle);
-    expect(seoConfig.description).toStrictEqual(mappedDatasetSomeSEOApproved.seoConfig.description);
+    expect(seoConfig.description).toStrictEqual(dataset.seoConfig.description);
 
     seoConfig = determineSEO(dataset, mappedDatasetSEOStatic);
     expect(seoConfig.pageTitle).toStrictEqual(mappedDatasetSEOStatic.seoConfig.pageTitle);
-    expect(seoConfig.description).toStrictEqual(mappedDatasetSEOStatic.seoConfig.description);
+    expect(seoConfig.description).toStrictEqual(dataset.seoConfig.description);
 
     // Dataset has unapproved SEO in metadata and partial fields in static files
     dataset.datasetId = dummyDSId;
     seoConfig = determineSEO(dataset, mappedDatasetSomeSEOApproved);
     expect(seoConfig.pageTitle).toStrictEqual('');
-    expect(seoConfig.description).toStrictEqual(mappedDatasetSomeSEOApproved.seoConfig.description);
+    expect(seoConfig.description).toStrictEqual(dataset.seoConfig.description);
+
+    const datasetWithoutMetaDescription = {
+      datasetId: dummyDSId,
+      seoConfig: {
+        pageTitle: '',
+        description: '',
+      },
+    };
+    seoConfig = determineSEO(datasetWithoutMetaDescription, mappedDatasetSEOStatic);
+    expect(seoConfig.description).toStrictEqual(mappedDatasetSEOStatic.seoConfig.description);
   });
 
   it('has a function that ensures reciprocity for dataset relationships', () => {
