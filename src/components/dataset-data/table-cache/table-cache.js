@@ -124,8 +124,11 @@ export class TableCache {
     } else {
       // otherwise perform row-level date filtering
       const recordArrays = this.dataCache.map(rs => rs.data);
-      const rangeFromNumber = numerifyRecordDate(formatDateForApi(dateRange.from));
-      const rangeToNumber = numerifyRecordDate(formatDateForApi(dateRange.to));
+      const sampleRecord = [].concat(...recordArrays).find(rec => rec[dateField]);
+      const recordDateLength = sampleRecord ? sampleRecord[dateField].length : 10;
+      const rangeFromNumber = numerifyRecordDate(formatDateForApi(dateRange.from).substring(0, recordDateLength));
+      const rangeToNumber = numerifyRecordDate(formatDateForApi(dateRange.to).substring(0, recordDateLength));
+
       recordsForRange = [].concat(...recordArrays).filter(rec => {
         const numericDate = numerifyRecordDate(rec[dateField]);
         return numericDate >= rangeFromNumber && numericDate <= rangeToNumber;

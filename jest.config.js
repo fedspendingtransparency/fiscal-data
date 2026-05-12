@@ -15,9 +15,9 @@ module.exports = {
     'react-pdf': '<rootDir>/__mocks__/react-pdf.js',
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
   },
-  modulePathIgnorePatterns: ['.cache'],
+  modulePathIgnorePatterns: ['\\.cache'],
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
-  testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
+  testPathIgnorePatterns: [`node_modules`, `\\.cache`, `public`],
   transformIgnorePatterns: [`node_modules/(?!(gatsby|@react-pdf/renderer)/)`],
   globals: {
     __PATH_PREFIX__: ``,
