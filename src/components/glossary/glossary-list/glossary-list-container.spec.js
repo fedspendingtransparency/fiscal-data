@@ -142,4 +142,40 @@ describe('glossary list container', () => {
     expect(getByText('P')).toBeInTheDocument();
     expect(getByText('Pear')).toBeInTheDocument();
   });
+
+
+  it('shows the next glossary term when Next Term button is clicked', () => {
+    const sortedTermList = [
+      [
+        {
+          id: 1,
+          term: 'Agency',
+          slug: 'agency',
+          definition: 'Agency definition',
+          site_page: '',
+        },
+        {
+          id: 2,
+          term: 'Appropriations',
+          slug: 'appropriations',
+          definition: 'Appropriations definition',
+          site_page: '',
+        },
+      ],
+    ];
+
+    const { getByText } = render(
+      <GlossaryListContainer
+        sortedTermList={sortedTermList}
+        filter=""
+        filterHandler={jest.fn()}
+        defaultTerm={sortedTermList[0][0]}
+        setTabReset={jest.fn()}
+      />
+    );
+
+    expect(getByText('Agency')).toBeInTheDocument();
+    fireEvent.click(getByText('Next Term'));
+    expect(getByText('Appropriations')).toBeInTheDocument();
+  });
 });
