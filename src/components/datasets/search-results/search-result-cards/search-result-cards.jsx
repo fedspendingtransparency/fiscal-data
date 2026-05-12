@@ -3,7 +3,7 @@ import DatasetCard from '../../../dataset-card/dataset-card';
 import { cardContainer, cardPlacement, hiddenCard } from './search-result-cards.module.scss';
 import { PerformSort } from '../search-results-helper';
 import { currentFontSize } from '../../../../utils/browser-font-size';
-import { useWindowSize } from 'usehooks-ts';
+import { useMediaQuery } from 'usehooks-ts';
 
 /*
   currentFontSize is divided by 16 because 16px is the standard (medium) browser font-size. That
@@ -17,24 +17,18 @@ const gutter = {
   y: Math.floor((14 * currentFontSize) / 16), // scaling gutter with current font-size
 };
 
-const breakpoint = {
-  desktop: 992,
-  tablet: 600,
-};
-
 const SearchResultCards = ({ filteredDatasets, activeSort, allDatasets }) => {
   const [fauxIndex, setFauxIndex] = useState({});
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery('(min-width: 992px)');
+  const isTablet = useMediaQuery('(min-width: 600px)');
   let cardsPerRow = 1,
     cardWidth = 100;
 
   const setCardPositionVars = () => {
-    if (width > breakpoint.desktop) {
-      // set for desktop
+    if (isDesktop) {
       cardsPerRow = 3;
       cardWidth = 32;
-    } else if (width >= breakpoint.tablet && width < breakpoint.desktop) {
-      // set for tablet
+    } else if (isTablet) {
       cardsPerRow = 2;
       cardWidth = 49;
     }

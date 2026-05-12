@@ -6,7 +6,7 @@ import { setWindowMockFontSize } from '../../../../utils/mock-utils';
 
 jest.mock('usehooks-ts', () => ({
   ...jest.requireActual('usehooks-ts'),
-  useWindowSize: () => ({ width: 100, height: 768 }),
+  useMediaQuery: () => false,
 }));
 
 const mockAllDatasets = [

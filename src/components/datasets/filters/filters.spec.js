@@ -9,6 +9,11 @@ import { cleanup, fireEvent, render, within } from '@testing-library/react';
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useMediaQuery: () => false,
+}));
+
 describe('Filter Main', () => {
   HTMLCanvasElement.prototype.getContext = jest.fn();
   const setBeginDateSpy = jest.fn();
@@ -330,56 +335,50 @@ describe('Filter Main', () => {
     expect(mobileToggle).toBeDefined();
   });
 
-    it('captures clicks on filter info tips', () => {
-      window.dataLayer = window.dataLayer || [];
-      const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
+  it('captures clicks on filter info tips', () => {
+    window.dataLayer = window.dataLayer || [];
+    const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
-      const { getAllByTestId } = render(
-        <siteContext.Provider
-          value={{
-            beginDate: new Date(2019, 9, 1),
-            setBeginDate: setBeginDateSpy,
-            endDate: new Date(2021, 10, 1),
-            setEndDate: setEndDateSpy,
-            exactRange: true,
-            setExactRange: setExactRangeSpy,
-            dateRangeTab: 1,
-            setDateRangeTab: setDateRangeTabSpy,
-          }}
-        >
-          <FilterSection
-            searchResults={mockDatasets}
-            allDatasets={mockDatasets}
-            topicIcons={[]}
-            availableFilters={filters}
-            searchIsActive={true}
-            searchQuery={[]}
-            isHandheld={isHandheld}
-          />
-        </siteContext.Provider>
-      );
+    const { getAllByTestId } = render(
+      <siteContext.Provider
+        value={{
+          beginDate: new Date(2019, 9, 1),
+          setBeginDate: setBeginDateSpy,
+          endDate: new Date(2021, 10, 1),
+          setEndDate: setEndDateSpy,
+          exactRange: true,
+          setExactRange: setExactRangeSpy,
+          dateRangeTab: 1,
+          setDateRangeTab: setDateRangeTabSpy,
+        }}
+      >
+        <FilterSection
+          searchResults={mockDatasets}
+          allDatasets={mockDatasets}
+          topicIcons={[]}
+          availableFilters={filters}
+          searchIsActive={true}
+          searchQuery={[]}
+          isHandheld={isHandheld}
+        />
+      </siteContext.Provider>
+    );
 
-      const infoButtons = getAllByTestId('infoTipButton')
+    const infoButtons = getAllByTestId('infoTipButton');
 
-      const expectedLabels = [
-        'Last Updated',
-        'Date Range',
-        'Time Range',
-        'Dataset Publisher',
-        'Data Format'
-      ];
+    const expectedLabels = ['Last Updated', 'Date Range', 'Time Range', 'Dataset Publisher', 'Data Format'];
 
-      expectedLabels.forEach((label, i) => {
-        fireEvent.click(infoButtons[i]);
+    expectedLabels.forEach((label, i) => {
+      fireEvent.click(infoButtons[i]);
 
-        expect(datalayerSpy).toHaveBeenCalledWith({
-          event: 'Info Button Click',
-          eventLabel: 'Last Updated',
-        });
-      })
-
-      console.log(infoButtons.map(b => b.getAttribute('aria-label')));
+      expect(datalayerSpy).toHaveBeenCalledWith({
+        event: 'Info Button Click',
+        eventLabel: 'Last Updated',
+      });
     });
+
+    console.log(infoButtons.map(b => b.getAttribute('aria-label')));
+  });
 });
 
 describe('GA4 test of datalayer push', () => {
