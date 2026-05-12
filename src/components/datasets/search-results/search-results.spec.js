@@ -5,6 +5,11 @@ import { getSearchResultText } from '../search-result-count/search-result-count'
 import { FilteredSortOptions, SortOptions } from './search-results-helper';
 import { sortSelectionContainer } from './search-results.module.scss';
 
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useMediaQuery: () => false,
+}));
+
 const mockAllDatasets = [
   { name: 'Dataset A', techSpecs: { lastUpdated: 1 / 1 / 2000 } },
   { name: 'Dataset B', techSpecs: { lastUpdated: 2 / 1 / 2000 } },

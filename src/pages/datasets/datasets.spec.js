@@ -16,6 +16,11 @@ jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
   }),
 }));
 
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useMediaQuery: () => false,
+}));
+
 describe('Dataset Page', () => {
   jest.useFakeTimers();
 
