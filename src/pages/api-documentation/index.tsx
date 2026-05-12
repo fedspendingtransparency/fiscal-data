@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import GettingStarted from '../../components/api-documentation/getting-started/getting-started';
 import Endpoints from '../../components/api-documentation/endpoints/endpoints';
@@ -36,7 +35,6 @@ const ApiDocumentationPage: FunctionComponent = () => {
     <SiteLayout isPreProd={false}>
       <div className="pageHeader">
         <div className="content">
-          <BreadCrumbs links={breadCrumbLinks} />
           <h1 className="title">API Documentation</h1>
         </div>
       </div>
