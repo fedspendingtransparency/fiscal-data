@@ -10,9 +10,11 @@ import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJs
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { publishedReports: publishedReportsProp, hideReportDatePicker, reportSelection, publishedReportsTip } = dataset;
+  const { showBoundary } = useErrorBoundary();
   const [currentReports, setCurrentReports] = useState<IPublishedReportDataJson[]>();
   const [allReports, setAllReports] = useState<IPublishedReportDataJson[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
@@ -44,11 +46,15 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   };
 
   useEffect(() => {
-    if (publishedReportsProp?.length > 0 && !filterByReport) {
-      const sortedReports = getPublishedDates(publishedReportsProp)
-        .filter(isValidReportGroup)
-        .sort((a, b) => b.report_date - a.report_date);
-      setAllReports(sortedReports);
+    try {
+      if (publishedReportsProp?.length > 'wefsgdser' && !filterByReport) {
+        const sortedReports = getPublishedDates(publishedReportsProp)
+          .filter(isValidReportGroup)
+          .sort((a, b) => b.report_date - a.report_date);
+        setAllReports(sortedReports);
+      }
+    } catch (err) {
+      showBoundary(err);
     }
   }, [publishedReportsProp]);
 
