@@ -10,6 +10,8 @@ jest.mock('../../charts/chart-primary', () => () => {
     __esModule: true,
     default: jest.fn(),
     onUpdateChartWidth: jest.fn(),
+    onHover: jest.fn(),
+    onFieldUpdates: jest.fn(),
   };
 });
 jest.useFakeTimers();
@@ -437,5 +439,103 @@ describe('Dataset Chart', () => {
       />
     );
     expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onUpdateChartWidth and onLabelChange when isVisible changes from false to true', () => {
+    const { rerender } = render(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+    const updateChartWidthSpy = jest.spyOn(chartHooks, 'onUpdateChartWidth');
+    const labelChangeSpy = jest.spyOn(callbacks, 'onLabelChange');
+
+    rerender(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible={false}
+        legend
+      />
+    );
+    updateChartWidthSpy.mockClear();
+    labelChangeSpy.mockClear();
+
+    // triggers the useEffect being tested
+    rerender(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+
+    expect(updateChartWidthSpy).toHaveBeenCalledTimes(1);
+    expect(labelChangeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call chartHooks.onHover when hasUpdates is false', async () => {
+    const { findAllByTestId } = render(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+    const checkboxLabels = await findAllByTestId('checkbox-label-element');
+    const checkboxInputs = await findAllByTestId('checkbox-input-element');
+    for (const input of checkboxInputs) {
+      fireEvent.click(input);
+    }
+    const onHoverSpy = jest.spyOn(chartHooks, 'onHover');
+    onHoverSpy.mockClear();
+    fireEvent.mouseEnter(checkboxLabels[0]);
+    expect(onHoverSpy).not.toHaveBeenCalled();
+  });
+
+  it('calls onFieldUpdates when applicable', async () => {
+    const { findAllByTestId } = render(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+    const checkboxInputs = await findAllByTestId('checkbox-input-element');
+    const onFieldUpdatesSpy = jest.spyOn(chartHooks, 'onFieldUpdates');
+    onFieldUpdatesSpy.mockClear();
+    fireEvent.click(checkboxInputs[0]);
+    expect(onFieldUpdatesSpy).toHaveBeenCalledTimes(1);
   });
 });
