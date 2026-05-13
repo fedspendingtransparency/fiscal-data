@@ -60,24 +60,26 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> =
   };
 
   const getReportData = async (report, reportConfig) => {
-      const { dateField, apiFilter, endpoint } = report;
-      const { sort, summaryConfig } = reportConfig;
-      const { values: summaryValuesConfig, reportDataKey, table: summaryTableConfig } = summaryConfig;
-      const { field: accountField } = apiFilter;
+    const { dateField, apiFilter, endpoint } = report;
+    const { sort, summaryConfig } = reportConfig;
+    const { values: summaryValuesConfig, reportDataKey, table: summaryTableConfig } = summaryConfig;
+    const { field: accountField } = apiFilter;
 
-      //fetch data for main table
-      const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
-      const tableData = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
+    //fetch data for main table
+    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
+    const tableData = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
 
-      //get statement number from table data if available, otherwise get selected account
-      const hasTableData = tableData.data.length > 0;
-      const filterValue = hasTableData ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
-      const filterField = hasTableData ? summaryValuesConfig.dataKey : reportDataKey;
+    //get statement number from table data if available, otherwise get selected account
+    const hasTableData = tableData.data.length > 0;
+    const filterValue = hasTableData ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
+    const filterField = hasTableData ? summaryValuesConfig.dataKey : reportDataKey;
 
-      //fetch data for summary values and summary table
-      const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
-      const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
-    };
+    //fetch data for summary values and summary table
+    const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
+    const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
+
+    return { tableData: tableData.data, summaryData, summaryTableData };
+  };
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
