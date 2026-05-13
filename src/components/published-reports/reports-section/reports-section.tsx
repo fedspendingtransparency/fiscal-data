@@ -10,9 +10,11 @@ import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJs
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
 import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
+import { useErrorBoundary } from 'react-error-boundary';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { publishedReports: publishedReportsProp, hideReportDatePicker, reportSelection, publishedReportsTip } = dataset;
+  const { showBoundary } = useErrorBoundary();
   const [currentReports, setCurrentReports] = useState<IPublishedReportDataJson[]>();
   const [allReports, setAllReports] = useState<IPublishedReportDataJson[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
@@ -44,38 +46,53 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   };
 
   useEffect(() => {
-    if (publishedReportsProp?.length > 0 && !filterByReport) {
-      const sortedReports = getPublishedDates(publishedReportsProp)
-        .filter(isValidReportGroup)
-        .sort((a, b) => b.report_date - a.report_date);
-      setAllReports(sortedReports);
+    try {
+      if (publishedReportsProp?.length > 0 && !filterByReport) {
+        const sortedReports = getPublishedDates(publishedReportsProp)
+          .filter(isValidReportGroup)
+          .sort((a, b) => b.report_date - a.report_date);
+        setAllReports(sortedReports);
+      }
+    } catch (err) {
+      console.error('Error occurred while processing published reports');
+      showBoundary(err);
     }
   }, [publishedReportsProp]);
 
   useEffect(() => {
     // todo - Use a better manner of reassigning the report_date prop to jsdates.
-    if (allReports?.length > 0) {
-      const sortedReports = getPublishedDates(allReports).sort((a, b) => b.report_date - a.report_date);
-      const latestReport = sortedReports[0].report_date;
-      if (latestReport.toString() !== 'Invalid Date') {
-        const earliestReport = sortedReports[sortedReports.length - 1].report_date;
-        setLatestReportDate(latestReport);
-        setEarliestReportDate(earliestReport);
-        setSelectedDate(latestReport);
-        const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
-        setIsDailyReport(isDaily);
+    try {
+      if (allReports?.length > 0) {
+        const sortedReports = getPublishedDates(allReports).sort((a, b) => b.report_date - a.report_date);
+        const latestReport = sortedReports[0].report_date;
+        if (latestReport.toString() !== 'Invalid Date') {
+          const earliestReport = sortedReports[sortedReports.length - 1].report_date;
+          setLatestReportDate(latestReport);
+          setEarliestReportDate(earliestReport);
+          setSelectedDate(latestReport);
+          const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
+          setIsDailyReport(isDaily);
 
-        const { allDates, allYears } = getAllReportDates(isDaily, sortedReports);
-        setAllReportDates(allDates);
-        setAllReportYears(allYears);
-        updateReportSelection(latestReport, isDaily, sortedReports);
+          const { allDates, allYears } = getAllReportDates(isDaily, sortedReports);
+          setAllReportDates(allDates);
+          setAllReportYears(allYears);
+          updateReportSelection(latestReport, isDaily, sortedReports);
+        }
       }
+    } catch (err) {
+      console.error('Error occurred while processing report dates');
+      showBoundary(err);
     }
   }, [allReports]);
 
   useEffect(() => {
-    if (allReports) {
-      updateReportSelection(selectedDate, isDailyReport, allReports);
+    try {
+      if (allReports) {
+        updateReportSelection(selectedDate, isDailyReport, allReports);
+      }
+    } catch (err) {
+      console.error('Error occurred while updating report selection');
+      showBoundary(err);
     }
   }, [selectedDate, allReports]);
 
