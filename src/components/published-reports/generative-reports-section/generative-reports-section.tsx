@@ -81,10 +81,12 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> =
       const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
       const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
 
+      setApiErrorMessage(false);
       return { tableData: tableData.data, summaryData, summaryTableData };
     } catch (err) {
       console.error('Error fetching report data');
       setApiErrorMessage(true);
+      return { tableData: [], summaryData: [], summaryTableData: [] };
     }
   };
 
