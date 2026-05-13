@@ -54,15 +54,12 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> =
     try {
       const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
       return res.data;
-    } catch (err) {
-      console.error('Error fetching summary report data');
-      setApiErrorMessage(true);
+    } catch {
       return [];
     }
   };
 
   const getReportData = async (report, reportConfig) => {
-    try {
       const { dateField, apiFilter, endpoint } = report;
       const { sort, summaryConfig } = reportConfig;
       const { values: summaryValuesConfig, reportDataKey, table: summaryTableConfig } = summaryConfig;
@@ -80,14 +77,7 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> =
       //fetch data for summary values and summary table
       const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
       const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
-
-      setApiErrorMessage(false);
-      return { tableData: tableData.data, summaryData, summaryTableData };
-    } catch (err) {
-      console.error('Error fetching report data');
-      setApiErrorMessage(true);
-      return { tableData: [], summaryData: [], summaryTableData: [] };
-    }
+    };
   };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
