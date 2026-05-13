@@ -80,7 +80,6 @@ const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> =
 
     return { tableData: tableData.data, summaryData, summaryTableData };
   };
-  };
 
   const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
     const { reportInfo, reportSummary } = reportConfig;
