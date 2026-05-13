@@ -108,18 +108,6 @@ describe('Release Calendar', () => {
     expect(siteLayout).toBeInTheDocument();
   });
 
-  it('includes breadcrumbs', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole } = render(
-      <>
-        <ReleaseCalendar />
-      </>
-    );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const homeLink = await getByRole('link', { name: 'Home' });
-    expect(homeLink).toBeInTheDocument();
-  });
-
   it('includes the page title and tagline', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { getByRole, getByText } = render(
