@@ -501,7 +501,7 @@ const processStartedMessage = startedMsg => {
  * Persists a newly queuedDownload request to local storage
  * @param download {Object}
  */
-export const storeQueuedDownload = (download: DownloadStatus): void => {
+const storeQueuedDownload = (download: DownloadStatus): void => {
   download.requestId = `${download.datasetId}${requestIdDelimiter}${download.requestTime}`;
   const queuedStatuses = localStorageHelper.get(queuedKey) || {};
   const updatedQueuedStatuses = { ...queuedStatuses, [download.requestId]: download };
