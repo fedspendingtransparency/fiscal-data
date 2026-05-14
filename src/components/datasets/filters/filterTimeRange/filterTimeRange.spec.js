@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import FilterTimeRange, { spanTimeRangeAnalyticsObject } from './filterTimeRange';
 import { siteContext } from '../../../persist/persist';
@@ -70,7 +70,7 @@ describe('Time Range Filter', () => {
         exactRange: false,
         active: true,
       },
-      undefined
+      true
     );
   });
 
@@ -83,18 +83,20 @@ describe('Time Range Filter', () => {
     await user.click(from);
     let newDateButton = within(screen.getByRole('grid', { name: 'January 2020' })).getByRole('gridcell', { name: '11' });
     await user.click(newDateButton);
+    await user.click(screen.getByText('Apply'))
 
     const to = screen.getByRole('button', { name: 'Choose date, selected date is Jun 1, 2020' });
     await user.click(to);
     newDateButton = within(screen.getByRole('grid', { name: 'June 2020' })).getByRole('gridcell', { name: '11' });
     await user.click(newDateButton);
+    await user.click(screen.getByText('Apply'))
 
-    expect(dateRangeFilter).toHaveBeenCalledTimes(2);
+    expect(dateRangeFilter).toHaveBeenCalledTimes(1);
     expect(setBeginDateSpy).toHaveBeenCalled();
     expect(setEndDateSpy).toHaveBeenCalled();
   });
 
-  it('swaps the dates if the start/end dates are entered backwards', () => {
+  it('swaps the dates if the start/end dates are entered backwards', async () => {
     const dateRangeFn = jest.fn();
     const contextBeginDate = new Date(2020, 9, 1);
     const contextEndDate = new Date(2020, 8, 1);
@@ -107,15 +109,10 @@ describe('Time Range Filter', () => {
         <FilterTimeRange dateRangeFilter={dateRangeFn} />
       </siteContext.Provider>
     );
-    expect(dateRangeFn).toHaveBeenCalledWith(
-      {
-        startDate: contextEndDate,
-        endDate: contextBeginDate,
-        exactRange: false,
-        active: true,
-      },
-      undefined
-    );
+  await waitFor(() => {
+    expect(setBeginDateSpy).toHaveBeenCalledWith(contextEndDate)
+    expect(setEndDateSpy).toHaveBeenCalledWith(contextBeginDate)
+})
   });
 
   it(`passes the exactRange value of true if the exact range checkbox is checked when both dates are set`, async () => {
