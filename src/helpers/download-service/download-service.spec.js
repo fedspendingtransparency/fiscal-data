@@ -4,7 +4,7 @@ import '@rxreact/jest-helpers';
 import localStorageHelper from '../local-storage-helper/local-storage-helper';
 import WebsocketService from '../websocket-service/websocket-service';
 import globalConstants from '../constants';
-import { exportsForUnitTests, removeFromCompleted, storeQueuedDownload } from './download-service';
+import { exportsForUnitTests, removeFromCompleted } from './download-service';
 import { setGlobalFetchResponse } from '../../utils/mock-utils';
 
 const mockConnectWebsocketNext = jest.fn();
