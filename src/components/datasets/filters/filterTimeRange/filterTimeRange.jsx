@@ -90,6 +90,7 @@ const FilterTimeRange = ({ dateRangeFilter, maxAllowedDate, resetApplied }) => {
         swapDates();
       } else {
         if (isValid(start) && isValid(end)) {
+          Analytics.event(timeRangeCompleteAnalyticsObject)
           dateRangeFilter(
             {
               endDate: end,
