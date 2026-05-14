@@ -2,6 +2,7 @@ import { BASE_URL } from 'gatsby-env-variables';
 import React from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../google-analytics/google-analytics-helper';
+import CustomLink from '../../components/links/custom-link/custom-link';
 
 export const analyticsHandler = (action, label) => {
   if (action && label) {
@@ -96,6 +97,10 @@ export const publishedDateInfoIcon = {
       Please select the relevant Published Date in the desired year for your exchange rate. Each date available represents the closing date of each
       quarter of the respective calendar year. Please note: sometimes Treasury issues amendments to published exchange rates. To see amended exchange
       rates, please visit the{' '}
+      <CustomLink url="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">
+        Treasury Reporting Rates of Exchange
+      </CustomLink>{' '}
+      dataset.
       <a href="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">Treasury Reporting Rates of Exchange</a> dataset.
     </>
   ),
