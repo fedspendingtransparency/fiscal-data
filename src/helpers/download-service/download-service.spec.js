@@ -4,7 +4,7 @@ import '@rxreact/jest-helpers';
 import localStorageHelper from '../local-storage-helper/local-storage-helper';
 import WebsocketService from '../websocket-service/websocket-service';
 import globalConstants from '../constants';
-import { exportsForUnitTests, removeFromCompleted } from './download-service';
+import { exportsForUnitTests, removeFromCompleted, storeQueuedDownload } from './download-service';
 import { setGlobalFetchResponse } from '../../utils/mock-utils';
 
 const mockConnectWebsocketNext = jest.fn();
@@ -853,5 +853,31 @@ describe('Dataset Download Service', () => {
       jest.advanceTimersByTime(30001);
       await expect(global.fetch).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('stores queued download to local storage', () => {
+    jest.clearAllMocks();
+
+    const queuedDownload = {
+      datasetId: 'test-dataset-queued',
+      requestTime: new Date().getTime(),
+      status: 'queued',
+      progress: { current: 0, total: 0, pct: 0, apis: {} },
+    };
+
+    localStorageHelper.get.mockReturnValue({});
+
+    // Use exportsForUnitTests if storeQueuedDownload is in there
+    exportsForUnitTests.storeQueuedDownload(queuedDownload);
+
+    expect(localStorageHelper.set).toHaveBeenCalledWith(
+      queuedKey,
+      expect.objectContaining({
+        [`${queuedDownload.datasetId}::${queuedDownload.requestTime}`]: expect.objectContaining({
+          datasetId: 'test-dataset-queued',
+          status: 'queued',
+        }),
+      })
+    );
   });
 });

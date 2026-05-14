@@ -101,7 +101,6 @@ export const publishedDateInfoIcon = {
         Treasury Reporting Rates of Exchange
       </CustomLink>{' '}
       dataset.
-      <a href="/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange">Treasury Reporting Rates of Exchange</a> dataset.
     </>
   ),
 };
