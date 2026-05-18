@@ -140,7 +140,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (revenueInView && revenueHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setRevenueHoverDisabled(false);
-      }, 6500);
+      }, 4000);
       return () => clearTimeout(hoverTimer);
     }
   }, [revenueInView]);
@@ -149,7 +149,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (gdpInView && gdpHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setGdpHoverDisabled(false);
-      }, 6500);
+      }, 4000);
       return () => clearTimeout(hoverTimer);
     }
   }, [gdpInView]);
@@ -373,7 +373,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             groupMouseLeave: handleGroupOnMouseLeave,
                             mouseMove: handleMouseLeave,
                             inView: revenueInView,
-                            duration: 500,
+                            duration: 450,
                             customAnimationTriggeredOnce: animationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
                           }),
