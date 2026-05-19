@@ -398,7 +398,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             groupMouseLeave: handleGroupOnMouseLeave,
                             mouseMove: handleMouseLeave,
                             inView: gdpInView,
-                            duration: 500,
+                            duration: 450,
                             customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
                           }),
