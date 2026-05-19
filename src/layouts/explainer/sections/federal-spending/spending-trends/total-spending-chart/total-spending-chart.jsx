@@ -128,7 +128,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (spendingInView && spendingHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setSpendingHoverDisabled(false);
-      }, 6500);
+      }, 5500);
       return () => clearTimeout(hoverTimer);
     }
   }, [spendingInView]);
@@ -137,7 +137,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (gdpInView && gdpHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setGdpHoverDisabled(false);
-      }, 6500);
+      }, 5500);
       return () => clearTimeout(hoverTimer);
     }
   }, [gdpInView]);
@@ -407,7 +407,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                               groupMouseLeave: handleGroupOnMouseLeave,
                               mouseMove: handleMouseLeave,
                               inView: spendingInView,
-                              duration: 500,
+                              duration: 450,
                               customAnimationTriggeredOnce: animationTriggeredOnce,
                               setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
                             }),
@@ -430,7 +430,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                               groupMouseLeave: handleGroupOnMouseLeave,
                               mouseMove: handleMouseLeave,
                               inView: gdpInView,
-                              duration: 500,
+                              duration: 450,
                               customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
                               setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
                             }),

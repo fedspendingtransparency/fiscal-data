@@ -24,7 +24,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     if (data && data.length >= 2) {
       const holdings = Math.max(data[0]['Intragovernmental Holdings'], data[1]['Intragovernmental Holdings']);
       const debt = Math.max(data[0]['Debt Held by the Public'], data[1]['Debt Held by the Public']);
-      const totalDuration = 6000;
+      const totalDuration = 2000;
       const debt_duration = (debt / (debt + holdings)) * totalDuration;
       const holdings_duration = (holdings / (debt + holdings)) * totalDuration;
       if (!debtMarkerDelay) {
