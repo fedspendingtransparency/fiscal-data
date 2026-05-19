@@ -4,24 +4,12 @@
   font-size: $font-size-14;
 }
 
-.breadCrumbsContainer {
-  margin: 0 auto;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-}
 .componenentContianer {
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
   @media screen and (max-width: $breakpoint-lg) {
     flex-direction: column;
-  }
-}
-
-@media screen and (min-width: $breakpoint-lg) {
-  .breadCrumbsContainer {
-    max-width: calc(#{$site-content-width} + 2rem);
-    padding-left: 2rem;
   }
 }
 
@@ -50,10 +38,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .breadCrumbsContainer {
-    width: calc(100% - 13px);
-    padding-left: 13px;
-  }
   .legalDisclaimer {
     height: 19rem;
 

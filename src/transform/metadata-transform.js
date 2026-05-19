@@ -334,14 +334,13 @@ const determineSEO = (dataset, mappedDataset) => {
   const mappedSeoConfig = mappedDataset && mappedDataset.seoConfig ? mappedDataset.seoConfig : JSON.parse(JSON.stringify(seoConfig));
 
   if (metadataSEOApprovedDS.some(id => dataset.datasetId === id)) {
-    // Some of the metadata fields are not SEO approved, so check to see if we set the values
+    // Some of the metadata pageTitle fields are not SEO approved, so check to see if we set the values
     // ourselves before applying the values from the metadata.
     seoConfig.pageTitle = mappedSeoConfig.pageTitle || dataset.seoConfig.pageTitle || '';
-    seoConfig.description = mappedSeoConfig.description || dataset.seoConfig.description || '';
   } else {
     seoConfig.pageTitle = mappedSeoConfig.pageTitle || '';
-    seoConfig.description = mappedSeoConfig.description || '';
   }
+  seoConfig.description = dataset.seoConfig?.description || mappedSeoConfig.description || '';
 
   return seoConfig;
 };

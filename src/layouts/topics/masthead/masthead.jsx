@@ -1,5 +1,4 @@
 import React from 'react';
-import BreadCrumbs from '../../../components/breadcrumbs/breadcrumbs';
 import { bottomMargin, relatedTopics, titleStyle, topic } from './masthead.module.scss';
 
 export default function MastHead({ title }) {
@@ -25,7 +24,6 @@ export default function MastHead({ title }) {
   return (
     <div className={`pageHeader ${bottomMargin}`}>
       <div className="content">
-        <BreadCrumbs links={breadCrumbLinks} />
         <h1 className="title">{title}</h1>
         <p data-testid="tagLine">{tagLine}</p>
         <div data-testid="relatedTopics" className={relatedTopics}>

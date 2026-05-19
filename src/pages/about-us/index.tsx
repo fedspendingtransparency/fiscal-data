@@ -5,7 +5,6 @@ import About from '../../components/about-us/about-section/about-section';
 import FAQ from '../../components/about-us/faq-section/faq-section';
 import Contact from '../../components/about-us/contact-section/contact-section';
 import TOCData from './toc-data.json';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
 import { aboutPageWrapper, activeLink, content, hoverLink } from './about-us.module.scss';
@@ -31,7 +30,6 @@ const AboutUsPage: FunctionComponent = () => {
     <SiteLayout isPreProd={false}>
       <div className="pageHeader">
         <div className="content">
-          <BreadCrumbs links={breadCrumbLinks} />
           <h1 data-test-id="pageTitle" className="title">
             About Us
           </h1>
