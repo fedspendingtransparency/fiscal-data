@@ -128,7 +128,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (spendingInView && spendingHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setSpendingHoverDisabled(false);
-      }, 5100);
+      }, 5500);
       return () => clearTimeout(hoverTimer);
     }
   }, [spendingInView]);
@@ -137,7 +137,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (gdpInView && gdpHoverDisabled === true) {
       const hoverTimer = setTimeout(() => {
         setGdpHoverDisabled(false);
-      }, 5100);
+      }, 5500);
       return () => clearTimeout(hoverTimer);
     }
   }, [gdpInView]);
