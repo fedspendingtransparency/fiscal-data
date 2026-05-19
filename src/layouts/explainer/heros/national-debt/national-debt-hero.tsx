@@ -26,7 +26,7 @@ const NationalDebtHero = (): JSX.Element => {
 
   return (
     <>
-      <div className={counterContainer}>
+      <div className={counterContainer} data-nosnippet>
         <SplitFlapDisplay
           value={nationalDebtValue}
           minLength={numberFormat.format(parseInt(nationalDebtValue)).length} // number of characters to initially display
