@@ -16,6 +16,11 @@ jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
   }),
 }));
 
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useMediaQuery: () => false,
+}));
+
 describe('Dataset Page', () => {
   jest.useFakeTimers();
 
@@ -31,19 +36,6 @@ describe('Dataset Page', () => {
   });
 
   const clearSearch = jest.fn();
-
-  it('includes breadcrumbs', () => {
-    const { getByTestId } = render(
-      <>
-        <DatasetsPage
-          pageContext={{
-            filters: mockFilters,
-          }}
-        />
-      </>
-    );
-    expect(getByTestId('breadcrumbs')).toBeInTheDocument();
-  });
 
   it('displays the page title', () => {
     const { getByRole } = render(

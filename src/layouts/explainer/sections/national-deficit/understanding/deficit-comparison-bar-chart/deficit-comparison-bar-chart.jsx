@@ -45,7 +45,7 @@ const DeficitComparisonBarChart = ({ sectionId }) => {
       const revenue = parseFloat(data[0]['revenue']);
       const deficit = data[0]['deficit'];
       const spending = parseFloat(data[1]['spending']);
-      const totalDuration = 6000;
+      const totalDuration = 2000;
       const total = revenue + deficit + spending;
       const revenue_duration = (revenue / total) * totalDuration;
       const deficit_duration = (deficit / total) * totalDuration;

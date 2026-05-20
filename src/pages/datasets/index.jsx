@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import dates from '../../helpers/datasets/dates';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import { page_title, searchContainer } from './datasets.module.scss';
@@ -166,7 +165,6 @@ const DatasetsPage = ({ pageContext }) => {
       <ThemeProvider theme={dsTheme}>
         <div className="searchBodyBackground">
           <div className={searchContainer}>
-            <BreadCrumbs links={breadCrumbLinks} />
             <h1 className={page_title}>Datasets</h1>
             <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} isLoading={finalDatesNotFound} />
             <FilterSection
