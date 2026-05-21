@@ -41,6 +41,18 @@ module.exports = {
       // leaving out '015-BFS-2026Q1-001' from relatedDatasets because it's not released yet
       hideRawDataTable: true,
     },
+    '015-BFS-2026Q1-001': {
+      slug: '/combined-statement/',
+      seoConfig: {
+        pageTitle: 'Combined Statement | U.S. Treasury Fiscal Data',
+        description:
+          'The Combined Statement presents budgetary results at the summary and detail level for each fiscal year. It is recognized as the official publication of receipts and outlays of the United States Government.',
+        keywords: 'Financial Summaries, Revenue, Spending',
+      },
+      topics: ['financial-summaries', 'revenue', 'spending'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03'],
+      hideRawDataTable: true,
+    },
   },
   ADDITIONAL_ENDPOINTS: {
     '299': {
@@ -141,6 +153,9 @@ module.exports = {
       valueFieldOptions: ['position_bil_amt'],
     },
     '328': {
+      endpoint: '',
+    },
+    '327': {
       endpoint: '',
     },
     '139': {
