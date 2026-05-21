@@ -90,10 +90,6 @@ const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, dis
     }
   };
 
-  const getIconColor = () => {
-    if (secondary) return '#000';
-    return iconStyle?.color ? iconStyle.color : '#aeb0b5';
-  };
 
   return (
     <span data-testid="infoTipContainer" className={buttonContainer}>
@@ -106,7 +102,7 @@ const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, dis
         onMouseLeave={handleMouseLeave}
         onMouseEnter={hover ? handleClick : null}
       >
-        <FontAwesomeIcon icon={faInfoCircle} className={svgStyle} style={{ ...iconStyle, color: getIconColor() }} />
+        <FontAwesomeIcon icon={faInfoCircle} className={svgStyle}/>
       </button>
       <Popover
         id={id}
