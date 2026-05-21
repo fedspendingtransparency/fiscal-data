@@ -158,7 +158,7 @@ describe('search field persistence', () => {
     expect(setKeywordsSpy).toHaveBeenCalledWith(persistentTerms + testString);
   });
 
-  it('Testing GA4 datalayer push for handleInfoTipClick', () => {
+  it('Testing GA4 datalayer push for handleInfoTipHover', () => {
     window.dataLayer = window.dataLayer || [];
     const datalayerSpy = jest.spyOn(window.dataLayer, 'push');
 
@@ -177,10 +177,10 @@ describe('search field persistence', () => {
 
     expect(infoTip).toBeDefined();
 
-    fireEvent.click(infoTip);
+    fireEvent.mouseEnter(infoTip);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
-      event: 'Info Button Click',
+      event: 'Info Button Hover',
       eventLabel: 'Keyword Search',
     });
   });

@@ -369,7 +369,7 @@ describe('Filter Main', () => {
     const expectedLabels = ['Last Updated', 'Date Range', 'Time Range', 'Dataset Publisher', 'Data Format'];
 
     expectedLabels.forEach((label, i) => {
-      fireEvent.click(infoButtons[i]);
+      fireEvent.mouseEnter(infoButtons[i]);
 
       expect(datalayerSpy).toHaveBeenCalledWith({
         event: 'Info Button Click',
@@ -421,7 +421,7 @@ describe('GA4 test of datalayer push', () => {
     );
 
     expect(getAllByTestId('infoTipButton')[0]).toBeInTheDocument();
-    fireEvent.click(getAllByTestId('infoTipButton')[0]);
+    fireEvent.mouseEnter(getAllByTestId('infoTipButton')[0]);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Info Button Click',
