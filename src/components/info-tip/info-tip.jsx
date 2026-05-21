@@ -24,7 +24,7 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click',
 };
 
-const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, displayTitle }) => {
+const InfoTip = ({ title, clickEvent, children, displayTitle }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
   const { width } = useWindowSize();
@@ -50,7 +50,7 @@ const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, dis
   const [open, setOpen] = useState(false);
   let timeout;
 
-  const handleClick = event => {
+  const handleMouseEnter = event => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
     if (clickEvent) {
@@ -98,9 +98,8 @@ const InfoTip = ({ title, secondary, clickEvent, iconStyle, hover, children, dis
         aria-label={title ? label : null}
         data-testid="infoTipButton"
         className={`${infoIcon} infoTipIcon`}
-        onClick={handleClick}
         onMouseLeave={handleMouseLeave}
-        onMouseEnter={hover ? handleClick : null}
+        onMouseEnter={handleMouseEnter}
       >
         <FontAwesomeIcon icon={faInfoCircle} className={svgStyle}/>
       </button>
