@@ -375,7 +375,7 @@ export const DataPreview: FunctionComponent<IDataPreview> = ({
                       handleConfigUpdate={() => setConfigUpdated(true)}
                       tableColumnSortData={tableColumnSortData}
                       setTableColumnSortData={setTableColumnSortData}
-                      hasPublishedReports={!!publishedReports}
+                      hasPublishedReports={publishedReports.length > 0}
                       publishedReports={publishedReports}
                       resetFilters={resetFilters}
                       setResetFilters={setResetFilters}
