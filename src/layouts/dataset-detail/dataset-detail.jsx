@@ -69,7 +69,7 @@ const DatasetDetail = ({ data, pageContext, location, test }) => {
   return (
     <SiteLayout isPreProd={pageContext.isPreProd}>
       <Masthead title={pageContext.config.name} />
-      <DDNav hasPublishedReports={!!pageConfig.publishedReports} hideRawDataTable={hideRawDataTable} />
+      <DDNav hasPublishedReports={pageConfig.publishedReports?.length > 0} hideRawDataTable={hideRawDataTable} />
       <div className="ddpBodyBackground">
         {bannerCallout && (
           <div className={bannerCalloutContainer} data-testid="callout">
