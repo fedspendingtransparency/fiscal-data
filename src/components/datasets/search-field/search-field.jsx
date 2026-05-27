@@ -87,12 +87,12 @@ const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
     changeHandler('');
   };
 
-  const handleInfoTipClick = () => {
+  const handleInfoTipHover = () => {
     Analytics.event(lastUpdatedInfoTipAnalyticsObject);
     // GA4 event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: 'Info Button Click',
+      event: 'Info Button Hover',
       eventLabel: 'Keyword Search',
     });
   };
@@ -139,7 +139,7 @@ const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
             <FontAwesomeIcon icon={faTimesCircle} data-testid="clear-search-icon" />
           )}
         </button>
-        <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipClick}>
+        <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipHover}>
           {infoIcon.body}
         </InfoTip>
       </div>

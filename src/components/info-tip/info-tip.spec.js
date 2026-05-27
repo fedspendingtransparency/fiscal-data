@@ -28,7 +28,7 @@ describe('InfoTip', () => {
   it('shows the popup and calls the click event passed to it when clicked on', () => {
     const { getByTestId } = render(InfoTipComponent);
     const button = getByTestId('infoTipButton');
-    fireEvent.click(button);
+    fireEvent.mouseEnter(button);
     expect(getByTestId('popupContainer')).toBeInTheDocument();
     expect(clickEvent).toHaveBeenCalled();
   });
