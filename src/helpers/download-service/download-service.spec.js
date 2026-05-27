@@ -778,6 +778,37 @@ describe('Dataset Download Service', () => {
 
       await expect(hot$).toEmitValue(expectedObject);
     });
+
+    it('handles api failed messages', async () => {
+      mockWebsocket = new ReplaySubject(1)
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const requestId = downloadService.initiateDownload(
+        '123-45678',
+        ['123'],
+        { from: '2005-10-03', to: '2021-02-17' },
+        'zip'
+      );
+      mockWebsocket.next({
+        status: 'started',
+        status_path: 'test/status/path/hash/statusfile',
+      });
+      mockWebsocket.next({
+        status: 'failed',
+        apiId: '123',
+        error: {
+          code: 1234,
+          message: 'error message',
+        },
+      });
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'An error occurred while requesting table data',
+        {
+          code: 1234,
+          message: 'error message',
+        }
+      );
+      jest.runAllTimers();
+    });
   });
 
   describe('startPollingByRequestToken', () => {
@@ -853,5 +884,26 @@ describe('Dataset Download Service', () => {
       jest.advanceTimersByTime(30001);
       await expect(global.fetch).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('returns a 404 error when request token status response has no status', async () => {
+    const requestToken = 'mock-request-token';
+    setGlobalFetchResponse(jest, {
+      message: 'missing status',
+    });
+
+    downloadService.startPollingByRequestToken(requestToken).subscribe({
+      next: () => {
+        done.fail('Expected a 404 error');
+      },
+      error: emittedError => {
+        expect(emittedError).toStrictEqual({
+          status: 404,
+          message: 'Not Found',
+        });
+        done();
+      },
+    });
+    jest.runOnlyPendingTimers();
   });
 });
