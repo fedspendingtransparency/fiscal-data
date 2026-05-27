@@ -3,11 +3,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
 import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
 export const TickCount = props => {
   const { x, y, payload } = props;
@@ -102,13 +101,9 @@ const AFGSpendingChart = () => {
     '.';
 
   return (
-    <div className={deficitChart} role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Cumulative Spending by Month in Trillions of USD</div>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+      {isLoading && <LoadingIndicator />}
       {!isLoading && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
@@ -171,7 +166,7 @@ const AFGSpendingChart = () => {
           </div>
         </>
       )}
-    </div>
+    </figure>
   );
 };
 

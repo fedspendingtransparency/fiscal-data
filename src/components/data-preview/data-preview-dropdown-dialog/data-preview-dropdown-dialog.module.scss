@@ -1,9 +1,9 @@
-@import 'src/variables.module';
-@import 'src/zIndex.module';
+@use 'src/variables.module' as *;
+@use 'src/zIndex.module' as *;
 
 $dropdown-width: 45rem;
 $search-width: 20rem;
-$filter-width: $dropdown-width - $search-width;
+$filter-width: calc($dropdown-width - $search-width - 1px);
 
 .dropdownContent {
   width: $dropdown-width;
@@ -14,7 +14,7 @@ $filter-width: $dropdown-width - $search-width;
   background: white;
   border-radius: 0.25rem;
   box-shadow: 0 0.25rem 1rem 0 rgba(0, 0, 0, 0.15);
-  z-index: $data-table-select-dropdown;
+  z-index: $data-preview-filters-dropdown;
   margin-top: 0.25rem;
 
   .mainContainer {
@@ -22,7 +22,7 @@ $filter-width: $dropdown-width - $search-width;
     display: flex;
     .search {
       width: $search-width;
-      border-right: 1px solid #d9d9d9;
+      border-right: 1px solid $light-grey-border;
       overflow-y: auto;
     }
 
@@ -31,7 +31,12 @@ $filter-width: $dropdown-width - $search-width;
     }
   }
 
+  .headerBox {
+    margin: 1rem 1rem 0 1rem;
+    font-weight: $semi-bold-weight;
+  }
+
   .footer {
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid $light-grey-border;
   }
 }

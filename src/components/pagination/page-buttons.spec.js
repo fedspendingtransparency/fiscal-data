@@ -1,6 +1,6 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import PageButtons from './page-buttons';
+import { fireEvent, render } from '@testing-library/react';
 
 describe('PageButtons component', () => {
   const pages = [1, 2, 3, 4, 5, 6];
@@ -13,48 +13,125 @@ describe('PageButtons component', () => {
   };
   const { maxPage, tableName } = pageButtonProps;
 
-  const component = renderer.create(<PageButtons pageButtonProps={pageButtonProps} />);
-  const instance = component.root;
-
   it('renders correct number of buttons (pages + next + prev)', () => {
-    expect(instance.findAllByType('button').length).toEqual(pages.length + 2);
+    const { getAllByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const buttons = getAllByRole('button');
+    expect(buttons.length).toBe(pages.length + 2);
   });
 
   it('renders a next button that is active when active page is not last page', () => {
-    const nextButton = instance.findByProps({ id: `${tableName}-page-next` });
-    expect(nextButton).toBeDefined();
-    expect(nextButton.props.disabled).toBeFalsy();
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const nextButton = getByRole('button', { name: 'Next page' });
+    expect(nextButton).toBeInTheDocument();
+    expect(nextButton).not.toBeDisabled();
   });
 
   it('renders a previous button that is disabled when active page is 1', () => {
-    const prevButton = instance.findByProps({ id: `${tableName}-page-prev` });
-    expect(prevButton).toBeDefined();
-    expect(prevButton.props.disabled).toBeTruthy();
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const prevButton = getByRole('button', { name: 'Previous page' });
+    expect(prevButton).toBeInTheDocument();
+    expect(prevButton).toBeDisabled();
   });
 
   it('disables the next button when active page is last page', () => {
     pageButtonProps.currentPage = maxPage;
-    renderer.act(() => {
-      component.update(<PageButtons pageButtonProps={pageButtonProps} />);
-    });
-    const nextButton = instance.findByProps({ id: `${tableName}-page-next` });
-    expect(nextButton).toBeDefined();
-    expect(nextButton.props.disabled).toBeTruthy();
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const nextButton = getByRole('button', { name: 'Next page' });
+    expect(nextButton).toBeInTheDocument();
+    expect(nextButton).toBeDisabled();
   });
 
   it('indicates the active page', () => {
-    const activeButton = instance.findByProps({ id: `${tableName}-page${maxPage}` });
-    expect(activeButton.props.className).toContain('active');
-    expect(instance.findAllByProps({ className: 'active' }).length).toEqual(1);
+    pageButtonProps.currentPage = maxPage;
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const activeButton = getByRole('button', { name: `${tableName}-page${maxPage}` });
+    expect(activeButton).toBeInTheDocument();
+    expect(activeButton).toHaveClass('active');
+    const inactiveButton = getByRole('button', { name: `${tableName}-page${maxPage - 1}` });
+    expect(inactiveButton).toBeInTheDocument();
+    expect(inactiveButton).not.toHaveClass('active');
   });
 
   it('shows first and last page when ellipsis is showing', () => {
     pageButtonProps.pagesArray.push(9);
     pageButtonProps.pagesArray.push(10);
-    renderer.act(() => {
-      component.update(<PageButtons pageButtonProps={pageButtonProps} />);
-    });
-    expect(instance.findByProps({ id: `${tableName}-page1` })).toBeDefined();
-    expect(instance.findByProps({ id: `${tableName}-page10` })).toBeDefined();
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const firstButton = getByRole('button', { name: `${tableName}-page1` });
+    expect(firstButton).toBeInTheDocument();
+    const lastButton = getByRole('button', { name: `${tableName}-page10` });
+    expect(lastButton).toBeInTheDocument();
+  });
+
+  it('correctly changes to a new page when its button-number is clicked', () => {
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const secondButton = getByRole('button', { name: `${tableName}-page2` });
+    expect(secondButton).toBeInTheDocument();
+    fireEvent.click(secondButton);
+    expect(secondButton).toHaveClass('active');
+  });
+
+  it('correctly changes pages when clicking the next button', () => {
+    pageButtonProps.currentPage = 1;
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const nextButton = getByRole('button', { name: 'Next page' });
+    fireEvent.click(nextButton);
+    const secondButton = getByRole('button', { name: `${tableName}-page2` });
+    expect(secondButton).toHaveClass('active');
+  });
+
+  it('correctly changes pages when clicking the previous button', () => {
+    pageButtonProps.currentPage = 2;
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const prevButton = getByRole('button', { name: 'Previous page' });
+    fireEvent.click(prevButton);
+    const firstButton = getByRole('button', { name: `${tableName}-page1` });
+    expect(firstButton).toHaveClass('active');
+  });
+
+  it('renders the correct page range and ellipsis (when range > 7)', () => {
+    pageButtonProps.maxPage = 8;
+    const { getByRole } = render(
+      <>
+        <PageButtons pageButtonProps={pageButtonProps} />
+      </>
+    );
+    const ellipsisButton = getByRole('button', { name: 'Page number overflow ellipsis' });
+    expect(ellipsisButton).toBeInTheDocument();
   });
 });

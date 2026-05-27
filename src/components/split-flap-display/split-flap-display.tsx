@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import globalConstants from '../../helpers/constants';
 import SplitFlapCharacter from './split-flap-character/split-flap-character';
@@ -17,6 +16,7 @@ import {
 import { breakpointLg } from '../../variables.module.scss';
 import { numberWithCommas } from '../../helpers/simplify-number/simplifyNumber';
 import BigNumber from 'bignumber.js';
+import { useWindowSize } from 'usehooks-ts';
 
 interface IFlipCardDisplayProps {
   minLength?: number;
@@ -29,7 +29,6 @@ interface IFlipCardDisplayProps {
   charSet?: string[];
   stepCycleDelay?: number;
   padDirection?: 'left' | 'right';
-  width?: number;
 }
 
 const numericCharSet: string[] = [' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -72,10 +71,9 @@ const SplitFlapDisplay = ({
   charSet = numericCharSet,
   stepCycleDelay = globalConstants.config.splitFlap.speed,
   padDirection = 'left',
-  width,
 }: IFlipCardDisplayProps): JSX.Element => {
   // creates a string of 0s that is the same length as the desired value
-
+  const { width } = useWindowSize();
   const mobileBreakpoint = useRef<number>(pxToNumber(breakpointLg));
 
   const [minimumDisplayLength, setMinimumDisplayLength] = useState<number>(0);
@@ -305,4 +303,4 @@ const SplitFlapDisplay = ({
   );
 };
 
-export default withWindowSize(SplitFlapDisplay);
+export default SplitFlapDisplay;

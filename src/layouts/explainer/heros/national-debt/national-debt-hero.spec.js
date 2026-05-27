@@ -1,10 +1,8 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import NationalDebtHero from './national-debt-hero';
 import Analytics from '../../../../utils/analytics/analytics';
-import SiteHeader from '../../../../components/site-header/site-header';
-import { RecoilRoot } from 'recoil';
 
 jest.mock('../../../../components/split-flap-display/split-flap-display', () => {
   return ({ value, valueType, minLength }) => (
@@ -18,7 +16,7 @@ jest.mock('../../../../components/split-flap-display/split-flap-display', () => 
 
 describe('National Debt Hero', () => {
   beforeAll(() => {
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, {
       data: [
         {
           tot_pub_debt_out_amt: '28908004857445.12',
@@ -27,16 +25,19 @@ describe('National Debt Hero', () => {
       ],
     });
   });
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
 
   it('makes api call for debt data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <NationalDebtHero />
-      </RecoilRoot>
+      </>
     );
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
     await waitFor(() => getByText('28908004857445', { exact: false }));
     expect(await getByText('28908004857445', { exact: false })).toBeInTheDocument();
     global.fetch.mockRestore();
@@ -45,9 +46,9 @@ describe('National Debt Hero', () => {
   it('calls the appropriate analytics event when link is clicked on', async () => {
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText } = render(
-      <RecoilRoot>
+      <>
         <NationalDebtHero />
-      </RecoilRoot>
+      </>
     );
     await waitFor(() => getByText('28908004857445', { exact: false }));
 

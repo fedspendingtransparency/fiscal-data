@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .container {
   margin-bottom: 1.5rem;
@@ -37,9 +37,11 @@
   float: right;
   padding: 0 6px;
   cursor: pointer;
-
-  svg path {
-    color: $font-body-copy;
+  svg {
+    width: 15.75px;
+    path {
+      color: $font-body-copy;
+    }
   }
 }
 

@@ -1,11 +1,6 @@
-@import '../../variables.module.scss';
-@import '../../layouts/explainer/sections/national-debt/national-debt.module.scss';
-@import '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss';
-
-//Variables
-$revenueExplainerPrimary: #0a2f5a;
-$dollarIconColor: $font-body-copy;
-$dollarIconBackgroundColor: #f1f1f1;
+@use '../../variables.module.scss' as *;
+@use '../../layouts/explainer/sections/national-debt/national-debt.module.scss' as *;
+@use '../../layouts/explainer/sections/national-deficit/national-deficit.module.scss' as *;
 
 .mainContainer {
   max-width: $site-content-width;
@@ -137,6 +132,10 @@ $dollarIconBackgroundColor: #f1f1f1;
     margin-left: 3.5rem;
     margin-top: 3.5rem;
   }
+
+  .mobileView {
+    display: none;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -202,10 +201,8 @@ $dollarIconBackgroundColor: #f1f1f1;
   .bottomContainer img {
     margin-top: 1rem !important;
   }
-}
 
-:export {
-  revenueExplainerPrimary: $revenueExplainerPrimary;
-  dollarIconColor: $dollarIconColor;
-  dollarIconBackgroundColor: $dollarIconBackgroundColor;
+  .desktopView {
+    display: none;
+  }
 }

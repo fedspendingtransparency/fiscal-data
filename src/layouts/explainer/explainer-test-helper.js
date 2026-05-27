@@ -805,51 +805,267 @@ export const mockSavingsBondLastFiscalYearCurrentMonth = {
   ],
 };
 
-const mockSavingsBondsSoldByTypeFYData = { data: [{ record_fiscal_year: 2024, record_date: '2024-12-12' }], meta: { 'total-pages': 100 } };
+const mockSavingsBondsSoldByTypeFYData = {
+  data: [
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'I' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'I' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'E' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'E' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'EE' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'EE' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'F' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'F' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'G' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'G' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'H' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'H' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'HH' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'HH' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 0, security_class_desc: 'J' },
+    { record_fiscal_year: '2023', record_date: '2023-12-12', net_sales_amt: 130000000000, security_class_desc: 'J' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'J' },
+    { record_fiscal_year: '2024', record_date: '2024-12-12', net_sales_amt: 150000000000, security_class_desc: 'K' },
+    { record_fiscal_year: '2022', record_date: '2022-12-12', net_sales_amt: 110000000000, security_class_desc: 'K' },
+    { record_fiscal_year: '1935', record_date: '1935-12-12', net_sales_amt: 110000000000, security_class_desc: 'K' },
+  ],
+  meta: { 'total-pages': 100 },
+};
 const mockPreviousYearDate = { data: [{ record_fiscal_year: 2024, record_date: '2023-02-28' }] };
+const base = 'https://www.transparency.treasury.gov/services/api/fiscal_service';
 export const mockSavingsBondFetchResponses = () => {
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
-    mockSavingsBondDataNoFilter,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2024`,
-    mockSavingsBondCurrentFY,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:`,
-    mockSavingsBondLastFiscalYearCurrentMonth,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=`,
-    mockSavingsBondsSoldByTypeFYData,
-    { overwriteRoutes: true },
-    { repeat: 0 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
-    IBondMockData,
-    { overwriteRoutes: true },
-    { repeat: 2 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_date:lte:2023-02-28`,
-    mockSavingsBondLastFiscalYearCurrentMonth,
-    { overwriteRoutes: true },
-    { repeat: 0 }
-  );
-  fetchMock.get(
-    `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:02&sort=-record_date&page[size]=1`,
-    mockPreviousYearDate,
-    { overwriteRoutes: true },
-    { repeat: 1 }
-  );
+  fetchMock
+    .mockGlobal()
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&sort=-record_date&page[size]=1`,
+      mockSavingsBondDataNoFilter
+    )
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2024`,
+      mockSavingsBondCurrentFY
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:`,
+      mockSavingsBondLastFiscalYearCurrentMonth
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=`,
+      mockSavingsBondsSoldByTypeFYData
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,security_class_desc:eq:I,record_fiscal_year:gte:2009&sort=-record_date`,
+      IBondMockData
+    )
+    .route(
+      `${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_date:lte:2023-02-28`,
+      mockSavingsBondLastFiscalYearCurrentMonth
+    )
+    .route(
+      `begin:${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond,record_fiscal_year:eq:2023,record_calendar_month:eq:02&sort=-record_date&page[size]=1`,
+      mockPreviousYearDate
+    )
+    .route(`begin:${base}/v1/accounting/od/savings_bonds_mud?sort=-record_date&page[size]=1`, mockPreviousYearDate)
+    .route(`begin:${base}/v1/accounting/od/savings_bonds_mud?filter=record_date:eq:2023-02-28`, savingsBondsMudData)
+    .route(`begin:${base}/v1/debt/mspd/mspd_table_1`, {})
+    .route(`${base}/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond&page[size]=1`, {});
+};
+
+export const mockSlgsDebtToPennyDate = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      debt_held_public_amt: '28888758862953.29',
+      intragov_hold_amt: '7325110705163.71',
+      tot_pub_debt_out_amt: '36213869568117.00',
+      src_line_nbr: '1',
+      record_fiscal_year: '2025',
+      record_fiscal_quarter: '3',
+      record_calendar_year: '2025',
+      record_calendar_quarter: '2',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+    },
+  ],
+};
+
+export const mockSlgsDebtToPennyAmount = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      debt_held_public_amt: '28888758862953.29',
+      intragov_hold_amt: '7325110705163.71',
+      tot_pub_debt_out_amt: '36213869568117.00',
+      src_line_nbr: '1',
+      record_fiscal_year: '2025',
+      record_fiscal_quarter: '3',
+      record_calendar_year: '2025',
+      record_calendar_quarter: '2',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+    },
+  ],
+};
+
+export const mockSlgsDebtToPennyAmount2 = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      debt_held_public_amt: '28888758862953.29',
+      intragov_hold_amt: '7325110705163.71',
+      tot_pub_debt_out_amt: '4397321574350',
+      src_line_nbr: '1',
+      record_fiscal_year: '2025',
+      record_fiscal_quarter: '3',
+      record_calendar_year: '2025',
+      record_calendar_quarter: '2',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+    },
+  ],
+};
+
+export const mockSlgsTotalAmount = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      outstanding_0_3_mos_cnt: '874',
+      outstanding_0_3_mos_amt: '33188677845.22',
+      outstanding_3_6_mos_cnt: '350',
+      outstanding_3_6_mos_amt: '11443447409.00',
+      outstanding_6_mos_to_2_yrs_cnt: '2298',
+      outstanding_6_mos_to_2_yrs_amt: '8605555568.00',
+      outstanding_2_5_yrs_cnt: '4926',
+      outstanding_2_5_yrs_amt: '24148291414.00',
+      outstanding_5_10_yrs_cnt: '2667',
+      outstanding_5_10_yrs_amt: '8461855168.00',
+      outstanding_over_10_yrs_cnt: '3319',
+      outstanding_over_10_yrs_amt: '2116604083.00',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+      record_calendar_year: '2025',
+    },
+  ],
+};
+
+export const mockSlgsTotalAmount2 = {
+  data: [
+    {
+      record_date: '2025-06-25',
+      outstanding_0_3_mos_cnt: '874',
+      outstanding_0_3_mos_amt: '0',
+      outstanding_3_6_mos_cnt: '350',
+      outstanding_3_6_mos_amt: '0',
+      outstanding_6_mos_to_2_yrs_cnt: '2298',
+      outstanding_6_mos_to_2_yrs_amt: '0',
+      outstanding_2_5_yrs_cnt: '4926',
+      outstanding_2_5_yrs_amt: '0',
+      outstanding_5_10_yrs_cnt: '2667',
+      outstanding_5_10_yrs_amt: '0',
+      outstanding_over_10_yrs_cnt: '3319',
+      outstanding_over_10_yrs_amt: '0',
+      record_calendar_month: '06',
+      record_calendar_day: '25',
+      record_calendar_year: '2025',
+    },
+  ],
+};
+
+export const mockSLGSFetchResponses = () => {
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
+
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount
+    );
+};
+
+export const mockSLGSFetchResponses2 = () => {
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount2
+    );
+};
+
+export const mockSLGSFetchResponses3 = () => {
+  fetchMock
+    .mockGlobal()
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?sort=-record_date`,
+      mockSlgsDebtToPennyDate
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2025-06-25`,
+      mockSlgsDebtToPennyAmount2
+    )
+    .route(
+      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/slgs_securities?fields=record_date,outstanding_0_3_mos_cnt,outstanding_0_3_mos_amt,outstanding_3_6_mos_cnt,outstanding_3_6_mos_amt,outstanding_6_mos_to_2_yrs_cnt,outstanding_6_mos_to_2_yrs_amt,outstanding_2_5_yrs_cnt,outstanding_2_5_yrs_amt,outstanding_5_10_yrs_cnt,outstanding_5_10_yrs_amt,outstanding_over_10_yrs_cnt,outstanding_over_10_yrs_amt&filter=record_date:eq:2025-06-25&sort=-record_date`,
+      mockSlgsTotalAmount
+    );
+};
+
+const savingsBondsMudData = {
+  data: [
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7005255',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'A',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7520660',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'B',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+    {
+      bonds_issued_cnt: '1026746',
+      bonds_out_cnt: '7500882',
+      record_calendar_day: '31',
+      record_calendar_month: '03',
+      record_calendar_quarter: '1',
+      record_calendar_year: '2023',
+      record_date: '2023-03-31',
+      record_fiscal_quarter: '2',
+      record_fiscal_year: '2023',
+      series_cd: 'C',
+      src_line_nbr: '1',
+      txn_year_month: '202503',
+    },
+  ],
 };
 
 export const mockDebtExpenseResponse = {
@@ -2763,4 +2979,237 @@ export const mockSavingsBondTypesData = {
     'total-count': 521,
     'total-pages': 521,
   },
+};
+
+export const cpi12MonthPercentChange = {
+  M012005: '3.0',
+  M012006: '4.0',
+  M012007: '2.1',
+  M012008: '4.3',
+  M012009: '0.0',
+  M012010: '2.6',
+  M012011: '1.6',
+  M012012: '2.9',
+  M012013: '1.6',
+  M012014: '1.6',
+  M012015: '-0.1',
+  M012016: '1.4',
+  M012017: '2.5',
+  M012018: '2.1',
+  M012019: '1.6',
+  M012020: '2.5',
+  M012021: '1.4',
+  M012022: '7.5',
+  M012023: '6.4',
+  M012024: '3.1',
+  M022005: '3.0',
+  M022006: '3.6',
+  M022007: '2.4',
+  M022008: '4.0',
+  M022009: '0.2',
+  M022010: '2.1',
+  M022011: '2.1',
+  M022012: '2.9',
+  M022013: '2.0',
+  M022014: '1.1',
+  M022015: '0.0',
+  M022016: '1.0',
+  M022017: '2.7',
+  M022018: '2.2',
+  M022019: '1.5',
+  M022020: '2.3',
+  M022021: '1.7',
+  M022022: '7.9',
+  M022023: '6.0',
+  M022024: '3.2',
+  M032005: '3.1',
+  M032006: '3.4',
+  M032007: '2.8',
+  M032008: '4.0',
+  M032009: '-0.4',
+  M032010: '2.3',
+  M032011: '2.7',
+  M032012: '2.7',
+  M032013: '1.5',
+  M032014: '1.5',
+  M032015: '-0.1',
+  M032016: '0.9',
+  M032017: '2.4',
+  M032018: '2.4',
+  M032019: '1.9',
+  M032020: '1.5',
+  M032021: '2.6',
+  M032022: '8.5',
+  M032023: '5.0',
+  M042005: '3.5',
+  M042006: '3.5',
+  M042007: '2.6',
+  M042008: '3.9',
+  M042009: '-0.7',
+  M042010: '2.2',
+  M042011: '3.2',
+  M042012: '2.3',
+  M042013: '1.1',
+  M042014: '2.0',
+  M042015: '-0.2',
+  M042016: '1.1',
+  M042017: '2.2',
+  M042018: '2.5',
+  M042019: '2.0',
+  M042020: '0.3',
+  M042021: '4.2',
+  M042022: '8.3',
+  M042023: '4.9',
+  M052005: '2.8',
+  M052006: '4.2',
+  M052007: '2.7',
+  M052008: '4.2',
+  M052009: '-1.3',
+  M052010: '2.0',
+  M052011: '3.6',
+  M052012: '1.7',
+  M052013: '1.4',
+  M052014: '2.1',
+  M052015: '0.0',
+  M052016: '1.0',
+  M052017: '1.9',
+  M052018: '2.8',
+  M052019: '1.8',
+  M052020: '0.1',
+  M052021: '5.0',
+  M052022: '8.6',
+  M052023: '4.0',
+  M062005: '2.5',
+  M062006: '4.3',
+  M062007: '2.7',
+  M062008: '5.0',
+  M062009: '-1.4',
+  M062010: '1.1',
+  M062011: '3.6',
+  M062012: '1.7',
+  M062013: '1.8',
+  M062014: '2.1',
+  M062015: '0.1',
+  M062016: '1.0',
+  M062017: '1.6',
+  M062018: '2.9',
+  M062019: '1.6',
+  M062020: '0.6',
+  M062021: '5.4',
+  M062022: '9.1',
+  M062023: '3.0',
+  M072005: '3.2',
+  M072006: '4.1',
+  M072007: '2.4',
+  M072008: '5.6',
+  M072009: '-2.1',
+  M072010: '1.2',
+  M072011: '3.6',
+  M072012: '1.4',
+  M072013: '2.0',
+  M072014: '2.0',
+  M072015: '0.2',
+  M072016: '0.8',
+  M072017: '1.7',
+  M072018: '2.9',
+  M072019: '1.8',
+  M072020: '1.0',
+  M072021: '5.4',
+  M072022: '8.5',
+  M072023: '3.2',
+  M082005: '3.6',
+  M082006: '3.8',
+  M082007: '2.0',
+  M082008: '5.4',
+  M082009: '-1.5',
+  M082010: '1.1',
+  M082011: '3.8',
+  M082012: '1.7',
+  M082013: '1.5',
+  M082014: '1.7',
+  M082015: '0.2',
+  M082016: '1.1',
+  M082017: '1.9',
+  M082018: '2.7',
+  M082019: '1.7',
+  M082020: '1.3',
+  M082021: '5.3',
+  M082022: '8.3',
+  M082023: '3.7',
+  M092005: '4.7',
+  M092006: '2.1',
+  M092007: '2.8',
+  M092008: '4.9',
+  M092009: '-1.3',
+  M092010: '1.1',
+  M092011: '3.9',
+  M092012: '2.0',
+  M092013: '1.2',
+  M092014: '1.7',
+  M092015: '0.0',
+  M092016: '1.5',
+  M092017: '2.2',
+  M092018: '2.3',
+  M092019: '1.7',
+  M092020: '1.4',
+  M092021: '5.4',
+  M092022: '8.2',
+  M092023: '3.7',
+  M102005: '4.3',
+  M102006: '1.3',
+  M102007: '3.5',
+  M102008: '3.7',
+  M102009: '-0.2',
+  M102010: '1.2',
+  M102011: '3.5',
+  M102012: '2.2',
+  M102013: '1.0',
+  M102014: '1.7',
+  M102015: '0.2',
+  M102016: '1.6',
+  M102017: '2.0',
+  M102018: '2.5',
+  M102019: '1.8',
+  M102020: '1.2',
+  M102021: '6.2',
+  M102022: '7.7',
+  M102023: '3.2',
+  M112005: '3.5',
+  M112006: '2.0',
+  M112007: '4.3',
+  M112008: '1.1',
+  M112009: '1.8',
+  M112010: '1.1',
+  M112011: '3.4',
+  M112012: '1.8',
+  M112013: '1.2',
+  M112014: '1.3',
+  M112015: '0.5',
+  M112016: '1.7',
+  M112017: '2.2',
+  M112018: '2.2',
+  M112019: '2.1',
+  M112020: '1.2',
+  M112021: '6.8',
+  M112022: '7.1',
+  M112023: '3.1',
+  M122005: '3.4',
+  M122006: '2.5',
+  M122007: '4.1',
+  M122008: '0.1',
+  M122009: '2.7',
+  M122010: '1.5',
+  M122011: '3.0',
+  M122012: '1.7',
+  M122013: '1.5',
+  M122014: '0.8',
+  M122015: '0.7',
+  M122016: '2.1',
+  M122017: '2.1',
+  M122018: '1.9',
+  M122019: '2.3',
+  M122020: '1.4',
+  M122021: '7.0',
+  M122022: '6.5',
+  M122023: '3.4',
 };

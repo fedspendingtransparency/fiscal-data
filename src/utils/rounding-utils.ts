@@ -1,4 +1,5 @@
 export const getShortForm = (value: string, abbreviate: boolean = true, round: boolean = true, fractionDigits: number = 0): string => {
+  if (!value || isNaN(Number(value))) return '--';
   const trimmed = Math.abs(Number(value)).toFixed();
   const inTrillions = trimmed.length > 12;
   const inBillions = trimmed.length > 9;
@@ -22,5 +23,10 @@ export const getShortForm = (value: string, abbreviate: boolean = true, round: b
     appendix = millionLabel;
   }
   const digits = round ? (inTrillions ? 2 : 0) : fractionDigits;
-  return Math.abs(parseFloat(value) / divisor).toFixed(digits) + appendix;
+
+  const numberShortened = Math.abs(parseFloat(value) / divisor).toFixed(digits);
+
+  const removedTrailingZero = numberShortened.replace(/\.0+$/, '');
+
+  return removedTrailingZero + appendix;
 };

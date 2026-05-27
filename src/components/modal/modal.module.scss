@@ -1,4 +1,5 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
+@use 'src/zIndex.module' as *;
 
 @keyframes slideIn {
   0% {
@@ -24,9 +25,10 @@
   align-items: center;
 
   .content {
+    z-index: $modal;
     background-color: white;
     padding: 20px;
-    max-height: 90vh;
+    max-height: 95vh;
 
     &.slideIn {
       animation: slideIn 0.5s;

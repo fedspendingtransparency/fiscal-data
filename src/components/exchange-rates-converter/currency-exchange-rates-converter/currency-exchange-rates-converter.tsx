@@ -361,12 +361,6 @@ const CurrencyExchangeRateTool: FunctionComponent = () => {
         </div>
       )}
       {inputWarning && <BannerCallout bannerCallout={XRWarningBanner} bannerType="warningXR" />}
-
-      {data && nonUSCurrency && (
-        <div>
-          <CurrencyExchangeRateDualChart chartData={chartData} />
-        </div>
-      )}
     </div>
   );
 };

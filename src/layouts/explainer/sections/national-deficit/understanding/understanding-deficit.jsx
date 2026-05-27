@@ -11,6 +11,8 @@ import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { nationalDeficitSectionConfigs } from '../national-deficit';
 import useFetchSurplusCount from './deficit-surplus-count-helper';
 import { numberToWord } from '../../../explainer-helpers/national-deficit/national-deficit-helper';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
 
 const UnderstandingDeficit = ({ sectionId }) => {
   const currentYear = new Date().getFullYear();
@@ -82,12 +84,13 @@ const UnderstandingDeficit = ({ sectionId }) => {
 
   return (
     <div className={understandingDeficitContainer}>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <div className={textContent} data-testid="textContent">
           <p>
             A budget deficit occurs when money going out ({spending}) exceeds money coming in ({revenue}) during a defined period. In FY{' '}
-            {lastFiscalYear}, the federal government spent ${spendingLabel} trillion and collected ${revenueLabel} trillion in revenue, resulting in a
-            deficit. The amount by which spending exceeds revenue, ${deficitLabel} trillion in {lastFiscalYear}, is referred to as deficit spending.
+            {lastFiscalYear || '--'}, the federal government spent ${spendingLabel || '--'} trillion and collected ${revenueLabel || '--'} trillion in
+            revenue, resulting in a deficit. The amount by which spending exceeds revenue, ${deficitLabel || '--'} trillion in{' '}
+            {lastFiscalYear || '--'}, is referred to as deficit spending.
           </p>
           <p>
             The opposite of a budget deficit is a budget {surplus}, which occurs when the federal government collects more money than it spends. The
@@ -101,10 +104,12 @@ const UnderstandingDeficit = ({ sectionId }) => {
             Treasury.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <SurplusIllustration />
       <p>The chart below shows a breakdown of how the U.S. deficit compares to the corresponding revenue and spending.</p>
-      <DeficitComparisonBarChart sectionId={sectionId} />
+      <ErrorBoundary fallback={<ChartApiError />}>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
     </div>
   );
 };

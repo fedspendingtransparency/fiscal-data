@@ -1,0 +1,190 @@
+import React from 'react';
+import { render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart';
+import { CustomTooltip } from './state-and-local-government-series-chart-helper';
+import Analytics from '../../../../../utils/analytics/analytics';
+
+jest.mock('recharts', () => {
+  const RechartsModule = jest.requireActual('recharts');
+  return {
+    ...RechartsModule,
+    ResponsiveContainer: ({ children }) => (
+      <RechartsModule.ResponsiveContainer width={100} height={100}>
+        {children}
+      </RechartsModule.ResponsiveContainer>
+    ),
+  };
+});
+
+const mockColumnConfigArray = ['Date', 'Amount', 'Count'];
+const mockColumnConfig = [
+  { property: 'date', name: 'Date', type: 'string' },
+  { property: 'totalAmount', name: 'Amount', type: 'string' },
+  { property: 'totalCount', name: 'Count', type: 'string' },
+];
+
+const mockChartData = [
+  { date: '2020-08-30', totalAmount: '650000000000', totalCount: 25000 },
+  { date: '2020-09-30', totalAmount: '600000000000', totalCount: 20000 },
+];
+
+const mockMergedTableData = [
+  { date: 'August 2020', totalAmount: '$650,000,000,000', totalCount: '25,000' },
+  { date: 'September 2020', totalAmount: '$600,000,000,00', totalCount: '24,000' },
+];
+
+const mockHookReturnValues = {
+  chartData: mockChartData,
+  mergedTableData: mockMergedTableData,
+  xAxisValues: ['2020-09-30', '2020-08-30'],
+  columnConfigArray: mockColumnConfigArray,
+  columnConfig: mockColumnConfig,
+};
+
+jest.mock('../useGetStateAndLocalGovernmentSeriesData', () => ({
+  useGetStateAndLocalGovernmentSeriesData: () => mockHookReturnValues,
+}));
+const wrapper = ({ children }) => <>{children}</>;
+describe('State and Local Government Series Chart', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  it('renders chart correctly', () => {
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartHeader');
+    expect(within(chartParent).getAllByText('Amount').length).toEqual(2);
+    expect(within(chartParent).getAllByText('Count').length).toEqual(2);
+  });
+
+  it('renders chart correctly in mobile screen size', () => {
+    window.innerWidth = 360;
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartHeader');
+    expect(within(chartParent).getAllByText('Amount').length).toEqual(2);
+    expect(within(chartParent).getAllByText('Count').length).toEqual(2);
+  });
+
+  it('renders the tooltip', () => {
+    const setDateSpy = jest.fn();
+    const setAmountSpy = jest.fn();
+    const setCountSpy = jest.fn();
+    render(
+      <CustomTooltip
+        payload={[
+          { dataKey: 'totalAmount', payload: { date: '2020-10-31', totalAmount: '600000000000' } },
+          { dataKey: 'totalCount', payload: { date: '2020-10-31', totalCount: '20123' } },
+        ]}
+        setDate={setDateSpy}
+        setAmount={setAmountSpy}
+        setCount={setCountSpy}
+      />
+    );
+    expect(setDateSpy).toHaveBeenCalledWith('2020-10-31');
+    expect(setAmountSpy).toHaveBeenCalledWith('600000000000');
+    expect(setCountSpy).toHaveBeenCalledWith('20123');
+  });
+
+  it('handles chart mouse events', async () => {
+    const user = userEvent.setup();
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartParent');
+    const chart = chartParent.children[0].children[0];
+    expect(chart).toBeInTheDocument();
+    await user.hover(chart);
+    await user.unhover(chart);
+  });
+
+  it('formats axis values', () => {
+    const { getByText } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    expect(getByText('27K')).toBeInTheDocument();
+    expect(getByText('$900 B')).toBeInTheDocument();
+  });
+
+  it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
+    const { getByRole, getByText, getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chart = getByRole('application');
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    expect(chart).toHaveFocus();
+    //Chart header updates to first date
+    expect(within(getByTestId('chartHeader')).getByText('Aug 2020')).toBeInTheDocument();
+    expect(within(getByTestId('chartHeader')).getByText('$600 B')).toBeInTheDocument();
+    expect(within(getByTestId('chartHeader')).getByText('25,000')).toBeInTheDocument();
+    await user.tab();
+    expect(chart).not.toHaveFocus();
+    //Chart header resets
+    expect(within(getByTestId('chartHeader')).getByText('Sep 2020')).toBeInTheDocument();
+  });
+
+  it('fires GA event on chart hover', async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartParent');
+    await user.hover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities',
+    });
+    jest.clearAllMocks();
+  });
+
+  it('cancels GA event on chart hover less than 3 seconds', async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const chartParent = getByTestId('chartGrandParent');
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
+    jest.advanceTimersByTime(4000);
+    expect(analyticsSpy).not.toHaveBeenCalled();
+    jest.clearAllMocks();
+  });
+
+  it('fires GA event on csv download button click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const downloadButton = getByTestId('csv-download-button');
+    await user.click(downloadButton);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Download CSV Click',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities Table Download',
+    });
+  });
+
+  it('fires GA event on chart table toggle click', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const toggleButton = getByTestId('toggleButtonRight');
+    await user.click(toggleButton);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Table Toggle Click',
+      category: 'State and Local Government Series',
+      label: 'Outstanding SLGS Securities Chart Table Toggle',
+    });
+  });
+});

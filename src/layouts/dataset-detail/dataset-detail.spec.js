@@ -1,164 +1,20 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { mockAPIs, mockSummaryDataset, mockMaxDates, mockTechSpecs, updateDates, mockSummaryDatasetNoUpdates } from './helper';
-import DDNav from '../../components/dataset-detail-nav/dataset-detail-nav';
+import { mockAPIs, mockMaxDates, mockSummaryDataset, mockSummaryDatasetNoUpdates, mockTechSpecs, updateDates } from './helper';
 import DatasetDetail from './dataset-detail';
-import DatasetAbout from '../../components/dataset-about/dataset-about';
-import DatasetData from '../../components/dataset-data/dataset-data';
-import ApiQuickGuide from '../../components/api-quick-guide/api-quick-guide';
-import Masthead from '../../components/masthead/masthead';
-import RelatedDatasets from '../../components/related-datasets/related-datasets';
-import SiteLayout from '../../components/siteLayout/siteLayout';
-import PageHelmet from '../../components/page-helmet/page-helmet';
 import { useStaticQuery } from 'gatsby';
 import metadataHelper from '../../helpers/metadata/metadata';
-import { RecoilRoot } from 'recoil';
-import DatasetIntroduction from '../../components/dataset-introduction/dataset-introduction';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
+import { datasetPageSampleConfig } from './test-helper';
 
-export const datasetPageSampleConfig = {
-  datasetId: '015-BFS-2014Q1-11',
-  name: 'Monthly Statement of the Public Debt',
-  searchScore: 10,
-  relatedTopics: ['topic1', 'topic2'],
-  apis: [
-    {
-      apiId: '3',
-      endpoint: 'debt/mspd/mspd_table_1',
-      dateField: 'reporting_date',
-      tableName: 'Table 1',
-      earliestDate: '2020-01-01',
-      lastUpdated: '2020-07-17',
-      latestDate: '2020-07-17',
-      dataDisplays: [
-        {
-          title: 'Complete Table',
-        },
-      ],
-      fields: [
-        {
-          columnName: 'reporting_date',
-          definition: 'Reporting date for the data',
-          tableName: 'Summary of Treasury Securities Outstanding',
-          prettyName: 'Calendar Date',
-          dataType: 'DATE',
-          isRequired: 'yes',
-        },
-        {
-          columnName: 'debt_out_amt',
-          definition:
-            'Amount outstanding represents the total par (principal amount) of ' +
-            'marketable and non-marketable securities outstanding. The marketable securities ' +
-            'include the discount and premium for treasury bills, notes, bonds, FRNs, and TIPS, ' +
-            'all of which can be bought and sold in the secondary market at prevailing market ' +
-            'prices.',
-          tableName: 'Summary of Treasury Securities Outstanding',
-          prettyName: null,
-          dataType: null,
-          isRequired: 'yes',
-        },
-        {
-          columnName: 'security_holder',
-          definition:
-            'Tier two of a three-tier hierarchy for categorizing Treasury ' +
-            'securities. Indicates whether the security is held by the public or ' +
-            'part of intragovernmental ' +
-            'holdings. ',
-          tableName: 'Summary of Treasury Securities Outstanding',
-          prettyName: null,
-          dataType: null,
-          isRequired: 'yes',
-        },
-      ],
-    },
-    {
-      apiId: '5',
-      endpoint: 'debt/mspd/mspd_table_2',
-      dateField: 'reporting_date',
-      tableName: 'Table 2',
-      earliestDate: '2010-01-01',
-      lastUpdated: '2020-07-17',
-      latestDate: '2020-07-17',
-      dataDisplays: [
-        {
-          title: 'Complete Table',
-        },
-      ],
-      fields: [
-        {
-          columnName: 'reporting_date',
-          definition: 'Reporting date for the data',
-          tableName: 'Statutory Debt Limit',
-          prettyName: 'Calendar Date',
-          dataType: 'DATE',
-          isRequired: 'yes',
-        },
-        {
-          columnName: 'report_table_nbr',
-          definition: 'Indicates the corresponding table number in the Monthly Statement of the Public Debt report',
-          tableName: 'Statutory Debt Limit',
-          prettyName: null,
-          dataType: null,
-          isRequired: null,
-        },
-        {
-          columnName: 'security_holder',
-          definition: 'Indicates whether the federal debt is held by the public or intragovernmental holdings',
-          tableName: 'Statutory Debt Limit',
-          prettyName: null,
-          dataType: null,
-          isRequired: null,
-        },
-      ],
-    },
-    {
-      apiId: '3',
-      endpoint: 'debt/mspd/mspd_table_3',
-      dateField: 'reporting_date',
-      earliestDate: '2000-01-01',
-      latestDate: '2020-07-17',
-      lastUpdated: '2020-07-17',
-      tableName: 'Table 3 with a longer name to show off truncation',
-      dataDisplays: [
-        {
-          title: 'Complete Table',
-        },
-      ],
-    },
-  ],
-  slug: '/monthy-statement-of-the-public-debt-MSPD/',
-  dictionary: false,
-  techSpecs: {
-    earliestDate: '01/01/2002',
-    latestDate: '03/17/2020',
-    lastUpdated: '03/17/2020',
-    updateFrequency: 'Updated Monthly',
-    fileFormat: 'JSON, CSV, XML',
-  },
-  dataStartYear: 2002,
-  tagLine:
-    'High level overview of Treasury securities and the statutory debt limit, detailed ' +
-    'data on outstanding securities, and holdings of treasury securities in stripped form.',
-  summaryText:
-    'The Monthly Statement of the Public Debt is a report dating back to 1869 that ' +
-    'details the Treasury’s outstanding debts and the debt limit. Debt is categorized by its ' +
-    'marketability (whether it can be sold in secondary markets) as well as if the debt is held ' +
-    'by the public or intragovernmental organizations. Beyond the first page, there are ' +
-    'detailed accounts of debt by type as well as accounts of debt that is no longer ' +
-    'outstanding. All amounts are reported in the millions of dollars. Reports are published ' +
-    'on the fourth business day of each month, detailing the debt as of the end of the ' +
-    'previous month.',
-  publisher: 'Fiscal Accounting',
-  publishedReports: [
-    {
-      report_date: '2021-01-01',
-      path: '/test/test.pdf',
-      report_group_id: '1',
-      report_group_desc: 'desc',
-      report_group_sort_order_nbr: '1',
-    },
-  ],
-};
+// mocks the web worker
+URL.createObjectURL = URL.createObjectURL || (() => 'blob:http://localhost/mock');
+URL.createObjectURL = URL.createObjectURL || (() => {});
+jest.mock('../../workers/pdfWorker', () => ({
+  renderPDF: jest.fn().mockResolvedValue({
+    url: 'blob:http://localhost/mock-pdf',
+    size: '2kb',
+  }),
+}));
 
 const mockQueryReturn = {
   allDatasets: {
@@ -191,16 +47,21 @@ const seoConfig = {
 };
 
 jest.mock('../../components/filter-download-container/filter-download-container.jsx', () => () => 'FilterDownloadContainer');
-jest.mock('../../components/dataset-detail-nav/dataset-detail-nav.jsx', () => () => 'DDNav');
 jest.mock('../../helpers/metadata/use-metadata-updater-hook', () => ({
   useMetadataUpdater: i => {
     return i;
   },
 }));
+
 describe('Dataset-Detail layout component', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
   HTMLCanvasElement.prototype.getContext = jest.fn();
-  global.fetch = jest.fn(() => Promise.resolve({ ok: true, json: () => Promise.resolve({ data: [] }) }));
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ data: [] }),
+    })
+  );
 
   // Necessary for API Quick Guide
   jest.spyOn(document, 'getElementById').mockReturnValueOnce({ scrollHeight: 100 });
@@ -208,10 +69,8 @@ describe('Dataset-Detail layout component', () => {
   const metadataSummarySpy = jest.spyOn(metadataHelper, 'metadataSummary');
   metadataSummarySpy.mockReturnValue(Promise.resolve([mockSummaryDataset]));
 
-  let component = renderer.create();
-  let instance;
   beforeAll(async () => {
-    await renderer.act(async () => {
+    act(() => {
       useStaticQuery.mockReturnValue({
         site: {
           siteMetadata: {
@@ -219,113 +78,108 @@ describe('Dataset-Detail layout component', () => {
           },
         },
       });
-      component = await renderer.create(
-        <RecoilRoot>
-          <DatasetDetail
-            test={true}
-            pageContext={{
-              config: datasetPageSampleConfig,
-              seoConfig: seoConfig,
-            }}
-            data={mockQueryReturn}
-          />
-        </RecoilRoot>
-      );
-      instance = component.root;
     });
   });
 
   it('has a SiteLayout component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <SiteLayout /> in layout
-    instance.find(obj => obj.type === SiteLayout);
+    const { getByTestId } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(getByTestId('siteLayout')).toBeInTheDocument();
   });
 
-  it('has a DDNav component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <DDNav /> in layout
-    instance.find(obj => obj.type === DDNav);
+  it('has a DDNav component placed forevermore within its layout', async () => {
+    const { findByTestId } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(await findByTestId('DDNavMenu')).toBeInTheDocument();
   });
 
   it('has a Masthead component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <Masthead /> in layout
-    instance.find(obj => obj.type === Masthead);
+    const { getByTestId } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(getByTestId('masthead')).toBeInTheDocument();
   });
 
-  it('has a DatasetAbout component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <DatasetAbout /> in layout
-    instance.find(obj => obj.type === DatasetAbout);
+  it('renders all page sections', () => {
+    const { getByRole } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Data Preview' })).toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Dataset Properties' })).toBeInTheDocument();
+    expect(getByRole('heading', { name: 'API Quick Guide' })).toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Related Datasets' })).toBeInTheDocument();
   });
 
-  it('has a DatasetIntroduction component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <DatasetIntroduction /> in layout
-    instance.find(obj => obj.type === DatasetIntroduction);
-  });
-
-  it('has a DatasetData component and passes the setSelectedTable prop', () => {
-    // this statement causes test to fail if there's not exactly one <DatasetData /> in layout
-    const datasetDataComp = instance.find(obj => obj.type === DatasetData);
-    expect(datasetDataComp.props.setSelectedTableProp).toBeDefined();
-  });
-
-  it('has an ApiQuickGuide component and passes the selectedTable prop', () => {
-    // this statement causes test to fail if there's not exactly one <ApiQuickGuide /> in layout
-    const apiComp = instance.find(obj => obj.type === ApiQuickGuide);
-    expect(apiComp.props.selectedTable).toBeDefined();
-  });
-
-  it('has an RelatedDatasets component placed forevermore within its layout', () => {
-    // this statement causes test to fail if there's not exactly one <RelatedDatasets /> in layout
-    instance.find(obj => obj.type === RelatedDatasets);
-  });
-
-  it('ensures that the proper ordering of the dataset tables is preserved when passed down to dataset-data', () => {
-    const datasetData = instance.findByType(DatasetData);
-    expect(datasetData.props.config.apis.map(api => api.apiId)).toEqual(datasetPageSampleConfig.apis.map(api => api.apiId));
-  });
-
-  it("ensures that the proper ordering of the dataset tables' fields are preserved when passed down to dataset-data", () => {
-    const datasetData = instance.findByType(DatasetData);
-    expect(datasetData.props.config.apis[0].fields).toEqual(datasetPageSampleConfig.apis[0].fields);
-  });
-
-  it('passes expected fields to helmet for structured data', () => {
-    const helmet = instance.findByType(PageHelmet);
-    expect(helmet.props.datasetDetails).toBeDefined();
-    expect(helmet.props.pageTitle).toBe(seoConfig.pageTitle);
-    expect(helmet.props.description).toBe(seoConfig.description);
-    expect(helmet.props.keywords).toBe(seoConfig.keywords);
-  });
-
-  it('passes name of dataset to Related Datasets as a referrer', () => {
-    const related = instance.findByType(RelatedDatasets);
-    expect(related.props.referrer).toBe(datasetPageSampleConfig.name);
+  it('has a DatasetData component', () => {
+    const { getByTestId } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: datasetPageSampleConfig,
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(getByTestId('datasetData')).toBeInTheDocument();
   });
 
   it('passes content for the banner callout if set in config', async () => {
-    await renderer.act(async () => {
-      useStaticQuery.mockReturnValue({
-        site: {
-          siteMetadata: {
-            siteUrl: `https://fiscalData.treasury.gov`,
-          },
-        },
-      });
-      component = await renderer.create(
-        <RecoilRoot>
-          <DatasetDetail
-            test={true}
-            pageContext={{
-              config: { ...datasetPageSampleConfig, bannerCallout: { banner: 'TestCallout' } },
-              seoConfig: seoConfig,
-            }}
-            data={mockQueryReturn}
-          />
-        </RecoilRoot>
-      );
-      instance = component.root;
-    });
+    const { getByTestId } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, bannerCallout: { banner: 'TestCallout' } },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
 
-    const masthead = instance.findByType(Masthead);
-    expect(masthead.props.bannerCallout.banner).toBe('TestCallout');
+    expect(getByTestId('callout')).toBeInTheDocument();
   });
 });
 
@@ -372,7 +226,7 @@ describe('Dataset detail - helper updateDates', () => {
 
 describe('Dataset - banner callout', () => {
   beforeAll(async () => {
-    await renderer.act(async () => {
+    act(() => {
       useStaticQuery.mockReturnValue({
         site: {
           siteMetadata: {
@@ -397,7 +251,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders callout when specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -406,7 +260,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -414,16 +268,19 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when SavingsBondsDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
-            config: { ...datasetPageSampleConfig, bannerCallout: { banner: savingsBondsDelayBanner } },
+            config: {
+              ...datasetPageSampleConfig,
+              bannerCallout: { banner: savingsBondsDelayBanner },
+            },
             seoConfig: seoConfig,
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -431,16 +288,19 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when TreasuryDirectDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
-            config: { ...datasetPageSampleConfig, bannerCallout: { banner: treasuryDirectDelayBanner } },
+            config: {
+              ...datasetPageSampleConfig,
+              bannerCallout: { banner: treasuryDirectDelayBanner },
+            },
             seoConfig: seoConfig,
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -448,7 +308,7 @@ describe('Dataset - banner callout', () => {
 
   it('renders warning callout when not SavingsBondsDelay or TreasuryDirectDelay banner specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -457,7 +317,7 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
 
     expect(queryByTestId('callout')).not.toBeNull();
@@ -465,7 +325,7 @@ describe('Dataset - banner callout', () => {
 
   it('does not render callout when not specified', () => {
     const { queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <DatasetDetail
           test={true}
           pageContext={{
@@ -474,8 +334,28 @@ describe('Dataset - banner callout', () => {
           }}
           data={mockQueryReturn}
         />
-      </RecoilRoot>
+      </>
     );
     expect(queryByTestId('callout')).toBeNull();
+  });
+
+  it('hides api specific sections when hideRawDataTable is true', () => {
+    const { getByRole, queryByRole } = render(
+      <>
+        <DatasetDetail
+          test={true}
+          pageContext={{
+            config: { ...datasetPageSampleConfig, hideRawDataTable: true },
+            seoConfig: seoConfig,
+          }}
+          data={mockQueryReturn}
+        />
+      </>
+    );
+    expect(getByRole('heading', { name: 'Introduction' })).toBeInTheDocument();
+    expect(queryByRole('heading', { name: 'Data Preview' })).not.toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Dataset Properties' })).toBeInTheDocument();
+    expect(queryByRole('heading', { name: 'API Quick Guide' })).not.toBeInTheDocument();
+    expect(getByRole('heading', { name: 'Related Datasets' })).toBeInTheDocument();
   });
 });

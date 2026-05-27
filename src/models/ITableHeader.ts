@@ -1,0 +1,13 @@
+import { Table } from '@tanstack/react-table';
+
+export interface ITableHeader {
+  table: Table<Record<string, unknown>>;
+  dataTypes: { [key: string]: string };
+  resetFilters: boolean;
+  manualPagination?: boolean;
+  allActiveFilters: string[];
+  setAllActiveFilters: (value: string[]) => void;
+  disableDateRangeFilter?: boolean;
+  disableAllFilters?: boolean;
+  chartTable?: boolean;
+}

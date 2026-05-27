@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .topicsHeading {
   font-size: $font-size-14;

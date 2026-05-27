@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { styled } from '@mui/material/styles';
-import { SwitchProps } from '@mui/material';
+import { SwitchProps } from '@mui/material/Switch/Switch';
 import Switch from '@mui/material/Switch';
 import { treasurySavingsBondsExplainerSecondary } from '../../../treasury-savings-bonds.module.scss';
 
@@ -51,10 +51,14 @@ const InflationToggle: FunctionComponent<{
 
   return (
     <StyledSwitch
-      data-testid={'inflation-check-box'}
+      data-testid="inflation-check-box"
       checked={isInflationAdjusted}
       onChange={handleToggle}
-      inputProps={{ 'aria-label': `inflation toggle switch active: ${isInflationAdjusted}` }}
+      slotProps={{
+        input: {
+          'aria-label': `inflation toggle switch active: ${isInflationAdjusted}`,
+        },
+      }}
       onKeyDown={e => e.key === 'Enter' && handleToggle()}
       tabIndex={0}
     />

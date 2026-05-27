@@ -1,7 +1,7 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .sectionHeader {
-  background-color: #f1f1f1;
+  background-color: $body-background;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
@@ -15,7 +15,7 @@
     display: block;
     text-decoration: none;
     padding: 0.875rem 0 0.875rem 2rem;
-    color: #666666;
+    color: $font-body-copy;
     white-space: nowrap;
     font-size: $font-size-16;
   }
@@ -37,5 +37,26 @@
 
 .caret {
   padding-left: 1rem;
-  min-width: 10px;
+  width: 0.625rem;
+}
+.resourcesDropDown {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  gap: 6rem;
+
+  button {
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+}
+.resourceLink {
+  color: $font-body-copy;
+  font-weight: normal;
+  &:hover {
+    color: $primary;
+    font-weight: $semi-bold-weight;
+  }
 }

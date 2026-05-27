@@ -1,7 +1,7 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .legendContainer {
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
 }
 .legendBox {
   width: 24px;
@@ -23,4 +23,3 @@
     display: grid;
   }
 }
-

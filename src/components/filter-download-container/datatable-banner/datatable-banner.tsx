@@ -2,8 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { infoContainer } from './datatable-banner.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { info, icon } from '../../dataset-data/dataset-chart/dataset-chart.module.scss';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
+import { icon, info } from '../../dataset-data/dataset-chart/dataset-chart.module.scss';
 
 type DatatableBannerProps = {
   bannerNotice: string;

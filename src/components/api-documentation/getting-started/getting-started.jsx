@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionContent from '../section-content/section-content';
-import { sectionBreak, code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
-import { apiEndpointFirstParagraph, pills, codeTitle, pill, pillSpacing, paragraphList } from './getting-started.module.scss';
+import { code, marginBottom } from '../../../pages/api-documentation/api.module.scss';
+import { apiEndpointFirstParagraph, codeTitle, paragraphList, pill, pills, pillSpacing } from './getting-started.module.scss';
 import { Link } from 'gatsby';
 import GLOBALS from '../../../helpers/constants';
 import CustomLink from '../../links/custom-link/custom-link';
@@ -10,7 +10,7 @@ const GettingStarted = () => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
   const urlPath = '/v1/accounting/od/rates_of_exchange';
   const urlFieldParam = '?fields=country_currency_desc,exchange_rate,record_date';
-  const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2020-01-01';
+  const urlFilterParam = '&filter=country_currency_desc:in:(Canada-Dollar,Mexico-Peso),record_date:gte:2024-01-01';
 
   const mtsT9UrlPath = '/v1/accounting/mts/mts_table_9';
   const mtsT9UrlFilterParam = '?filter=line_code_nbr:eq:120&sort=-record_date&page[size]=1';
@@ -19,7 +19,7 @@ const GettingStarted = () => {
   const mtsT1UrlFieldParam = '?fields=record_date,parent_id,classification_id,classification_desc,current_month_gross_rcpt_amt';
 
   return (
-    <div className={sectionBreak}>
+    <>
       <SectionContent id="getting-started" headingLevel={2} title="Getting Started">
         <p>
           The U.S. Department of the Treasury is building a suite of open-source tools to deliver standardized information about federal finances to
@@ -53,7 +53,7 @@ const GettingStarted = () => {
           , where Fiscal Data breaks down complex government finance concepts into easy-to-understand terms.
         </p>
       </SectionContent>
-      <SectionContent id="what-is-a-dataset" headingLevel={3} title="What is a dataset?">
+      <SectionContent id="what-is-a-dataset" headingLevel={3} title="What is a Dataset?">
         <p>
           We present data to you in collections called datasets. We define a dataset as a group of data that has historically been published together
           as one report. In some cases, datasets consist of multiple tables, which correspond to sections of reports. When this is the case, datasets
@@ -64,9 +64,9 @@ const GettingStarted = () => {
           <CustomLink url="/datasets/">Search and filter</CustomLink> our datasets to explore more.
         </p>
       </SectionContent>
-      <SectionContent id="api-endpoint-url-structure" headingLevel={3} title="API Endpoint URL structure">
+      <SectionContent id="api-endpoint-url-structure" headingLevel={3} title="API Endpoint URL Structure">
         <p className={apiEndpointFirstParagraph}>
-          For simplicity and consistency, endpoint URLs are formatted with all lower-case characters. Underscores are used as word separators.
+          For simplicity and consistency, endpoint URLs are formatted with all lower case characters. Underscores are used as word separators.
           Endpoints use names in singular case.
         </p>
         <div>
@@ -80,9 +80,9 @@ const GettingStarted = () => {
           <span className={pill}>Parameters and Filters (optional)</span>
         </div>
         <div className={codeTitle}>BASE URL EXAMPLE:</div>
-        <code className={`${code} ${marginBottom}`}>{baseApiUrl}</code>
+        <code className={`${code} ${marginBottom}`}>https://api.fiscaldata.treasury.gov/services/api/fiscal_service/</code>
         <div className={codeTitle}>ENDPOINT EXAMPLE:</div>
-        <code className={`${code} ${marginBottom}`}>/v1/accounting/od/rates_of_exchange</code>
+        <code className={`${code} ${marginBottom}`}>v1/accounting/od/rates_of_exchange</code>
         <div className={codeTitle}>PARAMETERS AND FILTERS EXAMPLE:</div>
         <code className={`${code} ${marginBottom}`}>?fields=country_currency_desc,exchange_rate,record_date&filter=record_date:gte:2015-01-01</code>
         <div className={codeTitle}>FULL API REQUEST EXAMPLE:</div>
@@ -96,6 +96,10 @@ const GettingStarted = () => {
           Our API is open, meaning that it does not require a user account or registration for a token. To begin using our API, you can type the GET,
           R, or Python request below directly into a web browser (or script in a data analysis tool), which will return a JSON-formatted response. You
           can also request CSV- or XML-formatted data by using the format filter.
+        </p>
+        <p>
+          Check out this short <CustomLink url={'https://www.youtube.com/watch?v=bMr4OFJ8H2Q/'}>tutorial video</CustomLink> to help you get started,
+          where we take you step-by-step through using a dataset’s API endpoint to connect to the data.
         </p>
         <div className={codeTitle}>EXAMPLE API REQUEST USING GET:</div>
         <code className={code}>{`${baseApiUrl}${urlPath}${urlFieldParam}${urlFilterParam}`}</code>
@@ -223,20 +227,20 @@ const GettingStarted = () => {
           pd.DataFrame(data['data'])
         </code>
       </SectionContent>
-      <SectionContent id="license-and-authorization" headingLevel={3} title="License & Authorization">
+      <SectionContent id="license-and-authorization" headingLevel={3} title="License and Authorization">
         <p>
           The U.S. Department of the Treasury, Bureau of the Fiscal Service is committed to providing open data as part of its mission to promote the
           financial integrity and operational efficiency of the federal government. The data is offered free, without restriction, and available to
           copy, adapt, redistribute, or otherwise use for non-commercial or commercial purposes.
         </p>
       </SectionContent>
-      <SectionContent id="change-log" headingLevel={3} title="Change Log">
+      <SectionContent id="api-versioning" headingLevel={3} title="API Versioning">
         <p>
-          Our APIs are currently in v1.0.0 or v2.0.0. To determine which version the API is in, please refer to the specific dataset detail page. We
-          will provide release notes here describing major, minor, and patch-level changes.
+          Our APIs are currently in v1.0.0 or v2.0.0. To determine which version the API is in, please refer to the specific dataset detail page and
+          navigate to the API Quick Guide > Endpoint section.
         </p>
       </SectionContent>
-    </div>
+    </>
   );
 };
 

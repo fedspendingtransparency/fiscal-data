@@ -1,5 +1,5 @@
-@import '../../variables.module.scss';
-@import '../../zIndex.module';
+@use 'src/variables.module' as *;
+@use '../../zIndex.module' as *;
 
 .stickyHeader {
   position: sticky;
@@ -44,7 +44,7 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .logo {
     width: 8.25rem;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
   }
   .stickyHeader {
     top: 0;

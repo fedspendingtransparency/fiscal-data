@@ -3,8 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
-import { releaseCalendarSortEvent } from '../calendar-entries';
-import { sortOptions } from '../calendar-helpers';
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
@@ -22,7 +20,7 @@ describe('Calendar Entry', () => {
     expect(screen.getByTestId('title').textContent).toEqual('Test name');
     expect(screen.getByTestId('date').textContent).toEqual('01/01/2000');
     expect(screen.getByTestId('time').textContent).toEqual('8:00 am');
-    expect(screen.getByTestId('updated-text').textContent).toEqual('Not yet updated');
+    expect(screen.getByTestId('updated-text').textContent).toEqual('Not Released');
   });
 
   it('renders a calendar entry with the UTC -> ET conversion that changes date', () => {

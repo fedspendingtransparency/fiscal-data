@@ -1,5 +1,5 @@
-@import '../../../../../variables.module.scss';
-@import '../national-deficit.module';
+@use '../../../../../variables.module.scss' as *;
+@use '../national-deficit.module' as *;
 
 .understandingDeficitContainer {
   .textContent {

@@ -342,11 +342,7 @@ const datasets: IDatasetChartConfigs = [
       format: 'CURRENCY',
       limit: 142,
       // "transform" takes the data from the API and transforms it to be read into the desired chart
-      transform: res =>
-        annualAggregation(res, 'record_calendar_year', 'record_calendar_month', 'current_month_budget_amt', d => {
-          const curMonthVal = Number(d.current_month_budget_amt);
-          return d.classification_desc.toUpperCase() === 'TOTAL OUTLAYS' ? curMonthVal : -curMonthVal;
-        }),
+      transform: res => annualAggregation(res, 'record_calendar_year', 'record_calendar_month', 'current_month_budget_amt', api120UniqueAggregation),
       // indicates which colors are to be used with charting (currently used with Nivo's bar graphs)
       colors: d => (Number(d.value) >= 0 ? primaryColor : negativeColor),
       // indicates which fields in the data array will be used to chart the values in the graphs

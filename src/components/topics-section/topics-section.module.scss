@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 $lead-text-max: 34.375rem;
 $max-img-width-desktop: 48.219rem;
@@ -7,7 +7,7 @@ $max-img-width-desktop: 48.219rem;
   padding: 0 0 5.063rem;
 
   .sectionHeader {
-    color: #555555;
+    color: $font-title;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     margin-bottom: 1rem;
@@ -29,10 +29,16 @@ $max-img-width-desktop: 48.219rem;
     }
   }
 }
-
+.topicsGrid {
+  display: flex;
+  flex-direction: column-reverse;
+}
 @media screen and (min-width: $breakpoint-lg) {
   .topicsSectionContainer {
     margin-top: 1rem;
+  }
+  .topicsGrid {
+    flex-direction: row;
   }
 
   .line {

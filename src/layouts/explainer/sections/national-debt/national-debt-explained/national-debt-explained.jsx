@@ -57,7 +57,7 @@ const NationalDebtExplained = () => {
 
   return (
     <>
-      <div className={visWithCallout}>
+      <figure className={visWithCallout}>
         <div className={nationalDebtExplainedTextContent}>
           <p>
             The national debt is the amount of money the federal government has borrowed to cover the outstanding balance of expenses incurred over
@@ -77,7 +77,7 @@ const NationalDebtExplained = () => {
         <VisualizationCallout color={debtExplainerPrimary}>
           <p>The U.S. Treasury uses the terms “national debt,” “federal debt,” and “public debt” interchangeably.</p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <NationalDebtExplainedTable />
     </>
   );

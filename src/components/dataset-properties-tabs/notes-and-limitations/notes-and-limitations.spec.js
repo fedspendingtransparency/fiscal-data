@@ -1,17 +1,9 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
-import renderer from 'react-test-renderer';
 import NotesAndLimitations, { sectionTitle } from './notes-and-limitations';
-import ReactMarkdown from 'react-markdown';
-import Accordion from '../../accordion/accordion';
 
 describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
-  let instance;
   const text = 'Rabble dabble.\r\nWriggle jiggle.';
-  beforeAll(() => {
-    const component = renderer.create(<NotesAndLimitations bodyText={text} />);
-    instance = component.root;
-  });
 
   it('provides the section title', () => {
     const { getByText } = render(<NotesAndLimitations bodyText={text} />);
@@ -19,13 +11,14 @@ describe('Notes and Limitations (N&KL) - Only dataset level N&KL', () => {
   });
 
   it('passes the text given to it as a param to the ReactMarkdown component', () => {
-    // We are not using getByText for this test, because getByText struggles with line breaks.
-    const renderedText = instance.findByType(ReactMarkdown);
-    expect(renderedText.children[0]).toBe(text);
+    const { getByText } = render(<NotesAndLimitations bodyText={text} />);
+    const renderedText = getByText(text, { collapseWhitespace: false });
+    expect(renderedText).toBeInTheDocument();
   });
 
   it('does not render any data table level content', () => {
-    const accordions = instance.findAllByType(Accordion);
+    const { queryAllByRole } = render(<NotesAndLimitations bodyText={text} />);
+    const accordions = queryAllByRole('button');
     expect(accordions.length).toStrictEqual(0);
   });
 });
@@ -65,13 +58,9 @@ describe('Notes and Limitations (N&KL) - Dataset and data table level N&KL', () 
   });
 
   it('includes an accordion for each data table that has its own N&KL', () => {
-    let component = renderer.create();
-    let instance;
-    renderer.act(() => {
-      component = renderer.create(<NotesAndLimitations apis={apis} bodyText={dsText} />);
-    });
-    instance = component.root;
+    const { getAllByRole } = render(<NotesAndLimitations apis={apis} bodyText={dsText} />);
+
     const numAccordions = apis.filter(api => api.apiNotesAndLimitations).length;
-    expect(instance.findAllByType(Accordion).length).toStrictEqual(numAccordions);
+    expect(getAllByRole('button').length).toStrictEqual(numAccordions);
   });
 });

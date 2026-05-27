@@ -23,19 +23,21 @@ const mockReports = [
 ];
 
 describe('Report Filter', () => {
-  it('renders filter dropdown button with all reports options in the dropdown', () => {
+  it('renders filter dropdown button with all reports options in the dropdown', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(<ReportFilter reports={mockReports} setAllReports={jest.fn()} />);
     const dropdownButton = getByRole('button', { name: 'Report: The Download File.pdf' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
     expect(getByRole('button', { name: 'The Download File.pdf' })).toBeInTheDocument();
     expect(getByRole('button', { name: 'Another Download File.xml' })).toBeInTheDocument();
   });
 
-  it('updates available reports', () => {
+  it('updates available reports', async () => {
+    const user = userEvent.setup();
     const setAllReportsSpy = jest.fn();
     const { getByRole, getByLabelText } = render(<ReportFilter reports={mockReports} setAllReports={setAllReportsSpy} />);
     const dropdownButton = getByRole('button', { name: 'Report: The Download File.pdf' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
 
     expect(getByRole('button', { name: 'The Download File.pdf' })).toBeInTheDocument();
     const newReportButton = getByLabelText('Another Download File.xml');

@@ -1,21 +1,21 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .mainContainer {
   display: flex;
+  width: 100%;
 
   .navContainer {
     top: 4rem;
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-    padding: 0 1rem 0 0;
     min-width: 250px;
 
     .comingSoonContainer {
       padding: 16px 20px 0;
 
       .comingSoon {
-        background-color: #fff1d2;
+        background-color: $banner-background;
         color: #444444;
         font-size: $font-size-14;
         padding: 2px 0.75rem;
@@ -49,6 +49,10 @@
       &.headingLevel3 {
         padding-left: calc(2rem - 6px);
       }
+
+      &.headingLevel4 {
+        padding-left: calc(3rem - 6px);
+      }
     }
   }
 
@@ -57,14 +61,19 @@
   }
 }
 
+.paddingAdjust {
+  padding-right: 1rem;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .navContainer {
     position: -webkit-sticky; /* Safari */
     position: sticky;
     flex: 1;
-    max-height: calc(100vh - 16px);
+    max-height: calc(100vh - 10rem);
     overflow-y: auto;
     max-width: calc((#{$site-content-width} * 0.25) - 1rem);
+    min-width: 0;
 
     .linkContainer {
       max-width: 270px;
@@ -74,7 +83,8 @@
   .navigableContent {
     display: flex;
     flex: 3;
-    max-width: calc((#{$site-content-width} * 0.75) - 1rem);
+    max-width: min(100%, calc((#{$site-content-width} * 0.75) - 1rem));
+    min-width: 0;
   }
 }
 
@@ -87,5 +97,18 @@
       padding: 0;
       align-self: auto;
     }
+  }
+}
+
+.sectionList {
+  list-style-type: none;
+  padding: 0 1rem 0 0;
+  margin: 0;
+}
+
+// hides toc in mobile view (only applies when tocIsOpen is false)
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .close {
+    display: none;
   }
 }

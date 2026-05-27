@@ -19,14 +19,15 @@ describe('Federal Spending Overview deficit data', () => {
         },
       ],
     };
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockData, { overwriteRoutes: true }, { repeat: 1 });
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockData);
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(<SpendingOverview />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
     await waitFor(() => getByText('In fiscal year (FY) 2022', { exact: false }));
     expect(await getByText('2.52 trillion', { exact: false })).toBeInTheDocument();
     expect(await getByText('which was more than', { exact: false })).toBeInTheDocument();
     expect(await getByText('resulting in a deficit', { exact: false })).toBeInTheDocument();
+    fetchMock.hardReset();
   });
 });

@@ -1,6 +1,7 @@
 import CustomLink from '../links/custom-link/custom-link';
 import React from 'react';
-import { updateList, header, suggestions, columnFlex, altBannerHeader } from './banner-callout.module.scss';
+import { header, suggestions, updateList } from './banner-callout.module.scss';
+
 export const calloutConfig = {
   XRCallout: {
     copy: (
@@ -50,12 +51,7 @@ export const calloutConfig = {
     customSideMargin: '1.5rem',
   },
   XMLLargeDownloadDisabled: {
-    copy: (
-      <>
-        XML download disabled due to large table size. <br />
-        Select a smaller date range to enable XML download.
-      </>
-    ),
+    copy: <>XML download disabled due to large table size. Select a date range of five years or less to enable XML download.</>,
     customSideMargin: '0.5rem',
     color: 'yellow',
   },

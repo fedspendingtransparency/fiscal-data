@@ -127,4 +127,114 @@ describe('Mobile Menu Dropdown', () => {
     expect(setGlossaryOpenMock).toHaveBeenCalledWith(true);
     expect(setActiveStateMock).toHaveBeenCalledWith(false);
   });
+
+  it('calls analytics event for API links', () => {
+    const apiSections = [
+      {
+        sectionHeader: 'RESOURCES',
+        analyticsAction: 'Resources Click',
+        children: [
+          {
+            to: '/api-documentation/',
+            name: 'API Documentation',
+          },
+        ],
+      },
+    ];
+
+    window.dataLayer = [];
+    const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={apiSections} defaultOpen />);
+    const apiLink = getByText('API Documentation');
+    apiLink.click();
+
+    expect(window.dataLayer).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          event: 'api-doc-click-resources',
+          eventLabel: document.title,
+        }),
+      ])
+    );
+  });
+
+  it('calls analytics event for Release Calendar links', () => {
+    const releaseSections = [
+      {
+        sectionHeader: 'RESOURCES',
+        analyticsAction: 'Resources Click',
+        children: [
+          {
+            to: '/release-calendar/',
+            name: 'Release Calendar',
+          },
+        ],
+      },
+    ];
+
+    window.dataLayer = [];
+    const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={releaseSections} defaultOpen />);
+    const releaseLink = getByText('Release Calendar');
+    releaseLink.click();
+
+    expect(window.dataLayer).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          event: 'Release Calendar-click',
+          eventLabel: document.title,
+        }),
+      ])
+    );
+  });
+
+  it('calls analytics event for Tools links', () => {
+    const toolsSections = [
+      {
+        sectionHeader: 'TOOLS',
+        analyticsAction: 'Tools Click',
+        children: [
+          {
+            to: '/data-lab/',
+            name: 'Data Lab',
+          },
+        ],
+      },
+    ];
+
+    window.dataLayer = [];
+    const spy = jest.spyOn(Analytics, 'event');
+    const { getByText } = render(<MobileMenuDropdown header={'Header'} sections={toolsSections} defaultOpen />);
+    const toolLink = getByText('Data Lab');
+    toolLink.click();
+
+    expect(window.dataLayer).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          event: 'tools-click',
+          eventLabel: 'Data Lab',
+        }),
+      ])
+    );
+    spy.mockClear();
+  });
+
+  it('renders and clicks an external CustomLink', () => {
+    const spy = jest.spyOn(Analytics, 'event');
+    const externalSection = [
+      {
+        sectionHeader: 'EXTERNAL',
+        analyticsAction: 'External Click',
+        children: [{ to: 'https://google.com', name: 'External Link', external: true }],
+      },
+    ];
+
+    const { getByText } = render(
+      <>
+        <MobileMenuDropdown header={'Header'} sections={externalSection} defaultOpen />
+      </>
+    );
+    const link = getByText('External Link');
+
+    fireEvent.click(link);
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: 'External Link' }));
+  });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ChartTableToggle, { allTablesSelectedBody } from './chart-table-toggle';
 import Analytics from '../../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
@@ -22,18 +22,19 @@ describe('Chart Table Toggle 0', () => {
     },
   };
   const mockTable = 'table contents';
-  const mockChart = 'chart contents';
+  const chartContents = 'chart contents';
+  const mockChart = () => chartContents;
 
   it('creates tabs for the table and chart', () => {
-    const { getByTestId } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
-    expect(getByTestId('tableTab')).toBeDefined();
-    expect(getByTestId('chartTab')).toBeDefined();
+    const { getByRole } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
+    expect(getByRole('tab', { name: 'Table' })).toBeDefined();
+    expect(getByRole('tab', { name: 'Chart' })).toBeDefined();
   });
 
   it('renders tab contents as expected', () => {
     const { getByText } = render(<ChartTableToggle currentTab={0} onTabChange={onTabChange} table={mockTable} chart={mockChart} />);
     expect(getByText(mockTable)).toBeDefined();
-    expect(getByText(mockChart)).toBeDefined();
+    expect(getByText(chartContents)).toBeDefined();
   });
 
   it('does not display a table or chart when the All Data Tables option is selected', () => {
@@ -44,8 +45,9 @@ describe('Chart Table Toggle 0', () => {
     expect(getAllByText(allTablesSelectedBody).length).toBe(2);
   });
 
-  it('tracks when the chart is enabled', () => {
-    const { getByTestId } = render(
+  it('tracks when the chart is enabled', async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
       <ChartTableToggle
         datasetName={dummyDatasetName}
         currentTab={0}
@@ -58,8 +60,8 @@ describe('Chart Table Toggle 0', () => {
 
     const tabSpy = jest.spyOn(spyProps, 'onTabChange');
 
-    const chartTab = getByTestId('chartTab').firstChild;
-    chartTab.click();
+    const chartTab = getByRole('tab', { name: 'Chart' });
+    await user.click(chartTab);
 
     expect(tabSpy).toHaveBeenCalledWith(1);
     expect(gaSpy).toHaveBeenCalledWith({
@@ -70,7 +72,7 @@ describe('Chart Table Toggle 0', () => {
   });
 
   it('displays the select column tab when selectColumns on table tab', () => {
-    const { getByRole } = render(
+    render(
       <ChartTableToggle
         currentTab={0}
         emptyData
@@ -83,11 +85,13 @@ describe('Chart Table Toggle 0', () => {
       />
     );
 
-    expect(getByRole('button', { name: 'Select Columns' })).toBeInTheDocument();
+    const selectColButton = screen.getByRole('button', { name: /Select Columns/i });
+    expect(selectColButton).toBeInTheDocument();
   });
 
-  it('calls toggle when select column tab is clicked', () => {
-    const { getByRole } = render(
+  it('calls toggle when select column tab is clicked', async () => {
+    const user = userEvent.setup();
+    render(
       <ChartTableToggle
         currentTab={0}
         emptyData
@@ -100,10 +104,10 @@ describe('Chart Table Toggle 0', () => {
       />
     );
 
-    const selectColButton = getByRole('button', { name: 'Select Columns' });
-    expect(selectColButton).toBeInTheDocument();
+    const selectColButton = screen.getByRole('button', { name: /Select Columns/i });
 
-    userEvent.click(selectColButton);
+    await user.click(selectColButton);
+    expect(selectColButton).toBeInTheDocument();
     expect(onToggleLegend).toHaveBeenCalledTimes(1);
   });
 

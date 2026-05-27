@@ -1,23 +1,37 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .container {
   display: flex;
   flex-direction: column;
   margin: 0 2.75rem 0 1.25rem;
 
+  .loadingPlaceholderContainer {
+    min-height: 35.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loadingIcon {
+    @include grayLargeLoadingIcon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .headTitle {
     margin: 0;
     font-size: $font-size-16;
     font-weight: $semi-bold-weight;
     text-align: left;
-    color: #555555;
+    color: $font-title;
   }
   .arrowsIcon {
-    margin-right: .5rem;
-
+    margin-right: 0.5rem;
+    width: 1rem;
   }
-  .conversionContainer{
-    margin: 0 0 .5rem 0;
+  .conversionContainer {
+    margin: 0 0 0.5rem 0;
     display: flex;
   }
 
@@ -53,9 +67,19 @@
   height: 2.75rem;
 }
 
+@media screen and (min-width: $breakpoint-lg - 1) {
+  .container {
+    min-width: 42rem;
+
+    .loadingPlaceholderContainer {
+      min-height: 20.25rem;
+    }
+  }
+}
+
 @media screen and (max-width: $breakpoint-lg - 1) {
   .container {
-  margin-right: 1.25rem;
+    margin-right: 1.25rem;
     .currencyBoxContainer {
       flex-direction: column;
     }

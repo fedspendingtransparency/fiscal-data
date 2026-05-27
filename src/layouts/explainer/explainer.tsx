@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import PageHelmet from '../../components/page-helmet/page-helmet';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import explainerSections, { explainerDataSources, explainerDescriptionGenerators } from './sections/sections';
 import HeroImage from './hero-image/hero-image';
@@ -15,16 +14,16 @@ import {
 
 import {
   contentContainer,
-  relatedDatasetsStyle,
+  desktopSubNav,
   mainContainer,
   mainContent,
+  mobileSubNav,
+  relatedDatasetsStyle,
   section,
   sectionBorder,
   sectionHeading,
-  socialShareContainer,
   socialShare,
-  mobileSubNav,
-  desktopSubNav,
+  socialShareContainer,
 } from './explainer.module.scss';
 import SecondaryNav from '../../components/secondary-nav/secondary-nav';
 import SocialShare from '../../components/social-share/social-share';
@@ -34,6 +33,7 @@ import ComingSoon from './explainer-components/highlighted-text/highlighted-text
 import DeskTopSubNav from './explainer-components/explainer-sub-nav/explainer-sub-nav';
 import MobileSubNav from './explainer-components/mobile-explainer-sub-nav/mobile-explainer-sub-nav';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
+import PageHelmet from '../../components/page-helmet/page-helmet';
 
 const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext }) => {
   const { pageName, heroImage, seoConfig, relatedDatasets, cpiDataByYear, isAFG, cpi12MonthPercentChange } = pageContext;
@@ -46,15 +46,6 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
-        <PageHelmet
-          pageTitle={seoConfig.pageTitle}
-          description={seoConfig.description}
-          descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
-          keywords={seoConfig.keywords}
-          image=""
-          canonical=""
-          datasetDetails=""
-        />
         {isAFG && (
           <>
             <div className={mobileSubNav}>
@@ -86,14 +77,14 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               tocScrollOffset={-32}
             >
               <div className={socialShareContainer}>
-                <div className={socialShare}>
+                <aside className={socialShare}>
                   <SocialShare
                     copy={explainerSocialShareMap[pageName]}
                     pageName={explainerAnalyticsLabelMap[pageName]}
                     displayStyle="responsive"
                     explainer
                   />
-                </div>
+                </aside>
                 <div className={mainContent}>
                   {explainerSections[pageName].map(s => (
                     <React.Fragment key={s.index}>
@@ -121,14 +112,14 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
               </div>
             </SecondaryNav>
           </div>
-          <div className={relatedDatasetsStyle}>
+          <section className={relatedDatasetsStyle}>
             <ExplainerRelatedDatasets
               datasets={relatedDatasets}
               referrer={explainerAnalyticsLabelMap[pageName]}
               header={explainerRelatedDatasetMap[pageName]}
               explainer={true}
             />
-          </div>
+          </section>
         </div>
       </SiteLayout>
     </GlossaryProvider>
@@ -136,3 +127,16 @@ const ExplainerPageLayout: FunctionComponent<IExplainerPage> = ({ pageContext })
 };
 
 export default ExplainerPageLayout;
+
+export const Head = ({ pageContext }) => {
+  const { pageName, seoConfig } = pageContext;
+  return (
+    <PageHelmet
+      pageTitle={seoConfig.pageTitle}
+      description={seoConfig.description}
+      descriptionGenerator={explainerDescriptionGenerators[pageName] || false}
+      keywords={seoConfig.keywords}
+      socialShare={explainerSocialShareMap[pageName]}
+    />
+  );
+};

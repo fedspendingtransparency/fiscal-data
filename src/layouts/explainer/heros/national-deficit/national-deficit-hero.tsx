@@ -78,11 +78,11 @@ const NationalDeficitHero = (): ReactElement => {
         <p>
           Compared to the national deficit of ${desktopPriorDeficit} for the same period last year (
           {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}), our national deficit has {deficitStatus} by $
-          {deficitDif}.
+          {deficitDif || '--'}.
         </p>
       ) : (
         <p>
-          Compared to the national deficit of ${desktopPriorDeficit} for the same period last year{' '}
+          Compared to the national deficit of ${desktopPriorDeficit || '--'} for the same period last year{' '}
           {getFootNotesDateRange(previousFiscalYear, previousCalendarYear, currentRecordMonth)}, our national deficit has {deficitStatus}.
         </p>
       )}
@@ -92,8 +92,8 @@ const NationalDeficitHero = (): ReactElement => {
   return (
     <>
       <p className={`${heroImageSubHeading} ${deficit}`}>
-        A deficit occurs when the federal government’s spending exceeds its revenues. The federal government has spent ${textCurrentDeficit} more than
-        it has collected in {fiscalYear} {currentFiscalYear}, resulting in a national deficit.
+        A deficit occurs when the federal government’s spending exceeds its revenues. The federal government has spent ${textCurrentDeficit || '--'}{' '}
+        more than it has collected in {fiscalYear} {currentFiscalYear || '--'}, resulting in a national deficit.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -105,7 +105,7 @@ const NationalDeficitHero = (): ReactElement => {
       </div>
       <div className={`${counterSourceInfo} ${deficit}`}>
         <p>
-          Fiscal year-to-date (since October {previousFiscalYear}) total updated monthly using the {mtsSummary} dataset.
+          Fiscal year-to-date (since October {previousFiscalYear || '--'}) total updated monthly using the {mtsSummary} dataset.
         </p>
       </div>
       <div className={footNotes}>{changeNationalDeficitFooter}</div>

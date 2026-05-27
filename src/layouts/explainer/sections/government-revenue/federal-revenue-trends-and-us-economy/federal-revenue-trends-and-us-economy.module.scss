@@ -1,5 +1,15 @@
-@import '../../../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .section {
   margin-bottom: 2rem;
+}
+
+.totalRevContainer {
+  min-height: 44.44rem;
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .totalRevContainer {
+    min-height: 52.5rem;
+  }
 }

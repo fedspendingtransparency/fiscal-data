@@ -1,0 +1,65 @@
+@use 'src/variables.module' as *;
+
+$table-header-height: 2.375rem;
+.container {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 40%;
+}
+
+.errorContainer {
+  text-align: left;
+  position: absolute;
+  width: 100%;
+  top: 30%;
+  z-index: 0;
+}
+
+.info {
+  display: inline-flex;
+  padding: 1.125rem 2.25rem;
+  background-color: $table-notice-color;
+  text-align: left;
+  max-width: 47.5rem;
+}
+
+.icon {
+  color: $primary;
+  font-size: $font-size-16;
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.notShownHeading {
+  @include headingStyle6;
+  font-size: $font-size-16;
+  margin-bottom: 0.5rem;
+}
+
+.notShownBodyText {
+  @include bodyStyleRegular;
+  font-size: $font-size-14;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .container {
+    top: $table-header-height;
+    height: calc(100% - $table-header-height);
+    display: flex;
+    justify-content: center;
+  }
+
+  .info {
+    padding: 1.5rem 2rem;
+    margin: auto 1.5rem;
+  }
+
+  .notShownHeading {
+    font-size: 1.125rem;
+  }
+
+  .notShownBodyText {
+    font-size: 1rem;
+  }
+}

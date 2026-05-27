@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { loadingIcon, mainContainer, dropdownContainer, dropdown, entriesContainer, pagination } from './calendar-entries.module.scss';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import {
+  dropdown,
+  dropdownContainer,
+  entriesContainer,
+  loadingIcon,
+  mainContainer,
+  notYetUpdated,
+  pagination,
+  releaseCalendarLegend,
+  releaseCalendarLegendGray,
+  updateStatusIcon,
+} from './calendar-entries.module.scss';
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { basicFetch } from '../../utils/api-utils';
+import LoadingIndicator from '../loading-indicator/loading-indicator';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
@@ -27,36 +39,40 @@ const CalendarEntriesList = () => {
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(async () => {
-    const getMetaData = async () => {
-      return new Promise(resolve => {
-        fetch(metadataUrl).then(res => {
-          resolve(res.json());
+  useEffect(() => {
+    (async () => {
+      const getMetaData = async () => {
+        return new Promise(resolve => {
+          fetch(metadataUrl).then(res => {
+            resolve(res.json());
+          });
         });
-      });
-    };
-    const data = await getMetaData();
-    setMetaData(data);
+      };
+      const data = await getMetaData();
+      setMetaData(data);
+    })();
   }, []);
 
-  useEffect(async () => {
-    if (metaData) {
-      const res = await basicFetch(releaseCalendarUrl);
-      res.forEach((element, index) => {
-        const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
-        if (datasetMetaData) {
-          res[index] = {
-            ...element,
-            dataset: {
-              name: datasetMetaData.title,
-              slug: `/${datasetMetaData.dataset_path}/`,
-            },
-          };
-        }
-      });
-      setApiData(sortByDate(res));
-      setEntries(sortByDate(res));
-    }
+  useEffect(() => {
+    (async () => {
+      if (metaData) {
+        const res = await basicFetch(releaseCalendarUrl);
+        res.forEach((element, index) => {
+          const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
+          if (datasetMetaData) {
+            res[index] = {
+              ...element,
+              dataset: {
+                name: datasetMetaData.title,
+                slug: `/${datasetMetaData.dataset_path}/`,
+              },
+            };
+          }
+        });
+        setApiData(sortByDate(res));
+        setEntries(sortByDate(res));
+      }
+    })();
   }, [metaData]);
 
   useEffect(() => {
@@ -140,12 +156,21 @@ const CalendarEntriesList = () => {
   };
 
   return loading ? (
-    <div className={loadingIcon}>
-      <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-    </div>
+    <LoadingIndicator loadingClass={loadingIcon} />
   ) : (
     <div className={mainContainer}>
       <div className={dropdownContainer}>
+        <div className={releaseCalendarLegend}>
+          <span>
+            {' '}
+            <FontAwesomeIcon icon={faCheckCircle} className={updateStatusIcon} />
+            Released
+          </span>
+          <span className={releaseCalendarLegendGray}>
+            <div className={notYetUpdated} />
+            Not Released
+          </span>
+        </div>
         <div className={dropdown}>
           <SelectControl label="Sort By:" options={sortOptions} selectedOption={selectedOption} changeHandler={handleSelectedOptionChange} />
         </div>

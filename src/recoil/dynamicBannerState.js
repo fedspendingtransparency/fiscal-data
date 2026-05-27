@@ -1,20 +1,10 @@
-import { atom, selector } from "recoil";
-import { apiPrefix, basicFetch } from "../utils/api-utils";
+import { apiPrefix, basicFetch } from '../utils/api-utils';
+import { createCachedFetchStore } from './createCachedFetchStore';
 
-export const dynamicBannerLastCachedState = atom({
-  key: 'dynamicBannerLastCachedState',
-  default: 0,
-});
+const fetchDynamicBanner = async () => {
+  const endpointUrl = 'v1/reference/fiscal_data/announcements';
+  const response = await basicFetch(`${apiPrefix}${endpointUrl}`);
+  return response.data;
+};
 
-export const dynamicBannerState = selector({
-  key: 'dynamicBannerState',
-  get: async () => {
-    const announcementsEndpoint = 'v1/reference/fiscal_data/announcements';
-    const response = await basicFetch(`${apiPrefix}${announcementsEndpoint}`);
-    const timeStamp = Date.now();
-    return {
-      payload: response.data,
-      timeStamp: timeStamp,
-    };
-  },
-});
+export const dynamicBannerData = createCachedFetchStore(fetchDynamicBanner);

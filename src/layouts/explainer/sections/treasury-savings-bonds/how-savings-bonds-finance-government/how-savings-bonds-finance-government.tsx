@@ -7,16 +7,17 @@ import BondImage from '../../../../../../static/images/savings-bonds/Series-E-Bo
 import ImageContainer from '../../../explainer-components/image-container/image-container';
 import { treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
 import TypesOfSavingsBonds from './types-of-savings-bonds-table/types-of-savings-bonds';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import TypesOfSavingsBondsResponsive from './types-of-savings-bonds-table/types-of-savings-bonds-responsive';
 import HowSavingsBondsSoldChart from './how-savings-bonds-finance-chart/how-savings-bonds-sold-chart';
 import VisualizationCallout from '../../../../../components/visualization-callout/visualization-callout';
 import { apiPrefix, basicFetch, monthFullNames } from '../../../../../utils/api-utils';
 import { graphql, useStaticQuery } from 'gatsby';
-import { useRecoilValueLoadable } from 'recoil';
-import { savingsBondTypesData, savingsBondTypesLastCachedState } from '../../../../../recoil/savingsBondTypesDataState';
-import useShouldRefreshCachedData from '../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 interface ChartDataItem {
   name: string;
@@ -35,16 +36,25 @@ interface ApiResponse {
   meta: { 'total-pages': number };
 }
 
-const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = ({ width }) => {
+export const higherOrLowerOrSameAs = difference => {
+  if (difference > 0) {
+    return 'higher than';
+  } else if (difference < 0) {
+    return 'lower than';
+  } else {
+    return 'the same as';
+  }
+};
+
+const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+  const { width } = useWindowSize();
   const [savingBondsPercentage, setSavingBondsPercentage] = useState<number | null>(null);
   const [historicalSavingBondsPercentage, setHistoricalSavingBondsPercentage] = useState<number | null>(null);
   const [percentageDifference, setPercentageDifference] = useState<number | null>(null);
   const [monthYear, setMonthYear] = useState<string | null>(null);
   const [higherLowerSameAs, setHigherLowerSameAs] = useState<string | null>(null);
   const isDesktop = width >= pxToNumber(breakpointLg);
-  const typesData = useRecoilValueLoadable(savingsBondTypesData);
-  useShouldRefreshCachedData(Date.now(), savingsBondTypesData, savingsBondTypesLastCachedState);
 
   const allSavingsBondsByTypeHistorical = useStaticQuery(
     graphql`
@@ -132,28 +142,6 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     });
   }, []);
 
-  const processTypesSavingsBondsData = res => {
-    const totalData = [...savingsBondsByTypeHistorical, ...res];
-    const types = totalData.map(element => {
-      if (element.security_class_desc) {
-        return element.security_class_desc;
-      } else if (element.bond_type) {
-        return element.bond_type;
-      }
-    });
-    return Array.from(new Set(types));
-  };
-
-  const higherOrLowerOrSameAs = difference => {
-    if (difference > 0) {
-      return 'higher than';
-    } else if (difference < 0) {
-      return 'lower than';
-    } else {
-      return 'the same as';
-    }
-  };
-
   useEffect(() => {
     if (savingBondsPercentage !== null && historicalSavingBondsPercentage !== null) {
       const difference = savingBondsPercentage - historicalSavingBondsPercentage;
@@ -189,44 +177,103 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
     },
   ];
 
+  const links = {
+    revenue: (
+      <CustomLink
+        url="/americas-finance-guide/government-revenue/"
+        id="Government Revenue"
+        onClick={() => analyticsEventHandler('Government Revenue', 'Savings Bonds Citation Click')}
+      >
+        revenue
+      </CustomLink>
+    ),
+    spends: (
+      <CustomLink
+        url="/americas-finance-guide/federal-spending/"
+        id="Federal Spending"
+        onClick={() => analyticsEventHandler('Federal Spending', 'Savings Bonds Citation Click')}
+      >
+        spends
+      </CustomLink>
+    ),
+    deficit: (
+      <CustomLink
+        url="/americas-finance-guide/national-deficit/"
+        id="National Deficit"
+        onClick={() => analyticsEventHandler('National Deficit', 'Savings Bonds Citation Click')}
+      >
+        deficit
+      </CustomLink>
+    ),
+    debt: (
+      <CustomLink
+        url="/americas-finance-guide/national-debt/"
+        id="National Debt"
+        onClick={() => analyticsEventHandler('National Debt', 'Savings Bonds Citation Click')}
+      >
+        debt
+      </CustomLink>
+    ),
+  };
+
   const marketable = (
-    <GlossaryPopoverDefinition term="Marketable Securities" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Marketable Securities"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Marketable Securities')}
+    >
       marketable
     </GlossaryPopoverDefinition>
   );
 
   const nonMarketable = (
-    <GlossaryPopoverDefinition term="Non-Marketable Securities" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Non-Marketable Securities"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Non-Marketable Securities')}
+    >
       non-marketable
     </GlossaryPopoverDefinition>
   );
 
   const govAccountSeries = (
-    <GlossaryPopoverDefinition term="Government Account Series" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Government Account Series"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Government Account Series')}
+    >
       Government Account Series
     </GlossaryPopoverDefinition>
   );
 
   const stateLocalGovSeries = (
-    <GlossaryPopoverDefinition term="State and Local Government Series" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="State and Local Government Series"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('State and Local Government Series')}
+    >
       State and Local Government Series
     </GlossaryPopoverDefinition>
   );
 
   const debtHeldByPublic = (
-    <GlossaryPopoverDefinition term="Debt Held by the Public" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition
+      term="Debt Held by the Public"
+      page="Savings Bond Explainer"
+      handleClick={() => glossaryGAEvent('Debt Held by the Public')}
+    >
       debt held by the public
     </GlossaryPopoverDefinition>
   );
 
   const seriesIBonds = (
-    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition term="Series I Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series I Bonds')}>
       Series I bonds
     </GlossaryPopoverDefinition>
   );
 
   const seriesEEBonds = (
-    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer">
+    <GlossaryPopoverDefinition term="Series EE Bonds" page="Savings Bond Explainer" handleClick={() => glossaryGAEvent('Series EE Bonds')}>
       Series EE bonds
     </GlossaryPopoverDefinition>
   );
@@ -234,13 +281,11 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   return (
     <>
       <span>
-        The government finances programs like building and maintaining roads, school funding, or support for veterans through{' '}
-        <CustomLink url={'/americas-finance-guide/government-revenue/'}>revenue</CustomLink> sources like taxes. When the government{' '}
-        <CustomLink url={'/americas-finance-guide/federal-spending/'}>spends</CustomLink> more than it collects from revenue, this results in a{' '}
-        <CustomLink url={'/americas-finance-guide/national-deficit/'}>deficit</CustomLink>, which requires the government to borrow money (
-        <CustomLink url={'/americas-finance-guide/national-debt/'}>debt</CustomLink>) by issuing loans (securities) that it promises to pay back with
-        interest. Different types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable}{' '}
-        and {nonMarketable} securities, which reflects whether they can be resold to another individual or entity after they are purchased.
+        The government finances programs like building and maintaining roads, school funding, or support for veterans through {links['revenue']}{' '}
+        sources like taxes. When the government {links['spends']} more than it collects from revenue, this results in a {links['deficit']}, which
+        requires the government to borrow money {links['debt']} by issuing loans (securities) that it promises to pay back with interest. Different
+        types of securities earn interest in different ways. Treasury groups securities into two categories called {marketable} and {nonMarketable}{' '}
+        securities, which reflects whether they can be resold to another individual or entity after they are purchased.
       </span>
       <ImageContainer color={treasurySavingsBondsExplainerSecondary} caption="A paper Series E Savings Bond">
         <img src={BondImage} alt="A paper Series E Savings Bond" />
@@ -251,15 +296,18 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
         {stateLocalGovSeries}, which can be purchased by state and local governments. Use the chart below to explore how different types of loans make
         up the total {debtHeldByPublic}.
       </span>
-      <div className={visWithCallout}>
-        <HowSavingsBondsSoldChart chartData={chartData} />
+      <figure className={visWithCallout}>
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <HowSavingsBondsSoldChart chartData={chartData} />
+        </ErrorBoundary>
         <VisualizationCallout color={treasurySavingsBondsExplainerSecondary}>
           <p>
-            Savings bonds make up {savingBondsPercentage}% of total debt held by the public through {monthYear}. This is {percentageDifference}{' '}
-            percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago ({historicalSavingBondsPercentage}%).
+            Savings bonds make up {savingBondsPercentage ?? '--'}% of total debt held by the public through {monthYear ?? '--'}. This is{' '}
+            {percentageDifference ?? '--'} percentage points {higherLowerSameAs} the percent of debt held by the public ten years ago (
+            {historicalSavingBondsPercentage ?? '--'}%).
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <h5 className={subSectionTitle}>Types of Savings Bonds</h5>
       <span>
         Over the course of American history, the U.S. government has issued savings bonds to help fund certain programs and special projects like the
@@ -271,4 +319,4 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   );
 };
 
-export default withWindowSize(HowSavingsBondsFinanceGovernment);
+export default HowSavingsBondsFinanceGovernment;

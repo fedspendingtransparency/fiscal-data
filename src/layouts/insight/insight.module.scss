@@ -1,8 +1,11 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 
 $link-container-width: 20rem;
 // interest expense
-$interest-expense-primary: #00796B;
+$interest-expense-primary: #00796b;
+// state and local government series
+$state-and-local-government-series-primary: #a4bcfd;
+$state-and-local-government-series-light: #a4bcfd66;
 
 .insightsContainer {
   margin: 0 auto 4rem;
@@ -48,10 +51,21 @@ $interest-expense-primary: #00796B;
     min-width: $link-container-width;
   }
 }
-
+.socialShareDesktop {
+  display: none;
+}
+.socialShareMobile {
+  display: block;
+}
 @media screen and (min-width: $breakpoint-lg) {
   .sectionHeading {
     max-width: calc(100% - $link-container-width);
+  }
+  .socialShareDesktop {
+    display: block;
+  }
+  .socialShareMobile {
+    display: none;
   }
 }
 
@@ -71,7 +85,8 @@ $interest-expense-primary: #00796B;
   }
 }
 
-
 :export {
   interestExpensePrimary: $interest-expense-primary;
+  stateAndLocalGovernmentSeriesPrimary: $state-and-local-government-series-primary;
+  stateAndLocalGovernmentSeriesLight: $state-and-local-government-series-light;
 }

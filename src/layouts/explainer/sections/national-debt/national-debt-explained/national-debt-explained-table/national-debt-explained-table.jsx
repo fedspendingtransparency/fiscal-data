@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faFileInvoiceDollar, faFunnelDollar } from '@fortawesome/free-solid-svg-icons';
+import { faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons/faFileInvoiceDollar';
+import { faCoins } from '@fortawesome/free-solid-svg-icons/faCoins';
+import { faFunnelDollar } from '@fortawesome/free-solid-svg-icons/faFunnelDollar';
 import curvedArrow from '../../../../../../images/curved-arrow.svg';
 import React from 'react';
-import { nationalDebtExplainedTable, tableIcon, borderBottom } from '../national-debt-explained.module.scss';
+import { borderBottom, nationalDebtExplainedTable, tableIcon } from '../national-debt-explained.module.scss';
+
 export const nationalDebtExplainedTableContent = {
   header: [
     null,
@@ -25,7 +28,13 @@ const NationalDebtExplainedTable = () => {
       <div
         className={nationalDebtExplainedTable}
         role="img"
-        aria-label="Image displays fictional data to show the connection of revenue, spending, deficit, and debt for two years."
+        aria-label={
+          'A financial diagram showing fictional budget information with purple icons and text. The image has three columns ' +
+          'labeled "Revenue" (with a stacked coins icon), "Spending" (with a funnel and dollar sign icon), and "Deficit" (with a document ' +
+          'and dollar sign icon). The data shows Year 1 with $400 revenue and $500 spending resulting in a -$100 deficit. Year 2 ' +
+          'shows $600 revenue and $800 spending resulting in a -$200 deficit. At the bottom, these deficits sum to -$300, labeled ' +
+          'as "Debt" with a curved arrow pointing to it.'
+        }
       >
         <table>
           <thead>

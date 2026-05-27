@@ -1,10 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
-import { IDataTableBody } from '../../../../models/IDataTableBody';
-import { tableCell, tableRow, detailButton, hidden, rightAlignText, filtersActive } from './data-preview-data-table-body.module.scss';
-import { columnBodyFilterActive, columnFilterActive, rightAlign } from '../../../data-table/data-table-helper';
+import React, { FunctionComponent, ReactNode, useContext } from 'react';
+import { ITableBody } from '../../../../models/ITableBody';
+import { detailButton, filtersActive, hidden, rightAlignText, tableCell, tableRow } from './data-preview-data-table-body.module.scss';
+import { columnBodyFilterActive, columnBodyFilterApplied, rightAlign } from '../../../dtg-table/data-table-helper';
 import { flexRender } from '@tanstack/react-table';
+import { DataTableContext } from '../../data-preview-context';
 
-const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
+const DataPreviewDataTableBody: FunctionComponent<ITableBody> = ({
   table,
   dataTypes,
   allowColumnWrap,
@@ -14,6 +15,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
   allActiveFilters,
 }) => {
   let fillCell = false;
+  const { appliedFilters } = useContext(DataTableContext);
   const handleDetailClick = (rowConfig: {}, cellValue: string) => {
     const currentRow = rowConfig[0]?.row.original;
     const secondaryFilterValue = detailViewConfig?.secondaryField ? currentRow[detailViewConfig.secondaryField] : null;
@@ -34,7 +36,8 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
               const display = !cellValue || cellValue === 'null';
               const wrapStyle = allowColumnWrap?.includes(cell.column.id);
               const detailViewButton = detailViewConfig?.field === cell.column.id;
-              const appliedFilterStyle = columnBodyFilterActive(allActiveFilters, cell.id);
+              const activeFilterStyle = columnBodyFilterActive(allActiveFilters, cell.id);
+              const appliedFilterStyle = columnBodyFilterApplied(appliedFilters, cell.id);
               const cellDisplay = (children: ReactNode) =>
                 detailViewButton ? (
                   <button onClick={() => handleDetailClick(rowConfig, cellValue)} className={detailButton}>
@@ -48,7 +51,7 @@ const DataPreviewDataTableBody: FunctionComponent<IDataTableBody> = ({
                 <td
                   key={cell.id}
                   className={`${rightAlign(dataTypes[cell.column.id]) ? rightAlignText : null}
-                    ${tableCell} ${wrapStyle ? null : hidden} ${appliedFilterStyle && filtersActive}`}
+                    ${tableCell} ${wrapStyle ? null : hidden} ${(activeFilterStyle || appliedFilterStyle) && filtersActive}`}
                 >
                   {display ? <div /> : <>{cellDisplay(flexRender(cell.column.columnDef.cell, cell.getContext()))}</>}
                 </td>

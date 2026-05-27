@@ -1,11 +1,12 @@
 import { TestData } from '../dtg-table/test-data';
-import { subYears, format, addDays } from 'date-fns';
+import { addDays, format, subYears } from 'date-fns';
+import { convertDate } from './dataset-data-helper/dataset-data-helper';
 
 export const latestDate = '2020-04-13';
-let testDate = subYears(new Date(2020, 3, 13), 5);
-testDate = addDays(testDate, 1);
-export const fivePrior = format(testDate, 'yyyy-MM-dd');
-
+const testDate = subYears(convertDate(latestDate), 5);
+export const fivePrior = addDays(testDate, 1);
+export const latestDateFormatted = format(convertDate(latestDate), 'MM/dd/yyyy');
+export const fivePriorFormatted = format(fivePrior, 'MM/dd/yyyy');
 const mockYears = {
   from: 2019,
   to: 2020,
@@ -120,7 +121,13 @@ export const config = {
           dataType: 'DATE',
           prettyName: 'Record Date',
         },
+        {
+          columnName: 'open_today_bal',
+          dataType: 'NUMBER',
+          prettyName: 'Opening Balance Today',
+        },
       ],
+      valueFieldOptions: ['open_today_bal'],
     },
     {
       tableName: 'Table 2',
@@ -218,6 +225,7 @@ export const config = {
       rowCount: 150001,
       dateField: 'record_date',
       dataDisplays: [
+        { chartType: 'none', dimensionField: null, title: 'Complete Table' },
         {
           chartType: null,
           dimensionField: 'facility_desc',

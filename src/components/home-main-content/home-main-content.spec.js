@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import HomeMainContent, { analyticsObject } from './home-main-content';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Analytics from '../../utils/analytics/analytics';
+import HomeMainContent from './home-main-content';
 
 describe('Home Main Content', () => {
   it('should render text for h2', () => {
@@ -13,5 +14,23 @@ describe('Home Main Content', () => {
   it('should render HomeHighlightCards component', () => {
     const { getByTestId } = render(<HomeMainContent />);
     expect(getByTestId('highlight-cards-parent')).toBeDefined();
+  });
+
+  it('fires analytics when Dataset Search link is clicked', async () => {
+    const user = userEvent.setup();
+    render(<HomeMainContent />);
+
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const link = screen.queryByRole('link', { name: /dataset search page/i });
+    screen.getByText(/dataset search page/i);
+
+    await user.click(link);
+
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      category: 'Homepage Navigation',
+      action: 'Citation Click',
+      label: 'Dataset Search',
+    });
   });
 });

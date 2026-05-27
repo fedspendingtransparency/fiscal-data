@@ -1,6 +1,16 @@
-@import 'src/variables.module';
-@import '../../../../explainer.module';
-@import '../../treasury-savings-bonds.module';
+@use 'src/variables.module' as *;
+@use '../../../../explainer.module' as *;
+@use '../../treasury-savings-bonds.module' as *;
+
+.container {
+  & :global(.chartContainerChart) {
+    min-height: 26.38rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 25.88rem;
+    }
+  }
+}
 
 .chartLegend {
   display: flex;
@@ -16,11 +26,10 @@
       font-weight: $semi-bold-weight;
 
       &.leftLabel {
-        color: $treasury-savings-bonds-explainer-secondary;
+        color: $hero-primary-text;
       }
 
       &.rightLabel {
-
       }
     }
 
@@ -30,7 +39,7 @@
 
       &.leftLine {
         border-bottom: 2px solid $treasury-savings-bonds-explainer-secondary;
-        margin-left: 0.5rem
+        margin-left: 0.5rem;
       }
 
       &.rightLine {
@@ -38,23 +47,28 @@
         margin-right: 0.5rem;
       }
     }
-
   }
 }
 
 .headerContainer {
-  margin-top: 2rem;
+  margin-top: 1rem;
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chartStyle {
   @include reChartsBaseStyle;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .chartLegend {
     margin-top: 1.25rem;
-
   }
   .chartLegend {
     margin-bottom: 1rem;

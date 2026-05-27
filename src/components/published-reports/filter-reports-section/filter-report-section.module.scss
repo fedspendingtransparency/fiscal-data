@@ -1,0 +1,7 @@
+@use 'src/variables.module' as *;
+
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

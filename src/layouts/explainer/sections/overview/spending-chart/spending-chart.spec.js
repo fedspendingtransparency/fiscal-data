@@ -13,12 +13,12 @@ describe('AFGSpendingChart Component', () => {
   window.ResizeObserver = ResizeObserver;
 
   beforeEach(() => {
-    fetchMock.get(
-      `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
-      mockSpendingChartData,
-      { overwriteRoutes: true },
-      { repeat: 0 }
-    );
+    fetchMock
+      .mockGlobal()
+      .route(
+        `https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date`,
+        mockSpendingChartData
+      );
   });
 
   afterEach(() => {
@@ -28,14 +28,14 @@ describe('AFGSpendingChart Component', () => {
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const instance = render(<AFGSpendingChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(instance).toBeDefined();
   });
 
   it('user can see chart title', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const instance = render(<AFGSpendingChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(instance.getByText('Cumulative Spending by Month in Trillions of USD')).toBeInTheDocument();
   });
 

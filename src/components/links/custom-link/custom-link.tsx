@@ -15,6 +15,9 @@ type CustomLinkProps = {
   eventNumber?: string;
   id?: string;
   tabindex?: number;
+  className?: string;
+  skipExternalModal?: boolean;
+  'aria-label'?: string;
 };
 
 const analyticsEventMap: Record<string, string> = {
@@ -35,6 +38,9 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   eventNumber,
   id,
   tabindex,
+  className,
+  skipExternalModal = false,
+  'aria-label': ariaLabel
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -42,7 +48,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   const urlSplit = thisurl.split('/');
   const pageName = urlSplit[urlSplit.length - 2];
   const explainerPageName = analyticsEventMap[pageName];
-
+  const PROD_ROOT = 'https://fiscaldata.treasury.gov';
   const { getGAEvent } = useGAEventTracking(null, explainerPageName);
 
   const onClickEventHandler = () => {
@@ -60,23 +66,43 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   };
 
   useEffect(() => {
-    const curPath = url || href;
+    let curPath = url || href;
     if (!curPath) return;
 
     if (curPath !== urlOrHref) {
       setUrlOrHref(curPath);
     }
-    const externalUrl: RegExp = /^external:/;
-    if (!ext && externalUrl.test(curPath)) {
-      setExt(true);
-      setUrlOrHref(curPath.replace(externalUrl, ''));
+
+    if (curPath.startsWith(PROD_ROOT)) {
+      curPath = curPath.replace(PROD_ROOT, '') || '/';
     }
+
+    const externalPrefix = /^external:/;
+    if (externalPrefix.test(curPath)) {
+      curPath = curPath.replace(externalPrefix, '');
+      setExt(true);
+    }
+
+    if (curPath !== urlOrHref) setUrlOrHref(curPath);
   }, [ext, url, href]);
 
+  const isAbsolute = urlOrHref.startsWith('http');
+  const isSameSite = !isAbsolute || (typeof window !== 'undefined' && isAbsolute && new URL(urlOrHref).hostname === window.location.hostname);
+
+  const treatAsExternal = (ext ?? false) || (isAbsolute && !isSameSite && ['http', 'tel'].some(p => urlOrHref.startsWith(p)));
+
   switch (true) {
-    case ext || ['http', 'tel'].some(protocol => urlOrHref.startsWith(protocol)):
+    case treatAsExternal:
       return (
-        <ExternalLink url={urlOrHref} onClick={onClickEventHandler} dataTestId={dataTestId}>
+        <ExternalLink
+          url={urlOrHref}
+          onClick={onClickEventHandler}
+          dataTestId={dataTestId}
+          id={id}
+          className={className}
+          skipExternalModal={skipExternalModal}
+          aria-label={ariaLabel}
+        >
           {children}
         </ExternalLink>
       );
@@ -97,14 +123,14 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 
     case urlOrHref.endsWith('.pdf'):
       return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'} onClick={onClickEventHandler}>
           {children}
         </a>
       );
 
-    case urlOrHref.endsWith('.xml'):
+    case urlOrHref.endsWith('.xml') || urlOrHref.endsWith('.xlsx'):
       return (
-        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'}>
+        <a href={urlOrHref} className="primary" download data-testid={dataTestId || 'download-link'} onClick={onClickEventHandler}>
           {children}
         </a>
       );
@@ -118,6 +144,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
           data-testid={dataTestId || 'internal-link'}
           onClick={onClickEventHandler}
           id={id}
+          aria-label={ariaLabel}
         >
           {children}
         </Link>

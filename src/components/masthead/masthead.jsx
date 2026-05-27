@@ -1,35 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  breadCrumb,
-  pageHeader,
-  mainWidth,
-  pageTitle,
-  stickyHeader,
-  breadCrumbBackground,
-  stickyMainWidth,
-  stickyHeight,
-} from './masthead.module.scss';
-import BreadCrumbs from '../breadcrumbs/breadcrumbs';
-import { withWindowSize } from 'react-fns';
+import { breadCrumbBackground, mainWidth, pageHeader, pageTitle, stickyHeader, stickyHeight, stickyMainWidth } from './masthead.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
+import { useWindowSize } from 'usehooks-ts';
 
-const Masthead = ({ title, width }) => {
+const Masthead = ({ title }) => {
   const [stickyView, setStickyView] = useState(false);
-
-  const breadCrumbLinks = [
-    {
-      name: title,
-    },
-    {
-      name: 'Dataset Search',
-      link: '/datasets/',
-    },
-    {
-      name: 'Home',
-      link: '/',
-    },
-  ];
+  const { width } = useWindowSize();
 
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -47,11 +24,7 @@ const Masthead = ({ title, width }) => {
 
   return (
     <>
-      <div className={breadCrumbBackground}>
-        <div className={breadCrumb}>
-          <BreadCrumbs links={breadCrumbLinks} />
-        </div>
-      </div>
+      <div className={breadCrumbBackground} data-testid="masthead"></div>
       <section className={`${pageHeader} ${stickyView ? stickyHeight : undefined}`}>
         <div className={`${mainWidth} ${stickyView ? stickyMainWidth : undefined}`}>
           <h1 className={`${pageTitle} ${stickyView ? stickyHeader : undefined}`}>{title}</h1>
@@ -61,4 +34,4 @@ const Masthead = ({ title, width }) => {
   );
 };
 
-export default withWindowSize(Masthead);
+export default Masthead;

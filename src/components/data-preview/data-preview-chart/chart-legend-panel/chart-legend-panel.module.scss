@@ -1,0 +1,24 @@
+@use 'src/variables.module' as *;
+
+.heading {
+  @include headingStyle6;
+  padding: 0.75rem 1rem;
+  margin: 0;
+  background: $pale-bg;
+  border-bottom: 1px solid $border-color;
+}
+
+.selectAllContainer {
+  border-bottom: solid 1px $border-color;
+}
+
+.buttonContainer {
+  padding: 1rem;
+  max-height: 385px;
+  overflow-y: auto;
+}
+
+.toggleButton {
+  display: block;
+  width: 100%;
+}

@@ -4,25 +4,26 @@
  */
 import React, { useEffect, useState } from 'react';
 import {
-  dropzone,
-  fieldOption,
-  edit,
-  pivotViewOnly,
-  editButton,
-  snapshotToggler,
-  filtersContainer,
   configButton,
+  dropzone,
+  edit,
+  editButton,
+  fieldOption,
+  filtersContainer,
   modal,
   pivotDnd,
+  pivotViewOnly,
+  snapshotToggler,
   successfulMessage,
   unsuccessfulMessage,
 } from './dynamicConfig.module.scss';
-import { Modal, Popover } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@mui/material/Modal';
+import Popover from '@mui/material/Popover';
 import { createJSONOutput, placeTablePivots } from './helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-regular-svg-icons';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-regular-svg-icons/faEdit';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import FilterEditor from '../filter-editor/filter-editor';
 
 const getModalStyle = () => {
@@ -40,19 +41,7 @@ const getModalStyle = () => {
   };
 };
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
-
 const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated, refreshTable }) => {
-  const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [isConfigDirty, setIsConfigDirty] = useState(false);
@@ -140,7 +129,7 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
       onDragEnter={highlightDropzone}
       onDragLeave={removeDropzoneHighlight}
       onDrop={e => dropContent(e, type)}
-      role={'presentation'}
+      role="presentation"
     >
       {createPivotOptions(sourceList)}
     </div>
@@ -372,7 +361,8 @@ const DynamicConfig = ({ selectedTable, handleIgnorePivots, handlePivotsUpdated,
         {
           // TODO - Move the children of Modal into a new component along with any resulting logic
           // and unit test this separately from the modal
-          <div data-testid="configModal" id={modal} style={modalStyle} className={classes.paper}>
+          // <div data-testid="configModal" id={modal} style={modalStyle} className={classes.paper}>
+          <div data-testid="configModal" id={modal} style={modalStyle}>
             <header>
               <h1>Configure Chart</h1>
             </header>

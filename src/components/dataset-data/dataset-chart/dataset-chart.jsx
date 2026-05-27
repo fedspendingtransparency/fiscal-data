@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import drawChart from '../../charts/chart-primary';
 import ChartLegend from '../../charts/chart-legend/chartLegend';
 import ChartCitation from './chart-citation/chart-citation';
 import { thinDataAsNeededForChart } from '../dataset-data-helper/dataset-data-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 
 import {
-  info,
-  icon,
   chartArea,
-  legendActive,
-  chartPane,
   chartLegendWrapper,
-  viz as vizClass,
+  chartPane,
   datasetStats,
-  legend as legendClass,
-  yAxisLabel,
+  icon,
+  info,
   labelContainer,
+  legend as legendClass,
+  legendActive,
   subTitle,
+  viz as vizClass,
+  yAxisLabel,
 } from './dataset-chart.module.scss';
 
 export let chartHooks;
@@ -139,11 +139,16 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
     }
   }, [isVisible]);
 
-  const determineIfAxisWillHaveBillions = data => {
-    const valueArrays = data.map(v => Object.values(v));
-    const filtered = valueArrays.map(v => v.filter(e => !isNaN(Number(e))));
-    const values = Array.prototype.concat.call(...filtered);
-    const max = Math.max(...values);
+  const determineIfAxisWillHaveBillions = rows => {
+    let max = 0;
+    for (const row of rows) {
+      for (const value of Object.values(row)) {
+        if (typeof value === 'number') {
+          if (value > max) max = value;
+          if (max >= 1000000000) return true;
+        }
+      }
+    }
     return max >= 1000000000;
   };
 
@@ -188,7 +193,7 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   }, [selectedPivot]);
 
   return (
-    <div className={`${chartArea} ${legend ? legendActive : ''}`}>
+    <div className={`${chartArea} ${legend ? legendActive : ''}`} data-testid="dataset-chart">
       <div className={chartPane}>
         <div className={chartLegendWrapper}>
           <div className={vizClass}>

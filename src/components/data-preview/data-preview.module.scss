@@ -1,29 +1,68 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 
 .dataPreview {
   display: flex;
   margin-bottom: 1rem;
 }
+
 .dataPreviewHeader {
   display: flex;
   align-items: center;
-  padding-right: 1rem;
-}
-.dataPreviewTitle {
+  margin: 0 1rem 0 0;
   color: $font-title;
   font-size: $font-size-24;
   font-weight: $semi-bold-weight;
 }
-@media screen and (max-width: $breakpoint-lg) {
-  .dataPreview {
-    display: grid;
-  }
-  .dataPreviewTitle {
-    padding-bottom: 1rem;
-  }
-}
+
 .selectedTableName {
   color: $font-body-copy;
   font-size: $font-size-18;
   font-weight: $semi-bold-weight;
+}
+
+.increaseSpacing {
+  padding-bottom: 1rem;
+}
+
+.summaryTableHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chartTableVisibility {
+  visibility: hidden;
+  height: 0;
+}
+
+.detailViewButton {
+  background-color: $primary;
+  border: none;
+  border-radius: 3px;
+  color: $content-section-background;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.detailViewBack {
+  font-size: $font-size-16;
+  font-weight: $semi-bold-weight;
+}
+
+.detailViewIcon {
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .dataPreview {
+    display: block;
+    max-width: 30rem;
+  }
+  .dataPreviewHeader {
+    padding-bottom: 1rem;
+  }
 }

@@ -1,16 +1,19 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import {
-  footerBottom,
-  footerBottomLinks,
-  copyright,
   bottomContent,
   column,
   columnTitle,
-  footerMain,
   content,
+  copyright,
+  footerBottom,
+  footerBottomLinks,
+  footerMain,
   logo,
   pageLinks,
+  topRow,
+  socialIcons,
+  socialIconLink,
 } from './site-footer.module.scss';
 import globalConstants from '../../helpers/constants';
 import DownloadSticky from '../download-sticky/download-sticky';
@@ -18,6 +21,10 @@ import ResumeDownloadModal from '../download-modal/resume-download-modal/resume-
 import { StaticImage } from 'gatsby-plugin-image';
 import Analytics from '../../utils/analytics/analytics';
 import CustomLink from '../links/custom-link/custom-link';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export const siteFooterColumns = [
   {
@@ -96,45 +103,92 @@ const SiteFooter = () => {
     <>
       <ResumeDownloadModal />
       <DownloadSticky />
-      <div className={footerMain}>
-        <div className={content}>
-          <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
-            <StaticImage
-              src="../../images/logos/fd-logo-ko.svg"
-              alt="Fiscal Data logo"
-              height={49}
-              width={171}
-              placeholder="dominantColor"
-              layout="fixed"
-              aria-label="Fiscal Data logo"
-            />
-          </Link>
-          <div className={pageLinks}>
-            {siteFooterColumns.map(columnContent => {
-              return (
-                <div className={column} key={columnContent.title}>
-                  <div className={columnTitle}>{columnContent.title}</div>
-                  {columnContent.links.map(link => (
-                    <CustomLink key={link.testId} href={link.to} onClick={() => clickHandler(link.actionTitle || link.title)}>
-                      {link.title}
-                    </CustomLink>
-                  ))}
-                </div>
-              );
-            })}
+      <footer>
+        <div className={footerMain}>
+          <div className={content}>
+            <div className={topRow}>
+            <Link data-testid="logo" className={logo} to="/" onClick={() => clickHandler('Logo')} aria-label={'Redirect to Fiscal Data homepage'}>
+              <StaticImage
+                src="../../images/logos/fd-logo-ko.svg"
+                alt="Fiscal Data logo"
+                height={39.16}
+                width={141.32}
+                placeholder="dominantColor"
+                layout="fixed"
+                aria-label="Fiscal Data logo"
+              />
+            </Link>
+              <div className={socialIcons}>
+                <CustomLink
+                  url="https://www.facebook.com/fiscalservice"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="facebook"
+                  className={socialIconLink}
+                >
+                  <FacebookIcon  />
+                </CustomLink>
+                <CustomLink
+                  url="https://x.com/FiscalService"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="x"
+                  className={socialIconLink}
+                >
+                  <XIcon fontSize="small" />
+                </CustomLink>
+                <CustomLink
+                  url="https://www.linkedin.com/company/1722850/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="linkedin"
+                  className={socialIconLink}
+                >
+                  <LinkedInIcon />
+                </CustomLink>
+                <CustomLink
+                  url="https://www.youtube.com/channel/UCrezr4h8sW9zB6IEoKwBqRQ/videos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="youtube"
+                  className={socialIconLink}
+                >
+                  <YouTubeIcon />
+                </CustomLink>
+              </div>
+            </div>
+            <div className={pageLinks}>
+              {siteFooterColumns.map(columnContent => {
+                return (
+                  <div className={column} key={columnContent.title}>
+                    <h2 className={columnTitle}>{columnContent.title}</h2>
+                    {columnContent.links.map(link => (
+                      <CustomLink
+                        key={link.testId}
+                        href={link.to}
+                        onClick={() => clickHandler(link.actionTitle || link.title)}
+                        skipExternalModal={true}
+                      >
+                        {link.title}
+                      </CustomLink>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-      <div className={footerBottom}>
-        <div className={bottomContent}>
-          <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
-          <div className={footerBottomLinks}>
-            <CustomLink href={`${fiscalURL}/accessibility.html`}>Accessibility</CustomLink>
-            <CustomLink href={`${fiscalURL}/privacy.html`}>Privacy Policy</CustomLink>
-            <CustomLink href={`${fiscalURL}/foia.html`}>Freedom of Information Act</CustomLink>
+        <div className={footerBottom}>
+          <div className={bottomContent}>
+            <div className={copyright}>&copy; {copyrightDate} Data Transparency</div>
+            <div className={footerBottomLinks}>
+              <CustomLink href={`${fiscalURL}/about-us/accessibility`}>Accessibility</CustomLink>
+              <CustomLink href={`${fiscalURL}/about-us/privacy-policy`}>Privacy Policy</CustomLink>
+              <CustomLink href={`${fiscalURL}/about-us/foia`}>Freedom of Information Act</CustomLink>
+            </div>
           </div>
         </div>
-      </div>
+      </footer>
     </>
   );
 };

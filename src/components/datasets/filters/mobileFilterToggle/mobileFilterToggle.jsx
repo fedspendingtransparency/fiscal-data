@@ -1,7 +1,7 @@
 import React from 'react';
-import { floatingToggle, container, resetButton, filterCount, srOnly, resetIcon, toggleButton } from './mobileFilterToggle.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome/index';
-import { faUndo } from '@fortawesome/free-solid-svg-icons/index';
+import { container, filterCount, floatingToggle, resetButton, resetIcon, srOnly, toggleButton } from './mobileFilterToggle.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndo } from '@fortawesome/free-solid-svg-icons/faUndo';
 
 export default function MobileFilterToggle({ filterCnt, datasetsView, toggleDatasetView, datasetsCount, filterReset }) {
   const showFilterButton = !datasetsView && filterCnt > 0;

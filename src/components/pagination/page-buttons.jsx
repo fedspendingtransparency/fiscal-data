@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { ellipsis, active, pagingButtons, arrow, pageButtons } from './pagination-controls.module.scss';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons/faEllipsisH';
+import { active, arrow, ellipsis, pageButtons, pagingButtons } from './pagination-controls.module.scss';
 
 const PageButtons = ({ pageButtonProps }) => {
   const { maxPage, tableName, currentPage, handleJump, pagesArray } = pageButtonProps;
@@ -83,6 +83,7 @@ const PageButtons = ({ pageButtonProps }) => {
         <button
           key={`${tableName}-page${page}`}
           id={`${tableName}-page${page}`}
+          aria-label={`${tableName}-page${page}`}
           onClick={() => handlePageClick(page)}
           className={current === page ? active : {}}
         >
@@ -103,7 +104,7 @@ const PageButtons = ({ pageButtonProps }) => {
         onClick={() => handleNext()}
         disabled={currentPage + 1 > maxPage}
         className={arrow}
-        data-testid={'page-next-button'}
+        data-testid="page-next-button"
         aria-label="Next page"
       >
         <ChevronRightIcon variant="outlined" size="small" />

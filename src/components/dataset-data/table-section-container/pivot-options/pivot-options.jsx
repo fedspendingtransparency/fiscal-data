@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { containerBar, formControl, selectLabel, dropdownContainer } from './pivot-options.module.scss';
+import { containerBar, dropdownContainer, formControl, selectLabel } from './pivot-options.module.scss';
 import SelectControl from '../../../select-control/select-control';
 import Analytics from '../../../../utils/analytics/analytics';
 
-const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pivotsUpdated }) => {
+const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pivotsUpdated, allTablesSelected }) => {
   const [pivotOptions, setPivotOptions] = useState();
   const [pivotFields, setPivotFields] = useState();
 
@@ -74,7 +74,7 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
 
   return (
     <>
-      {table && table.dataDisplays && table.dataDisplays.length > 1 && pivotSelection && pivotOptions && (
+      {table && table.dataDisplays && table.dataDisplays.length > 1 && pivotSelection && pivotOptions && !allTablesSelected && (
         <div className={containerBar} data-testid="pivotOptionsBar">
           <span className={formControl}>
             <span className={selectLabel} data-testid="pivotSelectLabel">

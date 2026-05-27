@@ -1,11 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HomeHighlightCards from '../home-highlight-cards/home-highlight-cards';
-import { mainContent, sectionHeader, highlightCardsHeader } from './home-main-content.module.scss';
-import { faChartColumn } from '@fortawesome/free-solid-svg-icons';
+import { highlightCardsHeader, mainContent, sectionHeader } from './home-main-content.module.scss';
+import { faChartColumn } from '@fortawesome/free-solid-svg-icons/faChartColumn';
 import CustomLink from '../links/custom-link/custom-link';
 import Analytics from '../../utils/analytics/analytics';
-import { ga4DataLayerPush } from '../../helpers/google-analytics/google-analytics-helper';
 
 const HomeMainContent = () => {
   const analyticsHandler = label => {

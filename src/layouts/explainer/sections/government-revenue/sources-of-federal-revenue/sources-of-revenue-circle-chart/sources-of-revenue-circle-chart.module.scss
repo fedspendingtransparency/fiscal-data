@@ -1,9 +1,22 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
+
+.container {
+  :global(.chartContainerHeader) {
+    margin-top: 1rem;
+  }
+
+  & :global(.chartContainerChart) {
+    min-height: 21.51rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 31.51rem;
+    }
+  }
+}
 
 .dataHeaderContainer {
   display: flex;
   flex-direction: column;
-  margin-top: 0.625rem;
 
   .header {
     font-size: $font-size-24;
@@ -32,6 +45,13 @@
       margin: 0 1.25rem;
     }
   }
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footerContainer {
@@ -74,10 +94,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 1.0625rem;
-  }
-
   .dataHeaderContainer {
     .header {
       font-size: $font-size-18;
@@ -117,5 +133,11 @@
     .chartSize {
       height: 19.625rem;
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .container {
+    display: flex;
   }
 }

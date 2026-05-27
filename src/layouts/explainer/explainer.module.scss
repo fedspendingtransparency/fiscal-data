@@ -1,10 +1,4 @@
-@import '../../variables.module.scss';
-
-.breadCrumbsContainer {
-  margin: 0 auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
+@use 'src/variables.module' as *;
 
 .mainContainer {
   display: flex;
@@ -42,7 +36,7 @@
 
     :global(.secondaryNavContainer) {
       :global(.navSectionLink) {
-        padding: 21px 16px 21px 21px;
+        padding: 21px 18px 21px 21px;
         white-space: normal;
       }
     }
@@ -51,7 +45,7 @@
       :global(.navSectionLink):hover {
         text-decoration: none;
         font-weight: bold;
-        padding-right: 0;
+        padding-right: 18px;
       }
     }
 
@@ -120,11 +114,6 @@
 }
 
 @media screen and (min-width: $breakpoint-lg) {
-  .breadCrumbsContainer {
-    max-width: calc(#{$site-content-width} + 2rem);
-    padding-left: 2rem;
-  }
-
   .chartBackdrop {
     min-width: 464px;
   }
@@ -140,7 +129,6 @@
   .visWithCallout {
     display: flex;
     width: 146%;
-
     flex-direction: row;
 
     > :first-child {
@@ -204,22 +192,14 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-sm) and (max-width: $breakpoint-lg - 1) {
-  .breadCrumbsContainer {
-    width: calc(100% - 2rem);
-    padding-left: 2rem;
-  }
-}
-
 @media screen and (max-width: $breakpoint-sm - 1) {
-  .breadCrumbsContainer {
-    width: calc(100% - 15px);
-    padding-left: 15px;
-  }
-
   .mainContainer {
     .contentContainer {
       padding: 0 0.75rem;
     }
   }
+}
+
+.visWithCallout {
+  margin: 0;
 }

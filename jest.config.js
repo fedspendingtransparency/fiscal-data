@@ -13,11 +13,12 @@ module.exports = {
     '^csv-stringify/sync': '<rootDir>/node_modules/csv-stringify/dist/cjs/sync.cjs',
     'rehype-raw': '<rootDir>/__mocks__/react-markdown.js',
     'react-pdf': '<rootDir>/__mocks__/react-pdf.js',
+    d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
   },
-  modulePathIgnorePatterns: ['.cache'],
+  modulePathIgnorePatterns: ['\\.cache'],
   testMatch: ['<rootDir>/**/**.spec.{js,jsx,ts,tsx}'],
-  testPathIgnorePatterns: [`node_modules`, `.cache`, `public`],
-  transformIgnorePatterns: [`node_modules/(?!(gatsby)|d3-color|@react-pdf/renderer)`],
+  testPathIgnorePatterns: [`node_modules`, `\\.cache`, `public`],
+  transformIgnorePatterns: [`node_modules/(?!(gatsby|@react-pdf/renderer)/)`],
   globals: {
     __PATH_PREFIX__: ``,
     'ts-jest': {

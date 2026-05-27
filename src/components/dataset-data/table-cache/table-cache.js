@@ -9,9 +9,21 @@ export class TableCache {
   }
 
   updateDataCache = fetchedRecordSets => {
-    this.dataCache.push(...fetchedRecordSets);
+    //If nothing change just return
+    if (!Array.isArray(fetchedRecordSets) || fetchedRecordSets.length === 0) {
+      return this.dataCache;
+    }
+    // for each new fetch search, remove any old search that overlap
+    fetchedRecordSets.forEach(newSearch => {
+      this.dataCache = this.dataCache.filter(oldSearch => {
+        //keep oldSearch only if it sits completely before or completely after newSearch.
+        return isBefore(oldSearch.range.to, newSearch.range.from) || isAfter(oldSearch.range.from, newSearch.range.to);
+      });
+      this.dataCache.push(newSearch);
+    });
     // keep recordSet segments in date-descending order
-    return this.dataCache.sort((a, b) => b.range.from - a.range.from);
+    this.dataCache.sort((a, b) => b.range.from - a.range.from);
+    return this.dataCache;
   };
 
   findUncachedDateRanges = (requestedRange, neededRanges = []) => {
@@ -112,8 +124,11 @@ export class TableCache {
     } else {
       // otherwise perform row-level date filtering
       const recordArrays = this.dataCache.map(rs => rs.data);
-      const rangeFromNumber = numerifyRecordDate(formatDateForApi(dateRange.from));
-      const rangeToNumber = numerifyRecordDate(formatDateForApi(dateRange.to));
+      const sampleRecord = [].concat(...recordArrays).find(rec => rec[dateField]);
+      const recordDateLength = sampleRecord ? sampleRecord[dateField].length : 10;
+      const rangeFromNumber = numerifyRecordDate(formatDateForApi(dateRange.from).substring(0, recordDateLength));
+      const rangeToNumber = numerifyRecordDate(formatDateForApi(dateRange.to).substring(0, recordDateLength));
+
       recordsForRange = [].concat(...recordArrays).filter(rec => {
         const numericDate = numerifyRecordDate(rec[dateField]);
         return numericDate >= rangeFromNumber && numericDate <= rangeToNumber;

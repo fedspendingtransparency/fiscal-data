@@ -1,39 +1,19 @@
-@import 'src/variables.module';
-
-:global(.chartContainerHeader) {
-  font-size: $font-size-14 !important;
-  align-items: center;
-}
+@use 'src/variables.module' as *;
 
 .container {
   overflow: hidden;
 
+  & :global(.chartContainerChart) {
+    min-height: 18.49rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 26.06rem;
+    }
+  }
+
   .lineChart {
     width: 100%;
-    margin-top: 0.625rem;
   }
-
-  .chartToggle {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 16px;
-    justify-content: center;
-  }
-
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #00766c;
-  }
-}
-
-.dataHeaderContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -42,4 +22,11 @@
       margin-top: 0.75rem;
     }
   }
+}
+
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

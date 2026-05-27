@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .columnSelectContainer {
   height: 100%;
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px $light-grey-border;
 
   .selectAllColumns {
     border-bottom: 0;
@@ -77,6 +77,27 @@
 .toggleButton {
   display: block;
   width: 100%;
+}
+
+.selectColumnsWrapper {
+  display: flex;
+
+  .selectColumnPanelInactive {
+    display: none;
+  }
+
+  .selectColumnPanelActive {
+    display: block;
+    border-left: 1px solid $border-color;
+    margin-top: -2.75rem;
+  }
+
+  .selectColumnPanelActive,
+  .selectColumnPanelInactive {
+    height: 565px;
+    order: 2;
+    width: 450px;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {

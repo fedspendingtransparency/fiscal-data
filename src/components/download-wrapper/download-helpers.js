@@ -1,6 +1,4 @@
-import { postAPI } from '../../utils/api-utils';
 import { format } from 'date-fns';
-import { fileSizeTranslator2 } from '../datatables-tab/datatables-tab-helpers';
 
 export const getDateRangeForFiltration = (dateRange, endpoint) => {
   // redemption_tables is a one-off scenario where the date string needs to be YYYY-MM.
@@ -27,10 +25,10 @@ export const replaceNbsps = str => {
   return str.replace(re, ' ');
 };
 
-export const constructDownloadFileName = (dateRange, selectedTable) => {
+export const constructDownloadFileName = (dateRange, selectedTable, formatDate = true) => {
   if (dateRange?.from && dateRange?.to && selectedTable?.downloadName) {
-    const from = format(dateRange.from, 'yyyyMMdd');
-    const to = format(dateRange.to, 'yyyyMMdd');
+    const from = formatDate ? format(dateRange.from, 'yyyyMMdd') : dateRange.from;
+    const to = formatDate ? format(dateRange.to, 'yyyyMMdd') : dateRange.to;
     return selectedTable.downloadName + '_' + from + '_' + to;
   }
 };
@@ -38,3 +36,5 @@ export const constructDownloadFileName = (dateRange, selectedTable) => {
 const filenameDate = filtrationDate => {
   return filtrationDate.replace(/-/g, '');
 };
+
+export const fileFromPath = path => (path && path.length ? path.substring(path.lastIndexOf('/') + 1) : null);

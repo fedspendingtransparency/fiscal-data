@@ -1,21 +1,12 @@
-import { atom } from 'recoil';
+import { create } from 'zustand';
 
-export const smallTableDownloadDataCSV = atom({
-  key: 'smallTableDownloadDataCSV',
-  default: [],
-});
-
-export const smallTableDownloadDataJSON = atom({
-  key: 'smallTableDownloadDataJSON',
-  default: '',
-});
-
-export const smallTableDownloadDataXML = atom({
-  key: 'smallTableDownloadDataXML',
-  default: {},
-});
-
-export const tableRowLengthState = atom({
-  key: 'tableRowLengthState',
-  default: null,
-});
+export const smallTableDownloadData = create(set => ({
+  csv: [],
+  json: '',
+  xml: {},
+  tableRowLength: null,
+  setCsv: csv => set({ csv }),
+  setJson: json => set({ json }),
+  setXml: xml => set({ xml }),
+  setTableRowLength: tableRowLength => set({ tableRowLength }),
+}));

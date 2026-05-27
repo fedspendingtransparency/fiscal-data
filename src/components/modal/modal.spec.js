@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import renderer from 'react-test-renderer';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import Modal from './modal';
 

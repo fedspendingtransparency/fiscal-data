@@ -45,7 +45,7 @@ const Responses = () => {
   ];
   return (
     <>
-      <SectionContent id="responses-response-objects" headingLevel={2} title="Responses & Response Objects">
+      <SectionContent id="responses-response-objects" headingLevel={2} title="Responses and Response Objects">
         <p>
           The response will be formatted according to the format input parameter specified in the{' '}
           <CustomLink url="/api-documentation/#parameters-format">Format</CustomLink> section and will be json, xml or csv. When format is not

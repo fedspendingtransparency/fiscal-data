@@ -7,7 +7,7 @@ import { pageLinks, pageLinkButtonContainer, pageLinkButton, activeLink, pageLin
 
 const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropdown, setActiveDropdown, buttonHeight }) => {
   return (
-    <div className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px' }}>
+    <nav className={pageLinks} data-testid="pageLinks" style={{ height: buttonHeight + 'px' }}>
       {menuSections.map((pageLink, index) => {
         if (pageLink.isExperimental) {
           return (
@@ -59,7 +59,7 @@ const DesktopMenu = ({ location, glossaryClickHandler, clickHandler, activeDropd
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 };
 

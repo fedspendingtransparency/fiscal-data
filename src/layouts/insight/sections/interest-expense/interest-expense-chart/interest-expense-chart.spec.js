@@ -1,8 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { InterestExpenseChart } from './interest-expense-chart';
+import { render, within } from '@testing-library/react';
+import InterestExpenseChart from './interest-expense-chart';
 import { CustomTooltip } from './interest-expense-chart-helper';
-import { mockInsightChartData } from '../../../insight-test-helper';
 import userEvent from '@testing-library/user-event';
 import Analytics from '../../../../../utils/analytics/analytics';
 
@@ -18,24 +17,38 @@ jest.mock('recharts', () => {
   };
 });
 
+const mockColumnConfigArray = ['Record Date', 'FYTD Interest Expense', 'Avg Interest Rate', 'Fiscal Year'];
+const mockColumnConfig = [
+  { property: 'record_date', name: 'Record Date', type: 'string' },
+  { property: 'expense', name: 'FYTD Interest Expense', type: 'string' },
+  { property: 'rate', name: 'Avg Interest Rate', type: 'string' },
+  { property: 'year', name: 'Fiscal Year', type: 'string' },
+];
+const updatedMockInsightChartData = [
+  { record_date: '2020-09-30', year: 2020, expense: '600000000000', rate: 2.0 },
+  { record_date: '2021-09-30', year: 2021, expense: '650000000000', rate: 2.5 },
+];
+
 const mockHookReturnValues = {
   startFY: 2010,
   currentFY: 2025,
-  chartData: mockInsightChartData,
-  chartXAxisValues: mockInsightChartData.map(element => element.year),
-  expenseYAxisValues: mockInsightChartData.map(element => element.expense).unshift(0),
-  rateYAxisValues: mockInsightChartData.map(element => element.rate),
-  latestChartData: mockInsightChartData[mockInsightChartData.length - 1],
-  altText: `Sample alt text`,
+  chartData: updatedMockInsightChartData,
+  chartXAxisValues: updatedMockInsightChartData.map(d => d.year),
+  expenseYAxisValues: [0, ...updatedMockInsightChartData.map(d => d.expense)],
+  rateYAxisValues: updatedMockInsightChartData.map(d => d.rate),
+  latestChartData: updatedMockInsightChartData[updatedMockInsightChartData.length - 1],
+  altText: 'Sample alt text',
   chartLoading: false,
+  mergedTableData: updatedMockInsightChartData,
+  columnConfigArray: mockColumnConfigArray,
+  columnConfig: mockColumnConfig,
 };
 
 jest.mock('../useGetInterestExpenseData', () => ({
-  useGetInterestExpenseData: () => {
-    return mockHookReturnValues;
-  },
+  useGetInterestExpenseData: () => mockHookReturnValues,
 }));
 
+const wrapper = ({ children }) => <>{children}</>;
 describe('Interest Expense Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -49,14 +62,14 @@ describe('Interest Expense Chart', () => {
   });
 
   it('renders chart correctly', () => {
-    const { getAllByText } = render(<InterestExpenseChart />);
+    const { getAllByText } = render(<InterestExpenseChart />, { wrapper });
     expect(getAllByText('Interest Expense').length).toEqual(2);
     expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
   });
 
   it('renders chart correctly in mobile screen size', () => {
     window.innerWidth = 360;
-    const { getAllByText } = render(<InterestExpenseChart />);
+    const { getAllByText } = render(<InterestExpenseChart />, { wrapper });
     expect(getAllByText('Interest Expense').length).toEqual(2);
     expect(getAllByText('Avg. Interest Rate').length).toEqual(2);
   });
@@ -81,22 +94,24 @@ describe('Interest Expense Chart', () => {
     expect(setRateSpy).toHaveBeenCalledWith('2.0');
   });
 
-  it('chart mouse events', async () => {
-    const { getByTestId } = render(<InterestExpenseChart />);
+  it('handles chart mouse events', async () => {
+    const user = userEvent.setup();
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
-    userEvent.hover(chart);
-    userEvent.unhover(chart);
+    await user.hover(chart);
+    await user.unhover(chart);
   });
 
   it('fires GA event on chart hover', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
 
-    const { getByTestId } = render(<InterestExpenseChart />);
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
+    await user.hover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).toHaveBeenCalledWith({
       action: 'Chart Hover',
@@ -108,26 +123,32 @@ describe('Interest Expense Chart', () => {
 
   it('cancels GA event on chart hover less than 3 seconds', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const analyticsSpy = jest.spyOn(Analytics, 'event');
-    const { getByTestId } = render(<InterestExpenseChart />);
+    const { getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chartParent = getByTestId('chartParent');
-    userEvent.hover(chartParent);
-    userEvent.unhover(chartParent);
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
     jest.advanceTimersByTime(4000);
     expect(analyticsSpy).not.toHaveBeenCalled();
     jest.clearAllMocks();
   });
 
   it('chart is keyboard accessible', async () => {
-    const { getByRole, getByText } = render(<InterestExpenseChart />);
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { getByRole, getByTestId } = render(<InterestExpenseChart />, { wrapper });
     const chart = getByRole('application');
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
-    expect(getByText('2010')).toBeInTheDocument();
-    userEvent.tab();
+    const header = getByTestId('test-header');
+    expect(within(header).getByText('2020')).toBeInTheDocument();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
-    expect(getByText('2024')).toBeInTheDocument();
+    expect(within(header).getByText('2021')).toBeInTheDocument();
   });
 });

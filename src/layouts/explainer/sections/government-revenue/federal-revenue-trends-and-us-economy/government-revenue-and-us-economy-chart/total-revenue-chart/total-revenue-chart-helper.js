@@ -12,7 +12,7 @@ const { mtsReceipts, bls, bea } = explainerCitationsMap['government-revenue'];
 
 const footer = (
   <p>
-    {/* eslint-disable-next-line max-len */}
+    {}
     Visit the {mtsReceipts} dataset to further explore and download this data. The GDP data is sourced from the {bea}. The inflation data is sourced
     from the {bls}.
   </p>
@@ -20,8 +20,8 @@ const footer = (
 
 export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
-    title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
-    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
+    title: `Federal Revenue and the U.S. Economy (GDP), FY ${minYear || '--'} – ${maxYear || '--'}`,
+    subtitle: `Inflation Adjusted - ${maxYear || '--'} Dollars`,
     footer: footer,
     altText:
       selectedChartView === 'percentageGdp'
@@ -72,11 +72,13 @@ export const dataHeader = (chartToggleConfig, headingValues) => {
         chartId="revenue-chart-toggle"
       />
       <ChartDataHeader
-        fiscalYear={fiscalYear}
+        fiscalYear={fiscalYear || '--'}
         right={
-          selectedChartView !== 'percentageGdp' ? { label: 'Total Revenue', value: `$${totalRevenue}` } : { label: 'GDP Ratio', value: `${gdpRatio}` }
+          selectedChartView !== 'percentageGdp'
+            ? { label: 'Total Revenue', value: `$${totalRevenue || '--'}` }
+            : { label: 'GDP Ratio', value: `${gdpRatio || '--'}` }
         }
-        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
+        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp || '--'}` } : null}
       />
     </div>
   );

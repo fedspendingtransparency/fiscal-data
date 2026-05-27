@@ -2,33 +2,33 @@ import React from 'react';
 import buttons from '../../buttons/buttons';
 import DownloadPercentageStatus from '../../download-percentage-status/download-percentage-status';
 import {
-  container,
-  title,
-  content,
-  progressIndicator,
-  resumedStyle,
-  resumedSpinner,
-  queuedSpinner,
-  fileContent,
-  mobileContentContainer,
-  mobileProgressIndicator,
-  fileDetails,
-  fileInfo,
-  fileNameStyle,
-  pill,
   cancelDownloadButton,
+  container,
+  content,
+  copyLink,
+  copyLinkButton,
   downloadButton,
   downloadLink,
   downloadLinkName,
-  copyLink,
-  copyLinkButton,
+  fileContent,
+  fileDetails,
+  fileInfo,
+  fileNameStyle,
+  mobileContentContainer,
+  mobileProgressIndicator,
+  pill,
+  progressIndicator,
+  queuedSpinner,
   readyForDownload,
+  resumedSpinner,
+  resumedStyle,
+  title,
 } from './download-modal-item.module.scss';
-import { faCheckCircle, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDate } from '../../download-wrapper/helpers';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
+import { dataTableDapGaEventLabelState } from '../../../recoil/dataTableDapGaEventLabelState';
 
 /**
  *
@@ -40,7 +40,7 @@ import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilt
 const DownloadModalItem = ({ download, cancelDownloadRequest, resumed = false }) => {
   const fileNameArr = download.filename?.split('_');
   const fileName = fileNameArr ? `${fileNameArr.slice(0, fileNameArr.length - 2).join('_')}.zip` : download.filename;
-  const dapGaEventLabel = useRecoilValue(reactTableFilteredDateRangeState);
+  const dapGaEventLabel = dataTableDapGaEventLabelState(state => state.label);
 
   const formatDateRange = range => {
     const from = formatDate(new Date(range?.from));

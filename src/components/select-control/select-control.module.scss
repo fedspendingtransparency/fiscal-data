@@ -1,5 +1,5 @@
-@import '../../variables.module.scss';
-@import '../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../zIndex.module.scss' as *;
 
 .selector_button {
   position: relative;
@@ -32,14 +32,14 @@
   height: 100%;
   background-color: $content-section-background;
   border: 1px solid $border-color;
-  border-radius: .125rem;
+  border-radius: 0.125rem;
   padding: 0.75rem 1rem;
   text-align: left;
   line-height: unset;
   color: $font-body-copy;
   cursor: pointer;
 
-  &.dropdown_open{
+  &.dropdown_open {
     border: 1px solid $primary;
     box-shadow: 0 0 0 4px $primary-blue;
   }
@@ -73,21 +73,26 @@
   border: 1px solid white;
   box-shadow: 0 0 0 4px white;
 }
-.nested_selector_list {
-  margin-top: 0.33rem;
-  padding: 0 0 .5rem 0;
-  border: 0 solid $border-color;
-  box-shadow: 0 4px 16px  rgba( 0,0,0, .15);
+
+.nested_list_container {
+  border: 0 solid #dddddd;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   border-radius: 0.125rem;
-  list-style: none;
+  margin-top: 0.33rem;
   position: absolute;
-  width: 100%;
-  max-height: 315px;
-  box-sizing: border-box;
-  background-color: $content-section-background;
-  white-space: normal;
   z-index: $select-control;
-  overflow-y: scroll;
+  width: 100%;
+  background-color: $content-section-background;
+}
+
+.nested_selector_list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+  max-height: 18.125rem;
+  box-sizing: border-box;
+  white-space: normal;
   .selector_option {
     font-weight: normal;
     display: block;
@@ -123,7 +128,6 @@
     }
   }
 }
-
 
 .selector_list {
   list-style: none;
@@ -185,8 +189,8 @@
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-.yearTitle{
-  margin: .5rem 1rem;
+.yearTitle {
+  margin: 0.5rem 1rem;
   font-size: $font-size-14;
   font-weight: $semi-bold-weight;
 }
@@ -205,8 +209,8 @@
     transition: background-color 0.2s ease;
     .selector_optionButton {
       color: $primary;
+    }
   }
-}
   .selector_option {
     border-top: 1px solid $border-color;
   }
@@ -222,10 +226,9 @@
     color: $font-body-copy;
     cursor: pointer;
     &.selector_optionSelected {
-      color: $primary
+      color: $primary;
     }
   }
-
 
   &:hover {
     background-color: #f1f1f1;

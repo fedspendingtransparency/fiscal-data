@@ -1,8 +1,17 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .infoContainer {
   margin-top: 1rem;
   .note {
     font-weight: $semi-bold-weight;
+  }
+}
+.infoContainerReport {
+  display: flex;
+  margin-top: 1rem;
+  font-size: $font-size-14;
+  .note {
+    font-weight: $semi-bold-weight;
+    padding-right: 0.25rem;
   }
 }

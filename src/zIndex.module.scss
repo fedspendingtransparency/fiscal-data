@@ -2,6 +2,7 @@ $base: 0;
 $above: 1;
 $below: -1;
 $backdrop: $base;
+$panel: 10;
 
 // home page
 $sparkle: $above + $backdrop;
@@ -36,6 +37,7 @@ $dtg-api-error: $dtg-table-loading-icon;
 $dtg-table-dropdown: $above + $combo-select-dropdown;
 $data-table-filters-dropdown: $above + $dtg-api-error;
 $data-table-select-dropdown: $above + $data-table-filters-dropdown;
+$date-picker-popper: $above + $data-table-select-dropdown;
 // table container
 $table-loading-section: $above + $backdrop;
 $table-title: $above + $table-loading-section;
@@ -44,6 +46,7 @@ $dynamic-config-edit-pivot: $above + $backdrop;
 $pivot-options-form-first-child: $above + $dynamic-config-edit-pivot;
 // filter download
 $filter-download-left-content: $above + $table-loading-icon; // parent of select-control dropdown
+$data-preview-filters-dropdown: $above + $filter-download-left-content;
 // table-loading-icon highest on table which select control must overlay
 // published reports
 $published-reports-preview: $above + $backdrop;
@@ -65,6 +68,7 @@ $main-sticky-footer: $above + $download-sticky-footer;
 $radio-button: $above + $backdrop;
 $toc-button: $above + $illustration-whiteout; // $illustration-whiteout is highest on explainer
 $select-control: $above + $table-loading-icon;
+$scroll-gradient: $above + $backdrop;
 
 // menu
 $menu-dropdown: $above + $dataset-detail-nav;
@@ -75,3 +79,9 @@ $sticky-header: $above + $dataset-detail-nav;
 // glossary
 $glossary: $above + $mobile-menu;
 $glossary-overlay: $below + $backdrop;
+
+// report
+$account-dropdown: $dtg-table-loading-icon + $above;
+
+//modal
+$modal: $above + $backdrop;

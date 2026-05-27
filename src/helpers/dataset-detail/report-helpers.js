@@ -16,9 +16,12 @@ export const getPublishedDates = reports => {
 };
 
 export const formatReportDate = (publishedDate, fullMonth, isDailyReport) => {
-  const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
-  const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
-  return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
+  if (publishedDate) {
+    const monthName = fullMonth ? monthFullNames[publishedDate.getMonth()] : monthNames[publishedDate.getMonth()];
+    const dayInclusion = isDailyReport ? ' ' + publishedDate.getDate() + ',' : '';
+    return `${monthName}${dayInclusion} ${publishedDate.getFullYear()}`;
+  }
+  return null;
 };
 
 export const getDateLabelForReport = (_report, isDailyReport, fullMonth) => {
@@ -33,4 +36,15 @@ export const getDateLabelForReport = (_report, isDailyReport, fullMonth) => {
 
 export const getLatestReport = reports => {
   return reports.sort((a, b) => b.report_date.getTime() - a.report_date.getTime())[0];
+};
+
+export const formatFileSize = size => {
+  return `${Math.ceil(size / 1000)} KB`;
+};
+
+export const getGeneratedFileSize = size => {
+  if (size) {
+    return formatFileSize(size);
+  }
+  return null;
 };

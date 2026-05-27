@@ -8,24 +8,23 @@ import { queryClient } from '../../../../../react-query-client';
 describe('National Deficit Hero', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
-    // fetch.resetMocks();
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData, { overwriteRoutes: true });
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData);
   });
   afterEach(() => {
     queryClient.clear();
   });
   afterAll(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   const glossary = [];
   it('Hero Image section loads with relevant data', async () => {
-    const { getByText, queryByText } = render(<NationalDeficitHero glossary={glossary} />);
+    const { getByText, queryByText, getByLabelText } = render(<NationalDeficitHero glossary={glossary} />);
     await waitFor(() => getByText('$2.24 trillion', { exact: false }));
     expect(await getByText('$2.24 trillion', { exact: false })).toBeInTheDocument();
     expect(await queryByText('$2,237,949,464,925.', { exact: false })).not.toBeInTheDocument();
     expect(await getByText('decreased', { exact: false })).toBeInTheDocument();
-    expect(await getByText('down arrow', { exact: false })).toBeInTheDocument();
+    expect(await getByLabelText('down arrow')).toBeInTheDocument();
     expect(await getByText('fiscal year (FY)', { exact: false })).toBeInTheDocument();
     expect(await getByText('2022', { exact: false })).toBeInTheDocument();
     expect(await getByText('government has spent $515 billion', { exact: false })).toBeInTheDocument();
@@ -37,15 +36,13 @@ describe('National deficit no change in data', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
     // fetch.resetMocks();
-    fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData_noChange, {
-      overwriteRoutes: true,
-    });
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockDeficitHeroData_noChange);
   });
   afterEach(() => {
     queryClient.clear();
   });
   afterAll(() => {
-    fetchMock.restore();
+    fetchMock.hardReset();
   });
 
   const glossary = [];

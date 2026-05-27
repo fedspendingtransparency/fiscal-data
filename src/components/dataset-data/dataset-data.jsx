@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { withWindowSize } from 'react-fns';
+import React, { useEffect, useState } from 'react';
 import DatasetSectionContainer from '../dataset-section-container/dataset-section-container';
 import FilterAndDownload from '../filter-download-container/filter-download-container';
 import DataTableSelect from '../datatable-select/datatable-select';
@@ -7,23 +6,21 @@ import RangePresets from '../filter-download-container/range-presets/range-prese
 import TableSectionContainer from './table-section-container/table-section-container';
 import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
-import { getApiData } from './dataset-data-api-helper/dataset-data-api-helper';
+import { getApiData, getMetaData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
+import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { detailViewNotice, lockIcon, placeholderText, placeholderButton, bannerContainer } from './dataset-data.module.scss';
+import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
 import BannerCallout from '../banner-callout/banner-callout';
-export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp, width }) => {
-  // config.apis should always be available; but, fallback in case
 
-  const apis = config ? config.apis : [null];
+export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
+  const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
   const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
   const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
   const [isFiltered, setIsFiltered] = useState(true);
@@ -32,7 +29,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [dateRange, setDateRange] = useState();
   const [isCustomDateRange, setIsCustomDateRange] = useState(false);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!apis[0]?.apiFilter);
   const [apiError, setApiError] = useState(false);
   const [serverSidePagination, setServerSidePagination] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -49,18 +46,18 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
   const [detailViewDownloadFilter, setDetailViewDownloadFilter] = useState(null);
   const [allActiveFilters, setAllActiveFilters] = useState([]);
   const [disableDownloadBanner, setDisableDownloadBanner] = useState(false);
+  const [tableMeta, setTableMeta] = useState(null);
+  const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
 
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
-
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
   let loadByPage;
   const title = 'Data Preview';
   const shouldUseLoadByPage = pivot => {
-    return selectedTable && selectedTable.isLargeDataset && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
+    return selectedTable && selectedTable.byPage && pivot && pivot.pivotView && pivot.pivotView.chartType === 'none';
   };
 
   const clearDisplayData = () => {
     loadByPage = shouldUseLoadByPage(selectedPivot);
-
     if (loadByPage) {
       setServerSidePagination(selectedTable.endpoint);
     } else {
@@ -81,6 +78,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     } else {
       setAllTablesSelected(false);
       setSelectedTable(table);
+      setSelectedPivot(null);
     }
 
     Analytics.event({
@@ -122,16 +120,31 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
+      // setUserFilterSelection(null);
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
-      setSelectedPivot(null);
+      if (!selectedTable.apiFilter) {
+        setSelectedPivot(null);
+      }
       rewriteUrl(selectedTable, config.slug, location);
       setIsFiltered(true);
       setApiError(false);
       if (!tableCaches[selectedTable.apiId]) {
         tableCaches[selectedTable.apiId] = new TableCache();
       }
+      (async () => {
+        if (!selectedTable?.apiFilter) {
+          await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient).then(res => {
+            if (res?.meta) {
+              setTableMeta({ meta: res.meta, table: selectedTable.tableName });
+            }
+          });
+        } else {
+          setTableMeta(null);
+          setApiData(null);
+        }
+      })();
       setSelectedTableProp(selectedTable);
     }
   }, [selectedTable]);
@@ -153,58 +166,83 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
     }
   }, [detailViewState]);
 
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
+
+  const tableSectionInitialized = () =>
+    !finalDatesNotFound &&
+    selectedTable &&
+    (selectedPivot || ignorePivots || selectedTable.apiFilter) &&
+    dateRange &&
+    !allTablesSelected &&
+    (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter()));
+
   // When dateRange changes, fetch new data
   useEffect(() => {
-    if (!finalDatesNotFound && selectedTable && (selectedPivot || ignorePivots) && dateRange && !allTablesSelected) {
+    if (tableSectionInitialized()) {
       const displayedTable = detailViewState ? detailApi : selectedTable;
       const cache = tableCaches[displayedTable.apiId];
       const cachedDisplay = cache?.getCachedDataDisplay(dateRange, selectedPivot, displayedTable);
-      if (cachedDisplay) {
+      if (cachedDisplay && !selectedTable.apiFilter) {
         updateDataDisplay(cachedDisplay);
       } else {
         clearDisplayData();
-        let canceledObj = { isCanceled: false, abortController: new AbortController() };
-        if (!loadByPage || ignorePivots) {
-          getApiData(
-            dateRange,
-            displayedTable,
-            selectedPivot,
-            setIsLoading,
-            setApiData,
-            setApiError,
-            canceledObj,
-            tableCaches[displayedTable.apiId],
-            detailViewState,
-            config?.detailView?.field,
-            queryClient
-          ).then(() => {
-            // nothing to cancel if the request completes normally.
-            canceledObj = null;
-          });
-        }
-        return () => {
-          if (!canceledObj) return;
-          canceledObj.isCanceled = true;
-          canceledObj.abortController.abort();
-        };
+        setTimeout(() => {
+          let canceledObj = { isCanceled: false, abortController: new AbortController() };
+          let getAllData;
+          (async () => {
+            getAllData = tableMeta && tableMeta?.meta?.['total-count'] <= 20000;
+            if (!loadByPage || getAllData || ignorePivots) {
+              setServerSidePagination(null);
+              getApiData(
+                dateRange,
+                displayedTable,
+                selectedPivot,
+                setIsLoading,
+                setApiData,
+                setApiError,
+                canceledObj,
+                tableCaches[displayedTable.apiId],
+                detailViewState,
+                config?.detailView?.field,
+                userFilterSelection,
+                setUserFilterUnmatchedForDateRange,
+                queryClient
+              ).then(() => {
+                // nothing to cancel if the request completes normally.
+                canceledObj = null;
+              });
+            }
+          })();
+          return () => {
+            if (!canceledObj) return;
+            canceledObj.isCanceled = true;
+            canceledObj.abortController.abort();
+          };
+        });
       }
     }
-  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound]);
+  }, [tableMeta]);
 
   useEffect(() => {
-    if (allTablesSelected) {
-      setTableColumnSortData([]);
+    if (tableSectionInitialized()) {
+      if (tableMeta?.table === selectedTable?.tableName || !tableMeta) {
+        (async () => {
+          const metaData = await getMetaData(dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient);
+          if (metaData?.meta) {
+            setTableMeta({ meta: metaData.meta, table: selectedTable.tableName, userFilter: userFilterSelection });
+          }
+        })();
+      }
     }
+  }, [dateRange, selectedPivot, ignorePivots, finalDatesNotFound, userFilterSelection]);
+
+  useEffect(() => {
     setUserFilterSelection(null);
   }, [allTablesSelected]);
 
-  useEffect(() => {
-    setTableColumnSortData([]);
-  }, [selectedTable]);
-
   return (
-    <DatasetSectionContainer id="data-table" title={title}>
-      {tableColumnSortData && (
+    <div data-testid="datasetData">
+      <DatasetSectionContainer id="data-table" title={title}>
         <FilterAndDownload
           data-testid="filterAndDownload"
           dateRange={dateRange}
@@ -286,42 +324,44 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
             </div>
           )}
         </FilterAndDownload>
-      )}
-      {dateRange && (
-        <TableSectionContainer
-          config={config}
-          dateRange={dateRange}
-          selectedTable={selectedTable}
-          userFilterSelection={userFilterSelection}
-          setUserFilterSelection={setUserFilterSelection}
-          apiData={apiData}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          apiError={apiError}
-          selectedPivot={selectedPivot}
-          setSelectedPivot={setSelectedPivot}
-          serverSidePagination={serverSidePagination}
-          selectedTab={selectedTab}
-          tabChangeHandler={setSelectedTab}
-          handleIgnorePivots={setIgnorePivots}
-          allTablesSelected={allTablesSelected}
-          handleConfigUpdate={() => setConfigUpdated(true)}
-          tableColumnSortData={tableColumnSortData}
-          setTableColumnSortData={setTableColumnSortData}
-          hasPublishedReports={!!publishedReports}
-          publishedReports={publishedReports}
-          resetFilters={resetFilters}
-          setResetFilters={setResetFilters}
-          setDetailViewState={setDetailViewState}
-          detailViewState={detailViewState}
-          customFormatting={selectedTable?.customFormatting}
-          summaryValues={summaryValues}
-          setSummaryValues={setSummaryValues}
-          allActiveFilters={allActiveFilters}
-          setAllActiveFilters={setAllActiveFilters}
-        />
-      )}
-    </DatasetSectionContainer>
+
+        {dateRange && (
+          <TableSectionContainer
+            config={config}
+            dateRange={dateRange}
+            selectedTable={selectedTable}
+            userFilterSelection={userFilterSelection}
+            setUserFilterSelection={setUserFilterSelection}
+            setTableColumnSortData={setTableColumnSortData}
+            apiData={apiData}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            apiError={apiError}
+            selectedPivot={selectedPivot}
+            setSelectedPivot={setSelectedPivot}
+            serverSidePagination={serverSidePagination}
+            selectedTab={selectedTab}
+            tabChangeHandler={setSelectedTab}
+            handleIgnorePivots={setIgnorePivots}
+            allTablesSelected={allTablesSelected}
+            handleConfigUpdate={() => setConfigUpdated(true)}
+            publishedReports={publishedReports}
+            resetFilters={resetFilters}
+            setResetFilters={setResetFilters}
+            setDetailViewState={setDetailViewState}
+            detailViewState={detailViewState}
+            customFormatting={selectedTable?.customFormatting}
+            summaryValues={summaryValues}
+            setSummaryValues={setSummaryValues}
+            allActiveFilters={allActiveFilters}
+            setAllActiveFilters={setAllActiveFilters}
+            tableMeta={tableMeta}
+            userFilterUnmatchedForDateRange={userFilterUnmatchedForDateRange}
+            setUserFilterUnmatchedForDateRange={setUserFilterUnmatchedForDateRange}
+          />
+        )}
+      </DatasetSectionContainer>
+    </div>
   );
 };
 
@@ -329,4 +369,4 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 // that the [location] prop can easily be directly specified in unit test renders without any
 // use or mocking of [withWindowSize] - tlp 2021-11-17
 
-export default withWindowSize(DatasetDataComponent);
+export default DatasetDataComponent;

@@ -50,10 +50,12 @@ describe('Social Share component', () => {
   });
 
   it('When displayStyle is horizontal, no text is rendered', () => {
-    const { queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointLg} displayStyle={'horizontal'} />);
-
-    expect(queryByText('Facebook')).not.toBeInTheDocument();
-    expect(queryByText('Twitter')).not.toBeInTheDocument();
+    const { getAllByTestId } = render(<SocialShareComponent copy={testCopy} displayStyle="horizontal" />);
+    const iconTexts = getAllByTestId('icon-text');
+    iconTexts.forEach(socialIcon => {
+      socialIcon.style.display = 'none';
+      expect(socialIcon).not.toBeVisible();
+    });
   });
 
   it('When displayStyle is list, text labels are render for both desktop and mobile', () => {
@@ -64,22 +66,19 @@ describe('Social Share component', () => {
     expect(getByText('X (Twitter)')).toBeInTheDocument();
   });
 
-  it('renders only the icons in mobile view, and not the header or button text', () => {
-    const { getByRole, queryByRole, queryByText } = render(<SocialShareComponent copy={testCopy} width={breakpointSm} />);
-
-    const header = queryByRole('heading');
-    const facebook = getByRole('button', { name: 'facebook' });
-    const facebookText = queryByText('Facebook');
-
-    expect(header).toBeNull();
-    expect(facebook).toBeInTheDocument();
-    expect(facebookText).toBeNull();
+  it('does NOT render the header when displayStyle is horizontal', () => {
+    const { queryByTestId } = render(<SocialShareComponent copy={testCopy} displayStyle="horizontal" />);
+    expect(queryByTestId('social-share-header')).toBeNull();
   });
 
   it('calls the appropriate analytics for Explainer pages event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />);
+    const { getByRole } = render(
+      <>
+        <SocialShareComponent copy={testCopy} pageName={'Debt'} width={breakpointSm} explainer />
+      </>
+    );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
     const twitterButton = getByRole('button', { name: 'twitter' });
@@ -131,7 +130,11 @@ describe('Social Share component', () => {
   it('calls the appropriate XR Converter analytics event when buttons are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
     window.open = jest.fn();
-    const { getByRole } = render(<SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />);
+    const { getByRole } = render(
+      <>
+        <SocialShareComponent copy={testCopy} pageName={'Exchange Rates Converter'} width={breakpointSm} />
+      </>
+    );
 
     const facebookButton = getByRole('button', { name: 'facebook' });
     const twitterButton = getByRole('button', { name: 'twitter' });

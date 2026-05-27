@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from '@nivo/line';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../../variables.module.scss';
-import { getChartCopy, dataHeader, chartConfigs, getMarkers } from './total-revenue-chart-helper';
+import { chartConfigs, dataHeader, getChartCopy, getMarkers } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
-import { lineChart, container } from './total-revenue-chart.module.scss';
+import { container, lineChart } from './total-revenue-chart.module.scss';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
 import {
   addInnerChartAriaLabel,
@@ -23,12 +22,14 @@ import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
 import { adjustDataForInflation } from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from 'numeral';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { getShortForm } from '../../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../../utils/date-utils';
 import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
+import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
+import { loadingIcon } from './total-revenue-chart.module.scss';
+import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerTotalRevenue;
 let ga4Timer;
@@ -38,16 +39,17 @@ const callOutDataEndPoint =
 
 const chartDataEndPoint = apiPrefix + 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
 
-const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) => {
+const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [revenueChartData, setRevenueChartData] = useState([]);
+  const { width } = useWindowSize();
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [minYear, setMinYear] = useState(2015);
-  const [maxYear, setMaxYear] = useState(2022);
+  const [minYear, setMinYear] = useState('');
+  const [maxYear, setMaxYear] = useState('');
   const [callOutYear, setCallOutYear] = useState('');
   const [lastRatio, setLastRatio] = useState('');
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastRevenueValue, setLastRevenueValue] = useState('');
   const [maxRevenueValue, setMaxRevenueValue] = useState(0);
@@ -56,8 +58,19 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
+  const [revenueHoverDisabled, setRevenueHoverDisabled] = useState(true);
+  const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
+  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({
+    fiscalYear: '--',
+    totalRevenue: '',
+    gdp: '',
+    gdpRatio: '',
+  });
 
-  const [totalRevenueHeadingValues, setTotalRevenueHeadingValues] = useState({});
+  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
+  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
+
+  const { showBoundary } = useErrorBoundary();
 
   const handleMouseEnterChart = () => {
     gaTimerTotalRevenue = setTimeout(() => {
@@ -117,111 +130,133 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
-      if (res.data) {
+      if (res.data && res.data.length > 0) {
         setCallOutYear(res.data[0].record_fiscal_year);
       }
     });
   }, []);
 
   useEffect(() => {
+    if (revenueInView && revenueHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setRevenueHoverDisabled(false);
+      }, 5500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [revenueInView]);
+
+  useEffect(() => {
+    if (gdpInView && gdpHoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setGdpHoverDisabled(false);
+      }, 5500);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [gdpInView]);
+
+  useEffect(() => {
     const { finalGDPData, gdpMaxYear } = beaGDPData;
 
-    basicFetch(chartDataEndPoint).then(res => {
-      if (res.data) {
-        let finalRevenueChartData = [];
+    basicFetch(chartDataEndPoint)
+      .then(res => {
+        if (res.data && res.data.length > 0) {
+          let finalRevenueChartData = [];
 
-        res.data.forEach(revenue => {
-          if (parseInt(revenue.record_fiscal_year) <= gdpMaxYear)
-            finalRevenueChartData.push({
-              x: parseInt(revenue.record_fiscal_year),
-              actual: parseInt(revenue.current_fytd_net_rcpt_amt),
-              fiscalYear: revenue.record_fiscal_year,
-              record_date: revenue.record_date,
-            });
-        });
-
-        finalRevenueChartData = finalRevenueChartData.filter(s => s.x <= gdpMaxYear);
-
-        finalRevenueChartData = adjustDataForInflation(finalRevenueChartData, 'actual', 'fiscalYear', cpiDataByYear);
-
-        finalRevenueChartData.forEach(revenue => {
-          revenue.y = parseFloat(simplifyNumber(revenue.actual, false).slice(0, -2));
-        });
-
-        setRevenueChartData(finalRevenueChartData);
-
-        const revenueMaxYear = finalRevenueChartData.reduce((max, revenue) => (max.x > revenue.x ? max : revenue));
-        setMaxYear(revenueMaxYear.x);
-
-        const revenueMinYear = finalRevenueChartData.reduce((min, revenue) => (min.x < revenue.x ? min : revenue));
-        setMinYear(revenueMinYear.x);
-
-        const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) => (min.y > revenue.y ? min : revenue));
-
-        const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
-
-        setLastRevenueValue(revenueLastAmountActual);
-
-        setMaxRevenueValue(revenueMaxAmount.y);
-
-        const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
-        setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
-
-        const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= revenueMaxYear.x && g.fiscalYear >= revenueMinYear.x);
-
-        const finalGdpRatioChartData = [];
-        finalRevenueChartData.forEach(revenue => {
-          const revenueYear = revenue.fiscalYear;
-          const revenueAmount = revenue.y;
-          const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === revenueYear).map(g => g.y);
-          const gdpRatio = numeral(revenueAmount / matchingGDP).format('0%');
-          finalGdpRatioChartData.push({
-            x: revenueYear,
-            y: gdpRatio,
+          res.data.forEach(revenue => {
+            if (parseInt(revenue.record_fiscal_year) <= gdpMaxYear)
+              finalRevenueChartData.push({
+                x: parseInt(revenue.record_fiscal_year),
+                actual: parseInt(revenue.current_fytd_net_rcpt_amt),
+                fiscalYear: revenue.record_fiscal_year,
+                record_date: revenue.record_date,
+              });
           });
-        });
 
-        setRatioGdpChartData(finalGdpRatioChartData);
+          finalRevenueChartData = finalRevenueChartData.filter(s => s.x <= gdpMaxYear);
 
-        const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
-        const chartLastRatio = numeral(
-          finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
-        ).format('0%');
-        setLastRatio(chartLastRatio);
-        if (chartFirstRatio !== chartLastRatio) {
-          setCalloutCopy(
-            `the Revenue-to-GDP ratio has ${
-              chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
-            } from ${chartFirstRatio} to ${chartLastRatio}`
-          );
-        } else {
-          setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          finalRevenueChartData = adjustDataForInflation(finalRevenueChartData, 'actual', 'fiscalYear', cpiDataByYear);
+
+          finalRevenueChartData.forEach(revenue => {
+            revenue.y = parseFloat(simplifyNumber(revenue.actual, false).slice(0, -2));
+          });
+
+          setRevenueChartData(finalRevenueChartData);
+
+          const revenueMaxYear = finalRevenueChartData.reduce((max, revenue) => (max.x > revenue.x ? max : revenue));
+          setMaxYear(revenueMaxYear.x);
+
+          const revenueMinYear = finalRevenueChartData.reduce((min, revenue) => (min.x < revenue.x ? min : revenue));
+          setMinYear(revenueMinYear.x);
+
+          const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) => (min.y > revenue.y ? min : revenue));
+
+          const revenueLastAmountActual = finalRevenueChartData[finalRevenueChartData.length - 1].actual;
+
+          setLastRevenueValue(revenueLastAmountActual);
+
+          setMaxRevenueValue(revenueMaxAmount.y);
+
+          const lastUpdatedDateRevenue = new Date(finalRevenueChartData[finalRevenueChartData.length - 1].record_date);
+          setLastUpdatedDate(getDateWithoutTimeZoneAdjust(lastUpdatedDateRevenue));
+
+          const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= revenueMaxYear.x && g.fiscalYear >= revenueMinYear.x);
+
+          const finalGdpRatioChartData = [];
+          finalRevenueChartData.forEach(revenue => {
+            const revenueYear = revenue.fiscalYear;
+            const revenueAmount = revenue.y;
+            const matchingGDP = filteredGDPData.filter(g => g.fiscalYear === revenueYear).map(g => g.y);
+            const gdpRatio = numeral(revenueAmount / matchingGDP).format('0%');
+            finalGdpRatioChartData.push({
+              x: revenueYear,
+              y: gdpRatio,
+            });
+          });
+
+          setRatioGdpChartData(finalGdpRatioChartData);
+
+          const chartFirstRatio = numeral(finalRevenueChartData[0].y / filteredGDPData[0].y).format('0%');
+          const chartLastRatio = numeral(
+            finalRevenueChartData[finalRevenueChartData.length - 1].y / filteredGDPData[filteredGDPData.length - 1].y
+          ).format('0%');
+          setLastRatio(chartLastRatio);
+          if (chartFirstRatio !== chartLastRatio) {
+            setCalloutCopy(
+              `the Revenue-to-GDP ratio has ${
+                chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'
+              } from ${chartFirstRatio} to ${chartLastRatio}`
+            );
+          } else {
+            setCalloutCopy(`the Revenue-to-GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+          }
+
+          const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
+          const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
+          setLastGDPValue(chartLastGDPValue);
+          setGdpChartData(filteredGDPData);
+
+          setMaxGDPValue(chartMaxGDPValue);
+          setTotalRevenueHeadingValues({
+            fiscalYear: revenueMaxYear.x,
+            totalRevenue: simplifyNumber(revenueLastAmountActual, false),
+            gdp: simplifyNumber(chartLastGDPValue, false),
+            gdpRatio: chartLastRatio,
+          });
+
+          copyPageData({
+            fiscalYear: revenueMaxYear.x,
+            revenueTotal: getShortForm(revenueLastAmountActual, false),
+            revenueRatio: chartLastRatio,
+          });
         }
-
-        const chartMaxGDPValue = filteredGDPData.reduce((max, gdp) => (max.x > gdp.x ? max.y : gdp.y));
-        const chartLastGDPValue = filteredGDPData[filteredGDPData.length - 1].actual;
-        setLastGDPValue(chartLastGDPValue);
-        setGdpChartData(filteredGDPData);
-
-        setMaxGDPValue(chartMaxGDPValue);
-        setTotalRevenueHeadingValues({
-          fiscalYear: revenueMaxYear.x,
-          totalRevenue: simplifyNumber(revenueLastAmountActual, false),
-          gdp: simplifyNumber(chartLastGDPValue, false),
-          gdpRatio: chartLastRatio,
-        });
-
+      })
+      .catch(err => {
+        showBoundary(err);
+      })
+      .finally(() => {
         setIsLoading(false);
-
         applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-
-        copyPageData({
-          fiscalYear: maxYear,
-          revenueTotal: getShortForm(revenueLastAmountActual, false),
-          revenueRatio: chartLastRatio,
-        });
-      }
-    });
+      });
   }, []);
 
   useEffect(() => {
@@ -277,10 +312,6 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
     selectedChartView
   );
 
-  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps);
-
-  const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
-
   const xScale = {
     type: 'linear',
     min: minYear,
@@ -312,25 +343,21 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
 
   return (
     <>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
-      {!isLoading && chartToggleConfig && (
-        <div className={visWithCallout}>
-          <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
-              altText={chartAltText}
-            >
+      <figure className={visWithCallout}>
+        <div className={container} role="presentation" onMouseEnter={handleMouseEnterChart} onMouseLeave={handleMouseLeaveChart}>
+          <ChartContainer
+            title={chartTitle}
+            subTitle={chartSubtitle}
+            footer={chartFooter}
+            date={lastUpdatedDate}
+            header={dataHeader(chartToggleConfig, totalRevenueHeadingValues)}
+            altText={chartAltText}
+          >
+            {isLoading && <LoadingIndicator loadingClass={loadingIcon} />}
+            {!isLoading && chartToggleConfig && (
               <div className={lineChart} data-testid="totalRevenueChartParent">
                 {selectedChartView === 'totalRevenue' && (
-                  <div ref={revenueRef}>
+                  <div data-testid="revenueLineChart" ref={revenueRef} style={{ pointerEvents: revenueHoverDisabled ? 'none' : 'auto' }}>
                     <Line
                       {...commonProps}
                       layers={[
@@ -338,7 +365,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Revenue',
+                            seriesId: 'Total Revenue',
                           }),
                         props =>
                           CustomSlices({
@@ -346,7 +373,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                             groupMouseLeave: handleGroupOnMouseLeave,
                             mouseMove: handleMouseLeave,
                             inView: revenueInView,
-                            duration: 500,
+                            duration: 450,
                             customAnimationTriggeredOnce: animationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
                           }),
@@ -355,7 +382,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
                 {selectedChartView === 'percentageGdp' && (
-                  <div ref={gdpRef}>
+                  <div ref={gdpRef} style={{ pointerEvents: gdpHoverDisabled ? 'none' : 'auto' }}>
                     <Line
                       {...commonProps}
                       layers={[
@@ -363,7 +390,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                         props =>
                           LineChartCustomPoints_GDP({
                             ...props,
-                            serieId: 'Total Revenue',
+                            seriesId: 'Total Revenue',
                           }),
                         props =>
                           CustomSlices({
@@ -371,7 +398,7 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                             groupMouseLeave: handleGroupOnMouseLeave,
                             mouseMove: handleMouseLeave,
                             inView: gdpInView,
-                            duration: 500,
+                            duration: 450,
                             customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
                           }),
@@ -380,17 +407,17 @@ const TotalRevenueChart = ({ cpiDataByYear, width, beaGDPData, copyPageData }) =
                   </div>
                 )}
               </div>
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color={revenueExplainerPrimary}>
-            <p>
-              Since {callOutYear}, {calloutCopy}.
-            </p>
-          </VisualizationCallout>
+            )}
+          </ChartContainer>
         </div>
-      )}
+        <VisualizationCallout color={revenueExplainerPrimary}>
+          <p>
+            Since {callOutYear || '--'}, {calloutCopy || '--'}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
   );
 };
 
-export default withWindowSize(TotalRevenueChart);
+export default TotalRevenueChart;

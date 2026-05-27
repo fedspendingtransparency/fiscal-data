@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .container {
   margin: 2rem auto;
@@ -10,7 +10,7 @@
 
   .imageBorder {
     display: flex;
-    border-radius: .125rem;
+    border-radius: 0.125rem;
     margin-bottom: 1rem;
     width: 100%;
 
@@ -20,10 +20,8 @@
   }
 }
 
-
 @media screen and (min-width: $breakpoint-lg) {
   .container {
     width: 496px;
   }
 }
-

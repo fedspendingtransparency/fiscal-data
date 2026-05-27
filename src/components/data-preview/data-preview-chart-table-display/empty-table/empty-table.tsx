@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { emptyTable } from './empty-table.module.scss';
-import DataTableFooter from '../../../data-table/data-table-footer/data-table-footer';
+import TableFooter from '../../../table-components/table-footer/table-footer';
 
 const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
   const columnCount = mobileDisplay ? 2 : 6;
@@ -23,7 +23,7 @@ const EmptyTable: FunctionComponent = ({ rowCount = 10, mobileDisplay }) => {
           ))}
         </tbody>
       </table>
-      <DataTableFooter
+      <TableFooter
         rowsShowing={{ begin: 0, end: 0 }}
         manualPagination={true}
         pagingProps={{ maxRows: 0, itemsPerPage: rowCount, disablePerPage: true, showWhenEmpty: true, currentPage: 1, maxPage: 1 }}

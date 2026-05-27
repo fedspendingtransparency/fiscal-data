@@ -3,15 +3,16 @@ import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import { mockDebtChartResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('recharts', () => {
-  const OriginalModule = jest.requireActual('recharts');
+  const RechartsModule = jest.requireActual('recharts');
   return {
-    ...OriginalModule,
+    ...RechartsModule,
     ResponsiveContainer: ({ children }) => (
-      <OriginalModule.ResponsiveContainer width={800} height={800}>
+      <RechartsModule.ResponsiveContainer width={100} height={100}>
         {children}
-      </OriginalModule.ResponsiveContainer>
+      </RechartsModule.ResponsiveContainer>
     ),
   };
 });
@@ -23,6 +24,7 @@ describe('AFG Debt Chart', () => {
     disconnect() {}
   }
   window.ResizeObserver = ResizeObserver;
+
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, mockDebtChartResponseMap);
@@ -49,5 +51,16 @@ describe('AFG Debt Chart', () => {
     expect(await findByText('Debt')).toBeInTheDocument();
     expect(await findByText('Deficit')).toBeInTheDocument();
     expect(await findByText('= $1T')).toBeInTheDocument();
+  });
+
+  it('enables keyboard accessibility on chart', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { findAllByTestId } = render(<DebtChart />);
+    const bars = await findAllByTestId('debtBar');
+    await user.tab();
+    await user.tab();
+    expect(bars[0]).toHaveFocus();
+    await user.tab();
+    expect(bars[1]).toHaveFocus();
   });
 });

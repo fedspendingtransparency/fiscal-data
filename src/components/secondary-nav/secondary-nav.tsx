@@ -1,11 +1,8 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import * as Scroll from 'react-scroll';
 import { Link } from 'react-scroll';
-import { withWindowSize } from 'react-fns';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import TOCButton from '../table-of-contents/toc-button/toc-button';
-import { breakpointLg } from '../../variables.module.scss';
-import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { ISecondaryNav } from '../../models/ISecondaryNav';
 
 import {
@@ -17,9 +14,13 @@ import {
   sectionLink,
   headingLevel2,
   headingLevel3,
+  headingLevel4,
   comingSoon,
   comingSoonContainer,
   comingSoonLink,
+  sectionList,
+  paddingAdjust,
+  close,
 } from './secondary-nav.module.scss';
 import globalConstants from '../../helpers/constants';
 import Analytics from '../../utils/analytics/analytics';
@@ -44,7 +45,6 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
   analytics,
   analyticsCategory,
   analyticsPageLabel,
-  width,
   headerComponent,
   children,
   tocScrollOffset,
@@ -163,64 +163,68 @@ export const SecondaryNav: FunctionComponent<ISecondaryNav> = ({
     }
   }, [scrollToId]);
 
-  const shouldTocShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && tocIsOpen);
-  const shouldContentShow: boolean = width >= pxToNumber(breakpointLg) || (width < pxToNumber(breakpointLg) && !tocIsOpen);
-
   return (
     <div className={mainContainer}>
-      <div className={`${navContainer} secondaryNavContainer`}>
-        {!scrollToTop && <ScrollTarget name="table-of-contents" />}
-        {shouldTocShow && headerComponent}
-        {shouldTocShow &&
-          sections.map(s => {
-            let headingClass = '';
-            if (s.headingLevel === 2) {
-              headingClass = headingLevel2;
-            } else if (s.headingLevel === 3) {
-              headingClass = headingLevel3;
-            }
+      <aside className={`${navContainer} secondaryNavContainer`}>
+        <nav>
+          {!scrollToTop && <ScrollTarget name="table-of-contents" />}
+          <div className={`${tocIsOpen ? 'open' : close}`} data-testid={'tocContainer'}>
+            <div className={paddingAdjust}>{headerComponent}</div>
+            <ul className={sectionList}>
+              {sections.map(s => {
+                let headingClass = '';
+                if (s.headingLevel === 2) {
+                  headingClass = headingLevel2;
+                } else if (s.headingLevel === 3) {
+                  headingClass = headingLevel3;
+                } else if (s.headingLevel === 4) {
+                  headingClass = headingLevel4;
+                }
 
-            return (
-              <div key={s.index}>
-                {s.comingSoon ? (
-                  <div className={comingSoonContainer}>
-                    <i className={comingSoon}>COMING SOON!</i>
-                  </div>
-                ) : (
-                  undefined
-                )}
-                <div
-                  role="presentation"
-                  onMouseEnter={() => handleMouseEnter(s.index)}
-                  onMouseLeave={handleMouseLeave}
-                  className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
-                >
-                  <Link
-                    className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
+                return (
+                  <li key={s.index}>
+                    {s.comingSoon ? (
+                      <div className={comingSoonContainer}>
+                        <i className={comingSoon}>COMING SOON!</i>
+                      </div>
+                    ) : (
+                      undefined
+                    )}
+                    <div
+                      role="presentation"
+                      onMouseEnter={() => handleMouseEnter(s.index)}
+                      onMouseLeave={handleMouseLeave}
+                      className={`${linkContainer} ${hoveredSection === s.index ? hoverClass : ''}`}
+                    >
+                      <Link
+                        className={`${sectionLink} navSectionLink ${headingClass} ${linkClass || defaultLink}
                     ${s.comingSoon ? comingSoonLink : undefined}`}
-                    title={s.title}
-                    activeClass={activeClass}
-                    tabIndex={0}
-                    to={s.id}
-                    smooth
-                    spy
-                    duration={scrollDuration}
-                    delay={scrollDelay}
-                    onClick={() => handleInteraction(null, s.id, s.title)}
-                    onKeyUp={e => handleInteraction(e, s.id, s.title)}
-                    offset={globalNavOffset - 4}
-                  >
-                    {s.title}
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-      </div>
-      <div className={`${navigableContent} ${shouldContentShow ? '' : 'hidden'}`}>{children}</div>
+                        title={s.title}
+                        activeClass={activeClass}
+                        tabIndex={0}
+                        to={s.id}
+                        smooth
+                        spy
+                        duration={scrollDuration}
+                        delay={scrollDelay}
+                        onClick={() => handleInteraction(null, s.id, s.title)}
+                        onKeyUp={e => handleInteraction(e, s.id, s.title)}
+                        offset={globalNavOffset - 4}
+                      >
+                        {s.title}
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <div className={`${navigableContent} ${tocIsOpen ? 'hidden' : ''}`}>{children}</div>
       <TOCButton handleToggle={handleInteraction} state={tocIsOpen} />
     </div>
   );
 };
 
-export default withWindowSize(SecondaryNav);
+export default SecondaryNav;

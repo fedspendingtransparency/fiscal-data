@@ -3,13 +3,12 @@ import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-
 import DropdownLabelButton from '../../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../../dropdown-container/dropdown-container';
 import {
-  tableName,
-  sectionContainer,
-  radioButton,
-  pivotSectionContainer,
-  buttonLabel,
   buttonContainer,
+  buttonLabel,
   disabled,
+  pivotSectionContainer,
+  radioButton,
+  sectionContainer,
 } from './data-preview-pivot-select.module.scss';
 import { IPivotSelect } from '../../../models/data-preview/IPivotSelect';
 import { IPivotOption } from '../../../models/data-preview/IPivotOption';
@@ -22,6 +21,8 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
   setPivotToApply,
   tableViewSelection,
   setTableViewSelection,
+  pivotsUpdated,
+  containerWidth,
 }) => {
   const [pivotViewDropdownActive, setPivotViewDropdownActive] = useState(false);
   const [pivotValueDropdownActive, setPivotValueDropdownActive] = useState(false);
@@ -41,6 +42,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
         disabled={tableViewSelection === 'rawData'}
         ariaLabel="Select Pivot View"
         name="pivotView"
+        dropdownWidth={containerWidth}
       />
     </div>
   );
@@ -57,6 +59,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
         disabled={tableViewSelection === 'rawData'}
         ariaLabel="Select Pivot Value"
         name="pivotValue"
+        dropdownWidth={containerWidth}
       />
     </div>
   );
@@ -125,11 +128,10 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
       }
       setPivotValueOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-  }, [table]);
+  }, [table, pivotsUpdated]);
 
   return (
     <div className={sectionContainer}>
-      <div className={tableName}>{table?.tableName}</div>
       <label className={radioButton}>
         <input type="radio" name="table-data" checked={tableViewSelection === 'rawData'} onChange={() => updateTableViewSelection('rawData')} />
         Raw Data
@@ -146,7 +148,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
             Pivot Data
           </label>
           <div className={pivotSectionContainer}>
-            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive}>
+            <DropdownContainer dropdownButton={pivotViewButton} setActive={setPivotViewDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 selectedOption={pivotToApply?.pivotView}
                 setDropdownActive={setPivotViewDropdownActive}
@@ -157,7 +159,7 @@ const DataPreviewPivotSelect: FunctionComponent<IPivotSelect> = ({
                 updateSelection={pivotViewChangeHandler}
               />
             </DropdownContainer>
-            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive}>
+            <DropdownContainer dropdownButton={pivotValueButton} setActive={setPivotValueDropdownActive} containerWidth={containerWidth}>
               <ComboSelectDropdown
                 options={pivotValueOptions}
                 optionLabelKey="prettyName"

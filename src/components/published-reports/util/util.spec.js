@@ -1,6 +1,5 @@
-import React from 'react';
-import { getYearReportOptions, getMonthOptions, getDayOptions } from './util';
-import { reports, dailyReports } from '../test-helper';
+import { getDayOptions, getMonthOptions, getYearReportOptions, getFileDisplay } from './util';
+import { dailyReports, reports } from '../test-helper';
 
 describe('The util', () => {
   it('returns a list of year options', () => {
@@ -29,5 +28,18 @@ describe('The util', () => {
     expect(dayOptions[2].label).toBe(13);
     expect(dayOptions[3].label).toBe(12);
     expect(dayOptions[4].label).toBe(11);
+  });
+
+  it('replaces (.xlsx) with .xlsx when file type is xlsx', () => {
+    const curReportFile = {
+      report_group_desc: 'My-Report (.xlsx)',
+      path: 'file.xlsx'
+    };
+
+    const result = getFileDisplay(curReportFile)
+
+    expect(result.fullName).toBe('My-Report.xlsx');
+    expect(result.fileType).toBe('.xlsx');
+    expect(result.displayName).toBeTruthy();
   });
 });

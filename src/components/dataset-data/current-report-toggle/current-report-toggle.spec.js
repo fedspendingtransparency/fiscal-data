@@ -68,7 +68,7 @@ describe('CurrentReportToggle component', () => {
     fireEvent.click(allRadioButtons[1]);
     fireEvent.click(allRadioButtons[0]);
 
-    expect(toggleFn).toBeCalledTimes(2); // includes call made at initialization
+    expect(toggleFn).toHaveBeenCalledTimes(2); // includes call made at initialization
     expect(toggleFn).toHaveBeenNthCalledWith(1, false);
     expect(toggleFn).toHaveBeenNthCalledWith(2, mockReportGroup[0]);
   });

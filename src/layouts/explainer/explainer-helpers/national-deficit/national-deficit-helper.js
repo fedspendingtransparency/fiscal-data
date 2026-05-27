@@ -23,13 +23,13 @@ export const deficitLearnMoreLinks = [
   },
   {
     title: 'Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19',
-    url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
+    url: 'https://www.congress.gov/crs-product/R46729',
     onClick: () => diveDeeperCitationClick('Federal Deficits, Growing Debt, and the Economy in the Wake of COVID 19'),
   },
   {
     title: 'FY 2024 Final Monthly Treasury Statement',
     url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202409.pdf',
-    onClick: () => diveDeeperCitationClick('FY 2022 Final Monthly Treasury Statement'),
+    onClick: () => diveDeeperCitationClick('FY 2024 Final Monthly Treasury Statement'),
     id: 'Monthly Treasury Statement',
   },
 ];

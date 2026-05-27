@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Bar } from '@nivo/bar';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import {
-  fontBodyCopy,
-  fontSize_16,
-  fontSize_12,
-  debtExplainerPrimary,
-  debtExplainerLightSecondary,
-  breakpointLg,
-} from '../../../../../../variables.module.scss';
-import { barChartContainer, title } from './intragovernmental-holdings-chart.module.scss';
+import { fontBodyCopy, fontSize_16, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../../variables.module.scss';
+import { barChartContainer, title, loadingIcon, container } from './intragovernmental-holdings-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import CustomBar from './custom-bar/customBar';
 import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+
 const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
@@ -32,7 +24,7 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     if (data && data.length >= 2) {
       const holdings = Math.max(data[0]['Intragovernmental Holdings'], data[1]['Intragovernmental Holdings']);
       const debt = Math.max(data[0]['Debt Held by the Public'], data[1]['Debt Held by the Public']);
-      const totalDuration = 6000;
+      const totalDuration = 2000;
       const debt_duration = (debt / (debt + holdings)) * totalDuration;
       const holdings_duration = (holdings / (debt + holdings)) * totalDuration;
       if (!debtMarkerDelay) {
@@ -65,11 +57,23 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
         fontSize: fontSize_16,
       },
     },
+    axis: {
+      ticks: {
+        text: {
+          fontSize: fontSize_14,
+        },
+      },
+    },
   };
 
   const layers = ['bars', 'grid', 'legends', 'annotations', 'axes'];
 
-  const calcPercentIncrease = (key, rows) => Math.round(((rows[1][key] - rows[0][key]) / rows[0][key]) * 100).toFixed();
+  const calcPercentIncrease = (key, rows) => {
+    const row0 = rows?.[0]?.[key];
+    const row1 = rows?.[1]?.[key];
+    if (!row0 || !row1) return '--';
+    return Math.round(((row1 - row0) / row0) * 100).toFixed();
+  };
 
   // generate rectangular color swatches in footer legend
   const CustomSymbolShape = ({ x, y, size, fill, borderWidth, borderColor }) => {
@@ -89,28 +93,25 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
 
   return (
     <>
-      <div className={visWithCallout}>
-        {!data && (
-          <div>
-            <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-          </div>
-        )}
-        {data && (
-          <>
-            <ChartContainer
-              title={
-                <div className={title}>
-                  Intragovernmental Holdings and Debt Held by the Public, CY {data[0].record_calendar_year} and CY {data[1].record_calendar_year}
-                </div>
-              }
-              altText={
-                'Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; comparing the ' +
-                'latest complete calendar year values to 10 years prior.'
-              }
-              footer={chartFooter}
-              date={date}
-              customFooterStyles={width < pxToNumber(breakpointLg) ? { fontSize: fontSize_12, marginTop: '15px' } : null}
-            >
+      <figure className={visWithCallout}>
+        <div className={container}>
+          <ChartContainer
+            title={
+              <div className={title}>
+                Intragovernmental Holdings and Debt Held by the Public, CY {data?.[0]?.record_calendar_year ?? '--'} and CY{' '}
+                {data?.[1]?.record_calendar_year ?? '--'}
+              </div>
+            }
+            altText={
+              'Bar chart showing Intergovernmental Holdings and Debt Held by the Public values; comparing the ' +
+              'latest complete calendar year values to 10 years prior.'
+            }
+            footer={chartFooter}
+            date={date}
+          >
+            {!data ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
               <div data-testid="breakdownChart" className={barChartContainer}>
                 <Bar
                   barComponent={CustomBar}
@@ -169,21 +170,21 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
                   theme={fiveTheme}
                 />
               </div>
-            </ChartContainer>
-            <VisualizationCallout color={debtExplainerPrimary}>
-              <p>There are two major categories for federal debt: debt held by the public and intragovernmental holdings.</p>
+            )}
+          </ChartContainer>
+        </div>
+        <VisualizationCallout color={debtExplainerPrimary}>
+          <p>There are two major categories for federal debt: debt held by the public and intragovernmental holdings.</p>
 
-              <p>
-                The debt held by the public has increased by{' '}
-                <span data-testid="public-debt-increase">{calcPercentIncrease('Debt Held by the Public', data)}%</span> since{' '}
-                {data[0].record_calendar_year}. Intragovernmental holdings increased by{' '}
-                <span data-testid="govt-debt-increase">{calcPercentIncrease('Intragovernmental Holdings', data)}%</span> since{' '}
-                {data[0].record_calendar_year}.
-              </p>
-            </VisualizationCallout>
-          </>
-        )}
-      </div>
+          <p>
+            The debt held by the public has increased by{' '}
+            <span data-testid="public-debt-increase">{calcPercentIncrease('Debt Held by the Public', data)}%</span> since{' '}
+            {data?.[0].record_calendar_year || '--'}. Intragovernmental holdings increased by{' '}
+            <span data-testid="govt-debt-increase">{calcPercentIncrease('Intragovernmental Holdings', data)}%</span> since{' '}
+            {data?.[0].record_calendar_year || '--'}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
   );
 };

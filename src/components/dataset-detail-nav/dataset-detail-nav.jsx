@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { container, menu, activeMenu, desktopLinks, content, hoverMenu } from './dataset-detail-nav.module.scss';
+import React, { useEffect, useRef, useState } from 'react';
+import { activeMenu, container, content, desktopLinks, hoverMenu, menu } from './dataset-detail-nav.module.scss';
 import { Link, scroller } from 'react-scroll';
 import { updateAddressPath } from '../../helpers/address-bar/address-bar';
 import globalConstants from '../../helpers/constants';
@@ -21,7 +21,7 @@ const scrollOptionsOffset = {
   offset: scrollOffset,
 };
 
-const DDNav = ({ hasPublishedReports }) => {
+const DDNav = ({ hasPublishedReports, hideRawDataTable }) => {
   const [hover, setHover] = useState(null);
   const [scrollToId, setScrollToId] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
@@ -41,19 +41,27 @@ const DDNav = ({ hasPublishedReports }) => {
           },
         ]
       : []),
+    ...(hideRawDataTable
+      ? []
+      : [
+          {
+            title: 'Data Preview',
+            id: 'data-table',
+          },
+        ]),
 
-    {
-      title: 'Data Preview',
-      id: 'data-table',
-    },
     {
       title: 'Dataset Properties',
       id: 'dataset-properties',
     },
-    {
-      title: 'API Quick Guide',
-      id: 'api-quick-guide',
-    },
+    ...(hideRawDataTable
+      ? []
+      : [
+          {
+            title: 'API Quick Guide',
+            id: 'api-quick-guide',
+          },
+        ]),
   ];
 
   const handleInteraction = (e, id) => {

@@ -1,6 +1,10 @@
 import React from 'react';
-import { Tabs, Tab } from '@material-ui/core';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { ThemeProvider } from '@mui/material/styles';
+
 import Analytics from '../../../../utils/analytics/analytics';
+import { dsTheme } from '../../../../theme';
 
 export const a11yProps = index => ({
   id: `filter-tab-${index}`,
@@ -33,11 +37,13 @@ const DateFilterTabs = ({ selectedTab, setSelectedTab, onGroupReset, startDateCo
 
   return (
     <>
-      <Tabs value={selectedTab} onChange={handleSelectTab} indicatorColor="primary" className="dateFilterTabs" data-testid={'date-filter-tabs'}>
-        <Tab label="Start Date" {...a11yProps(0)} />
-        <Tab label="Time Range" {...a11yProps(1)} />
-      </Tabs>
-      {selectedTab === 1 ? timeRangeComponent : startDateComponent}
+      <ThemeProvider theme={dsTheme}>
+        <Tabs value={selectedTab} onChange={handleSelectTab} indicatorColor="primary" className="dateFilterTabs" data-testid={'date-filter-tabs'}>
+          <Tab label="Start Date" {...a11yProps(0)} />
+          <Tab label="Time Range" {...a11yProps(1)} />
+        </Tabs>
+        {selectedTab === 1 ? timeRangeComponent : startDateComponent}
+      </ThemeProvider>
     </>
   );
 };

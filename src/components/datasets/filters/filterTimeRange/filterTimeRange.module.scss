@@ -1,4 +1,5 @@
-@import '../../../../variables.module.scss';
+@use 'src/variables.module' as *;
+@use "sass:color";
 
 .time_range_filter {
   box-sizing: border-box;
@@ -21,6 +22,14 @@
 
     .time_range_filter_datePicker {
       margin: 0 1rem;
+      div > div > div {
+        span {
+          font-family: 'Source Sans Pro', sans-serif !important;
+          span {
+            font-family: 'Source Sans Pro', sans-serif !important;
+          }
+        }
+      }
     }
 
     .time_range_filter_label_text {
@@ -46,7 +55,7 @@
       position: relative;
 
       &:hover {
-        color: darken($font-body-copy, 40%);
+        color: color.adjust($font-body-copy, $lightness: -40%);
       }
     }
 

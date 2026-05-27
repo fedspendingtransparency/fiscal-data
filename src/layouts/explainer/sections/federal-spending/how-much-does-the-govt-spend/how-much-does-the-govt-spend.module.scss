@@ -1,8 +1,18 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
+
+.container {
+  margin-bottom: 2rem;
+
+  & :global(.chartContainerChart) {
+    flex-direction: column;
+    margin-left: 0;
+    max-width: 100%;
+    min-height: 45.8rem;
+  }
+}
 
 .footerStyle {
-  margin-top: 32px;
-  margin-bottom: 16px;
+  margin-top: 1rem;
 }
 
 .headerContainer {
@@ -12,13 +22,13 @@
 }
 
 .headerStyle {
-  color: #555555;
+  color: $font-title;
   font-size: 18px;
   font-weight: 600;
 }
 
 .subHeader {
-  color: #666666;
+  color: $font-body-copy;
   font-size: 16px;
   margin-bottom: 16px;
   margin-right: 22px;
@@ -32,7 +42,7 @@
 .chartsContainer {
   display: flex;
   margin-bottom: 16px;
-  margin-left: 7%;
+  margin-left: 1.5rem;
   align-items: center;
 }
 .barContainer {
@@ -58,7 +68,7 @@
 }
 
 .percentOrDollarContainer {
-  color: #666666;
+  color: $font-body-copy;
   font-weight: 600;
   min-width: 50px;
   font-size: 14px;
@@ -97,8 +107,5 @@
 }
 
 .loadingIcon {
-  max-width: $site-content-width;
-  margin: 2rem auto;
-  text-align: center;
-  font-size: $font-size-48;
+  @include grayLargeLoadingIcon;
 }

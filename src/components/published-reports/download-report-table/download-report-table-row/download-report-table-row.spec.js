@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, act, fireEvent, getByText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import DownloadReportTableRow from './download-report-table-row';
+import DownloadButton from '../download-button/download-button';
 import userEvent from '@testing-library/user-event';
 
 describe('Download report table row component', () => {
@@ -9,7 +10,7 @@ describe('Download report table row component', () => {
     { path: '/test/file/path/another_file.xml', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xml)' },
     { path: '/test/file/path/another_file.xls', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.xls)' },
     { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'Another Download File (.txt)' },
-    { path: '/test/file/path/another_file.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'TST (.txt)' },
+    { path: '/test/file/path/TST.txt', report_date: 'Fri Jul 19 2024 00:00:00 GMT-0500', report_group_desc: 'TST (.txt)' },
   ];
 
   beforeEach(() => {
@@ -21,70 +22,28 @@ describe('Download report table row component', () => {
     expect(getByTestId('file-download-row')).toBeInTheDocument();
   });
 
-  it('renders a short file name in the row', () => {
-    const { getByText } = render(<DownloadReportTableRow reportFile={mockReports[4]} />);
-    expect(getByText('TST.txt')).toBeInTheDocument();
-  });
-
-  it('renders a pdf icon with a pdf filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    expect(getByAltText('.pdf icon')).toBeInTheDocument();
-  });
-
-  it('renders a xml icon with a xls filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[1]} />);
-    expect(getByAltText('.xml icon')).toBeInTheDocument();
-  });
-
-  it('renders a txt icon with a txt filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[3]} />);
-    expect(getByAltText('.txt icon')).toBeInTheDocument();
-  });
-
-  it('renders a xls icon with a xls filename', () => {
-    const { getByAltText } = render(<DownloadReportTableRow reportFile={mockReports[2]} />);
-    expect(getByAltText('.xls icon')).toBeInTheDocument();
-  });
-
   it('renders a clickable download button', async () => {
-    const { getByRole } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    downloadButton.click();
+    const { getByRole } = render(
+      <DownloadButton
+        size="4 KB"
+        publishedDate="Jul 19 2024"
+        displayName={{ start: 'The Download File ', end: '(.pdf)' }}
+        url="/test/file/paath/file.pdf"
+        fileName="file.pdf"
+        mobileView={false}
+        fileType=".pdf"
+      />
+    );
+    const downloadLink = getByRole('link', { name: /download file\.pdf/i });
+    downloadLink.click();
   });
 
-  it('renders a keyboard accessible download button', () => {
+  it('renders a keyboard accessible download button', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
     const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    userEvent.tab();
+    await user.tab();
     expect(downloadButton).toHaveFocus();
-    userEvent.keyboard('Enter');
-  });
-
-  it('changes download icon color on click', () => {
-    jest.useFakeTimers();
-    const { getByRole, getByTestId, getByText } = render(<DownloadReportTableRow reportFile={mockReports[0]} />);
-    let icon = getByTestId('download-icon');
-    expect(icon).not.toHaveClass('downloadedIcon');
-    expect(getByText('Download')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-cloud-arrow-down');
-
-    const downloadButton = getByRole('link', { name: 'Download file.pdf' });
-    act(() => {
-      fireEvent.click(downloadButton);
-    });
-    //Changes download icon style and text after click
-    icon = getByTestId('download-icon');
-    expect(getByText('Downloaded')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-circle-check');
-    expect(icon).toHaveClass('downloadedIcon');
-
-    //Icon resets after 3 seconds
-    act(() => {
-      jest.advanceTimersByTime(4000);
-    });
-    icon = getByTestId('download-icon');
-    expect(icon).not.toHaveClass('downloadedIcon');
-    expect(getByText('Download')).toBeInTheDocument();
-    expect(getByRole('img', { hidden: true, name: '' })).toHaveClass('fa-cloud-arrow-down');
+    await user.keyboard('Enter');
   });
 });

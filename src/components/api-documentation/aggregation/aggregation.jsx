@@ -7,7 +7,7 @@ const Aggregation = () => {
   const baseApiUrl = GLOBALS.PROD_API_BASE_URL;
 
   return (
-    <SectionContent title="Aggregation & Sums" id="aggregation-sums" headingLevel={2}>
+    <SectionContent title="Aggregation and Sums" id="aggregation-sums" headingLevel={2}>
       <p>
         In some cases, using a field list that excludes some of an endpoint’s available fields will trigger automatic aggregation of non-unique rows
         and summing of their numeric values, etc. You should use this when searching for the sum total of a specific field.

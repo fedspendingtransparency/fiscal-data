@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { content, logo, graphic, error, errorGraphic, text, textContent, header } from './downloads.module.scss';
+import { content, error, errorGraphic, graphic, header, logo, text, textContent } from './downloads.module.scss';
 import { Link } from 'gatsby';
 import LocationAware from '../../components/location-aware/location-aware';
 import downloadService from '../../helpers/download-service/download-service';
@@ -77,12 +77,6 @@ export const DownloadsPage = ({ location }) => {
 
   return (
     <div>
-      <PageHelmet
-        data-testid="helmet"
-        pageTitle="Downloads"
-        description="Check the status of a download request and download that data."
-        keywords=""
-      />
       <div className={content}>
         <Link
           role="img"
@@ -126,3 +120,7 @@ export const DownloadsPage = ({ location }) => {
 const Downloads = LocationAware(DownloadsPage);
 
 export default Downloads;
+
+export const Head = () => (
+  <PageHelmet pageTitle="Downloads" description="Check the status of a download request and download that data." keywords="" />
+);

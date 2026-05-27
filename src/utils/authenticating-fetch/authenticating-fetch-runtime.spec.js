@@ -18,12 +18,12 @@ describe('Authenticating fetch in running with access to global Headers (as when
   it('sets the Authorization header property of a Headers obj to be the correct authorization header when only a url is provided', () => {
     const myFetch = authenticatingFetch('HereIsMyKey', fetchSpy);
     myFetch('https://www.test.url/');
-    expect(mockSetter).toBeCalledWith('Authorization', 'Basic HereIsMyKey');
+    expect(mockSetter).toHaveBeenCalledWith('Authorization', 'Basic HereIsMyKey');
   });
 
   it('sets the Authorization header property of a Headers obj to be the correct authorization header when an options param is included', () => {
     const myFetch = authenticatingFetch('ThereGoesMyKey', fetchSpy);
     myFetch('https://www.test.url/', { method: 'GET', headers: new MockHeaders() });
-    expect(mockSetter).toBeCalledWith('Authorization', 'Basic ThereGoesMyKey');
+    expect(mockSetter).toHaveBeenCalledWith('Authorization', 'Basic ThereGoesMyKey');
   });
 });

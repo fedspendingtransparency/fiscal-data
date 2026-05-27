@@ -5,12 +5,10 @@ import React from 'react';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
 import DeficitMobile from '../../../../../../static/images/deficit-vs-debt_mobile.svg';
 import DeficitDesktop from '../../../../../../static/images/deficit-vs-debt_desktop.svg';
-import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 
-export const DebtDeficitDifference = ({ width }) => {
+export const DebtDeficitDifference = () => {
   const nationalDebtLink = (
     <CustomLink url="/americas-finance-guide/national-debt/" id="National Debt">
       National Debt Explainer
@@ -46,15 +44,18 @@ export const DebtDeficitDifference = ({ width }) => {
           debt. This interest expense increases spending each year, increasing spending (and thus, deficits) as the debt grows.
         </p>
         <div className={deficitDebtDifferenceVisContainer}>
-          <img
-            src={width < pxToNumber(breakpointLg) ? DeficitMobile : DeficitDesktop}
-            alt={
-              'A visualization depicting deficit vs. debt that adds ' +
-              'previous years deficits to the current year’s deficit equaling the total debt.'
-            }
-            data-testid="deficitDifferenceChart"
-            className={deficitDebtdifferenceImg}
-          />
+          <picture>
+            <source media={`(min-width: ${breakpointLg})`} srcSet={DeficitDesktop} />
+            <img
+              src={DeficitMobile}
+              alt={
+                'A visualization depicting deficit vs. debt that adds ' +
+                'previous years deficits to the current year’s deficit equaling the total debt.'
+              }
+              data-testid="deficitDifferenceChart"
+              className={deficitDebtdifferenceImg}
+            />
+          </picture>
         </div>
         <div className={deficitAccordion}>
           <Accordion
@@ -76,4 +77,4 @@ export const DebtDeficitDifference = ({ width }) => {
   );
 };
 
-export default withWindowSize(DebtDeficitDifference);
+export default DebtDeficitDifference;

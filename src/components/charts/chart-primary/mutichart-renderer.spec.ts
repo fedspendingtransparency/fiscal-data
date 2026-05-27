@@ -32,4 +32,93 @@ describe('MultichartRenderer class', () => {
       ['2012-12-31'],
     ]);
   });
+
+  it('resets hover state on mouseOut after timeout', () => {
+    jest.useFakeTimers();
+
+    const mockElem: HTMLElement = document.createElement('div');
+    const multichart = new MultichartRenderer(mockChartConfigs, mockElem, 'mockMulti');
+
+    multichart.hoverFunction = jest.fn();
+    multichart.placeMarker = jest.fn();
+    multichart.connectMarkers = jest.fn();
+
+    multichart.mouseout();
+
+    expect(multichart.hoverFunction).not.toHaveBeenCalled();
+    expect(multichart.placeMarker).not.toHaveBeenCalled();
+    expect(multichart.connectMarkers).not.toHaveBeenCalled();
+
+    jest.advanceTimersByTime(500);
+
+    expect(multichart.hoverFunction).toHaveBeenCalledWith(null);
+    expect(multichart.placeMarker).toHaveBeenCalledWith(expect.any(Object), 0);
+    expect(multichart.connectMarkers).toHaveBeenCalledWith(0);
+  });
+
+  it('adds hover effect overlay', () => {
+    const mockElem: HTMLElement = document.createElement('div');
+    mockElem.id = 'mockMulti'
+    document.body.appendChild(mockElem);
+
+    const multichart = new MultichartRenderer(mockChartConfigs, mockElem, 'mockMulti');
+    const hoverCallback = jest.fn();
+
+    const removeHoverEffectSpy = jest.spyOn(multichart, 'removeHoverEffects');
+
+    multichart.addHoverEffects(hoverCallback)
+
+    expect(multichart.hoverFunction).toBe(hoverCallback);
+    expect(removeHoverEffectSpy).toHaveBeenCalled();
+
+    const hoverOverlay = mockElem.querySelector('#mockMulti-line-chart-hover-effects');
+
+    expect(hoverOverlay).toBeInTheDocument();
+    expect(hoverOverlay).toHaveAttribute(
+      'data-testid',
+      'mockMulti-line-chart-hover-effects'
+    );
+  });
+
+  it('calls mouseout in focus when selected dat is missing in the configured field value', () => {
+    const mockElem: HTMLElement = document.createElement('div');
+    const multichart = new MultichartRenderer(mockChartConfigs, mockElem, 'mockMulti');
+
+    const mouseoutSpy = jest.spyOn(multichart, 'mouseout').mockImplementation(jest.fn());
+    multichart.focusFunction = jest.fn();
+    multichart.placeMarker = jest.fn();
+    multichart.connectMarkers = jest.fn();
+
+    multichart.chartConfigs = [
+      {
+        ...mockChartConfigs[0],
+        data: [
+          {
+            ...mockChartConfigs[0].data[0],
+            [mockChartConfigs[0].fields[0]]: null,
+          },
+        ],
+      },
+    ];
+
+    multichart.focus(0);
+
+    expect(mouseoutSpy).toHaveBeenCalled();
+  });
+
+  it('calls connectMarkers and hoverfunction', () => {
+    const mockElem: HTMLElement = document.createElement('div');
+    const multichart = new MultichartRenderer(mockChartConfigs, mockElem, 'mockMulti');
+
+    multichart.placeMarker = jest.fn();
+    multichart.connectMarkers = jest.fn();
+    multichart.hoverFunction = jest.fn();
+
+    multichart.chartDimensions.width = 100;
+    multichart.chartDimensions.yAxisWidth = 0;
+
+    multichart.mousemove({ clientX: 10 });
+
+    expect(multichart.connectMarkers).toHaveBeenCalled();
+  });
 });

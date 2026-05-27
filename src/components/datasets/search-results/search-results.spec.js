@@ -1,9 +1,14 @@
 import React from 'react';
-import { render, fireEvent, within } from '@testing-library/react';
-import SearchResults, { getApiCount, resultsHeaderText, noResultsText } from './search-results';
+import { fireEvent, render, within } from '@testing-library/react';
+import SearchResults, { getApiCount, noResultsText, resultsHeaderText } from './search-results';
 import { getSearchResultText } from '../search-result-count/search-result-count';
-import { SortOptions, FilteredSortOptions } from './search-results-helper';
+import { FilteredSortOptions, SortOptions } from './search-results-helper';
 import { sortSelectionContainer } from './search-results.module.scss';
+
+jest.mock('usehooks-ts', () => ({
+  ...jest.requireActual('usehooks-ts'),
+  useMediaQuery: () => false,
+}));
 
 const mockAllDatasets = [
   { name: 'Dataset A', techSpecs: { lastUpdated: 1 / 1 / 2000 } },
@@ -110,13 +115,13 @@ describe('Search Results', () => {
 
     expect(getByTestId('selectorList')).toBeInTheDocument();
 
-    expect(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]).toBeInTheDocument();
+    expect(within(getByTestId('selectorList')).getAllByTestId('selector-option')[2]).toBeInTheDocument();
 
-    fireEvent.click(within(getByTestId('selectorList')).getAllByTestId('selector-option')[1]);
+    fireEvent.click(within(getByTestId('selectorList')).getAllByTestId('selector-option')[2]);
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Sort Click',
-      eventLabel: 'Alphabetical (A to Z)',
+      eventLabel: 'Recently Updated',
     });
   });
 });

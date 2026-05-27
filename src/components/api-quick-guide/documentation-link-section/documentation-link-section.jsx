@@ -1,43 +1,33 @@
 import React from 'react';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import {
+  button,
+  container,
+  footer,
+  footerList,
+  footerTitle,
   header,
   headerLeft,
   headerText,
   infoIcon as infoIconStyle,
-  button,
-  footer,
-  footerTitle,
-  footerList,
-  container,
 } from './documentation-link-section.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'gatsby';
 
-const useStyles = makeStyles(theme => ({
-  iconColor: {
-    '& path': {
-      fill: '#00a5d4',
-    },
-  },
-}));
-
 const DocumentationLinkSection = ({ type: typeProp }) => {
-  const classes = useStyles();
-  const infoIcon = <FontAwesomeIcon icon={faInfoCircle} className={`${infoIconStyle} ${classes.iconColor}`} alt="info icon" />;
+  const infoIcon = <FontAwesomeIcon icon={faInfoCircle} className={infoIconStyle} alt="info icon" />;
 
   const renderContent = () => {
     let html = <></>;
     const type = typeProp ? typeProp.toUpperCase() : 'HEADER';
     if (type === 'HEADER') {
       html = (
-        <div className={header} data-testid={'header'}>
+        <div className={header} data-testid="header">
           <div className={headerLeft}>
             {infoIcon}
             <div className={headerText}>Check out our more detailed API Documentation.</div>
           </div>
-          <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
+          <Link to="/api-documentation/" className={button} data-testid="button-link">
             API Documentation
           </Link>
         </div>
@@ -59,7 +49,7 @@ const DocumentationLinkSection = ({ type: typeProp }) => {
                 <li>Meta object</li>
                 <li>...and more!</li>
               </ul>
-              <Link to="/api-documentation/" className={button} data-testid={'button-link'}>
+              <Link to="/api-documentation/" className={button} data-testid="button-link">
                 API Documentation
               </Link>
             </div>

@@ -1,14 +1,11 @@
 import { Bar } from '@nivo/bar';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import React, { useEffect, useState } from 'react';
-import { barChart, container, headerTitle, subHeader } from './deficit-trends-bar-chart.module.scss';
+import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_16, fontTitle } from '../../../../../../variables.module.scss';
-import { withWindowSize } from 'react-fns';
+import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
@@ -17,15 +14,18 @@ import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../
 import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useErrorBoundary } from 'react-error-boundary';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerChart;
 let ga4Timer;
 
-export const DeficitTrendsBarChart = ({ width }) => {
+export const DeficitTrendsBarChart = () => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
-
+  const { width } = useWindowSize();
   const desktop = width >= pxToNumber(breakpointLg);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [tickValuesX, setTickValuesX] = useState([]);
   const [tickValuesY, setTickValuesY] = useState([]);
@@ -33,9 +33,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
   const [mostRecentDeficit, setMostRecentDeficit] = useState('');
   const [maxValue, setMaxValue] = useState('');
   const [minValue, setMinValue] = useState('');
-  const [headerYear, setHeaderYear] = useState('');
-  const [headerDeficit, setHeaderDeficit] = useState('');
+  const [headerYear, setHeaderYear] = useState('--');
+  const [headerDeficit, setHeaderDeficit] = useState('--');
   const [lastBar, setLastBar] = useState();
+
+  const { showBoundary } = useErrorBoundary();
 
   const formatCurrency = v => {
     if (parseFloat(v) < 0) {
@@ -49,11 +51,18 @@ export const DeficitTrendsBarChart = ({ width }) => {
     parent: 'deficitTrendsChartParent',
     width: 495,
     height: 388,
-    fontSize: desktop ? fontSize_16 : fontSize_12,
+    fontSize: desktop ? fontSize_14 : fontSize_12,
     theme: {
-      fontSize: fontSize_16,
+      fontSize: fontSize_14,
       fontFamily: 'Source Sans Pro',
       textColor: fontBodyCopy,
+      axis: {
+        ticks: {
+          text: {
+            fontSize: desktop ? fontSize_14 : fontSize_12,
+          },
+        },
+      },
     },
     axisBottom: {
       tickSize: 0,
@@ -86,30 +95,34 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   const getChartData = () => {
     const apiData = [];
-    basicFetch(`${apiPrefix}${endpointUrl}`).then(result => {
-      let deficitSum = 0;
-      result.data.forEach(entry => {
-        const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
-        deficitSum += deficitValue;
-        apiData.push({
-          year: entry.record_fiscal_year,
-          deficit: deficitValue.toFixed(2),
-          deficitColor: deficitExplainerPrimary,
+    basicFetch(`${apiPrefix}${endpointUrl}`)
+      .then(result => {
+        let deficitSum = 0;
+        result.data.forEach(entry => {
+          const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
+          deficitSum += deficitValue;
+          apiData.push({
+            year: entry.record_fiscal_year,
+            deficit: deficitValue.toFixed(2),
+            deficitColor: deficitExplainerPrimary,
+          });
         });
+        preAPIData.forEach(entry => {
+          deficitSum += Math.abs(entry.deficit);
+        });
+        setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
+        const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
+        const latestYear = newData[newData.length - 1].year;
+        const latestDeficit = newData[newData.length - 1].deficit;
+        setMostRecentFiscalYear(latestYear);
+        setHeaderYear(latestYear);
+        setMostRecentDeficit(latestDeficit);
+        setHeaderDeficit(latestDeficit);
+        setChartData(newData);
+      })
+      .catch(err => {
+        showBoundary(err);
       });
-      preAPIData.forEach(entry => {
-        deficitSum += Math.abs(entry.deficit);
-      });
-      setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
-      const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
-      const latestYear = newData[newData.length - 1].year;
-      const latestDeficit = newData[newData.length - 1].deficit;
-      setMostRecentFiscalYear(latestYear);
-      setHeaderYear(latestYear);
-      setMostRecentDeficit(latestDeficit);
-      setHeaderDeficit(latestDeficit);
-      setChartData(newData);
-    });
   };
 
   const resetHeaderValues = () => {
@@ -207,7 +220,6 @@ export const DeficitTrendsBarChart = ({ width }) => {
   }, [inView, chartData]);
 
   useEffect(() => {
-    addInnerChartAriaLabel(chartConfigs.parent);
     getChartData();
   }, []);
 
@@ -220,6 +232,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
 
   useEffect(() => {
     if (!!chartData) {
+      addInnerChartAriaLabel(chartConfigs.parent);
       const tickValues = generateTickValues(chartData);
       setMinValue(tickValues[1][0]);
       setMaxValue(tickValues[1][tickValues[1].length - 1]);
@@ -238,7 +251,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
   );
 
   const header = (
-    <>
+    <div className={headerContainer}>
       <div>
         <div className={headerTitle} data-testid="deficitFiscalYearHeader">
           {headerYear}
@@ -247,27 +260,29 @@ export const DeficitTrendsBarChart = ({ width }) => {
       </div>
       <div>
         <div className={headerTitle} data-testid="deficitTotalHeader">
-          ${headerDeficit} T
+          ${headerDeficit} {chartData ? 'T' : ''}
         </div>
         <span className={subHeader}>Total Deficit</span>
       </div>
-    </>
+    </div>
   );
 
   return (
     <>
-      {!!chartData ? (
-        <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
-          <ChartContainer
-            title={`Federal Deficit Trends Over Time, FY ${startingYear}-${mostRecentFiscalYear}`}
-            altText={
-              `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
-              `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`
-            }
-            header={header}
-            footer={footer}
-            date={date}
-          >
+      <div className={container} onMouseEnter={handleGoogleAnalyticsMouseEnter} onMouseLeave={handleGoogleAnalyticsMouseLeave} role="presentation">
+        <ChartContainer
+          title={`Federal Deficit Trends Over Time, FY ${startingYear || '--'}-${mostRecentFiscalYear || '--'}`}
+          altText={
+            `Bar graph that shows the federal deficit trend from ${startingYear} to ` +
+            `${mostRecentFiscalYear}. Over the years, the data fluctuates with a spiked increase starting in 2019.`
+          }
+          header={header}
+          footer={footer}
+          date={date}
+        >
+          {!chartData ? (
+            <LoadingIndicator loadingClass={loadingIcon} />
+          ) : (
             <div
               className={barChart}
               onMouseLeave={resetHeaderValues}
@@ -283,7 +298,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 data={chartData}
                 keys={['deficit']}
                 indexBy="year"
-                margin={{ top: desktop ? 15 : 10, right: 0, bottom: 25, left: 55 }}
+                margin={{ top: desktop ? 15 : 10, right: 15, bottom: 25, left: 55 }}
                 padding={desktop ? 0.3 : 0.35}
                 colors={({ id, data }) => String(data[`${id}Color`])}
                 axisBottom={chartConfigs.axisBottom}
@@ -291,6 +306,7 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 enableGridX={true}
                 theme={chartConfigs.theme}
                 layers={['grid', 'axes', 'bars']}
+                valueScale={{ type: 'linear', clamp: true, min: minValue, max: maxValue }}
                 minValue={minValue}
                 maxValue={maxValue}
                 gridXValues={tickValuesX}
@@ -303,15 +319,11 @@ export const DeficitTrendsBarChart = ({ width }) => {
                 }}
               />
             </div>
-          </ChartContainer>
-        </div>
-      ) : (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
+          )}
+        </ChartContainer>
+      </div>
     </>
   );
 };
 
-export default withWindowSize(DeficitTrendsBarChart);
+export default DeficitTrendsBarChart;

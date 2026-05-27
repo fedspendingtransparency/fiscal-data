@@ -41,14 +41,21 @@ HTMLCanvasElement.prototype.getContext = jest.fn();
 
 const responseMockData = require('../../../components/__tests__/profilerResponse.json');
 
-fetchMock.get(`begin:http://localhost:3000/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
-fetchMock.get(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
-
 jest.mock('../../../utils/analytics/analytics', () => ({
   event: jest.fn(),
 }));
 
 describe('HomeHighlightCard', () => {
+  beforeAll(() => {
+    fetchMock
+      .mockGlobal()
+      .route(`begin:http://localhost:3000/api/fiscal_service/`, responseMockData['noDataPrelimResponse'])
+      .route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, responseMockData['noDataPrelimResponse']);
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
+  });
   it('entire card, when clicked, links to relevant dataset detail page', async () => {
     let navTarget = '';
     const { getByTestId } = render(<HomeHighlightCard dataset={mockData} />);
@@ -215,11 +222,50 @@ describe('HomeHighlightCard', () => {
     });
 
     it('continues loading when api id is invalid', async () => {
-      let invalidApiMockData = mockData;
+      const invalidApiMockData = mockData;
       invalidApiMockData.api_id = 2;
       const { getByTestId } = render(<HomeHighlightCard dataset={invalidApiMockData} />);
 
       expect(getByTestId('loadingSection')).toBeInTheDocument();
     });
+  });
+
+  it('renders IMAGE type without sparklePoints', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'IMAGE',
+      image: { src: '/images/gold-bars.webp', alt: 'Gold bars' },
+    };
+    const { getByTestId, queryByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('image-container')).toBeInTheDocument();
+    expect(queryByTestId('scintilla')).not.toBeInTheDocument();
+  });
+
+  it('renders BAR graph type with x-axis stats', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'BAR',
+      index: 'reportDate',
+      value_fields: ['current_month_net_rcpt_amt'],
+      colors: ['#00796B'],
+    };
+    const { getByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('highlight-chart')).toBeInTheDocument();
+    expect(getByTestId('highlight-stats-lower')).toBeInTheDocument();
+    expect(getByTestId('highlight-stats-upper')).toBeInTheDocument();
+  });
+
+  it('renders BAR graph with null colors when not provided', async () => {
+    const data = {
+      ...mockData.data,
+      chartType: 'BAR',
+      index: 'reportDate',
+      value_fields: ['current_month_net_rcpt_amt'],
+    };
+    const { getByTestId } = render(<HomeHighlightCard dataset={{ ...mockData, data }} />);
+    await waitForElementToBeRemoved(() => getByTestId('loadingSection'));
+    expect(getByTestId('highlight-chart')).toBeInTheDocument();
   });
 });

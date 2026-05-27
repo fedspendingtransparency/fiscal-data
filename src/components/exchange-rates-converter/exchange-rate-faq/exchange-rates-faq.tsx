@@ -1,23 +1,22 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
-  footer,
-  title,
   container,
-  exchangeRateFAQ,
   containerClass,
-  headTitle,
+  exchangeRateFAQ,
   externalIcon,
-  relatedResource,
+  footer,
+  headTitle,
   linkText,
+  relatedResource,
+  resourceList,
+  title,
 } from './exchange-rate-faq.module.scss';
 import Accordion from '../../accordion/accordion';
 import CustomLink from '../../links/custom-link/custom-link';
 import { analyticsHandler, dateStringConverter } from '../../../helpers/currency-exchange-rates-converter/currency-exchange-rates-converter-helper';
 import { graphql, useStaticQuery } from 'gatsby';
-import Analytics from '../../../utils/analytics/analytics';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons/faExternalLink';
 
 const CurrencyExchangeFAQ: FunctionComponent = () => {
   const data = useStaticQuery(
@@ -99,7 +98,7 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
   ];
 
   return (
-    <div className={container}>
+    <aside className={container}>
       <div>
         <h2 className={headTitle}>Frequently Asked Questions</h2>
         <div className={exchangeRateFAQ}>
@@ -112,18 +111,18 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
       </div>
       <div>
         <h2 className={title}>Related Resources</h2>
-        <div>
+        <ul className={resourceList}>
           {relatedResources.map((resource, index) => (
-            <div className={relatedResource}>
-              <CustomLink key={index} external url={resource.url} id={resource.text}>
+            <li className={relatedResource} key={index}>
+              <CustomLink external url={resource.url} id={resource.text}>
                 <div className={linkText}>
                   <FontAwesomeIcon icon={faExternalLink} className={externalIcon} />
                   <span>{resource.text}</span>
                 </div>
               </CustomLink>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
       <div>
         <h2 className={title}>Data Source</h2>
@@ -136,10 +135,10 @@ const CurrencyExchangeFAQ: FunctionComponent = () => {
           >
             Treasury Reporting Rates of Exchange
           </CustomLink>{' '}
-          dataset. This dataset is updated quarterly and covers the period from December 31, 2022 to {datasetDate}.
+          dataset. This dataset is updated quarterly and covers the period from March 31, 2018 to {datasetDate || '--'}.
         </span>
       </div>
-    </div>
+    </aside>
   );
 };
 

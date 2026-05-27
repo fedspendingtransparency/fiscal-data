@@ -1,20 +1,29 @@
-@import 'src/variables.module';
-
-$main-feature-title: $font-size-32;
-$main-feature-body: $font-size-16;
-$secondary-feature-title: $font-size-24;
-$secondary-feature-body: $font-size-16;
+@use 'src/variables.module' as *;
 
 .mainContent {
-  color: #666666;
+  color: $font-body-copy;
 
-  .grid {
-    max-width: 16.25rem;
-    max-height: 10rem;
+  .tileLayoutWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
-  .leftTile {
-    padding-left: 2rem;
+  // triggered in desktop form, where image/text is side by side
+  &.twoColLayout {
+    @media screen and (min-width: $breakpoint-lg) {
+      .tileLayoutWrapper {
+        flex-direction: row;
+        flex-wrap: nowrap;
+      }
+      .imageSection {
+        flex: 0 0 16.25rem;
+      }
+
+      .textSection {
+        padding-left: 2rem;
+      }
+    }
   }
 
   .iconTitle {
@@ -22,24 +31,31 @@ $secondary-feature-body: $font-size-16;
   }
 
   h5 {
-    color: #555555;
+    color: $font-title;
     font-weight: $semi-bold-weight;
     margin: 0;
 
+    &.rightTileText {
+      padding-top: 0.5rem;
+    }
+
     &.mainTitle {
-      font-size: $main-feature-title;
-      padding: 1rem 0 0.5rem;
+      font-size: $font-size-32;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
       display: flex;
       align-items: flex-start;
     }
 
     &.secondaryTitle {
-      font-size: $secondary-feature-title;
+      font-size: $font-size-24;
       padding-bottom: 0.5rem;
     }
 
-    &.rightTile {
-      padding-top: 0.5rem;
+    @media screen and (max-width: $breakpoint-lg - 1) {
+      &.secondaryTitle {
+        padding-top: 0.5rem;
+      }
     }
   }
 
@@ -47,10 +63,6 @@ $secondary-feature-body: $font-size-16;
     width: 98.75%;
     margin-left: auto;
     margin-right: 0;
-  }
-
-  .tileContainer {
-    padding-top: 0.5rem;
   }
 
   .afgBookIcon {
@@ -61,11 +73,15 @@ $secondary-feature-body: $font-size-16;
   }
 }
 
+.showOnDesktop {
+  display: block;
+}
+.showOnMobile {
+  display: none;
+}
+
 @media screen and (min-width: $breakpoint-lg) {
   .mainContent {
-    .explainerImageContainer {
-      margin-right: 1rem;
-    }
     .explainerImage {
       width: 16.25rem;
       height: 10rem;
@@ -74,15 +90,16 @@ $secondary-feature-body: $font-size-16;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
+  // image that displays changes in mobile view - only impacts afg overview
+  .showOnDesktop {
+    display: none;
+  }
+  .showOnMobile {
+    display: block;
+  }
   .mainContent {
     .explainerImageContainer {
       padding-top: 0;
-    }
-    h5 {
-      &.secondaryTitle,
-      &.mainTitle {
-        padding-top: 0.5rem;
-      }
     }
     .afgBookIcon {
       padding-top: 1.03125rem;

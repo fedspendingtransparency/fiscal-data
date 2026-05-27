@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .banner {
   max-width: $site-content-width;
@@ -26,7 +26,7 @@
 }
 
 .altInfoColor {
-  background-color: #fff1d2;
+  background-color: $banner-background;
 }
 
 .altBannerHeader {

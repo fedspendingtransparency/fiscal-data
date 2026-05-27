@@ -46,7 +46,7 @@ const Examples = () => {
             return the following fields:
             <code className="inline">record_calendar_year</code>,<code className="inline">record_calendar_month</code>
           </li>
-          <li>return the most recent data first , i.e., return data sorted by year (descending order) and then month (descending order)</li>
+          <li>return the most recent data first, i.e., return data sorted by year (descending order) and then month (descending order)</li>
         </ul>
         <code className="large">
           {baseApiUrl}
@@ -56,8 +56,8 @@ const Examples = () => {
       <SectionContent title="Format" id="examples-format" headingLevel={3}>
         <span>For the Debt to the Penny dataset,</span>
         <ul>
-          <li>return all of the data</li>
-          <li>return the data in a JSON format</li>
+          <li>return all the data</li>
+          <li>return the data in JSON format</li>
         </ul>
         <code className="large">{baseApiUrl}/v2/accounting/od/debt_to_penny?format=json</code>
       </SectionContent>

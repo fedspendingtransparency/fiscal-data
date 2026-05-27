@@ -1,4 +1,4 @@
-@import '../../../../zIndex.module.scss';
+@use '../../../../zIndex.module.scss' as *;
 
 .star {
   display: none;

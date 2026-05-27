@@ -1,18 +1,18 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../../recoil/reactTableFilteredState';
-import { loadingTimeout, netLoadingDelay, setColumns } from '../../dtg-table/dtg-table-helper';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
+import { reactTableFilteredState } from '../../../recoil/reactTableFilteredState';
+import { loadingTimeout, netLoadingDelay } from '../../dtg-table/dtg-table-helper';
 import { formatDateForApi, pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../../utils/api-utils';
-import moment from 'moment';
 import NotShownMessage from '../../dataset-data/table-section-container/not-shown-message/not-shown-message';
 import { defaultPerPageOptions } from '../../pagination/pagination-controls';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import DtgTableApiError from '../../dtg-table/dtg-table-api-error/dtg-table-api-error';
 import { ErrorBoundary } from 'react-error-boundary';
-import { overlayContainer, overlay, loadingIcon, overlayContainerNoFooter } from './data-preview-table.module.scss';
+import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './data-preview-table.module.scss';
 import GLOBALS from '../../../helpers/constants';
 import DataPreviewDataTable from '../data-preview-data-table/data-preview-data-table';
+import { DataTableContext } from '../data-preview-context';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
+import dayjs from 'dayjs';
+
 const DEFAULT_ROWS_PER_PAGE = GLOBALS.dataTable.DEFAULT_ROWS_PER_PAGE;
 
 interface ITableProps {
@@ -68,9 +68,6 @@ type DataPreviewTableProps = {
 };
 
 const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
-  tableProps,
-  perPage,
-  setPerPage,
   selectColumnPanel,
   setSelectColumnPanel,
   setTableColumnSortData,
@@ -94,8 +91,13 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   userFilterSelection,
   disableDateRangeFilter,
   hasDownloadTimestamp,
-  datesetName,
+  datasetName,
+  apiErrorState,
+  perPage,
+  setPerPage,
 }) => {
+  const { tableProps, reactTableData, setReactTableData, allColumns } = useContext(DataTableContext);
+
   const {
     dePaginated,
     rawData,
@@ -107,8 +109,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     selectedPivot,
     dateRange,
     config,
-    columnConfig,
-    detailColumnConfig,
     selectColumns,
     hideColumns,
     hasPublishedReports,
@@ -116,7 +116,6 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     customFormatting,
   } = tableProps;
 
-  const [reactTableData, setReactTableData] = useState(null);
   const data = tableProps.data !== undefined && tableProps.data !== null ? tableProps.data : [];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,13 +123,13 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     perPage ? perPage : !shouldPage && data.length > DEFAULT_ROWS_PER_PAGE ? data.length : DEFAULT_ROWS_PER_PAGE
   );
   const [tableData, setTableData] = useState(!shouldPage ? data : []);
-  const [apiError, setApiError] = useState(tableProps.apiError || false);
+  const [apiError, setApiError] = useState(tableProps.apiError || apiErrorState || false);
   const [maxPage, setMaxPage] = useState(1);
   const [maxRows, setMaxRows] = useState(data.length > 0 ? data.length : 1);
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const [showPaginationControls, setShowPaginationControls] = useState();
-  const filteredDateRange = useRecoilValue(reactTableFilteredDateRangeState);
+  const filteredDateRange = reactTableFilteredState(state => state.dateRange);
   const detailViewAPIConfig = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
   const [tableSorting, setTableSorting] = useState([]);
 
@@ -142,6 +141,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   const rowText = ['rows', 'rows'];
 
   const tableWidth = width ? (isNaN(width) ? width : `${width}px`) : 'auto';
+
+  useEffect(() => {
+    setApiError(tableProps.apiError || apiErrorState || false);
+
+  }, [tableProps.apiError, apiErrorState]);
 
   const getAllExcludedCols = () => {
     const allCols = [];
@@ -155,11 +159,11 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
     return allCols;
   };
 
-  const dataProperties = {
-    keys: tableData[0] ? Object.keys(tableData[0]) : [],
-    excluded: getAllExcludedCols(),
-  };
-  const columns = setColumns(dataProperties, columnConfig);
+  // const dataProperties = {
+  //   keys: tableData[0] ? Object.keys(tableData[0]) : [],
+  //   excluded: getAllExcludedCols(),
+  // };
+  // const columns = setColumns(dataProperties, columnConfig);
 
   const handlePerPageChange = numRows => {
     const numItems = numRows >= maxRows ? maxRows : numRows;
@@ -190,19 +194,16 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
       selectedTable &&
       selectedTable.endpoint &&
       !loadCanceled &&
-      (!selectedTable?.apiFilter ||
-        ((selectedTable?.apiFilter?.displayDefaultData || userFilterSelection) &&
-          tableMeta &&
-          tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
+      (!selectedTable?.apiFilter || (userFilterSelection && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE))
     ) {
       loadTimer = setTimeout(() => loadingTimeout(loadCanceled, setIsLoading), netLoadingDelay);
 
       const from =
-        filteredDateRange?.from && moment(dateRange.from).diff(filteredDateRange?.from) <= 0
+        filteredDateRange?.from && dayjs(dateRange.from).diff(filteredDateRange?.from) <= 0
           ? filteredDateRange?.from.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.from);
       const to =
-        filteredDateRange?.from && moment(dateRange.to).diff(filteredDateRange?.to) >= 0
+        filteredDateRange?.from && dayjs(dateRange.to).diff(filteredDateRange?.to) >= 0
           ? filteredDateRange?.to.format('YYYY-MM-DD')
           : formatDateForApi(dateRange.to);
       const startPage = resetPage ? 1 : currentPage;
@@ -317,7 +318,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   }, [tableProps.serverSidePagination, itemsPerPage, currentPage]);
 
   useMemo(() => {
-    if (data && data.length) {
+    if (data && data?.length) {
       setMaxRows(apiError ? 0 : data.length);
     }
   }, [data]);
@@ -413,7 +414,7 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
           setManualPagination(true);
         }
       }
-    } else if (tableData && data.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
+    } else if (tableData && data?.length === 0 && !rawData && tableMeta && tableMeta['total-count'] > REACT_TABLE_MAX_NON_PAGINATED_SIZE) {
       setReactTableData({ data: tableData, meta: tableMeta });
     }
   }, [tableData, tableMeta, rawData, dePaginated]);
@@ -421,69 +422,55 @@ const DataPreviewTable: FunctionComponent<DataPreviewTableProps> = ({
   return (
     <div className={overlayContainer}>
       {/* Loading Indicator */}
-      {!isLoading && !reactTableData && !selectedTable?.apiFilter && (
-        <>
-          <div data-test-id="loading-overlay" className={overlay} />
-          <div className={loadingIcon}>
-            <FontAwesomeIcon data-test-id="loading-icon" icon={faSpinner} spin pulse /> Loading...
-          </div>
-        </>
+      {!isLoading && !reactTableData && !selectedTable?.apiFilter && !(apiError || tableProps.apiError) && (
+        <LoadingIndicator loadingClass={loadingIcon} overlayClass={overlay} />
       )}
       {/* Data Dictionary and Dataset Detail tables */}
-      {reactTableData?.data && (
-        <div data-test-id="table-content" className={overlayContainerNoFooter}>
-          {/* API Error Message */}
-          {(apiError || tableProps.apiError) && !emptyDataMessage && (
-            <>
-              <DtgTableApiError />
-            </>
-          )}
-          {!emptyDataMessage && (
-            <ErrorBoundary FallbackComponent={() => <></>}>
-              <DataPreviewDataTable
-                rawData={reactTableData}
-                detailViewState={detailViewState}
-                setDetailViewState={setDetailViewState}
-                detailColumnConfig={detailColumnConfig}
-                detailViewAPI={detailViewAPIConfig}
-                detailView={config?.detailView}
-                defaultSelectedColumns={config?.detailView?.selectColumns && detailViewState ? config.detailView.selectColumns : selectColumns}
-                setTableColumnSortData={setTableColumnSortData}
-                hideCellLinks={true}
-                shouldPage={shouldPage}
-                pagingProps={pagingProps}
-                showPaginationControls={showPaginationControls}
-                hasPublishedReports={hasPublishedReports}
-                publishedReports={publishedReports}
-                setSelectColumnPanel={setSelectColumnPanel}
-                selectColumnPanel={selectColumnPanel}
-                resetFilters={resetFilters}
-                setResetFilters={setResetFilters}
-                hideColumns={hideColumns}
-                tableName={tableName}
-                manualPagination={manualPagination}
-                maxRows={maxRows}
-                rowsShowing={rowsShowing}
-                columnConfig={columnConfig}
-                allowColumnWrap={allowColumnWrap}
-                aria={tableProps.aria}
-                pivotSelected={pivotSelected?.pivotValue}
-                setSummaryValues={setSummaryValues}
-                customFormatting={customFormatting}
-                sorting={sorting}
-                setSorting={setSorting}
-                allActiveFilters={allActiveFilters}
-                setAllActiveFilters={setAllActiveFilters}
-                setTableSorting={setTableSorting}
-                disableDateRangeFilter={disableDateRangeFilter}
-                datasetName={datesetName}
-                dateRange={tableProps.dateRange}
-                hasDownloadTimestamp={hasDownloadTimestamp}
-              />
-            </ErrorBoundary>
-          )}
-        </div>
-      )}
+      <div data-test-id="table-content" className={overlayContainerNoFooter}>
+        {/* API Error Message */}
+        {(apiError || tableProps.apiError) && !emptyDataMessage && (
+          <>
+            <DtgTableApiError />
+          </>
+        )}
+        {!apiErrorState && reactTableData?.data && allColumns && (
+          <ErrorBoundary FallbackComponent={() => <></>}>
+            <DataPreviewDataTable
+              detailViewState={detailViewState}
+              setDetailViewState={setDetailViewState}
+              detailViewAPI={detailViewAPIConfig}
+              detailView={config?.detailView}
+              setTableColumnSortData={setTableColumnSortData}
+              hideCellLinks={true}
+              shouldPage={shouldPage}
+              pagingProps={pagingProps}
+              showPaginationControls={showPaginationControls}
+              hasPublishedReports={hasPublishedReports}
+              publishedReports={publishedReports}
+              setSelectColumnPanel={setSelectColumnPanel}
+              selectColumnPanel={selectColumnPanel}
+              resetFilters={resetFilters}
+              setResetFilters={setResetFilters}
+              hideColumns={hideColumns}
+              manualPagination={manualPagination}
+              rowsShowing={rowsShowing}
+              allowColumnWrap={allowColumnWrap}
+              aria={tableProps.aria}
+              pivotSelected={pivotSelected?.pivotValue}
+              setSummaryValues={setSummaryValues}
+              sorting={sorting}
+              setSorting={setSorting}
+              allActiveFilters={allActiveFilters}
+              setAllActiveFilters={setAllActiveFilters}
+              setTableSorting={setTableSorting}
+              disableDateRangeFilter={disableDateRangeFilter}
+              datasetName={datasetName}
+              dateRange={tableProps.dateRange}
+              hasDownloadTimestamp={hasDownloadTimestamp}
+            />
+          </ErrorBoundary>
+        )}
+      </div>
     </div>
   );
 };

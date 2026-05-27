@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import DatasetStructuredData from './build-dataset-structured-data.helper';
 import globalConstants from '../../helpers/constants';
 import { ENV_ID } from 'gatsby-env-variables';
 import { graphql, useStaticQuery } from 'gatsby';
+import SocialMetaData from '../social-share/social-metadata/social-metadata';
 
-const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keywords, image = '', canonical = '', datasetDetails = '' }) => {
+const PageHelmet = ({
+  pageTitle,
+  description,
+  descriptionGenerator = false,
+  keywords,
+  image = '',
+  canonical = '',
+  datasetDetails = '',
+  socialShare,
+}) => {
   let versionInfo = useStaticQuery(graphql`
     {
       gitCommit(latest: { eq: true }) {
@@ -26,7 +35,6 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
   const latestCommit = versionInfo.gitCommit || {};
   const currentBranch = versionInfo.gitBranch ? versionInfo.gitBranch.name : '';
 
-  const [dapAnalytics, setDapAnalytics] = useState(null);
   const [finalDescription, setFinalDescription] = useState(description);
   const baseUrl = globalConstants.BASE_SITE_URL;
   const title = pageTitle ? `${pageTitle} | U.S. Treasury Fiscal Data` : 'U.S. Treasury Fiscal Data';
@@ -37,18 +45,10 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
         setFinalDescription(res);
       });
     }
-    setDapAnalytics(
-      <script
-        async
-        type="text/javascript"
-        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
-        id="_fed_an_ua_tag"
-      />
-    );
   }, []);
 
   return (
-    <Helmet>
+    <>
       {/*Google Tag Manager */}
       <script>
         {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -57,6 +57,12 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-5N9D5C5');`}
       </script>
+      <script
+        async
+        type="text/javascript"
+        src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS"
+        id="_fed_an_ua_tag"
+      />
       {/*End Google Tag Manager*/}
       {/*Google Analytics 4 Tag  */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-ME8TBPZYXP" />
@@ -70,36 +76,39 @@ const PageHelmet = ({ pageTitle, description, descriptionGenerator = false, keyw
       {/* Version info is placed inside a script comment below because both react jsx
           and gatsby are unfriendly toward rendering <!-- html comments --> into built pages.
       */}
-
-      {latestCommit && latestCommit.hash && (
-        <script id="version-info">
-          {`/*
+      <script data-testid="version-info">
+        {`/*
             TAG: ${latestTag}
             CURRENT BRANCH: ${currentBranch}
-            COMMIT HASH: ${latestCommit.hash}
-            COMMIT MESSAGE: ${latestCommit.message}
-            COMMIT DATE: ${latestCommit.date}
+            COMMIT HASH: ${latestCommit?.hash}
+            COMMIT MESSAGE: ${latestCommit?.message}
+            COMMIT DATE: ${latestCommit?.date}
             ENV ID: ${ENV_ID}
           */`}
-        </script>
-      )}
+      </script>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
       <title>{title}</title>
-      <meta property="og:title" content={title} />
       <meta name="description" content={finalDescription || description} />
-      <meta property="og:description" content={description} />
+      {!socialShare && (
+        <>
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
+        </>
+      )}
+      {socialShare && (
+        <SocialMetaData image={socialShare.image} title={socialShare.title} description={socialShare.description} url={socialShare.url} />
+      )}
       <meta name="keywords" content={keywords} />
-      <meta property="og:image" content={image || `${baseUrl}/logos/fiscal_data_logo_1200x628.png`} />
       <meta name="google-site-verification" content="xVYP-oDTuRBvXHwXwy4kAM7weCAP1OlWoOCX_DsJC0M" />
-      {dapAnalytics}
       {canonical && <link rel="canonical" href={`${baseUrl}${canonical}`} />}
       {datasetDetails && (
-        <script data-test-id="structured-data" type="application/ld+json">
+        <script data-testid="structured-data" type="application/ld+json">
           {DatasetStructuredData(datasetDetails)}
         </script>
       )}
-    </Helmet>
+    </>
   );
 };
 

@@ -1,6 +1,4 @@
-@import 'src/variables.module';
-
-$border-color: #d9d9d9;
+@use 'src/variables.module' as *;
 
 .currencyBox {
   width: 20rem;
@@ -19,8 +17,15 @@ $border-color: #d9d9d9;
       font-size: $font-size-12;
       font-weight: 700;
     }
-    .headerIcon {
+    .headerIcon,
+    .dollarIcon {
       margin-right: 0.5rem;
+    }
+    .headerIcon {
+      width: 1rem;
+    }
+    .dollarIcon {
+      width: 0.625rem;
     }
   }
 
@@ -64,7 +69,7 @@ $border-color: #d9d9d9;
   }
 
   .currencyText {
-    border: solid 1px $border-color;
+    border: solid 1px $light-grey-border;
     height: 2.75rem;
     display: flex;
     align-items: center;
@@ -79,7 +84,7 @@ $border-color: #d9d9d9;
 
     &.activeBorder {
       border: solid 1px $primary;
-      box-shadow: 0 0 0 0.25rem #e8f5ff;
+      box-shadow: 0 0 0 0.25rem $primary-blue;
     }
 
     input[type='number'] {

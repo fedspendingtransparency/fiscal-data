@@ -1,0 +1,254 @@
+import React, { FunctionComponent, useEffect, useMemo, useState, useRef } from 'react';
+import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
+import { filtersContainer } from '../reports-section/reports-section.module.scss';
+import { apiPrefix, basicFetch } from '../../../utils/api-utils';
+import { format } from 'date-fns';
+import { buildEndpoint } from './generative-report-helper';
+import ReportsEmptyTable from '../reports-empty-table/reports-empty-table';
+import GenerativeReportsAccountFilter from './generative-reports-account-filter/generative-reports-account-filter';
+import DatePicker from '../../date-picker/date-picker';
+import { reportsBannerCopy, reportsConfig } from './reports-config';
+import { DownloadReportTable } from '../download-report-table/download-report-table';
+import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
+import { IDatasetConfig } from '../../../models/IDatasetConfig';
+import { sectionTitle } from '../published-reports';
+import { useWindowSize } from 'usehooks-ts';
+
+export const defaultSelection = { label: '(None selected)', value: '' };
+
+const GenerativeReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
+  const { apis: apisProp, reportGenKey } = dataset;
+  const { width } = useWindowSize();
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [latestReportDate, setLatestReportDate] = useState<Date>();
+  const [earliestReportDate, setEarliestReportDate] = useState<Date>();
+  const [allReportDates, setAllReportDates] = useState<string[]>([]);
+  const [allReportYears, setAllReportYears] = useState<string[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState(defaultSelection);
+  const [activeReports, setActiveReports] = useState([]);
+  const [allReports, setAllReports] = useState([]);
+  const [apiErrorMessage, setApiErrorMessage] = useState(false);
+  const [noMatchingData, setNoMatchingData] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [renderLoadCount, setRenderLoadCount] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const lastShowTsRef = useRef<number>(0);
+  const incrementRender = () => setRenderLoadCount(count => count + 1);
+  const decrementRender = () => setRenderLoadCount(count => Math.max(0, count - 1));
+
+  const handleRowLoading = (loading: boolean) => {
+    if (loading) incrementRender();
+    else decrementRender();
+  };
+
+  const showLoading = isFetching || renderLoadCount > 0;
+
+  const bannerCopy = reportsBannerCopy[reportGenKey];
+  const heading = noMatchingData ? bannerCopy?.noDataMatchHeader : bannerCopy?.additionalFiltersHeader;
+  const body = noMatchingData ? bannerCopy?.noDataMatchBody : bannerCopy?.additionalFiltersBody;
+
+  const getSummaryReportData = async (dateField, filterField, filterValue, summaryConfig) => {
+    if (!summaryConfig) return [];
+    const endpointUrl = buildEndpoint(selectedDate, dateField, filterValue, filterField, summaryConfig);
+    try {
+      const res = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
+      return res.data;
+    } catch {
+      return [];
+    }
+  };
+
+  const getReportData = async (report, reportConfig) => {
+    const { dateField, apiFilter, endpoint } = report;
+    const { sort, summaryConfig } = reportConfig;
+    const { values: summaryValuesConfig, reportDataKey, table: summaryTableConfig } = summaryConfig;
+    const { field: accountField } = apiFilter;
+
+    //fetch data for main table
+    const endpointUrl = buildEndpoint(selectedDate, dateField, selectedAccount.value, accountField, { endpoint, sort });
+    const tableData = await basicFetch(`${apiPrefix}${endpointUrl}&page[size]=10000`);
+
+    //get statement number from table data if available, otherwise get selected account
+    const hasTableData = tableData.data.length > 0;
+    const filterValue = hasTableData ? tableData.data[0][summaryValuesConfig.dataKey] : selectedAccount.value;
+    const filterField = hasTableData ? summaryValuesConfig.dataKey : reportDataKey;
+
+    //fetch data for summary values and summary table
+    const summaryData = await getSummaryReportData(dateField, filterField, filterValue, summaryValuesConfig);
+    const summaryTableData = await getSummaryReportData(dateField, filterField, filterValue, summaryTableConfig);
+
+    return { tableData: tableData.data, summaryData, summaryTableData };
+  };
+
+  const setSummaryValues = (reportConfig, formattedDate, reportData, summaryData) => {
+    const { reportInfo, reportSummary } = reportConfig;
+
+    reportInfo.forEach(infoValue => {
+      if (infoValue.filter === 'date') {
+        infoValue.value = formattedDate;
+      } else if (infoValue.filter === 'account' && reportData.length > 0 && infoValue.secondaryField) {
+        const secondary = reportData[0][infoValue.secondaryField];
+        infoValue.value = `${selectedAccount.label}, ${secondary}`;
+      }
+    });
+
+    if (reportSummary && summaryData) {
+      reportSummary.forEach((summaryValue, index) => {
+        if (summaryData[index]) {
+          summaryValue.value = summaryData[index][summaryValue.field];
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (apisProp && apisProp.length > 0) {
+      const earliestReport = new Date(Math.min(...apisProp.map(api => new Date(api.earliestDate).getTime())));
+      const latestReport = new Date(Math.max(...apisProp.map(api => new Date(api.latestDate).getTime())));
+      const earliest = new Date(earliestReport.getFullYear(), earliestReport.getMonth(), 1);
+      const latest = new Date(latestReport.getFullYear(), latestReport.getMonth(), 1);
+
+      setEarliestReportDate(earliest);
+      setLatestReportDate(latest);
+      setSelectedDate(latest);
+    }
+  }, [apisProp]);
+
+  useEffect(() => {
+    if (!earliestReportDate || !latestReportDate) return;
+
+    const months: string[] = [];
+    const yearsSet = new Set<string>();
+
+    const current = new Date(earliestReportDate.getFullYear(), earliestReportDate.getMonth(), 1);
+    const last = new Date(latestReportDate.getFullYear(), latestReportDate.getMonth(), 1);
+
+    while (current.getTime() <= last.getTime()) {
+      months.push(format(current, 'MMMM yyyy'));
+      yearsSet.add(String(current.getFullYear()));
+      current.setMonth(current.getMonth() + 1);
+    }
+
+    setAllReportDates(months);
+    setAllReportYears(Array.from(yearsSet));
+  }, [earliestReportDate, latestReportDate]);
+
+  useEffect(() => {
+    if (showLoading) {
+      lastShowTsRef.current = Date.now();
+      setIsLoading(true);
+    } else {
+      const t = setTimeout(() => setIsLoading(false), 0);
+      return () => clearTimeout(t);
+    }
+  }, [showLoading]);
+
+  useMemo(() => {
+    (async () => {
+      if (!selectedAccount.value) {
+        setAllReports([]);
+        setIsFetching(false);
+        return;
+      }
+
+      setIsFetching(true);
+      try {
+        const reports = [];
+        for (const report of apisProp) {
+          const reportConfig = reportsConfig[reportGenKey][report.apiId];
+          if (!reportConfig) continue;
+
+          const formattedDate = format(selectedDate, 'MMMM yyyy');
+          const downloadDate = format(selectedDate, 'MMyyyy');
+
+          const reportData = await getReportData(report, reportConfig);
+          setApiErrorMessage(false);
+
+          const curReport = {
+            id: report.apiId,
+            name: `${report.tableName} - ${selectedAccount.label}.pdf`,
+            date: formattedDate,
+            size: '2KB',
+            downloadName: `${reportConfig.downloadName}_${selectedAccount.label}_${downloadDate}.pdf`,
+            data: reportData.tableData,
+            summaryData: reportData.summaryTableData,
+            summaryValues: reportData.summaryData,
+            config: reportConfig,
+            colConfig: report,
+          };
+          reports.push(curReport);
+
+          const summarySource = reportData.tableData.length > 0 ? reportData.tableData : reportData.summaryData;
+          setSummaryValues(reportConfig, formattedDate, summarySource, reportData.summaryData);
+        }
+        setAllReports(reports);
+      } catch (error) {
+        setApiErrorMessage(true);
+        setAllReports([]);
+      } finally {
+        setIsFetching(false);
+      }
+    })();
+  }, [selectedAccount, selectedDate]);
+
+  useEffect(() => {
+    const reports = [];
+    allReports.forEach(report => {
+      const hasSummaryData = report.summaryData.length > 0 || report.summaryValues.length > 0;
+      if (report.data.length > 0 || hasSummaryData) {
+        reports.push(report);
+      }
+    });
+    if (reports.length === 0) {
+      setIsLoading(false);
+    }
+    setActiveReports(reports);
+  }, [allReports]);
+
+  useEffect(() => {
+    if (selectedAccount.label !== '(None selected)') {
+      setNoMatchingData(true);
+    } else {
+      setNoMatchingData(false);
+    }
+  }, [activeReports]);
+
+  return (
+    <div>
+      <DatasetSectionContainer title={sectionTitle} id="reports-and-files">
+        <div className={filtersContainer}>
+          <DatePicker
+            isDaily={false}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            latestDate={latestReportDate}
+            earliestDate={earliestReportDate}
+            allDates={allReportDates}
+            allYears={allReportYears}
+            ignoreDisabled={true}
+            ariaLabel="Enter report date"
+            generatedReport={true}
+          />
+          <GenerativeReportsAccountFilter apiData={apisProp} selectedAccount={selectedAccount} setSelectedAccount={setSelectedAccount} />
+        </div>
+        {(activeReports?.length === 0 || apiErrorMessage) && (
+          <ReportsEmptyTable width={width} apiErrorMessage={apiErrorMessage} heading={heading} body={body} isLoading={isLoading} />
+        )}
+        {activeReports?.length > 0 && !apiErrorMessage && (
+          <DownloadReportTable
+            isDailyReport={false}
+            generatedReports={activeReports}
+            width={width}
+            setApiErrorMessage={setApiErrorMessage}
+            isLoading={isLoading}
+            setIsLoading={handleRowLoading}
+          />
+        )}
+        <DataPreviewDatatableBanner bannerNotice={dataset?.publishedReportsTip} isReport={true} />
+      </DatasetSectionContainer>
+    </div>
+  );
+};
+
+export default GenerativeReportsSection;

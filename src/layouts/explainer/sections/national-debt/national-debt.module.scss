@@ -1,4 +1,12 @@
-@import '../../../../variables.module.scss';
+@use '../../../../variables.module.scss' as *;
+
+.last100YearContainer {
+  min-height: 39.69rem;
+}
+
+.trendsOverTimeContainer {
+  min-height: 54.58rem;
+}
 
 .keyTakeawaysContent {
   display: flex;
@@ -192,6 +200,14 @@
 
   .debtAccordion {
     min-width: 508px;
+  }
+
+  .last100YearContainer {
+    min-height: 43.96rem;
+  }
+
+  .trendsOverTimeContainer {
+    min-height: 51.23rem;
   }
 }
 

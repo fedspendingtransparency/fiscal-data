@@ -50,11 +50,12 @@ describe('UserFilter Component', () => {
     });
   });
 
-  it('sends expected properties to combo-select control for the apiFilter with multiple dropdown categories', () => {
+  it('sends expected properties to combo-select control for the apiFilter with multiple dropdown categories', async () => {
+    const user = userEvent.setup();
     const { getByText, getByRole } = render(<UserFilter selectedTable={mockTableApiFilterMultiCategory} onUserFilter={jest.fn()} />);
     const filterDropdown = getByRole('button');
     expect(getByText('(None selected)')).toBeInTheDocument();
-    userEvent.click(filterDropdown);
+    await user.click(filterDropdown);
     expect(getByText('State')).toBeInTheDocument();
     expect(getByText('Federal')).toBeInTheDocument();
   });
@@ -87,25 +88,27 @@ describe('UserFilter Component', () => {
     expect(result).toBeFalsy();
   });
 
-  it('uses api filter options labels when available', () => {
+  it('uses api filter options labels when available', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(<UserFilter selectedTable={mockTableApiFilterOptionLabels} onUserFilter={jest.fn()} />);
     const filterDropdown = getByRole('button');
-    userEvent.click(filterDropdown);
+    await user.click(filterDropdown);
     expect(getByRole('button', { name: '123' })).toBeInTheDocument();
     expect(getByRole('button', { name: '456' })).toBeInTheDocument();
     expect(getByRole('button', { name: '789' })).toBeInTheDocument();
   });
 
-  it('calls reset filter function when the user filter changes ', () => {
+  it('calls reset filter function when the user filter changes ', async () => {
+    const user = userEvent.setup();
     const resetFilterSpy = jest.fn();
     const { getByRole, getByTestId } = render(
       <UserFilter selectedTable={mockTable} onUserFilter={jest.fn()} apiData={mockData} setResetFilters={resetFilterSpy} />
     );
     const dropdown = getByRole('button');
-    userEvent.click(dropdown);
+    await user.click(dropdown);
     const list = getByTestId('dropdown-list');
     const button = within(list).getAllByRole('button')[0];
-    userEvent.click(button);
+    await user.click(button);
 
     expect(resetFilterSpy).toHaveBeenCalledWith(true);
   });

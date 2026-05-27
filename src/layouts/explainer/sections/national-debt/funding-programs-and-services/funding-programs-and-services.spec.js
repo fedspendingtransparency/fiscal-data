@@ -2,14 +2,16 @@ import Analytics from '../../../../../utils/analytics/analytics';
 import { render } from '@testing-library/react';
 import React from 'react';
 import FundingProgramsAndServices from './funding-programs-and-services';
+import userEvent from '@testing-library/user-event';
 
 describe('Funding Programs & Services', () => {
-  it('calls the appropriate analytics event when links are clicked on', () => {
+  it('calls the appropriate analytics event when links are clicked on', async () => {
+    const user = userEvent.setup();
     const spy = jest.spyOn(Analytics, 'event');
     const { getByText, getAllByText } = render(<FundingProgramsAndServices />);
 
     const accordion = getByText('What are some of the major spending categories?');
-    accordion.click();
+    await user.click(accordion);
     const usaSpending = getAllByText('USAspending.gov');
     const objectClass = getByText('Object Class');
     const budgetFunction = getByText('Budget Function');

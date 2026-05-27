@@ -1,10 +1,10 @@
-import { area, mouse } from 'd3';
-import { select, selectAll } from 'd3-selection';
-import { transition } from 'd3-transition';
+import { pointer, select, selectAll } from 'd3-selection';
+import 'd3-selection-multi';
+import 'd3-transition';
 import { extent } from 'd3-array';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { timeParse } from 'd3-time-format';
-import { line } from 'd3-shape';
+import { area, line } from 'd3-shape';
 import { interpolateNumber } from 'd3-interpolate';
 import setAxes from './setAxes';
 import initTooltip from './tooltip';
@@ -17,7 +17,6 @@ const d3 = {
   scaleTime,
   timeParse,
   line,
-  transition,
   interpolateNumber,
 };
 let w,
@@ -35,7 +34,8 @@ let w,
   previousExtent,
   toolTipDateKey,
   svgDefs,
-  roundingDenomination;
+  roundingDenomination,
+  fieldColors;
 
 const baseYAxisWidth = 72;
 
@@ -44,7 +44,7 @@ const chartDimensions = {
   xAxisHeight: 30,
   yAxisWidth: baseYAxisWidth,
   marginTop: 10,
-  marginRight: 13,
+  marginRight: 16,
 };
 const duration = 1000;
 const parseTime = d3.timeParse('%Y-%m-%d');
@@ -109,7 +109,7 @@ const lineFn = (field, scales) => {
   }
 };
 
-const draw = (container, scales, fields, _visibleFields) => {
+const draw = (container, scales, fields, fieldColors, _visibleFields) => {
   if (options && options.shading) {
     lines = container
       .append('g')
@@ -203,7 +203,11 @@ const draw = (container, scales, fields, _visibleFields) => {
       .classed('dataviz-line', true)
       .attr('data-testid', 'dataviz-line')
       .attr('stroke', function(d, i) {
-        return '#4971b7';
+        let color = '#4971b7';
+        if (fieldColors) {
+          color = fieldColors[d];
+        }
+        return color;
       })
       .attr('stroke-width', (d, i) => {
         if (Array.isArray(_visibleFields)) {
@@ -263,7 +267,7 @@ const onUpdateChartWidth = (ref, _fields, _visibleFields) => {
   setContainer();
   scales = setScales(_fields);
   y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, roundingDenomination ? true : false);
-  draw(container, scales, fields, _visibleFields);
+  draw(container, scales, fields, fieldColors, _visibleFields);
   setTooltips();
 };
 
@@ -304,6 +308,7 @@ const setTooltips = (fieldsToShow, currentScales) => {
       dataType,
       toolTipDateKey,
       roundingDenomination,
+      fieldColors,
     });
   }
 };
@@ -321,7 +326,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenominati
   toolTipDateKey = options.toolTipDateKey;
   chartDimensions.height = options.forceHeight || chartDimensions.height;
   chartDimensions.yAxisWidth = roundingDenomination ? 130 : options.forceYAxisWidth || baseYAxisWidth;
-
+  fieldColors = options.fieldColors;
   setContainer();
 
   if (data) {
@@ -329,7 +334,7 @@ const initChart = (_data, _el, _dateField, _fields, _labels, _roundingDenominati
     const isRoundedAxis = !!roundingDenomination;
     y = setAxes(container, scales, chartDimensions, dataType, roundingDenomination, isRoundedAxis, options);
 
-    draw(container, scales, fields);
+    draw(container, scales, fields, fieldColors);
   }
 
   setTooltips();
@@ -345,7 +350,6 @@ export default initChart;
 
 // Mouseover functions
 let hoverFunction, chartId, markers;
-
 const placeMarker = initial => {
   clearMarkers();
 
@@ -417,9 +421,11 @@ const mouseout = function() {
   }, 500);
 };
 
-const mousemove = function() {
+const mousemove = function(event) {
   // This index represents the x value closest to where the mouse is on the graph
-  const closestXIndex = data.length - Math.round((mouse(this)[0] / chartDimensions.width) * (data.length - 1));
+  const [mx] = pointer(event, this);
+  const closestXIndex = Math.round((mx / chartDimensions.width) * (data.length - 1));
+
   const selectedData = data[closestXIndex];
 
   if (selectedData && selectedData[fields[0]]) {
@@ -445,7 +451,6 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
   fields = _fields;
   markers = [_data[0]];
   hoverFunction = _hoverFunction;
-
   const parentSelection = d3.select(`#${chartId}`);
   container = parentSelection.select('svg');
 
@@ -465,8 +470,12 @@ export const addHoverEffects = (_data, _chartId, _dateField, _fields, _hoverFunc
     .attr('width', chartDimensions.width)
     .attr('height', chartDimensions.height + chartDimensions.marginTop)
     .attr('transform', `translate(${chartDimensions.yAxisWidth},0)`)
-    .on('click', mousemove)
-    .on('mousemove', mousemove)
+    .on('click', function(event) {
+      mousemove(event);
+    })
+    .on('mousemove', function(event) {
+      mousemove(event);
+    })
     .on('mouseout', mouseout);
 };
 

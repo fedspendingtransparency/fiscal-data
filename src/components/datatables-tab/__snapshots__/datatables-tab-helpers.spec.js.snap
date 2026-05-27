@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`DataTablesTabHelpers has a function called makeTheDataArray that grabs properties from the objects in the apis array and makes the array to send to the dtgTable component for the datatables tab 1`] = `
 [

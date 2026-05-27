@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { applyButton, buttonContainer, cancelButton, checkIcon } from './filter-buttons.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 
 interface IFilterButtons {
   handleApply: () => void;

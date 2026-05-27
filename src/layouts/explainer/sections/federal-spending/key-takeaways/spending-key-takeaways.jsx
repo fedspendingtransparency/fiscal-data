@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
-import { faCommentDollar, faHandHoldingDollar, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
-import { spendingExplainerPrimary, spendingExplainerLightSecondary } from '../federal-spending.module.scss';
+import { faCommentDollar } from '@fortawesome/free-solid-svg-icons/faCommentDollar';
+import { faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons/faHandHoldingDollar';
+import { faPiggyBank } from '@fortawesome/free-solid-svg-icons/faPiggyBank';
+import { spendingExplainerLightSecondary, spendingExplainerPrimary } from '../federal-spending.module.scss';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import { getShortForm } from '../../../../../utils/rounding-utils';
 
@@ -82,9 +84,9 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     {
       text: `The federal government spends money on a variety of goods, programs, and
         services to support the American public and pay interest incurred from borrowing. In
-        fiscal year (FY) ${latestCompleteFiscalYear}, the government spent
-        $${priorYearSpendingShort}, which was ${spendingRevComparison} than it collected (revenue),
-        resulting in a ${deficitLabel}. `,
+        fiscal year (FY) ${latestCompleteFiscalYear || '--'}, the government spent
+        $${priorYearSpendingShort || '--'}, which was ${spendingRevComparison} than it collected (revenue),
+        resulting in a ${deficitLabel || '--'}. `,
       icon: faHandHoldingDollar,
       hasGlossaryTerm: true,
       glossaryString: 'fiscal year (FY)',
@@ -104,8 +106,8 @@ const SpendingKeyTakeaways = ({ glossary, glossaryClickHandler }) => {
     },
     {
       text: `Money for federal spending primarily comes from government tax collection and
-        borrowing. In FY ${latestCompleteFiscalYear} government spending equated to roughly
-        $${spendingGDPSimple} out of every $10 of the goods produced and services provided in the
+        borrowing. In FY ${latestCompleteFiscalYear || '--'} government spending equated to roughly
+        $${spendingGDPSimple || '--'} out of every $10 of the goods produced and services provided in the
         United States.`,
       icon: faPiggyBank,
       page: 'Spending Explainer',

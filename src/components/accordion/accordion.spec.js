@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { act } from 'react';
 import Accordion from './accordion';
 import { open } from './accordion.module.scss';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 describe('Accordion', () => {
   const titleText = 'Placeholder Title';
@@ -19,15 +19,20 @@ describe('Accordion', () => {
 
   it('expects the body content to be rendered.', () => {
     const { getByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
-    fireEvent.click(getByTestId('heading'));
+    act(() => {
+      fireEvent.click(getByTestId('heading'));
+    });
     expect(getByTestId('content')).toHaveTextContent(bodyText);
   });
 
   it('expects the accordion to toggle the "open" class when the heading is clicked', async () => {
-    const { getByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
-    const accordion = getByTestId('section');
+    const { findByTestId } = render(<Accordion title={titleText}>{bodyText}</Accordion>);
+    const accordion = await findByTestId('section');
     expect(accordion).not.toHaveClass(open);
-    getByTestId('heading').click();
+    const heading = await findByTestId('heading');
+    act(() => {
+      heading.click();
+    });
     expect(accordion).toHaveClass(open);
   });
 });

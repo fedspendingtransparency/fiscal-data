@@ -1,3 +1,6 @@
+import dayjs from 'dayjs';
+import { formatDateForApi } from '../../utils/api-utils';
+
 export const loadTimerDelay = 500;
 const debounceDelay = 400;
 // Make sure we have a small delay that is not negative.
@@ -56,3 +59,35 @@ export const buildColumnConfig = fields =>
       order: f.isPrimaryDateCol ? -1 : f.order || 1,
     };
   });
+
+export const getPaginationValues = (res, startPage, itemsPerPage) => {
+  const totalCount = res.meta['total-count'];
+  const start = startPage === 1 ? 0 : (startPage - 1) * itemsPerPage;
+  const rowsToShow = start + itemsPerPage;
+  const stop = rowsToShow > totalCount ? totalCount : rowsToShow;
+  const rowsShowing = {
+    begin: start + 1,
+    end: stop,
+  };
+  const maxPage = res.meta['total-pages'];
+  return { maxPage, rowsShowing, maxRows: totalCount };
+};
+
+export const getDateFilters = (filteredDateRange, dateRange) => {
+  let from, to;
+  const recordDateColumnFilter = filteredDateRange?.find(date => date?.fieldName === 'record_date');
+  if (recordDateColumnFilter) {
+    from =
+      recordDateColumnFilter?.from && dayjs(dateRange.from).diff(recordDateColumnFilter?.from) <= 0
+        ? recordDateColumnFilter?.from.format('YYYY-MM-DD')
+        : formatDateForApi(dateRange.from);
+    to =
+      recordDateColumnFilter?.from && dayjs(dateRange.to).diff(recordDateColumnFilter?.to) >= 0
+        ? recordDateColumnFilter?.to.format('YYYY-MM-DD')
+        : formatDateForApi(dateRange.to);
+  } else {
+    from = formatDateForApi(dateRange.from);
+    to = formatDateForApi(dateRange.to);
+  }
+  return { from, to };
+};

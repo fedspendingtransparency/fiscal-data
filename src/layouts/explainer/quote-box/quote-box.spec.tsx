@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import QuoteBox from './quote-box';
-import { faFlagUsa } from '@fortawesome/free-solid-svg-icons';
+import { faFlagUsa } from '@fortawesome/free-solid-svg-icons/faFlagUsa';
 import React from 'react';
 
 describe('QuoteBox', () => {

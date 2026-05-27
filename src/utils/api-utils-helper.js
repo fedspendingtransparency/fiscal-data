@@ -87,7 +87,7 @@ const buildDownloadObject = (api, dateRange, fileType, userFilter, tableColumnSo
       }
       if (column.sorted !== false) {
         if (column.sorted === 'asc') {
-          tableColumnSort += `+${column.id}`;
+          tableColumnSort += `${column.id}`;
         } else {
           tableColumnSort += `-${column.id}`;
         }
@@ -157,7 +157,7 @@ export const buildTableColumnSortParams = sortData => {
   sortData.forEach(column => {
     if (column.sorted !== false) {
       if (column.sorted === 'asc') {
-        tableColumnSort += `+${column.id}`;
+        tableColumnSort += `${column.id}`;
       } else {
         tableColumnSort += `-${column.id}`;
       }
@@ -230,7 +230,6 @@ export const buildDownloadRequestArray = (apis, dateRange, fileType, userFilter,
     console.warn('No valid APIs can be built with this request, please check input params');
     return null;
   }
-
   return {
     apis: requestArr,
   };

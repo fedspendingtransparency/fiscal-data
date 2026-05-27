@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .paddingAdjust {
   margin-bottom: -1em;
@@ -13,11 +13,17 @@
 
 .titleStyle {
   font-size: $font-size-32;
+  font-weight: 600;
+  color: $card-body;
+  margin: 0.67em 0;
 }
 
 @media screen and (max-width: $breakpoint-sm) {
   .paddingAdjust {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .cardWrapper {
     display: inline-flex;

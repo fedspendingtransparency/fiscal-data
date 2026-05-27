@@ -11,6 +11,10 @@ jest.mock('./variables.module.scss', content => ({
   breakpointLg: 992,
 }));
 
+jest.mock('./secondary-nav.module.scss', () => ({
+  close: 'close',
+}));
+
 describe('Secondary Nav', () => {
   const sections = [
     {
@@ -83,14 +87,14 @@ describe('Secondary Nav', () => {
   });
 
   it('initially shows the page content but not the table of contents on mobile', () => {
-    const { queryByText, getByText } = render(
+    const { getByTestId } = render(
       <SecondaryNav sections={sections} width={smallWidth}>
         <div id={sections[0].id}>{childContent}</div>
       </SecondaryNav>
     );
-
-    expect(queryByText(sections[0].title)).not.toBeInTheDocument();
-    expect(getByText(childContent)).toBeInTheDocument();
+    const tocContainer = getByTestId('tocContainer');
+    expect(tocContainer).toHaveClass('close');
+    expect(tocContainer).not.toHaveClass('open');
   });
 
   it('hides the page content when the table of contents is open on mobile', () => {
@@ -138,7 +142,8 @@ describe('Secondary Nav', () => {
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
   });
 
-  it('updates the address path when link is selected for keyboard interaction', () => {
+  it('updates the address path when link is selected for keyboard interaction', async () => {
+    const user = userEvent.setup();
     const { getByText } = render(
       <SecondaryNav sections={sections} width={largeWidth} hoverClass={hoverClass}>
         <div id={sections[0].id}>{childContent}</div>
@@ -146,9 +151,9 @@ describe('Secondary Nav', () => {
     );
 
     const link = getByText(sections[0].title);
-    userEvent.tab();
+    await user.tab();
     expect(link).toHaveFocus();
-    userEvent.keyboard('{Enter}');
+    await user.keyboard('{Enter}');
     expect(addressPathMock).toHaveBeenCalledWith(sections[0].id, window.location);
   });
 

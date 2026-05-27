@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import CurrencyExchangeFAQ from './exchange-rates-faq';
-import Analytics from '../../../utils/analytics/analytics';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery } from 'gatsby';
 
 const mockData = {
   allExchangeRatesData: {
@@ -68,6 +67,6 @@ describe('CurrencyExchangeFAQ Component', () => {
 
   it('renders the correct dataset date', () => {
     const { getByText } = render(<CurrencyExchangeFAQ />);
-    expect(getByText(/December 31, 2022 to September 30, 2023\./)).toBeInTheDocument();
+    expect(getByText(/March 31, 2018 to September 30, 2023\./)).toBeInTheDocument();
   });
 });

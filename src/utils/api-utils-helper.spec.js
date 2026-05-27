@@ -212,7 +212,7 @@ describe('API Utils Helper', () => {
     ];
 
     const res = unitTestObjects.buildDownloadObject(api, dateRange, fileType, null, tableColumnSortData, null);
-    expect(res.params).toContain('sort=+record_date'); // confirming we sort properly
+    expect(res.params).toContain('sort=record_date'); // confirming we sort properly
     expect(res.params).toContain('fields=record_date'); // confirming it's been mirrored to fields without sort direction
   });
 
@@ -342,6 +342,6 @@ describe('API Utils Helper', () => {
     ];
 
     const res2 = helpers.buildTableColumnSortParams(tableColumnSortData2);
-    expect(res2.sort).toEqual('+record_date');
+    expect(res2.sort).toEqual('record_date');
   });
 });

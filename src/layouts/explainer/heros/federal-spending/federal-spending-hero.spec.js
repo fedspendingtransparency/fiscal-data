@@ -8,22 +8,21 @@ import { queryClient } from '../../../../../react-query-client';
 describe('Federal spending Hero', () => {
   beforeAll(() => {
     // include a "current" and a last record from the prior year for testing values
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData);
   });
   afterEach(() => {
     queryClient.clear();
+  });
+
+  afterAll(() => {
+    fetchMock.hardReset();
   });
 
   it('Hero Image section loads with relevant data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText } = render(<FederalSpendingHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getByText('$4.52 trillion', { exact: false }));
     expect(await getByText('in fiscal year 2022', { exact: false })).toBeInTheDocument();
@@ -39,19 +38,15 @@ describe('Federal spending Hero', () => {
 describe('Pill data section', () => {
   afterEach(() => {
     queryClient.clear();
+    fetchMock.hardReset();
   });
 
   it('correctly renders the pill data, when spending has increased', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData);
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole } = render(<FederalSpendingHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getByText('$2.24 T', { exact: false }));
     expect(await getByRole('img', { name: 'up arrow' })).toBeInTheDocument();
@@ -61,16 +56,11 @@ describe('Pill data section', () => {
   });
 
   it('correctly renders the pill data, when spending has decreased', async () => {
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData_decrease,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+    fetchMock.mockGlobal().route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData_decrease);
     const fetchSpy = jest.spyOn(global, 'fetch');
 
     const { getByText, getByRole } = render(<FederalSpendingHero />);
-    expect(fetchSpy).toBeCalled();
+    expect(fetchSpy).toHaveBeenCalled;
 
     await waitFor(() => getByText('$2.24 T', { exact: false }));
     expect(await getByRole('img', { name: 'down arrow' })).toBeInTheDocument();

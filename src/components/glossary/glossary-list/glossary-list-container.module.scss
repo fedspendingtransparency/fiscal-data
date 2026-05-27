@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .title {
   font-weight: $semi-bold-weight;
@@ -24,12 +24,24 @@
   &:hover {
     color: $slate-blue;
   }
-  .arrowIcon {
+  .leftArrowIcon {
     margin-right: 0.5rem;
     height: 0.833rem;
+  }
+
+  .rightArrowIcon {
+    margin-left: 0.5rem;
+    height: 0.833rem;
+    padding-right: 0.70rem;
   }
 }
 
 .listContainer > div {
   min-height: 0;
+}
+
+.listButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

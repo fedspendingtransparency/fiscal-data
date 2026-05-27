@@ -1,38 +1,35 @@
-/* istanbul ignore file */
 import React from 'react';
+import SectionContent from '../../api-documentation/section-content/section-content';
+import { mainSection } from './contact-section.module.scss';
 import { section } from '../../../pages/about-us/about-us.module.scss';
-import { container } from './contact-section.module.scss';
-import { graphql, useStaticQuery } from 'gatsby';
-import FDGMdxProvider from '../../../components/mdx/FDGMdxProvider';
-import { MDXProvider } from '@mdx-js/react';
-import { aboutUsComponents } from '../helpers/helpers';
-import { MDXRenderer } from 'gatsby-plugin-mdx';
-import ContactForm from './contact-form/contact-form';
+import CustomLink from '../../links/custom-link/custom-link';
 
-const Contact = ({ onUnsupportedSubject = () => {} }) => {
-  const contactMDX = useStaticQuery(graphql`
-    query {
-      mdx(frontmatter: { id: { in: ["contact-section", "subscribe"] } }) {
-        body
-      }
-    }
-  `);
-
-  // todo - As of now (3/7/22), Jest does not have a way to test the following
-  //  transformations take place. Please unit test if possible.
-  const contactComponents = {
-    ContactForm: () => <ContactForm onUnsupportedSubject={onUnsupportedSubject} />,
-  };
-
+const Contact = () => {
   return (
-    <div className={`${section} ${container}`}>
-      {contactMDX && contactMDX.mdx && contactMDX.mdx.body && (
-        <FDGMdxProvider>
-          <MDXProvider components={Object.assign({}, aboutUsComponents, contactComponents)}>
-            <MDXRenderer children={contactMDX.mdx.body} />
-          </MDXProvider>
-        </FDGMdxProvider>
-      )}
+    <div className={section}>
+      <SectionContent id="contact-us" headingLevel={2} title="Contact Us" className={mainSection}>
+        <p>
+          Have a question about Fiscal Data? The <CustomLink url="#about-fiscal-data">About Us</CustomLink> and{' '}
+          <CustomLink url="#faq">FAQ</CustomLink> are the quickest ways to get an answer, but if you can’t find what you’re looking for there or would
+          like to make a suggestion, please contact us{' '}
+          <CustomLink url="mailto:fiscaldata@fiscal.treasury.gov?subject=Contact Us">via email</CustomLink>, and our team will respond at our earliest
+          opportunity.
+          <br />
+          <br />
+          <i>
+            Do not enter sensitive personal identifiable information such as SSN, address, phone number, date of birth, or driver's license number.
+          </i>
+        </p>
+      </SectionContent>
+      <SectionContent id="subscribe" headingLevel={3} title="Sign Up for Email Updates">
+        <p>
+          Want to stay up to date about new features and datasets? Sign up for email updates by sending an email to{' '}
+          <CustomLink url={`mailto:join-fiscal-data-gov@lists.fiscal.treasury.gov?subject=Yes, I'd like to receive updates from Fiscal Data!`}>
+            join-fiscal-data-gov@lists.fiscal.treasury.gov
+          </CustomLink>
+          .
+        </p>
+      </SectionContent>
     </div>
   );
 };

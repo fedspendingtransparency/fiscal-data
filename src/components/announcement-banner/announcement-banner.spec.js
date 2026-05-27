@@ -1,5 +1,5 @@
 import AnnouncementBanner from './announcement-banner';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 
 describe('Announcement Banner', () => {
@@ -20,7 +20,7 @@ describe('Announcement Banner', () => {
     expect(queryByRole('button', { tabIndex: '0' })).not.toBeInTheDocument();
   });
 
-  it('expects the banner to not be visible on click of the x button', () => {
+  it('expects the banner to not be visible on click of the x button', async () => {
     const { getByRole, getByTestId } = render(<AnnouncementBanner closable={true}>{mockText}</AnnouncementBanner>);
     const xButton = getByRole('button', { tabIndex: '0' });
     const banner = getByTestId('bannerContainer');
@@ -30,7 +30,7 @@ describe('Announcement Banner', () => {
 
     xButton.click();
 
-    expect(banner).not.toBeInTheDocument();
+    await waitFor(() => expect(banner).not.toBeInTheDocument());
   });
 
   it('expects the background color to be changeable', () => {

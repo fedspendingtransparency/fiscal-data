@@ -1,15 +1,13 @@
 import React from 'react';
 import { act, render } from '@testing-library/react';
-import renderer from 'react-test-renderer';
 import DownloadSticky, { dsTextContent } from './download-sticky';
 import { downloadsContext } from '../persist/download-persist/downloads-persist';
-import { minimizedStyle, collapsed } from './download-sticky.module.scss';
+import { collapsed, minimizedStyle } from './download-sticky.module.scss';
 import '@testing-library/jest-dom';
-import { StickyFooterComponent } from '../sticky-footer/sticky-footer';
 import * as gaHelper from '../../layouts/dataset-detail/helper';
-import { RecoilRoot } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
-import { smallTableDownloadDataCSV } from '../../recoil/smallTableDownloadData';
+
+import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
+import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
 describe('DownloadSticky component', () => {
@@ -52,18 +50,17 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: [],
     };
 
-    let component = null;
+    const { queryByTestId } = render(
+      <>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </>
+    );
     act(() => {
-      component = render(
-        <RecoilRoot>
-          <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadSticky />
-          </downloadsContext.Provider>
-        </RecoilRoot>
-      );
+      jest.runAllTimers();
     });
-    jest.runAllTimers();
-    expect(component.queryByTestId('download-sticky-content')).toBeTruthy();
+    expect(queryByTestId('download-sticky-content')).toBeTruthy();
   });
 
   it('displays nothing when the downloadModal is open', () => {
@@ -77,18 +74,17 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: [],
     };
 
-    let component = null;
+    const { queryByTestId } = render(
+      <>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </>
+    );
     act(() => {
-      component = render(
-        <RecoilRoot>
-          <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadSticky />
-          </downloadsContext.Provider>
-        </RecoilRoot>
-      );
+      jest.runAllTimers();
     });
-    jest.runAllTimers();
-    expect(component.queryByTestId('download-sticky-content')).toEqual(null);
+    expect(queryByTestId('download-sticky-content')).toEqual(null);
   });
 
   it('displays nothing when the no downloads are in progress or queued', () => {
@@ -105,15 +101,16 @@ describe('DownloadSticky component', () => {
     let component = null;
     act(() => {
       component = render(
-        <RecoilRoot>
+        <>
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
-        </RecoilRoot>
+        </>
       );
     });
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(component.queryByTestId('download-sticky-content')).toEqual(null);
   });
 
@@ -130,15 +127,16 @@ describe('DownloadSticky component', () => {
 
     act(() => {
       component = render(
-        <RecoilRoot>
+        <>
           <downloadsContext.Provider value={mockSiteProviderValue}>
             <DownloadSticky />
           </downloadsContext.Provider>
-        </RecoilRoot>
+        </>
       );
     });
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(component.queryByText(dsTextContent.prepSingle)).toBeTruthy();
     expect(component.queryByText(dsTextContent.finishedSingle)).not.toBeTruthy();
     expect(component.queryByText(dsTextContent.prepMulti)).not.toBeTruthy();
@@ -158,14 +156,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryByText(dsTextContent.finishedSingle)).toBeTruthy();
     expect(queryByText(dsTextContent.prepSingle)).not.toBeTruthy();
     expect(queryByText(dsTextContent.finishedMulti)).not.toBeTruthy();
@@ -183,16 +182,17 @@ describe('DownloadSticky component', () => {
       downloadsPrepared: [],
     };
     const gaSpy = jest.spyOn(gaHelper, 'generateAnalyticsEvent');
-
+    dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryByTestId, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(getByTestId('download-sticky-content')).not.toHaveClass(minimizedStyle);
     expect(queryByTestId('minimize-symbol')).toBeTruthy();
     expect(queryByTestId('maximize-symbol')).not.toBeTruthy();
@@ -250,14 +250,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText, queryAllByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryByText(dsTextContent.prepMulti)).toBeTruthy();
     expect(queryByText(dsTextContent.prepSingle)).not.toBeTruthy();
     expect(queryByText(dsTextContent.finishedMulti)).not.toBeTruthy();
@@ -297,14 +298,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryByText(dsTextContent.prepMulti)).not.toBeTruthy();
     expect(queryByText(dsTextContent.finishedMulti)).toBeTruthy();
     expect(queryByText(dsTextContent.planToLeaveMulti)).not.toBeTruthy();
@@ -359,14 +361,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryByText(dsTextContent.prepMulti)).toBeTruthy();
     expect(queryByText(dsTextContent.finishedMulti)).not.toBeTruthy();
     expect(queryByText(dsTextContent.planToLeaveMulti)).toBeTruthy();
@@ -399,16 +402,17 @@ describe('DownloadSticky component', () => {
       downloadsInProgress: mockDownload,
       downloadsPrepared: [],
     };
-
+    dataTableDapGaEventLabelState.setState({ label: 'Table Info' });
     const { queryByText, queryAllByText, getByTestId } = render(
-      <RecoilRoot initializeState={snapshot => snapshot.set(reactTableFilteredDateRangeState, 'Table Info')}>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     const collapseToggleButton = getByTestId('collapse-toggle');
 
     expect(queryByText(dsTextContent.hideLabel)).not.toBeTruthy();
@@ -456,14 +460,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryByText(dsTextContent.finishedNote)).not.toBeTruthy();
   });
 
@@ -498,23 +503,20 @@ describe('DownloadSticky component', () => {
     };
 
     jest.useFakeTimers();
-    let component = null;
-    renderer.act(() => {
-      component = renderer.create(
-        <RecoilRoot>
-          <downloadsContext.Provider value={mockSiteProviderValue}>
-            <DownloadSticky />
-          </downloadsContext.Provider>
-        </RecoilRoot>
-      );
+    const { getByTestId } = render(
+      <>
+        <downloadsContext.Provider value={mockSiteProviderValue}>
+          <DownloadSticky />
+        </downloadsContext.Provider>
+      </>
+    );
+    act(() => {
+      jest.runAllTimers();
     });
-    jest.runAllTimers();
 
-    const stickyFooter = component.root.findByType(StickyFooterComponent);
-    const callback = stickyFooter.props.onClosed;
-
-    renderer.act(() => {
-      callback();
+    const stickyFooter = getByTestId('sticky-footer-container');
+    act(() => {
+      userEvent.click(stickyFooter);
       jest.runAllTimers();
     });
 
@@ -567,14 +569,15 @@ describe('DownloadSticky component', () => {
     };
 
     const { queryAllByText } = render(
-      <RecoilRoot>
+      <>
         <downloadsContext.Provider value={mockSiteProviderValue}>
           <DownloadSticky />
         </downloadsContext.Provider>
-      </RecoilRoot>
+      </>
     );
-    jest.runAllTimers();
-
+    act(() => {
+      jest.runAllTimers();
+    });
     expect(queryAllByText('someTable_someDateRange2.type.zip').length).toEqual(1);
   });
 });

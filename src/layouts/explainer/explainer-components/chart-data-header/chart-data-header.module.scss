@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .headerContainer {
   display: flex;
@@ -7,7 +7,7 @@
   white-space: nowrap;
 
   .headerData {
-    margin-bottom: 0.75rem;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
     min-width: 400px;
@@ -18,7 +18,10 @@
     }
 
     .dataElement {
-      color: #666666;
+      color: $font-body-copy;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .dataValue {
         display: flex;
@@ -53,7 +56,7 @@
     min-width: unset;
 
     .headerData {
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
       display: flex;
       flex-direction: row;
       min-width: unset;
@@ -68,7 +71,8 @@
           line-height: $font-size-24;
         }
 
-        .dataLabel {
+        .dataLabel,
+        .dateFieldLabel {
           font-size: $font-size-10;
           margin: 0 1rem;
         }

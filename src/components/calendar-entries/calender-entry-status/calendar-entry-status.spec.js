@@ -8,23 +8,23 @@ describe('calendar entry status', () => {
     // destructuring allows for specific query functions to be made available
     // with the context of what was created in render
     const { getByText } = render(<CalendarEntryStatus isReleased={true} />);
-    expect(getByText('Updated')).toBeInTheDocument();
+    expect(getByText('Released')).toBeInTheDocument();
     cleanup();
   });
 
   it('shows correct text when not updated', () => {
     const { getByText } = render(<CalendarEntryStatus isReleased={false} />);
-    expect(getByText('Not yet updated')).toBeInTheDocument();
+    expect(getByText('Not Released')).toBeInTheDocument();
     cleanup();
   });
 
   it('updates to correct text when changed', () => {
     const { rerender } = render(<CalendarEntryStatus isReleased={false} />);
 
-    expect(screen.getByText('Not yet updated')).toBeInTheDocument();
+    expect(screen.getByText('Not Released')).toBeInTheDocument();
 
     rerender(<CalendarEntryStatus isReleased={true} />);
-    expect(screen.getByText('Updated')).toBeInTheDocument();
+    expect(screen.getByText('Released')).toBeInTheDocument();
     cleanup();
   });
 });

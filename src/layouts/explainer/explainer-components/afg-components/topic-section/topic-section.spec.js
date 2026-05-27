@@ -63,7 +63,7 @@ describe('Compare Section Component', () => {
       //National Deficit
       getByText('$360 billion ', { exact: false });
       getByText('the government had $28.43 trillion in federal', { exact: false });
-      expect(getAllByText('2022', { exact: false }).length).toBe(5);
+      expect(getAllByText('2022', { exact: false }).length).toBe(6);
       expect(getAllByText('2021', { exact: false }).length).toBe(4);
       expect(getAllByText('2020', { exact: false }).length).toBeGreaterThan(1);
     });

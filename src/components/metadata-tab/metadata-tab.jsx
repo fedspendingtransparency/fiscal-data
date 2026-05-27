@@ -1,5 +1,5 @@
 import React from 'react';
-import DtgTable from '../dtg-table/dtg-table';
+import Table from '../table-components/table/table';
 
 export default function MetadataTab({ config }) {
   const theData = [
@@ -53,5 +53,5 @@ export default function MetadataTab({ config }) {
     aria: { 'aria-label': `${config.name} metadata` },
   };
 
-  return <DtgTable tableProps={tableProps} />;
+  return <Table tableProps={tableProps} />;
 }

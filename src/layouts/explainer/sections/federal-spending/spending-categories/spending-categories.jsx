@@ -7,6 +7,8 @@ import { spendingAccordion, spendingExplainerPrimary } from '../federal-spending
 import HowMuchDoesTheGovtSpend from '../how-much-does-the-govt-spend/how-much-does-the-govt-spend';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import { ErrorBoundary } from 'react-error-boundary';
+import ChartApiError from '../../../../explainer/explainer-components/chart-api-error/chart-api-error';
 
 export const SpendingCategories = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(null);
@@ -31,17 +33,19 @@ export const SpendingCategories = () => {
       <p>
         The government buys a variety of products and services used to serve the public - everything from military aircraft, construction and highway
         maintenance equipment, buildings, and livestock, to research, education, and training. The chart below shows the top 10 categories and
-        agencies for federal spending in FY {latestCompleteFiscalYear}.
+        agencies for federal spending in FY {latestCompleteFiscalYear || '--'}.
       </p>
-      <div className={visWithCallout}>
-        <HowMuchDoesTheGovtSpend />
+      <figure className={visWithCallout}>
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <HowMuchDoesTheGovtSpend />
+        </ErrorBoundary>
         <VisualizationCallout color={spendingExplainerPrimary}>
           <p>
             For more details on U.S. government spending by category and agency, visit USAspending.gov’s {USAsExplorerPage} and {USAsAgencyPage}{' '}
             pages.
           </p>
         </VisualizationCallout>
-      </div>
+      </figure>
       <div className={spendingAccordion}>
         <Accordion
           title="What does the future of Social Security and Medicare look like?"
@@ -51,7 +55,7 @@ export const SpendingCategories = () => {
         >
           Each year, the Social Security and Medicare Boards of Trustees publish their {ssaAnnualReport}. The Boards’ projections indicate that
           spending will continue to increase. As the average age of Americans increases, more funding is needed to support entitlement programs like
-          Social Security, Medicare, and retirement and disability services for both military and civil servants{' '}
+          Social Security, Medicare, and retirement and disability services for both military and civil servants.{' '}
         </Accordion>
       </div>
     </div>

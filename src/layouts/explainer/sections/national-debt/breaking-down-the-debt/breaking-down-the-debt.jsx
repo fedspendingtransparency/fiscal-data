@@ -1,5 +1,4 @@
-import { withWindowSize } from 'react-fns';
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign } from '@fortawesome/free-solid-svg-icons/faDollarSign';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
@@ -10,52 +9,64 @@ import Accordion from '../../../../../components/accordion/accordion';
 import { chartPatternBackground, nationalDebtSectionConfigs } from '../national-debt';
 import { spendingLink } from '../../../explainer-helpers/national-debt/national-debt-helper';
 import React, { useEffect, useState } from 'react';
-import { breakpointLg, fontSize_10, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../variables.module.scss';
+import { breakpointLg, debtExplainerLightSecondary, debtExplainerPrimary, fontSize_10, fontSize_14 } from '../../../../../variables.module.scss';
 import { chartBackdrop, visWithCallout } from '../../../explainer.module.scss';
 import { debtAccordion, postGraphAccordionContainer, postGraphContent } from '../national-debt.module.scss';
 import {
   aveInterestLegend,
-  debtLegend,
   debtBreakdownSectionGraphContainer,
-  multichartContainer,
-  multichartLegend,
+  debtLegend,
+  footerContainer,
   header,
   headerContainer,
+  loadingIcon,
+  loadingIndicatorContainer,
+  multichartContainer,
+  multichartLegend,
+  multichartWrapper,
+  simple,
   subHeader,
   title,
-  simple,
-  footerContainer,
-  multichartWrapper,
 } from './breaking-down-the-debt.module.scss';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart/intragovernmental-holdings-chart';
 import { explainerCitationsMap, getDateWithoutOffset } from '../../../explainer-helpers/explainer-helpers';
 import QuoteBox from '../../../quote-box/quote-box';
+import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import CustomLink from '../../../../../components/links/custom-link/custom-link';
+import { useWindowSize } from 'usehooks-ts';
 
 export const percentageFormatter = value => (Math.round(Number(value) * 100).toPrecision(15) / 100).toFixed(2) + '%';
 export const trillionsFormatter = value => `$${(Number(value) / 1000000).toFixed(2)} T`;
 
+export const interestExpenseInsight = (
+  <CustomLink url="/interest-expense-avg-interest-rates/" id="Interest Expense">
+    Interest Expense Insight
+  </CustomLink>
+);
+
 let gaTimerDualChart;
 let ga4Timer;
 
-const BreakingDownTheDebt = ({ sectionId, width }) => {
+const BreakingDownTheDebt = ({ sectionId }) => {
   const [data, setData] = useState();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
   const [multichartConfigs, setMultichartConfigs] = useState([]);
   const [multichartDataLoaded, setMultichartDataLoaded] = useState(false);
-  const [debtValue, setDebtValue] = useState('0');
-  const [interestValue, setInterestValue] = useState('0');
-  const [focalYear, setFocalYear] = useState(1900);
+  const [debtValue, setDebtValue] = useState('$--');
+  const [interestValue, setInterestValue] = useState('--%');
+  const [focalYear, setFocalYear] = useState('--');
   const [multichartStartYear, setMultichartStartYear] = useState('');
   const [multichartEndYear, setMultichartEndYear] = useState('');
   const [multichartInterestRateMax, setMultichartInterestRateMax] = useState('0');
   const [multichartInterestRateMin, setMultichartInterestRateMin] = useState('0');
   const [interestExpenseEndMonth, setInterestExpenseEndMonth] = useState('');
-  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('');
-  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('0');
-  const [debtExpensePercent, setDebtExpensePercent] = useState('0%');
+  const [interestExpenseEndYear, setInterestExpenseEndYear] = useState('--');
+  const [shortenedDebtExpense, setShortenedDebtExpense] = useState('--');
+  const [debtExpensePercent, setDebtExpensePercent] = useState('--%');
   const [currentFiscalYear, setCurrentFiscalYear] = useState('');
+  const { width } = useWindowSize();
 
   const { monetaryPolicy, mspdSummary, treasurySecurities } = explainerCitationsMap['national-debt'];
 
@@ -229,10 +240,10 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   }, []);
 
   useEffect(() => {
-    basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?fields=
-        current_fytd_net_outly_amt,prior_fytd_net_outly_amt,
-        record_date,record_calendar_month,record_calendar_year,record_fiscal_year
-        &filter=line_code_nbr:eq:5691&sort=-record_date&page%5bsize%5d=1`).then(response => {
+    const endpoint = 'v1/accounting/mts/mts_table_5';
+    const fields = 'current_fytd_net_outly_amt,prior_fytd_net_outly_amt,record_date,record_calendar_month,record_calendar_year,record_fiscal_year';
+    const filter = 'line_code_nbr:eq:5691';
+    basicFetch(`${apiPrefix}${endpoint}?fields=${fields}&filter=${filter}&sort=-record_date&page%5bsize%5d=1`).then(response => {
       if (response && response.data && response.data.length) {
         const fytdNet = response.data[0].current_fytd_net_outly_amt;
         basicFetch(`${apiPrefix}v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:4177&sort=-record_date&page[size]=1`).then(response => {
@@ -287,12 +298,12 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
         individuals, such as personal credit card debt or mortgages.
       </p>
       <p>
-        The visual below comparing {glossaryTerms.calendarYear} {startYear} and {endYear} displays the difference in growth between debt held by the
-        public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by different amounts in
-        the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of programs and services
-        during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed of debt owed on
-        agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social Security
-        Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
+        The visual below comparing {glossaryTerms.calendarYear} {startYear || '--'} and {endYear || '--'} displays the difference in growth between
+        debt held by the public and intragovernmental debt. While both types of debt combine to make up the national debt, they have increased by
+        different amounts in the past several years. One of the main causes of the jump in public debt can be attributed to increased funding of
+        programs and services during the COVID-19 pandemic. Intragovernmental debt has not increased by quite as much since it is primarily composed
+        of debt owed on agencies’ excess revenue invested with the Treasury. The revenue of the largest investor in Treasury securities, the Social
+        Security Administration, has not increased significantly in recent years, resulting in this slower intragovernmental holding increase.
       </p>
       <IntragovernmentalHoldingsChart sectionId={sectionId} data={data} date={date} width={width} />
       <div className={postGraphContent} id="maintaining-national-debt">
@@ -310,8 +321,8 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           customTopMargin="-16px"
         >
           <p>
-            As of {interestExpenseEndMonth} {interestExpenseEndYear} it costs ${shortenedDebtExpense} billion to maintain the debt, which is{' '}
-            {debtExpensePercent} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear}.
+            As of {interestExpenseEndMonth || '--'} {interestExpenseEndYear || '--'} it costs ${shortenedDebtExpense ?? '--'} billion to maintain the
+            debt, which is {debtExpensePercent || '--'} of the total {spendingLink('federal spending')} in fiscal year {currentFiscalYear || '--'}.
           </p>
         </QuoteBox>
         <p>
@@ -319,71 +330,76 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
           stable due to low interest rates and investors’ judgement that the U.S. Government has a very low risk of default. However, recent increases
           in interest rates and inflation are now resulting in an increase in interest expense.
         </p>
-        <div className={visWithCallout}>
-          {multichartDataLoaded && (
+        <figure className={visWithCallout}>
+          <div
+            className={multichartWrapper}
+            aria-label={
+              'Combined line and area chart comparing average interest rate and total debt trends over ' +
+              'the last decade, ranging from ' +
+              multichartInterestRateMax +
+              ' to ' +
+              multichartInterestRateMin
+            }
+            role="figure"
+          >
             <div
-              className={multichartWrapper}
-              aria-label={
-                'Combined line and area chart comparing average interest rate and total debt trends over ' +
-                'the last decade, ranging from ' +
-                multichartInterestRateMax +
-                ' to ' +
-                multichartInterestRateMin
-              }
-              role="figure"
+              className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
+              onMouseEnter={handleMouseEnterInterestChart}
+              onMouseLeave={handleMouseLeaveInterestChart}
+              role="presentation"
+              data-testid="debt-breakdown-section-graph"
             >
-              <div
-                className={`${debtBreakdownSectionGraphContainer} ${chartBackdrop}`}
-                onMouseEnter={handleMouseEnterInterestChart}
-                onMouseLeave={handleMouseLeaveInterestChart}
-                role="presentation"
-              >
-                <p className={`${title} ${simple}`}>
-                  Interest Rate and Total Debt, {multichartStartYear} – {multichartEndYear}
-                </p>
-                <div className={headerContainer} data-testid="interest-and-debt-chart-header">
-                  <div>
-                    <div className={header}>{focalYear}</div>
-                    <span className={subHeader}>Fiscal Year</span>
-                  </div>
-                  <div>
-                    <div className={header}>{interestValue}</div>
-                    <span className={subHeader}>Average Interest Rate</span>
-                  </div>
-                  <div>
-                    <div className={header}>{debtValue}</div>
-                    <span className={subHeader}>Total Debt</span>
-                  </div>
+              <p className={`${title} ${simple}`}>
+                Interest Rate and Total Debt, {multichartStartYear || '--'} – {multichartEndYear || '--'}
+              </p>
+              <div className={headerContainer} data-testid="interest-and-debt-chart-header">
+                <div>
+                  <div className={header}>{focalYear}</div>
+                  <span className={subHeader}>Fiscal Year</span>
                 </div>
+                <div>
+                  <div className={header}>{interestValue}</div>
+                  <span className={subHeader}>Average Interest Rate</span>
+                </div>
+                <div>
+                  <div className={header}>{debtValue}</div>
+                  <span className={subHeader}>Total Debt</span>
+                </div>
+              </div>
+              {!multichartDataLoaded ? (
+                <div className={loadingIndicatorContainer}>
+                  <LoadingIndicator loadingClass={loadingIcon} />
+                </div>
+              ) : (
                 <div className={`${multichartContainer} multichart-scaled`}>
                   <Multichart chartId={multichartId} chartConfigs={multichartConfigs} hoverEffectHandler={hoverEffectHandler} />
                 </div>
-                <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">
-                  <div>
-                    <div className={aveInterestLegend} />
-                    <div>Average Interest Rate</div>
-                  </div>
-                  <div>
-                    <div className={debtLegend} />
-                    <div>Total Debt</div>
-                  </div>
+              )}
+              <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">
+                <div>
+                  <div className={aveInterestLegend} />
+                  <div>Average Interest Rate</div>
                 </div>
-                <div className={footerContainer}>
-                  <p>
-                    Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
-                  </p>
-                  <p>Last Updated: September 30, {multichartEndYear}</p>
+                <div>
+                  <div className={debtLegend} />
+                  <div>Total Debt</div>
                 </div>
               </div>
+              <div className={footerContainer}>
+                <p>
+                  Visit the {treasurySecurities} and {mspdSummary} datasets to explore and download this data.
+                </p>
+                <p>Last Updated: September 30, {multichartEndYear || '--'}</p>
+              </div>
             </div>
-          )}
+          </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              When interest rates remain low over time, interest expense on the debt paid by the federal government will remain stable, even as the
-              federal debt increases. As interest rates increase, the cost of maintaining the national debt also increases.
+              As interest rates increase, the cost of maintaining the national debt also increases. These impacts grow as the debt also increases. To
+              view the relationship with interest rates and interest expense, check out this {interestExpenseInsight}.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
         <div className={postGraphAccordionContainer}>
           <div className={debtAccordion}>
             <Accordion
@@ -405,4 +421,4 @@ const BreakingDownTheDebt = ({ sectionId, width }) => {
   );
 };
 
-export default withWindowSize(BreakingDownTheDebt);
+export default BreakingDownTheDebt;

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { container, row, labelCheckmarkContainer, checkmarkText, selectAll } from './select-all.module.scss';
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { checkmarkText, container, labelCheckmarkContainer, row, selectAll } from './select-all.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faMinus } from '@fortawesome/free-solid-svg-icons/faMinus';
 
 const SelectAll = ({ fields, onUpdateFields, isVisible, resetToFalse }) => {
   const [allSelected, setAllSelected] = useState(true);

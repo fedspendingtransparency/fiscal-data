@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .pageNotice {
   border-top: 1px solid $info-box-border;

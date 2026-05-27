@@ -1,42 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+import React, { useEffect, useState } from 'react';
+import Popover from '@mui/material/Popover';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { mobileFA, header, infoIcon, svgStyle, popupContainerStyle, popoverContents } from './info-tip.module.scss';
-import { withWindowSize } from 'react-fns';
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
+import { buttonContainer, header, infoIcon, mobileFA, popoverContents, popupContainerStyle, svgStyle } from './info-tip.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../variables.module.scss';
-import Button from '@material-ui/core/Button';
+import { useWindowSize } from 'usehooks-ts';
 
 const style = {
-  button: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    boxShadow: 'none',
-    height: '20px',
-    marginLeft: '3px',
-    minWidth: '20px',
-    width: '20px',
-    padding: 0,
-    '&:hover, &.Mui-focusVisible, &:active': {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-    },
-  },
   popOver: {
     '& .MuiPopover-paper': {
       backgroundColor: 'rgba(255, 253, 253, 0.96)',
       boxShadow: '0 2px 30px 0 rgba(0, 0, 0, 0.16)',
       maxWidth: '90%',
       width: '17rem',
-    },
-  },
-  secondarySvgColor: {
-    '& path': {
-      fill: '#000',
     },
   },
 };
@@ -46,21 +24,10 @@ export const infoTipAnalyticsObject = {
   action: 'Info Button Click',
 };
 
-const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, children }) => {
+const InfoTip = ({ title, clickEvent, children, displayTitle }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [previousScrollPosition, setPreviousScrollPosition] = useState(0);
-
-  const useStyles = makeStyles(theme => ({
-    ...style,
-    popupContainer: {
-      padding: theme.spacing(2),
-    },
-    primarySvgColor: {
-      '& path': {
-        fill: iconStyle?.color ? iconStyle.color : '#aeb0b5',
-      },
-    },
-  }));
+  const { width } = useWindowSize();
   const handleScroll = () => {
     const position = window.pageYOffset;
     setPreviousScrollPosition(scrollPosition);
@@ -79,12 +46,11 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
     };
   }, [scrollPosition]);
 
-  const { button, primarySvgColor, secondarySvgColor, popOver, popupContainer } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   let timeout;
 
-  const handleClick = event => {
+  const handleMouseEnter = event => {
     setAnchorEl(event.currentTarget);
     setOpen(true);
     if (clickEvent) {
@@ -106,7 +72,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   const label = `More information about ${title}.`;
 
   const getHeader = () => {
-    if (title) {
+    if (title && displayTitle) {
       return (
         <>
           {width < pxToNumber(breakpointLg) ? (
@@ -123,22 +89,23 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
       );
     }
   };
+
+
   return (
-    <span data-testid="infoTipContainer">
-      <Button
+    <span data-testid="infoTipContainer" className={buttonContainer}>
+      <button
         aria-describedby={id}
         aria-label={title ? label : null}
         data-testid="infoTipButton"
-        className={`${button} ${infoIcon} infoTipIcon`}
-        onClick={handleClick}
+        className={`${infoIcon} infoTipIcon`}
         onMouseLeave={handleMouseLeave}
-        onMouseEnter={hover ? handleClick : null}
+        onMouseEnter={handleMouseEnter}
       >
-        <FontAwesomeIcon icon={faInfoCircle} className={`${svgStyle} ${secondary ? secondarySvgColor : primarySvgColor}`} style={iconStyle} />
-      </Button>
+        <FontAwesomeIcon icon={faInfoCircle} className={svgStyle}/>
+      </button>
       <Popover
         id={id}
-        className={popOver}
+        sx={{ ...style.popOver, opacity: open ? 1 : 0 }}
         disableScrollLock={true}
         open={open}
         anchorEl={anchorEl}
@@ -152,7 +119,7 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
           horizontal: 'center',
         }}
       >
-        <div className={`${popupContainer} ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role={'presentation'}>
+        <div className={` ${popupContainerStyle}`} data-testid="popupContainer" onMouseLeave={handleClose} role="presentation">
           {getHeader()}
           <div className={`${popoverContents} infoTipPopoverContents`}>{children}</div>
         </div>
@@ -161,4 +128,4 @@ const InfoTip = ({ width, title, secondary, clickEvent, iconStyle, hover, childr
   );
 };
 
-export default withWindowSize(InfoTip);
+export default InfoTip;

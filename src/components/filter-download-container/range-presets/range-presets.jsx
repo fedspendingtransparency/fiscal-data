@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { header, presetContainer, radio, toggleButton, selected } from './range-presets.module.scss';
+import React, { useEffect, useState } from 'react';
+import { header, presetContainer, radio, selected, toggleButton } from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
-import { addDays, subQuarters, differenceInYears } from 'date-fns';
+import { addDays, differenceInYears, subQuarters } from 'date-fns';
 import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
 
@@ -210,8 +210,8 @@ const RangePresets = ({
     <>
       {!hideButtons && (
         <>
-          <h3 className={header} data-test-id="header">
-            Date Range<span data-test-id="label">{label}</span>:
+          <h3 className={header} data-testid="header">
+            Date Range<span data-testid="label">{label}</span>:
           </h3>
           <div id={presetContainer}>
             {presets.map(preset => (
@@ -228,14 +228,14 @@ const RangePresets = ({
                         applyPreset(customPreset);
                       }}
                       tabIndex={0}
-                      data-test-id={`preset-radio-${customPreset.key}`}
+                      data-testid={`preset-radio-${customPreset.key}`}
                     />
                     <label
                       className={`
                     ${toggleButton} ${activePresetKey === customPreset.key ? selected : ''}
                   `}
                       htmlFor={`radio-${customPreset.key}`}
-                      data-test-id={`preset-label-${customPreset.key}`}
+                      data-testid={`preset-label-${customPreset.key}`}
                     >
                       {customPreset.label}
                     </label>
@@ -252,14 +252,14 @@ const RangePresets = ({
                         applyPreset(preset);
                       }}
                       tabIndex={0}
-                      data-test-id={`preset-radio-${preset.key}`}
+                      data-testid={`preset-radio-${preset.key}`}
                     />
                     <label
                       className={`
                     ${toggleButton} ${activePresetKey === preset.key ? selected : ''}
                   `}
                       htmlFor={`radio-${preset.key}`}
-                      data-test-id={`preset-label-${preset.key}`}
+                      data-testid={`preset-label-${preset.key}`}
                     >
                       {preset.label}
                     </label>
@@ -299,6 +299,8 @@ export const fitDateRangeToTable = (dateRange, availableRange) => {
   }
   adjRange.from = selectedRange.from > availableRange.from ? selectedRange.from : availableRange.from;
   adjRange.to = selectedRange.to < availableRange.to ? selectedRange.to : availableRange.to;
+  adjRange.earliestDate = availableRange.earliestDate;
+  adjRange.latestDate = availableRange.latestDate;
   if (adjRange.from.getTime() === selectedRange.from.getTime() && adjRange.to.getTime() === selectedRange.to.getTime()) {
     // able to use the full latest user selected range as-is, so don't store it separately
     delete adjRange.userSelected;

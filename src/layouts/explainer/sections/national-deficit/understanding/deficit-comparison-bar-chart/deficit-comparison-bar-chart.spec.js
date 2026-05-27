@@ -11,6 +11,7 @@ import {
 } from '../../../../explainer-helpers/national-deficit/national-deficit-test-helper';
 import { waitFor } from '@testing-library/dom';
 import { mockIsIntersecting } from 'react-intersection-observer/test-utils';
+import { ErrorBoundary } from 'react-error-boundary';
 
 describe('Deficit Comparison Bar Chart', () => {
   const sectionId = nationalDeficitSectionIds[1];
@@ -31,7 +32,11 @@ describe('Deficit Comparison Bar Chart', () => {
   it('renders the chart $ values and labels', async () => {
     jest.useFakeTimers();
 
-    const { findByText, findByTestId } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
+    const { findByText, findByTestId } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
     const chartParent = await findByTestId('chartParentDiv');
 
     act(() => {
@@ -45,26 +50,52 @@ describe('Deficit Comparison Bar Chart', () => {
       expect(marker).toHaveStyle({ opacity: 0 });
     }
 
+    mockIsIntersecting(chartParent, true);
+
     act(() => {
-      mockIsIntersecting(chartParent, true);
       jest.runAllTimers();
     });
 
     for (const mockMarker of mockDeficitComparisonChartMarkers) {
       const marker = await findByText(mockMarker);
       expect(marker).toBeInTheDocument();
-      await waitFor(() => expect(marker).toHaveStyle({ opacity: 1 }));
+      expect(marker).toHaveStyle({ opacity: 1 });
     }
+  });
+});
+
+describe('Deficit Comparison Bar Chart Copy', () => {
+  const sectionId = nationalDeficitSectionIds[1];
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockReset();
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 
   it('renders the chart header', async () => {
-    const { findByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
 
     expect(await findByText('U.S. Deficit Compared to Revenue and Spending, FY 2021')).toBeInTheDocument();
   });
 
   it('renders the chart footer', async () => {
-    const { findByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
+    const { findByText } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
 
     expect(await findByText('Last Updated: September 30, 2021')).toBeInTheDocument();
   });
@@ -79,12 +110,13 @@ describe('Callout text', () => {
   it('renders correct callout text when the deficit decreased from the prior fiscal year', async () => {
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
     const sectionId = nationalDeficitSectionIds[1];
-
-    const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('a decrease of', { exact: false })).toBeInTheDocument();
-      });
+    const { getByText } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
+    await waitFor(() => {
+      expect(getByText('a decrease of', { exact: false })).toBeInTheDocument();
     });
   });
 
@@ -92,11 +124,13 @@ describe('Callout text', () => {
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers_increase);
     const sectionId = nationalDeficitSectionIds[1];
 
-    const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('an increase of', { exact: false })).toBeInTheDocument();
-      });
+    const { getByText } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
+    await waitFor(() => {
+      expect(getByText('an increase of', { exact: false })).toBeInTheDocument();
     });
   });
 
@@ -104,11 +138,13 @@ describe('Callout text', () => {
     setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers_noChange);
     const sectionId = nationalDeficitSectionIds[1];
 
-    const { getByText } = render(<DeficitComparisonBarChart sectionId={sectionId} />);
-    await act(async () => {
-      await waitFor(() => {
-        expect(getByText('remaining unchanged', { exact: false })).toBeInTheDocument();
-      });
+    const { getByText } = render(
+      <ErrorBoundary>
+        <DeficitComparisonBarChart sectionId={sectionId} />
+      </ErrorBoundary>
+    );
+    await waitFor(() => {
+      expect(getByText('remaining unchanged', { exact: false })).toBeInTheDocument();
     });
   });
 });

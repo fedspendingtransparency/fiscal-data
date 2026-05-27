@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import HideLegendToggle from './hideLegendToggle';
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import { faSlidersH } from '@fortawesome/free-solid-svg-icons/faSlidersH';
 import userEvent from '@testing-library/user-event';
 
 describe('Legend Show/Hide Toggle', () => {
@@ -16,13 +16,14 @@ describe('Legend Show/Hide Toggle', () => {
     expect(getByRole('button', { name: text })).toBeInTheDocument();
   });
 
-  it('calls toggle function when selected', () => {
+  it('calls toggle function when selected', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <HideLegendToggle displayText={text} displayIcon={icon} showToggle={true} onToggleLegend={onToggleLegendlMock} selectedTab={true} />
     );
 
     const toggleButton = getByRole('button', { name: text });
-    userEvent.click(toggleButton);
+    await user.click(toggleButton);
     expect(onToggleLegendlMock).toHaveBeenCalledTimes(1);
   });
 

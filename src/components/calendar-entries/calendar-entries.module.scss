@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .mainContainer {
   display: flex;
@@ -28,15 +28,35 @@
 }
 
 .loadingIcon {
-  max-width: $site-content-width;
-  margin: 2rem auto;
-  text-align: center;
-  font-size: $font-size-48;
+  @include grayLargeLoadingIcon;
+}
+.releaseCalendarLegend {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-16;
+  .updateStatusIcon {
+    padding: 0 0.5rem 0 1rem;
+    color: $dark-green;
+    width: 2rem;
+  }
+  .releaseCalendarLegendGray {
+    display: flex;
+    align-items: center;
+    margin-left: $font-size-24;
+  }
+  .notYetUpdated {
+    height: $font-size-16;
+    width: $font-size-16;
+    margin-right: 0.5rem;
+    border-radius: $font-size-16;
+    background-color: #d8d8d8;
+    align-items: center;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
   .dropdownContainer {
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 }
 
@@ -47,5 +67,8 @@
     .dropdownContainer {
       margin-bottom: 2rem;
     }
+  }
+  .releaseCalendarLegend {
+    display: none;
   }
 }

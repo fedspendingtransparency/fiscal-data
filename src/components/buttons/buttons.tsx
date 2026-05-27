@@ -2,8 +2,6 @@ import * as React from 'react';
 import { copyButton, cancelButton as cancelButtonStyle } from './buttons.module.scss';
 import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import globalConstants from '../../helpers/constants';
-import { useRecoilValue } from 'recoil';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
 
 export const gaCopyLabelStr = globalConstants.gaEventLabels.copyDLLink;
 const cancelButton = (

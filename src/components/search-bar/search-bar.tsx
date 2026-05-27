@@ -1,10 +1,12 @@
-import { search, searchIcon, searchIconHover, searchLabel, glow, disabledBackground, clearButton } from './search-bar.module.scss';
-import { InputAdornment, ThemeProvider } from '@mui/material';
-import { searchBarTheme, useStyles } from '../glossary/glossary-header/theme';
+import { clearButton, disabledBackground, glow, search, searchIcon, searchIconHover, searchLabel } from './search-bar.module.scss';
+import InputAdornment from '@mui/material/InputAdornment';
+import { ThemeProvider } from '@mui/material/styles';
+import { searchBarTheme } from '../glossary/glossary-header/theme';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import React, { ChangeEventHandler, FocusEventHandler, FunctionComponent, Ref } from 'react';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
@@ -21,6 +23,7 @@ interface ISearchBar {
   height?: string;
   ariaLabel?: string;
   disabled?: boolean;
+  hideIcons?: boolean;
 }
 
 const SearchBar: FunctionComponent<ISearchBar> = ({
@@ -36,6 +39,7 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
   height,
   ariaLabel,
   disabled,
+  hideIcons,
 }) => {
   let searchCleared = false;
 
@@ -88,21 +92,22 @@ const SearchBar: FunctionComponent<ISearchBar> = ({
           <Box sx={{ width: width, fontSize: '1rem' }}>
             <TextField
               ref={inputRef}
-              className={useStyles().root}
               variant="outlined"
               fullWidth
               onChange={onChange}
               size="small"
               value={filter}
               aria-label={label}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
-                style: {
-                  height: height,
+              slotProps={{
+                input: {
+                  endAdornment: <InputAdornment position="end">{!hideIcons && icon}</InputAdornment>,
+                  style: {
+                    height: height,
+                  },
                 },
-              }}
-              inputProps={{
-                'aria-label': ariaLabel ? ariaLabel : label,
+                htmlInput: {
+                  'aria-label': ariaLabel ? ariaLabel : label,
+                },
               }}
               disabled={disabled}
             />

@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .chartContainer {
   background-color: $body-background;

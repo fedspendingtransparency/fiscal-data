@@ -5,6 +5,7 @@ export const GlossaryContext = createContext({});
 
 const GlossaryProvider = ({ children }) => {
   const [glossaryClickEvent, setGlossaryClickEvent] = useState(false);
+  const [glossaryTriggerEl, setGlossaryTriggerEl] = useState(null);
 
   const allGlossary = useStaticQuery(
     graphql`
@@ -31,7 +32,11 @@ const GlossaryProvider = ({ children }) => {
         .join('-'))
   );
 
-  return <GlossaryContext.Provider value={{ glossaryClickEvent, setGlossaryClickEvent, glossary }}>{children}</GlossaryContext.Provider>;
+  return (
+    <GlossaryContext.Provider value={{ glossaryClickEvent, setGlossaryClickEvent, glossaryTriggerEl, setGlossaryTriggerEl, glossary }}>
+      {children}
+    </GlossaryContext.Provider>
+  );
 };
 
 export default GlossaryProvider;

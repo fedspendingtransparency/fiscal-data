@@ -1,7 +1,7 @@
-@import '../../../explainer.module';
+@use '../../../explainer.module' as *;
 
 .sourcesContent {
   h5 {
-    @include explainerSubsectionHeader
+    @include explainerSubsectionHeader;
   }
 }

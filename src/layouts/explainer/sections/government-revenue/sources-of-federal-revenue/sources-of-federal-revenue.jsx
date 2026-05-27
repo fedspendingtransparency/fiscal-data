@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { visWithCallout, quoteBoxContent } from '../../../explainer.module.scss';
+import { quoteBoxContent, visWithCallout } from '../../../explainer.module.scss';
 import QuoteBox from '../../../quote-box/quote-box';
-import { revenueExplainerPrimary, revenueExplainerLightSecondary } from '../revenue.module.scss';
+import { revenueAccordion, revenueExplainerLightSecondary, revenueExplainerPrimary } from '../revenue.module.scss';
 import { sourcesContent } from './sources-of-federal-revenue.module.scss';
-import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons';
+import { faMartiniGlassCitrus } from '@fortawesome/free-solid-svg-icons/faMartiniGlassCitrus';
 import SourcesOfRevenueCircleChart from './sources-of-revenue-circle-chart/sources-of-revenue-circle-chart';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import Accordion from '../../../../../components/accordion/accordion';
-import { revenueAccordion } from '../revenue.module.scss';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
+import ChartApiError from '../../../explainer-components/chart-api-error/chart-api-error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState(0);
@@ -70,17 +71,19 @@ const SourcesOfFederalRevenue = ({ glossary, glossaryClickHandler }) => {
       <p>
         Most of the revenue the U.S. government collects comes from contributions from individual taxpayers, small businesses, and corporations
         through taxes. Additional sources of tax revenue consist of {excise} tax, estate tax, and other taxes and fees. So far in FY{' '}
-        {currentFiscalYear}, individual income taxes have accounted for {indvPercent}% of total revenue while Social Security and Medicare taxes made
-        up another {ssPercent}%.
+        {currentFiscalYear || '--'}, individual income taxes have accounted for {indvPercent}% of total revenue while Social Security and Medicare
+        taxes made up another {ssPercent || '--'}%.
       </p>
       <p>
         Government revenue also comes from payments to federal agencies like the U.S. Department of the Interior. Have you visited a national park
         recently? Did you know your national park entry is included in government revenue? Other agencies generate revenue from leases, the sale of
         natural resources, and various usage and licensing fees.
       </p>
-      <div className={visWithCallout}>
-        <SourcesOfRevenueCircleChart />
-      </div>
+      <figure className={visWithCallout}>
+        <ErrorBoundary fallback={<ChartApiError />}>
+          <SourcesOfRevenueCircleChart />
+        </ErrorBoundary>
+      </figure>
       <div className={revenueAccordion}>
         <Accordion
           title="Why does the Federal Reserve send money to the federal government?"

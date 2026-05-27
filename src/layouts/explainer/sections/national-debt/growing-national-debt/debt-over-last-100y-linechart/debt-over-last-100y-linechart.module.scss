@@ -1,23 +1,27 @@
-@import 'src/variables.module';
-
-:global(.chartContainerHeader) {
-  font-size: $font-size-14 !important;
-  align-items: center;
-  margin-top: 1rem;
-}
+@use 'src/variables.module' as *;
 
 .container {
   overflow: hidden;
 
+  & :global(.chartContainerChart) {
+    min-height: 12.5rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 26.71rem;
+    }
+  }
+
   .lineChart {
     width: 100%;
-    margin-top: 0.625rem;
   }
 
   .headerContainer {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    font-size: $font-size-14 !important;
+    align-items: center;
+    margin: 1rem 0 1rem 0;
 
     div {
       text-align: center;
@@ -36,23 +40,20 @@
   }
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 0.125rem;
-    margin-bottom: 0 !important;
-  }
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  :global(.chartContainerFooter) {
-    p {
-      margin-top: 0.75rem;
-    }
-  }
+@media screen and (max-width: $breakpoint-lg - 1) {
   .container {
     .headerContainer {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 0.75rem !important;
+      margin-bottom: 1rem !important;
 
       div {
         text-align: center;

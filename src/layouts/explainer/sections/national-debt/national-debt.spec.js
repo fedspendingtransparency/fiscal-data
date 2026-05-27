@@ -33,7 +33,11 @@ jest.mock('../../../../hooks/useBeaGDP', () => {
 
 describe('Data Sources & Methodologies', () => {
   it('contains content for a Data sources and methodologies section', async () => {
-    const { findByText, getByRole } = render(<DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>);
+    const { findByText, getByRole } = render(
+      <>
+        <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
+      </>
+    );
     const toggle = getByRole('button');
     act(() => {
       toggle.click();
@@ -45,7 +49,11 @@ describe('Data Sources & Methodologies', () => {
 
   it('calls the appropriate analytics event when links are clicked on', () => {
     const spy = jest.spyOn(Analytics, 'event');
-    const { getByText, getByRole } = render(<DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>);
+    const { getByText, getByRole } = render(
+      <>
+        <DataSourcesMethodologies>{nationalDebtDataSources}</DataSourcesMethodologies>{' '}
+      </>
+    );
 
     const toggle = getByRole('button');
     act(() => {

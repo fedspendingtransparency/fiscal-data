@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .pillWrapper {
   padding-bottom: 1rem;
@@ -17,12 +17,21 @@
   white-space: nowrap;
 }
 
-.icon {
+.icon,
+.materialIcon {
   font-size: $font-size-14;
-  width: $font-size-14;
   transform: translateY(-2px);
   padding-right: 0.5rem;
   vertical-align: middle;
+}
+
+.materialIcon {
+  width: 1.125rem !important;
+  height: 1.125rem !important;
+}
+
+.icon {
+  width: $font-size-14;
 }
 
 .futureDateIconStyle {

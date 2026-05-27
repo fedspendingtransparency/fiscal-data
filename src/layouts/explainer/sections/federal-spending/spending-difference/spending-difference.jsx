@@ -1,20 +1,18 @@
 import React from 'react';
-import { spendingDifferenceContent, mandatorySpendingImgStyle, mandatorySpendingContainer } from './spending-difference.module.scss';
+import { mandatorySpendingContainer, mandatorySpendingImgStyle, spendingDifferenceContent } from './spending-difference.module.scss';
 import { spendingAccordion } from '../federal-spending.module.scss';
 import Accordion from '../../../../../components/accordion/accordion';
-import { withWindowSize } from 'react-fns';
-import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../../../variables.module.scss';
 import discretionarySpendingDesktop from '../../../../../../static/images/discretionary-spending_desktop.png';
 import discretionarySpendingMobile from '../../../../../../static/images/discretionary-spending_mobile.png';
-import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import supplementalSpendingDesktop from '../../../../../../static/images/supplemental-spending_desktop.png';
 import supplementalSpendingMobile from '../../../../../../static/images/supplemental-spending_mobile.png';
+import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import MandatorySpendingImgDesktop from '../../../../../../static/images/mandatory-spending_desktop.png';
 import MandatorySpendingImgMobile from '../../../../../../static/images/mandatory-spending_mobile.png';
 import { explainerCitationsMap } from '../../../explainer-helpers/explainer-helpers';
 
-export const SpendingDifference = ({ width }) => {
+export const SpendingDifference = () => {
   const appropriations = (
     <GlossaryPopoverDefinition term="appropriations" page="Spending Explainer">
       appropriations
@@ -48,18 +46,21 @@ export const SpendingDifference = ({ width }) => {
         laws, the funding for these programs must be allocated for spending each year, hence the term mandatory.
       </p>
       <div className={mandatorySpendingContainer}>
-        <img
-          src={width < pxToNumber(breakpointLg) ? MandatorySpendingImgMobile : MandatorySpendingImgDesktop}
-          alt={
-            'Step 1: Existing laws require (mandatory) money for spending each year ' +
-            'Step 2: The Treasury issues funds to specific agency spending accounts towards contracts, ' +
-            'loans, grants, direct payments, and other financial assistance ' +
-            'Step 3: Entitlement program benefits are paid out from these accounts to support ' +
-            'people, businesses, and state and local governments '
-          }
-          data-testid="mandatorySpendingImg"
-          className={mandatorySpendingImgStyle}
-        />
+        <picture>
+          <source media={`(min-width: ${breakpointLg})`} srcSet={MandatorySpendingImgDesktop} />
+          <img
+            src={MandatorySpendingImgMobile}
+            alt={
+              'Step 1: Existing laws require (mandatory) money for spending each year ' +
+              'Step 2: The Treasury issues funds to specific agency spending accounts towards contracts, ' +
+              'loans, grants, direct payments, and other financial assistance ' +
+              'Step 3: Entitlement program benefits are paid out from these accounts to support ' +
+              'people, businesses, and state and local governments '
+            }
+            data-testid="mandatorySpendingImg"
+            className={mandatorySpendingImgStyle}
+          />
+        </picture>
       </div>
       <h6>Discretionary Spending</h6>
       <p>
@@ -69,17 +70,20 @@ export const SpendingDifference = ({ width }) => {
         organizations.
       </p>
       <div className={mandatorySpendingContainer}>
-        <img
-          src={width < pxToNumber(breakpointLg) ? discretionarySpendingMobile : discretionarySpendingDesktop}
-          alt={
-            "Step 1: President submits recommendation for the next year’s budget in the President's Budget " +
-            'Step 2: Congress reviews, revises, and votes on the budget during the appropriations process each year ' +
-            'Step 3: President signs the budget into law, and spending goes to national defense and other federal agency ' +
-            'programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law}'
-          }
-          data-testid="diseretionarySpendingMobileImg"
-          className={mandatorySpendingImgStyle}
-        />
+        <picture>
+          <source media={`(min-width: ${breakpointLg})`} srcSet={discretionarySpendingDesktop} />
+          <img
+            src={discretionarySpendingMobile}
+            alt={
+              "Step 1: President submits recommendation for the next year’s budget in the President's Budget " +
+              'Step 2: Congress reviews, revises, and votes on the budget during the appropriations process each year ' +
+              'Step 3: President signs the budget into law, and spending goes to national defense and other federal agency ' +
+              'programs. The accounts are funded annually and disbursements are made unless an amendment is made to the law}'
+            }
+            data-testid="diseretionarySpendingMobileImg"
+            className={mandatorySpendingImgStyle}
+          />
+        </picture>
       </div>
       <h6>Supplemental Spending</h6>
       <p>
@@ -89,16 +93,19 @@ export const SpendingDifference = ({ width }) => {
         USAspending.gov’s {USAsCovidSpending} page.
       </p>
       <div className={mandatorySpendingContainer}>
-        <img
-          src={width < pxToNumber(breakpointLg) ? supplementalSpendingMobile : supplementalSpendingDesktop}
-          alt={
-            'Step 1: Congress proposes and votes on legislation for supplemental appropriations ' +
-            'Step 2: President enacts the law by signing it ' +
-            'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
-          }
-          data-testid="supplementalSpendingImg"
-          className={mandatorySpendingImgStyle}
-        />
+        <picture>
+          <source media={`(min-width: ${breakpointLg})`} srcSet={supplementalSpendingDesktop} />
+          <img
+            src={supplementalSpendingMobile}
+            alt={
+              'Step 1: Congress proposes and votes on legislation for supplemental appropriations ' +
+              'Step 2: President enacts the law by signing it ' +
+              'Step 3: Agencies receive funding to administer the law and spend the money to address the urgent need identified'
+            }
+            data-testid="supplementalSpendingImg"
+            className={mandatorySpendingImgStyle}
+          />
+        </picture>
       </div>
       <div className={spendingAccordion}>
         <Accordion
@@ -120,4 +127,4 @@ export const SpendingDifference = ({ width }) => {
   );
 };
 
-export default withWindowSize(SpendingDifference);
+export default SpendingDifference;

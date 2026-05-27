@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import ComboSelectDropdown from './combo-select-dropdown';
 import { mockOptions, mockOptionsWithChildren } from '../../combo-select-test-helper';
 import userEvent from '@testing-library/user-event';
@@ -10,13 +10,11 @@ describe('Combo Select Dropdown', () => {
 
   it('renders the dropdown when active is true', () => {
     const { getByTestId } = render(<ComboSelectDropdown active={true} options={[]} />);
-
     expect(getByTestId('dropdown-container')).toBeInTheDocument();
   });
 
   it('does not render the dropdown when active is false', () => {
     const { queryByTestId } = render(<ComboSelectDropdown active={false} options={[]} />);
-
     expect(queryByTestId('dropdown-container')).not.toBeInTheDocument();
   });
 
@@ -30,6 +28,7 @@ describe('Combo Select Dropdown', () => {
   it('update selection', async () => {
     const updateSelectionSpy = jest.fn();
     const setDropdownActiveSpy = jest.fn();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <ComboSelectDropdown
         active={true}
@@ -46,14 +45,15 @@ describe('Combo Select Dropdown', () => {
       value: 'Abcd2-money',
     };
 
-    userEvent.click(inputField);
-    userEvent.keyboard(updatedSelection.label);
+    await user.click(inputField);
+    await user.keyboard(updatedSelection.label);
     expect(updateSelectionSpy).toHaveBeenCalledWith(updatedSelection, false);
   });
 
-  it('search bar clear', () => {
+  it('search bar clear', async () => {
     const updateSelectionSpy = jest.fn();
     const changeHandlerSpy = jest.fn();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <ComboSelectDropdown
         active={true}
@@ -66,11 +66,11 @@ describe('Combo Select Dropdown', () => {
     );
 
     const searchBar = getByRole('textbox');
-    userEvent.click(searchBar);
-    userEvent.keyboard('test');
+    await user.click(searchBar);
+    await user.keyboard('test');
 
     const clearButton = getByRole('button', { name: 'Clear search bar' });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
 
     expect(changeHandlerSpy).toHaveBeenCalledWith(null);
   });
@@ -83,10 +83,11 @@ describe('Combo Select Dropdown', () => {
     expect(getByRole('button', { name: defaultSelection.label }));
   });
 
-  it('shows options in the dropdown list that match input characters', () => {
+  it('shows options in the dropdown list that match input characters', async () => {
     const defaultSelection = mockOptions[1];
     const mockUpdateSelection = jest.fn();
-    const { getByRole, getByTestId } = render(
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { getByRole, getByTestId, getAllByText } = render(
       <ComboSelectDropdown
         active={true}
         options={mockOptions}
@@ -95,19 +96,22 @@ describe('Combo Select Dropdown', () => {
         setDropdownActive={jest.fn()}
         optionLabelKey={'label'}
         updateSelection={mockUpdateSelection}
+        secondaryLabelKey={true}
       />
     );
 
     const inputField = getByRole('textbox');
 
-    userEvent.click(inputField);
-    userEvent.keyboard('Blue');
+    await user.click(inputField);
+    await user.keyboard('Blue');
 
     const dropdownContainer = getByTestId('dropdown-list');
     const filteredOptions = within(dropdownContainer).getAllByRole('button');
     expect(filteredOptions.length).toEqual(3);
     const option = getByRole('button', { name: 'Blue-greenstuff' });
-    userEvent.click(option);
+    const secondaryRendering = getAllByText('No filter applied');
+    expect(secondaryRendering.length).toBeGreaterThan(0);
+    await user.click(option);
     expect(mockUpdateSelection).toHaveBeenCalledWith({ label: 'Blue-greenstuff', value: 'Blue-greenstuff' }, true);
   });
 
@@ -149,10 +153,11 @@ describe('combo select dropdown with child sections', () => {
     expect(getByRole('button', { name: 'A' })).toBeInTheDocument();
   });
 
-  it('filters children on search', () => {
+  it('filters children on search', async () => {
     const onBlurHandlerSpy = jest.fn();
     const defaultSelection = mockOptionsWithChildren[0].children;
     const changeHandlerSpy = jest.fn();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     const { getByRole } = render(
       <ComboSelectDropdown
@@ -167,11 +172,11 @@ describe('combo select dropdown with child sections', () => {
     );
 
     const searchBar = getByRole('textbox');
-    userEvent.click(searchBar);
-    userEvent.keyboard('A');
+    await user.click(searchBar);
+    await user.keyboard('A');
 
     const clearButton = getByRole('button', { name: 'Clear search bar' });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
 
     expect(changeHandlerSpy).toHaveBeenCalledWith(null);
   });
@@ -196,9 +201,9 @@ describe('combo select dropdown with child sections', () => {
     expect(setDropdownActiveSpy).not.toHaveBeenCalled();
   });
 
-  it('calls onBlur when tabbing beyond the dropdown', () => {
+  it('calls onBlur when tabbing beyond the dropdown', async () => {
     const setDropdownActiveSpy = jest.fn();
-    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
       <ComboSelectDropdown
         active={true}
@@ -211,14 +216,13 @@ describe('combo select dropdown with child sections', () => {
     );
 
     const searchBar = getByRole('textbox');
-    userEvent.click(searchBar);
-    userEvent.keyboard('Blah-bucks');
+    await user.click(searchBar);
+    await user.keyboard('Blah-bucks');
 
-    userEvent.tab();
-    userEvent.tab();
-    userEvent.tab();
+    await user.tab();
+    await user.tab();
+    await user.tab();
 
-    jest.runAllTimers();
     expect(setDropdownActiveSpy).toHaveBeenCalledWith(false);
   });
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiPrefix, basicFetch } from '../../../utils/api-utils';
 import { getShortForm } from '../../../utils/rounding-utils';
-import { format } from 'date-fns';
+
 export const SpendingBodyGenerator = () => {
   const fields = 'fields=current_fytd_net_outly_amt,record_fiscal_year,record_date';
   const filter = 'filter=line_code_nbr:eq:5691';
@@ -9,8 +9,8 @@ export const SpendingBodyGenerator = () => {
   const pagination = 'page[size]=1';
   const endpointUrl = `v1/accounting/mts/mts_table_5?${fields}&${filter}&${sort}&${pagination}`;
   const spendingUrl = `${apiPrefix}${endpointUrl}`;
-  const [amount, setAmount] = useState('0');
-  const [year, setYear] = useState('null');
+  const [amount, setAmount] = useState(null);
+  const [year, setYear] = useState('--');
 
   useEffect(() => {
     basicFetch(`${spendingUrl}`).then(res => {
@@ -24,15 +24,15 @@ export const SpendingBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has spent ${getShortForm(amount, false)} in fiscal year {year} to ensure the well-being of the people of the United States.
-      Learn more about spending categories, types of spending, and spending trends over time.
+      The U.S. government has spent ${amount !== null ? getShortForm(amount, false) : '--'} in fiscal year {year} to ensure the well-being of the
+      people of the United States. Learn more about spending categories, types of spending, and spending trends over time.
     </>
   );
 };
 
 export const RevenueBodyGenerator = () => {
   const [currentRevenue, setCurrentRevenue] = useState(null);
-  const [recordFiscalYear, setRecordFiscalYear] = useState(null);
+  const [recordFiscalYear, setRecordFiscalYear] = useState('--');
   const revUrl = `v1/accounting/mts/mts_table_4?fields=current_fytd_net_rcpt_amt,prior_fytd_net_rcpt_amt,record_calendar_month,record_calendar_year,record_fiscal_year,record_date&filter=line_code_nbr:eq:830&sort=-record_date&page[size]=1`;
   useEffect(() => {
     basicFetch(`${apiPrefix}${revUrl}`).then(res => {
@@ -47,39 +47,43 @@ export const RevenueBodyGenerator = () => {
 
   return (
     <>
-      The U.S. government has collected ${getShortForm(currentRevenue, false)} in fiscal year {recordFiscalYear} in order to pay for the goods and
-      services provided to United States citizens and businesses. Learn more about revenue sources, trends over time, and how revenue compares to GDP.
+      The U.S. government has collected ${currentRevenue !== null ? getShortForm(currentRevenue, false) : '--'} in fiscal year {recordFiscalYear} in
+      order to pay for the goods and services provided to United States citizens and businesses. Learn more about revenue sources, trends over time,
+      and how revenue compares to GDP.
     </>
   );
 };
 
 export const SavingsBondsBodyGenerator = () => {
-  const [previousFiscalYear, setPreviousFiscalYear] = useState(null);
+  const [currentFiscalYear, setCurrentFiscalYear] = useState('--');
   const [savingsBondsAmount, setSavingsBondsAmount] = useState(null);
   const sbUrl = `v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond`;
 
+  const sumSavingsBondsAmount = data => {
+    return data.reduce((n, { net_sales_amt }) => n + parseInt(net_sales_amt), 0);
+  };
+
   useEffect(() => {
-    // We specify September (record_calendar_month = 09) so that it shows only the latest complete fiscal year
-    basicFetch(`${apiPrefix}${sbUrl},record_calendar_month:eq:09&sort=-record_date&page[size]=2`).then(res => {
+    basicFetch(`${apiPrefix}${sbUrl}&sort=-record_date&page[size]=1`).then(res => {
       if (res.data) {
-        const prevFY = res.data[0].record_fiscal_year;
-        setPreviousFiscalYear(prevFY);
-
-        const data = res.data;
-
-        let savingsBondsTotal = 0;
-        data.map(index => {
-          savingsBondsTotal = savingsBondsTotal + parseInt(index.net_sales_amt);
+        const currentFY = res.data[0].record_fiscal_year;
+        setCurrentFiscalYear(currentFY);
+        const currentFYReqUrl = `${apiPrefix}${sbUrl},record_fiscal_year:eq:${currentFY}`;
+        basicFetch(`${currentFYReqUrl}`).then(res2 => {
+          if (res2.data) {
+            const currentTotalSavingsBonds = sumSavingsBondsAmount(res2.data);
+            setSavingsBondsAmount(currentTotalSavingsBonds);
+          }
         });
-        setSavingsBondsAmount(savingsBondsTotal);
       }
     });
   }, []);
 
   return (
     <>
-      In FY {previousFiscalYear}, U.S. citizens invested ${getShortForm(savingsBondsAmount, false)} in savings bonds. Discover how savings bonds help
-      finance the federal government and the benefits these bonds offer to citizens who choose to invest in them.
+      In FY {currentFiscalYear}, U.S. citizens have invested ${savingsBondsAmount !== null ? getShortForm(savingsBondsAmount, false) : '--'} in
+      savings bonds. Discover how savings bonds help finance the federal government and the benefits these bonds offer to citizens who choose to
+      invest in them.
     </>
   );
 };
@@ -170,8 +174,7 @@ export const pageTileMap = {
     title: 'Discover Interest Expense Trends Over Time',
     body:
       'Interest expense is the interest the government pays on its outstanding loans (Treasury securities). ' +
-      'Learn more and explore trends on interest expense and average interest rates on the national debt over ' +
-      'the last twenty years.',
+      'Learn more and explore trends on interest expense and average interest rates on the national debt.',
     altText:
       'Illustration with images including a calculator, stacked coins, and a magnifying glass on top of a ' +
       'flattened set of charts with the text ‘Fiscal Data Insight’ above ‘Interest Expense’ and the Fiscal Data logo ' +
@@ -181,6 +184,19 @@ export const pageTileMap = {
     path: '/interest-expense-avg-interest-rates/',
     analyticsName: 'Interest Expense',
   },
+  'state-and-local-government-series': {
+    title: 'Explore How State and Local Governments invest in U.S. Treasury Securities',
+    body:
+      'State and Local Government Series (SLGS) are non-marketable securities that help state and local ' +
+      'governments meet their financing needs. Learn more and explore monthly trends in outstanding SLGS securities. ',
+    altText:
+      'Illustration with images including three buildings with the text, “Why do we invest in ' +
+      'State and Local Government Series Securities? Fiscal Data Explains”, and the Fiscal Data logo in the bottom right corner. ',
+    desktopImage: 'State-and-local-government-series-1200_630',
+    mobileImage: 'State-and-local-government-series-1200_630',
+    path: '/state-and-local-government-series/',
+    analyticsName: 'State and Local Government Series',
+  },
   'savings-bonds': {
     title: 'Explore U.S. Treasury Savings Bonds',
     bodyGenerator: SavingsBondsBodyGenerator,
@@ -188,7 +204,7 @@ export const pageTileMap = {
       'In {YYYY (latest complete FY)}, U.S. citizens invested {$XXX million (total savings bonds purchased in latest ' +
       'complete FY)} in savings bonds. Discover how savings bonds help finance the federal government and the benefits ' +
       'these bonds offer to citizens who choose to invest in them.',
-    altText: 'Images of savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
+    altText: 'Savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
     desktopImage: 'Savings-Bonds-Homepage-Tile_1200x630',
     mobileImage: 'Savings-Bonds-Homepage-Tile_1200x630',
     path: '/treasury-savings-bonds/',

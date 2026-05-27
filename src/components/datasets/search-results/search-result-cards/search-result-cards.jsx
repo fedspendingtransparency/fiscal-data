@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import DatasetCard from '../../../dataset-card/dataset-card';
 import { cardContainer, cardPlacement, hiddenCard } from './search-result-cards.module.scss';
 import { PerformSort } from '../search-results-helper';
-import { withWindowSize } from 'react-fns';
 import { currentFontSize } from '../../../../utils/browser-font-size';
+import { useMediaQuery } from 'usehooks-ts';
 
 /*
   currentFontSize is divided by 16 because 16px is the standard (medium) browser font-size. That
@@ -17,24 +17,18 @@ const gutter = {
   y: Math.floor((14 * currentFontSize) / 16), // scaling gutter with current font-size
 };
 
-const breakpoint = {
-  desktop: 992,
-  tablet: 600,
-};
-
-const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets }) => {
+const SearchResultCards = ({ filteredDatasets, activeSort, allDatasets }) => {
   const [fauxIndex, setFauxIndex] = useState({});
-
+  const isDesktop = useMediaQuery('(min-width: 992px)');
+  const isTablet = useMediaQuery('(min-width: 600px)');
   let cardsPerRow = 1,
     cardWidth = 100;
 
   const setCardPositionVars = () => {
-    if (width > breakpoint.desktop) {
-      // set for desktop
+    if (isDesktop) {
       cardsPerRow = 3;
       cardWidth = 32;
-    } else if (width >= breakpoint.tablet && width < breakpoint.desktop) {
-      // set for tablet
+    } else if (isTablet) {
       cardsPerRow = 2;
       cardWidth = 49;
     }
@@ -94,7 +88,7 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   }, [activeSort]);
 
   return (
-    <div className={cardContainer} data-test-id="wrapper" style={setContainerHeight(filteredDatasets.length)}>
+    <div className={cardContainer} data-testid="wrapper" style={setContainerHeight(filteredDatasets.length)}>
       {allDatasets &&
         allDatasets.map((dataset, i) => (
           <div data-testid="cardPlacement" className={`${cardPlacement} ${dataset.hidden ? hiddenCard : ''}`} style={placeCard(dataset.name)} key={i}>
@@ -105,4 +99,4 @@ const SearchResultCards = ({ filteredDatasets, width, activeSort, allDatasets })
   );
 };
 
-export default withWindowSize(SearchResultCards);
+export default SearchResultCards;

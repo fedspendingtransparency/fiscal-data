@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { wrapper, downloadDescription, describer, dateStringStyle } from './download-wrapper.module.scss';
+import { dateStringStyle, describer, downloadDescription, wrapper } from './download-wrapper.module.scss';
 import Truncator from '../truncate/truncate';
 import DownloadItemButton from './download-item-button/download-item-button';
 import Analytics from '../../utils/analytics/analytics';
 import { calcDictionaryDownloadSize, convertDataDictionaryToCsv, triggerDataDictionaryDownload } from './data-dictionary-download-helper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faFileDownload } from '@fortawesome/free-solid-svg-icons/faFileDownload';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import DownloadToggle from './download-toggle/download-toggle';
 import { isValidDateRange } from '../../helpers/dates/date-helpers';
 import DownloadModal from '../download-modal/download-modal';
@@ -14,10 +15,9 @@ import { generateAnalyticsEvent } from '../../layouts/dataset-detail/helper';
 import { ensureDoubleDigitDate, formatDate } from './helpers';
 import globalConstants from '../../helpers/constants';
 import { disableDownloadButtonState } from '../../recoil/disableDownloadButtonState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { tableRowLengthState } from '../../recoil/smallTableDownloadData';
+import { smallTableDownloadData } from '../../recoil/smallTableDownloadData';
 import { REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
-import { reactTableFilteredDateRangeState } from '../../recoil/reactTableFilteredState';
+import { dataTableDapGaEventLabelState } from '../../recoil/dataTableDapGaEventLabelState';
 
 const gaEventLabels = globalConstants.gaEventLabels;
 export const cancelEventActionStr = gaEventLabels.cancelDL + ' Click';
@@ -52,13 +52,12 @@ const DownloadWrapper = ({
   const [changeMadeToCriteria, setChangeMadeToCriteria] = useState(false);
   const [icon, setIcon] = useState(null);
   const { setDownloadRequest, downloadsInProgress, downloadsPrepared, setCancelDownloadRequest } = siteDownloads;
-  const setDapGaEventLabel = useSetRecoilState(reactTableFilteredDateRangeState);
   const [gaEventLabel, setGaEventLabel] = useState();
-
+  const setDapGaEventLabel = dataTableDapGaEventLabelState(state => state.setLabel);
   const dataDictionaryCsv = convertDataDictionaryToCsv(dataset);
   const ddSize = calcDictionaryDownloadSize(dataDictionaryCsv);
-  const globalDisableDownloadButton = useRecoilValue(disableDownloadButtonState);
-  const tableSize = useRecoilValue(tableRowLengthState);
+  const globalDisableDownloadButton = disableDownloadButtonState(state => state.disabled);
+  const tableSize = smallTableDownloadData(state => state.tableRowLength);
 
   const makeDownloadButtonAvailable = () => {
     if (datasetDownloadInProgress) {
@@ -71,7 +70,6 @@ const DownloadWrapper = ({
       setChangeMadeToCriteria(true);
     }
   };
-
   const toggleButtonChange = value => {
     setSelectedFileType(value);
     makeDownloadButtonAvailable();
@@ -151,9 +149,9 @@ const DownloadWrapper = ({
 
   const setIconComponent = inProgress => {
     return inProgress ? (
-      <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-test-id="report-icon" />
+      <FontAwesomeIcon icon={faSpinner} className="fa-pulse" data-testid="report-icon" />
     ) : (
-      <FontAwesomeIcon icon={faFileDownload} data-test-id="report-icon" />
+      <FontAwesomeIcon icon={faFileDownload} data-testid="report-icon" />
     );
   };
 
@@ -167,7 +165,6 @@ const DownloadWrapper = ({
       setGaEventLabel(`Table Name: ${selectedTable?.tableName}, Type: ${selectedFileType}, Date Range: ${dateRange.from}-${dateRange.to}`);
     }
   }, [selectedTable, dateRange, selectedFileType]);
-
   useEffect(() => {
     setDapGaEventLabel(gaEventLabel);
   }, [gaEventLabel]);
@@ -233,29 +230,21 @@ const DownloadWrapper = ({
   };
 
   return (
-    <div className={wrapper} data-test-id="wrapper">
+    <div className={wrapper} data-testid="wrapper">
       <DownloadModal open={open} onClose={onClose} downloadsPrepared={downloadsPrepared} setCancelDownloadRequest={handleCancelRequest} />
       <div className={downloadDescription}>
-        <div data-test-id="tableName" className={describer}>
+        <div data-testid="tableName" className={describer}>
           <strong>Data Table:</strong>
           <div>
             <Truncator>
-              <span data-test-id="tableNameText">{tableName}</span>
+              <span data-testid="tableNameText">{tableName}</span>
             </Truncator>
           </div>
         </div>
         <div className={describer}>
           <strong>Date Range:</strong>
-          {!isFiltered && (
-            <span data-test-id="allString" className={dateStringStyle}>
-              {' '}
-              {allString}
-            </span>
-          )}
-          <div data-test-id="dateString" className={dateStringStyle}>
-            {' '}
-            {dateString}
-          </div>
+          {!isFiltered && <span className={dateStringStyle}> {allString}</span>}
+          <div className={dateStringStyle}> {dateString}</div>
         </div>
         {(selectedTable?.userFilter || selectedTable?.apiFilter) && (
           <div className={describer}>
@@ -279,6 +268,8 @@ const DownloadWrapper = ({
         downloadLimit={selectedTable?.downloadLimit}
         dateRange={dateRange}
         setDisableDownloadBanner={setDisableDownloadBanner}
+        selectedFileType={selectedFileType}
+        setSelectedFileType={setSelectedFileType}
       />
       <div>
         <>{determineDirectDownload()}</>

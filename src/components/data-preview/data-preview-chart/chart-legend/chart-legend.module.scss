@@ -1,0 +1,26 @@
+.buttonContainer {
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.field {
+  display: flex;
+  justify-content: flex-start;
+  &.centerFields {
+    justify-content: center;
+  }
+}
+
+.sectionContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0.5rem auto 0 auto;
+  flex-wrap: wrap;
+  max-width: 57rem;
+}
+
+.legendButtons {
+  margin-left: 4.5rem;
+}

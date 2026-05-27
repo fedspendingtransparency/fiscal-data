@@ -1,8 +1,8 @@
 import React from 'react';
-import { currencyFormatter, numberFormatter, dateFormatter, customNumberFormatter } from '../../../helpers/text-format/text-format';
+import { currencyFormatter, customNumberFormatter, dateFormatter, numberFormatter } from '../../../helpers/text-format/text-format';
 import { formattedCell, markdownRow } from '../dtg-table.module.scss';
-import moment from 'moment/moment';
 import { MarkdownTransform } from '../../markdown-transform/markdown-transform';
+import dayjs from 'dayjs';
 
 const dataTypes = ['CURRENCY', 'NUMBER', 'DATE', 'PERCENTAGE', 'CURRENCY3'];
 
@@ -29,11 +29,13 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
   } else if (type === 'NUMBER') {
     const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
     if (!!customFormat) {
-      formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
-    } else if (tableName === 'FRN Daily Indexes' && (property === 'daily_index' || property === 'daily_int_accrual_rate')) {
-      formattedData = cellData;
-    } else if (tableName === 'FRN Daily Indexes' && property === 'spread') {
-      formattedData = Number(cellData).toFixed(3);
+      if (customFormat.decimalPlaces) {
+        formattedData = customNumberFormatter.format(cellData, customFormat.decimalPlaces);
+      } else if (customFormat.currency) {
+        formattedData = currencyFormatter.format(cellData);
+      } else if (customFormat.noFormatting) {
+        formattedData = cellData;
+      }
     } else {
       formattedData = numberFormatter.format(cellData);
     }
@@ -43,7 +45,7 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
     // .replace() resolves weird -1 day issue
     const date = new Date(cellData.replace(/-/g, '/'));
     const customFormat = customFormatConfig?.find(config => config.type === 'DATE' && config.fields.includes(property));
-    formattedData = customFormat?.dateFormat ? moment(date).format(customFormat?.dateFormat) : dateFormatter.format(date);
+    formattedData = customFormat?.dateFormat ? dayjs(date).format(customFormat?.dateFormat) : dateFormatter.format(date);
   } else if (type === 'SMALL_FRACTION') {
     formattedData = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 5 }).format(cellData);
   } else if (type === 'STRING') {
@@ -57,9 +59,9 @@ export const formatCellValue = (cellData, type, tableName, property, customForma
       formattedData = '';
       dates.forEach((date, index) => {
         if (index > 0) {
-          formattedData = formattedData + ', ' + moment(date).format('M/D/YYYY');
+          formattedData = formattedData + ', ' + dayjs(date).format('M/D/YYYY');
         } else {
-          formattedData = formattedData + moment(date).format('M/D/YYYY');
+          formattedData = formattedData + dayjs(date).format('M/D/YYYY');
         }
       });
     }

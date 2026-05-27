@@ -1,23 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
-import { useSetRecoilState } from 'recoil';
-import {
-  smallTableDownloadDataCSV,
-  smallTableDownloadDataJSON,
-  smallTableDownloadDataXML,
-  tableRowLengthState,
-} from '../../../recoil/smallTableDownloadData';
-import { columnsConstructorData, constructDateHeader, getSortedColumnsData } from '../../data-table/data-table-helper';
-import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
+import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
+import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
-import DataTableFooter from '../../data-table/data-table-footer/data-table-footer';
+import TableFooter from '../../table-components/table-footer/table-footer';
 import DataPreviewDataTableBody from './data-preview-data-table-body/data-preview-data-table-body';
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
+import { DataTableContext } from '../data-preview-context';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
-  rawData,
-  defaultSelectedColumns,
   setTableColumnSortData,
   shouldPage,
   showPaginationControls,
@@ -26,22 +19,17 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   resetFilters,
   setResetFilters,
   hideCellLinks,
-  tableName,
   hideColumns,
   pagingProps,
   manualPagination,
   rowsShowing,
-  columnConfig,
-  detailColumnConfig,
   detailView,
-  detailViewAPI,
   detailViewState,
   setDetailViewState,
   allowColumnWrap,
   aria,
   pivotSelected,
   setSummaryValues,
-  customFormatting,
   sorting,
   setSorting,
   allActiveFilters,
@@ -52,27 +40,15 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   dateRange,
   hasDownloadTimestamp,
 }) => {
-  const [configOption, setConfigOption] = useState(columnConfig);
-  const setSmallTableCSVData = useSetRecoilState(smallTableDownloadDataCSV);
-  const setSmallTableJSONData = useSetRecoilState(smallTableDownloadDataJSON);
-  const setSmallTableXMLData = useSetRecoilState(smallTableDownloadDataXML);
-  const setTableRowSizeData = useSetRecoilState(tableRowLengthState);
+  const { defaultSelectedColumns, setDefaultColumns, setAdditionalColumns, allColumns, setTableState, reactTableData: rawData } = useContext(
+    DataTableContext
+  );
 
-  useEffect(() => {
-    if (!detailViewState) {
-      setConfigOption(columnConfig);
-    } else {
-      setConfigOption(detailColumnConfig);
-    }
-  }, [rawData]);
+  const setSmallTableCSVData = smallTableDownloadData(state => state.setCsv);
+  const setSmallTableJSONData = smallTableDownloadData(state => state.setJson);
+  const setSmallTableXMLData = smallTableDownloadData(state => state.setXml);
+  const setTableRowSizeData = smallTableDownloadData(state => state.setTableRowLength);
 
-  const allColumns = React.useMemo(() => {
-    const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
-
-    const baseColumns = columnsConstructorData(rawData, hideCols, tableName, configOption, customFormatting);
-
-    return baseColumns;
-  }, [rawData, configOption]);
   if (hasPublishedReports && !hideCellLinks) {
     // Must be able to modify allColumns, thus the ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -109,8 +85,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
-  const [defaultColumns, setDefaultColumns] = useState([]);
-  const [additionalColumns, setAdditionalColumns] = useState([]);
 
   const table = useReactTable({
     columns: allColumns,
@@ -147,7 +121,6 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       }
     }
   }
-
   const constructDefaultColumnsFromTableData = () => {
     const constructedDefaultColumns = [];
     const constructedAdditionalColumns = [];
@@ -166,16 +139,21 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   };
 
   useEffect(() => {
-    if (defaultSelectedColumns && !pivotSelected) {
-      constructDefaultColumnsFromTableData();
-    }
-    if (detailViewState) {
-      setColumnVisibility(defaultInvisibleColumns);
-    }
-  }, [configOption]);
+    setTableState(table);
+  }, [table]);
 
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    if (defaultSelectedColumns && !pivotSelected) {
+      setColumnVisibility(defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {});
+      constructDefaultColumnsFromTableData();
+    }
+  }, [defaultSelectedColumns]);
+
+  useEffect(() => {
+    if (typeof setTableColumnSortData === 'function') {
+      setTableColumnSortData(getSortedColumnsData(table, hideColumns, dataTypes));
+    }
+
     if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
       let downloadData = [];
       const downloadHeaders = [];
@@ -206,7 +184,8 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       downloadData = downloadData.map(entry => {
         const dataWithTextQualifiers = [];
         Object.values(entry).forEach(val => {
-          dataWithTextQualifiers.push(val?.includes(',') ? `"${val}"` : val);
+          const stringValue = String(val ?? '');
+          dataWithTextQualifiers.push(stringValue.includes(',') ? `"${stringValue}"` : stringValue);
         });
         return dataWithTextQualifiers;
       });
@@ -220,7 +199,10 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
   useEffect(() => {
-    getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    if (typeof setTableColumnSortData === 'function') {
+      getSortedColumnsData(table, setTableColumnSortData, hideColumns, dataTypes);
+    }
+
     setTableSorting(sorting);
   }, [sorting]);
 
@@ -260,7 +242,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
         </div>
       </div>
       {shouldPage && (
-        <DataTableFooter
+        <TableFooter
           table={table}
           showPaginationControls={showPaginationControls}
           pagingProps={pagingProps}

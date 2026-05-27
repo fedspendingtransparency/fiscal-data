@@ -1,4 +1,16 @@
-@import '../../../../../variables.module.scss';
+@use 'src/variables.module' as *;
+
+.loadingIndicatorContainer {
+  min-height: 16.61rem;
+  display: flex;
+
+  .loadingIcon {
+    @include grayLargeLoadingIcon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 @media screen and (min-width: $breakpoint-lg) {
   .debtBreakdownSectionGraphContainer {
@@ -9,6 +21,9 @@
       font-size: $font-size-24;
       min-width: 110px;
     }
+  }
+  .loadingIndicatorContainer {
+    min-height: 26.875rem;
   }
 }
 
@@ -33,7 +48,7 @@
     color: $font-title;
 
     &.simple {
-      margin-bottom: 1rem;
+      margin-bottom: 0;
     }
   }
 
@@ -51,7 +66,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 
     div {
       text-align: center;
@@ -86,7 +101,7 @@
 
   .multichartContainer {
     :global(.tick) line {
-      stroke: #666666;
+      stroke: $font-body-copy;
     }
   }
 
@@ -121,7 +136,7 @@
     width: 40px;
     height: 24px;
     margin: 0 16px 0 0;
-    background-color: #4a0072;
+    background-color: $debt-explainer-primary;
   }
 
   :global(text.multichart-margin-label) {
@@ -185,19 +200,11 @@
     padding: 14px;
 
     .headerContainer {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
     }
 
     .title {
-      font-size: $font-size-12;
-    }
-
-    .subTitle {
-      font-size: $font-size-12;
-    }
-
-    .titleBreakdown {
-      font-size: $font-size-12;
+      font-size: $font-size-16;
     }
 
     .header {

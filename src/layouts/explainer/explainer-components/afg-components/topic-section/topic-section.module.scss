@@ -1,0 +1,13 @@
+@use 'src/variables.module.scss' as *;
+
+@media screen and (min-width: $breakpoint-lg) {
+  .topicSectionContainer {
+    padding-top: 2rem
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .topicSectionContainer {
+    padding-top: 1.5rem
+  }
+}

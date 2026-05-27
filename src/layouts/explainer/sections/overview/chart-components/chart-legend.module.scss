@@ -1,5 +1,4 @@
-@import "src/variables.module";
-
+@use 'src/variables.module' as *;
 
 .legend {
   display: flex;
@@ -21,7 +20,7 @@
   min-width: 1rem;
   border-radius: 50%;
   display: inline-block;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 }
 .rectangle {
   height: 1rem;
@@ -32,6 +31,6 @@
 
 @media screen and (max-width: $breakpoint-lg - 1) {
   .dotMobile {
-    margin-right: .25rem;
+    margin-right: 0.25rem;
   }
 }

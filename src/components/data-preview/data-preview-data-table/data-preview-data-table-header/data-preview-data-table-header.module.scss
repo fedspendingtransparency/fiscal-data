@@ -1,8 +1,8 @@
-@import 'src/variables.module.scss';
+@use 'src/variables.module' as *;
 
 .tableHeader {
   cursor: default;
-  background-color: #f1f1f1;
+  background-color: $body-background;
   position: relative;
   font-weight: bold;
   text-align: center;

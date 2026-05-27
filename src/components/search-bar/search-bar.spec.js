@@ -1,5 +1,4 @@
-import { fireEvent, render, within } from '@testing-library/react';
-import { act } from 'react-test-renderer';
+import { fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import SearchBar from './search-bar';
 import userEvent from '@testing-library/user-event';
@@ -40,13 +39,12 @@ describe('', () => {
 
     const searchBar = getByRole('textbox');
 
-    act(() => {
-      fireEvent.change(searchBar, { target: { value: 'test' } });
-    });
+    fireEvent.change(searchBar, { target: { value: 'test' } });
     expect(changeHandlerSpy).toHaveBeenCalled();
   });
 
-  it('renders a clear button when text is entered', () => {
+  it('renders a clear button when text is entered', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <SearchBar
         label={'Test Label'}
@@ -60,11 +58,12 @@ describe('', () => {
     );
 
     const clearButton = getByRole('button', { name: 'Clear search bar' });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
     expect(clearHandlerSpy).toHaveBeenCalled();
   });
 
-  it('sets search bar as active on click and not active on blur', () => {
+  it('sets search bar as active on click and not active on blur', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <SearchBar
         label="Test Label"
@@ -79,7 +78,7 @@ describe('', () => {
 
     const searchBar = getByRole('textbox');
 
-    userEvent.click(searchBar);
+    await user.click(searchBar);
     expect(setActiveSpy).toHaveBeenCalledWith(true);
 
     fireEvent.blur(searchBar);

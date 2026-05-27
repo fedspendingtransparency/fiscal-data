@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ExplainerPageLayout from './explainer';
 import explainerSections from './sections/sections';
 import { mockBeaGDPData, mockSavingsBondFetchResponses, mockSpendingHeroData } from './explainer-test-helper';
@@ -7,9 +7,11 @@ import { determineBEAFetchResponse, setGlobalFetchMatchingResponse } from '../..
 import { understandingDeficitMatchers } from './explainer-helpers/national-deficit/national-deficit-test-helper';
 import fetchMock from 'fetch-mock';
 import { circleChartMockChartData, governmentRevenueMatchers } from './explainer-helpers/government-revenue/government-revenue-test-helper';
-import { useStaticQuery } from 'gatsby';
-import { RecoilRoot } from 'recoil';
 import * as Gatsby from 'gatsby';
+import { useStaticQuery } from 'gatsby';
+import Analytics from '../../utils/analytics/analytics';
+import { datasetSectionConfig, explainerCitations, explainerHeroMap } from './explainer-helpers/explainer-helpers';
+
 jest.mock('../../hooks/useBeaGDP', () => {
   return () => mockBeaGDPData;
 });
@@ -74,9 +76,9 @@ describe('Deficit explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={deficitPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -110,26 +112,19 @@ describe('Spending explainer', () => {
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`,
-      mockSpendingHeroData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service
+    fetchMock
+      .mockGlobal()
+      .route(`begin:https://www.transparency.treasury.gov/services/api/fiscal_service/`, mockSpendingHeroData)
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service
     /v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
-    fetchMock.get(
-      `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
+        mockData
+      )
+      .route(
+        `begin:https://www.transparency.treasury.gov/services/api/fiscal_service/
     v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,prior_fytd_net_outly_amt`,
-      mockData,
-      { overwriteRoutes: true },
-      { repeat: 1 }
-    );
+        mockData
+      );
     determineBEAFetchResponse(jest, mockData);
   });
 
@@ -176,9 +171,9 @@ describe('Spending explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -241,9 +236,9 @@ describe('Revenue explainer', () => {
     };
 
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={spendingPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -308,9 +303,9 @@ describe('Explainer Page Layout', () => {
 
   it('renders the debt explainer page', async () => {
     const { findAllByTestId, findByText, findByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={mockPageContext} />
-      </RecoilRoot>
+      </>
     );
 
     const sectionHeadings = await findAllByTestId('section-heading');
@@ -335,7 +330,7 @@ describe('Savings Bonds explainer', () => {
   const useStaticQuery = jest.spyOn(Gatsby, `useStaticQuery`);
   const mockUseStaticQuery = {
     allSavingsBondsByTypeHistoricalCsv: {
-      savingsBondsByTypeHistoricalCsv: [{ year: 2023, bond_type: 'A', sales: 1 }],
+      savingsBondsByTypeHistoricalCsv: [{ year: '2023', bond_type: 'A', sales: 1 }],
     },
     allGlossaryCsv: {
       glossaryCsv: [
@@ -401,12 +396,12 @@ describe('Savings Bonds explainer', () => {
     };
 
     const { findAllByTestId, findByText, queryByTestId } = render(
-      <RecoilRoot>
+      <>
         <ExplainerPageLayout pageContext={savingsBondsPageContext} />
-      </RecoilRoot>
+      </>
     );
 
-    await waitFor(() => expect(fetchSpy).toBeCalled());
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
 
     const sectionHeadings = await findAllByTestId('section-heading');
     expect(sectionHeadings.length).toEqual(explainerSections[pageName].length);
@@ -416,5 +411,63 @@ describe('Savings Bonds explainer', () => {
 
     const subNav = queryByTestId('explainerSubNav');
     expect(subNav).not.toBeInTheDocument();
+  });
+});
+
+describe('explainerHeroMap', () => {
+  it('renders a hero for every slug', () => {
+    Object.entries(explainerHeroMap).forEach(([, { component }]) => {
+      const el = component();
+      expect(React.isValidElement(el)).toBe(true);
+    });
+  });
+});
+
+describe('explainer citations', () => {
+  it('fires a GA event when each link is clicked', () => {
+    const pages = ['Debt', 'Deficit', 'Spending', 'Revenue', 'Savings Bonds', 'AFG Overview'];
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    pages.forEach(page => {
+      const citations = explainerCitations(page);
+      render(
+        <>
+          <section>{Object.values(citations)}</section>
+        </>
+      );
+      const links = screen.getAllByRole('link');
+      links.forEach(link => {
+        fireEvent.click(link);
+        expect(analyticsSpy).toHaveBeenCalled();
+      });
+    });
+  });
+
+  it('transforms historical debt records', () => {
+    const transformer = datasetSectionConfig['national-debt']['breaking-down-the-debt'].transformer;
+
+    const response = {
+      data: [
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2013',
+          debt_held_public_mil_amt: '15000000',
+          intragov_hold_mil_amt: '5000000',
+        },
+        {
+          record_calendar_month: '09',
+          record_calendar_year: '2023',
+          debt_held_public_mil_amt: '20000000',
+          intragov_hold_mil_amt: '8000000',
+        },
+      ],
+    };
+
+    const result = transformer(response);
+    expect(result).toHaveLength(2);
+    const [prior, latest] = result;
+
+    expect(prior.total).toBe(20);
+    expect(latest.total).toBe(28);
   });
 });

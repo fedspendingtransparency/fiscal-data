@@ -3,7 +3,7 @@ import { dataHeaderContainer } from './total-spending-chart.module.scss';
 import { breakpointLg, fontSize_10, fontSize_14, semiBoldWeight } from '../../../../../../variables.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartToggle from '../../../../../../components/nivo/chart-toggle/chart-toggle';
-import { spendingExplainerPrimary } from '../spending-trends.module.scss';
+import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
 import { formatCurrency, formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartDataHeader from '../../../../explainer-components/chart-data-header/chart-data-header';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
@@ -19,8 +19,8 @@ const footer = (
 
 export const getChartCopy = (minYear, maxYear, selectedChartView) => {
   return {
-    title: `Government Spending and the U.S. Economy (GDP), FY ${minYear} – ${maxYear}`,
-    subtitle: `Inflation Adjusted - ${maxYear} Dollars`,
+    title: `Government Spending and the U.S. Economy (GDP), FY ${minYear || '--'} – ${maxYear || '--'}`,
+    subtitle: `Inflation Adjusted - ${maxYear || '--'} Dollars`,
     footer: footer,
     altText:
       selectedChartView === 'percentageGdp'
@@ -58,13 +58,13 @@ export const dataHeader = (chartToggleConfig, headingValues, gaEvent) => {
         chartId="spending-chart-toggle"
       />
       <ChartDataHeader
-        fiscalYear={fiscalYear}
+        fiscalYear={fiscalYear || '--'}
         right={
           selectedChartView !== 'percentageGdp'
-            ? { label: 'Total Spending', value: `$${totalSpending}` }
-            : { label: 'GDP Ratio', value: `${gdpRatio}` }
+            ? { label: 'Total Spending', value: `$${totalSpending || '--'}` }
+            : { label: 'GDP Ratio', value: `${gdpRatio || '--'}` }
         }
-        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp}` } : null}
+        left={selectedChartView !== 'percentageGdp' ? { label: 'GDP', value: `$${gdp || '--'}` } : null}
       />
     </div>
   );
@@ -122,6 +122,7 @@ export const getMarkers = (width, selectedChartView, gdpValue, spendingValue) =>
           ...markerStyle,
           legend: 'Total Spending',
           value: spendingValue - 3,
+          legendOffsetY: -12,
         },
       ];
 };

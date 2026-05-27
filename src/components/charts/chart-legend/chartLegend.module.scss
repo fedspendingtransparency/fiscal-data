@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .heading {
   @include headingStyle6;
@@ -9,7 +9,7 @@
 }
 
 .selectAllContainer {
-  border-bottom: solid 1px #dddddd;
+  border-bottom: solid 1px $border-color;
 }
 
 .buttonContainer {

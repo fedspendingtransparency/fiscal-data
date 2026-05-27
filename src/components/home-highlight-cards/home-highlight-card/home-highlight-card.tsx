@@ -1,10 +1,10 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import Card from '@material-ui/core/Card';
-import { MuiThemeProvider } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
+import { ThemeProvider } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 import { format } from 'date-fns';
 import Analytics from '../../../utils/analytics/analytics';
 import { fetchHighlights } from '../../../utils/api-utils';
@@ -17,16 +17,16 @@ import {
   cardContent,
   cardHeaderLink,
   datasetArrow,
-  datasetLineLink,
   datasetIcon,
+  datasetLineLink,
   datasetName,
   header,
   highlightLink,
   imageContainer,
   sparkLine,
-  statsContainer,
   statDate,
   statLower,
+  statsContainer,
   statUpper,
   viewDataset,
   xAxis,
@@ -34,17 +34,12 @@ import {
 import { IDatasetApi } from '../../../models/IDatasetApi';
 import { IDataset } from '../../../models/IDataset';
 import { DatasetFieldDataType } from '../../../models/fdg-types';
-import { formatCardValue, ariaLabels } from '../home-highlight-cards-helper/home-highlight-cards-helper';
+import { ariaLabels, formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
 import BarGraph from '../../charts/bar/bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
-
-const cardStyles = {
-  root: {
-    fontSize: '1rem',
-  },
-};
+import LoadingIndicator from '../../../components/loading-indicator/loading-indicator';
 
 interface ApiData {
   data?: [{ [key: string]: string }];
@@ -290,10 +285,10 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
   const date: string = tempDate !== null ? formatDateString(tempDate) : stats.upperDate;
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <Card data-testid="highlight-card" className={card}>
         <div className={cardActionArea}>
-          <div className={cardContent}>
+          <figure className={cardContent}>
             <div data-testid="highlight-title" className={`${header} ${cardHeaderLink}`}>
               {title}
             </div>
@@ -305,13 +300,10 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 data-testid="image-container"
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
+                role="presentation"
               >
                 {isLoading ? (
-                  <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                    Loading...
-                  </div>
+                  <LoadingIndicator />
                 ) : (
                   <div style={{ position: 'relative' }}>
                     <img src={data.image.src} alt={data.image.alt} />
@@ -321,22 +313,18 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
               </div>
             )}
             {graphType === 'LINE' && (
-              <div
-                id={`chart-${displayOrder}`}
-                data-testid="highlight-chart"
-                className={sparkLine}
-                aria-label={ariaLabels.find(element => element.title === title)?.label}
-                onMouseEnter={handleCardMouseOver}
-                onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
-              >
-                {apiError && <p>API Error</p>}
-                {isLoading && (
-                  <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                    Loading...
-                  </div>
-                )}
+              <div role="figure" aria-label={ariaLabels.find(element => element.title === title)?.label}>
+                <div
+                  id={`chart-${displayOrder}`}
+                  data-testid="highlight-chart"
+                  className={sparkLine}
+                  onMouseEnter={handleCardMouseOver}
+                  onMouseLeave={handleChartMouseLeave}
+                  role="presentation"
+                >
+                  {apiError && <p>API Error</p>}
+                  {isLoading && <LoadingIndicator />}
+                </div>
               </div>
             )}
             {graphType === 'BAR' && (
@@ -347,7 +335,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                 aria-label={ariaLabels.find(element => element.title === title)?.label}
                 onMouseEnter={handleCardMouseOver}
                 onMouseLeave={handleChartMouseLeave}
-                role={'presentation'}
+                role="presentation"
               >
                 <BarGraph
                   cardId={cardId}
@@ -374,12 +362,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   </div>
                 </div>
                 {apiError && <p>API Error</p>}
-                {isLoading && (
-                  <div data-testid="loadingSection">
-                    <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner as IconProp} spin pulse />
-                    Loading...
-                  </div>
-                )}
+                {isLoading && <LoadingIndicator />}
               </div>
             )}
             <div data-testid="highlight-name" className={datasetName} title={name}>
@@ -390,7 +373,7 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
             <div data-testid="highlight-hero-value-date" className={statDate}>
               {date}
             </div>
-          </div>
+          </figure>
         </div>
         <Link
           to={cardSlug}
@@ -409,8 +392,8 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
           </div>
         </Link>
       </Card>
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 };
 
-export default withStyles(cardStyles)(HomeHighlightCard);
+export default HomeHighlightCard;

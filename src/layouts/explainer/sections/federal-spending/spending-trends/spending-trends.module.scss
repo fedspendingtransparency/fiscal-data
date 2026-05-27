@@ -1,8 +1,16 @@
-@import '../../../../../variables.module.scss';
-@import '../federal-spending.module';
+@use '../../../../../variables.module.scss' as *;
+@use '../federal-spending.module' as *;
 
 .comingSoon {
   padding: 2px;
   font-style: italic;
   font-size: $font-size-16;
+}
+
+.totalSpendingChartContainer {
+  min-height: 45.69rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    min-height: 49.63rem;
+  }
 }

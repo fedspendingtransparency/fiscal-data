@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import MenuButton from '../menu-button/menu-button';
 import MobileMenuDropdown from './mobile-menu-dropdown/mobile-menu-dropdown';
-import { menuContainer, overlay, tray, logo, open, linkHeaderContainer, bottomMostLink, pageLinks } from './mobile-menu.module.scss';
+import { bottomMostLink, linkHeaderContainer, logo, menuContainer, open, overlay, pageLinks, tray } from './mobile-menu.module.scss';
 
 const MobileMenu = ({ setOpenGlossary }) => {
   const [activeState, setActiveState] = useState(false);
@@ -35,6 +35,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
         {
           to: '/treasury-savings-bonds/',
           name: 'Savings Bonds',
+        },
+        {
+          to: '/state-and-local-government-series/',
+          name: 'State and Local Government Series',
         },
       ],
     },
@@ -96,6 +100,8 @@ const MobileMenu = ({ setOpenGlossary }) => {
         {
           to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
           name: 'Community Site',
+          external: true,
+          skipExternalModal: true,
         },
       ],
     },
@@ -107,7 +113,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
        * A React hook is an easy way to handle this (ex. https://usehooks.com/useOnClickOutside/)
        */}
       <div className={overlay} data-testid="overlay" onClick={toggleState} />
-      <div className={`${tray} ${activeState ? open : ''}`}>
+      <nav className={`${tray} ${activeState ? open : ''}`}>
         {!activeState && <MenuButton clickHandler={toggleState} isOpen={activeState} />}
         {activeState && (
           <>
@@ -128,7 +134,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
             </Link>
           </>
         )}
-      </div>
+      </nav>
     </div>
   );
 };

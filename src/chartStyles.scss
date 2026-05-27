@@ -1,4 +1,4 @@
-@import './variables.module.scss';
+@use './variables.module' as *;
 
 .tick text {
   fill: $font-body-copy;

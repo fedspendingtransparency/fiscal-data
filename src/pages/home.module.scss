@@ -1,4 +1,4 @@
-@import '../variables.module.scss';
+@use '../variables.module.scss' as *;
 
 .siteHome {
   max-width: $main-width;
@@ -22,7 +22,7 @@
   > * {
     vertical-align: middle;
     margin-right: 0.5rem;
-    font-size: 64px;
+    font-size: 4rem;
     color: $loading-icon-color;
   }
 }

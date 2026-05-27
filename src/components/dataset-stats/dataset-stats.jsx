@@ -1,10 +1,14 @@
 import React from 'react';
-import { list, icon, futureDateIconStyle, dictionary_yes, dictionary_no } from './dataset-stats.module.scss';
+import { dictionary_no, dictionary_yes, futureDateIconStyle, icon, list } from './dataset-stats.module.scss';
 import { isAfter } from 'date-fns';
 import futureDateIcon from '../../images/futureDateIcon.svg';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCode, faCheckCircle, faTimesCircle, faCalendarWeek, faSyncAlt, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faFileCode } from '@fortawesome/free-solid-svg-icons/faFileCode';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faCalendarWeek } from '@fortawesome/free-solid-svg-icons/faCalendarWeek';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons/faSyncAlt';
+import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons/faCalendarCheck';
 
 export default function DatasetStats(props) {
   const earliestDate = props.dataset && props.dataset.techSpecs && props.dataset.techSpecs.earliestDate ? props.dataset.techSpecs.earliestDate : null;
@@ -22,12 +26,12 @@ export default function DatasetStats(props) {
   const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
 
   return (
-    <ul className={list}>
-      <li data-test-id="dateRange-li" aria-label={'Date Range: ' + dateRange}>
+    <ul className={list} data-testid="dataset-ul">
+      <li data-testid="dateRange-li" aria-label={'Date Range: ' + dateRange}>
         {dateRange && useFutureIcon ? (
-          <img src={futureDateIcon} className={futureDateIconStyle} data-test-id={'futureDateIcon'} alt={'future date icon'} aria-hidden={'true'} />
+          <img src={futureDateIcon} className={futureDateIconStyle} data-testid={'futureDateIcon'} alt={'future date icon'} aria-hidden={'true'} />
         ) : (
-          <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={icon} data-test-id="calendar-week-icon" />
+          <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={icon} data-testid="calendar-week-icon" />
         )}
         {dateRange}
       </li>
@@ -35,8 +39,8 @@ export default function DatasetStats(props) {
         <FontAwesomeIcon icon={faSyncAlt} size="1x" className={icon} data-testid="sync-alt-icon" />
         {frequency}
       </li>
-      <li data-test-id={'lastUpdated'} aria-label={'last updated' + lastUpdated}>
-        <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={icon} data-test-id={'calendarCheckIcon'} />
+      <li data-testid={'lastUpdated'} aria-label={'Last Updated: ' + lastUpdated}>
+        <FontAwesomeIcon icon={faCalendarCheck} size="1x" className={icon} data-testid={'calendarCheckIcon'} />
         {'Last Updated ' + lastUpdated}
       </li>
       <li data-testid="fileType-li" aria-label={'CSV, JSON, XML'}>

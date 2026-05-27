@@ -1,9 +1,11 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import IBondSalesChart from './i-bond-sales-chart';
-import { CustomTooltip } from './i-bond-sales-chart-helper';
+import { chartCopy, CustomTooltip } from './i-bond-sales-chart-helper';
 import { mockSavingsBondFetchResponses } from '../../../../explainer-test-helper';
 import userEvent from '@testing-library/user-event';
+import Analytics from '../../../../../../utils/analytics/analytics';
+import fetchMock from 'fetch-mock';
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -29,6 +31,8 @@ describe('I Bond Sales Chart', () => {
 
   beforeAll(() => mockSavingsBondFetchResponses());
 
+  afterAll(() => fetchMock.hardReset());
+
   afterEach(() => {
     jest.resetModules();
   });
@@ -36,16 +40,16 @@ describe('I Bond Sales Chart', () => {
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
 
-    const { getByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getByTestId('chartParent')).toBeDefined();
+    const { findByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    expect(await findByTestId('chartParent')).toBeDefined();
   });
 
   it('formats y axis values', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getByText('$16.0 B')).toBeInTheDocument();
+    const { findByText, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    expect(await findByText('$16.0 B')).toBeInTheDocument();
     expect(getByText('-$2.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
     expect(getByText('5.0%')).toBeInTheDocument();
@@ -55,9 +59,9 @@ describe('I Bond Sales Chart', () => {
 
   it('formats y axis values with different CPI data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockAltCPIData} curFy={2024} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(getByText('$18.0 B')).toBeInTheDocument();
+    const { getByText, findByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockAltCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    expect(await findByText('$18.0 B')).toBeInTheDocument();
     expect(getByText('$16.0 B')).toBeInTheDocument();
     expect(getByText('-$2.0 B')).toBeInTheDocument();
     expect(getByText('$0')).toBeInTheDocument();
@@ -68,9 +72,9 @@ describe('I Bond Sales Chart', () => {
 
   it('chart mouse events', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chartParent = getByTestId('chartParent');
+    const { findByTestId } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const chartParent = await findByTestId('chartParent');
     const chart = chartParent.children[1].children[0];
     expect(chart).toBeInTheDocument();
     fireEvent.mouseOver(chart);
@@ -98,17 +102,55 @@ describe('I Bond Sales Chart', () => {
   });
 
   it('chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const chart = getByRole('application');
-    userEvent.tab();
+    const { findByRole, getByText } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const chart = await findByRole('application');
+    await user.tab();
     expect(chart).toHaveFocus();
     //Chart header updates to first date
     expect(getByText('Oct 2008')).toBeInTheDocument();
-    userEvent.tab();
+    await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
     expect(getByText('Oct 2023')).toBeInTheDocument();
+  });
+
+  it('calls chart hover analytics event', async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const fetchSpy = jest.spyOn(global, 'fetch');
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+
+    const { findByRole } = render(<IBondSalesChart cpi12MonthPercentChange={mockCPIData} curFy={2024} />);
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const chart = await findByRole('application');
+    await user.hover(chart);
+    jest.advanceTimersByTime(3001);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Chart Hover',
+      category: 'Explainers',
+      label: 'Savings Bonds - Correlation Between Inflation and I Bond Sales',
+    });
+  });
+
+  it('calls ga events for when the charts footer links are clicked ', async () => {
+    const analyticsSpy = jest.spyOn(Analytics, 'event');
+    const { getByRole } = render(<>{chartCopy.footer}</>);
+    const estLink = getByRole('link', { name: 'Electronic Securities Transactions' });
+    const blsLink = getByRole('link', { name: 'Bureau of Labor Statistics' });
+    fireEvent.click(estLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Electronics Securities Transactions',
+    });
+    fireEvent.click(blsLink);
+    expect(analyticsSpy).toHaveBeenCalledWith({
+      action: 'Savings Bonds Citation Click',
+      category: 'Explainers',
+      label: 'Bureau of Labor Statistics',
+    });
   });
 });

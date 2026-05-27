@@ -1,0 +1,65 @@
+@use 'src/variables.module' as *;
+
+.sectionBorder {
+  border-bottom: $border-color solid 1px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 1.75rem;
+}
+
+.resetButton {
+  height: 28px;
+  width: 125px;
+  padding: 0.25rem 0.5rem;
+  font-size: $font-size-16;
+  color: $font-body-copy;
+  font-weight: $semi-bold-weight;
+  background-color: $body-background;
+  border: none;
+  display: flex;
+  align-items: center;
+  border-radius: 3px;
+  white-space: nowrap;
+
+  &.activeButton {
+    background-color: $primary;
+    color: white;
+    .arrowIcon {
+      color: white;
+      height: 0.875rem;
+    }
+    &:hover {
+      background-color: $slate-blue;
+      cursor: pointer;
+    }
+  }
+}
+
+.arrowIcon {
+  color: $font-body-copy;
+  margin-right: 0.5rem;
+}
+
+@media screen and (min-width: $breakpoint-md) {
+  .resetButtonContainer {
+    position: absolute;
+    right: 1rem;
+    width: fit-content;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1) {
+  .sectionBorder {
+    flex-direction: column;
+    .bannerContainer {
+      margin-bottom: 0.5rem;
+    }
+    .resetButtonContainer {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  }
+}

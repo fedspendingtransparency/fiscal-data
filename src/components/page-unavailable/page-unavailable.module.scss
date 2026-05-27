@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $site-content-width: 1140px;
 $lead-text-max: 550px;
@@ -33,7 +33,7 @@ $lead-text-max: 550px;
 @media screen and (max-width: $breakpoint-lg - 1) {
   .logo {
     width: 8.25rem;
-    padding-bottom: .5rem;
+    padding-bottom: 0.5rem;
   }
 }
 

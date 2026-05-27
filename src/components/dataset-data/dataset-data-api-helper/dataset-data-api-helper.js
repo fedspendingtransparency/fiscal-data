@@ -1,4 +1,4 @@
-import { datatableRequest, pivotData } from '../../../utils/api-utils';
+import { buildDateFilter, datatableRequest, fetchTableMeta, formatDateForApi, pivotData } from '../../../utils/api-utils';
 import { addDays } from 'date-fns';
 import { customTableSorts } from '../../custom-table-sorts';
 
@@ -6,11 +6,25 @@ export const loadTimerDelay = 500;
 
 let runOnce;
 
-const onDataReturned = async (res, rangeRequested, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache) => {
+const onDataReturned = async (
+  res,
+  rangeRequested,
+  selectedTable,
+  selectedPivot,
+  setIsLoading,
+  setApiData,
+  setApiError,
+  setUserFilterUnmatchedForDateRange,
+  canceledObj,
+  tableCache
+) => {
   if (res.data && (res.data.length || selectedTable.apiId !== 149)) {
     // if data [] exists (and it has records, or if it's empty but not for API 149, set the value)
     if (customTableSorts[selectedTable.apiId]) {
       res.data = res.data.sort(customTableSorts[selectedTable.apiId]);
+    }
+    if (selectedTable?.apiFilter && setUserFilterUnmatchedForDateRange) {
+      setUserFilterUnmatchedForDateRange(res.data.length <= 0);
     }
     setApiData(res);
   } else if (!runOnce && selectedTable.apiId === 149) {
@@ -39,6 +53,8 @@ const makeApiCall = async (
   tableCache,
   detailViewValue,
   detailViewFilterParam,
+  userFilterValue,
+  setUserFilterUnmatchedForDateRange,
   queryClient
 ) => {
   const loadTimer = setTimeout(() => setIsLoading(true), loadTimerDelay);
@@ -51,11 +67,22 @@ const makeApiCall = async (
       tableCache,
       detailViewValue,
       detailViewFilterParam,
+      userFilterValue,
       queryClient
     );
-
     if (!canceledObj.isCanceled) {
-      await onDataReturned(data, dateRange, selectedTable, selectedPivot, setIsLoading, setApiData, setApiError, canceledObj, tableCache);
+      await onDataReturned(
+        data,
+        dateRange,
+        selectedTable,
+        selectedPivot,
+        setIsLoading,
+        setApiData,
+        setApiError,
+        setUserFilterUnmatchedForDateRange,
+        canceledObj,
+        tableCache
+      );
     }
   } catch (err) {
     if (err.name === 'AbortError') {
@@ -84,6 +111,8 @@ export const getApiData = async (
   _tableCache,
   _detailViewValue,
   _detailViewFilterParam,
+  _userFilterValue,
+  _setUserFilterUnmatchedForDateRange,
   _queryClient
 ) => {
   if (_dateRange && _dateRange.from && _dateRange.to && _selectedTable && _selectedTable.endpoint && _selectedPivot) {
@@ -98,9 +127,38 @@ export const getApiData = async (
       _tableCache,
       _detailViewValue,
       _detailViewFilterParam,
+      _userFilterValue,
+      _setUserFilterUnmatchedForDateRange,
       _queryClient
     );
   }
+};
+
+export const getMetaData = async (dateRange, selectedTable, userFilterSelection, setApiError, setIsLoading, queryClient) => {
+  let tableMetaData = null;
+  if (dateRange && selectedTable?.endpoint) {
+    let from = formatDateForApi(dateRange.from);
+    let to = formatDateForApi(dateRange.to);
+    // redemption_tables and sb_value are exception scenarios where the date string needs to
+    // be YYYY-MM.
+    if (selectedTable.endpoint.indexOf('redemption_tables') > -1 || selectedTable.endpoint.indexOf('sb_value') > -1) {
+      from = from.substring(0, from.lastIndexOf('-'));
+      to = to.substring(0, to.lastIndexOf('-'));
+    }
+    const dateFilter = buildDateFilter(selectedTable, from, to);
+    const apiFilterParam = getApiFilterParam(selectedTable, userFilterSelection);
+    try {
+      tableMetaData = await queryClient.ensureQueryData({
+        queryKey: ['tableMetaData', selectedTable.endpoint, dateFilter, apiFilterParam],
+        queryFn: () => fetchTableMeta(selectedTable, dateFilter, apiFilterParam),
+      });
+    } catch (err) {
+      console.error('API error', err);
+      setApiError(err);
+      setIsLoading(false);
+    }
+  }
+  return tableMetaData;
 };
 
 export const pivotApiDataFn = (row, filters) => {
@@ -176,6 +234,12 @@ export const divvyUpFilters = filters => {
     }
   });
   return [serializableFilters, postLoadFilters];
+};
+
+export const getApiFilterParam = (selectedTable, userFilterSelection) => {
+  return selectedTable?.apiFilter?.field && userFilterSelection?.value !== null && userFilterSelection?.value !== undefined
+    ? `,${selectedTable?.apiFilter?.field}:eq:${userFilterSelection.value}`
+    : '';
 };
 
 export const unitTestFunctions = {

@@ -9,14 +9,14 @@ import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers
 
 const FederalSpendingHero = (): ReactElement => {
   const [totalSpending, setTotalSpending] = useState(null);
-  const [priorYearSpending, setPriorYearSpending] = useState(0);
+  const [priorYearSpending, setPriorYearSpending] = useState('--');
   const [priorFiscalYear, setPriorFiscalYear] = useState(null);
   const [priorCalendarYear, setPriorCalendarYear] = useState(null);
   const [recordFiscalYear, setRecordFiscalYear] = useState(null);
   const [recordCalendarMonth, setRecordCalendarMonth] = useState(null);
   const [spendingChangeLabel, setSpendingChangeLabel] = useState(null);
-  const [spendingChange, setSpendingChange] = useState(0);
-  const [spendingPercentChange, setSpendingPercentChange] = useState(0);
+  const [spendingChange, setSpendingChange] = useState('--');
+  const [spendingPercentChange, setSpendingPercentChange] = useState('--');
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
@@ -49,8 +49,8 @@ const FederalSpendingHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The U.S. government has spent ${getShortForm(totalSpending, false)} in fiscal year {recordFiscalYear} to ensure the well-being of the people
-        of the United States.
+        The U.S. government has spent ${totalSpending ? getShortForm(totalSpending, false) : '--'} in fiscal year {recordFiscalYear || '--'} to ensure
+        the well-being of the people of the United States.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -62,13 +62,13 @@ const FederalSpendingHero = (): ReactElement => {
       </div>
       <div className={footNotes}>
         <p>
-          Fiscal year-to-date (since October {priorFiscalYear}) total updated monthly using the {mtsOutlays} dataset.
+          Fiscal year-to-date (since October {priorFiscalYear || '--'}) total updated monthly using the {mtsOutlays} dataset.
         </p>
         <div className={footNotesPillData}>
           <p>
             Compared to the federal spending of ${getShortForm(priorYearSpending.toString(), false)} for the same period last year (
             {getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}) our federal spending has {spendingChangeLabel} by $
-            {getShortForm(spendingChange.toString(), false)}.
+            {spendingChange ? getShortForm(spendingChange.toString(), false) : '--'}.
           </p>
           {getPillData(
             spendingChange,

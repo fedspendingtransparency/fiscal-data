@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .searchInput {
   display: flex;
@@ -14,7 +14,7 @@
     padding: 0.8rem 3rem 0.8rem 0.8rem;
     width: calc(100% - 33px);
     margin-right: 4px;
-    border: 1px solid #dddddd;
+    border: 1px solid $border-color;
     font-size: 1rem;
     color: $font-body-copy;
     box-sizing: border-box;
@@ -22,6 +22,10 @@
 
     &::placeholder {
       color: $placeholder;
+    }
+
+    &:disabled {
+      pointer-events: none;
     }
   }
 

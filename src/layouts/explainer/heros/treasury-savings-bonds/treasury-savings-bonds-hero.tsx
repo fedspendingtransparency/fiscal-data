@@ -6,6 +6,8 @@ import SplitFlapDisplay from '../../../../components/split-flap-display/split-fl
 import { apiPrefix, basicFetch } from '../../../../utils/api-utils';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
+import { analyticsEventHandler } from '../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../../sections/treasury-savings-bonds/treasury-savings-bonds';
 
 const TreasurySavingsBondsHero = (): ReactElement => {
   // appending 40 to a 6 digit hex color is equivalent to specifying 25% opacity
@@ -17,13 +19,13 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   const endpointUrl = `v1/accounting/od/securities_sales?${filter}&${sort}&${pagination}`;
   const securitiesSalesUrl = `${apiPrefix}${endpointUrl}`;
 
-  const [totalSavingsBondsInvested, setTotalSavingsBondsInvested] = useState('');
-  const [priorFiscalYear, setPriorFiscalYear] = useState('');
-  const [priorCalendarYear, setPriorCalendarYear] = useState('');
-  const [recordCalendarMonth, setRecordCalendarMonth] = useState('');
-  const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('');
-  const [savingsBondChange, setSavingsBondChange] = useState(0);
-  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(0);
+  const [totalSavingsBondsInvested, setTotalSavingsBondsInvested] = useState('--');
+  const [priorFiscalYear, setPriorFiscalYear] = useState('--');
+  const [priorCalendarYear, setPriorCalendarYear] = useState('--');
+  const [recordCalendarMonth, setRecordCalendarMonth] = useState('--');
+  const [savingsBondChangeLabel, setSavingsBondChangeLabel] = useState('--');
+  const [savingsBondChange, setSavingsBondChange] = useState(null);
+  const [savingsBondPercentChange, setSavingsBondPercentChange] = useState(null);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
@@ -72,19 +74,23 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   };
 
   const electronicSecurities = (
-    <CustomLink url="/datasets/electronic-securities-transactions/" id="Electronic Securities Transactions">
+    <CustomLink
+      url="/datasets/electronic-securities-transactions/"
+      id="Electronic Securities Transactions"
+      onClick={() => analyticsEventHandler('Electronic Securities Transactions', 'Savings Bonds Citation Click')}
+    >
       Electronic Securities Transactions
     </CustomLink>
   );
 
   const savingsBonds = (
-    <GlossaryPopoverDefinition term="Savings Bonds" page="Savings Bonds Explainer">
+    <GlossaryPopoverDefinition term="Savings Bonds" page="Savings Bonds Explainer" handleClick={() => glossaryGAEvent('Savings Bonds')}>
       savings bonds
     </GlossaryPopoverDefinition>
   );
 
   const fiscalYear = (
-    <GlossaryPopoverDefinition term="Fiscal Year" page="Savings Bonds Explainer">
+    <GlossaryPopoverDefinition term="Fiscal Year" page="Savings Bonds Explainer" handleClick={() => glossaryGAEvent('Fiscal Year')}>
       fiscal year
     </GlossaryPopoverDefinition>
   );
@@ -99,8 +105,8 @@ const TreasurySavingsBondsHero = (): ReactElement => {
   return (
     <>
       <p className={heroImageSubHeading}>
-        The American public invested ${getShortForm(totalSavingsBondsInvested, false)} in {savingsBonds} this {fiscalYear} to finance the federal
-        government.
+        The American public invested ${totalSavingsBondsInvested ? getShortForm(totalSavingsBondsInvested, false) : '--'} in {savingsBonds} this{' '}
+        {fiscalYear} to finance the federal government.
       </p>
       <div className={flapWrapper}>
         <SplitFlapDisplay
@@ -117,7 +123,7 @@ const TreasurySavingsBondsHero = (): ReactElement => {
         <div className={footNotesPillData}>
           <p>
             Compared to the same period last year ({getFootNotesDateRange(priorFiscalYear, priorCalendarYear, recordCalendarMonth)}), investments in
-            savings bonds have {savingsBondChangeLabel} by ${getShortForm(savingsBondChange.toString(), false)}.
+            savings bonds have {savingsBondChangeLabel} by ${savingsBondChange ? getShortForm(savingsBondChange.toString(), false) : '--'}.
           </p>
           {getPillData(
             savingsBondChange,

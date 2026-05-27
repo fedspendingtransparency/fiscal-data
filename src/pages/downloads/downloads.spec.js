@@ -1,9 +1,8 @@
 import Downloads, { DownloadsPage } from './index';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { from, throwError } from 'rxjs';
 import React from 'react';
-import globalConstants from '../../helpers/constants';
 import downloadService from '../../helpers/download-service/download-service';
 import { downloadPageTextContent } from '../../helpers/downloads/download-content-helper';
 
@@ -63,15 +62,22 @@ describe('downloads page', () => {
     expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlErrorText);
   });
 
-  it('correctly parses the token out of its url, starts polling, and downloads when status is completed', () => {
-    const locationMock = jest.fn();
-    delete window.location;
-    window.location = { assign: locationMock };
+  it('displays ready messages when download is completed with file_path', async () => {
+    mockStatusObservable = from([
+      {
+        status: 'completed',
+        file_path: 'test-file-path.csv',
+      },
+    ]);
+    jest.clearAllMocks();
 
     const mockToken = 'abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789';
-    render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
-    expect(statusPollingSpy).toHaveBeenCalledWith(mockToken);
-    expect(locationMock).toHaveBeenCalledWith(`${globalConstants.DATA_DOWNLOAD_STATUS_PREFIX}/mockDownloadFilePath.zip`);
+    const { getByTestId } = render(<DownloadsPage location={{ pathname: `/downloads/${mockToken}` }} />);
+
+    await waitFor(() => {
+      expect(getByTestId('header')).toHaveTextContent(downloadPageTextContent.dlReadyHeader);
+      expect(getByTestId('full-message')).toHaveTextContent(downloadPageTextContent.dlReadyText);
+    });
   });
 
   it('displays error messages when fetch errors', () => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { container, content, infoIcon, closeButton, closeIcon } from './announcement-banner.module.scss';
-import { faInfoCircle, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { closeButton, closeIcon, container, content, infoIcon } from './announcement-banner.module.scss';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const AnnouncementBanner = ({ altStyle, closable, children }) => {

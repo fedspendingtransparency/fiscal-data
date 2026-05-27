@@ -5,7 +5,7 @@ const endpointConfig = {
     downloadName: 'MSPD_SumSecty',
     dataDisplays: [
       {
-        title: 'By Security Type',
+        title: 'Security Type',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -26,7 +26,7 @@ const endpointConfig = {
     downloadName: 'MSPD_DetailSecty',
     dataDisplays: [
       {
-        title: 'By Marketable',
+        title: 'Marketable',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -57,7 +57,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Nonmarketable',
+        title: 'Nonmarketable',
         dimensionField: 'security_type_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -104,6 +104,7 @@ const endpointConfig = {
       'yield_pct',
       'inflation_adj_amt',
     ],
+    valueFieldOptions: ['issued_amt', 'redeemed_amt', 'outstanding_amt'],
   },
   '94': {
     endpoint: 'v1/accounting/od/savings_bonds_pcs',
@@ -283,7 +284,7 @@ const endpointConfig = {
     downloadName: 'MSPD_DebtLim',
     dataDisplays: [
       {
-        title: 'By Debt Limit Class 1',
+        title: 'Debt Limit Class 1',
         dimensionField: 'debt_limit_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -323,7 +324,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Receipt Category',
+        title: 'Receipt Category',
         dimensionField: 'classification_desc',
         filters: [
           {
@@ -345,7 +346,7 @@ const endpointConfig = {
     downloadName: 'MTS_OutlyAgcy',
     dataDisplays: [
       {
-        title: 'By Federal Program Agency',
+        title: 'Federal Program Agency',
         dimensionField: 'classification_desc',
         filters: [
           {
@@ -650,13 +651,90 @@ const endpointConfig = {
     ],
     valueFieldOptions: ['current_month_rcpt_outly_amt'],
   },
+  '323': {
+    endpoint: 'v1/accounting/mts/mts_receipts_outlays_deficit_surplus',
+    dateField: 'record_date',
+    downloadName: 'MTS_RcptOutlyDfctSur_Series',
+    dataDisplays: [
+      {
+        title: 'Receipt and Outlay Amounts',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Receipts,Outlays',
+            operator: 'in',
+          },
+        ],
+      },
+      {
+        title: 'Deficit/Surplus (-) Amount',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Deficit/Surplus (-)',
+            operator: 'in',
+          },
+        ],
+      },
+      {
+        title: 'Financing the Deficit or Disposal of a Surplus',
+        dimensionField: 'amt_category',
+        filters: [
+          {
+            key: 'amt_category',
+            value: 'Borrowing from the Public,Reduction of Operating Cash,By Other Means',
+            operator: 'in',
+          },
+        ],
+      },
+    ],
+    valueFieldOptions: ['mil_amt'],
+  },
+  '324': {
+    endpoint: 'v1/accounting/mts/mts_distributed_offsetting_receipts',
+    dateField: 'record_date',
+    downloadName: 'MTS_DstOffstgRcpt',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+  },
+  '325': {
+    endpoint: 'v1/accounting/mts/mts_table_9_outlays_functions_subfunctions',
+    dateField: 'record_date',
+    downloadName: 'MTS_OutlyFcnSubFcn',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    dataDisplays: [
+      {
+        title: 'Outlays by Function',
+        dimensionField: 'function_desc',
+      },
+      {
+        title: 'Outlays by Sub Function',
+        dimensionField: 'sub_function_desc',
+      },
+    ],
+    valueFieldOptions: ['current_month_outly_amt', 'current_fytd_outly_amt', 'prior_fytd_outly_amt'],
+  },
+  '326': {
+    endpoint: 'v1/accounting/mts/mts_table_5m',
+    dateField: 'record_date',
+    downloadName: 'MTS_RcptsOffstAgnstOutlys',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    dataDisplays: [
+      {
+        title: 'Classification Description',
+        dimensionField: 'classification_desc',
+      },
+    ],
+    valueFieldOptions: ['curr_fytd_rcpt_offset_amt', 'prior_fytd_rcpt_offset_amt'],
+  },
   '123': {
     endpoint: 'v1/debt/mspd/mspd_table_4',
     dateField: 'record_date',
     downloadName: 'MSPD_HstSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -686,7 +764,7 @@ const endpointConfig = {
     downloadName: 'MSPD_StripSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'thousands',
         filters: [
@@ -714,56 +792,6 @@ const endpointConfig = {
       'portion_stripped_amt',
       'reconstituted_amt',
     ],
-  },
-  '126': {
-    endpoint: 'v1/debt/top/top_state',
-    dateField: 'record_date',
-    downloadName: 'TOP_StateProg',
-    dataDisplays: [{ dimensionField: 'state_nm' }, { dimensionField: 'state_cd' }, { dimensionField: 'program_desc' }],
-    valueFieldOptions: ['total_amt'],
-  },
-  '127': {
-    endpoint: 'v1/debt/top/top_federal',
-    downloadName: 'TOP_FedClct',
-    dateField: 'record_date',
-    dataDisplays: [
-      {
-        title: 'Complete Table',
-        chartType: 'none',
-        fields: [
-          'gross_count',
-          'gross_amount',
-          'net_count',
-          'net_amount',
-          'creditor_agency_nm',
-          'payment_source_description',
-          'payment_category',
-          'taxable',
-          'debt_type_description',
-          'agency_type_code',
-          'payment_agency_nm',
-          'source_agency',
-          'agency_type',
-          'agency_site_name',
-          'debt_type_code',
-        ],
-      },
-      { dimensionField: 'creditor_agency_nm' },
-      { dimensionField: 'agency_type' },
-      { dimensionField: 'agency_site_nm' },
-      { dimensionField: 'source_agency' },
-      { dimensionField: 'source_agency_1' },
-      { dimensionField: 'payment_agency_nm' },
-      { dimensionField: 'agency_type_cd' },
-      { dimensionField: 'payment_source_desc' },
-      { dimensionField: 'payment_source_cd' },
-      { dimensionField: 'payment_category' },
-      { dimensionField: 'payment_type_desc' },
-      { dimensionField: 'payment_type_cd' },
-      { dimensionField: 'debt_type_cd' },
-      { dimensionField: 'debt_type_desc' },
-    ],
-    valueFieldOptions: ['gross_amt', 'net_amt', 'gross_cnt', 'net_cnt'],
   },
   '138': {
     endpoint: 'v1/accounting/od/schedules_fed_debt',
@@ -868,7 +896,7 @@ const endpointConfig = {
     downloadName: 'MSPD_MktSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -877,7 +905,7 @@ const endpointConfig = {
             operator: 'in',
             value:
               'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
-              'Rate Notes,Total Tresasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
+              'Rate Notes,Total Treasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
               'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
               'Securities,Total TIPS,Total Treasury Notes,',
           },
@@ -910,7 +938,7 @@ const endpointConfig = {
             operator: 'in',
             value:
               'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
-              'Notes,Total Treasury Inflation-Protected Securities,Total TIPS',
+              'Notes,Total Treasury Inflation-Protected Securities,Total Treasury TIPS',
           },
         ],
       },
@@ -954,7 +982,7 @@ const endpointConfig = {
     downloadName: 'MSPD_NonmktSecty',
     dataDisplays: [
       {
-        title: 'By Security Class',
+        title: 'Security Class',
         dimensionField: 'security_class1_desc',
         roundingDenomination: 'millions',
         filters: [
@@ -1243,15 +1271,15 @@ const endpointConfig = {
     downloadName: 'TreasGold',
     dataDisplays: [
       {
-        title: 'By Facility',
+        title: 'Facility',
         dimensionField: 'facility_desc',
       },
       {
-        title: 'By Form',
+        title: 'Form',
         dimensionField: 'form_desc',
       },
       {
-        title: 'By Location',
+        title: 'Location',
         dimensionField: 'location_desc',
       },
     ],
@@ -1269,7 +1297,7 @@ const endpointConfig = {
     downloadName: 'AvgInterestRate',
     dataDisplays: [
       {
-        title: 'By Marketable',
+        title: 'Marketable',
         dimensionField: 'security_desc',
         valueFieldOptions: ['avg_interest_rate_amt'],
         filters: [
@@ -1281,7 +1309,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Non-marketable',
+        title: 'Non-marketable',
         dimensionField: 'security_desc',
         filters: [
           {
@@ -1292,7 +1320,7 @@ const endpointConfig = {
         ],
       },
       {
-        title: 'By Interest-bearing Debt',
+        title: 'Interest-bearing Debt',
         dimensionField: 'security_desc',
         filters: [
           {
@@ -1312,11 +1340,11 @@ const endpointConfig = {
     dateField: 'record_date',
     dataDisplays: [
       {
-        title: 'By Fund ID',
+        title: 'Fund ID',
         dimensionField: 'fund_id',
       },
       {
-        title: 'By Department ID',
+        title: 'Department ID',
         dimensionField: 'department_id',
       },
     ],
@@ -1339,15 +1367,15 @@ const endpointConfig = {
     downloadName: 'IntExp',
     dataDisplays: [
       {
-        title: 'By Expense Category',
+        title: 'Expense Category',
         dimensionField: 'expense_catg_desc',
       },
       {
-        title: 'By Expense Group',
+        title: 'Expense Group',
         dimensionField: 'expense_group_desc',
       },
       {
-        title: 'By Expense Type',
+        title: 'Expense Type',
         dimensionField: 'expense_type_desc',
       },
     ],
@@ -1370,7 +1398,7 @@ const endpointConfig = {
     downloadName: 'MthlySlgsSecty',
     dataDisplays: [
       {
-        title: 'By Security Description',
+        title: 'Security Type Description',
         dimensionField: 'security_type_desc',
       },
     ],
@@ -1381,7 +1409,7 @@ const endpointConfig = {
     downloadName: 'AdvStateUnempFundsTitleXII',
     dataDisplays: [
       {
-        title: 'By State',
+        title: 'State Name',
         dimensionField: 'state_nm',
         lastRowSnapshot: true,
       },
@@ -1514,6 +1542,7 @@ const endpointConfig = {
       'cnc_total_amt',
       'cnc_closed_out_current_fy_amt',
     ],
+    additionalColumns: ['agency_code', 'receivable_type_id', 'funding_type_description', 'funding_type_id'],
   },
   '164': {
     endpoint: 'v2/debt/tror/collected_outstanding_recv',
@@ -1685,11 +1714,11 @@ const endpointConfig = {
     downloadName: 'FBP_SummaryGeneralLedgerBorrowingBalances',
     dataDisplays: [
       {
-        title: 'By Account',
+        title: 'Account Code',
         dimensionField: 'account_cd',
       },
       {
-        title: 'By Department',
+        title: 'Department Code',
         dimensionField: 'dept_cd',
       },
     ],
@@ -1708,11 +1737,11 @@ const endpointConfig = {
     downloadName: 'FBP_SummaryGeneralLedgerRepayableAdvanceBalances',
     dataDisplays: [
       {
-        title: 'By Account',
+        title: 'Account Code',
         dimensionField: 'account_cd',
       },
       {
-        title: 'By Department',
+        title: 'Department Code',
         dimensionField: 'dept_cd',
       },
     ],
@@ -1902,6 +1931,13 @@ const endpointConfig = {
     endpoint: 'v1/accounting/tb/pdo1_offerings_regular_weekly_treasury_bills',
     dateField: 'record_date',
     downloadName: 'TB_PDO1OfferingsRegularWeeklyTreasuryBills',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '207': {
     endpoint: 'v1/accounting/tb/pdo2_offerings_marketable_securities_other_regular_weekly_treasury_bills',
@@ -1972,16 +2008,37 @@ const endpointConfig = {
     endpoint: 'v1/accounting/tb/fcp1_weekly_report_major_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP1WeeklyReportMajorMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '213': {
     endpoint: 'v1/accounting/tb/fcp2_monthly_report_major_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP2MonthlyReportMajorMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '214': {
     endpoint: 'v1/accounting/tb/fcp3_quarterly_report_large_market_participants',
     dateField: 'record_date',
     downloadName: 'TB_FCP3QuarterlyReportLargeMarketParticipants',
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['exchange_rate', 'high_price_per_hundred'],
+        noFormatting: true,
+      },
+    ],
   },
   '215': {
     endpoint: 'v1/accounting/tb/esf1_balances',
@@ -2039,7 +2096,7 @@ const endpointConfig = {
     downloadName: 'DTS_OpCashBal',
     dataDisplays: [
       {
-        title: 'By Type of Account',
+        title: 'Treasury General Account (TGA) Opening Balance',
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
@@ -2077,12 +2134,12 @@ const endpointConfig = {
     downloadName: 'DTS_OpCashDpstWdrl',
     dataDisplays: [
       {
-        title: 'By Type of Account',
+        title: 'Type of Account',
         dimensionField: 'account_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2113,7 +2170,7 @@ const endpointConfig = {
     downloadName: 'DTS_PubDebtTrans',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2126,12 +2183,12 @@ const endpointConfig = {
     downloadName: 'DTS_PubDebtCashAdj',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Adjustment Type',
+        title: 'Adjustment Type',
         dimensionField: 'adj_type',
         roundingDenomination: 'millions',
       },
@@ -2144,7 +2201,7 @@ const endpointConfig = {
     downloadName: 'DTS_DebtSubjLim',
     dataDisplays: [
       {
-        title: 'By Debt Category',
+        title: 'Debt Category',
         dimensionField: 'debt_catg',
         roundingDenomination: 'millions',
         lastRowSnapshot: true,
@@ -2158,7 +2215,7 @@ const endpointConfig = {
     downloadName: 'DTS_FedTaxDpst',
     dataDisplays: [
       {
-        title: 'By Federal Tax Deposit Type',
+        title: 'Federal Tax Deposit Type',
         dimensionField: 'tax_deposit_type',
         roundingDenomination: 'millions',
       },
@@ -2171,7 +2228,7 @@ const endpointConfig = {
     downloadName: 'DTS_StCashInvest',
     dataDisplays: [
       {
-        title: 'By Transaction Type',
+        title: 'Transaction Type',
         dimensionField: 'transaction_type',
         roundingDenomination: 'millions',
       },
@@ -2184,12 +2241,12 @@ const endpointConfig = {
     downloadName: 'DTS_IncmTaxRfnd',
     dataDisplays: [
       {
-        title: 'By Federal Tax Refund Type',
+        title: 'Federal Tax Refund Type',
         dimensionField: 'tax_refund_type',
         roundingDenomination: 'millions',
       },
       {
-        title: 'By Federal Tax Refund Type Description',
+        title: 'Federal Tax Refund Type Description',
         dimensionField: 'tax_refund_type_desc',
       },
     ],
@@ -2218,7 +2275,7 @@ const endpointConfig = {
     downloadName: 'DTS_InterAgencyTaxTransfers',
     dataDisplays: [
       {
-        title: 'By Classification',
+        title: 'Classification',
         dimensionField: 'classification',
         roundingDenomination: 'millions',
       },
@@ -2246,6 +2303,18 @@ const endpointConfig = {
     dateField: 'record_date',
     downloadName: 'frn_daily_indexes',
     alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['spread'],
+        decimalPlaces: 3,
+      },
+      {
+        type: 'NUMBER',
+        fields: ['daily_index', 'daily_int_accrual_rate'],
+        noFormatting: true,
+      },
+    ],
   },
   // Treasury Bulletin: Trust Fund Reports
   '265': {
@@ -2652,8 +2721,8 @@ const endpointConfig = {
       'operation_start_time_est',
       'operation_close_time_est',
       'settlement_date',
-      'tentative_ann_pdf',
-      'tentative_ann_xml',
+      'preliminary_ann_pdf',
+      'preliminary_ann_xml',
       'final_ann_pdf',
       'final_ann_xml',
       'results_pdf',
@@ -2669,6 +2738,77 @@ const endpointConfig = {
     alwaysSortWith: ['-operation_date', 'maturity_date'],
     hideColumns: ['operation_date'],
     selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+  },
+  // TRRE
+  '318': {
+    endpoint: 'v1/accounting/od/rates_of_exchange',
+    dateField: 'record_date',
+    downloadName: 'RprtRateXchgCln',
+    alwaysSortWith: ['-record_date', 'src_line_nbr'],
+    dataDisplays: [
+      {
+        title: 'Exchange Rate Trend',
+      },
+    ],
+    showChartForCompleteTable: true,
+    userFilter: {
+      field: 'country_currency_desc',
+      label: 'Country-Currency',
+      notice: `If current rates deviate from the published rates by 10% or more, Treasury
+         will issue amendments to this quarterly report. An amendment to a currency exchange
+         rate for the quarter will appear on the report as a separate line with a new effective
+         date. The latest available data will display first.`,
+      dataUnmatchedMessage: `This may be because the currency existed under a different
+          name for that time period. Please check to see if the currency you are
+          looking for appears under a different name, or change the date
+          selected for available results.`,
+    },
+    selectColumns: ['record_date', 'country_currency_desc', 'exchange_rate', 'effective_date'],
+  },
+  //UTF
+  '319': {
+    endpoint: 'v1/accounting/od/utf_account_balances',
+    dateField: 'eff_date',
+    downloadName: 'UTF_Account_Balances ',
+    alwaysSortWith: ['-eff_date', 'acct_statement'],
+    apiFilter: {
+      field: 'acct_desc',
+      downloadLabel: 'Account',
+      label: 'Choose a Federal or State Account',
+      dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+      dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+      dataDefaultHeader: 'This table requires additional filters.',
+      dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+      dataSearchLabel: 'Search account descriptions',
+      notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
+      fieldFilter: {
+        field: 'report_type',
+        value: ['Federal', 'State'],
+      },
+    },
+    selectColumns: [],
+  },
+  '320': {
+    endpoint: 'v1/accounting/od/utf_transaction_subtotals',
+    dateField: 'eff_date',
+    downloadName: 'UTF_Transaction_Subtotals ',
+    alwaysSortWith: ['-eff_date', 'trans_statement', 'trans_desc_cd'],
+    apiFilter: {
+      field: 'acct_desc',
+      downloadLabel: 'Account',
+      label: 'Choose a Federal or State Account',
+      dataUnmatchedHeader: 'There is no data to display based on the current filters selected.',
+      dataUnmatchedMessage: 'Select a different account description and/or date range in order to preview the data.',
+      dataDefaultHeader: 'This table requires additional filters.',
+      dataDefaultMessage: 'Select an account in the filter section above to display the data.',
+      dataSearchLabel: 'Search account descriptions',
+      notice: `Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.`,
+      fieldFilter: {
+        field: 'report_type',
+        value: ['Federal', 'State'],
+      },
+    },
+    selectColumns: [],
   },
   //FBP
   '313': {
@@ -2691,7 +2831,7 @@ const endpointConfig = {
       'capitalized_int_receivable_amt',
     ],
     apiFilter: {
-      field: 'account_nbr',
+      field: 'account_desc',
       labelField: 'account_desc',
       filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
       downloadLabel: 'Account',
@@ -2728,7 +2868,7 @@ const endpointConfig = {
       'capitalized_int_receivable_amt',
     ],
     apiFilter: {
-      field: 'account_nbr',
+      field: 'account_desc',
       labelField: 'account_desc',
       filterEndpoint: 'v1/accounting/od/fbp_dpai_account_summary',
       downloadLabel: 'Account',
@@ -2840,6 +2980,22 @@ const endpointConfig = {
       fileType: 'xml',
       maxYearRange: 5,
     },
+  },
+  //I Bonds
+  '321': {
+    endpoint: 'v1/accounting/od/i_bonds_interest_rates',
+    dateField: 'earning_period_start',
+    downloadName: 'I_Bonds_Interest_Rates',
+    alwaysSortWith: ['-earning_period', '-issue_year_month'],
+    selectColumns: [],
+  },
+  //MTD Empty endpoint
+  322: {
+    endpoint: '',
+  },
+  //Account of Receipts & Expenditures
+  328: {
+    endpoint: '',
   },
 };
 

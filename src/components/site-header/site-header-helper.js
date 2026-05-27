@@ -14,6 +14,10 @@ export const menuSections = [
             to: '/treasury-savings-bonds/',
             title: 'Savings Bonds',
           },
+          {
+            to: '/state-and-local-government-series/',
+            title: 'State and Local Government Series',
+          },
         ],
       },
       {
@@ -76,6 +80,7 @@ export const menuSections = [
         to: 'https://onevoicecrm.my.site.com/FiscalDataCommunity/s/',
         title: 'Community Site',
         external: true,
+        skipExternalModal: true,
       },
     ],
   },

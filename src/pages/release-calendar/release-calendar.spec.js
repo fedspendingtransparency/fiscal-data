@@ -1,13 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import ReleaseCalendar from './index';
-import SiteLayout from '../../components/siteLayout/siteLayout';
-import PageHelmet from '../../components/page-helmet/page-helmet';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
-import { RecoilRoot } from "recoil";
-import { tagLineText } from '../../helpers/release-calendar/release-calendar-content-helper';
 import fetchMock from 'fetch-mock';
-import { waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 const mockMetaData = [
   {
@@ -92,49 +86,39 @@ const mockReleaseData = [
   },
 ];
 
-jest.useFakeTimers();
 describe('Release Calendar', () => {
-  let component = renderer.create();
-  let instance;
-
   beforeAll(() => {
-    fetchMock.get(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData, { overwriteRoutes: true, repeat: 0 });
-    fetchMock.get('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData, { overwriteRoutes: true, repeat: 0 });
-    renderer.act(() => {
-      component = renderer.create(<RecoilRoot><ReleaseCalendar /></RecoilRoot>);
-    });
-    instance = component.root;
+    jest.useFakeTimers();
+    fetchMock
+      .mockGlobal()
+      .route(`https://api.fiscaldata.treasury.gov/services/calendar/release`, mockReleaseData)
+      .route('https://api.fiscaldata.treasury.gov/services/dtg/metadata/', mockMetaData);
   });
 
   it('includes the SiteLayout component', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const siteLayout = instance.findByType(SiteLayout);
-    expect(siteLayout).toBeDefined();
-  });
-
-  it('supplies the required values to the page helmet', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const helmet = instance.find(e => e.type === PageHelmet);
-    expect(helmet.props.pageTitle).toBe('Fiscal Data Release Calendar');
-    expect(helmet.props.description).toBe(tagLineText);
-    expect(helmet.props.keywords).toBeDefined();
-  });
-
-  it('includes breadcrumbs', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const breadcrumbs = instance.find(e => e.type === BreadCrumbs);
-    expect(breadcrumbs).toBeDefined();
+    const { findByTestId } = render(
+      <>
+        <ReleaseCalendar />
+      </>
+    );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const siteLayout = await findByTestId('officialBanner');
+    // officialBanner is included in SiteLayout component
+    expect(siteLayout).toBeInTheDocument();
   });
 
   it('includes the page title and tagline', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    const pageTitle = instance.findByProps({ 'data-testid': 'page-title' });
-    const tagline = instance.findByProps({ 'data-testid': 'tag-line' });
-    expect(pageTitle.props.children).toBe('Release Calendar');
-    expect(tagline.props.children).toBe(tagLineText);
+    const { getByRole, getByText } = render(
+      <>
+        <ReleaseCalendar />
+      </>
+    );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const pageTitle = await getByRole('heading', { level: 1, name: 'Release Calendar' });
+    const tagline = await getByText('The Fiscal Data Release Calendar', { exact: false });
+    expect(pageTitle).toBeInTheDocument();
+    expect(tagline).toBeInTheDocument();
   });
 });

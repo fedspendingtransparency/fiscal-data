@@ -1,31 +1,23 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .pageHeader {
   position: sticky;
-  top: -.25rem;
+  top: -0.25rem;
   z-index: $dataset-detail-nav;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-color: #f6f6f6;
+  background-color: $api-header;
   margin: 0 auto;
-  padding:0 0.75rem;
+  padding: 0 0.75rem;
 }
 
 .stickyHeight {
   height: 92px;
 }
 
-.breadCrumb {
-  z-index: $dataset-detail-nav;
-  padding-top: 1rem;
-  max-width: $main-width;
-  width: 100%;
-  margin: 0 auto;
-}
-
 .breadCrumbBackground {
-  background-color: #f6f6f6;
+  background-color: $api-header;
   padding: 0 0.75rem;
 }
 

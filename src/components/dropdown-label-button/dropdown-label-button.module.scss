@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .dropdownButton {
   font-size: $font-size-16;
@@ -9,8 +9,13 @@
   align-items: center;
   justify-content: space-between;
   color: $font-body-copy;
-  padding: 0.625rem 1rem;
+  height: 2.625rem;
+  padding: 0 1rem;
   white-space: nowrap;
+
+  .caretIcon {
+    width: 0.625rem;
+  }
 
   &.buttonEnabled {
     cursor: pointer;
@@ -25,6 +30,15 @@
     margin-right: 0.25rem;
   }
 
+  .muiButtonContent {
+    display: flex;
+    align-items: center;
+
+    svg {
+      padding-right: 14px;
+    }
+  }
+
   .publishedDateLabel {
     font-weight: $semi-bold-weight;
     white-space: pre;
@@ -36,20 +50,23 @@
   }
 
   @media screen and (max-width: $breakpoint-lg) {
-    max-width: 100%;
-    width: 20rem;
+    max-width: 30rem;
   }
 }
 
 .glow {
-  box-shadow: 0 0 0 0.25rem $primary-blue;
   border-radius: 0.125rem;
-  width: fit-content;
   .dropdownButton {
     border: 1px solid $primary;
+    box-shadow: 0 0 0 0.25rem $primary-blue;
   }
 }
 
 .labelIcon {
   padding-right: 14px;
+  width: 0.875rem;
+}
+
+.backgroundHighlight {
+  background: $table-notice-color;
 }

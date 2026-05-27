@@ -1,0 +1,10 @@
+@use 'src/variables.module' as *;
+
+.datePickerSelected {
+  background-color: $primary;
+  color: white;
+}
+
+.datePickerSelected:hover {
+  color: $font-body-copy;
+}

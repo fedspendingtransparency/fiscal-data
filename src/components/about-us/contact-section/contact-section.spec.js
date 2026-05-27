@@ -1,25 +1,17 @@
 import React from 'react';
+import Contact from './contact-section';
 import { render } from '@testing-library/react';
-import ContactSection from './contact-section';
-import { useStaticQuery } from 'gatsby';
-import { testMDX, ulTestId } from '../helpers/helpers';
 
-jest.mock('gatsby-plugin-mdx', () => {
-  return {
-    MDXRenderer: ({ children }) => {
-      return <div>{children}</div>;
-    },
-  };
-});
-
-describe('About Us - Contact Section', () => {
-  let renderer;
-  beforeAll(() => {
-    useStaticQuery.mockReturnValue(testMDX);
-    renderer = render(<ContactSection />);
+describe('Contact Us section', () => {
+  it('renders a SectionContent component with correct title and headingLevel for main title', async () => {
+    const { findByRole } = render(<Contact />);
+    const heading = await findByRole('heading', { name: 'Contact Us', level: 2 });
+    expect(heading).toBeInTheDocument();
   });
 
-  it('renders expected mdx components in the dom', () => {
-    expect(renderer.getAllByTestId(ulTestId).length).toBeGreaterThan(0);
+  it('renders the Subscribe section', async () => {
+    const { findByRole } = render(<Contact />);
+    const subsection = await findByRole('heading', { name: 'Sign Up for Email Updates', level: 3 });
+    expect(subsection).toBeInTheDocument();
   });
 });

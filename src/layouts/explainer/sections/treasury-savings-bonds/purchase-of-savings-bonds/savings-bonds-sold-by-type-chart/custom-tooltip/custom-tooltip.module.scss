@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .toolTip {
   display: flex;
@@ -8,10 +8,10 @@
   color: $font-body-copy;
   border: none;
   padding: 0.75rem 1rem;
-  border-radius: .125rem;
+  border-radius: 0.125rem;
   opacity: 0.95;
-  background: #FFF;
-  box-shadow: .125rem .125rem .125rem .125rem rgba(0, 0, 0, 0.25);
+  background: #fff;
+  box-shadow: 0.125rem 0.125rem 0.125rem 0.125rem rgba(0, 0, 0, 0.25);
 
   .tooltipLabel {
     font-weight: $semi-bold-weight;

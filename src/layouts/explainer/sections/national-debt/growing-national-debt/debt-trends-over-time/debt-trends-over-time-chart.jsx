@@ -2,10 +2,8 @@ import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helpe
 import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { container, lineChartContainer, header, headerContainer, subHeader } from './debt-trends-over-time-chart.module.scss';
+import { container, header, headerContainer, lineChartContainer, loadingIcon, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Line } from '@nivo/line';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import {
@@ -20,13 +18,12 @@ import {
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
-import { useRecoilValueLoadable } from 'recoil';
-import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
+import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDataState';
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getChangeLabel } from '../../../../heros/hero-helper';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
 let gaTimerDebtTrends;
 let ga4Timer;
@@ -39,8 +36,19 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState({});
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
-  const data = useRecoilValueLoadable(debtOutstandingData);
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
+  const [hoverDisabled, setHoverDisabled] = useState(true);
+  const payload = debtOutstandingData(state => state.payload);
+  const status = debtOutstandingData(state => state.status);
+  const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
+
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
+
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
 
   const chartParent = 'debtTrendsChart';
   const chartWidth = 550;
@@ -50,7 +58,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   const processData = () => {
     const { finalGDPData } = beaGDPData;
-    const debtData = data.contents.payload;
+    const debtData = payload;
     const lastGDPValue = finalGDPData[finalGDPData.length - 1];
     const debtToGDP = [];
     const lastRawDebtMatchedValue = debtData.find(entry => entry.record_date.includes(lastGDPValue.fiscalYear));
@@ -78,11 +86,19 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   useEffect(() => {
-    if (data.state === 'hasValue') {
+    if (status === 'hasValue' && payload) {
       processData();
-      addInnerChartAriaLabel(chartParent);
     }
-  }, [data.state]);
+  }, [status, payload]);
+
+  useEffect(() => {
+    if (inView && hoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setHoverDisabled(false);
+      }, 5000);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [inView]);
 
   useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
@@ -90,15 +106,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
   }, [isLoadingDebtTrends]);
-
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
 
   const handleMouseMove = slice => {
     const debtData = slice.points[0].data;
@@ -134,18 +143,22 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     setLineChartHoveredYear(lastDebtValue.x);
   };
 
-  const headerContent = () => (
-    <div className={headerContainer}>
-      <div>
-        <div className={header}>{lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear}</div>
-        <span className={subHeader}>Fiscal Year</span>
+  const headerContent = () => {
+    const yearDisplay = lastDebtValue.x === undefined ? '--' : lineChartHoveredYear === '' ? lastDebtValue.x : lineChartHoveredYear;
+    const debtToGDPDisplay = lastDebtValue.y === undefined ? '--%' : lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue;
+    return (
+      <div className={headerContainer}>
+        <div>
+          <div className={header}>{yearDisplay}</div>
+          <span className={subHeader}>Fiscal Year</span>
+        </div>
+        <div>
+          <div className={header}>{debtToGDPDisplay}</div>
+          <span className={subHeader}>Debt to GDP</span>
+        </div>
       </div>
-      <div>
-        <div className={header}>{lineChartHoveredValue === '' ? lastDebtValue.y + '%' : lineChartHoveredValue}</div>
-        <span className={subHeader}>Debt to GDP</span>
-      </div>
-    </div>
-  );
+    );
+  };
 
   const footerContent = (
     <>
@@ -156,110 +169,105 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     </>
   );
 
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
-
   return (
     <>
-      {isLoadingDebtTrends && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
-      {!isLoadingDebtTrends && debtTrendsData && (
-        <div className={visWithCallout} ref={ref}>
+      {debtTrendsData && (
+        <figure className={visWithCallout} ref={ref}>
           <div className={container}>
             <ChartContainer
-              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x}`}
+              title={`Federal Debt Trends Over Time, FY 1948 – ${lastDebtValue.x ?? '--'}`}
               subTitle="Debt to Gross Domestic Product (GDP)"
               header={headerContent()}
               footer={footerContent}
-              date={getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`)}
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0].data[0].x} to ${lastDebtValue.x}.`}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
+              date={lastDebtValue?.x ? getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`) : null}
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '--'} to ${
+                lastDebtValue.x
+              }.`}
             >
-              <div
-                className={lineChartContainer}
-                data-testid={`${chartParent}`}
-                onMouseEnter={handleMouseEnterLineChart}
-                onMouseLeave={handleMouseLeaveLineChart}
-                id="debt-trends"
-                role="presentation"
-              >
-                <Line
-                  {...nivoCommonLineChartProps}
-                  data={debtTrendsData}
-                  width={chartWidth}
-                  height={chartHeight}
-                  theme={getChartTheme(width)}
-                  layers={[
-                    'grid',
-                    'crosshair',
-                    'lines',
-                    'axes',
-                    props =>
-                      LineChartCustomPoint({
-                        ...props,
-                        serieId: 'us',
-                      }),
-                    props =>
-                      CustomSlices({
-                        ...props,
-                        inView,
-                        mouseMove: handleMouseMove,
-                        groupMouseLeave: lineChartOnMouseLeave,
-                      }),
-                    'mesh',
-                  ]}
-                  margin={
-                    width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
-                  }
-                  xScale={{
-                    type: 'linear',
-                    min: 1948,
-                    max: lastDebtValue.x,
-                  }}
-                  yScale={{
-                    type: 'linear',
-                    min: 0,
-                    max: 140,
-                    stacked: true,
-                    reverse: false,
-                  }}
-                  yFormat=" >-.2f"
-                  axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 6,
-                    tickPadding: 8,
-                    tickRotation: 0,
-                    tickValues: 9,
-                  }}
-                  axisLeft={{
-                    format: formatPercentage,
-                    orient: 'left',
-                    tickSize: 6,
-                    tickPadding: 8,
-                    tickValues: 8,
-                  }}
-                  pointLabelYOffset={-12}
-                  colors={debtExplainerPrimary}
-                  onMouseLeave={lineChartOnMouseLeave}
-                />
-              </div>
+              {isLoadingDebtTrends ? (
+                <LoadingIndicator loadingClass={loadingIcon} />
+              ) : (
+                <div
+                  className={lineChartContainer}
+                  style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
+                  data-testid={`${chartParent}`}
+                  onMouseEnter={handleMouseEnterLineChart}
+                  onMouseLeave={handleMouseLeaveLineChart}
+                  id="debt-trends"
+                  role="presentation"
+                >
+                  <Line
+                    {...nivoCommonLineChartProps}
+                    data={debtTrendsData}
+                    width={chartWidth}
+                    height={chartHeight}
+                    theme={getChartTheme(width)}
+                    layers={[
+                      'grid',
+                      'crosshair',
+                      'lines',
+                      'axes',
+                      props =>
+                        LineChartCustomPoint({
+                          ...props,
+                          seriesId: 'us',
+                        }),
+                      props =>
+                        CustomSlices({
+                          ...props,
+                          inView,
+                          mouseMove: handleMouseMove,
+                          groupMouseLeave: lineChartOnMouseLeave,
+                        }),
+                      'mesh',
+                    ]}
+                    margin={
+                      width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
+                    }
+                    xScale={{
+                      type: 'linear',
+                      min: 1948,
+                      max: lastDebtValue.x,
+                    }}
+                    yScale={{
+                      type: 'linear',
+                      min: 0,
+                      max: 140,
+                      stacked: true,
+                      reverse: false,
+                    }}
+                    yFormat=" >-.2f"
+                    axisBottom={{
+                      orient: 'bottom',
+                      tickSize: 6,
+                      tickPadding: 8,
+                      tickRotation: 0,
+                      tickValues: 9,
+                    }}
+                    axisLeft={{
+                      format: formatPercentage,
+                      orient: 'left',
+                      tickSize: 6,
+                      tickPadding: 8,
+                      tickValues: 8,
+                    }}
+                    pointLabelYOffset={-12}
+                    colors={debtExplainerPrimary}
+                    onMouseLeave={lineChartOnMouseLeave}
+                  />
+                </div>
+              )}
             </ChartContainer>
           </div>
           <VisualizationCallout color={debtExplainerPrimary}>
             <p>
-              The average GDP for fiscal year {lastDebtValue.x} was ${getShortForm(lastGDPValue.actual)}, which was{' '}
-              {getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true)} the U.S. debt of ${getShortForm(lastRawDebtValue)}. This resulted in a
-              Debt to GDP Ratio of {lastDebtValue.y} percent. Generally, a higher Debt to GDP ratio indicates a government will have greater
-              difficulty in repaying its debt.
+              The average GDP for fiscal year {lastDebtValue.x || '--'} was ${lastGDPValue ? getShortForm(lastGDPValue.actual) : '--'}, which was{' '}
+              {lastGDPValue ? getChangeLabel(lastGDPValue.actual, lastRawDebtValue, true) : '--'} the U.S. debt of $
+              {lastRawDebtValue ? getShortForm(lastRawDebtValue) : '--'}. This resulted in a Debt to GDP Ratio of {lastDebtValue.y || '--'} percent.
+              Generally, a higher Debt to GDP ratio indicates a government will have greater difficulty in repaying its debt.
             </p>
           </VisualizationCallout>
-        </div>
+        </figure>
       )}
     </>
   );

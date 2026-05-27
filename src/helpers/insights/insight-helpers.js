@@ -8,17 +8,24 @@ const envBaseUrl = BASE_URL;
 
 export const insightsPageName = {
   'interest-expense': 'Interest Expense',
+  'state-and-local-government-series': 'State and Local Government Series',
 };
 
 export const insightHeroMap = {
   'interest-expense': {
     component: () => <InterestExpenseHero />,
   },
+  'state-and-local-government-series': {
+    component: () => <></>,
+  },
 };
 
 export const insightLastUpdated = {
   'interest-expense': {
     endpoint: 'v2/accounting/od/interest_expense?sort=-record_date&page[size]=1',
+  },
+  'state-and-local-government-series': {
+    endpoint: 'v1/accounting/od/slgs_securities?fields=record_date&sort=-record_date&page[size]=1',
   },
 };
 
@@ -38,12 +45,27 @@ export const insightSocialShareMap = {
     url: envBaseUrl + '/interest-expense-avg-interest-rates/',
     image: envBaseUrl + '/images/Interest-Expense-Social-Share-Graph-and-Money_1200x630.png',
   },
+  'state-and-local-government-series': {
+    title: 'Fiscal Data Explores State and Local Government Series (SLGS) securities',
+    description: 'Check out @FiscalService Fiscal Data’s new topic page exploring State and Local Government Series Securities #SLGS',
+    body: 'Check out @FiscalService Fiscal Data’s new topic page exploring State and Local Government Series securities #FiscalData #SLGS',
+    emailSubject: 'Fiscal Data Explores State and Local Government Series (SLGS) Securities',
+    emailBody: 'Check out Fiscal Data’s new interactive insight page, exploring State and Local Government Series securities (SLGS). ' +
+      'This tool visualizes the monthly count and amount of outstanding SLGS securities. Expand the timeline to see longer historical trends, ' +
+      'and download the data to perform your own analysis. Dive into this essential data today to learn more about U.S. federal financial trends!',
+    url: envBaseUrl + '/state-and-local-government-series/',
+    image: envBaseUrl + '/images/SLGS-Social-Share-1-1.png',
+  },
 };
 
 export const exploreMoreCitationsMap = {
   'interest-expense': [
     { text: 'Federal Spending', url: '/americas-finance-guide/federal-spending/' },
     { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
+  ],
+  'state-and-local-government-series': [
+    { text: 'Understanding the National Debt', url: '/americas-finance-guide/national-debt/' },
+    { text: 'Treasury Savings Bonds Explained ', url: '/treasury-savings-bonds/' },
   ],
 };
 
@@ -64,6 +86,24 @@ export const discoverDatasetsCitationsMap = {
     {
       text: 'Monthly Statement of the Public Debt (MSPD)',
       url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
+    },
+  ],
+  'state-and-local-government-series': [
+    {
+      text: 'State and Local Government Series Securities (Non-Marketable)',
+      url: '/datasets/slgs-securities/state-and-local-government-series-securities-non-marketable',
+    },
+    {
+      text: 'SLGS Daily Rate Table',
+      url: '/datasets/slgs-daily-rate-table/demand-deposit-rate',
+    },
+    {
+      text: 'Debt to the Penny',
+      url: '/datasets/debt-to-the-penny/debt-to-the-penny',
+    },
+    {
+      text: 'Monthly Statement of the Public Debt (MSPD)',
+      url: '/datasets/monthly-statement-public-debt/detail-of-treasury-securities-outstanding',
     },
   ],
 };
@@ -96,9 +136,28 @@ const insightsCitations = page => {
         Average Interest Rates on U.S. Treasury Securities
       </CustomLink>
     ),
+    stateAndLocalGovernmentSeriesSecuritiesDataset: (
+      <CustomLink
+        url="/datasets/slgs-securities/state-and-local-government-series-securities-non-marketable"
+        id="State and Local Government Series Securities (Non-Marketable)"
+        onClick={() => analyticsEventHandler(page, 'State and Local Government Series Securities (Non-Marketable)')}
+      >
+        State and Local Government Series Securities (Non-Marketable)
+      </CustomLink>
+    ),
+    debtToThePennyDataset: (
+      <CustomLink
+        url="/datasets/debt-to-the-penny/debt-to-the-penny"
+        id="Debt to the Penny"
+        onClick={() => analyticsEventHandler(page, 'Debt to the Penny')}
+      >
+        Debt to the Penny
+      </CustomLink>
+    ),
   };
 };
 
 export const insightsCitationsMap = {
   'interest-expense': insightsCitations('Interest Expense'),
+  'state-and-local-government-series': insightsCitations('State and Local Government Series'),
 };

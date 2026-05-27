@@ -1,5 +1,4 @@
-@import '../../../variables.module';
-$border-color: #d9d9d9;
+@use 'src/variables.module' as *;
 
 .dropdownContainer {
   width: 100%;
@@ -9,6 +8,7 @@ $border-color: #d9d9d9;
   border: none;
   background: none;
   color: rgba(0, 0, 0, 0.54);
+  width: 1rem;
 }
 
 .dropdownInputContainer {
@@ -16,11 +16,11 @@ $border-color: #d9d9d9;
   border-radius: 0.125rem;
 }
 .icon {
-  margin-left: 0.25rem;
+  width: 1rem;
 }
 
 .fullBorderContainer {
-  border: solid 1px $border-color;
+  border: solid 1px $light-grey-border;
 }
 
 .hoverContainer {
@@ -57,10 +57,10 @@ $border-color: #d9d9d9;
 }
 
 .activeDropdown {
-  box-shadow: 0 0 0 0.25rem #e8f5ff;
+  box-shadow: 0 0 0 0.25rem $primary-blue;
 }
 
 .activeSearchBar,
 .activeDropdown {
-  border: solid 1px #0071bc;
+  border: solid 1px $primary;
 }

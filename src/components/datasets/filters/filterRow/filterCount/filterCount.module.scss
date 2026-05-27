@@ -1,4 +1,5 @@
-@import '../../../../../variables.module.scss';
+@use 'src/variables.module' as *;
+
 $bar-height: 0.85rem;
 
 .barContainer {

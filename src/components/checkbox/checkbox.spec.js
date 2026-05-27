@@ -1,6 +1,7 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
 import Checkbox from './checkbox';
+import { fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('Checkbox component', () => {
   const mockCheckboxData = [
@@ -10,45 +11,49 @@ describe('Checkbox component', () => {
     { label: 'Mock Option 4', value: 'four', filterCount: 1 },
   ];
 
-  let resultArray;
+  const mockCheckboxDataDefault = [
+    { label: 'Mock Option 1', value: 'one', filterCount: 4, default: true },
+    { label: 'Mock Option 2', value: 'two', filterCount: 3, default: true },
+    { label: 'Mock Option 3', value: 'three', filterCount: 2, default: false },
+    { label: 'Mock Option 4', value: 'four', filterCount: 1, default: false },
+  ];
 
-  function mockChangeHandler(checkedArr) {
-    // this is the changeHandler function that the parent component must contain
-    resultArray = checkedArr;
-  }
-
-  const mockClickEvent = {
-    target: {
-      checked: true,
-      value: 0,
-    },
-  };
-
-  let component = renderer.create();
-  renderer.act(() => {
-    component = renderer.create(<Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler} />);
-  });
-  const instance = component.root;
-  let section;
-
-  it('renders a div element', () => {
-    section = instance.findByType('div');
-    expect(section).toBeDefined();
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('contains a checkbox element with a label for each object in the array', () => {
-    const checkboxLabelElements = instance.findAllByProps({ 'data-testid': 'checkbox-label-element' });
-    const textLabels = checkboxLabelElements.map(elem => elem.findByProps({ 'data-testid': 'optionLabelText' }).children[0]);
-    const dataLength = mockCheckboxData.length;
-    expect(checkboxLabelElements.length).toEqual(dataLength);
-    expect(textLabels).toEqual(['Mock Option 1', 'Mock Option 2', 'Mock Option 3', 'Mock Option 4']);
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={jest.fn()} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
+    checkboxLabelElements.forEach((checkbox, i) => {
+      expect(checkbox.name).toBe(mockCheckboxData[i].label);
+    });
   });
 
   it('calls its handleClick function when a checkbox state changes, which sends an array of clicked objects to parent component', () => {
-    renderer.act(() => {
-      instance.findAllByType('input')[0].props.onChange(mockClickEvent);
+    const mockChangeHandler = jest.fn();
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxData} changeHandler={mockChangeHandler} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
+    fireEvent.click(checkboxLabelElements[0]);
+    expect(mockChangeHandler).toHaveBeenCalledWith([{ active: true, filterCount: 4, label: 'Mock Option 1', value: 'one' }]);
+  });
+
+  it('contains a checkbox element with a label for each object in the array when default are specified', () => {
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxDataDefault} changeHandler={jest.fn()} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
+    checkboxLabelElements.forEach((checkbox, i) => {
+      expect(checkbox.name).toBe(mockCheckboxDataDefault[i].label);
     });
-    expect(resultArray.length).toEqual(1);
-    expect(resultArray[0]).toBe(mockCheckboxData[0]);
+  });
+
+  it('calls its handleClick function when a checkbox state changes, with keyboard interaction', async () => {
+    const user = userEvent.setup();
+    const mockChangeHandler = jest.fn();
+    const { getAllByRole } = render(<Checkbox checkboxData={mockCheckboxDataDefault} changeHandler={mockChangeHandler} />);
+    const checkboxLabelElements = getAllByRole('checkbox');
+    await user.tab();
+    expect(checkboxLabelElements[0]).toHaveFocus();
+    await user.keyboard('{Enter}');
+    expect(mockChangeHandler).toHaveBeenCalledWith([{ active: true, filterCount: 4, label: 'Mock Option 1', value: 'one', default: true }]);
   });
 });

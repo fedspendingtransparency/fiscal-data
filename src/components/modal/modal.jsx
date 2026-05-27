@@ -1,6 +1,8 @@
 import React from 'react';
-import { Backdrop, Fade, Modal } from '@material-ui/core';
-import { modal, content, slideIn, slideOut } from './modal.module.scss';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import Modal from '@mui/material/Modal';
+import { content, modal, slideIn, slideOut } from './modal.module.scss';
 
 /**
  *
@@ -14,17 +16,17 @@ import { modal, content, slideIn, slideOut } from './modal.module.scss';
 const ModalComponent = ({ open = false, onClose, disableBackdropClick, disableEscapeKey, contentClass, children }) => (
   <Modal
     open={open}
-    onClose={onClose}
+    onClose={(event, reason) => {
+      if (!(disableBackdropClick && reason === 'backdropClick')) {
+        onClose(event);
+      }
+    }}
     className={modal}
     data-testid="modal"
-    disableBackdropClick={disableBackdropClick}
     disableEscapeKeyDown={disableEscapeKey}
-    BackdropComponent={Backdrop}
-    BackdropProps={{
-      'data-testid': 'backdrop',
-      timeout: 500,
-    }}
     closeAfterTransition
+    slotProps={{ backdrop: { 'data-testid': 'backdrop', timeout: 500 } }}
+    slots={{ backdrop: Backdrop }}
   >
     <Fade in={open} timeout={500}>
       <div className={`${content} ${contentClass} ${open ? slideIn : slideOut}`} data-testid="content">

@@ -1,7 +1,7 @@
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
 import Point from '../../../components/nivo/custom-point/point';
-import { fontSize_10, fontSize_14 } from '../explainer.module.scss';
+import { fontSize_10, fontSize_14 } from '../../../variables.module.scss';
 import React from 'react';
 export const applyChartScaling = (parent, chartWidth, chartHeight) => {
   // this function rewrites some element attribs after render to ensure Chart scales with container
@@ -55,27 +55,21 @@ export const formatPercentage = v => {
   return `${v}%`;
 };
 
-export const getChartTheme = (width, markers) => {
-  const fontSize = width
-    ? {
-        fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-      }
-    : {};
-  const markerFontSize =
-    width && markers
-      ? {
-          fontSize: width < pxToNumber(breakpointLg) ? fontSize_10 : fontSize_14,
-        }
-      : {};
+export const getChartTheme = () => {
+  const fontSize = { fontSize: fontSize_14 };
   return {
     ...fontSize,
-    ...markerFontSize,
     textColor: '#666666',
     axis: {
       domain: {
         line: {
           strokeWidth: 1,
           stroke: '#666666',
+        },
+      },
+      ticks: {
+        text: {
+          ...fontSize,
         },
       },
     },
@@ -111,20 +105,20 @@ export const nivoCommonLineChartProps = {
 
 const getLastValue = (values, name) =>
   values
-    .filter(g => g.serieId === name)
+    .filter(g => g.seriesId === name)
     .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }))
     .pop();
 
-export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
-  const lastPoint = getLastValue(points, serieId);
+export const LineChartCustomPoint = ({ currentSlice, borderWidth, borderColor, points, seriesId }) => {
+  const lastPoint = getLastValue(points, seriesId);
   const currentPoint = currentSlice?.points?.length ? currentSlice.points[0] : lastPoint;
   return (
     <g data-testid="customPoints">{!!currentPoint && <Point borderColor={borderColor} borderWidth={borderWidth} currentPoint={currentPoint} />}</g>
   );
 };
 
-export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, serieId }) => {
-  const lastPrimaryPoint = getLastValue(points, serieId);
+export const LineChartCustomPoints_GDP = ({ currentSlice, borderWidth, borderColor, points, seriesId }) => {
+  const lastPrimaryPoint = getLastValue(points, seriesId);
 
   const lastGdpPoint = getLastValue(points, 'GDP');
 

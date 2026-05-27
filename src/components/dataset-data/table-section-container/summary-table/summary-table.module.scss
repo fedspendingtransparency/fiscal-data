@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .tableContainer {
   display: flex;
@@ -20,14 +20,14 @@
   flex-wrap: wrap;
   max-width: 60rem;
   width: 100%;
-.summaryValue {
-  width: 13rem;
-  .sectionHeader {
-    font-weight: $semi-bold-weight;
-    font-size: $font-size-14;
-    margin-bottom: 0.25rem;
+  .summaryValue {
+    width: 13rem;
+    .sectionHeader {
+      font-weight: $semi-bold-weight;
+      font-size: $font-size-14;
+      margin-bottom: 0.25rem;
+    }
+    margin-bottom: 1.5rem;
+    font-size: $font-size-16;
   }
-  margin-bottom: 1.5rem;
-  font-size: $font-size-16;
-}
 }

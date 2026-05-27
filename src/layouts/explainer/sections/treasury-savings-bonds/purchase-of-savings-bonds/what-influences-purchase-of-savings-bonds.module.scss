@@ -1,5 +1,5 @@
-@import '../../../explainer.module';
+@use '../../../explainer.module' as *;
 
 .subsectionHeader {
-  @include explainerSubsectionHeader
+  @include explainerSubsectionHeader;
 }

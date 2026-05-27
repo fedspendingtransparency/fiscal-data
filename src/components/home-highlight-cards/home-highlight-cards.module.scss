@@ -1,4 +1,4 @@
-@import '../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 $card-width: 16.25rem;
 
@@ -30,4 +30,3 @@ $card-width: 16.25rem;
   height: 10rem;
   padding-top: 3.5rem;
 }
-

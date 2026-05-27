@@ -3,14 +3,14 @@ import xls from '../../../../static/images/file-type-icons/file_type_xls_icon.sv
 import txt from '../../../../static/images/file-type-icons/file_type_txt_icon.svg';
 import xml from '../../../../static/images/file-type-icons/file_type_xml_icon.svg';
 import { monthFullNames } from '../../../utils/api-utils';
-import { IReports } from '../reports-section/reports-section';
 
 export const getYearReportOptions = reports => {
+  const validReports = reports.filter(r => Number(r.report_group_id) > -1);
   const yearsFound = [];
 
   const options = [];
 
-  reports.forEach(report => {
+  validReports.forEach(report => {
     const year = report.report_date.getFullYear();
 
     if (yearsFound.indexOf(year) === -1) {
@@ -156,16 +156,18 @@ export const isReportGroupDailyFrequency = reports => {
   return isDaily;
 };
 
+export const isValidReportGroup = report => {
+  return report.report_group_id !== undefined && Number(report.report_group_id) > -1;
+};
+
 export const makeReportGroups = reports => {
   const tempObj = {};
-  reports
-    .filter(rep => rep.report_group_id !== undefined && Number(rep.report_group_id) > -1)
-    .forEach(report => {
-      if (!tempObj[report.report_group_desc]) {
-        tempObj[report.report_group_desc] = [];
-      }
-      tempObj[report.report_group_desc].push(report);
-    });
+  reports.filter(isValidReportGroup).forEach(report => {
+    if (!tempObj[report.report_group_desc]) {
+      tempObj[report.report_group_desc] = [];
+    }
+    tempObj[report.report_group_desc].push(report);
+  });
   const groups = [];
   Object.entries(tempObj).forEach(([key, val]) => {
     const label = getFileDisplay(val[0]).fullName;
@@ -194,10 +196,22 @@ export const getFileDisplay = curReportFile => {
       let fullDisplayName = groupName.replace(' ' + apiFileType, downloadFileType);
       if (reportFileType === 'xlsx') {
         fullDisplayName = groupName.replace(' ' + '(.xls)', '.xls');
+        fullDisplayName = groupName.replace(' ' + '(.xlsx)', '.xlsx');
       }
       //Split file name so overflow ellipsis can be used in the middle of the name
       const fileDisplayName = splitFileName(fullDisplayName, fullDisplayName.length - 8);
       return { fullName: fullDisplayName, displayName: fileDisplayName || '', fileType: downloadFileType };
+    }
+  }
+};
+export const getGeneratedReportFileDisplay = curReportFile => {
+  if (curReportFile && curReportFile.name) {
+    const splitReportPath = curReportFile.name.split('.');
+    if (splitReportPath?.length > 0) {
+      const reportFileType = splitReportPath[splitReportPath.length - 1];
+      const downloadFileType = '.' + reportFileType;
+      const fileDisplayName = splitFileName(curReportFile.name, curReportFile.name.length - 8);
+      return { fullName: curReportFile.name, displayName: fileDisplayName || '', fileType: downloadFileType };
     }
   }
 };

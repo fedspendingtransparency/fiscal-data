@@ -1,13 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { searchInput, searchInput_textField, noButton, searchInput_iconButton } from './search-field.module.scss';
-import { faSearch, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { noButton, searchInput, searchInput_iconButton, searchInput_textField } from './search-field.module.scss';
+import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import InfoTip, { infoTipAnalyticsObject } from '../../info-tip/info-tip';
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
-import { useContext } from 'react';
-import { useEffect } from 'react';
 
 const infoIcon = {
   title: 'Dataset Keyword Search',
@@ -37,7 +36,7 @@ export const lastUpdatedInfoTipAnalyticsObject = {
   label: 'Keyword Search',
 };
 
-const SearchField = ({ changeHandler, finalDatesNotFound }) => {
+const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
   const context = useContext(siteContext);
   const { keywords, setKeywords } = context;
   const [localText, setLocalText] = useState(context ? keywords : '');
@@ -88,12 +87,12 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
     changeHandler('');
   };
 
-  const handleInfoTipClick = () => {
+  const handleInfoTipHover = () => {
     Analytics.event(lastUpdatedInfoTipAnalyticsObject);
     // GA4 event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: 'Info Button Click',
+      event: 'Info Button Hover',
       eventLabel: 'Keyword Search',
     });
   };
@@ -124,22 +123,23 @@ const SearchField = ({ changeHandler, finalDatesNotFound }) => {
           ref={searchField}
           aria-label="Enter search terms"
           title="Enter Search Terms"
+          disabled={isLoading}
         />
         <button
-          data-test-id="search-button"
+          data-testid="search-button"
           className={searchInput_iconButton}
           onClick={clear}
-          disabled={searchIsEmpty}
+          disabled={isLoading || searchIsEmpty}
           aria-hidden={searchIsEmpty}
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
           {searchIsEmpty ? (
-            <FontAwesomeIcon icon={faSearch} data-test-id="search-icon" />
+            <FontAwesomeIcon icon={faSearch} data-testid="search-icon" />
           ) : (
-            <FontAwesomeIcon icon={faTimesCircle} data-test-id="clear-search-icon" />
+            <FontAwesomeIcon icon={faTimesCircle} data-testid="clear-search-icon" />
           )}
         </button>
-        <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipClick}>
+        <InfoTip secondary={true} title={infoIcon.title} clickEvent={handleInfoTipHover}>
           {infoIcon.body}
         </InfoTip>
       </div>

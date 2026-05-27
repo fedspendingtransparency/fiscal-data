@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
-import { dataTableSearchContainer } from './data-preview-dropdown-dialog-search.module.scss';
+import { dataTableSearchContainer, hideDropdownBorder } from './data-preview-dropdown-dialog-search.module.scss';
 import ComboSelectDropdown from '../../combo-select/combo-currency-select/combo-select-dropdown/combo-select-dropdown';
+
 interface ButtonData {
   label: string;
   subtitle?: string;
@@ -11,27 +12,42 @@ interface ButtonData {
 interface DialogSearchProps {
   options: ButtonData[];
   searchBarLabel: string;
-  selectedTable: any;
-  setSelectedTable: any;
+  selectedOption;
+  setSelectedOption;
+  optionLabelKey: string;
+  secondaryLabelKey?: string;
 }
 
-const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({ selectedTable, setSelectedTable, options, searchBarLabel, active }) => {
+const DataPreviewDropdownDialogSearch: FunctionComponent<DialogSearchProps> = ({
+  selectedOption,
+  setSelectedOption,
+  options,
+  searchBarLabel,
+  optionLabelKey,
+  secondaryLabelKey,
+  isFilter,
+  noBorder = true,
+}) => {
   const [searchBarActive, setSearchBarActive] = useState(false);
   const handleSearchChange = (option: ButtonData) => {
-    setSelectedTable(option);
+    if (setSelectedOption) {
+      setSelectedOption(option);
+    }
   };
 
   return (
-    <div className={dataTableSearchContainer}>
+    <div className={`${dataTableSearchContainer} ${noBorder ? hideDropdownBorder : ''}`}>
       <ComboSelectDropdown
         active={true}
-        selectedOption={selectedTable}
+        selectedOption={selectedOption}
         updateSelection={handleSearchChange}
         searchBarLabel={searchBarLabel}
         options={options}
-        optionLabelKey="tableName"
+        optionLabelKey={optionLabelKey}
         searchBarActive={searchBarActive}
         setSearchBarActive={setSearchBarActive}
+        secondaryLabelKey={secondaryLabelKey}
+        isFilter={isFilter}
       />
     </div>
   );

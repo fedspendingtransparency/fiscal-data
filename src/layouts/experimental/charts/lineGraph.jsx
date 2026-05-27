@@ -129,7 +129,7 @@ const LineGraph = () => {
                 >
                   <div style={{ fontSize: 24 }}>Year: {slice.points[0].data.x}</div>
                   {slice.points.map(point => (
-                    <div key={point.serieId}>
+                    <div key={point.seriesId}>
                       <div
                         style={{
                           height: '10px',
@@ -140,7 +140,7 @@ const LineGraph = () => {
                           marginRight: '5px',
                         }}
                       />
-                      {point.serieId} : {point.data.y}
+                      {point.seriesId} : {point.data.y}
                     </div>
                   ))}
                 </div>

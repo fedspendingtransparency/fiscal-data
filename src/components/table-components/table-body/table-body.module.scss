@@ -1,0 +1,44 @@
+@use 'src/variables.module' as *;
+
+.fillCellGrey,
+.fillCellWhite {
+  color: $font-title;
+}
+
+.detailButton {
+  background-color: transparent;
+  border: none;
+  color: $primary;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: $font-size-16;
+  font-weight: 400;
+}
+
+.fillCellGrey {
+  background: $body-background;
+}
+
+.fillCellWhite {
+  background: white;
+}
+
+.cellBorder {
+  border-top: 1px solid $light-grey-border;
+  border-bottom: 1px solid $light-grey-border;
+}
+
+.rightAlignText {
+  text-align: right;
+}
+
+.cellText {
+  vertical-align: top;
+}
+.cellPadding {
+  padding-left: 1rem !important;
+}
+
+.hidden {
+  overflow: hidden;
+}

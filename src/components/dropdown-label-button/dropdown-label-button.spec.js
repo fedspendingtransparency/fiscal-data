@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import DropdownLabelButton from './dropdown-label-button';
-import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowRightArrowLeft';
 import userEvent from '@testing-library/user-event';
 
 describe('Dropdown Container', () => {
@@ -23,12 +23,13 @@ describe('Dropdown Container', () => {
     expect(icons[1]).toHaveClass('fa-caret-down');
   });
 
-  it('dropdown click', () => {
+  it('dropdown click', async () => {
+    const user = userEvent.setup();
     const { getByRole } = render(
       <DropdownLabelButton label={label} selectedOption={selectedOption} icon={icon} setActive={mockSetActive} active={false} ariaLabel={ariaLabel} />
     );
     const dropdownButton = getByRole('button', { name: 'Open menu' });
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
     expect(mockSetActive).toHaveBeenCalledWith(true);
   });
 });

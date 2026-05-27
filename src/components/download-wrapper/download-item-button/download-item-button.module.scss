@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .downloadItemBtn {
   @include primaryButton;
@@ -18,7 +18,7 @@
 .dictionary {
   width: 100%;
   border: none;
-  background-color: #ffffff;
+  background-color: $content-section-background;
   color: $primary;
   font-size: $font-size-14;
   font-weight: normal;
@@ -28,6 +28,9 @@
 .optionIcon {
   display: inline-block;
   margin-right: 0.5rem;
+  svg {
+    width: 0.875rem;
+  }
 }
 
 .progressIcon {

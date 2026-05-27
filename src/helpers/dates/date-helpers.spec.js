@@ -1,4 +1,4 @@
-import { isValidDateRange, getFiscalYearByDate } from './date-helpers';
+import { getFiscalYearByDate, isValidDateRange } from './date-helpers';
 
 describe('Date helper', () => {
   const earliest = '01/01/2000';

@@ -19,7 +19,8 @@ describe('Data Preview Dropdown Dialog', () => {
   };
   const mockApis = [mockSelectedTable, { tableName: 'Another Mock Table Name' }];
 
-  it('renders the dropdown button', () => {
+  it('renders the dropdown button', async () => {
+    const user = userEvent.setup();
     const mockSetSelectedTable = jest.fn();
     const { getByRole } = render(
       <DataPreviewTableSelectDropdown
@@ -27,11 +28,12 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={[]}
         setSelectedPivot={jest.fn()}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
     expect(dropdownButton).toBeInTheDocument();
-    userEvent.click(dropdownButton);
+    await user.click(dropdownButton);
   });
 
   it('updates table selection on apply', () => {
@@ -43,6 +45,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={jest.fn()}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
@@ -65,6 +68,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={mockSetSelectedPivot}
+        width={2000}
       />
     );
     const dropdownButton = getByRole('button', { name: 'Data Table: Mock Table Name' });
@@ -96,6 +100,7 @@ describe('Data Preview Dropdown Dialog', () => {
         setSelectedTable={mockSetSelectedTable}
         apis={mockApis}
         setSelectedPivot={mockSetSelectedPivot}
+        width={2000}
       />
     );
 

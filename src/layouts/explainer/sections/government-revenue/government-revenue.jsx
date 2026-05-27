@@ -18,9 +18,11 @@ const { mtsSummary, bls, beaSurvey, github } = explainerCitationsMap['government
 export const governmentRevenueDataSources = (
   <>
     {/* eslint-disable-next-line max-len */}
-    The {mtsSummary} datasets provide all revenue values on this page. Adjustments for inflation are calculated using Consumer Price Index values from
-    the {bls}. Fiscal year Gross Domestic Product values from the {beaSurvey} are calculated by averaging four relevant quarterly values from calendar
-    year quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation, users can reference our{' '}
+    The {mtsSummary} datasets provide all revenue values on this page. Adjustments for inflation are calculated using Consumer Price Index (CPI) values from
+    the {bls}. If CPI data is delayed or missing, the latest available value for the given month is used.
+    Fiscal year Gross Domestic Product values from the {beaSurvey} are calculated by averaging four relevant quarterly values from calendar
+    year quarter 4 of the prior year through calendar year quarter 3 of the fiscal year shown. For detailed documentation,
+    users can reference our{' '}
     {github}.
   </>
 );

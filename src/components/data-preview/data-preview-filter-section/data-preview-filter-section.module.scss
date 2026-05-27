@@ -1,4 +1,4 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .filterContainer {
   display: flex;
@@ -9,15 +9,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 0.5rem;
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
+@media screen and (max-width: $breakpoint-xl - 1) {
   .filterContainer {
     flex-direction: column;
+    max-width: 30rem;
+  }
+  .filterAndDownloadContainer{
+    display: block;
   }
 }
 
 .toggleDownloadContainer {
   display: flex;
   gap: 0.5rem;
+}
+
+.noFilterMatchContainer {
+  padding: 1rem;
+
+  .boldedSearchText {
+    font-weight: $semi-bold-weight;
+  }
 }

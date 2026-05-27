@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { buttonGroup, radio, toggleButton, selected, tabIcon } from './chart-table-toggle.module.scss';
+import { buttonGroup, radio, selected, tabIcon, toggleButton } from './chart-table-toggle.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartBar, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faChartBar } from '@fortawesome/free-solid-svg-icons/faChartBar';
+import { faTable } from '@fortawesome/free-solid-svg-icons/faTable';
 
 const ChartTableToggle = ({ onChange }) => {
   const [activeState, setActiveState] = useState('table');

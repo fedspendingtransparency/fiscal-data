@@ -1,28 +1,15 @@
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import GLOBALS from '../../../helpers/constants';
-import { useSetRecoilState } from 'recoil';
 import { disableDownloadButtonState } from '../../../recoil/disableDownloadButtonState';
-import moment from 'moment';
 import { buildDateFilter, buildSortParams, fetchAllTableData, fetchTableMeta, formatDateForApi, MAX_PAGE_SIZE } from '../../../utils/api-utils';
 import { queryClient } from '../../../../react-query-client';
 import { setTableConfig } from '../../dataset-data/table-section-container/set-table-config';
 import Analytics from '../../../utils/analytics/analytics';
 import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
 import { SetNoChartMessage } from '../../dataset-data/table-section-container/set-no-chart-message';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeftLong, faSpinner, faTable } from '@fortawesome/free-solid-svg-icons';
 import AggregationNotice from '../../dataset-data/table-section-container/aggregation-notice/aggregation-notice';
-import SummaryTable from '../../dataset-data/table-section-container/summary-table/summary-table';
 import DataPreviewTable from '../data-preview-table/data-preview-table';
 import {
-  active,
-  barContainer,
-  barExpander,
-  detailViewBack,
-  detailViewButton,
-  detailViewIcon,
-  header,
-  headerWrapper,
   loadingIcon,
   loadingSection,
   noticeContainer,
@@ -31,8 +18,11 @@ import {
   tableSection,
   titleContainer,
 } from './data-preview-section-container.module.scss';
-import DataPreviewPivotOptions from '../data-preview-pivot-options/data-preview-pivot-options';
 import ChartTableDisplay from '../data-preview-chart-table-display/data-preview-chart-table-display';
+import { DataTableContext } from '../data-preview-context';
+import DynamicConfig from '../../dataset-data/table-section-container/dynamic-config/dynamicConfig';
+import Experimental from '../../experimental/experimental';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 type DataPreviewSectionProps = {
   config;
@@ -99,18 +89,20 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   allActiveFilters,
   setAllActiveFilters,
   width,
+  apiFilterDefault,
+  setApiFilterDefault,
+  setPivotsUpdated,
+  pivotsUpdated,
 }) => {
+  const { tableProps, setTableProps } = useContext(DataTableContext);
   const tableName = selectedTable.tableName;
   const [showPivotBar, setShowPivotBar] = useState(true);
-  const [tableProps, setTableProps] = useState();
   const [legend, setLegend] = useState(window.innerWidth > GLOBALS.breakpoints.large);
   const [legendToggledByUser, setLegendToggledByUser] = useState(false);
-  const [pivotsUpdated, setPivotsUpdated] = useState(false);
   const [hasPivotOptions, setHasPivotOptions] = useState(false);
   const [userFilteredData, setUserFilteredData] = useState(null);
   const [noChartMessage, setNoChartMessage] = useState(null);
   const [userFilterUnmatchedForDateRange, setUserFilterUnmatchedForDateRange] = useState(false);
-  const [apiFilterDefault, setApiFilterDefault] = useState(!!selectedTable?.apiFilter);
   const [selectColumnPanel, setSelectColumnPanel] = useState(false);
   const [perPage, setPerPage] = useState(null);
   const [reactTableSorting, setReactTableSort] = useState([]);
@@ -119,16 +111,9 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
   const [apiErrorState, setApiError] = useState(apiError || false);
   const [chartData, setChartData] = useState(null);
 
-  const setDisableDownloadButton = useSetRecoilState(disableDownloadButtonState);
-  const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
-    const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
-    return customFormat?.dateFormat && fieldType === 'DATE' ? moment(detailDate).format(customFormat.dateFormat) : detailDate;
-  };
+  const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisabled);
 
-  const formattedDetailViewState = formatDate(detailViewState?.value);
-
-  const applyApiFilter = () => selectedTable?.apiFilter?.displayDefaultData || (userFilterSelection !== null && userFilterSelection?.value !== null);
+  const applyApiFilter = () => userFilterSelection !== null && userFilterSelection?.value !== null;
 
   const getDepaginatedData = async () => {
     if (!selectedTable?.apiFilter || (selectedTable.apiFilter && applyApiFilter())) {
@@ -152,21 +137,19 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return await queryClient
         .ensureQueryData({
           queryKey: ['tableDataMeta', selectedTable, from, to, userFilterSelection],
-          queryFn: () => fetchTableMeta(sortParam, selectedTable, apiFilterParam, dateFilter),
+          queryFn: () => fetchTableMeta(selectedTable, dateFilter, apiFilterParam),
         })
         .then(async res => {
           const totalCount = res.meta['total-count'];
           if (!selectedPivot?.pivotValue) {
             meta = res.meta;
             if (totalCount !== 0 && totalCount <= MAX_PAGE_SIZE * 2) {
-              try {
-                return await queryClient.ensureQueryData({
-                  queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
-                  queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
-                });
-              } catch (error) {
-                console.warn(error);
-              }
+              const tableData = await queryClient.ensureQueryData({
+                queryKey: ['tableData', selectedTable, from, to, userFilterSelection],
+                queryFn: () => fetchAllTableData(sortParam, totalCount, selectedTable, apiFilterParam, dateFilter),
+              });
+              setApiError(false);
+              return tableData;
             } else if (totalCount === 0) {
               setIsLoading(false);
               setUserFilterUnmatchedForDateRange(true);
@@ -181,12 +164,12 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           } else {
             console.error('API error', err);
             setApiError(err);
+            setIsLoading(false);
           }
         })
         .finally(() => {
           if (meta) {
             setTableMeta(meta);
-            setApiError(false);
           }
         });
     } else if (selectedTable?.apiFilter && userFilterSelection === null) {
@@ -262,7 +245,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     }
   }, [dateRange]);
 
-  useEffect(async () => {
+  useMemo(async () => {
     if (config?.sharedApiFilterOptions && userFilterSelection) {
       await refreshTable();
     }
@@ -272,6 +255,10 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     setPivotsUpdated(!pivotsUpdated);
     handleConfigUpdate();
   };
+
+  useEffect(() => {
+    setApiError(apiError || false);
+  }, [apiError]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !legendToggledByUser) {
@@ -290,7 +277,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   useEffect(() => {
     if (!allTablesSelected) {
-      setDisableDownloadButton(userFilterUnmatchedForDateRange || (apiFilterDefault && !selectedTable?.apiFilter?.displayDefaultData));
+      setDisableDownloadButton(userFilterUnmatchedForDateRange || apiFilterDefault);
     } else {
       setDisableDownloadButton(false);
     }
@@ -300,7 +287,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
     if (allTablesSelected) {
       setDisableDownloadButton(false);
     }
-    if (selectedTable?.apiFilter && !selectedTable.apiFilter?.displayDefaultData && userFilterSelection?.value === null) {
+    if (userFilterSelection?.value === null) {
       setApiFilterDefault(true);
       setManualPagination(false);
     }
@@ -339,7 +326,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
       return selectedTable.dateField;
     }
   };
-
   const dateFieldForChart = getDateFieldForChart();
 
   useEffect(() => {
@@ -361,6 +347,16 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
 
   return (
     <>
+      <div>
+        <Experimental featureId="chartingConfigurationTool">
+          <DynamicConfig
+            selectedTable={selectedTable}
+            handleIgnorePivots={handleIgnorePivots}
+            handlePivotsUpdated={handlePivotConfigUpdated}
+            refreshTable={refreshTable}
+          />
+        </Experimental>
+      </div>
       <div data-test-id="table-container" className={sectionBorder}>
         <div className={titleContainer}>
           {dateFieldForChart === 'CHART_DATE' && (
@@ -370,30 +366,16 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
           )}
         </div>
         <div className={tableContainer}>
-          {isLoading && (
-            <div data-testid="loadingSection">
-              <div className={loadingSection} />
-              <div className={loadingIcon}>
-                <FontAwesomeIcon data-testid="loadingIcon" icon={faSpinner} spin pulse /> Loading...
-              </div>
-            </div>
-          )}
-          {!!detailViewState && (
-            <SummaryTable
-              summaryTable={config?.detailView?.summaryTableFields}
-              summaryValues={summaryValues}
-              columnConfig={tableProps?.columnConfig}
-              customFormatConfig={selectedTable?.customFormatting}
-            />
-          )}
+          {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
           <ChartTableDisplay
             allTablesSelected={allTablesSelected}
             selectedTable={selectedTable}
+            apiFilterDefault={apiFilterDefault}
             emptyData={
               !isLoading &&
               !serverSidePagination &&
               (!apiData || !apiData.data || !apiData.data.length) &&
-              (!tableMeta || tableMeta?.count === 0) &&
+              (!tableMeta || tableMeta?.['total-count'] === 0) &&
               !apiError
             }
             table={
@@ -406,7 +388,6 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                     setSummaryValues={setSummaryValues}
                     pivotSelected={selectedPivot}
                     setSelectColumnPanel={setSelectColumnPanel}
-                    tableProps={tableProps}
                     selectedTable={selectedTable}
                     perPage={perPage}
                     setPerPage={setPerPage}
@@ -429,6 +410,7 @@ const DataPreviewSectionContainer: FunctionComponent<DataPreviewSectionProps> = 
                     disableDateRangeFilter={selectedTable?.apiFilter?.disableDateRangeFilter}
                     datasetName={config.name}
                     hasDownloadTimestamp={config.downloadTimestamp}
+                    apiErrorState={apiErrorState}
                   />
                 )}
               </div>

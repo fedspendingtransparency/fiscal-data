@@ -1,12 +1,8 @@
-@import '../../variables.module.scss';
+@use '../../variables.module.scss' as *;
 
 div.aboutPageWrapper {
   margin-top: 2rem;
   padding-top: 0;
-}
-
-.customTop {
-  padding-top: 26.5px;
 }
 
 .section section {

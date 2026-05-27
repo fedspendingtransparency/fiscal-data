@@ -1,4 +1,4 @@
-@import '../../../variables.module.scss';
+@use 'src/variables.module' as *;
 
 .glossaryText {
   color: $font-body-copy;
@@ -31,7 +31,10 @@
     }
   }
 }
-
+.popupContainerStyle {
+  color: $font-body-copy;
+  padding: 1rem;
+}
 .popoverContents {
   p:last-child,
   ul:last-child {
@@ -45,6 +48,7 @@
   border-radius: 0.25rem;
   white-space: nowrap;
   .bookIcon {
+    width: 12.25px;
     height: 0.875rem;
     padding-left: 0.25rem;
   }

@@ -1,11 +1,31 @@
-@import '../../variables.module.scss';
-@import '../../zIndex.module.scss';
+@use 'src/variables.module' as *;
+@use '../../zIndex.module.scss' as *;
 
 .footerMain {
   background-color: #333333;
   border-bottom: solid 1px $dark-grey-border;
   padding: 0 0.75rem;
   z-index: $main-sticky-footer; // positioned to overlap sticky footer during its exit transition
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+}
+
+.socialIcons {
+  margin-left: 200px;
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  bottom: 20px;
+}
+
+.socialIconLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .content {
@@ -22,7 +42,7 @@
     white-space: nowrap;
     display: inline-block;
     padding: 0 1rem;
-    border-right: 1px solid #666666;
+    border-right: 1px solid $font-body-copy;
 
     &:last-child {
       border-right: none;
@@ -40,12 +60,12 @@
   flex-direction: column;
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
   padding-right: 3rem;
   &:not(:last-of-type) {
-    padding-bottom: 3.625rem;
+    padding-bottom: 48px;
   }
 }
 
@@ -53,6 +73,7 @@
   color: white;
   font-size: $font-size-18;
   font-weight: $semi-bold-weight;
+  margin: 0;
   padding-bottom: 1rem;
 }
 
@@ -131,8 +152,19 @@
   }
 }
 
-@media screen and (min-width: $breakpoint-lg) {
+@media screen and (max-width: $breakpoint-lg) {
   .content {
-    padding-bottom: 6.75rem;
+    padding-bottom: 52px;
   }
+  .topRow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 36px;
+  }
+
+  .socialIcons {
+    margin-left: 0;
+  }
+
 }

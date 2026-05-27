@@ -2,21 +2,54 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import {
   dropdownContainer,
+  dropdownFilterListItem_Selected,
+  dropdownList,
   dropdownListItem,
   dropdownListItem_Button,
-  dropdownList,
-  dropdownListItem_Selected,
-  searchBarContainer,
-  unmatchedTerm,
-  noMatch,
-  sectionLabel,
   dropdownListItem_child,
+  dropdownListItem_Selected,
+  noMatch,
+  searchBarContainer,
+  secondaryLabel,
+  sectionLabel,
+  unmatchedTerm,
 } from './combo-select-dropdown.module.scss';
 import SearchBar from '../../../search-bar/search-bar';
 import { underlineMatchedString } from '../../../search-bar/search-bar-helper';
 import ScrollContainer from '../../../scroll-container/scroll-container';
 import { filterYearOptions } from '../../../published-reports/util/util';
 
+/**
+ * @param active {boolean}
+ * @param setDropdownActive {function}
+ * @param searchBarOnBlurHandler {function}
+ * @param selectedOption {object} { label: string; value: string; }
+ * @param updateSelection {function} callback (sends the new selection as a param)
+ * @param required {boolean}
+ * @param disabledMessage {string}
+ * @param optionLabelKey {string}
+ * @param searchBarActive {boolean}
+ * @param setSearchBarActive {function}
+ * @param inputRef
+ * @param options {array}
+ *   Without Children:
+ *   { label: string; value: string; }[];
+ *
+ *   With Children (use with @param hasChildren=true):
+ *   [{
+ *    default?: boolean;
+ *    label?: string;
+ *    children: { label: string; value: string; }[];
+ *   }]
+ * @param yearFilter
+ * @param changeHandler {function}
+ * @param timeOutId
+ * @param searchBarLabel {string}
+ * @param disableSearchBar {boolean}
+ * @param hasChildren {boolean}
+ * @returns {Element}
+ * @constructor
+ */
 const ComboSelectDropdown = ({
   active,
   setDropdownActive,
@@ -36,6 +69,8 @@ const ComboSelectDropdown = ({
   searchBarLabel,
   disableSearchBar,
   hasChildren,
+  secondaryLabelKey,
+  isFilter,
 }) => {
   const [filterValue, setFilterValue] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
@@ -150,17 +185,26 @@ const ComboSelectDropdown = ({
 
   const filteredOptionButton = (option, child) => {
     const optionSelected = selectedOption && option[optionLabelKey] === selectedOption[optionLabelKey];
+    const activeFilter = secondaryLabelKey && option[secondaryLabelKey];
     return (
-      <li className={classNames([dropdownListItem, optionSelected && dropdownListItem_Selected, child && dropdownListItem_child])}>
+      <li
+        className={classNames([
+          dropdownListItem,
+          optionSelected && dropdownListItem_Selected,
+          child && dropdownListItem_child,
+          (optionSelected || activeFilter) && isFilter && dropdownFilterListItem_Selected,
+        ])}
+      >
         <button
           className={dropdownListItem_Button}
-          onClick={() => updateSelection(option, true)}
-          disabled={required && !option.value}
+          onClick={() => !option.disabled && updateSelection(option, true)}
+          disabled={(required && !option.value) || option.disabled}
           title={required && !option.value && disabledMessage ? disabledMessage : null}
           aria-label={option[optionLabelKey]}
           data-testid="dropdown-list-option"
         >
           {underlineMatchedString(option[optionLabelKey], filterValue)}
+          {secondaryLabelKey && <span className={secondaryLabel}>{option[secondaryLabelKey] ? option[secondaryLabelKey] : 'No filter applied'}</span>}
         </button>
       </li>
     );

@@ -1,27 +1,29 @@
 import React from 'react';
 import {
-  banner,
-  infoBanner,
-  warningBanner,
-  warningBannerXR,
-  sideTab,
-  calloutText,
-  icon,
   altBannerText,
   altInfoColor,
+  banner,
+  calloutText,
+  icon,
+  infoBanner,
   infoBannerYellow,
+  sideTab,
+  warningBanner,
+  warningBannerXR,
 } from './banner-callout.module.scss';
-import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons/faTriangleExclamation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { calloutConfig } from './banner-callout-helper';
 import InfoTip from '../info-tip/info-tip';
-import { withWindowSize } from 'react-fns';
+import { useWindowSize } from 'usehooks-ts';
 
-const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
+const BannerCallout = ({ bannerCallout, bannerType = 'info' }) => {
   const currentCallout = calloutConfig[bannerCallout?.banner]?.copy;
   const infoTip = calloutConfig[bannerCallout?.banner]?.infoTip;
   const today = new Date().getTime();
+  const { width } = useWindowSize();
 
   const endDate = bannerCallout?.endDate ? new Date(bannerCallout?.endDate).getTime() : null;
   const startDate = bannerCallout?.startDate ? new Date(bannerCallout?.startDate).getTime() : today;
@@ -96,4 +98,4 @@ const BannerCallout = ({ bannerCallout, bannerType = 'info', width }) => {
   }
 };
 
-export default withWindowSize(BannerCallout);
+export default BannerCallout;

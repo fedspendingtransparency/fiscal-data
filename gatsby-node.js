@@ -22,6 +22,7 @@ const activeEnv = varToEnvironmentConfig[process.env.BUILD_ENV] || 'index';
 const {
   ENV_ID,
   API_BASE_URL,
+  STRICT_SSL,
   ADDITIONAL_DATASETS,
   ADDITIONAL_ENDPOINTS,
   EXCLUDED_ENDPOINT_IDS,
@@ -33,7 +34,9 @@ console.info(`Using environment config: '${ENV_ID}'`);
 const apiKey = AUTHENTICATE_API ? process.env.GATSBY_API_KEY : false;
 const path = require(`path`);
 const metadataTransform = require('./src/transform/metadata-transform').metadataTransform;
-const fetchUtil = require('make-fetch-happen');
+const fetchUtil = require('make-fetch-happen').defaults({
+  strictSSL: STRICT_SSL,
+});
 const authenticatingFetch = require('./src/utils/authenticating-fetch/authenticating-fetch');
 const fetch = apiKey ? authenticatingFetch(apiKey, fetchUtil) : fetchUtil;
 
@@ -173,7 +176,6 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const getDatasetConfig = dataset => {
     const allColumnNames = [];
     const allPrettyNames = [];
-
     if (dataset.apis.length > 0) {
       dataset.apis.forEach(api => {
         if (api.fields && api.fields.length) {
@@ -184,9 +186,12 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         }
       });
     }
-
+    const releaseCalendarData = freshReleaseCalendarData;
+    const sortedRes = releaseCalendarData.filter(rcDataset => rcDataset.datasetId === dataset.datasetId && rcDataset.released === 'false');
     return {
       ...dataset,
+      dateExpected: sortedRes[0]?.date,
+      timeExpected: sortedRes[0]?.time,
       allColumnNames: allColumnNames,
       allPrettyNames: allPrettyNames,
     };
@@ -266,7 +271,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
   const trreApiUrl =
     API_BASE_URL +
-    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2022-12-31&sort=currency,-effective_date&page[size]=10000';
+    '/services/api/fiscal_service/v1/accounting/od/rates_of_exchange?filter=record_date:gte:2018-01-01&sort=currency,-effective_date&page[size]=10000';
 
   const getExchangeRatesData = async () => {
     return new Promise((resolve, reject) => {
@@ -311,7 +316,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     createNode(node);
   });
 
-  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=41b56eb5e4f5472ca610239b734d279c`;
+  const blsPublicApiUrl = `https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0?registrationkey=50b554ded02341bd895de05ff7b0495e`;
   const getBLSData = async () => {
     return new Promise((resolve, reject) => {
       fetch(blsPublicApiUrl)
@@ -382,6 +387,8 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   };
 
+  // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
+  // fs.readFile('./static/data/bea/bea-data-fallback.json', 'utf8', async (err, data) => {
   fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
     if (err) {
       resultDataBEA = await fetchBEA()
@@ -454,7 +461,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       filterEndpoint: String,
       downloadLabel: String,
       label: String,
-      displayDefaultData: Boolean,
       disableDateRangeFilter: Boolean,
       notice: String,
       optionValues: [String!],
@@ -485,9 +491,34 @@ exports.createSchemaCustomization = ({ actions }) => {
       type: String,
       fields: [String],
       decimalPlaces: Int,
+      noFormatting: String,
       breakChar: String,
       customType: String,
       dateFormat: String,
+    }
+    type SpecialAnnouncement {
+      label: String,
+      value: String,
+    }
+    type DataTableRequest {
+      fields: String,
+      dateField: String,
+    }
+    type RunTimeReportConfig {
+      filterField: String,
+      filterLabel: String,
+      dateFilterType: String,
+      unmatchedHeader: String,
+      unmatchedMessage: String,
+      defaultHeader: String,
+      defaultMessage: String,
+      defaultMessage: String,
+      searchText: String,
+      optionValues: [String!],
+      experimental: Boolean,
+      specialAnnouncement: SpecialAnnouncement,
+      cusipFirst: Boolean,
+      dataTableRequest: DataTableRequest,
     }
     type Datasets implements Node {
       publishedReports: [PublishedReport!],
@@ -498,11 +529,17 @@ exports.createSchemaCustomization = ({ actions }) => {
       selectColumns: [String],
       detailView: DetailView,
       disableAllTables: Boolean,
+      reportGenKey: String,
       downloadTimestamp: Boolean,
       sharedApiFilterOptions: Boolean,
       reportSelection: String,
+      dateExpected: String,
+      timeExpected: String,
       allColumnNames: [String],
       allPrettyNames: [String],
+      hideRawDataTable: Boolean,
+      hideReportDatePicker: Boolean,
+      runTimeReportConfig: RunTimeReportConfig,
     }
     type DownloadLimit {
       fileType: String,
@@ -511,6 +548,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
       hideColumns: [String],
+      additionalColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
       apiFilter: ApiFilter,
@@ -564,7 +602,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const result = await graphql(`
     query {
-      allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
+      allDatasets {
         datasets: nodes {
           dataFormats
           dataStartYear
@@ -574,10 +612,37 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          runTimeReportConfig {
+            filterField
+            filterLabel
+            searchText
+            dateFilterLabel
+            dateFilterType
+            unmatchedHeader
+            unmatchedMessage
+            defaultHeader
+            defaultMessage
+            optionValues
+            experimental
+            cusipFirst
+            specialAnnouncement {
+              label
+              value
+            }
+            dataTableRequest {
+              fields
+              dateField
+            }
+          }
+          hideRawDataTable
+          hideReportDatePicker
           reportSelection
           disableAllTables
           downloadTimestamp
+          reportGenKey
           sharedApiFilterOptions
+          dateExpected
+          timeExpected
           allColumnNames
           allPrettyNames
           detailView {
@@ -595,7 +660,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             banner
             startDate
             endDate
-            altBanner
           }
           datatableBanner
           relatedTopics
@@ -649,10 +713,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             dateField
             alwaysSortWith
             hideColumns
+            additionalColumns
             customFormatting {
               type
               fields
               decimalPlaces
+              noFormatting
               breakChar
               customType
               dateFormat
@@ -676,7 +742,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               filterEndpoint
               downloadLabel
               label
-              displayDefaultData
               disableDateRangeFilter
               notice
               optionValues
@@ -710,6 +775,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               tableName
             }
             isLargeDataset
+            byPage
             lastUpdated
             latestDate
             apiNotesAndLimitations
@@ -840,86 +906,102 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   result.data.allBlsPublicApiData.blsPublicApiData.forEach(blsRow => {
     cpi12MonthPercentChangeMap[blsRow.period + blsRow.year] = blsRow['_12mo_percentage_change'];
   });
-
   for (const config of result.data.allDatasets.datasets) {
-    const allResults = [];
-    const allResultsLabels = {};
-    for (const api of config.apis) {
-      if (api.userFilter) {
-        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-        filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
-        filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
-
-        const options = await fetch(filterOptionsUrl).then(res =>
-          res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
-        );
-        api.userFilter.optionValues = [...new Set(options)]; // uniquify results
-      }
-      if (api.apiFilter) {
-        let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
-        if (api.apiFilter.filterEndpoint) {
-          filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=1000`;
-        } else {
-          filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
-          if (api.apiFilter?.labelField) {
-            filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
-          } else {
-            filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
-          }
+    // datasets must have an api with an endpoint, unless hideRawDataTable is true
+    if ((config.apis && config.apis[0].endpoint !== '') || config.hideRawDataTable) {
+      const allResults = [];
+      const allResultsLabels = {};
+      const runTimeReportOptions = [];
+      for (const api of config.apis) {
+        if (config?.runTimeReportConfig) {
+          const filterConfig = config.runTimeReportConfig;
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          filterOptionsUrl += `${api.endpoint}?fields=${filterConfig.filterField}`;
+          filterOptionsUrl += `&page[size]=10000&sort=${filterConfig.filterField}`;
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[filterConfig.filterField]).sort((a, b) => a.localeCompare(b)))
+          );
+          runTimeReportOptions.push(...options);
         }
+        if (api.userFilter) {
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
+          filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
 
-        if (api.apiFilter.fieldFilter) {
-          // Tables with subheaders within the dropdown (ex. UTF)
-          const multiOptions = {};
-          for (const val of api.apiFilter.fieldFilter.value) {
-            const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
-            const options = await fetch(newUrl).then(res =>
+          const options = await fetch(filterOptionsUrl).then(res =>
+            res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
+          );
+          api.userFilter.optionValues = [...new Set(options)]; // uniquify results
+        }
+        if (api.apiFilter) {
+          let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
+          if (api.apiFilter.filterEndpoint) {
+            filterOptionsUrl += `${api.apiFilter.filterEndpoint}?page[size]=10000`;
+          } else {
+            filterOptionsUrl += `${api.endpoint}?fields=${api.apiFilter.field}`;
+            if (api.apiFilter?.labelField) {
+              filterOptionsUrl += `,${api.apiFilter.labelField}&page[size]=10000&sort=${api.apiFilter.labelField}`;
+            } else {
+              filterOptionsUrl += `&page[size]=10000&sort=${api.apiFilter.field}`;
+            }
+          }
+
+          if (api.apiFilter.fieldFilter) {
+            // Tables with subheaders within the dropdown (ex. UTF)
+            const multiOptions = {};
+            for (const val of api.apiFilter.fieldFilter.value) {
+              const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
+              const options = await fetch(newUrl).then(res =>
+                res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
+              );
+              multiOptions[val] = options;
+            }
+            api.apiFilter.optionValues = multiOptions; // uniquify results
+          } else if (api.apiFilter.labelField) {
+            //Different field used for value vs label (ex. FBP)
+            let options;
+            const labelOptions = {};
+            await fetch(filterOptionsUrl).then(res =>
+              res.json().then(body => {
+                const filterLabels = body.data;
+                if (api.apiFilter?.labelField) {
+                  filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+                }
+                options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
+              })
+            );
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
+            api.apiFilter.optionLabels = labelOptions;
+          } else {
+            const options = await fetch(filterOptionsUrl).then(res =>
               res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
             );
-            multiOptions[val] = options;
+            api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
           }
-          api.apiFilter.optionValues = multiOptions; // uniquify results
-        } else if (api.apiFilter.labelField) {
-          //Different field used for value vs label (ex. FBP)
-          let options;
-          const labelOptions = {};
-          await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => {
-              const filterLabels = body.data;
-              if (api.apiFilter?.labelField) {
-                filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
-              }
-              options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
-            })
-          );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
-          api.apiFilter.optionLabels = labelOptions;
-        } else {
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-          );
-          api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
         }
       }
-    }
-    if (allResults.length > 0) {
-      for (const api of config.apis) {
-        api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
-        api.apiFilter.optionLabels = allResultsLabels;
+      if (config?.runTimeReportConfig) {
+        config.runTimeReportConfig.optionValues = [...new Set(runTimeReportOptions)]; // uniquify results
       }
+      if (allResults.length > 0) {
+        for (const api of config.apis) {
+          api.apiFilter.optionValues = { all: [...new Set(allResults)] }; // uniquify results
+          api.apiFilter.optionLabels = allResultsLabels;
+        }
+      }
+      createPage({
+        path: `/datasets${config.slug}`,
+        matchPath: '/datasets' + config.slug + '*',
+        component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
+        context: {
+          config: config,
+          relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
+          experimental: false,
+          seoConfig: config.seoConfig,
+          isPreProd: ENV_ID === 'preprod',
+        },
+      });
     }
-    createPage({
-      path: `/datasets${config.slug}`,
-      matchPath: '/datasets' + config.slug + '*',
-      component: path.resolve(`./src/layouts/dataset-detail/dataset-detail.jsx`),
-      context: {
-        config: config,
-        relatedDatasets: config.relatedDatasets ? config.relatedDatasets : [],
-        experimental: false,
-        seoConfig: config.seoConfig,
-        isPreProd: ENV_ID === 'preprod',
-      },
-    });
   }
 
   if (ENV_ID === 'preprod') {
@@ -993,43 +1075,43 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       component: path.resolve(`./src/layouts/experimental/experimental.jsx`),
     });
 
-    const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
-    const features = await graphql(`
-      {
-        allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
-          edges {
-            node {
-              frontmatter {
-                path
-                relatedDatasets
-              }
-            }
-          }
-        }
-      }
-    `);
-    if (features.errors) {
-      reporter.panicOnBuild(`Error while running GraphQL query.`);
-      return;
-    }
-
-    features.data.allMdx.edges.forEach(({ node }) => {
-      if (node.frontmatter.path) {
-        const insightRelatedDatasets = [];
-        if (node.frontmatter.relatedDatasets) {
-          node.frontmatter.relatedDatasets.forEach(dataset => {
-            insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
-          });
-        }
-        createPage({
-          path: node.frontmatter.path,
-          component: featurePageTemplate,
-          context: {
-            relatedDatasets: insightRelatedDatasets,
-          },
-        });
-      }
-    });
+    // const featurePageTemplate = path.resolve(`src/layouts/feature/feature.tsx`);
+    // const features = await graphql(`
+    //   {
+    //     allMdx(sort: { order: DESC, fields: [frontmatter___datePublished] }, limit: 1000) {
+    //       edges {
+    //         node {
+    //           frontmatter {
+    //             path
+    //             relatedDatasets
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // `);
+    // if (features.errors) {
+    //   reporter.panicOnBuild(`Error while running GraphQL query.`);
+    //   return;
+    // }
+    //
+    // features.data.allMdx.edges.forEach(({ node }) => {
+    //   if (node.frontmatter.path) {
+    //     const insightRelatedDatasets = [];
+    //     if (node.frontmatter.relatedDatasets) {
+    //       node.frontmatter.relatedDatasets.forEach(dataset => {
+    //         insightRelatedDatasets.push(result.data.allDatasets.datasets.find(ds => ds.datasetId === dataset));
+    //       });
+    //     }
+    //     createPage({
+    //       path: node.frontmatter.path,
+    //       component: featurePageTemplate,
+    //       context: {
+    //         relatedDatasets: insightRelatedDatasets,
+    //       },
+    //     });
+    //   }
+    // });
   }
   createRedirect({
     fromPath: '/government-revenue/',
@@ -1087,12 +1169,13 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins, getConfig }) => {
   if (stage === 'build-javascript' || stage === 'develop') {
     const config = getConfig();
 
+    config.plugins = config.plugins.filter(plugin => plugin.constructor.name !== 'ESLintWebpackPlugin');
+
     const miniCssExtractPlugin = config.plugins.find(plugin => plugin.constructor.name === 'MiniCssExtractPlugin');
 
     if (miniCssExtractPlugin) {
       miniCssExtractPlugin.options.ignoreOrder = true;
     }
-
     actions.replaceWebpackConfig(config);
 
     actions.setWebpackConfig({

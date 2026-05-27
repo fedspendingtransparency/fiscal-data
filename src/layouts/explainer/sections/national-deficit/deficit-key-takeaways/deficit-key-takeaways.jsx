@@ -2,7 +2,9 @@ import React from 'react';
 import KeyTakeawaysSection from '../../../explainer-components/key-takeaways/key-takeaways-section';
 import reactStringReplace from 'react-string-replace';
 import CustomLink from '../../../../../components/links/custom-link/custom-link';
-import { faChartColumn, faCoins, faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons';
+import { faChartColumn } from '@fortawesome/free-solid-svg-icons/faChartColumn';
+import { faCoins } from '@fortawesome/free-solid-svg-icons/faCoins';
+import { faHandHoldingDollar } from '@fortawesome/free-solid-svg-icons/faHandHoldingDollar';
 import { deficitExplainerLightSecondary, deficitExplainerPrimary } from '../national-deficit.module.scss';
 
 import useFetchSurplusCount from '../understanding/deficit-surplus-count-helper';

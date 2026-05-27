@@ -1,6 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import DtgTableRow, { formatCellValue } from './dtg-table-row';
 
 describe('DtgTableRow', () => {
@@ -12,6 +11,7 @@ describe('DtgTableRow', () => {
   const data6 = { row1: 0.00067898 };
   const data7 = { row1: '3-3/8%' };
   const data8 = { row1: '-123' };
+  const data9 = { row1: '2025-01-01' };
 
   const columns = [{ name: 'row1', order: 1, property: 'row1', width: 12 }];
 
@@ -22,87 +22,99 @@ describe('DtgTableRow', () => {
   ];
 
   it('displays the data it is given in a td within the tr', () => {
-    const component = renderer.create(<DtgTableRow columns={columns} data={data1} />);
-    const instance = component.root;
-    expect(instance.findByType('td').props.children).toBe(123);
+    const { getByRole } = render(<DtgTableRow columns={columns} data={data1} />);
+    expect(within(getByRole('cell')).getByText(123)).toBeInTheDocument();
   });
+
   it('changes the td to display empty string if given a null value', () => {
-    const component = renderer.create(<DtgTableRow columns={columns} data={data2} />);
-    const instance = component.root;
-    expect(instance.findByType('td').props.children).toBe('');
+    const { getByRole } = render(<DtgTableRow columns={columns} data={data2} />);
+    expect(within(getByRole('cell')).getByText('')).toBeInTheDocument();
   });
+
   it('changes the td to display empty string if given an undefined value', () => {
-    const component = renderer.create(<DtgTableRow columns={columns} data={data3} />);
-    const instance = component.root;
-    expect(instance.findByType('td').props.children).toBe('');
+    const { getByRole } = render(<DtgTableRow columns={columns} data={data3} />);
+    expect(within(getByRole('cell')).getByText('')).toBeInTheDocument();
   });
+
   it('changes the td to display empty string if given a value of null string', () => {
-    const component = renderer.create(<DtgTableRow columns={columns} data={data4} />);
-    const instance = component.root;
-    expect(instance.findByType('td').props.children).toBe('');
+    const { getByRole } = render(<DtgTableRow columns={columns} data={data4} />);
+    expect(within(getByRole('cell')).getByText('')).toBeInTheDocument();
   });
+
   it('changes the td to display empty string if given a value of string asterisk', () => {
-    const component = renderer.create(<DtgTableRow columns={columns} data={data5} />);
-    const instance = component.root;
-    expect(instance.findByType('td').props.children).toBe('');
+    const { getByRole } = render(<DtgTableRow columns={columns} data={data5} />);
+    expect(within(getByRole('cell')).getByText('')).toBeInTheDocument();
   });
+
   it('formats PERCENTAGE types correctly', () => {
     const cols = columns;
     cols[0].type = 'PERCENTAGE';
-    const component = renderer.create(<DtgTableRow columns={cols} data={data1} />);
-    expect(component.root.findByType('td').props.children).toBe(`${data1.row1}%`);
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data1} />);
+    expect(within(getByRole('cell')).getByText(`${data1.row1}%`)).toBeInTheDocument();
   });
+
   it('formats SMALL_FRACTION types correctly', () => {
     const cols = columns;
     cols[0].type = 'SMALL_FRACTION';
-    const component = renderer.create(<DtgTableRow columns={cols} data={data6} />);
-    expect(component.root.findByType('td').props.children).toBe(`${data6.row1}`);
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data6} />);
+    expect(within(getByRole('cell')).getByText(`${data6.row1}`)).toBeInTheDocument();
   });
+
   it('formats STRING types that are percentage values correctly', () => {
     const cols = columns;
     cols[0].type = 'STRING';
-    const component = renderer.create(<DtgTableRow columns={cols} data={data7} />);
     const formattedValue = data7.row1.replace(/-/g, '\u2011');
-    expect(component.root.findByType('td').props.children).toBe(formattedValue);
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data7} />);
+    expect(within(getByRole('cell')).getByText(formattedValue)).toBeInTheDocument();
+  });
+
+  it('formats CURRENCY types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'CURRENCY';
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data1} />);
+    expect(within(getByRole('cell')).getByText('$123.00')).toBeInTheDocument();
   });
   it('formats CURRENCY3 types correctly', () => {
     const cols = columns;
     cols[0].type = 'CURRENCY3';
-    const component = renderer.create(<DtgTableRow columns={cols} data={data1} />);
-    expect(component.root.findByType('td').props.children).toBe('$123.000');
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data1} />);
+    expect(within(getByRole('cell')).getByText('$123.000')).toBeInTheDocument();
   });
   it('formats negative CURRENCY3 types correctly', () => {
     const cols = columns;
     cols[0].type = 'CURRENCY3';
-    const component = renderer.create(<DtgTableRow columns={cols} data={data8} />);
-    expect(component.root.findByType('td').props.children).toBe('-$123.000');
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data8} />);
+    expect(within(getByRole('cell')).getByText('-$123.000')).toBeInTheDocument();
   });
 
-  it('formats FRN Daily Indexes Daily Index col data correctly', () => {
-    const dailyIndexData = { daily_index: 0.111111111 };
-    const col = [{ name: 'daily_index', order: 1, property: 'daily_index', width: 12 }];
-    const component = renderer.create(<DtgTableRow columns={col} data={dailyIndexData} tableName={'FRN Daily Indexes'} />);
-    expect(component.root.findByType('td').props.children).toBe(0.111111111);
+  it('formats NUMBER types correctly', () => {
+    const formattedData = formatCellValue('0.0123', 'NUMBER', null, 'spread');
+    expect(formattedData).toBe('0.012');
   });
 
-  it('formats FRN Daily Indexes Daily Int Accrual Rate data correctly', () => {
-    const dailyIntAccrualRateData = { daily_int_accrual_rate: 0.222222222 };
-    const cols = [{ name: 'daily_int_accrual_rate', order: 2, property: 'daily_int_accrual_rate', width: 12 }];
-    const component = renderer.create(<DtgTableRow columns={cols} data={dailyIntAccrualRateData} />);
-    expect(component.root.findByType('td').props.children).toBe(0.222222222);
-  });
-
-  it('formats FRN Daily Indexes Spread data correctly', () => {
-    const spreadData = { spread: 0.012 };
-    const cols = [{ name: 'spread', order: 3, property: 'spread', width: 12 }];
-    const component = renderer.create(<DtgTableRow columns={cols} data={spreadData} />);
-    expect(component.root.findByType('td').props.children).toBe(0.012);
+  it('applies no formatting to NUMBER types when noFormatting is true', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['daily_int_accrual_rate'], noFormatting: true }];
+    const formattedData = formatCellValue('0.222222222', 'NUMBER', null, 'daily_int_accrual_rate', customFormatter);
+    expect(formattedData).toBe('0.222222222');
   });
 
   it('formats custom NUMBER correctly', () => {
     const customFormatter = [{ type: 'NUMBER', fields: ['spread'], decimalPlaces: 6 }];
-    const formattedData = formatCellValue(0.012345, 'NUMBER', null, 'spread', customFormatter);
+    const formattedData = formatCellValue(0.01234532, 'NUMBER', null, 'spread', customFormatter);
     expect(formattedData).toBe('0.012345');
+  });
+
+  it('formats custom NUMBER correctly with currency formatting', () => {
+    const customFormatter = [{ type: 'NUMBER', fields: ['spread'], currency: true }];
+    const formattedData = formatCellValue(0.01234532, 'NUMBER', null, 'spread', customFormatter);
+    expect(formattedData).toBe('$0.01');
+  });
+
+  it('formats DATE types correctly', () => {
+    const cols = columns;
+    cols[0].type = 'DATE';
+    const { getByRole } = render(<DtgTableRow columns={cols} data={data9} />);
+    expect(within(getByRole('cell')).getByText('1/1/2025')).toBeInTheDocument();
   });
 
   it('formats custom STRING dateList correctly', () => {

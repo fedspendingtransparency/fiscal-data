@@ -1,8 +1,8 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .fillCellGrey,
 .fillCellWhite {
-  color: #555555;
+  color: $font-title;
 }
 
 .detailButton {

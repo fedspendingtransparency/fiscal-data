@@ -16,6 +16,25 @@ export const mockApiData = {
   },
 };
 
+export const mockApiDataColumnConfig = [
+  {
+    property: 'first',
+    name: 'First',
+  },
+  {
+    property: 'middle',
+    name: 'Middle',
+  },
+  {
+    property: 'last',
+    name: 'Last',
+  },
+  {
+    property: 'wallet',
+    name: 'Wallet',
+  },
+];
+
 export const mockApiDataUserFilterable = {
   data: [],
   meta: {
@@ -112,6 +131,7 @@ export const selectedTableLessFields = {
   apiId: 2,
   endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
   tableName: 'Table 1',
+  rowCount: 4,
   fields: [
     { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
     { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
@@ -191,28 +211,6 @@ export const mockTableWithApiFilterAvailable = {
     dataDefaultMessage: 'Default Message.',
   },
 };
-export const mockTableWithApiFilterAvailableDisplayDefaultData = {
-  apiId: 4,
-  endpoint: 'v1/accounting/od/gas_held_by_public_daily_activity',
-  tableName: 'Exchange Rates',
-  isLargeDataset: true,
-  dataDefaultHeader: true,
-  fields: [
-    { columnName: 'facility_desc', prettyName: 'Facility Description', dataType: 'string' },
-    { columnName: 'book_value_amt', prettyName: 'Book Value', dataType: 'string' },
-  ],
-  dataDisplays: [{ chartType: 'none', dimensionField: null, title: 'Complete Table' }],
-  apiFilter: {
-    label: 'Facility Description',
-    field: 'facility_desc',
-    notice: 'hello',
-    displayDefaultData: true,
-    optionValues: ['Building', 'Room', 'Venue', 'Campus', 'Auditorium'],
-    dataUnmatchedMessage: 'Sorry, no facilities of that type for the date range.',
-    dataDefaultHeader: 'Default Header.',
-    dataDefaultMessage: 'Default Message.',
-  },
-};
 
 export const mockConfig = {
   name: 'my name',
@@ -225,7 +223,7 @@ export const mockDetailConfig = {
   name: 'my name',
   slug: 'mock/slug/here',
   apis: [selectedTableLessFields, selectedTableMoreFields],
-  detailView: { apiId: 4, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
+  detailView: { apiId: 2, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
 };
 
 export const pivotFields = [
@@ -237,6 +235,11 @@ export const pivotFields = [
 
 export const selectedPivot = {
   pivotView: { chartType: null, dimensionField: 'facility_desc', title: 'By Facility' },
+  pivotValue: pivotFields[0],
+};
+
+export const selectedPivotWithNoChartType = {
+  pivotView: { chartType: 'none', dimensionField: 'facility_desc', title: 'By Facility' },
   pivotValue: pivotFields[0],
 };
 

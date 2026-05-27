@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import Accordion from '../../../components/accordion/accordion';
 import { section } from './data-sources-methodologies.module.scss';
+import { analyticsEventHandler } from '../explainer-helpers/explainer-helpers';
 
 type DsmProps = {
   children?: React.ReactNode;
   pageName?: string;
 };
 
-const analyticsEventMap: Record<string, { openEventNumber: string; explainerGAEvent: string }> = {
+const analyticsEventMap: Record<string, { openEventNumber?: string; explainerGAEvent?: string; onOpen?: () => void }> = {
   'national-debt': {
     openEventNumber: '40',
     explainerGAEvent: 'DebtExplainer',
@@ -27,6 +28,9 @@ const analyticsEventMap: Record<string, { openEventNumber: string; explainerGAEv
   'afg-overview': {
     openEventNumber: '8',
     explainerGAEvent: 'AfgOverview',
+  },
+  'treasury-savings-bonds': {
+    onOpen: () => analyticsEventHandler('Savings Bonds - DS&M', 'Accordion Expand Click'),
   },
 };
 

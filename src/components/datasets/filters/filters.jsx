@@ -312,12 +312,12 @@ const FilterSection = ({
         {(!isHandheld || (isHandheld && !datasetsView)) && (
           <div className={`${searchLayoutSection} ${searchLayoutFilters}`}>
             <section>
-              <h1 className={title}>Filter Your Results</h1>
+              <h2 className={title}>Filter Your Results</h2>
               <div className={filterWrapper} data-testid={'filter-wrapper'}>
                 <div className={filterSectionHeader}>
-                  <h2 className={filterSectionTitle} data-testid="last-updated-title">
+                  <h3 className={filterSectionTitle} data-testid="last-updated-title">
                     Last Updated
-                  </h2>
+                  </h3>
                   <InfoTip title={tips.lastUpdated.title} clickEvent={() => handleInfoTipClick(tips.lastUpdated.title)}>
                     {tips.lastUpdated.body}
                   </InfoTip>
@@ -334,9 +334,9 @@ const FilterSection = ({
               <hr className={filterSectionDivider} />
               <div className={filterWrapper}>
                 <div className={filterSectionHeader}>
-                  <h2 className={filterSectionTitle} data-testid="date-range-title">
+                  <h3 className={filterSectionTitle} data-testid="date-range-title">
                     Date Range
-                  </h2>
+                  </h3>
                   <InfoTip data-testid="date-range-tip" title={tips.dateRange.title} clickEvent={() => handleInfoTipClick(tips.dateRange.title)}>
                     {tips.dateRange.body}
                   </InfoTip>
@@ -368,9 +368,9 @@ const FilterSection = ({
               <hr className={filterSectionDivider} />
               <div className={filterWrapper}>
                 <div className={filterSectionHeader}>
-                  <h2 className={filterSectionTitle} data-testid="publisher-title">
+                  <h3 className={filterSectionTitle} data-testid="publisher-title">
                     Dataset Publisher
-                  </h2>
+                  </h3>
                   <InfoTip data-testid="publisher-tip" title={tips.publisher.title} clickEvent={() => handleInfoTipClick(tips.publisher.title)}>
                     {tips.publisher.body}
                   </InfoTip>
@@ -389,9 +389,9 @@ const FilterSection = ({
               <hr className={filterSectionDivider} />
               <div className={filterWrapper}>
                 <div className={filterSectionHeader}>
-                  <h2 className={filterSectionTitle} data-testid="data-format-title">
+                  <h3 className={filterSectionTitle} data-testid="data-format-title">
                     Data Format
-                  </h2>
+                  </h3>
                   <InfoTip data-testid="data-format-tip" title={tips.dataFormat.title} clickEvent={() => handleInfoTipClick(tips.dataFormat.title)}>
                     {tips.dataFormat.body}
                   </InfoTip>

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { toolTip, tooltipLabel, box, labelContainer, valueContainer } from './custom-tooltip.module.scss';
 import { savingsBonds, savingsBondsMap, yAxisFormatter } from '../savings-bonds-sold-by-type-chart-helper';
+import globalConstants from '../../../../../../../helpers/constants';
 
 interface IPayload {
   payload: {
@@ -15,6 +16,8 @@ interface ICustomTooltip {
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, hiddenFields }) => {
+  const { explainers } = globalConstants;
+
   if (payload && payload.length) {
     const content = payload[0]?.payload;
     return (

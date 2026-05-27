@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from '@nivo/line';
-import { withWindowSize } from 'react-fns';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
-import { getChartCopy, dataHeader, chartConfigs } from './debt-over-last-100y-linechart-helper';
+import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { lineChart, container } from './debt-over-last-100y-linechart.module.scss';
+import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import {
   addInnerChartAriaLabel,
   applyChartScaling,
@@ -20,39 +19,46 @@ import {
 import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import { useInView } from 'react-intersection-observer';
-import { useRecoilValueLoadable } from 'recoil';
-import useShouldRefreshCachedData from '../../../../../../recoil/hooks/useShouldRefreshCachedData';
-import { debtOutstandingData, debtOutstandingLastCachedState } from '../../../../../../recoil/debtOutstandingDataState';
-import { debtExplainerPrimary } from '../../national-debt.module.scss';
+import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDataState';
+import { debtExplainerPrimary } from '../../../../../../variables.module.scss';
+import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { useWindowSize } from 'usehooks-ts';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
 
-const DebtOverLast100y = ({ cpiDataByYear, width }) => {
+const DebtOverLast100y = ({ cpiDataByYear }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [minYear, setMinYear] = useState();
   const [maxYear, setMaxYear] = useState();
   const [maxAmount, setMaxAmount] = useState(0);
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(new Date());
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastDebtValue, setLastDebtValue] = useState('');
   const [firstDebtValue, setFirstDebtValue] = useState('');
   const [chartData, setChartData] = useState(null);
-  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({});
+  const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '$--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
-  const data = useRecoilValueLoadable(debtOutstandingData);
-  useShouldRefreshCachedData(Date.now(), debtOutstandingData, debtOutstandingLastCachedState);
+  const [hoverDisabled, setHoverDisabled] = useState(true);
+  const payload = debtOutstandingData(state => state.payload);
+  const status = debtOutstandingData(state => state.status);
+  const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
+
+  useEffect(() => {
+    refreshIfStale();
+  }, [refreshIfStale]);
+
+  const { width } = useWindowSize();
+  const { ref, inView } = useInView(chartInViewProps);
 
   const chartParent = 'totalDebtChartParent';
   const chartWidth = 550;
   const chartHeight = 490;
 
   const processData = () => {
-    let dataResult = data.contents.payload;
+    let dataResult = payload;
     dataResult = adjustDataForInflation(dataResult, 'debt_outstanding_amt', 'record_date', cpiDataByYear);
     const finalDebtChartData = [];
 
@@ -110,11 +116,19 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
   };
 
   useEffect(() => {
-    if (data.state === 'hasValue') {
+    if (status === 'hasValue' && payload) {
       processData();
-      addInnerChartAriaLabel(chartParent);
     }
-  }, [data.state]);
+  }, [status, payload]);
+
+  useEffect(() => {
+    if (inView && hoverDisabled === true) {
+      const hoverTimer = setTimeout(() => {
+        setHoverDisabled(false);
+      }, 6000);
+      return () => clearTimeout(hoverTimer);
+    }
+  }, [inView]);
 
   useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
@@ -122,6 +136,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
 
   useEffect(() => {
     applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
   }, [isLoading]);
 
   const handleGroupOnMouseLeave = () => {
@@ -163,36 +178,24 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
     clearTimeout(ga4Timer);
   };
 
-  const customHeaderStyles = {
-    marginTop: '1rem',
-  };
-  const customFooterSpacing = {
-    marginTop: '2rem',
-  };
-  const { ref, inView } = useInView(chartInViewProps);
-
   return (
     <>
-      {isLoading && (
-        <div>
-          <FontAwesomeIcon icon={faSpinner} spin pulse /> Loading...
-        </div>
-      )}
-      {!isLoading && (
-        <div className={visWithCallout}>
-          <div className={container}>
-            <ChartContainer
-              title={chartTitle}
-              subTitle={chartSubtitle}
-              footer={chartFooter}
-              date={lastUpdatedDate}
-              header={dataHeader(totalDebtHeadingValues)}
-              altText={chartAltText}
-              customHeaderStyles={customHeaderStyles}
-              customFooterSpacing={customFooterSpacing}
-            >
+      <figure className={visWithCallout}>
+        <div className={container}>
+          <ChartContainer
+            title={chartTitle}
+            subTitle={chartSubtitle}
+            footer={chartFooter}
+            date={lastUpdatedDate}
+            header={dataHeader(totalDebtHeadingValues)}
+            altText={chartAltText}
+          >
+            {isLoading ? (
+              <LoadingIndicator loadingClass={loadingIcon} />
+            ) : (
               <div
                 className={lineChart}
+                style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
                 data-testid="totalDebtChartParent"
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
@@ -212,7 +215,7 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                     props =>
                       LineChartCustomPoint({
                         ...props,
-                        serieId: 'Total Debt',
+                        seriesId: 'Total Debt',
                       }),
                     props =>
                       CustomSlices({
@@ -247,17 +250,18 @@ const DebtOverLast100y = ({ cpiDataByYear, width }) => {
                   areaOpacity={1}
                 />
               </div>
-            </ChartContainer>
-          </div>
-          <VisualizationCallout color="">
-            <p>
-              Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue} in {minYear} to {lastDebtValue} in {maxYear}.
-            </p>
-          </VisualizationCallout>
+            )}
+          </ChartContainer>
         </div>
-      )}
+        <VisualizationCallout color="">
+          <p>
+            Over the past 100 years, the U.S. federal debt has increased from {firstDebtValue || '$--'} in {minYear || '--'} to{' '}
+            {lastDebtValue || '$--'} in {maxYear || '--'}.
+          </p>
+        </VisualizationCallout>
+      </figure>
     </>
   );
 };
 
-export default withWindowSize(DebtOverLast100y);
+export default DebtOverLast100y;

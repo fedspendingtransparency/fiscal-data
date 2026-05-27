@@ -1,18 +1,31 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .container {
   overflow: hidden;
+
+  & :global(.chartContainerTitle) {
+    margin-bottom: 1rem;
+  }
+
+  & :global(.chartContainerChart) {
+    min-height: 15.25rem;
+
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 20.25rem;
+    }
+  }
 }
 
 .barChart {
-  margin: 3rem 8rem;
+  margin-bottom: 2rem;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-@media screen and (max-width: $breakpoint-lg - 1) {
-  .barChart {
-    margin: 2rem 0;
-  }
+.loadingIcon {
+  @include grayLargeLoadingIcon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

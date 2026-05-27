@@ -11,7 +11,7 @@ describe('NotShownMessage', () => {
   });
 
   it('displays a container element which contains the component', () => {
-    expect(screen.getByTestId('container')).toBeDefined();
+    expect(screen.getByTestId('notShownContainer')).toBeDefined();
   });
 
   it('displays the correct text, in two separate lines', () => {

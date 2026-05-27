@@ -1,19 +1,14 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { fontBodyCopy } from '../../../explainer.module.scss';
 import {
+  holdingBondsContainer,
+  holdingBondsFooter,
+  holdingBondsHeader,
   holdingBondsLeft,
   holdingBondsRight,
-  holdingBondsContainer,
-  holdingBondsHeader,
-  holdingBondsFooter,
   image1,
   image3,
 } from './savings-bonds-are-fully-matured.module.scss';
-import { mudAccordion, postQuoteBoxAccordionContainer, treasurySavingsBondsExplainerSecondary } from '../treasury-savings-bonds.module.scss';
-import QuoteBox from '../../../quote-box/quote-box';
-import CustomLink from '../../../../../components/links/custom-link/custom-link';
+import { mudAccordion, postQuoteBoxAccordionContainer } from '../treasury-savings-bonds.module.scss';
 import GlossaryPopoverDefinition from '../../../../../components/glossary/glossary-term/glossary-popover-definition';
 import Accordion from '../../../../../components/accordion/accordion';
 import illustration1 from '../../../../../../static/images/savings-bonds/Fully-Matured-Bonds-Story_Illustration-1.svg';
@@ -22,6 +17,8 @@ import illustration3 from '../../../../../../static/images/savings-bonds/Fully-M
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import { format } from 'date-fns';
 import { getShortForm } from '../../../../../utils/rounding-utils';
+import { analyticsEventHandler } from '../../../explainer-helpers/explainer-helpers';
+import { glossaryGAEvent } from '../treasury-savings-bonds';
 
 const SavingsBondsAreFullyMatured: FunctionComponent = () => {
   const [mudMonthYear, setMudMonthYear] = useState(null);
@@ -56,10 +53,18 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
 
   const glossaryTerms = {
     maturedUnredeemedDebt: (
-      <GlossaryPopoverDefinition term="Matured Unredeemed Debt (MUD)" page="Savings Bonds Explainer">
+      <GlossaryPopoverDefinition
+        term="Matured Unredeemed Debt (MUD)"
+        page="Savings Bonds Explainer"
+        handleClick={() => glossaryGAEvent('Matured Unredeemed Debt (MUD)')}
+      >
         Matured Unredeemed Debt (MUD)
       </GlossaryPopoverDefinition>
     ),
+  };
+
+  const onAccordionClick = () => {
+    analyticsEventHandler('Savings Bonds - What is the Treasury Doing to Reduce Matured Unredeemed Debt?', 'Accordion Expand Click');
   };
 
   return (
@@ -96,10 +101,16 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             Imagine you bought a series EE bond 30 years ago for $500. After 20 years, it doubled in value ($1,000) and continued to earn interest
             ($600) until reaching maturity after 30 years.
           </div>
-          <img src={illustration1} className={image1} alt="" />
+          <img src={illustration1} className={image1} alt="A smiling woman with a new savings bond certificate and a few gold coins." />
         </div>
         <div className={holdingBondsRight}>
-          <img src={illustration2} alt="" />
+          <img
+            src={illustration2}
+            alt={
+              'The same woman, now unboxing more gold coins resulting from redeeming a fully matured ' +
+              'savings bond. She is smiling and clapping her hands.'
+            }
+          />
           <div>
             If you redeem your bond today, you can redeem it for $1,600 and spend that on goods or services or reinvest that money in a new savings
             bond.
@@ -110,32 +121,25 @@ const SavingsBondsAreFullyMatured: FunctionComponent = () => {
             If you hold onto that bond and don’t redeem it for another 10 years, it will still be worth $1,600, but the same goods and services you
             would have purchased 10 years ago now cost $2,050, effectively losing you $450 in value.
           </div>
-          <img src={illustration3} className={image3} alt="" />
+          <img
+            src={illustration3}
+            className={image3}
+            alt={
+              'The same woman with her hand on her chin as she is thinking. Some of the gold coins are ' +
+              'flying away, symbolizing how value disappears from fully matured savings bonds that go unredeemed.'
+            }
+          />
         </div>
 
         <p className={holdingBondsFooter}>*Please note this visual uses fictional data</p>
       </div>
 
-      <QuoteBox
-        icon={faMagnifyingGlass as IconProp}
-        primaryColor={fontBodyCopy}
-        secondaryColor={treasurySavingsBondsExplainerSecondary}
-        customTopMargin={'0'}
-      >
-        <p>
-          Could there be a savings bond in your name that you might not know about? Go on a{' '}
-          <CustomLink url="https://treasurydirect.gov/savings-bonds/treasury-hunt/">Treasure Hunt</CustomLink> and see what bonds might be waiting for
-          you to cash in!
-        </p>
-      </QuoteBox>
-
       <div className={postQuoteBoxAccordionContainer}>
         <div className={mudAccordion}>
           <Accordion
             title="What is the Treasury Doing to Reduce Matured Unredeemed Debt?"
-            openEventNumber="26"
-            explainerGAEvent="DebtExplainer"
-            ga4ID="print-money"
+            onOpen={onAccordionClick}
+            ga4ID="reduce-matured-unredeemed-debt"
           >
             Treasury’s efforts to increase the redemption of MUD are complicated by issues such as the age and quality of MUD records, a paper-based
             redemption process, as well as reluctance by some bond owners to redeem their bonds. Treasury has been working for more than a decade to

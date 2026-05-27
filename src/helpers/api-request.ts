@@ -1,4 +1,3 @@
-import * as queryString from 'querystring';
 import { apiPrefix } from '../utils/api-utils';
 
 export type ApiRequestUrl = {
@@ -41,7 +40,7 @@ export default class ApiRequest {
       params.sort = this.sort;
     }
 
-    let urlParameters = params !== {} ? '?' + queryString.stringify(params) : '';
+    let urlParameters = params !== {} ? '?' + new URLSearchParams(params).toString() : '';
 
     if (this.pagination) {
       urlParameters += urlParameters ? '&' : '?';

@@ -1,4 +1,6 @@
-import { axisBottom, axisLeft, timeDay, timeMonth, timeFormat } from 'd3';
+import { timeFormat } from 'd3-time-format';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { timeDay, timeMonth } from 'd3-time';
 import { differenceInCalendarDays } from 'date-fns';
 import { formatForDataType } from './utils';
 
@@ -11,7 +13,7 @@ let container,
   options = {};
 const y = {};
 
-const complexDate = (d, i) => {
+export const complexDate = (d, i) => {
   if (timeFormat('%d')(d) === '01' && timeFormat('%m')(d) === '01') {
     return timeFormat('%Y')(d);
   } else if (i === 0) {
@@ -21,7 +23,7 @@ const complexDate = (d, i) => {
   }
 };
 
-const markMonths = (d, i) => {
+export const markMonths = (d, i) => {
   return timeFormat('%b')(d);
 };
 
@@ -45,7 +47,6 @@ const thinXLabels = xAxis => {
   } else {
     xAxis.ticks(5);
   }
-
   if (days < 180) {
     xAxis.tickFormat(complexDate);
   } else if (days < 400) {

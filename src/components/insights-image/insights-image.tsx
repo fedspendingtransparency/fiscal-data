@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { withWindowSize } from 'react-fns';
 import { image } from './insights-image.module.scss';
 import { useWindowSize } from '../../hooks/windowResize';
 
@@ -27,4 +26,4 @@ const InsightsImage = ({ imageRefDesktop, imageRefMobile, altText }: InsightsIma
   return <img src={imageRef} alt={altText} className={image} data-testid={'Image'} />;
 };
 
-export default withWindowSize(InsightsImage);
+export default InsightsImage;

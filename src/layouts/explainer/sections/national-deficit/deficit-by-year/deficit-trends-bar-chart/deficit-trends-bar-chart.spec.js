@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, waitFor, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { setGlobalFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockDeficitTrendsData } from '../../../../explainer-test-helper';
 import { DeficitTrendsBarChart } from './deficit-trends-bar-chart';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 import userEvent from '@testing-library/user-event';
+import { ErrorBoundary } from 'react-error-boundary';
 
 describe('Deficit Trends Bar Chart', () => {
   beforeEach(() => {
@@ -12,17 +13,25 @@ describe('Deficit Trends Bar Chart', () => {
   });
 
   it('renders the trends chart', async () => {
-    const { findByTestId } = render(<DeficitTrendsBarChart />);
+    const { findByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
     expect(await findByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
 
   it('renders the data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByText } = render(<DeficitTrendsBarChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
-    expect(await getByText('$1.38 T')).toBeInTheDocument();
-    expect(await getByText('Last Updated: September 30, 2022')).toBeInTheDocument();
+    const { findByText } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    expect(await findByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
+    expect(await findByText('$1.38 T')).toBeInTheDocument();
+    expect(await findByText('Last Updated: September 30, 2022')).toBeInTheDocument();
   });
 
   it('Updates header values while the chart animates when it is scrolled into view', async () => {
@@ -30,33 +39,40 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+
+    const { findAllByTestId, findByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
+
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     // explicitly declare that the chart is not scrolled into view
     await act(async () => {
       mockAllIsIntersecting(false);
     });
-    let yearHeader = await getByTestId('deficitFiscalYearHeader');
-    let deficitAmountHeader = await getByTestId('deficitTotalHeader');
+    let yearHeader = await findByTestId('deficitFiscalYearHeader');
+    let deficitAmountHeader = await findByTestId('deficitTotalHeader');
 
     // advance the time and confirm that the header values have not changed
     await act(async () => {
       jest.advanceTimersByTime(1000);
     });
-    yearHeader = await getByTestId('deficitFiscalYearHeader');
-    deficitAmountHeader = await getByTestId('deficitTotalHeader');
+    yearHeader = await findByTestId('deficitFiscalYearHeader');
+    deficitAmountHeader = await findByTestId('deficitTotalHeader');
     expect(yearHeader.textContent).toContain('2022');
     expect(deficitAmountHeader.textContent).toContain('$1.38 T');
 
     // explicitly declare that the chart IS NOW scrolled into view and confirm animation is underway
+    mockAllIsIntersecting(true);
     await act(async () => {
-      mockAllIsIntersecting(true);
       jest.advanceTimersByTime(1850);
     });
-    yearHeader = await getByTestId('deficitFiscalYearHeader');
-    deficitAmountHeader = await getByTestId('deficitTotalHeader');
+    yearHeader = await findByTestId('deficitFiscalYearHeader');
+    deficitAmountHeader = await findByTestId('deficitTotalHeader');
     expect(yearHeader.textContent).toContain('2001');
     expect(deficitAmountHeader.textContent).toContain('$-0.13 T');
 
@@ -65,8 +81,8 @@ describe('Deficit Trends Bar Chart', () => {
       mockAllIsIntersecting(true);
       jest.advanceTimersByTime(20000);
     });
-    yearHeader = await getByTestId('deficitFiscalYearHeader');
-    deficitAmountHeader = await getByTestId('deficitTotalHeader');
+    yearHeader = await findByTestId('deficitFiscalYearHeader');
+    deficitAmountHeader = await findByTestId('deficitTotalHeader');
     expect(yearHeader.textContent).toContain('2022');
     expect(deficitAmountHeader.textContent).toContain('$1.38 T');
   });
@@ -76,9 +92,14 @@ describe('Deficit Trends Bar Chart', () => {
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+    const { findAllByTestId, getByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     await act(async () => {
       // explicitly declare that the chart is not scrolled into view
@@ -87,7 +108,6 @@ describe('Deficit Trends Bar Chart', () => {
 
     let yearHeader = await getByTestId('deficitFiscalYearHeader');
     let deficitAmountHeader = await getByTestId('deficitTotalHeader');
-    const customBars = getAllByTestId('customBar');
     const firstBar = customBars[0];
 
     await act(async () => {
@@ -111,12 +131,18 @@ describe('Deficit Trends Bar Chart', () => {
 
   it('Updates header values when tabbing through the bars', async () => {
     jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
     // make sure data is loaded (from mock) and chart layers are rendered
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByTestId, getByTestId } = render(<DeficitTrendsBarChart />);
-    await waitFor(() => expect(fetchSpy).toBeCalled());
-    expect(await getAllByTestId('customBar')[0]).toBeInTheDocument();
+    const { findAllByTestId, getByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const customBars = await findAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     await act(async () => {
       // explicitly declare that the chart is not scrolled into view
@@ -126,20 +152,16 @@ describe('Deficit Trends Bar Chart', () => {
     let yearHeader = await getByTestId('deficitFiscalYearHeader');
     let deficitAmountHeader = await getByTestId('deficitTotalHeader');
 
-    await act(async () => {
-      mockAllIsIntersecting(true);
-      jest.advanceTimersByTime(20000);
-      userEvent.tab();
-    });
+    mockAllIsIntersecting(true);
+    jest.advanceTimersByTime(20000);
+    await user.tab();
 
     yearHeader = await getByTestId('deficitFiscalYearHeader');
     deficitAmountHeader = await getByTestId('deficitTotalHeader');
     expect(yearHeader.textContent).toContain('2001');
     expect(deficitAmountHeader.textContent).toContain('$-0.13 T');
 
-    act(() => {
-      userEvent.tab();
-    });
+    await user.tab();
 
     yearHeader = await getByTestId('deficitFiscalYearHeader');
     deficitAmountHeader = await getByTestId('deficitTotalHeader');

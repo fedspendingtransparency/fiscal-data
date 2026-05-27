@@ -1,0 +1,57 @@
+@use 'src/variables.module' as *;
+
+#presetContainer {
+  margin-top: 1rem;
+  .toggleButton {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #cacaca;
+    padding: 0.5rem;
+    outline: 1px transparent;
+    transition: outline 0.2s ease;
+    background-color: $content-section-background;
+    border-radius: 3px;
+    margin: 0 0.25rem 0.25rem 0;
+    *,
+    & {
+      cursor: pointer;
+    }
+    &.selected {
+      color: $primary;
+      border: 1px solid $primary;
+    }
+    &.selected,
+    &:hover {
+      background-color: #edf5fa;
+    }
+    &:focus,
+    &:focus-within {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+    &.disabled {
+      opacity: 50%;
+      background-color: $body-background;
+      border-left: none;
+      border-color: $body-background;
+    }
+  }
+
+  .buttonDescription {
+    display: inline-block;
+    margin-left: 0.625rem;
+  }
+
+  .innerButton {
+    padding: 0.75rem 1rem;
+  }
+
+  .radio {
+    opacity: 0;
+    position: absolute;
+    &:focus + .toggleButton {
+      outline: 1px solid $focus;
+      z-index: $radio-button;
+    }
+  }
+}

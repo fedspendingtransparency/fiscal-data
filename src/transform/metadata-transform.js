@@ -6,7 +6,7 @@ const { getConfigByApiId } = require('./endpointConfig');
 const { processFilters } = require('./filters/filterDefinitions');
 const { largeDatasetThreshold } = require('../helpers/largeDatasetThreshold');
 const matchedApiConfigs = [];
-
+const byPageThreshold = 20000;
 const { getPublishedReports } = require('../helpers/published-reports/published-reports');
 
 let camelcaseKeys;
@@ -110,6 +110,9 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
       dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
+      dataset.runTimeReportConfig = mappedDataset && mappedDataset.runTimeReportConfig ? mappedDataset.runTimeReportConfig : null;
+      dataset.hideRawDataTable = mappedDataset && mappedDataset.hideRawDataTable ? mappedDataset.hideRawDataTable : null;
+      dataset.hideReportDatePicker = mappedDataset && mappedDataset.hideReportDatePicker ? mappedDataset.hideReportDatePicker : null;
       dataset.detailView = mappedDataset && mappedDataset.detailView ? mappedDataset.detailView : null;
       dataset.customNoChartMessage = mappedDataset && mappedDataset.customNoChartMessage ? mappedDataset.customNoChartMessage : null;
       dataset.datePreset = mappedDataset && mappedDataset.datePreset ? mappedDataset.datePreset : null;
@@ -121,8 +124,11 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.downloadTimestamp = mappedDataset && mappedDataset.downloadTimestamp ? mappedDataset.downloadTimestamp : null;
       dataset.sharedApiFilterOptions = mappedDataset && mappedDataset.sharedApiFilterOptions ? mappedDataset.sharedApiFilterOptions : null;
       dataset.reportSelection = mappedDataset && mappedDataset.reportSelection ? mappedDataset.reportSelection : null;
+      dataset.dateExpected = mappedDataset && mappedDataset.dateExpected ? mappedDataset.dateExpected : null;
+      dataset.timeExpected = mappedDataset && mappedDataset.timeExpected ? mappedDataset.timeExpected : null;
       dataset.allColumnNames = mappedDataset && mappedDataset.allColumnNames ? mappedDataset.allColumnNames : null;
       dataset.allPrettyNames = mappedDataset && mappedDataset.allPrettyNames ? mappedDataset.allPrettyNames : null;
+      dataset.reportGenKey = mappedDataset && mappedDataset.reportGenKey ? mappedDataset.reportGenKey : null;
 
       if (dataset.apis.length === 0) {
         if (mappedDataset && mappedDataset.apiIds) {
@@ -149,6 +155,9 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
             console.info(`DatasetId:${dataset.datasetId} "${dataset.name}", API: ${api.apiId} has
             ${Number(api.rowCount)} rows`);
           }
+          if (Number(api.rowCount) > byPageThreshold && !api.userFilter) {
+            api.byPage = true;
+          }
           if (Number(api.rowCount) > largeDatasetThreshold && !api.userFilter) {
             api.isLargeDataset = true;
             const aggregateLargeDatasetPivot = true; // TODO: set by environmental variable
@@ -170,6 +179,19 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
                 }
               });
             }
+          }
+          if (api.additionalColumns) {
+            const selectColumns = [];
+            for (const field of api.fields) {
+              if (!api.additionalColumns.includes(field.columnName)) {
+                selectColumns.push(field.columnName);
+              }
+            }
+            api.selectColumns = selectColumns;
+          }
+          //TODO: test functionality
+          if (api.apiId === 178) {
+            api.fields[2].dataType = 'SMALL_FRACTION';
           }
         }
 
@@ -300,6 +322,7 @@ const datasetPublishedReportsCustomSelectionTips = {
   '015-BFS-2014Q1-03':
     'Daily Treasury Statement reports dated before FY 1998 are grouped ' +
     'by fiscal year. Once inside the desired year, scroll to the specific month and day.',
+  '015-BFS-2014Q3-053': 'Effective Dates on Fiscal Data may differ from the published effective dates for corresponding reports on TreasuryDirect.',
 };
 
 const determineSEO = (dataset, mappedDataset) => {
@@ -311,14 +334,13 @@ const determineSEO = (dataset, mappedDataset) => {
   const mappedSeoConfig = mappedDataset && mappedDataset.seoConfig ? mappedDataset.seoConfig : JSON.parse(JSON.stringify(seoConfig));
 
   if (metadataSEOApprovedDS.some(id => dataset.datasetId === id)) {
-    // Some of the metadata fields are not SEO approved, so check to see if we set the values
+    // Some of the metadata pageTitle fields are not SEO approved, so check to see if we set the values
     // ourselves before applying the values from the metadata.
     seoConfig.pageTitle = mappedSeoConfig.pageTitle || dataset.seoConfig.pageTitle || '';
-    seoConfig.description = mappedSeoConfig.description || dataset.seoConfig.description || '';
   } else {
     seoConfig.pageTitle = mappedSeoConfig.pageTitle || '';
-    seoConfig.description = mappedSeoConfig.description || '';
   }
+  seoConfig.description = dataset.seoConfig?.description || mappedSeoConfig.description || '';
 
   return seoConfig;
 };

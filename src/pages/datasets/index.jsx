@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import dates from '../../helpers/datasets/dates';
-import BreadCrumbs from '../../components/breadcrumbs/breadcrumbs';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import { searchContainer, page_title } from './datasets.module.scss';
+import { page_title, searchContainer } from './datasets.module.scss';
 import FilterSection from '../../components/datasets/filters/filters';
 import SearchField from '../../components/datasets/search-field/search-field';
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
 import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
@@ -17,7 +16,7 @@ const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
     graphql`
       query {
-        allDatasets(filter: { apis: { elemMatch: { endpoint: { ne: "" } } } }) {
+        allDatasets {
           datasets: nodes {
             name
             datasetId
@@ -31,7 +30,6 @@ const DatasetsPage = ({ pageContext }) => {
               dataDisplays {
                 title
                 chartType
-                fields
                 dimensionField
                 filters {
                   key
@@ -53,6 +51,7 @@ const DatasetsPage = ({ pageContext }) => {
             tagLine
             publisher
             dictionary
+            hideRawDataTable
             techSpecs {
               latestDate
               earliestDate
@@ -87,6 +86,12 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
+  const [defaultDatasets, setDefaultDatasets] = useState();
+
+  useEffect(() => {
+    const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
+    setDefaultDatasets(filteredDatasets);
+  }, []);
 
   const breadCrumbLinks = [
     {
@@ -101,7 +106,7 @@ const DatasetsPage = ({ pageContext }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [innerWidth, setInnerWidth] = useState();
   const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
-  const updatedDatasets = useMetadataUpdater(datasets);
+  const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
   const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
   const fuse = new Fuse(updatedDatasets, options, searchIndex);
@@ -122,7 +127,7 @@ const DatasetsPage = ({ pageContext }) => {
   useEffect(() => {
     setFinalDatesNotFound(false);
     setTimeout(() => {
-      if (searchQuery) {
+      if (updatedDatasets && searchQuery) {
         setSearchResults(
           fuse.search(searchQuery).map(result => {
             return { ...result.item, score: result.score };
@@ -135,7 +140,7 @@ const DatasetsPage = ({ pageContext }) => {
   }, [updatedDatasets]);
 
   useEffect(() => {
-    if (searchQuery) {
+    if (updatedDatasets && searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
           return { ...result.item, score: result.score };
@@ -157,21 +162,11 @@ const DatasetsPage = ({ pageContext }) => {
 
   return (
     <SiteLayout>
-      <PageHelmet
-        pageTitle="Dataset Search"
-        description={`Explore federal financial datasets on topics such as debt, interest rates,
-          and more at Fiscal Data!`}
-        keywords={`Debt, interest rates, financial summaries, revenue, savings bonds, spending,
-          exchange rates, U.S. Treasury, datasets`}
-      />
-      <MuiThemeProvider theme={dsTheme}>
+      <ThemeProvider theme={dsTheme}>
         <div className="searchBodyBackground">
           <div className={searchContainer}>
-            <BreadCrumbs links={breadCrumbLinks} />
-            <h1 data-testid="page-title" className={page_title}>
-              Datasets
-            </h1>
-            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} />
+            <h1 className={page_title}>Datasets</h1>
+            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} isLoading={finalDatesNotFound} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}
               searchResults={searchResults}
@@ -184,9 +179,19 @@ const DatasetsPage = ({ pageContext }) => {
             />
           </div>
         </div>
-      </MuiThemeProvider>
+      </ThemeProvider>
     </SiteLayout>
   );
 };
 
 export default DatasetsPage;
+
+export const Head = () => (
+  <PageHelmet
+    pageTitle="Dataset Search"
+    description={`Explore federal financial datasets on topics such as debt, interest rates,
+          and more at Fiscal Data!`}
+    keywords={`Debt, interest rates, financial summaries, revenue, savings bonds, spending,
+          exchange rates, U.S. Treasury, datasets`}
+  />
+);

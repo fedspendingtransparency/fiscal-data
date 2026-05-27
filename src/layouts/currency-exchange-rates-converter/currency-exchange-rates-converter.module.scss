@@ -1,14 +1,9 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 :global(.infoTipPopoverContents) {
   font-size: $font-size-14;
 }
 
-.breadCrumbsContainer {
-  margin: 0 auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
 .componenentContianer {
   display: flex;
   justify-content: center;
@@ -16,33 +11,26 @@
   @media screen and (max-width: $breakpoint-lg) {
     flex-direction: column;
   }
-  }
-
-@media screen and (min-width: $breakpoint-lg) {
-  .breadCrumbsContainer {
-    max-width: calc(#{$site-content-width} + 2rem);
-    padding-left: 2rem;
-  }
 }
 
 .legalDisclaimer {
   width: 100%;
   height: 10rem;
-  background-color: #f1f1f1;
+  background-color: $body-background;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  span {
-    font-size: 1rem;
+  h2 {
+    font-size: $font-size-16;
     display: table;
-    color: #555555;
+    color: $font-title;
     padding-top: 1.8rem;
-    margin-left: 9.375rem;
+    margin: 0 0 0 9.375rem;
     font-weight: $semi-bold-weight;
   }
   p {
-    margin: 12px 9.375rem 0;
+    margin: 0.75rem 9.375rem 0;
     font-size: 0.875rem;
     max-width: 71.25rem;
     padding-bottom: 2rem;
@@ -50,10 +38,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .breadCrumbsContainer {
-    width: calc(100% - 13px);
-    padding-left: 13px;
-  }
   .legalDisclaimer {
     height: 19rem;
 
@@ -62,7 +46,7 @@
     }
 
     p {
-      margin: 20px 20px 37px 1.25rem;
+      margin: 1.25rem 1.25rem 37px 1.25rem;
     }
   }
 }

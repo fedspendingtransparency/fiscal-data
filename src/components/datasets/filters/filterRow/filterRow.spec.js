@@ -1,8 +1,8 @@
-import { renderHelper } from '../../../../helpers/renderHelper';
 import FilterRow from './filterRow';
 import React from 'react';
-import FilterCount from './filterCount/filterCount';
 import Analytics from '../../../../utils/analytics/analytics';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('filter row', () => {
   const mockChangeHandler = jest.fn();
@@ -10,10 +10,12 @@ describe('filter row', () => {
   const filterKey = 'mock key';
   const mockAnalyticsObject = {};
 
-  let component, instance, renderer, label, checkbox, filterCount;
+  afterEach(() => {
+    mockChangeHandler.mockClear();
+  });
 
-  beforeEach(() => {
-    ({ component, instance, renderer } = renderHelper(
+  it('renders a label wrapped around a checkbox', () => {
+    const { getByRole } = render(
       <FilterRow
         filterKey={filterKey}
         filterTally={{
@@ -26,94 +28,121 @@ describe('filter row', () => {
       >
         {labelText}
       </FilterRow>
-    ));
-    label = instance.findByType('label');
-    checkbox = label.findByType('input');
-    filterCount = instance.findByType(FilterCount);
-  });
-
-  afterEach(() => {
-    mockChangeHandler.mockClear();
-  });
-
-  it('renders a label wrapped around a checkbox', () => {
-    expect(label).toBeDefined();
-    expect(checkbox).toBeDefined();
-    expect(checkbox.props.type).toBe('checkbox');
-  });
-
-  it('labels the checkbox', () => {
-    expect(label.props.children).toContain(labelText);
+    );
+    expect(getByRole('checkbox', { name: labelText })).toBeInTheDocument();
   });
 
   it('calls the change handler upon initial render (at page load)', () => {
+    render(
+      <FilterRow
+        filterKey={filterKey}
+        filterTally={{
+          count: 1,
+          of: 2,
+        }}
+        currentState={false}
+        onChange={mockChangeHandler}
+        analyticsObject={mockAnalyticsObject}
+      >
+        {labelText}
+      </FilterRow>
+    );
     expect(mockChangeHandler).toHaveBeenCalledWith({
       key: filterKey,
       value: false,
     });
   });
 
-  it('calls the change handler when the value changes', () => {
+  it('calls the change handler when the value changes', async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <FilterRow
+        filterKey={filterKey}
+        filterTally={{
+          count: 1,
+          of: 2,
+        }}
+        currentState={false}
+        onChange={mockChangeHandler}
+        analyticsObject={mockAnalyticsObject}
+      >
+        {labelText}
+      </FilterRow>
+    );
+    const checkbox = getByRole('checkbox', { name: labelText });
     mockChangeHandler.mockClear();
-    renderer.act(() => {
-      checkbox.props.onChange();
-    });
-
+    await user.click(checkbox);
     expect(mockChangeHandler).toHaveBeenCalledWith({
       key: filterKey,
       value: true,
     });
   });
 
-  it('submits a tracking action when the value changes to true', () => {
-    const spy = jest.spyOn(Analytics, 'event');
-    renderer.act(() => {
-      checkbox.props.onChange();
-    });
-
-    expect(spy).toHaveBeenCalledWith({
+  it('submits a tracking action when the value changes to true', async () => {
+    const user = userEvent.setup();
+    const ananlyticsSpy = jest.spyOn(Analytics, 'event');
+    window.dataLayer = window.dataLayer || [];
+    const dataLayerSpy = jest.spyOn(window.dataLayer, 'push');
+    const { getByRole } = render(
+      <FilterRow
+        filterKey={filterKey}
+        filterTally={{
+          count: 1,
+          of: 2,
+        }}
+        currentState={false}
+        onChange={mockChangeHandler}
+        analyticsObject={mockAnalyticsObject}
+      >
+        {labelText}
+      </FilterRow>
+    );
+    const checkbox = getByRole('checkbox', { name: labelText });
+    await user.click(checkbox);
+    expect(ananlyticsSpy).toHaveBeenCalledWith({
       ...mockAnalyticsObject,
       label: labelText,
     });
-  });
-
-  it('Pushes analytics event to datalayer for GA4 for filterRow', () => {
-    window.dataLayer = window.dataLayer || [];
-    const spy = jest.spyOn(window.dataLayer, 'push');
-    renderer.act(() => {
-      checkbox.props.onChange();
-    });
-
-    expect(spy).toHaveBeenCalledWith({
+    expect(dataLayerSpy).toHaveBeenCalledWith({
       event: mockAnalyticsObject.event,
       eventLabel: labelText,
     });
   });
 
   it('reflects the parent value', () => {
-    expect(checkbox.props.checked).toBeFalsy();
+    const { getByRole } = render(
+      <FilterRow
+        filterKey={filterKey}
+        filterTally={{
+          count: 1,
+          of: 2,
+        }}
+        currentState={true}
+        onChange={mockChangeHandler}
+      >
+        {labelText}
+      </FilterRow>
+    );
+    const checkbox = getByRole('checkbox', { name: labelText });
 
-    renderer.act(() => {
-      component.update(
-        <FilterRow
-          filterKey={filterKey}
-          filterTally={{
-            count: 1,
-            of: 2,
-          }}
-          currentState={true}
-          onChange={mockChangeHandler}
-        >
-          {labelText}
-        </FilterRow>
-      );
-    });
-
-    expect(checkbox.props.checked).toBeTruthy();
+    expect(checkbox).toBeChecked();
   });
 
   it('includes the filter count component', () => {
-    expect(filterCount.props.count.count).toBeDefined();
-    expect(filterCount.props.count.of).toBeDefined();
+    const { getByTestId } = render(
+      <FilterRow
+        filterKey={filterKey}
+        filterTally={{
+          count: 1,
+          of: 2,
+        }}
+        currentState={false}
+        onChange={mockChangeHandler}
+        analyticsObject={mockAnalyticsObject}
+      >
+        {labelText}
+      </FilterRow>
+    );
+    expect(getByTestId('filter-count')).toBeInTheDocument();
   });
 });

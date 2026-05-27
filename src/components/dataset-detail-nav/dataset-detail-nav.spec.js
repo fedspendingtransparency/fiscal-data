@@ -4,6 +4,41 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import * as Scroll from 'react-scroll';
 import { activeMenu, desktopLinks } from './dataset-detail-nav.module.scss';
 
+jest.mock('react-scroll', () => ({
+  Link: ({
+           children,
+           className,
+           'data-testid': testId,
+           onClick,
+           onKeyDown,
+           onFocus,
+           onBlur,
+           onMouseEnter,
+           onMouseLeave,
+           onSetActive,
+           to,
+           tabIndex,
+         }) => (
+    <a
+      className={className}
+      data-testid={testId}
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onDoubleClick={() => onSetActive(to)}
+    >
+      {children}
+    </a>
+  ),
+  scroller: {
+    scrollTo: jest.fn(),
+  },
+}));
+
 jest.useFakeTimers();
 describe('DDNav', () => {
   it('creates desktop anchor tags within the menu', () => {
@@ -115,5 +150,34 @@ describe('DDNav', () => {
     const introductionLink = getByText('Introduction');
     fireEvent.click(introductionLink);
     expect(introductionLink).toHaveClass(desktopLinks);
+  });
+
+  it('hides api specific tabs when hideRawDataTable is true', () => {
+    const { getByText, queryByText } = render(<DDNav hideRawDataTable={true} />);
+    expect(getByText('Introduction')).toBeInTheDocument();
+    expect(queryByText('Data Preview')).not.toBeInTheDocument();
+    expect(getByText('Dataset Properties')).toBeInTheDocument();
+    expect(queryByText('API Quick Guide')).not.toBeInTheDocument();
+  });
+
+  it('updates scrollLeft to the active link offset', async () => {
+    const { getByTestId } = render(<DDNav />);
+    const nav = getByTestId('DDNavMenu').parentElement;
+    const link = getByTestId('DDNavDesktopLink0');
+    Object.defineProperty(nav, 'scrollLeft', {
+      writable: true,
+      configurable: true,
+      value: 0,
+    });
+    const activeLink = document.createElement('a');
+    Object.defineProperty(activeLink, 'offsetLeft', {
+      configurable: true,
+      value: 100,
+    });
+    jest.spyOn(nav, 'querySelector').mockReturnValue(activeLink);
+    fireEvent.doubleClick(link);
+    await waitFor(() => {
+      expect(nav.scrollLeft).toBe(100);
+    });
   });
 });

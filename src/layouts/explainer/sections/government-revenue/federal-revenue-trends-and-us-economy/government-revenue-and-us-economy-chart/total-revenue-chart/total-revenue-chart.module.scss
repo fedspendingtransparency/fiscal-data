@@ -1,22 +1,14 @@
-@import 'src/variables.module';
+@use 'src/variables.module' as *;
 
 .container {
   overflow: hidden;
 
-  .chartToggle {
-    display: flex;
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 16px;
-    justify-content: center;
-  }
+  & :global(.chartContainerChart) {
+    min-height: 20.84rem;
 
-  .toggleButton {
-    width: 50%;
-    margin-bottom: 2%;
-    cursor: pointer;
-    height: 32px;
-    border: 2px solid #0a2f5a;
+    @media screen and (min-width: $breakpoint-lg - 1) {
+      min-height: 26.96rem;
+    }
   }
 
   .lineChart {
@@ -37,6 +29,13 @@
       margin-top: 0.25rem;
     }
   }
+
+  .loadingIcon {
+    @include grayLargeLoadingIcon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media screen and (min-width: $breakpoint-lg) {
@@ -46,10 +45,6 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  :global(.chartContainerHeader) {
-    margin-top: 0.125rem;
-  }
-
   :global(.chartContainerFooter) {
     p {
       margin-top: 0.75rem;
