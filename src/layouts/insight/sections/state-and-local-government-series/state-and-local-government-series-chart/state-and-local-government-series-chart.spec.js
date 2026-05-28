@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, within } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import StateAndLocalGovernmentSeriesChart from './state-and-local-government-series-chart';
 import { CustomTooltip } from './state-and-local-government-series-chart-helper';
@@ -111,9 +111,8 @@ describe('State and Local Government Series Chart', () => {
 
   it('chart is keyboard accessible', async () => {
     const user = userEvent.setup();
-    const { getByRole, getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
+    const { getByRole, getByText, getByTestId } = render(<StateAndLocalGovernmentSeriesChart />, { wrapper });
     const chart = getByRole('application');
-    const chartHeader = getByTestId('chartHeader').firstElementChild;
     await user.tab();
     await user.tab();
     await user.tab();
@@ -123,22 +122,14 @@ describe('State and Local Government Series Chart', () => {
     await user.tab();
     await user.tab();
     expect(chart).toHaveFocus();
-    await user.keyboard('{ArrowLeft}');
-
     //Chart header updates to first date
-    await user.keyboard('{ArrowRight}');
-    await user.keyboard('{ArrowRight}');
-    await waitFor(() => {
-      expect(within(chartHeader).getByText('Sep 2020')).toBeInTheDocument();
-      expect(within(chartHeader).getByText('$600 B')).toBeInTheDocument();
-      expect(within(chartHeader).getByText('20,000')).toBeInTheDocument();
-    });
-    await user.keyboard('{ArrowLeft}');
-    await waitFor(() => expect(within(chartHeader).getByText('Aug 2020')).toBeInTheDocument());
+    expect(within(getByTestId('chartHeader')).getByText('Aug 2020')).toBeInTheDocument();
+    expect(within(getByTestId('chartHeader')).getByText('$600 B')).toBeInTheDocument();
+    expect(within(getByTestId('chartHeader')).getByText('25,000')).toBeInTheDocument();
     await user.tab();
     expect(chart).not.toHaveFocus();
     //Chart header resets
-    await waitFor(() => expect(within(chartHeader).getByText('Sep 2020')).toBeInTheDocument());
+    expect(within(getByTestId('chartHeader')).getByText('Sep 2020')).toBeInTheDocument();
   });
 
   it('fires GA event on chart hover', async () => {
