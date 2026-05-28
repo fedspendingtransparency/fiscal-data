@@ -5,8 +5,10 @@ export const socialUrls = {
   linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=`,
 };
 
-export const getLinkedInParams = (site, url, title) => {
-  return socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title);
+export const getLinkedInParams = (site, url, title, description) => {
+  const linkUrl = socialUrls[site] + encodeURIComponent(url) + '&title=' + encodeURIComponent(title) + '&summary=' + encodeURIComponent(description);
+  console.log(linkUrl);
+  return linkUrl;
 };
 
 export const getFacebookParams = (site, url) => {

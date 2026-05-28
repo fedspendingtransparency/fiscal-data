@@ -46,7 +46,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
   headerLevel = 'h3',
   explainer,
 }) => {
-  const { title, emailSubject, emailBody, url } = copy;
+  const { title, emailSubject, emailBody, url, description } = copy;
   const setModal = redirectModalState(state => state.setModal);
 
   let contentStyle = socialShareContent;
@@ -120,7 +120,7 @@ export const SocialShareComponent: FunctionComponent<ISocialShareComponent> = ({
               aria-label="linkedin"
               onClick={e => {
                 handleClick('LinkedIn');
-                openModal(e, getLinkedInParams('linkedin', url, title));
+                openModal(e, getLinkedInParams('linkedin', url, title, description));
               }}
             >
               <ShareButtonContent name="linkedin" displayStyle={displayStyle} />
