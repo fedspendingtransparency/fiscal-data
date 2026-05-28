@@ -906,4 +906,70 @@ describe('Dataset Download Service', () => {
     });
     jest.runOnlyPendingTimers();
   });
+
+  it('handles failed incomplete request while polling', async () => {
+    const setterFn = jest.fn();
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            status: 'failed',
+            status_path: 'this/isalongpath/string',
+            file_path: 'this/isanotherlongpath/string',
+            error: { code: 1234, message: 'error message' },
+          }),
+      })
+    );
+
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    downloadService.startProcessingIncompleteFileRequests(setterFn);
+    jest.runOnlyPendingTimers();
+    expect(setterFn).toHaveBeenCalled();
+  });
+
+  it('returns 404 when request token response has no status', async() => {
+    global.fetch = jest.fn(() =>
+    Promise.resolve({
+      okay: true,
+      json: () => Promise.resolve({ message: 'missing status' }),
+      })
+    );
+
+    const errorPromise = new Promise(resolve => {
+      downloadService.startPollingByRequestToken('mock-request-token').subscribe({
+        error: resolve,
+      });
+    });
+
+    jest.runOnlyPendingTimers();
+
+    const emittedError = await errorPromise;
+
+    expect(emittedError).toEqual(new Error('[object Object]'));
+  });
+
+  it('logs and returns and error when request token response is not okay', async() => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        okay: false,
+        toString: () => 'mock fetch error',
+      })
+    );
+
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const errorPromise = new Promise(resolve => {
+      downloadService.startPollingByRequestToken('mock-request-token').subscribe({
+        error: resolve,
+      });
+    });
+
+    jest.runOnlyPendingTimers();
+
+    await expect(errorPromise).resolves.toEqual(new Error('mock fetch error'));
+
+    expect(consoleErrorSpy).toHaveBeenCalled();
+  });
 });
