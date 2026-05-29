@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { MultichartRenderer } from '../../../components/charts/chart-primary/multichart-renderer';
 import { useInView } from 'react-intersection-observer';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
 
 type ChartOptions = {
   forceHeight: number;
@@ -53,9 +55,10 @@ export type MultichartProperties = {
   chartConfigs: ChartConfig[];
   chartId: string;
   hoverEffectHandler: (recordDate: string | null) => void;
+  width: number;
 };
 
-const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
+const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler, width }: MultichartProperties) => {
   const [chartRenderer, setChartRenderer] = useState(null);
   const [animateChart, setAnimateChart] = useState(false);
   const [hoverDisabled, setHoverDisabled] = useState(true);
@@ -113,6 +116,18 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
       }
     }
   }, [inView]);
+
+  useEffect(() => {
+    if (chartRenderer && chartRenderer.rendered) {
+      const isMobile = width < pxToNumber(breakpointLg);
+      chartRenderer.chartConfigs.forEach(config => {
+        if (config.data) {
+          config.options.xAxisTickValues = config.data.map(d => new Date(d[config.dateField])).filter((_, i) => (isMobile ? i % 3 === 0 : true));
+        }
+      });
+      chartRenderer.generateChart();
+    }
+  }, [width]);
 
   return (
     <>

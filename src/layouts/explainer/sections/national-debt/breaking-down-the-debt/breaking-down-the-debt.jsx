@@ -372,7 +372,7 @@ const BreakingDownTheDebt = ({ sectionId }) => {
                 </div>
               ) : (
                 <div className={`${multichartContainer} multichart-scaled`}>
-                  <Multichart chartId={multichartId} chartConfigs={multichartConfigs} hoverEffectHandler={hoverEffectHandler} />
+                  <Multichart chartId={multichartId} chartConfigs={multichartConfigs} hoverEffectHandler={hoverEffectHandler} width={width} />
                 </div>
               )}
               <div className={multichartLegend} data-testid="interest-and-debt-chart-legend">
