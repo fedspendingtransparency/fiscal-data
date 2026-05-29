@@ -498,6 +498,40 @@ describe('Dataset Download Service', () => {
     expect(console.error).toHaveBeenCalled();
   });
 
+  it('stores queued downloads in local storage', () => {
+    const download = {
+      datasetId: '123-45678',
+      requestTime: 1234567890,
+    };
+
+    localStorageHelper.get.mockReturnValue({});
+    downloadService.storeQueuedDownload(download);
+
+    expect(localStorageHelper.set).toHaveBeenCalledWith(
+      queuedKey,
+      {
+        '123-45678::1234567890': {
+          datasetId: '123-45678',
+          requestTime: 1234567890,
+          requestId: '123-45678::1234567890',
+        },
+      }
+    );
+  });
+
+  it('does not start polling when there are no in-progress requests', () => {
+    const consoleSpy = jest.spyOn(console, 'info').mockImplementation(() => {});
+    const setterFn = jest.fn();
+
+    localStorageHelper.get.mockReturnValue({});
+    downloadService.startProcessingIncompleteFileRequests(setterFn);
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'There are no in-progress download requests to check'
+    );
+    expect(setterFn).not.toHaveBeenCalled();
+  });
+
   describe('download updates via polling', () => {
     let localStorageHelper;
     const mockDataRequested = {
@@ -589,6 +623,23 @@ describe('Dataset Download Service', () => {
       jest.runOnlyPendingTimers();
       await expect(hot$).toEmit();
       expect(localStorageHelper.set.mock.calls[2][1]).toStrictEqual(expected);
+    });
+
+    it('returns unknown status when response ok value is invalid', async () => {
+      const setterFn = jest.fn();
+
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: undefined,
+          json: () => Promise.resolve({})
+        })
+      );
+      downloadService.startProcessingIncompleteFileRequests(setterFn);
+
+      jest.runOnlyPendingTimers();
+      await Promise.resolve();
+
+      expect(global.fetch).toHaveBeenCalled();
     });
   });
 
@@ -778,6 +829,37 @@ describe('Dataset Download Service', () => {
 
       await expect(hot$).toEmitValue(expectedObject);
     });
+
+    it('handles api failed messages', async () => {
+      mockWebsocket = new ReplaySubject(1)
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const requestId = downloadService.initiateDownload(
+        '123-45678',
+        ['123'],
+        { from: '2005-10-03', to: '2021-02-17' },
+        'zip'
+      );
+      mockWebsocket.next({
+        status: 'started',
+        status_path: 'test/status/path/hash/statusfile',
+      });
+      mockWebsocket.next({
+        status: 'failed',
+        apiId: '123',
+        error: {
+          code: 1234,
+          message: 'error message',
+        },
+      });
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'An error occurred while requesting table data',
+        {
+          code: 1234,
+          message: 'error message',
+        }
+      );
+      jest.runAllTimers();
+    });
   });
 
   describe('startPollingByRequestToken', () => {
@@ -798,6 +880,33 @@ describe('Dataset Download Service', () => {
 
       jest.advanceTimersByTime(30);
       await expect(hot$).toEmitValue(expectedResponse);
+    });
+
+    it('logs an error when request token response is not ok', async () => {
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: false,
+          toString: () => 'mock fetch error',
+        })
+      );
+
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+      const errorPromise = new Promise(resolve => {
+        downloadService.startPollingByRequestToken('mock-request-token').subscribe({
+          error: resolve,
+        });
+      });
+
+      jest.runOnlyPendingTimers();
+
+      const emittedError = await errorPromise;
+
+      expect(emittedError).toEqual(new Error('mock fetch error'));
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'An error occurred while checking the status of a request token.',
+        emittedError
+      );
     });
 
     it('checked repeatedly until complete', async () => {
@@ -853,5 +962,26 @@ describe('Dataset Download Service', () => {
       jest.advanceTimersByTime(30001);
       await expect(global.fetch).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('returns a 404 error when request token status response has no status', async () => {
+    const requestToken = 'mock-request-token';
+    setGlobalFetchResponse(jest, {
+      message: 'missing status',
+    });
+
+    downloadService.startPollingByRequestToken(requestToken).subscribe({
+      next: () => {
+        done.fail('Expected a 404 error');
+      },
+      error: emittedError => {
+        expect(emittedError).toStrictEqual({
+          status: 404,
+          message: 'Not Found',
+        });
+        done();
+      },
+    });
+    jest.runOnlyPendingTimers();
   });
 });
