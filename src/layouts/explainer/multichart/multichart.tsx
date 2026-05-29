@@ -3,6 +3,7 @@ import { MultichartRenderer } from '../../../components/charts/chart-primary/mul
 import { useInView } from 'react-intersection-observer';
 import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
 import { breakpointLg } from '../../../variables.module.scss';
+import { useWindowSize } from 'usehooks-ts';
 
 type ChartOptions = {
   forceHeight: number;
@@ -55,14 +56,13 @@ export type MultichartProperties = {
   chartConfigs: ChartConfig[];
   chartId: string;
   hoverEffectHandler: (recordDate: string | null) => void;
-  width: number;
 };
 
-const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler, width }: MultichartProperties) => {
+const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, chartId, hoverEffectHandler }: MultichartProperties) => {
   const [chartRenderer, setChartRenderer] = useState(null);
   const [animateChart, setAnimateChart] = useState(false);
   const [hoverDisabled, setHoverDisabled] = useState(true);
-
+  const { width } = useWindowSize();
   const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
 
@@ -117,6 +117,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   }, [inView]);
 
+  // adjusts amount of x-axis labels & re-generates the chart
   useEffect(() => {
     if (chartRenderer && chartRenderer.rendered) {
       const isMobile = width < pxToNumber(breakpointLg);
@@ -127,7 +128,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
       });
       chartRenderer.generateChart();
     }
-  }, [width]);
+  }, [width, chartRenderer]);
 
   return (
     <>
