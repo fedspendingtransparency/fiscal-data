@@ -148,7 +148,7 @@ describe('Savings Bonds by Type Over Time Chart', () => {
     );
     expect(await findByText('$125.0 B')).toBeInTheDocument();
 
-    const inflationToggle = getByRole('checkbox', { name: 'inflation toggle switch active: false' });
+    const inflationToggle = getByRole('switch', { name: 'inflation toggle switch active: false' });
     fireEvent.click(inflationToggle);
 
     expect(gaSpy).toHaveBeenCalledWith({

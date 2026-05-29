@@ -90,12 +90,6 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   }, [window.innerWidth]);
 
-  useEffect(() => {
-    if (chartRenderer) {
-      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
-    }
-  }, [chartRenderer]);
-
   const { ref: animationRef, inView } = useInView({
     threshold: 0,
     rootMargin: '-50% 0% -50% 0%',
@@ -127,6 +121,9 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
         }
       });
       chartRenderer.generateChart();
+    }
+    if (chartRenderer) {
+      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
     }
   }, [width, chartRenderer]);
 
