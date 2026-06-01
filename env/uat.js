@@ -37,7 +37,7 @@ module.exports = {
         keywords: 'Financial Summaries, Revenue, Spending',
       },
       topics: ['financial-summaries', 'revenue', 'spending'],
-      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03'],
+      relatedDatasets: ['015-BFS-2014Q1-13', '015-BFS-2014Q1-03', '015-BFS-2026Q1-002'],
       hideRawDataTable: true,
     },
   },
