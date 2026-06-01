@@ -1,6 +1,7 @@
 const { freshTopics } = require('./src/transform/topics-config');
 const { freshExplainerPages } = require('./src/transform/explainer-pages-config');
 const { freshInsightPages } = require('./src/transform/insight-pages-config');
+const { freshFeaturedContentPages } = require('./src/transform/featured-content-pages-config');
 const { getEndpointConfigsById } = require('./src/transform/endpointConfig');
 const { sortPublishers } = require('./src/transform/filters/filterDefinitions');
 let { filters } = require('./src/transform/filters/filterDefinitions');
@@ -172,6 +173,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   const topics = freshTopics();
   const explainerPages = freshExplainerPages();
   const insightPages = freshInsightPages();
+  const featuredContentPages = freshFeaturedContentPages();
 
   const getDatasetConfig = dataset => {
     const allColumnNames = [];
@@ -263,6 +265,20 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       children: [],
       internal: {
         type: `Insights`,
+      },
+    };
+    node.internal.contentDigest = createContentDigest(node);
+    createNode(node);
+  });
+
+  featuredContentPages.forEach(featuredContentPage => {
+    featuredContentPage.id = createNodeId(featuredContentPage.slug);
+    const node = {
+      ...featuredContentPage,
+      parent: null,
+      children: [],
+      internal: {
+        type: `FeatureContent`,
       },
     };
     node.internal.contentDigest = createContentDigest(node);
@@ -570,6 +586,11 @@ exports.createSchemaCustomization = ({ actions }) => {
       seoConfig: SEOConfig,
       breadCrumbLinkName: String
     }
+     type FeaturedContent implements Node {
+      pageName: String,
+      seoConfig: SEOConfig,
+      breadCrumbLinkName: String
+    }
     type BLSPublicAPIData implements Node {
       year: String,
       period: String,
@@ -833,6 +854,23 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           }
         }
       }
+      allFeaturedContent {
+        featuredContent: nodes {
+          pageName
+          slug
+          seoConfig {
+            pageTitle
+            description
+            keywords
+          }
+          prodReady
+          breadCrumbLinkName
+          heroImage {
+            heading
+            subHeading
+          }
+        }
+      }
       allCpi100Csv {
         cpi100Csv: nodes {
           year
@@ -1057,6 +1095,21 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           breadCrumbLinkName: insight.breadCrumbLinkName,
           seoConfig: insight.seoConfig,
           heroImage: insight.heroImage,
+        },
+      });
+    }
+  });
+  result.data.allFeaturedContent.featuredContent.forEach(featuredPage => {
+    if (ENV_ID !== 'production' || featuredPage.prodReady) {
+      createPage({
+        path: featuredPage.slug,
+        matchPath: `${featuredPage.slug}*`,
+        component: path.resolve('./src/layouts/featured-content/featured-content.tsx'),
+        context: {
+          pageName: featuredPage.pageName,
+          breadCrumbLinkName: featuredPage.breadCrumbLinkName,
+          seoConfig: featuredPage.seoConfig,
+          heroImage: featuredPage.heroImage,
         },
       });
     }
