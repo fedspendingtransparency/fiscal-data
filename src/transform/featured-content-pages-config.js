@@ -20,8 +20,8 @@ const featuredContentRegistry = {
       subHeading: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
     },
     image: {
-      imageRefDesktop: '/images/feature_placeholder.png',
-      imageRefMobile: '/images/feature_placeholder.png',
+      imageRefDesktop: '/images/story-of-data-transparency.png',
+      imageRefMobile: '/images/story-of-data-transparency.png',
       altText: 'The Story of Data Transparency',
     },
     colors: {
@@ -42,7 +42,7 @@ const featuredContentRegistry = {
         'over time! This short piece highlights the roots of financial transparency and the ways that Fiscal ' +
         'Data has continued to advance government transparency. ',
       url: envBaseUrl + '/featured-content/story-of-data-transparency/',
-      image: envBaseUrl + '/images/feature_placeholder.png',
+      image: envBaseUrl + '/images/story-of-data-transparency.png',
     },
     links: {
       exploreMore: [
@@ -67,12 +67,12 @@ const featuredContentRegistry = {
       ],
       discoverDatasets: [
         {
-          text: 'Interest Expense on the Debt Outstanding',
-          url: '/datasets/interest-expense-debt-outstanding/interest-expense-on-the-public-debt-outstanding',
+          text: 'Combined Statement',
+          url: '/datasets/combined-statement',
         },
         {
-          text: 'Average Interest Rates on U.S. Treasury Securities',
-          url: '/datasets/average-interest-rates-treasury-securities/average-interest-rates-on-u-s-treasury-securities',
+          text: 'Account of Receipts and Expenditures',
+          url: '/datasets/account-of-receipts-and-expenditures',
         },
         {
           text: 'Monthly Treasury Statement (MTS)',

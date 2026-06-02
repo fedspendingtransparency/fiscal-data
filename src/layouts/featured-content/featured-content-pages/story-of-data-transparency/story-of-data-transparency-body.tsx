@@ -23,7 +23,7 @@ export const StoryOfDataTransparencyBody = (): ReactElement => {
         public Money shall be published from time to time.” This became one of the first public financial reports, with the{' '}
         {accountsOfReceiptsAndExpendituresDataset} of the United States published from 1793 through 1890. In these historical files, now available on
         Fiscal Data, you can see the transfer of funds from the “Revolutionary Government”, the first expenses for the United States Navy, payments
-        from the Louisianna Purchase, and spending on costs for civil goods such as hospitals, roads, and light houses.{' '}
+        from the Louisiana Purchase, and spending on costs for civil goods such as hospitals, roads, and light houses.{' '}
       </p>
       <p>
         Over time, both the volume of financial reports and the standards and requirements for when and how the government tracked its finances
