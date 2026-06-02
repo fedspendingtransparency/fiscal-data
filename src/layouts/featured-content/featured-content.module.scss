@@ -72,12 +72,20 @@
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .featuredContentContainer {
-    margin: 0 10px 4rem;
+  .pageContent {
+    left: 0;
+    padding: 0 0.75rem;
+    flex-direction: column;
   }
+
+  .socialShareMobile {
+    margin: 1rem 0 2.875rem 0;
+  }
+
   .contentContainer {
     .mainContent {
       margin-right: 0;
+      width: 100%;
     }
     flex-direction: column;
   }
