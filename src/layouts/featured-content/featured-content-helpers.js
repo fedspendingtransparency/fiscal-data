@@ -49,7 +49,7 @@ const featuredContentCitations = page => {
     combinedStatementDataset: (
       <CustomLink
         url="/datasets/combined-statement"
-        id="USAspending.gov"
+        id="The Combined Statement of Receipts, Outlays, and Balances"
         onClick={() => analyticsEventHandler(page, 'The Combined Statement of Receipts, Outlays, and Balances')}
       >
         The Combined Statement of Receipts, Outlays, and Balances
