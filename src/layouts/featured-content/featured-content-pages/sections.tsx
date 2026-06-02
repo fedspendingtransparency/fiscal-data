@@ -1,4 +1,4 @@
-import storyOfDataTransparency from './featured-content-pages/story-of-data-transparency';
+import storyOfDataTransparency from './story-of-data-transparency/story-of-data-transparency';
 
 export const featuredContentSections = {
   'story-of-data-transparency': storyOfDataTransparency,

@@ -11,7 +11,8 @@ type FeaturedContentImageProps = {
 const breakpointLarge = 992;
 
 const FeaturedContentImage = ({ imageRefDesktop, imageRefMobile, altText }: FeaturedContentImageProps): JSX.Element => {
-  const [imageRef, setImageRef] = useState('');
+  const windowSize = useWindowSize();
+  const [imageRef, setImageRef] = useState(imageRefDesktop);
 
   useEffect(() => {
     if (window.screen) {
@@ -21,7 +22,7 @@ const FeaturedContentImage = ({ imageRefDesktop, imageRefMobile, altText }: Feat
         setImageRef(imageRefDesktop);
       }
     }
-  }, [useWindowSize()]);
+  }, [imageRefDesktop, imageRefMobile, windowSize]);
 
   return <img src={imageRef} alt={altText} className={image} data-testid="featured-content-image" />;
 };

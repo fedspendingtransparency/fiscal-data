@@ -19,14 +19,7 @@ import GlossaryProvider from '../../components/glossary/glossary-context/glossar
 import FeaturedContentHero from './hero-image/featured-content-hero';
 import FeaturedContentImage from './feature-content-image/feature-content-image';
 import { featuredContentSections } from './featured-content-pages/sections';
-import {
-  discoverDatasetsCitationsMap,
-  exploreMoreCitationsMap,
-  featuredContentColorMap,
-  featuredContentImageMap,
-  featuredContentPageName,
-  featuredContentSocialShareMap,
-} from './featured-content-helpers';
+import { getFeaturedContentPage } from '../../transform/featured-content-pages-config';
 
 interface IFeaturedContentSection {
   component: ReactElement;
@@ -35,8 +28,13 @@ interface IFeaturedContentSection {
 
 const FeaturedContentPageLayout = ({ pageContext }) => {
   const { pageName, heroImage } = pageContext;
-  const image = featuredContentImageMap[pageName];
-  const colors = featuredContentColorMap[pageName] || {};
+  const featuredContentPage = getFeaturedContentPage(pageName);
+  const colors = featuredContentPage?.colors || {};
+  const image = featuredContentPage?.image;
+  const pageTitle = featuredContentPage?.title;
+  const socialShare = featuredContentPage?.socialShare;
+  const exploreMoreCitations = featuredContentPage?.links?.exploreMore || [];
+  const discoverDatasetsCitations = featuredContentPage?.links?.discoverDatasets || [];
 
   return (
     <GlossaryProvider>
@@ -45,12 +43,7 @@ const FeaturedContentPageLayout = ({ pageContext }) => {
           <FeaturedContentHero heading={heroImage.heading} primaryColor={colors.primary} secondaryColor={colors.secondary} />
           <div className={pageContent}>
             <div data-testid="social-share-mobile" className={socialShareMobile}>
-              <SocialShare
-                copy={featuredContentSocialShareMap[pageName]}
-                pageName={featuredContentPageName[pageName]}
-                headerLevel="h2"
-                displayStyle="responsive"
-              />
+              <SocialShare copy={socialShare} pageName={pageTitle} headerLevel="h2" displayStyle="responsive" />
             </div>
             <div className={contentContainer}>
               <div className={mainContent}>
@@ -71,19 +64,10 @@ const FeaturedContentPageLayout = ({ pageContext }) => {
               </div>
               <aside className={relatedContent}>
                 <div data-testid="social-share-desktop" className={socialShareDesktop}>
-                  <SocialShare
-                    copy={featuredContentSocialShareMap[pageName]}
-                    pageName={featuredContentPageName[pageName]}
-                    headerLevel="h2"
-                    displayStyle="responsive"
-                  />
+                  <SocialShare copy={socialShare} pageName={pageTitle} headerLevel="h2" displayStyle="responsive" />
                 </div>
-                <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={featuredContentPageName[pageName]} />
-                <CitationList
-                  header="Discover Datasets"
-                  citations={discoverDatasetsCitationsMap[pageName]}
-                  pageName={featuredContentPageName[pageName]}
-                />
+                <CitationList header="Explore More" citations={exploreMoreCitations} pageName={pageTitle} />
+                <CitationList header="Discover Datasets" citations={discoverDatasetsCitations} pageName={pageTitle} />
               </aside>
             </div>
           </div>
@@ -97,6 +81,7 @@ export default FeaturedContentPageLayout;
 
 export const Head = ({ pageContext }) => {
   const { seoConfig, pageName } = pageContext;
+  const featuredContentPage = getFeaturedContentPage(pageName);
 
   return (
     <>
@@ -104,7 +89,7 @@ export const Head = ({ pageContext }) => {
         pageTitle={seoConfig.pageTitle}
         description={seoConfig.description}
         keywords={seoConfig.keywords}
-        socialShare={featuredContentSocialShareMap[pageName]}
+        socialShare={featuredContentPage?.socialShare}
       />
     </>
   );
