@@ -3,76 +3,89 @@ import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import {
   contentContainer,
-  featureContentContainer,
+  featuredContentContainer,
   mainContent,
+  pageContent,
   relatedContent,
   sectionContainer,
-  sectionHeading,
   socialShareDesktop,
   socialShareMobile,
   subTitle,
+  rectangleBar,
 } from './featured-content.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import CitationList from '../../components/citation-list/citation-list';
-import InsightsImage from '../../components/insights-image/insights-image';
 import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
+import FeaturedContentHero from './hero-image/featured-content-hero';
+import FeaturedContentImage from './feature-content-image/feature-content-image';
 import { featuredContentSections } from './featured-content-pages/sections';
 import {
   discoverDatasetsCitationsMap,
   exploreMoreCitationsMap,
+  featuredContentColorMap,
   featuredContentImageMap,
   featuredContentPageName,
   featuredContentSocialShareMap,
 } from './featured-content-helpers';
 
-interface IFeatureContentSection {
+interface IFeaturedContentSection {
   component: ReactElement;
   index: number;
 }
 
-const FeatureContentPageLayout = ({ pageContext }) => {
+const FeaturedContentPageLayout = ({ pageContext }) => {
   const { pageName, heroImage } = pageContext;
   const image = featuredContentImageMap[pageName];
+  const colors = featuredContentColorMap[pageName] || {};
 
   return (
     <GlossaryProvider>
       <SiteLayout isPreProd={false}>
-        <div className={featureContentContainer}>
-          <h1 className={sectionHeading}>{heroImage.heading}</h1>
-          {image && <InsightsImage imageRefDesktop={image.imageRefDesktop} imageRefMobile={image.imageRefMobile} altText={image.altText} />}
-          {heroImage.subHeading !== '' && <h2 className={subTitle}>{heroImage.subHeading}</h2>}
-          <div data-testid="social-share-mobile" className={socialShareMobile}>
-            <SocialShare
-              copy={featuredContentSocialShareMap[pageName]}
-              pageName={featuredContentPageName[pageName]}
-              headerLevel="h2"
-              displayStyle="responsive"
-            />
-          </div>
-          <div className={contentContainer}>
-            <div className={mainContent}>
-              {featuredContentSections[pageName]?.map((section: IFeatureContentSection) => (
-                <React.Fragment key={section.index}>
-                  <section className={sectionContainer}>{section.component}</section>
-                </React.Fragment>
-              ))}
-            </div>
-            <aside className={relatedContent}>
-              <div data-testid="social-share-desktop" className={socialShareDesktop}>
-                <SocialShare
-                  copy={featuredContentSocialShareMap[pageName]}
-                  pageName={featuredContentPageName[pageName]}
-                  headerLevel="h2"
-                  displayStyle="responsive"
-                />
-              </div>
-              <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={featuredContentPageName[pageName]} />
-              <CitationList
-                header="Discover Datasets"
-                citations={discoverDatasetsCitationsMap[pageName]}
+        <div className={featuredContentContainer}>
+          <FeaturedContentHero heading={heroImage.heading} primaryColor={colors.primary} secondaryColor={colors.secondary} />
+          <div className={pageContent}>
+            <div data-testid="social-share-mobile" className={socialShareMobile}>
+              <SocialShare
+                copy={featuredContentSocialShareMap[pageName]}
                 pageName={featuredContentPageName[pageName]}
+                headerLevel="h2"
+                displayStyle="responsive"
               />
-            </aside>
+            </div>
+            <div className={contentContainer}>
+              <div className={mainContent}>
+                {image && (
+                  <FeaturedContentImage imageRefDesktop={image.imageRefDesktop} imageRefMobile={image.imageRefMobile} altText={image.altText} />
+                )}
+                <div className={rectangleBar} style={{ backgroundColor: colors.primary }} />
+                {heroImage.subHeading !== '' && (
+                  <h2 className={subTitle} style={{ color: colors.primary }}>
+                    {heroImage.subHeading}
+                  </h2>
+                )}
+                {featuredContentSections[pageName]?.map((section: IFeaturedContentSection) => (
+                  <React.Fragment key={section.index}>
+                    <section className={sectionContainer}>{section.component}</section>
+                  </React.Fragment>
+                ))}
+              </div>
+              <aside className={relatedContent}>
+                <div data-testid="social-share-desktop" className={socialShareDesktop}>
+                  <SocialShare
+                    copy={featuredContentSocialShareMap[pageName]}
+                    pageName={featuredContentPageName[pageName]}
+                    headerLevel="h2"
+                    displayStyle="responsive"
+                  />
+                </div>
+                <CitationList header="Explore More" citations={exploreMoreCitationsMap[pageName]} pageName={featuredContentPageName[pageName]} />
+                <CitationList
+                  header="Discover Datasets"
+                  citations={discoverDatasetsCitationsMap[pageName]}
+                  pageName={featuredContentPageName[pageName]}
+                />
+              </aside>
+            </div>
           </div>
         </div>
       </SiteLayout>
@@ -80,7 +93,7 @@ const FeatureContentPageLayout = ({ pageContext }) => {
   );
 };
 
-export default FeatureContentPageLayout;
+export default FeaturedContentPageLayout;
 
 export const Head = ({ pageContext }) => {
   const { seoConfig, pageName } = pageContext;

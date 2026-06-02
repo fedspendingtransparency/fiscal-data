@@ -278,7 +278,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       parent: null,
       children: [],
       internal: {
-        type: `FeatureContent`,
+        type: `FeaturedContent`,
       },
     };
     node.internal.contentDigest = createContentDigest(node);

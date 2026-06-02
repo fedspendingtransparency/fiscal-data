@@ -11,11 +11,16 @@ export const featuredContentPageName = {
 
 export const featuredContentImageMap = {
   'story-of-data-transparency': {
-    image: 'static/image/feature_placeholder.png',
+    imageRefDesktop: '/images/feature_placeholder.png',
     altText: 'this is alt text',
   },
 };
-
+export const featuredContentColorMap = {
+  'story-of-data-transparency': {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+};
 export const featuredContentSocialShareMap = {
   'story-of-data-transparency': {
     title: 'The Story of Data Transparency',

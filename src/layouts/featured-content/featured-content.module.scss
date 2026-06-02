@@ -1,12 +1,24 @@
 @use '../../variables.module.scss' as *;
 
-$link-container-width: 20rem;
-
-.featureContentContainer {
-  margin: 0 auto 4rem;
+.featuredContentContainer {
   display: flex;
-  max-width: 1140px;
   flex-direction: column;
+}
+
+.pageContent {
+  width: 100%;
+  max-width: 71.25rem;
+  box-sizing: border-box;
+  margin: 0 auto 4rem;
+  left: 18rem;
+  display: flex;
+  position: relative;
+}
+.rectangleBar {
+  width: 7rem;
+  border-radius: 0.125rem;
+  height: 0.5rem;
+  margin-bottom: 2rem;
 }
 
 .sectionHeading {
@@ -14,7 +26,7 @@ $link-container-width: 20rem;
   font-weight: $light-weight;
   font-size: $font-size-32;
   color: $font-title;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }
 
 .subTitle {
@@ -31,13 +43,7 @@ $link-container-width: 20rem;
     display: flex;
     flex-direction: column;
     margin-right: 4rem;
-
-    h2 {
-      color: $font-body-copy;
-      font-weight: $semi-bold-weight;
-      font-size: $font-size-16;
-      display: inline;
-    }
+    width: 34.375rem;
 
     .sectionContainer {
       margin-bottom: 1.5rem;
@@ -45,7 +51,7 @@ $link-container-width: 20rem;
   }
 
   .relatedContent {
-    min-width: $link-container-width;
+    width: 16.125rem;
   }
 }
 .socialShareDesktop {
@@ -56,7 +62,7 @@ $link-container-width: 20rem;
 }
 @media screen and (min-width: $breakpoint-lg) {
   .sectionHeading {
-    max-width: calc(100% - $link-container-width);
+    max-width: calc(100% - 16.125rem);
   }
   .socialShareDesktop {
     display: block;
@@ -67,7 +73,7 @@ $link-container-width: 20rem;
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
-  .featureContentContainer {
+  .featuredContentContainer {
     margin: 0 10px 4rem;
   }
   .contentContainer {

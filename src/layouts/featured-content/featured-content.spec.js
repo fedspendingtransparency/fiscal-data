@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, within } from '@testing-library/react';
-import FeatureContentPageLayout from './feature-content';
+import FeaturedContentPageLayout from './featured-content';
 import { useStaticQuery } from 'gatsby';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -26,7 +26,7 @@ jest.mock('../../variables.module.scss', () => {
   };
 });
 
-describe('Feature Content Template', () => {
+describe('Featured Content Template', () => {
   const queryClient = new QueryClient();
 
   const wrapper = ({ children }) => (
@@ -47,7 +47,7 @@ describe('Feature Content Template', () => {
     heading: 'mock heading',
     subHeading: 'mock subtitle',
   };
-  const pageName = 'sample-feature';
+  const pageName = 'story-of-data-transparency';
 
   const mockPageContext = {
     pageName,
@@ -55,13 +55,15 @@ describe('Feature Content Template', () => {
     heroImage,
   };
 
-  it('renders the feature content page heading, subtitle, and sidebar links', async () => {
-    const { findByRole, getByTestId } = render(<FeatureContentPageLayout pageContext={mockPageContext} />, {
+  it('renders the featured content page heading, subtitle, and sidebar links', async () => {
+    const { findByRole, getByTestId } = render(<FeaturedContentPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 
     const sectionHeading = await findByRole('heading', { name: 'mock heading' });
     expect(sectionHeading).toBeInTheDocument();
+
+    expect(getByTestId('hero-border')).toBeInTheDocument();
 
     const subTitle = await findByRole('heading', { name: 'mock subtitle' });
     expect(subTitle).toBeInTheDocument();
@@ -77,7 +79,7 @@ describe('Feature Content Template', () => {
   });
 
   it('does not render a Data Sources and Methodologies section', async () => {
-    const { findByRole, queryByRole } = render(<FeatureContentPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, queryByRole } = render(<FeaturedContentPageLayout pageContext={mockPageContext} />, {
       wrapper,
     });
 
