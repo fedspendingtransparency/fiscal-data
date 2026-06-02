@@ -86,6 +86,14 @@
     .mainContent {
       margin-right: 0;
       width: 100%;
+
+      .sectionContainer {
+        margin-bottom: 0;
+      }
+    }
+
+    .relatedContent {
+      width: 100%;
     }
     flex-direction: column;
   }
