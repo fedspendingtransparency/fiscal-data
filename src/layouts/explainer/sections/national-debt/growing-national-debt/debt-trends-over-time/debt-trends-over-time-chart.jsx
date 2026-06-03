@@ -242,7 +242,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                       tickSize: 6,
                       tickPadding: 8,
                       tickRotation: 0,
-                      tickValues: width < pxToNumber(breakpointLg) ? [1940, 1970, 2000, 2030] : 9,
+                      tickValues: width < pxToNumber(breakpointLg) ? [1940, 1955, 1970, 1985, 2000, 2015, 2030] : 9,
                     }}
                     axisLeft={{
                       format: formatPercentage,
