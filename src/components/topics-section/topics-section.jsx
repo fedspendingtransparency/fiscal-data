@@ -41,18 +41,21 @@ export const TopicsSection = ({ images, width }) => {
                   );
                 })}
               </Stack>
+              <div className={line} />
+              <div className={sectionHeader}>TOOLS</div>
+              <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
             </Grid>
             <Grid container size={{ lg: secondaryWidth }}>
               <div className={insightsSectionContainer}>
+                <div className={sectionHeader}>FEATURED CONTENT</div>
+                <HomePageTile content={pageTileMap['story-of-data-transparency']} images={images} rightTile />
+                <div className={line} />
                 <div className={sectionHeader}>FEATURED TOPICS</div>
                 <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
                 <div className={line} />
                 <HomePageTile content={pageTileMap['interest-expense']} images={images} rightTile />
                 <div className={line} />
                 <HomePageTile content={pageTileMap['savings-bonds']} images={images} rightTile />
-                <div className={line} />
-                <div className={sectionHeader}>TOOLS</div>
-                <HomePageTile content={pageTileMap['currency-exchange-rates']} images={images} rightTile />
               </div>
             </Grid>
           </Grid>
