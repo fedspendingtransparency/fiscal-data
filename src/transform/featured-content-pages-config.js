@@ -47,7 +47,7 @@ const featuredContentRegistry = {
     links: {
       exploreMore: [
         {
-          text: 'Government Spending Open Data | USAspending ',
+          text: 'Government Spending Open Data | USAspending',
           url: 'https://www.usaspending.gov/featured-content/data-you-can-trust/the-story-of-spending-transparency',
           external: true,
         },
