@@ -49,10 +49,10 @@ const featuredContentCitations = page => {
     combinedStatementDataset: (
       <CustomLink
         url="/datasets/combined-statement"
-        id="The Combined Statement of Receipts, Outlays, and Balances"
-        onClick={() => analyticsEventHandler(page, 'The Combined Statement of Receipts, Outlays, and Balances')}
+        id="Combined Statement of Receipts, Outlays, and Balances"
+        onClick={() => analyticsEventHandler(page, 'Combined Statement of Receipts, Outlays, and Balances')}
       >
-        The Combined Statement of Receipts, Outlays, and Balances
+        Combined Statement of Receipts, Outlays, and Balances
       </CustomLink>
     ),
     monthlyTreasuryStatementDataset: (
@@ -102,7 +102,7 @@ const featuredContentCitations = page => {
         id="National Deficit"
         onClick={() => analyticsEventHandler('National Deficit', 'Debt Citation Click')}
       >
-        deficits
+        deficit
       </CustomLink>
     ),
   };

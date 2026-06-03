@@ -34,8 +34,8 @@ const featuredContentRegistry = {
         'U.S. Government financial transparency was established in the Constitution. ' +
         'Learn more about how transparency has evolved to get us where we are today.',
       body:
-        "Check out @FiscalService Fiscal Data's new topic page exploring interest expense and average interest rates on the " +
-        'national debt! #FiscalData #InterestExpense',
+        'Curious how federal financial transparency has changed since America’s founding? Check out this new piece from @FiscalService ' +
+        'Fiscal Data! #DataTransparency #OpenData ',
       emailSubject: 'The Story of Federal Financial Data Transparency',
       emailBody:
         "Check out Fiscal Data's new feature on how federal financial transparency has grown and evolved " +
