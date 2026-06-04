@@ -9,9 +9,13 @@ interface ICustomBarShape {
   y: number;
   x: number;
   payload;
-  dataKey: string;
+  dataKey;
   focusedYear: string | number | null;
+  handleFocus?: () => void;
+  revealProgress?: number;
 }
+
+const axisMaxTrillions = 40;
 
 const getBarSizes = (width, totalBars) => {
   if (width && totalBars) {
@@ -24,7 +28,7 @@ const getBarSizes = (width, totalBars) => {
   return { barWidth: 0, gapWidth: 0 };
 };
 
-const CustomBarShape: FunctionComponent<ICustomBarShape> = ({ height, width, y, x, payload, dataKey, focusedYear }) => {
+const CustomBarShape: FunctionComponent<ICustomBarShape> = ({ height, width, y, x, payload, dataKey, focusedYear, revealProgress = 1 }) => {
   const { year } = payload;
   const { barWidth, gapWidth } = getBarSizes(width, payload[dataKey]);
   /*
@@ -79,22 +83,29 @@ const CustomBarShape: FunctionComponent<ICustomBarShape> = ({ height, width, y, 
     }
     allBars.push({ x: xVal, width: barWidth * deficitBars, color: deficitExplainerPrimary });
 
+    const pixelsPerTrillion = payload[dataKey] ? width / payload[dataKey] : 0;
+    const revealX = x + revealProgress * pixelsPerTrillion * axisMaxTrillions;
+
     return (
       <>
-        {allBars.map((val, index) => (
-          <rect
-            key={index}
-            y={y}
-            height={height}
-            width={val.width}
-            x={val.x}
-            fill={val.color}
-            fillOpacity={1}
-            opacity={getOpacity(focusedYear, year)}
-            aria-hidden={true}
-            data-testid="barSegment"
-          />
-        ))}
+        {allBars.map((val, index) => {
+          const revealedWidth = Math.min(val.width, revealX - val.x);
+          if (revealedWidth <= 0) return null;
+          return (
+            <rect
+              key={index}
+              y={y}
+              height={height}
+              width={revealedWidth}
+              x={val.x}
+              fill={val.color}
+              fillOpacity={1}
+              opacity={getOpacity(focusedYear, year)}
+              aria-hidden={true}
+              data-testid="barSegment"
+            />
+          );
+        })}
       </>
     );
   }

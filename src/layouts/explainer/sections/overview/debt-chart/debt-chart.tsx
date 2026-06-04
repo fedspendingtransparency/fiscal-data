@@ -20,6 +20,7 @@ const AFGDebtChart = (): ReactElement => {
   const [isLoading, setLoading] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
+  const [revealProgress, setRevealProgress] = useState(0);
 
   const ariaLabel =
     'A chart demonstrating the total debt as it accumulated to ' +
@@ -48,7 +49,7 @@ const AFGDebtChart = (): ReactElement => {
             stackId="debtBar"
             barSize={16}
             isAnimationActive={false}
-            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} />}
+            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} revealProgress={revealProgress} />}
           />
         </g>
       );
@@ -108,6 +109,29 @@ const AFGDebtChart = (): ReactElement => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (isLoading || !finalChartData) return;
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setRevealProgress(1);
+      return;
+    }
+    const duration = 1000; // ms
+    let frame: number;
+    let start: number;
+    const tick = (timestamp: number) => {
+      if (start === undefined) start = timestamp;
+      const elapsed = timestamp - start;
+      const t = Math.min(elapsed / duration, 1);
+      // easeOutCubic for a natural decelerating sweep
+      const eased = 1 - Math.pow(1 - t, 3);
+      if (isMounted.current) setRevealProgress(eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [isLoading, finalChartData]);
 
   return (
     <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
