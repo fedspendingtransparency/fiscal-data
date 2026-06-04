@@ -3,7 +3,15 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePageTile from './homepage-tile/homepage-tile';
-import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsGrid, topicsSectionContainer } from './topics-section.module.scss';
+import {
+  insightsSectionContainer,
+  line,
+  sectionHeader,
+  tileContainer,
+  topicsGrid,
+  topicsSectionContainer,
+  thickLine,
+} from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
@@ -41,7 +49,7 @@ export const TopicsSection = ({ images, width }) => {
                   );
                 })}
               </Stack>
-              <div className={line} />
+              <div className={thickLine} />
               <div className={sectionHeader}>TOOLS</div>
               <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
             </Grid>
@@ -49,7 +57,7 @@ export const TopicsSection = ({ images, width }) => {
               <div className={insightsSectionContainer}>
                 <div className={sectionHeader}>FEATURED CONTENT</div>
                 <HomePageTile content={pageTileMap['story-of-data-transparency']} images={images} rightTile />
-                <div className={line} />
+                <div className={thickLine} />
                 <div className={sectionHeader}>FEATURED TOPICS</div>
                 <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
                 <div className={line} />
