@@ -213,7 +213,7 @@ export const pageTileMap = {
   'story-of-data-transparency': {
     title: 'The Story of Data Transparency',
     body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
-    altText: 'Savings bonds, including Series H and Series EE, surrounding the text “Fiscal Data Explains: Savings Bonds.”',
+    altText: 'The Story of Data Transparency',
     desktopImage: 'story-of-data-transparency',
     mobileImage: 'story-of-data-transparency',
     path: 'featured-content/story-of-data-transparency/',
