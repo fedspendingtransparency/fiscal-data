@@ -8,7 +8,7 @@ import { deficitExplainerPrimary } from '../../national-deficit/national-deficit
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
-import { debtEndpointUrl, deficitEndpointUrl, legendItems, tickCountXAxis } from './debt-chart-helper';
+import { debtEndpointUrl, deficitEndpointUrl, getMaxTrillions, getXAxisTicks, legendItems } from './debt-chart-helper';
 import CustomBarShape from './custom-bar-shape/custom-bar-shape';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 
@@ -29,7 +29,7 @@ const AFGDebtChart = (): ReactElement => {
     'and the deficit for each year as an orange highlight against the yearly purple bars in order to represent the ' +
     'relationship between the two concepts.';
 
-  const generateBar = sortedData => {
+  const generateBar = (sortedData, axisMax) => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
       const handleFocus = () => {
@@ -49,7 +49,9 @@ const AFGDebtChart = (): ReactElement => {
             stackId="debtBar"
             barSize={16}
             isAnimationActive={false}
-            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} revealProgress={revealProgress} />}
+            shape={props => (
+              <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} revealProgress={revealProgress} axisMax={axisMax} />
+            )}
           />
         </g>
       );
@@ -112,12 +114,13 @@ const AFGDebtChart = (): ReactElement => {
 
   useEffect(() => {
     if (isLoading || !finalChartData) return;
+
     const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
       setRevealProgress(1);
       return;
     }
-    const duration = 1000; // ms
+    const duration = 1600; // ms
     let frame: number;
     let start: number;
     const tick = (timestamp: number) => {
@@ -132,6 +135,9 @@ const AFGDebtChart = (): ReactElement => {
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, [isLoading, finalChartData]);
+
+  const xAxisTicks = getXAxisTicks(getMaxTrillions(finalChartData));
+  const axisMax = xAxisTicks[xAxisTicks.length - 1];
 
   return (
     <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
@@ -172,12 +178,12 @@ const AFGDebtChart = (): ReactElement => {
                 <XAxis
                   tickMargin={6}
                   type="number"
-                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountXAxis)}
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, xAxisTicks.length)}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
-                  tickCount={tickCountXAxis}
-                  ticks={[0, 10, 20, 30, 40]}
+                  tickCount={xAxisTicks.length}
+                  ticks={xAxisTicks}
                 />
                 <YAxis
                   dataKey="year"
@@ -188,7 +194,7 @@ const AFGDebtChart = (): ReactElement => {
                   tickCount={5}
                   tickMargin={8}
                 />
-                {generateBar(finalChartData)}
+                {generateBar(finalChartData, axisMax)}
                 <Tooltip
                   wrapperStyle={{ visibility: 'visible' }}
                   content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} customData={customTooltipData} />}
