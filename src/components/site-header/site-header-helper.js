@@ -46,6 +46,16 @@ export const menuSections = [
           },
         ],
       },
+      {
+        header: "FEATURED CONTENT",
+        analyticsAction: 'Topics Click',
+        children: [
+          {
+            to: '/featured-content/story-of-data-transparency/',
+            title: 'The Story of Data Transparency',
+          },
+        ],
+      },
     ],
   },
   {
