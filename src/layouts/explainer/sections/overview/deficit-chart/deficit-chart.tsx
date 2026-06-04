@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState, useRef } from 'react';
 import { Line, XAxis, YAxis, LineChart, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit/national-deficit.module.scss';
 import { spendingExplainerPrimary } from '../../federal-spending/federal-spending.module.scss';
@@ -6,12 +6,15 @@ import { revenueExplainerPrimary } from '../../government-revenue/revenue.module
 import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg } from './deficit-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
-import CustomDotNoAnimation from './custom-dot/custom-dot';
 import ChartLegend from '../chart-components/chart-legend';
 import { trillionAxisFormatter } from '../chart-helper';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+
+// TODO:
+//   -Trigger animation only when chart comes into view
+//   -update test coverage if needed
 
 const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const isMounted = useIsMounted();
@@ -22,6 +25,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const [isLoading, setLoading] = useState(true);
   const [highlightIndex, setHighlightIndex] = useState(null);
   const [chartFocus, setChartFocus] = useState(false);
+  const [animationProgress, setAnimationProgress] = useState(0);
+  const animationRef = useRef(null);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -108,6 +113,74 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
     });
   }, []);
 
+  useEffect(() => {
+    if (finalChartData && animationProgress === 0) {
+      const duration = 5000;
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        if (isMounted.current) {
+          setAnimationProgress(easedProgress);
+        }
+        if (progress < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
+      };
+      animationRef.current = requestAnimationFrame(animate);
+      return () => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      };
+    }
+  }, [finalChartData]);
+
+  const AnimatedLineSegment = props => {
+    const { points, stroke, strokeWidth, strokeOpacity, r } = props;
+    if (!points || points.length < 2) return null;
+    const [start, end] = points;
+
+    const midX = (start.x + end.x) / 2;
+    const animatedStartX = midX + (start.x - midX) * animationProgress;
+    const animatedEndX = midX + (end.x - midX) * animationProgress;
+
+    const year = start.payload?.year;
+    const dotOpacity = focusedYear === year || focusedYear === null ? 1 : 0.5;
+
+    return (
+      <>
+        <line x1={animatedStartX} y1={start.y} x2={animatedEndX} y2={end.y} stroke={stroke} strokeWidth={strokeWidth} strokeOpacity={strokeOpacity} />
+        <circle fill="white" r={3} strokeWidth={4} stroke="white" cx={animatedStartX} cy={start.y} />
+        <circle
+          fill={revenueExplainerPrimary}
+          r={4}
+          strokeWidth={2}
+          stroke="transparent"
+          strokeOpacity={0}
+          fillOpacity={dotOpacity}
+          cx={animatedStartX}
+          cy={start.y}
+          data-testid="customDot"
+        />
+        <circle fill="white" r={3} strokeWidth={4} stroke="white" cx={animatedEndX} cy={start.y} />
+        <circle
+          fill={spendingExplainerPrimary}
+          r={4}
+          strokeWidth={2}
+          stroke="transparent"
+          strokeOpacity={0}
+          fillOpacity={dotOpacity}
+          cx={animatedEndX}
+          cy={start.y}
+          data-testid="customDot"
+        />
+      </>
+    );
+  };
+
   return (
     <figure className={deficitChart} data-testid="AFGDeficitChart" role="figure" aria-label={ariaLabel}>
       <div className={chartTitle}>Deficit: FYTD {currentFY ?? '--'} and Last 4 Years in Trillions of USD</div>
@@ -169,7 +242,8 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       stroke={year.data[0].surplus ? surplusPrimary : deficitExplainerPrimary}
                       strokeWidth={4}
                       strokeOpacity={focusedYear === year.data[0].year || focusedYear === null ? 1 : 0.5}
-                      dot={<CustomDotNoAnimation focusedYear={focusedYear} />}
+                      dot={false}
+                      shape={<AnimatedLineSegment />}
                       isAnimationActive={false}
                       activeDot={false}
                       tabIndex={0}

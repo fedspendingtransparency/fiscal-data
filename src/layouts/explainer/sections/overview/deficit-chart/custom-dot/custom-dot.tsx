@@ -1,3 +1,4 @@
+// Component currently not in use after changes from FDG-11670
 import React, { FunctionComponent } from 'react';
 import { spendingExplainerPrimary } from '../../../federal-spending/federal-spending.module.scss';
 import { revenueExplainerPrimary } from '../../../government-revenue/revenue.module.scss';
