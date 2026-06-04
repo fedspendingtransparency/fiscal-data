@@ -47,6 +47,14 @@ $max-img-width-desktop: 48.219rem;
     border-bottom: solid 1px #d8d8d8;
     bottom: 0.5rem;
   }
+
+  .thickLine {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: solid 6px #d8d8d8;
+    bottom: 0.5rem;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
@@ -67,6 +75,14 @@ $max-img-width-desktop: 48.219rem;
       width: 100%;
       margin: 1rem 0;
       border-bottom: solid 1px #d8d8d8;
+      bottom: 0.5rem;
+    }
+
+    .thickLine {
+      width: 100%;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      border-bottom: solid 6px #d8d8d8;
       bottom: 0.5rem;
     }
 
