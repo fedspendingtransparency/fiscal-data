@@ -10,7 +10,6 @@ import {
   tileContainer,
   topicsGrid,
   topicsSectionContainer,
-  thickLine,
 } from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -49,7 +48,7 @@ export const TopicsSection = ({ images, width }) => {
                   );
                 })}
               </Stack>
-              <div className={thickLine} />
+              <div className={line} />
               <div className={sectionHeader}>TOOLS</div>
               <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
             </Grid>
@@ -57,7 +56,7 @@ export const TopicsSection = ({ images, width }) => {
               <div className={insightsSectionContainer}>
                 <div className={sectionHeader}>FEATURED CONTENT</div>
                 <HomePageTile content={pageTileMap['story-of-data-transparency']} images={images} rightTile />
-                <div className={thickLine} />
+                <div className={line} />
                 <div className={sectionHeader}>FEATURED TOPICS</div>
                 <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
                 <div className={line} />
