@@ -19,7 +19,7 @@ import GlossaryProvider from '../../components/glossary/glossary-context/glossar
 import FeaturedContentHero from './hero-image/featured-content-hero';
 import FeaturedContentImage from './feature-content-image/feature-content-image';
 import { featuredContentSections } from './featured-content-pages/sections';
-import { getFeaturedContentPage } from '../../transform/featured-content-pages-config';
+import { getFeaturedContentPage } from './featured-content-helpers';
 
 interface IFeaturedContentSection {
   component: ReactElement;
