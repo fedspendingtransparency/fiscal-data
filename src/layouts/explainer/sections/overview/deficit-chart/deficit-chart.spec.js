@@ -1,11 +1,13 @@
 import DeficitChart from './deficit-chart';
 import { fireEvent, render, waitFor } from '@testing-library/react';
+import { useInView } from 'react-intersection-observer';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import {
   afgOverviewDeficitChart_surplus,
   understandingDeficitMatchers,
 } from '../../../explainer-helpers/national-deficit/national-deficit-test-helper';
+
 describe('AFG Deficit Chart', () => {
   class ResizeObserver {
     observe() {}
@@ -77,5 +79,71 @@ describe('AFG Deficit Chart with Surplus Year', () => {
     const { findByText } = render(<DeficitChart />);
 
     expect(await findByText('Deficit: FYTD 2021', { exact: false })).toBeInTheDocument();
+  });
+});
+
+jest.mock('react-intersection-observer');
+
+describe('Animation useEffect functionality', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
+
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    setGlobalFetchMatchingResponse(jest, understandingDeficitMatchers);
+
+    // Mock useInView to return inView: true
+    useInView.mockReturnValue({
+      ref: jest.fn(),
+      inView: true,
+    });
+  });
+
+  afterEach(() => {
+    jest.resetModules();
+    global.fetch.mockReset();
+    jest.clearAllMocks();
+  });
+
+  it('executes animation logic', async () => {
+    let animationCallback;
+
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
+      animationCallback = callback;
+      return 1;
+    });
+
+    const { findByTestId } = render(<DeficitChart />);
+    await findByTestId('chartContainer');
+    await waitFor(() => {
+      expect(window.requestAnimationFrame).toHaveBeenCalled();
+    });
+    if (animationCallback) {
+      animationCallback();
+    }
+    expect(animationCallback).toBeDefined();
+  });
+
+  it('executes animation cleanup on unmount', async () => {
+    let animationCallback;
+    const cancelSpy = jest.spyOn(window, 'cancelAnimationFrame');
+
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
+      animationCallback = callback;
+      return 777;
+    });
+
+    const { findByTestId, unmount } = render(<DeficitChart />);
+    await findByTestId('chartContainer');
+
+    await waitFor(() => {
+      expect(window.requestAnimationFrame).toHaveBeenCalled();
+    });
+    unmount();
+    expect(cancelSpy).toHaveBeenCalledWith(777);
   });
 });
