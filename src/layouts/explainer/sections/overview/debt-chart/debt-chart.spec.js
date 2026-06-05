@@ -4,6 +4,11 @@ import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import { mockDebtChartResponseMap } from '../../../explainer-helpers/afg-overview-test-helper';
 import userEvent from '@testing-library/user-event';
+import { useInView } from 'react-intersection-observer';
+
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn(),
+}));
 
 jest.mock('recharts', () => {
   const RechartsModule = jest.requireActual('recharts');
@@ -28,12 +33,14 @@ describe('AFG Debt Chart', () => {
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
     setGlobalFetchMatchingResponse(jest, mockDebtChartResponseMap);
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
     jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.resetModules();
     global.fetch.mockReset();
+    jest.useRealTimers();
   });
 
   it('renders chart container with mouse events', async () => {
@@ -62,5 +69,13 @@ describe('AFG Debt Chart', () => {
     expect(bars[0]).toHaveFocus();
     await user.tab();
     expect(bars[1]).toHaveFocus();
+  });
+
+  it('does not start the reveal animation before the chart is in view', async () => {
+    useInView.mockReturnValue({ ref: jest.fn(), inView: false });
+    const { findByTestId, queryAllByTestId } = render(<DebtChart />);
+
+    expect(await findByTestId('chartContainer')).toBeInTheDocument();
+    expect(queryAllByTestId('barSegment')).toHaveLength(0);
   });
 });
