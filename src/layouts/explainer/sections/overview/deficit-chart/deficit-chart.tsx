@@ -13,8 +13,6 @@ import { useIsMounted } from '../../../../../utils/useIsMounted';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
 import { useInView } from 'react-intersection-observer';
 
-// TODO: Disable tooltip hover while animation is in progress
-
 const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const isMounted = useIsMounted();
   const [focusedYear, setFocusedYear] = useState(null);
