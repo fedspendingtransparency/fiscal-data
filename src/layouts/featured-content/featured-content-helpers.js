@@ -1,8 +1,89 @@
+import { BASE_URL } from 'gatsby-env-variables';
 import Analytics from '../../utils/analytics/analytics';
 import CustomLink from '../../components/links/custom-link/custom-link';
 import React from 'react';
 
-export { featuredContentRegistry, getFeaturedContentPage } from '../../transform/featured-content-pages-config';
+const envBaseUrl = BASE_URL || '';
+
+// Runtime page data (display, social share, side links). One object per featured
+// content page — to add a page, add an export here and register it in
+// featuredContentPages below. Build-time config (slug/seo/heroImage) lives in
+// src/transform/featured-content-pages-config.js so gatsby-node's bootstrap never
+// pulls in gatsby-env-variables. This mirrors the insight-helpers.js split.
+export const storyOfDataTransparency = {
+  title: 'The Story of Data Transparency',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: '/images/story-of-data-transparency.png',
+    imageRefMobile: '/images/story-of-data-transparency.png',
+    altText: 'The Story of Data Transparency',
+  },
+  socialShare: {
+    title: 'The Story of Data Transparency',
+    description:
+      'U.S. Government financial transparency was established in the Constitution. ' +
+      'Learn more about how transparency has evolved to get us where we are today.',
+    body:
+      'Curious how federal financial transparency has changed since America’s founding? Check out this new piece from @FiscalService ' +
+      'Fiscal Data! #DataTransparency #OpenData ',
+    emailSubject: 'The Story of Federal Financial Data Transparency',
+    emailBody:
+      "Check out Fiscal Data's new feature on how federal financial transparency has grown and evolved " +
+      'over time! This short piece highlights the roots of financial transparency and the ways that Fiscal ' +
+      'Data has continued to advance government transparency. ',
+    url: envBaseUrl + '/featured-content/story-of-data-transparency/',
+    image: envBaseUrl + '/images/story-of-data-transparency.png',
+  },
+  links: {
+    exploreMore: [
+      {
+        text: 'Government Spending Open Data | USAspending',
+        url: 'https://www.usaspending.gov/featured-content/data-you-can-trust/the-story-of-spending-transparency',
+        external: true,
+      },
+      {
+        text: "Preserving America's Story | USAspending",
+        url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
+        external: true,
+      },
+      {
+        text: 'Understanding the National Debt',
+        url: '/americas-finance-guide/national-debt/',
+      },
+      {
+        text: 'National Deficit',
+        url: '/americas-finance-guide/national-deficit/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Combined Statement',
+        url: '/datasets/combined-statement',
+      },
+      {
+        text: 'Account of Receipts and Expenditures',
+        url: '/datasets/account-of-receipts-and-expenditures',
+      },
+      {
+        text: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      },
+      {
+        text: 'Monthly Statement of the Public Debt (MSPD)',
+        url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
+      },
+    ],
+  },
+};
+
+const featuredContentPages = {
+  'story-of-data-transparency': storyOfDataTransparency,
+};
+
+export const getFeaturedContentPage = pageName => featuredContentPages[pageName];
 
 export const analyticsEventHandler = (pageName, eventLabel, eventAction = 'Citation Click') => {
   Analytics.event({
