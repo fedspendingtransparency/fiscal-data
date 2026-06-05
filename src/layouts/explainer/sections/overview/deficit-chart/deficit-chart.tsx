@@ -253,7 +253,9 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       activeDot={false}
                       tabIndex={0}
                       onFocus={() => {
+                        // if (animationProgress === 1) {
                         setChartFocus(true);
+                        // }
                         setHighlightIndex(index);
                       }}
                     />
@@ -265,7 +267,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                   isAnimationActive={false}
                   allowEscapeViewBox={width > pxToNumber(breakpointLg) ? { x: true } : { y: true }}
                   defaultIndex={highlightIndex}
-                  active={chartFocus}
+                  active={chartFocus && animationProgress === 1}
                 />
               </LineChart>
             </ResponsiveContainer>
