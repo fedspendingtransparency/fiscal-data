@@ -5,11 +5,6 @@ import React from 'react';
 
 const envBaseUrl = BASE_URL || '';
 
-// Runtime page data (display, social share, side links). One object per featured
-// content page — to add a page, add an export here and register it in
-// featuredContentPages below. Build-time config (slug/seo/heroImage) lives in
-// src/transform/featured-content-pages-config.js so gatsby-node's bootstrap never
-// pulls in gatsby-env-variables. This mirrors the insight-helpers.js split.
 export const storyOfDataTransparency = {
   title: 'The Story of Data Transparency',
   colors: {
