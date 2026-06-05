@@ -235,7 +235,7 @@ const ComboSelectDropdown = ({
               />
             </div>
           )}
-          <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]}>
+          <ScrollContainer deps={[filteredOptions, selectedOption, filterValue]} bottomGradient>
             {noResults ? (
               <div className={noMatch}>
                 No match for <span className={unmatchedTerm}>'{filterValue}'</span>. Please revise your search and try again.
