@@ -180,7 +180,7 @@ const BreakingDownTheDebt = ({ sectionId }) => {
               const xAxisTickValues = [];
               for (let i = 0, il = response.data.length; i < il; i += 1) {
                 const tickValue = new Date(response.data[i][chartConfig.dateField]);
-                xAxisTickValues.push(tickValue);
+                xAxisTickValues.push(tickValue); // all tick values added as xAxis labels
               }
               chartConfig.options.xAxisTickValues = xAxisTickValues;
               chartConfig.data = response.data;

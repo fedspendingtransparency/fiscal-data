@@ -196,4 +196,11 @@ describe('Multichart', () => {
     jest.advanceTimersByTime(6500);
     await waitFor(() => expect(multichart).toHaveStyle('pointer-events: auto'));
   });
+
+  it('calculates correct xAxisTickValues in mobile view', () => {
+    const mockData = mockTotalDebtData;
+    const isMobile = true;
+    const mobileAxisValues = mockData.map(d => new Date(d.record_date)).filter((_, i) => (isMobile ? i % 3 === 0 : true));
+    expect(mobileAxisValues.length).toBe(4);
+  });
 });

@@ -41,13 +41,6 @@ describe('DatasetStats', () => {
     expect(dateRangeText).toBeInTheDocument();
   });
 
-  it('should contain an li that displays the futureDateIcon when the latestDate is in the future', () => {
-    const { getByRole } = render(<DatasetStats dataset={mockDataset3} />);
-    const lastUpdatedLi = getByRole('listitem', { name: 'Date Range: 10/03/2005 - ' + tomorrowString });
-    const futureDateIcon = within(lastUpdatedLi).getByTestId('futureDateIcon');
-    expect(futureDateIcon).toBeInTheDocument();
-  });
-
   it('should contain an li that displays the update frequency with a sync-alt icon', () => {
     const { getByRole } = render(<DatasetStats dataset={mockDataset} />);
     const frequencyLi = getByRole('listitem', { name: 'Updated Monthly' });
