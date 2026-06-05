@@ -11,9 +11,12 @@ import { useIsMounted } from '../../../../../utils/useIsMounted';
 import { debtEndpointUrl, deficitEndpointUrl, getMaxTrillions, getXAxisTicks, legendItems } from './debt-chart-helper';
 import CustomBarShape from './custom-bar-shape/custom-bar-shape';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useInView } from 'react-intersection-observer';
+import { chartInViewProps } from '../chart-helper';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
+  const { ref, inView } = useInView(chartInViewProps);
   const [focusedYear, setFocusedYear] = useState<string | number>(null);
   const [currentFY, setCurrentFY] = useState<string>(null);
   const [finalChartData, setFinalChartData] = useState(null);
@@ -113,7 +116,7 @@ const AFGDebtChart = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    if (isLoading || !finalChartData) return;
+    if (isLoading || !finalChartData || !inView) return;
 
     const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) {
@@ -134,13 +137,13 @@ const AFGDebtChart = (): ReactElement => {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [isLoading, finalChartData]);
+  }, [isLoading, finalChartData, inView]);
 
   const xAxisTicks = getXAxisTicks(getMaxTrillions(finalChartData));
   const axisMax = xAxisTicks[xAxisTicks.length - 1];
 
   return (
-    <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel} ref={ref}>
       <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
