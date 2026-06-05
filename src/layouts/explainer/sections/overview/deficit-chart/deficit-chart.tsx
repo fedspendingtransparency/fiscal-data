@@ -7,14 +7,13 @@ import { chartContainer, chartTitle, surplusPrimary, deficitChart, breakpointLg 
 import { apiPrefix, basicFetch } from '../../../../../utils/api-utils';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import ChartLegend from '../chart-components/chart-legend';
-import { trillionAxisFormatter } from '../chart-helper';
+import { trillionAxisFormatter, chartInViewProps } from '../chart-helper';
 import { pxToNumber } from '../../../../../helpers/styles-helper/styles-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useInView } from 'react-intersection-observer';
 
-// TODO:
-//   -Trigger animation only when chart comes into view
-//   -update test coverage if needed
+// TODO: Disable tooltip hover while animation is in progress
 
 const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const isMounted = useIsMounted();
@@ -27,6 +26,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   const [chartFocus, setChartFocus] = useState(false);
   const [animationProgress, setAnimationProgress] = useState(0);
   const animationRef = useRef(null);
+  const { ref: deficitRef, inView: deficitInView } = useInView(chartInViewProps);
 
   const revenueEndpointUrl = '/v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830&sort=-record_date';
   const spendingEndpointUrl = '/v1/accounting/mts/mts_table_5?filter=line_code_nbr:eq:5691&sort=-record_date';
@@ -114,7 +114,11 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   }, []);
 
   useEffect(() => {
-    if (finalChartData && animationProgress === 0) {
+    console.log('deficit in view: ', deficitInView);
+    console.log('fire mark 1');
+    // only animate if data is in, animation is at 0 (has not happened), and the chart is in full view
+    if (finalChartData && animationProgress === 0 && deficitInView) {
+      console.log('fire mark 2');
       const duration = 5000;
       const startTime = Date.now();
 
@@ -136,7 +140,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
         }
       };
     }
-  }, [finalChartData]);
+  }, [finalChartData, deficitInView]);
 
   const AnimatedLineSegment = props => {
     const { points, stroke, strokeWidth, strokeOpacity, r } = props;
@@ -189,6 +193,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
         <>
           <ChartLegend legendItems={legendItems} mobileDotSpacing={false} />
           <div
+            ref={deficitRef}
             className={chartContainer}
             data-testid="chartContainer"
             onMouseEnter={() => setChartFocus(true)}

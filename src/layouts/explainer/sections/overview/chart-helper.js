@@ -28,3 +28,9 @@ export const longVersionMonth = month => {
   };
   return monthNames[month];
 };
+
+export const chartInViewProps = {
+  threshold: 1,
+  triggerOnce: true,
+  rootMargin: '0px',
+};
