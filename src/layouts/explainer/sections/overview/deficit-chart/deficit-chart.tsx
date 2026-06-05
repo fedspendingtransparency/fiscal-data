@@ -250,9 +250,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
                       activeDot={false}
                       tabIndex={0}
                       onFocus={() => {
-                        // if (animationProgress === 1) {
                         setChartFocus(true);
-                        // }
                         setHighlightIndex(index);
                       }}
                     />
