@@ -1,6 +1,9 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { MultichartRenderer } from '../../../components/charts/chart-primary/multichart-renderer';
 import { useInView } from 'react-intersection-observer';
+import { pxToNumber } from '../../../helpers/styles-helper/styles-helper';
+import { breakpointLg } from '../../../variables.module.scss';
+import { useWindowSize } from 'usehooks-ts';
 
 type ChartOptions = {
   forceHeight: number;
@@ -59,7 +62,7 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
   const [chartRenderer, setChartRenderer] = useState(null);
   const [animateChart, setAnimateChart] = useState(false);
   const [hoverDisabled, setHoverDisabled] = useState(true);
-
+  const { width } = useWindowSize();
   const itemRef = useRef();
   // you can access the elements with itemsRef.current[n]
 
@@ -87,12 +90,6 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
     }
   }, [window.innerWidth]);
 
-  useEffect(() => {
-    if (chartRenderer) {
-      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
-    }
-  }, [chartRenderer]);
-
   const { ref: animationRef, inView } = useInView({
     threshold: 0,
     rootMargin: '-50% 0% -50% 0%',
@@ -113,6 +110,22 @@ const Multichart: FunctionComponent<MultichartProperties> = ({ chartConfigs, cha
       }
     }
   }, [inView]);
+
+  // adjusts amount of x-axis labels & re-generates the chart
+  useEffect(() => {
+    if (chartRenderer && chartRenderer.rendered) {
+      const isMobile = width < pxToNumber(breakpointLg);
+      chartRenderer.chartConfigs.forEach(config => {
+        if (config.data) {
+          config.options.xAxisTickValues = config.data.map(d => new Date(d[config.dateField])).filter((_, i) => (isMobile ? i % 3 === 0 : true));
+        }
+      });
+      chartRenderer.generateChart();
+    }
+    if (chartRenderer) {
+      chartRenderer.addAccessibilityLayer(hoverEffectHandler);
+    }
+  }, [width, chartRenderer]);
 
   return (
     <>
