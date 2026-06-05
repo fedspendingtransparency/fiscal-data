@@ -11,6 +11,12 @@ export const monthAxisFormatter = month => {
   return months.includes(month) ? month : '';
 };
 
+export const chartInViewProps = {
+  threshold: 1,
+  triggerOnce: true,
+  rootMargin: '0px',
+};
+
 export const longVersionMonth = month => {
   const monthNames = {
     Jan: 'January',
