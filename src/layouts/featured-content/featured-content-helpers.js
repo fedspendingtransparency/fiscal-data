@@ -67,8 +67,8 @@ export const storyOfDataTransparency = {
         url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
       },
       {
-        text: 'Monthly Statement of the Public Debt (MSPD)',
-        url: '/datasets/monthly-statement-public-debt/summary-of-treasury-securities-outstanding',
+        text: 'Historical Debt Outstanding',
+        url: '/datasets/historical-debt-outstanding/historical-debt-outstanding',
       },
     ],
   },
