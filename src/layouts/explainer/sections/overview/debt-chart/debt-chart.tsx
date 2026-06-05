@@ -141,6 +141,7 @@ const AFGDebtChart = (): ReactElement => {
 
   const xAxisTicks = getXAxisTicks(getMaxTrillions(finalChartData));
   const axisMax = xAxisTicks[xAxisTicks.length - 1];
+  const animationComplete = revealProgress >= 1;
 
   return (
     <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel} ref={ref}>
@@ -204,7 +205,7 @@ const AFGDebtChart = (): ReactElement => {
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
                   isAnimationActive={false}
-                  active={chartFocus}
+                  active={chartFocus && animationComplete}
                 />
               </BarChart>
             </ResponsiveContainer>
