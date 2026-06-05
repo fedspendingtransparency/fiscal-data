@@ -1,12 +1,20 @@
 import DeficitChart from './deficit-chart';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import { useInView } from 'react-intersection-observer';
 import React from 'react';
 import { setGlobalFetchMatchingResponse } from '../../../../../utils/mock-utils';
 import {
   afgOverviewDeficitChart_surplus,
   understandingDeficitMatchers,
 } from '../../../explainer-helpers/national-deficit/national-deficit-test-helper';
+
+jest.mock('react-intersection-observer', () => ({
+  useInView: jest.fn(() => ({
+    ref: jest.fn(),
+    inView: false,
+  })),
+}));
+
+import { useInView } from 'react-intersection-observer';
 
 describe('AFG Deficit Chart', () => {
   class ResizeObserver {
@@ -64,11 +72,11 @@ describe('AFG Deficit Chart with Surplus Year', () => {
     jest.resetModules();
     global.fetch.mockReset();
   });
+
   it('adds surplus to legend if any surplus years are included', async () => {
-    const { findByText, findByTestId, getByTestId } = render(<DeficitChart />);
+    const { findByText } = render(<DeficitChart />);
     const fetchSpy = jest.spyOn(global, 'fetch');
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-
     expect(await findByText('Spending')).toBeInTheDocument();
     expect(await findByText('Revenue')).toBeInTheDocument();
     expect(await findByText('Deficit')).toBeInTheDocument();
@@ -77,12 +85,9 @@ describe('AFG Deficit Chart with Surplus Year', () => {
 
   it('renders chart title', async () => {
     const { findByText } = render(<DeficitChart />);
-
     expect(await findByText('Deficit: FYTD 2021', { exact: false })).toBeInTheDocument();
   });
 });
-
-jest.mock('react-intersection-observer');
 
 describe('Animation useEffect functionality', () => {
   class ResizeObserver {
