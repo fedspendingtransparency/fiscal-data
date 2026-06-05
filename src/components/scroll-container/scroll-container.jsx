@@ -43,6 +43,7 @@ const ScrollContainer = ({
   useEffect(() => {
     const scrollContainer = document.querySelector(`[data-testid=${dataTestId}]`);
     if (scrollContainer) {
+      handleScroll(scrollContainer);
       scrollContainer.addEventListener('scroll', () => handleScroll(scrollContainer), { passive: true });
 
       return () => {
