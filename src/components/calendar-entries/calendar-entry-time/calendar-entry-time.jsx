@@ -1,25 +1,28 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { convertDateAndTimeToDateTime } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
+import { convertDateAndTimeToUTCDate, getLocalTimeZone } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
+import { toZonedTime } from 'date-fns-tz';
 import { getMinutes, getHours, format } from 'date-fns';
 
 const CalendarEntryTime = ({ dateString, timeInUTC }) => {
   const [timeDisplay, setTimeDisplay] = useState();
 
-  const generalTimeWindow = etTime => {
-    if (getMinutes(etTime) !== 59) {
-      return `${format(etTime, 'h:mm aaa')}`;
+  const generalTimeWindow = localTime => {
+    if (getMinutes(localTime) !== 59) {
+      return `${format(localTime, 'h:mm aaa')}`;
     }
 
-    if (getHours(etTime) < 12) return 'Morning';
-    if (getHours(etTime) < 16) return 'Afternoon';
+    if (getHours(localTime) < 12) return 'Morning';
+    if (getHours(localTime) < 16) return 'Afternoon';
     return 'Evening';
   };
 
   const calculateTime = (dateString, timeStringInUTC) => {
-    const etTime = convertDateAndTimeToDateTime(dateString, timeStringInUTC);
+    // Convert the UTC instant to the viewer's local timezone for display.
+    const utcTime = convertDateAndTimeToUTCDate(dateString, timeStringInUTC);
+    const localTime = toZonedTime(utcTime, getLocalTimeZone());
 
-    return generalTimeWindow(etTime);
+    return generalTimeWindow(localTime);
   };
 
   useEffect(() => {

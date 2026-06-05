@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
+import * as sortHelper from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
@@ -13,6 +14,14 @@ describe('Calendar Entry', () => {
     time: '1300',
     url: '/test-dataset-url/',
   };
+
+  beforeAll(() => {
+    jest.spyOn(sortHelper, 'getLocalTimeZone').mockReturnValue('America/New_York');
+  });
+
+  afterAll(() => {
+    sortHelper.getLocalTimeZone.mockRestore();
+  });
 
   it('renders a calendar entry with the correct title, date, time and status', () => {
     render(<CalendarEntry dataset={dataset} />);
