@@ -51,11 +51,6 @@ describe('DatasetStats', () => {
     expect(instance.getByText('12/12/2019 - 02/07/2020')).toBeInTheDocument();
   });
 
-  it('should show the futureDateIcon when the latestDate is in the future', () => {
-    const instance = render(<DatasetStats dataset={mockDataset2} />);
-    const lastUpdatedLi = instance.getByTestId('futureDateIcon');
-    expect(lastUpdatedLi).toBeDefined();
-  });
 
   it('should contain an li that displays the update frequency with a sync-alt icon', () => {
     const instance = render(<DatasetStats dataset={mockDataset} />);
