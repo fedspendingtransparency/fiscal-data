@@ -126,7 +126,7 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
 
         if (section.isExperimental) {
           return (
-            <Experimental featureId={'featured-content'} key={index}>
+            <Experimental featureId={section.featureId} key={index}>
               {sectionContent}
             </Experimental>
           );
