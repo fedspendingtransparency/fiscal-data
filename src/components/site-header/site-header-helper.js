@@ -47,7 +47,8 @@ export const menuSections = [
         ],
       },
       {
-        header: "FEATURED CONTENT",
+        header: 'FEATURED CONTENT',
+        isExperimental: true,
         analyticsAction: 'Topics Click',
         children: [
           {

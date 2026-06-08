@@ -48,7 +48,7 @@ export const TopicsSection = ({ images, width }) => {
             </Grid>
             <Grid container size={{ lg: secondaryWidth }}>
               <div className={insightsSectionContainer}>
-                <Experimental>
+                <Experimental featureId="featured-content">
                   <div className={sectionHeader}>FEATURED CONTENT</div>
                   <HomePageTile content={pageTileMap['story-of-data-transparency']} images={images} rightTile />
                   <div className={line} />
