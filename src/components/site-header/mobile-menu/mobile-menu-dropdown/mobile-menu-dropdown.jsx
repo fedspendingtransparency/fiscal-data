@@ -112,11 +112,7 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
             </div>
           );
           if (section.isExperimental) {
-            return (
-              <Experimental featureId={section.featureId} key={`${header}-${section.sectionHeader}`}>
-                {sectionContent}
-              </Experimental>
-            );
+            return <Experimental featureId={section.featureId}>{sectionContent}</Experimental>;
           }
 
           return sectionContent;

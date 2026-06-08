@@ -125,14 +125,10 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
         );
 
         if (section.isExperimental) {
-          return (
-            <Experimental featureId={section.featureId} key={index}>
-              {sectionContent}
-            </Experimental>
-          );
+          return <Experimental featureId={section.featureId}>{sectionContent}</Experimental>;
         }
 
-        return <React.Fragment key={index}>{sectionContent}</React.Fragment>;
+        return sectionContent;
       });
     }
 
