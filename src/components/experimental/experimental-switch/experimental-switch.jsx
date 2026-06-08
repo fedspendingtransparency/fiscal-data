@@ -7,7 +7,6 @@ import { siteContext } from '../../persist/persist';
 
 const ExperimentalSwitch = () => {
   const isLowerEnvironment = ENV_ID !== 'production';
-  console.log('isLowerEnv? ', isLowerEnvironment);
   const { showExperimentalFeatures, setShowExperimentalFeatures } = useContext(siteContext);
 
   const handleChange = () => {
