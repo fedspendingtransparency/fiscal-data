@@ -20,6 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import Analytics from '../../../utils/analytics/analytics';
 import CustomLink from '../../links/custom-link/custom-link';
+import Experimental from '../../experimental/experimental';
 
 const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClickHandler, analyticsClickHandler }) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -100,27 +101,35 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
 
   const childLayout = () => {
     if (content.children[0].children) {
-      return content.children.map((section, index) => (
-        <div className={dropdownRow} key={index}>
-          <div className={dropdownColumnOne}>
-            <div className={dropdownTitle}>{section.header}</div>
-            <div>
-              {section.children.map(page => (
-                <div key={page.title} className={dropdownListItem}>
-                  <Link
-                    to={page.to}
-                    activeClassName={activeDropdownLink}
-                    onClick={() => handlePageClick(title, page.title)}
-                    style={getMinWidth(page.title)}
-                  >
-                    {page.title}
-                  </Link>
-                </div>
-              ))}
+      return content.children.map((section, index) => {
+        const sectionContent = (
+          <div className={dropdownRow} key={index}>
+            <div className={dropdownColumnOne}>
+              <div className={dropdownTitle}>{section.header}</div>
+              <div>
+                {section.children.map(page => (
+                  <div key={page.title} className={dropdownListItem}>
+                    <Link
+                      to={page.to}
+                      activeClassName={activeDropdownLink}
+                      onClick={() => handlePageClick(title, page.title)}
+                      style={getMinWidth(page.title)}
+                    >
+                      {page.title}
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      ));
+        );
+
+        if (section.isExperimental) {
+          return <Experimental featureId={section.featureId}>{sectionContent}</Experimental>;
+        }
+
+        return sectionContent;
+      });
     }
 
     return (

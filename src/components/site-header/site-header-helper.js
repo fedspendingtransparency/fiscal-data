@@ -47,8 +47,10 @@ export const menuSections = [
         ],
       },
       {
-        header: "FEATURED CONTENT",
+        header: 'FEATURED CONTENT',
         analyticsAction: 'Topics Click',
+        isExperimental: true,
+        featureId: 'featured-content',
         children: [
           {
             to: '/featured-content/story-of-data-transparency/',
