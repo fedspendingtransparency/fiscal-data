@@ -28,7 +28,7 @@ describe('Calendar Entry', () => {
 
     expect(screen.getByTestId('title').textContent).toEqual('Test name');
     expect(screen.getByTestId('date').textContent).toEqual('01/01/2000');
-    expect(screen.getByTestId('time').textContent).toEqual('8:00 am EST');
+    expect(screen.getByTestId('time').textContent).toEqual('8:00 am (EST)');
     expect(screen.getByTestId('updated-text').textContent).toEqual('Not Released');
   });
 
@@ -42,7 +42,7 @@ describe('Calendar Entry', () => {
     render(<CalendarEntry dataset={modifiedDataset} />);
 
     expect(screen.getByTestId('date').textContent).toEqual('01/19/2022');
-    expect(screen.getByTestId('time').textContent).toEqual('7:00 pm EST');
+    expect(screen.getByTestId('time').textContent).toEqual('7:00 pm (EST)');
   });
 
   it('navigates to the dataset detail page when clicked on', () => {
