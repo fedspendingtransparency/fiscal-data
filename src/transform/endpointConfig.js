@@ -2993,6 +2993,10 @@ const endpointConfig = {
   322: {
     endpoint: '',
   },
+  // Combined Statement
+  '327': {
+    endpoint: '',
+  },
   //Account of Receipts & Expenditures
   328: {
     endpoint: '',
