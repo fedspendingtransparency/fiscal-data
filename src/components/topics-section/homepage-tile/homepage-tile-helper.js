@@ -210,4 +210,13 @@ export const pageTileMap = {
     path: '/treasury-savings-bonds/',
     analyticsName: 'Treasury Savings Bonds',
   },
+  'story-of-data-transparency': {
+    title: 'The Story of Data Transparency',
+    body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
+    altText: 'The Story of Data Transparency',
+    desktopImage: 'story-of-data-transparency',
+    mobileImage: 'story-of-data-transparency',
+    path: 'featured-content/story-of-data-transparency/',
+    analyticsName: 'The Story of Data Transparency',
+  },
 };

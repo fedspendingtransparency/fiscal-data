@@ -12,6 +12,7 @@ module.exports = {
     'dataPreview',
     'chartingConfigurationTool',
     'fipReportsSection',
+    'featured-content',
   ],
   LOWER_ENV_FEATURE_WHITELIST: ['reportGeneration'],
   ADDITIONAL_DATASETS: {

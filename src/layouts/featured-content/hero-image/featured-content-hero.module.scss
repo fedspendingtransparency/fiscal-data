@@ -1,0 +1,45 @@
+@use '../../../variables.module.scss' as *;
+
+$featured-content-hero-primary: #0071bc;
+$featured-content-hero-secondary: #205493;
+
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 0.625rem 4rem;
+
+  .heroHeading {
+    margin: 0;
+    font-size: $font-size-48;
+    font-weight: 600;
+    max-width: 47rem;
+    color: $font-title;
+  }
+}
+
+.heroBorder {
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .heroContainer {
+    padding: 1.188rem 0.625rem 0.75rem;
+
+    .heroHeading {
+      font-size: $font-size-32;
+    }
+  }
+
+  .heroBorder {
+    margin: 1.25rem 0 0 0;
+  }
+}
+
+:export {
+  featuredContentHeroPrimary: $featured-content-hero-primary;
+  featuredContentHeroSecondary: $featured-content-hero-secondary;
+}

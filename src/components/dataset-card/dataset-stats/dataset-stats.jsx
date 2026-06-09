@@ -17,8 +17,6 @@ const DatasetStats = ({ dataset }) => {
   const hideRawDataTable = dataset.hideRawDataTable;
   const noDateDisplayed = hideRawDataTable ? null : 'no date available';
   const lastUpdated = dataset && dataset.techSpecs && dataset.techSpecs.lastUpdated ? dataset.techSpecs.lastUpdated : noDateDisplayed;
-  const latestDateParts = dataset && dataset.techSpecs && dataset.techSpecs.latestDate ? latestDate.split('/') : ['', '', ''];
-  const useFutureIcon = isAfter(new Date(latestDateParts[2] - 0, latestDateParts[0] - 1, latestDateParts[1] - 0, 0, 0, 0), new Date());
 
   return (
     <ul className={list}>
@@ -26,17 +24,7 @@ const DatasetStats = ({ dataset }) => {
         <li data-testid="dateRange-li" aria-label={'Date Range: ' + dateRange}>
           <div className={statItem}>
             <div>
-              {dateRange && useFutureIcon ? (
-                <img
-                  src={futureDateIcon}
-                  className={futureDateIconStyle}
-                  data-testid={'futureDateIcon'}
-                  alt={'future date icon'}
-                  aria-hidden={'true'}
-                />
-              ) : (
                 <FontAwesomeIcon icon={faCalendarWeek} size="1x" className={icon} data-testid="calendar-week-icon" />
-              )}
             </div>
             <div>
               <div className={statHeaderText}> Date Range</div>

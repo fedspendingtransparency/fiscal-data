@@ -8,18 +8,22 @@ import { deficitExplainerPrimary } from '../../national-deficit/national-deficit
 import { debtExplainerPrimary } from '../../../explainer.module.scss';
 import CustomTooltip from '../chart-components/custom-tooltip/custom-tooltip';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
-import { debtEndpointUrl, deficitEndpointUrl, legendItems, tickCountXAxis } from './debt-chart-helper';
+import { debtEndpointUrl, deficitEndpointUrl, getMaxTrillions, getXAxisTicks, legendItems } from './debt-chart-helper';
 import CustomBarShape from './custom-bar-shape/custom-bar-shape';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useInView } from 'react-intersection-observer';
+import { chartInViewProps } from '../chart-helper';
 
 const AFGDebtChart = (): ReactElement => {
   const isMounted = useIsMounted();
+  const { ref, inView } = useInView(chartInViewProps);
   const [focusedYear, setFocusedYear] = useState<string | number>(null);
   const [currentFY, setCurrentFY] = useState<string>(null);
   const [finalChartData, setFinalChartData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [customTooltipData, setCustomTooltipData] = useState(null);
+  const [revealProgress, setRevealProgress] = useState(0);
 
   const ariaLabel =
     'A chart demonstrating the total debt as it accumulated to ' +
@@ -28,7 +32,7 @@ const AFGDebtChart = (): ReactElement => {
     'and the deficit for each year as an orange highlight against the yearly purple bars in order to represent the ' +
     'relationship between the two concepts.';
 
-  const generateBar = sortedData => {
+  const generateBar = (sortedData, axisMax) => {
     return sortedData.map(yearlyData => {
       const dataYear = yearlyData.year;
       const handleFocus = () => {
@@ -48,7 +52,9 @@ const AFGDebtChart = (): ReactElement => {
             stackId="debtBar"
             barSize={16}
             isAnimationActive={false}
-            shape={props => <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} />}
+            shape={props => (
+              <CustomBarShape {...props} focusedYear={focusedYear} handleFocus={handleFocus} revealProgress={revealProgress} axisMax={axisMax} />
+            )}
           />
         </g>
       );
@@ -109,8 +115,36 @@ const AFGDebtChart = (): ReactElement => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isLoading || !finalChartData || !inView) return;
+
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      setRevealProgress(1);
+      return;
+    }
+    const duration = 1600; // ms
+    let frame: number;
+    let start: number;
+    const tick = (timestamp: number) => {
+      if (start === undefined) start = timestamp;
+      const elapsed = timestamp - start;
+      const t = Math.min(elapsed / duration, 1);
+      // easeOutCubic for a natural decelerating sweep
+      const eased = 1 - Math.pow(1 - t, 3);
+      if (isMounted.current) setRevealProgress(eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [isLoading, finalChartData, inView]);
+
+  const xAxisTicks = getXAxisTicks(getMaxTrillions(finalChartData));
+  const axisMax = xAxisTicks[xAxisTicks.length - 1];
+  const animationComplete = revealProgress >= 1;
+
   return (
-    <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel}>
+    <figure className={deficitChart} data-testid="AFGDebtChart" role="figure" aria-label={ariaLabel} ref={ref}>
       <div className={chartTitle}>National Debt: Last 5 Years in Trillions of USD</div>
       {isLoading && <LoadingIndicator />}
       {!isLoading && (
@@ -148,12 +182,12 @@ const AFGDebtChart = (): ReactElement => {
                 <XAxis
                   tickMargin={6}
                   type="number"
-                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, tickCountXAxis)}
+                  tickFormatter={(value, index) => trillionAxisFormatter(value, index, xAxisTicks.length)}
                   axisLine={false}
                   tickLine={false}
                   allowDecimals={false}
-                  tickCount={tickCountXAxis}
-                  ticks={[0, 10, 20, 30, 40]}
+                  tickCount={xAxisTicks.length}
+                  ticks={xAxisTicks}
                 />
                 <YAxis
                   dataKey="year"
@@ -164,14 +198,14 @@ const AFGDebtChart = (): ReactElement => {
                   tickCount={5}
                   tickMargin={8}
                 />
-                {generateBar(finalChartData)}
+                {generateBar(finalChartData, axisMax)}
                 <Tooltip
                   wrapperStyle={{ visibility: 'visible' }}
                   content={<CustomTooltip setFocused={setFocusedYear} labelByYear curFY={currentFY} customData={customTooltipData} />}
                   cursor={{ fillOpacity: 0 }}
                   shared={false}
                   isAnimationActive={false}
-                  active={chartFocus}
+                  active={chartFocus && animationComplete}
                 />
               </BarChart>
             </ResponsiveContainer>
