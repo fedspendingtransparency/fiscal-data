@@ -11,7 +11,7 @@ const CalendarEntryTime = ({ dateString, timeInUTC }) => {
     if (getMinutes(localTime) !== 59) {
       // e.g. "8:00 am EST" — the zzz token labels the viewer's timezone so it's
       // clear which zone the time is shown in.
-      return formatInTimeZone(utcTime, localZone, 'h:mm aaa zzz');
+      return formatInTimeZone(utcTime, localZone, 'h:mm aaa (zzz)');
     }
 
     if (getHours(localTime) < 12) return 'Morning';
