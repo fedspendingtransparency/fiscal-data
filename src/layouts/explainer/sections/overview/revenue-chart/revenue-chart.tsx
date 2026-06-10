@@ -7,9 +7,10 @@ import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-
 import { chartContainer, chartTitle, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import ChartLegend from '../chart-components/chart-legend';
-import { monthAxisFormatter, trillionAxisFormatter } from '../chart-helper';
+import { monthAxisFormatter, trillionAxisFormatter, chartInViewProps } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useInView } from 'react-intersection-observer';
 
 const AFGRevenueChart = (): ReactElement => {
   const isMounted = useIsMounted();
@@ -22,6 +23,10 @@ const AFGRevenueChart = (): ReactElement => {
   const curFYColor = '#0A2F5A';
   const priorFYColor = '#9DABBD';
   const avgFYColor = '#555';
+
+  const [animationStarted, setanimationStarted] = useState(false);
+  const [animationComplete, setanimationComplete] = useState(false);
+  const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps)
 
   const tickCountYAxis = 6;
   const getChartData = async () => {
@@ -83,6 +88,12 @@ const AFGRevenueChart = (): ReactElement => {
     }
   }, []);
 
+  useEffect(() => {
+    if (finalChartData && revenueInView && !animationStarted) {
+      setanimationStarted(true)
+    }
+  }, [finalChartData, revenueInView, animationStarted]);
+
   const ariaLabel =
     'A graph demonstrating the cumulative revenue by month of the United States government. A dark blue line represents the ' +
     'current cumulative revenue of FY ' +
@@ -102,7 +113,7 @@ const AFGRevenueChart = (): ReactElement => {
       {!isLoading && finalChartData && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
-          <div className={chartContainer} data-testid="chartContainer">
+          <div ref={revenueRef} className={chartContainer} data-testid="chartContainer">
             <ResponsiveContainer height={164} width="99%">
               <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }} accessibilityLayer>
                 <CartesianGrid vertical={false} />
@@ -128,7 +139,9 @@ const AFGRevenueChart = (): ReactElement => {
                 />
                 <Line
                   dataKey="fiveYearAvgValue"
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   dot={false}
                   activeDot={false}
                   name="5 Yr Avg"
@@ -137,7 +150,9 @@ const AFGRevenueChart = (): ReactElement => {
                 />
                 <Line
                   dataKey="priorFYValue"
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   dot={false}
                   activeDot={false}
                   name={`${currentFY - 1}`}
@@ -146,7 +161,9 @@ const AFGRevenueChart = (): ReactElement => {
                 />
                 <Line
                   dataKey="currentFYValue"
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   dot={false}
                   activeDot={false}
                   name={`${currentFY} FYTD`}
