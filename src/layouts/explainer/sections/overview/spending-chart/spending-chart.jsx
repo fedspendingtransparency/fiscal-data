@@ -4,9 +4,10 @@ import { apiPrefix, basicFetch, monthNames } from '../../../../../utils/api-util
 import CustomTooltip from '../chart-components/line-chart-custom-tooltip/custom-tooltip';
 import { chartTitle, chartContainer, deficitChart } from '../deficit-chart/deficit-chart.module.scss';
 import ChartLegend from '../chart-components/chart-legend';
-import { trillionAxisFormatter } from '../chart-helper';
+import { chartInViewProps, trillionAxisFormatter } from '../chart-helper';
 import { useIsMounted } from '../../../../../utils/useIsMounted';
 import LoadingIndicator from '../../../../../components/loading-indicator/loading-indicator';
+import { useInView } from 'react-intersection-observer';
 
 export const TickCount = props => {
   const { x, y, payload } = props;
@@ -27,6 +28,8 @@ const AFGSpendingChart = () => {
   const [currentFY, setCurrentFY] = useState();
   const [legend, setLegend] = useState([]);
   const [finalChartData, setFinalChartData] = useState(null);
+  const [animationStarted, setanimationStarted] = useState(false);
+  const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
 
   const getChartData = async () => {
     const chartData = [];
@@ -88,6 +91,12 @@ const AFGSpendingChart = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (finalChartData && spendingInView && !animationStarted) {
+      setanimationStarted(true);
+    }
+  }, [finalChartData, spendingInView, animationStarted]);
+
   const ariaLabel =
     'A graph demonstrating the cumulative spending by month of the United States government. A dark green line represents the ' +
     'current cumulative spending of FY ' +
@@ -107,7 +116,7 @@ const AFGSpendingChart = () => {
       {!isLoading && (
         <>
           <ChartLegend legendItems={legend} mobileDotSpacing />
-          <div className={chartContainer}>
+          <div ref={spendingRef} className={chartContainer}>
             <ResponsiveContainer width="99%" height={164}>
               <LineChart data={finalChartData} margin={{ top: 8, left: 5, right: 5, bottom: 4 }} accessibilityLayer>
                 <CartesianGrid vertical={false} />
@@ -138,7 +147,9 @@ const AFGSpendingChart = () => {
                   strokeDasharray={0}
                   strokeWidth={2}
                   name="5 Yr Avg"
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   stroke="#555"
                 />
                 <Line
@@ -148,7 +159,9 @@ const AFGSpendingChart = () => {
                   dot={false}
                   name={`${currentFY - 1}`}
                   strokeWidth={2}
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   stroke="#99C8C4"
                 />
                 <Line
@@ -158,7 +171,9 @@ const AFGSpendingChart = () => {
                   name={`${currentFY} FYTD`}
                   strokeWidth={2}
                   activeDot={false}
-                  isAnimationActive={false}
+                  isAnimationActive={animationStarted}
+                  animationDuration={1000}
+                  animationEasing={'ease-out'}
                   stroke="#00796B"
                 />
               </LineChart>

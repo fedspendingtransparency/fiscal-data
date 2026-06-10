@@ -25,7 +25,6 @@ const AFGRevenueChart = (): ReactElement => {
   const avgFYColor = '#555';
 
   const [animationStarted, setanimationStarted] = useState(false);
-  const [animationComplete, setanimationComplete] = useState(false);
   const { ref: revenueRef, inView: revenueInView } = useInView(chartInViewProps)
 
   const tickCountYAxis = 6;
@@ -140,8 +139,8 @@ const AFGRevenueChart = (): ReactElement => {
                 <Line
                   dataKey="fiveYearAvgValue"
                   isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
+                  animationDuration={2000}
+                  animationEasing={'ease-in'}
                   dot={false}
                   activeDot={false}
                   name="5 Yr Avg"
@@ -151,8 +150,8 @@ const AFGRevenueChart = (): ReactElement => {
                 <Line
                   dataKey="priorFYValue"
                   isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
+                  animationDuration={2000}
+                  animationEasing={'ease-in'}
                   dot={false}
                   activeDot={false}
                   name={`${currentFY - 1}`}
@@ -162,8 +161,8 @@ const AFGRevenueChart = (): ReactElement => {
                 <Line
                   dataKey="currentFYValue"
                   isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
+                  animationDuration={2000}
+                  animationEasing={'ease-in'}
                   dot={false}
                   activeDot={false}
                   name={`${currentFY} FYTD`}
