@@ -1,15 +1,6 @@
 name: Accessibility Scan
 on:
-  workflow_dispatch:
-    inputs:
-      url:
-        description: 'URL or path'
-        required: true
-        default: '.'
-      report:
-        description: 'Path to report.json'
-        required: false
-        default: 'report.json'
+  workflow_call
 
 jobs:
   accessibility:
@@ -17,20 +8,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: be-a11y Accessibility Checker
-        id: a11ychecker
-        uses: be-lenka/be-a11y@v2.2.8
-        continue-on-error: true
+      - name: Run AccessLint
+        id: accesslint
+        uses: a11ymind/accesslint@v1
         with:
-          url: ${{ github.event.inputs.url }}
-          report: ${{ github.event.inputs.report }}
+          url: https://www.example.com
+          fail-on: none
 
-      - name: Upload accessibility report artifact
-        if: steps.a11ychecker.outcome != 'success' && ${{ github.event.inputs.report != '' }}
+      - name: Upload AccessLint artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: accessibility-report
-          path: ${{ github.event.inputs.report }}
-
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+          name: accesslint-report
+          path: |
+            ${{ steps.accesslint.outputs.json-path }}
+            ${{ steps.accesslint.outputs.markdown-path }}
