@@ -1,4 +1,4 @@
-name: accessibility-scan.yml
+name: Accessibility Scan
 on:
   workflow_dispatch:
     inputs:
