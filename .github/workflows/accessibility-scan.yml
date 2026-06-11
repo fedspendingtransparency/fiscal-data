@@ -8,18 +8,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run AccessLint
-        id: accesslint
-        uses: a11ymind/accesslint@v1
+      - name: be-a11y Accessibility Checker
+        id: a11ychecker
+        uses: be-lenka/be-a11y@v2.2.8
+        continue-on-error: true
         with:
-          url: https://www.example.com
-          fail-on: none
+          url: ''
+          report: 'report.json'
 
-      - name: Upload AccessLint artifacts
-        if: always()
+      - name: Upload accessibility report artifact
+        if: steps.a11ychecker.outcome != 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: accesslint-report
-          path: |
-            ${{ steps.accesslint.outputs.json-path }}
-            ${{ steps.accesslint.outputs.markdown-path }}
+          name: accessibility-report
+          path: 'report.json'
+
+      - name: Output artifact ID
+        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
