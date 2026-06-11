@@ -150,7 +150,7 @@ const AFGSpendingChart = () => {
                       strokeWidth={2}
                       name="5 Yr Avg"
                       isAnimationActive={shouldAnimate}
-                      animationDuration={1000}
+                      animationDuration={1500}
                       animationEasing={'ease-out'}
                       stroke="#555"
                     />
@@ -162,7 +162,7 @@ const AFGSpendingChart = () => {
                       name={`${currentFY - 1}`}
                       strokeWidth={2}
                       isAnimationActive={shouldAnimate}
-                      animationDuration={2000}
+                      animationDuration={1500}
                       animationEasing={'ease-out'}
                       stroke="#99C8C4"
                     />
@@ -174,15 +174,14 @@ const AFGSpendingChart = () => {
                       strokeWidth={2}
                       activeDot={false}
                       isAnimationActive={shouldAnimate}
-                      animationDuration={2000}
+                      animationDuration={1500}
                       animationEasing={'ease-out'}
                       onAnimationEnd={() => setAnimationComplete(true)}
                       stroke="#00796B"
                     />
                   </>
                 )}
-                {animationComplete &&  (
-                  <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />)}
+                {animationComplete && <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />}
               </LineChart>
             </ResponsiveContainer>
           </div>

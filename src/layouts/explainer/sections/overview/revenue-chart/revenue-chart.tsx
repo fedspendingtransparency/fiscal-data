@@ -139,7 +139,7 @@ const AFGRevenueChart = (): ReactElement => {
                     <Line
                       dataKey="fiveYearAvgValue"
                       isAnimationActive={shouldAnimate}
-                      animationDuration={2000}
+                      animationDuration={1500}
                       animationEasing={'ease-in'}
                       dot={false}
                       activeDot={false}
@@ -150,7 +150,7 @@ const AFGRevenueChart = (): ReactElement => {
                     <Line
                       dataKey="priorFYValue"
                       isAnimationActive={shouldAnimate}
-                      animationDuration={2000}
+                      animationDuration={1500}
                       animationEasing={'ease-in'}
                       dot={false}
                       activeDot={false}
@@ -161,7 +161,7 @@ const AFGRevenueChart = (): ReactElement => {
                     <Line
                       dataKey="currentFYValue"
                       isAnimationActive={shouldAnimate}
-                      animationDuration={2000}
+                      animationDuration={1500}
                       animationEasing={'ease-in'}
                       onAnimationEnd={() => setAnimationComplete(true)}
                       dot={false}
@@ -172,12 +172,7 @@ const AFGRevenueChart = (): ReactElement => {
                     />
                   </>
                 )}
-                {animationComplete &&  (
-                <Tooltip
-                  content={<CustomTooltip />}
-                  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }}
-                />
-                  )}
+                {animationComplete && <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />}
               </LineChart>
             </ResponsiveContainer>
           </div>

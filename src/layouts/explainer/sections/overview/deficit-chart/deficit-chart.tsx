@@ -114,7 +114,7 @@ const AFGDeficitChart = ({ width }: { width: number }): ReactElement => {
   useEffect(() => {
     // only animate if data is in, animation is at 0 (has not happened), and the chart is in full view
     if (finalChartData && animationProgress === 0 && deficitInView) {
-      const duration = 1000;
+      const duration = 1500;
       const startTime = Date.now();
 
       const animate = () => {
