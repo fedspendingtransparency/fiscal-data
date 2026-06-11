@@ -10,7 +10,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  run-unit-tests-and-coverage:
+  setup-test-env:
     timeout-minutes: 10
     runs-on: ubuntu-22.04
     steps:
@@ -25,6 +25,23 @@ jobs:
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
         run: npm install --legacy-peer-deps
+  run-unit-tests-and-coverage:
+    timeout-minutes: 10
+    runs-on: ubuntu-22.04
+    needs:
+      - setup-test-env
+    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Setup Node.js environment
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 22
+#          cache: npm
+#      - name: npm install
+#        env:
+#          NODE_OPTIONS: "--max_old_space_size=8192"
+#        run: npm install --legacy-peer-deps
       - name: run tests with coverage
         env:
           NODE_OPTIONS: "--max_old_space_size=8192"
