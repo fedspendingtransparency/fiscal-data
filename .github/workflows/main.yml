@@ -16,6 +16,9 @@ jobs:
   run-branch-unit-tests-and-coverage:
     name: Run Branch Test Coverage
     uses: ./.github/workflows/run-branch-unit-tests.yml
+  run-accessibility-scan:
+    name: Run Accessibility Scan
+    uses: ./.github/workflows/accessibility-scan.yml
 #  run-cypress-tests:
 #    name: Run Cypress Tests
 #    uses: ./.github/workflows/run-cypress-tests.yml
