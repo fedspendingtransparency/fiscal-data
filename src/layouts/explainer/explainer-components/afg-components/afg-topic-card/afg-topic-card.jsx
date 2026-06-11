@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons/faArrowRightLong';
 import { arrow, imageContainer, link, textContainer, topicHeading, topicSection, desktopView, mobileView } from './afg-topic-card.module.scss';
@@ -36,7 +36,11 @@ const AfgTopicCard = ({
     }
   };
 
-  const getChart = () => {
+  const chart = useMemo(() => {
+    if (image) {
+      return <img src={image} alt={imageAltText} />;
+    }
+
     switch (id) {
       case 'national-deficit':
         return <AFGDefictChart width={width} />;
@@ -49,9 +53,7 @@ const AfgTopicCard = ({
       default:
         return <div />;
     }
-  };
-
-  const chart = image ? <img src={image} alt={imageAltText} /> : getChart();
+  }, [id, width]);
 
   return (
     <>
@@ -61,9 +63,7 @@ const AfgTopicCard = ({
           <div className={textContainer}>
             <h5 className={topicHeading}>{heading}</h5>
             <div className={mobileView}>
-              <div className={imageContainer}>
-                {chart}
-              </div>
+              <div className={imageContainer}>{chart}</div>
             </div>
             <div className={body}>{body}</div>
             <a href={linkUrl} className={`${link} afgTopicsLink`} onClick={onClickEventHandler} id={pageName}>
@@ -72,9 +72,7 @@ const AfgTopicCard = ({
             </a>
           </div>
           <div className={desktopView}>
-            <div className={imageContainer}>
-              {chart}
-            </div>
+            <div className={imageContainer}>{chart}</div>
           </div>
         </div>
       </section>
