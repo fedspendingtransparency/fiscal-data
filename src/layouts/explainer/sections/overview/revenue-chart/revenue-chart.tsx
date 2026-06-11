@@ -17,6 +17,7 @@ const AFGRevenueChart = (): ReactElement => {
   const [legend, setLegend] = useState([]);
   const [currentFY, setCurrentFY] = useState(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   const curFYColor = '#0A2F5A';
   const priorFYColor = '#9DABBD';
@@ -162,6 +163,7 @@ const AFGRevenueChart = (): ReactElement => {
                       isAnimationActive={shouldAnimate}
                       animationDuration={2000}
                       animationEasing={'ease-in'}
+                      onAnimationEnd={() => setAnimationComplete(true)}
                       dot={false}
                       activeDot={false}
                       name={`${currentFY} FYTD`}
@@ -170,7 +172,12 @@ const AFGRevenueChart = (): ReactElement => {
                     />
                   </>
                 )}
-                <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
+                {animationComplete &&  (
+                <Tooltip
+                  content={<CustomTooltip />}
+                  cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }}
+                />
+                  )}
               </LineChart>
             </ResponsiveContainer>
           </div>

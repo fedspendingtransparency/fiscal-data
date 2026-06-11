@@ -28,7 +28,8 @@ const AFGSpendingChart = () => {
   const [currentFY, setCurrentFY] = useState();
   const [legend, setLegend] = useState([]);
   const [finalChartData, setFinalChartData] = useState(null);
-  const [animationStarted, setanimationStarted] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
 
   const getChartData = async () => {
@@ -92,10 +93,10 @@ const AFGSpendingChart = () => {
   }, []);
 
   useEffect(() => {
-    if (finalChartData && spendingInView && !animationStarted) {
-      setanimationStarted(true);
+    if (finalChartData && spendingInView && !shouldAnimate) {
+      setShouldAnimate(true);
     }
-  }, [finalChartData, spendingInView, animationStarted]);
+  }, [finalChartData, spendingInView]);
 
   const ariaLabel =
     'A graph demonstrating the cumulative spending by month of the United States government. A dark green line represents the ' +
@@ -139,43 +140,49 @@ const AFGSpendingChart = () => {
                   axisLine={false}
                   tickLine={false}
                 />
-                <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />
-                <Line
-                  dataKey="fiveYearAvgValue"
-                  dot={false}
-                  activeDot={false}
-                  strokeDasharray={0}
-                  strokeWidth={2}
-                  name="5 Yr Avg"
-                  isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
-                  stroke="#555"
-                />
-                <Line
-                  dataKey="priorFYValue"
-                  activeDot={false}
-                  strokeDasharray={0}
-                  dot={false}
-                  name={`${currentFY - 1}`}
-                  strokeWidth={2}
-                  isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
-                  stroke="#99C8C4"
-                />
-                <Line
-                  dataKey="currentFYValue"
-                  strokeDasharray={0}
-                  dot={false}
-                  name={`${currentFY} FYTD`}
-                  strokeWidth={2}
-                  activeDot={false}
-                  isAnimationActive={animationStarted}
-                  animationDuration={1000}
-                  animationEasing={'ease-out'}
-                  stroke="#00796B"
-                />
+                {shouldAnimate && (
+                  <>
+                    <Line
+                      dataKey="fiveYearAvgValue"
+                      dot={false}
+                      activeDot={false}
+                      strokeDasharray={0}
+                      strokeWidth={2}
+                      name="5 Yr Avg"
+                      isAnimationActive={shouldAnimate}
+                      animationDuration={1000}
+                      animationEasing={'ease-out'}
+                      stroke="#555"
+                    />
+                    <Line
+                      dataKey="priorFYValue"
+                      activeDot={false}
+                      strokeDasharray={0}
+                      dot={false}
+                      name={`${currentFY - 1}`}
+                      strokeWidth={2}
+                      isAnimationActive={shouldAnimate}
+                      animationDuration={2000}
+                      animationEasing={'ease-out'}
+                      stroke="#99C8C4"
+                    />
+                    <Line
+                      dataKey="currentFYValue"
+                      strokeDasharray={0}
+                      dot={false}
+                      name={`${currentFY} FYTD`}
+                      strokeWidth={2}
+                      activeDot={false}
+                      isAnimationActive={shouldAnimate}
+                      animationDuration={2000}
+                      animationEasing={'ease-out'}
+                      onAnimationEnd={() => setAnimationComplete(true)}
+                      stroke="#00796B"
+                    />
+                  </>
+                )}
+                {animationComplete &&  (
+                  <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '4 4', stroke: '#666', strokeWidth: '2px' }} />)}
               </LineChart>
             </ResponsiveContainer>
           </div>
