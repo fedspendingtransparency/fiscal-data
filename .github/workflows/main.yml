@@ -1,5 +1,5 @@
 
-name: Run unit and e2e tests
+name: PR Checks
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -10,6 +10,8 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  run-broken-link-scan:
+    uses: ./.github/workflows/broken-link.yml
   run-unit-tests-and-coverage:
     name: Run Test Coverage
     uses: ./.github/workflows/run-unit-tests.yml
