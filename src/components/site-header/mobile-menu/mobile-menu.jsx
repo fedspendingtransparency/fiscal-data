@@ -75,8 +75,16 @@ const MobileMenu = ({ setOpenGlossary }) => {
       featureId: 'featured-content',
       children: [
         {
+          to: '/featured-content/historic-data-now-available/',
+          name: 'Historic Data Now Available',
+        },
+        {
           to: '/featured-content/story-of-data-transparency/',
           name: 'The Story of Data Transparency',
+        },
+        {
+          to: '/featured-content/history-of-government-spending/',
+          name: 'A History of Government Spending',
         },
       ],
     },
