@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import SiteLayout from '../../../components/siteLayout/siteLayout';
-import PageHelmet from '../../../components/page-helmet/page-helmet';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import PageHelmet from '../../components/page-helmet/page-helmet';
 import {
   contentContainer,
   featuredContentContainer,
@@ -13,12 +13,12 @@ import {
   subTitle,
   rectangleBar,
 } from './featured-content.module.scss';
-import SocialShare from '../../../components/social-share/social-share';
-import CitationList from '../../../components/citation-list/citation-list';
-import GlossaryProvider from '../../../components/glossary/glossary-context/glossary-context';
-import FeaturedContentHero from '../hero-image/featured-content-hero';
-import FeaturedContentImage from '../feature-content-image/feature-content-image';
-import { featuredContentSections } from '../featured-content-pages/sections';
+import SocialShare from '../../components/social-share/social-share';
+import CitationList from '../../components/citation-list/citation-list';
+import GlossaryProvider from '../../components/glossary/glossary-context/glossary-context';
+import FeaturedContentHero from './hero-image/featured-content-hero';
+import FeaturedContentImage from './feature-content-image/feature-content-image';
+import { featuredContentSections } from './featured-content-pages/sections';
 import { getFeaturedContentPage } from './featured-content-helpers';
 
 interface IFeaturedContentSection {

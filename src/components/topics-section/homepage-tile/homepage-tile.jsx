@@ -22,7 +22,15 @@ import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 let homepageTile;
-const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => {
+const HomePageTile = ({
+  content,
+  images,
+  layout,
+  explainerTile,
+  rightTile,
+  analyticsCategory = 'Homepage Navigation',
+  hoverAnalyticsCategory = 'Homepage Cards',
+}) => {
   let desktopImage, mobileImage;
 
   if (images) {
@@ -68,7 +76,7 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
 
   const analyticsHandler = (event, label) => {
     Analytics.event({
-      category: 'Homepage Navigation',
+      category: analyticsCategory,
       action: 'Citation Click',
       label: label,
     });
@@ -81,7 +89,7 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
   const handleMouseEnter = label => {
     homepageTile = setTimeout(() => {
       Analytics.event({
-        category: 'Homepage Cards',
+        category: hoverAnalyticsCategory,
         action: 'Card Hover',
         label: label,
       });

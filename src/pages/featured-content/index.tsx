@@ -1,42 +1,21 @@
-import React, { FunctionComponent } from 'react';
-// import FeaturedContentLandingPage from '../../layouts/featured-content/featured-content-landing-page/featured-content-landing-page';
-import { graphql, useStaticQuery } from 'gatsby';
+import { ENV_ID } from 'gatsby-env-variables';
+import React from 'react';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
+import FeaturedContentLanding from '../../layouts/featured-content/featured-content-landing/featured-content-landing';
 
-const FeaturedContentLandingPage: FunctionComponent = () => {
-
-  const allFile = useStaticQuery(
-    graphql`
-      query {
-        allFile(filter: { extension: { eq: "png" } }) {
-          topicsImages: nodes {
-            name
-            childImageSharp {
-              gatsbyImageData(quality: 100, placeholder: BLURRED)
-            }
-          }
-        }
-      }
-    `
-  );
-
-  return (
-    <SiteLayout isPreProd={false}>
-      <div></div>
-      {/*<FeaturedContentLandingPage images={allFile}/>*/}
-    </SiteLayout>
-  );
-}
+const FeaturedContentLandingPage = () => (
+  <SiteLayout isPreProd={ENV_ID === 'preprod'}>
+    <FeaturedContentLanding />
+  </SiteLayout>
+);
 
 export default FeaturedContentLandingPage;
 
 export const Head = () => (
   <PageHelmet
-    pageTitle=""
-    description="With historical and current data, Fiscal Data is your hub for fiscal data.
-          Download datasets on topics such as debt, interest rates, and more."
-    keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
-          financial data, debt, Treasury, US government"
+    pageTitle="Featured Content"
+    description="Explore featured content from Fiscal Data, including historical data stories and insights into U.S. government finances."
+    keywords="U.S. Treasury, Fiscal Data, featured content, historic data, government financial data"
   />
 );

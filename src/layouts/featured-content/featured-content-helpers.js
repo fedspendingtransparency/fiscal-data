@@ -1,6 +1,6 @@
 import { BASE_URL } from 'gatsby-env-variables';
-import Analytics from '../../../utils/analytics/analytics';
-import CustomLink from '../../../components/links/custom-link/custom-link';
+import Analytics from '../../utils/analytics/analytics';
+import CustomLink from '../../components/links/custom-link/custom-link';
 import React from 'react';
 
 const envBaseUrl = BASE_URL || '';

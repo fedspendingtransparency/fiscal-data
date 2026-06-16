@@ -1,36 +1,38 @@
-export interface FeaturedArticles {
-  image: string;
+export interface FeaturedArticle {
   title: string;
   body: string;
+  image: string; // PNG "name" in /static/images (no extension)
   altText: string;
-  path: string;
+  path: string; // e.g. '/featured-content/story-of-data-transparency/'
+  analyticsName: string;
 }
 
-export interface FeaturedCategories {
-  categories: string;
-  articles: FeaturedArticles[];
+export interface FeaturedCategory {
+  category: string;
+  articles: FeaturedArticle[];
 }
 
+// Full-width banner across the top of the landing page.
+// TODO: replace with the final banner asset (drop the PNG in /static/images and update both fields).
 export const featuredContentBanner = {
-  image: '',
-  altText: '',
-  title: 'Featured Content',
-  subtitle: 'A Collection of Current Data-related Government Spending Topics',
+  image: '/images/featured-content-banner.png',
+  altText: 'Featured Content',
 };
 
-export const featuredContentLanding: FeaturedCategories[] = [
-         {
-           categories: 'Historic Data',
-           articles: [
-             {
-               image: '',
-               title: 'The Story of Data Transparency',
-               body:
-                 'From the very beginning, transparency into government finances has been a critical part of government accounting. ' +
-                 'Learn more about the history of US data in this feature.',
-               altText: '',
-               path: '/featured-content/story-of-data-transparency/',
-             },
-           ],
-         },
-       ];
+export const featuredContentLanding: FeaturedCategory[] = [
+  {
+    category: 'Historic Data',
+    articles: [
+      {
+        title: 'The Story of Data Transparency',
+        body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
+        image: 'story-of-data-transparency',
+        altText: 'The Story of Data Transparency',
+        path: '/featured-content/story-of-data-transparency/',
+        analyticsName: 'The Story of Data Transparency',
+      },
+    ],
+  },
+];
+
+export default featuredContentLanding;

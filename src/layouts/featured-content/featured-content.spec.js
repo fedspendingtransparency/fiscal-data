@@ -20,7 +20,7 @@ const glossaryMock = {
   extensions: {},
 };
 
-jest.mock('../../../variables.module.scss', () => {
+jest.mock('../../variables.module.scss', () => {
   return {
     breakpointLg: '992',
   };

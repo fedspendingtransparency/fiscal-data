@@ -1,0 +1,56 @@
+@use 'src/variables.module' as *;
+
+.banner {
+  width: 100%;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.content {
+  max-width: $main-width;
+  margin: 0 auto 4rem;
+  padding: 0 0.625rem;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: $breakpoint-sm) {
+  .content {
+    padding: 0 2rem;
+  }
+}
+
+// Gray separator that marks the start of each category section.
+.sectionBar {
+  height: 4px;
+  background: #d8d8d8;
+  margin: 4rem 0 2rem; // 64px top / 32px bottom
+}
+
+.categoryHeader {
+  margin: 0 0 2rem;
+  color: #666;
+  font-size: $font-size-40;
+  font-weight: $light-weight; // 300
+}
+
+.tileGrid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr; // mobile: 1 per row
+}
+
+@media screen and (min-width: $breakpoint-md) {
+  .tileGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .tileGrid {
+    grid-template-columns: repeat(3, 1fr); // desktop: 3 per row
+  }
+}
