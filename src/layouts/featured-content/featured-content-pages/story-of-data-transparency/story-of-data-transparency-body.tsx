@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { featuredContentCitationsMap } from '../../featured-content-helpers';
+import { featuredContentCitationsMap } from '../../featured-content-template/featured-content-helpers';
 
 export const StoryOfDataTransparencyBody = (): ReactElement => {
   const {

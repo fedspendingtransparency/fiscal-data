@@ -1,0 +1,100 @@
+@use '../../../variables.module' as *;
+
+.featuredContentContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContent {
+  width: 100%;
+  max-width: 71.25rem;
+  box-sizing: border-box;
+  margin: 0 auto 4rem;
+  left: 18rem;
+  display: flex;
+  position: relative;
+}
+.rectangleBar {
+  width: 7rem;
+  border-radius: 0.125rem;
+  height: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionHeading {
+  min-height: 2rem;
+  font-weight: $light-weight;
+  font-size: $font-size-32;
+  color: $font-title;
+  margin: 2rem 0;
+}
+
+.subTitle {
+  font-weight: $light-plus-weight;
+  font-size: $font-size-32;
+  margin: 0 0 1.5rem;
+}
+
+.contentContainer {
+  display: flex;
+
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    margin-right: 4rem;
+    width: 34.375rem;
+
+    .sectionContainer {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .relatedContent {
+    width: 20rem;
+  }
+}
+.socialShareDesktop {
+  display: none;
+}
+.socialShareMobile {
+  display: block;
+}
+@media screen and (min-width: $breakpoint-lg) {
+  .sectionHeading {
+    max-width: calc(100% - 16.125rem);
+  }
+  .socialShareDesktop {
+    display: block;
+  }
+  .socialShareMobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .pageContent {
+    left: 0;
+    padding: 0 0.75rem;
+    flex-direction: column;
+  }
+
+  .socialShareMobile {
+    margin: 1rem 0 2.875rem 0;
+  }
+
+  .contentContainer {
+    .mainContent {
+      margin-right: 0;
+      width: 100%;
+
+      .sectionContainer {
+        margin-bottom: 0;
+      }
+    }
+
+    .relatedContent {
+      width: 100%;
+    }
+    flex-direction: column;
+  }
+}
