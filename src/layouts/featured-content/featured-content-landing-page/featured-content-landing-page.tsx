@@ -4,26 +4,31 @@ import HomepageTile from '../../../components/topics-section/homepage-tile/homep
 
 
 const FeaturedContentLandingPage = ({ images }) => {
-  return(
-  <div>
-    <div></div>
+  return (
     <div>
-      {featuredContentLanding.map(section => (
-        <section key={section.categories}>
-          <div>{section.categories}</div>
-          <div>
-            {section.articles.map(article => (
-              <HomepageTile content={{ title: article.title,
-                body: article.body,
-                altText:
-                article.altText,
-                path: article.path }} images={images} rightTile/>
-            ))}
-          </div>
-        </section>
-      ))}
+      <div></div>
+      <div>
+        {featuredContentLanding.map(section => (
+          <section key={section.categories}>
+            <div>{section.categories}</div>
+            <div>
+              {section.articles.map(article => (
+                <HomepageTile
+                  content={{
+                    title: article.title,
+                    body: article.body,
+                    altText: article.altText,
+                    path: article.path,
+                  }}
+                  images={images}
+                  rightTile
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
-  </div>
   );
 };
 

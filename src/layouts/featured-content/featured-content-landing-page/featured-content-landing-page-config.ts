@@ -20,7 +20,7 @@ export const featuredContentBanner = {
 
 export const featuredContentLanding: FeaturedCategories[] = [
          {
-           category: 'Historic Data',
+           categories: 'Historic Data',
            articles: [
              {
                image: '',

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import FeaturedContentLandingPage from '../../layouts/featured-content/featured-content-landing-page/featured-content-landing-page';
+// import FeaturedContentLandingPage from '../../layouts/featured-content/featured-content-landing-page/featured-content-landing-page';
 import { graphql, useStaticQuery } from 'gatsby';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
@@ -23,7 +23,8 @@ const FeaturedContentLandingPage: FunctionComponent = () => {
 
   return (
     <SiteLayout isPreProd={false}>
-      <FeaturedContentLandingPage images={allFile}/>
+      <div></div>
+      {/*<FeaturedContentLandingPage images={allFile}/>*/}
     </SiteLayout>
   );
 }
