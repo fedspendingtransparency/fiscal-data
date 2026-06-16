@@ -23,7 +23,7 @@ const FeaturedContentLandingPage: FunctionComponent = () => {
 
   return (
     <SiteLayout isPreProd={false}>
-      <FeaturedContentLandingPage />
+      <FeaturedContentLandingPage images={allFile}/>
     </SiteLayout>
   );
 }

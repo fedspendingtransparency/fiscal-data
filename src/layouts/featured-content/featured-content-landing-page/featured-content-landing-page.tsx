@@ -3,17 +3,21 @@ import { featuredContentLanding } from './featured-content-landing-page-config';
 import HomepageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
 
 
-const FeaturedContentLandingPage = ({}) => {
+const FeaturedContentLandingPage = ({ images }) => {
   return(
   <div>
-    <div className={topBanner}></div>
-    <div className={featureLandingPageContent}>
+    <div></div>
+    <div>
       {featuredContentLanding.map(section => (
         <section key={section.categories}>
-          <div className={categoryHeader}>{sections.category}</div>
+          <div>{section.categories}</div>
           <div>
             {section.articles.map(article => (
-              <HomepageTile content={{ title: article.title, body: article.body, altText: article.altText, path: article.path }}></HomepageTile>
+              <HomepageTile content={{ title: article.title,
+                body: article.body,
+                altText:
+                article.altText,
+                path: article.path }} images={images} rightTile/>
             ))}
           </div>
         </section>
