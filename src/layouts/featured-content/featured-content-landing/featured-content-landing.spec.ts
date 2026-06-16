@@ -2,8 +2,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { useStaticQuery } from 'gatsby';
-import FeaturedContentLanding from './featured-content-landing-page';
-import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-page-config';
+import FeaturedContentLanding from './featured-content-landing';
+import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
 
 const mockImages = {
   allFile: {

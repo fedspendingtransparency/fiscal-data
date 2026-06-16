@@ -6,7 +6,7 @@
   img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 250px;
   }
 }
 
@@ -31,7 +31,7 @@
 }
 
 .categoryHeader {
-  margin: 0 0 2rem;
+  margin: 1.25rem 0 2rem;
   color: #666;
   font-size: $font-size-40;
   font-weight: $light-weight; // 300

@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import HomePageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
 import { banner, categoryHeader, content, sectionBar, tileGrid } from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
@@ -20,15 +21,16 @@ const FeaturedContentLanding = () => {
     `
   );
 
+  const bannerImage = images.allFile.topicsImages.find(image => image.name === featuredContentBanner.image);
+
   return (
     <div data-testid="featured-content-landing">
-      <div className={banner}>
-        <img src={featuredContentBanner.image} alt={featuredContentBanner.altText} data-testid="featured-content-banner" />
+      <div className={banner} data-testid="featured-content-banner">
+        <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" />
       </div>
       <div className={content}>
         {featuredContentLanding.map(section => (
           <section key={section.category}>
-            <div className={sectionBar} />
             <h2 className={categoryHeader}>{section.category}</h2>
             <div className={tileGrid}>
               {section.articles.map(article => (
@@ -50,6 +52,7 @@ const FeaturedContentLanding = () => {
                 />
               ))}
             </div>
+            <div className={sectionBar} />
           </section>
         ))}
       </div>
