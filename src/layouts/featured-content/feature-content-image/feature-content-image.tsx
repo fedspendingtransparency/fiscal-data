@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { image } from './feature-content-image.module.scss';
 import { useWindowSize } from '../../../hooks/windowResize';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { breakpointLg } from '../../../variables.module.scss';
 
 type FeaturedContentImageProps = {
   imageRefDesktop: string;
@@ -10,15 +11,13 @@ type FeaturedContentImageProps = {
   images: any;
 };
 
-const breakpointLarge = 992;
-
 const FeaturedContentImage = ({ imageRefDesktop, imageRefMobile, altText, images }: FeaturedContentImageProps): JSX.Element => {
   const windowSize = useWindowSize();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (window.screen) {
-      setIsMobile(window.innerWidth < breakpointLarge);
+      setIsMobile(window.innerWidth < breakpointLg);
     }
   }, [windowSize]);
 
