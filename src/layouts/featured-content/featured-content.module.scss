@@ -51,6 +51,10 @@
 
   .relatedContent {
     width: 20rem;
+
+    .line {
+      display: none;
+    }
   }
 }
 .socialShareDesktop {
@@ -87,6 +91,10 @@
       margin-right: 0;
       width: 100%;
 
+      .subTitle {
+        margin: 0 0 0.875rem;
+      }
+
       .sectionContainer {
         margin-bottom: 0;
       }
@@ -94,6 +102,18 @@
 
     .relatedContent {
       width: 100%;
+
+      .line {
+        width: 100%;
+        border-bottom: solid 1px #d8d8d8;
+        bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      // TODO: fix
+      .listHeader {
+        margin: 1.25rem 0 0.5rem;
+      }
     }
     flex-direction: column;
   }

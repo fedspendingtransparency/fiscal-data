@@ -13,6 +13,7 @@ import {
   socialShareMobile,
   subTitle,
   rectangleBar,
+  line,
 } from './featured-content.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import CitationList from '../../components/citation-list/citation-list';
@@ -72,6 +73,7 @@ const FeaturedContentPageLayout = ({ pageContext, data }) => {
                 <div data-testid="social-share-desktop" className={socialShareDesktop}>
                   <SocialShare copy={socialShare} pageName={pageTitle} headerLevel="h2" displayStyle="responsive" />
                 </div>
+                <div className={line}></div>
                 <CitationList header="Explore More" citations={exploreMoreCitations} pageName={pageTitle} />
                 <CitationList header="Discover Datasets" citations={discoverDatasetsCitations} pageName={pageTitle} />
               </aside>
