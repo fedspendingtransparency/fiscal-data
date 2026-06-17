@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePageTile from './homepage-tile/homepage-tile';
-import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsGrid, topicsSectionContainer } from './topics-section.module.scss';
+import { insightsSectionContainer, line, sectionHeader, tileContainer, topicsGrid, topicsSectionContainer, featuredContentLine } from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
@@ -42,7 +42,7 @@ export const TopicsSection = ({ images, width }) => {
                   );
                 })}
               </Stack>
-              <div className={line} />
+              <div className={featuredContentLine} />
               <div className={sectionHeader}>TOOLS</div>
               <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
             </Grid>
@@ -50,8 +50,10 @@ export const TopicsSection = ({ images, width }) => {
               <div className={insightsSectionContainer}>
                 <Experimental featureId="featured-content">
                   <div className={sectionHeader}>FEATURED CONTENT</div>
-                  <HomePageTile content={pageTileMap['story-of-data-transparency']} images={images} rightTile />
+                  <HomePageTile content={pageTileMap['featured-content']} images={images} rightTile />
                   <div className={line} />
+                  <HomePageTile content={pageTileMap['historic-data-now-available']} images={images} rightTile />
+                  <div className={featuredContentLine} />
                 </Experimental>
                 <div className={sectionHeader}>FEATURED TOPICS</div>
                 <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
