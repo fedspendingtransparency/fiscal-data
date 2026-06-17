@@ -12,8 +12,8 @@ export const storyOfDataTransparency = {
     secondary: '#cfd8f3',
   },
   image: {
-    imageRefDesktop: '/images/story-of-data-transparency.png',
-    imageRefMobile: '/images/story-of-data-transparency.png',
+    imageRefDesktop: 'story-of-data-transparency',
+    imageRefMobile: 'story-of-data-transparency',
     altText: 'The Story of Data Transparency',
   },
   socialShare: {

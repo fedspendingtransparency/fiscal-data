@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { image } from './feature-content-image.module.scss';
 import { useWindowSize } from '../../../hooks/windowResize';
+import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 type FeaturedContentImageProps = {
   imageRefDesktop: string;
   imageRefMobile: string;
   altText: string;
+  images: any;
 };
 
 const breakpointLarge = 992;
 
-const FeaturedContentImage = ({ imageRefDesktop, imageRefMobile, altText }: FeaturedContentImageProps): JSX.Element => {
+const FeaturedContentImage = ({ imageRefDesktop, imageRefMobile, altText, images }: FeaturedContentImageProps): JSX.Element => {
   const windowSize = useWindowSize();
-  const [imageRef, setImageRef] = useState(imageRefDesktop);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (window.screen) {
-      if (window.innerWidth < breakpointLarge) {
-        setImageRef(imageRefMobile);
-      } else {
-        setImageRef(imageRefDesktop);
-      }
+      setIsMobile(window.innerWidth < breakpointLarge);
     }
-  }, [imageRefDesktop, imageRefMobile, windowSize]);
+  }, [windowSize]);
 
-  return <img src={imageRef} alt={altText} className={image} data-testid="featured-content-image" />;
+  const desktopImageData = images.allFile.featuredImages.find(img => img.name === imageRefDesktop);
+  const mobileImageData = images.allFile.featuredImages.find(img => img.name === imageRefMobile);
+
+  const imageToDisplay = isMobile ? mobileImageData : desktopImageData;
+  const gatsbyImage = getImage(imageToDisplay);
+
+  return <GatsbyImage image={gatsbyImage} alt={altText} className={image} data-testid="featured-content-image" />;
 };
 
 export default FeaturedContentImage;
