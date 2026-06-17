@@ -1,21 +1,61 @@
-import { ENV_ID } from 'gatsby-env-variables';
-import React from 'react';
-import SiteLayout from '../../components/siteLayout/siteLayout';
+import React, { FunctionComponent } from 'react';
 import PageHelmet from '../../components/page-helmet/page-helmet';
-import FeaturedContentLanding from '../../layouts/featured-content/featured-content-landing/featured-content-landing';
+import SiteLayout from '../../components/siteLayout/siteLayout';
+import About from '../../components/about-us/about-section/about-section';
+import FAQ from '../../components/about-us/faq-section/faq-section';
+import Contact from '../../components/about-us/contact-section/contact-section';
+import TOCData from './toc-data.json';
+import SecondaryNav from '../../components/secondary-nav/secondary-nav';
+import { tocHeader } from '../../components/table-of-contents/toc.module.scss';
+import { aboutPageWrapper, activeLink, content, hoverLink } from './about-us.module.scss';
 
-const FeaturedContentLandingPage = () => (
-  <SiteLayout isPreProd={ENV_ID === 'preprod'}>
-    <FeaturedContentLanding />
-  </SiteLayout>
-);
+const AboutUsPage: FunctionComponent = () => {
+  const breadCrumbLinks = [
+    {
+      name: 'About Us',
+    },
+    {
+      name: 'Home',
+      link: '/',
+    },
+  ];
 
-export default FeaturedContentLandingPage;
+  const tocHeaderComponent = (
+    <h2 data-test-id="about-page-header" className={tocHeader}>
+      Table of Contents
+    </h2>
+  );
+
+  return (
+    <SiteLayout isPreProd={false}>
+      <div className="pageHeader">
+        <div className="content">
+          <h1 data-test-id="pageTitle" className="title">
+            About Us
+          </h1>
+        </div>
+      </div>
+      <div data-test-id="about-page-wrapper" className={`pageWrapper  ${aboutPageWrapper}`}>
+        <SecondaryNav sections={TOCData} activeClass={activeLink} hoverClass={hoverLink} headerComponent={tocHeaderComponent}>
+          <div id={content} className={content} data-test-id="about-content">
+            <About />
+            <FAQ />
+            <Contact />
+          </div>
+        </SecondaryNav>
+      </div>
+    </SiteLayout>
+  );
+};
+
+export default AboutUsPage;
 
 export const Head = () => (
   <PageHelmet
-    pageTitle="Featured Content"
-    description="Explore featured content from Fiscal Data, including historical data stories and insights into U.S. government finances."
-    keywords="U.S. Treasury, Fiscal Data, featured content, historic data, government financial data"
+    pageTitle="About Us"
+    description="Fiscal Data inspires trust in government by providing access to open federal
+          financial data in machine-readable formats with one easy-to-use website."
+    keywords="U.S. Treasury, Fiscal Data, machine readable data, API, government, government
+          financial data, debt, Treasury, US government"
   />
 );
