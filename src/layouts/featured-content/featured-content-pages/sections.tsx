@@ -1,7 +1,9 @@
 import storyOfDataTransparency from './story-of-data-transparency/story-of-data-transparency';
+import historicDataNowAvailable from './historic-data-now-available/historic-data-now-available';
 
 export const featuredContentSections = {
   'story-of-data-transparency': storyOfDataTransparency,
+  'historic-data-announcement': historicDataNowAvailable,
 };
 
 export default featuredContentSections;
