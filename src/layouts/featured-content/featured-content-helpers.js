@@ -75,7 +75,7 @@ export const storyOfDataTransparency = {
 };
 
 export const historicDataNowAvailable = {
-  title: 'The Story of Data Transparency',
+  title: 'Historic Data Now Available',
   colors: {
     primary: '#263A73',
     secondary: '#cfd8f3',
@@ -242,4 +242,5 @@ const featuredContentCitations = page => {
 
 export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
+  'historic-data-announcement': featuredContentCitations('Historic Data Now Available'),
 };

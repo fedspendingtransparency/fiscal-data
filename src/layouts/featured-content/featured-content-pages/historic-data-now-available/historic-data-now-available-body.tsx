@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { featuredContentCitationsMap } from '../../featured-content-helpers';
 
 export const HistoricDataNowAvailableBody = (): ReactElement => {
-  const accountsOfReceiptsAndExpendituresDataset = featuredContentCitationsMap['historic-data-announcement'];
+  const { accountsOfReceiptsAndExpendituresDataset } = featuredContentCitationsMap['historic-data-announcement'];
 
   return (
     <div>
