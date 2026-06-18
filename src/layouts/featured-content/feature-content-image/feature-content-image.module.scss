@@ -6,3 +6,9 @@
   display: block;
   margin-bottom: 4rem;
 }
+
+@media screen and (max-width: $breakpoint-lg - 1) {
+  .image {
+    margin-bottom: 3.1875rem;
+  }
+}
