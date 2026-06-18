@@ -1,0 +1,14 @@
+@use '../../../../variables.module.scss' as *;
+
+// Gray "mat" that boxes in each image with 34.4px (2.15rem) of gray on all sides.
+.imageBox {
+  background-color: $body-background;
+  padding: 2.15rem;
+  margin-bottom: 2rem;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}

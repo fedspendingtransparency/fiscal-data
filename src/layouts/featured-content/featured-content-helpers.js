@@ -74,8 +74,72 @@ export const storyOfDataTransparency = {
   },
 };
 
+export const historicGovtSpending = {
+  title: 'See Historic Government Spending',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  socialShare: {
+    title: 'See Historic Government Spending ',
+    description:
+      'Explore early U.S. government spending in this new short piece from @FiscalService Fiscal Data highlighting ' +
+      'early expenses from the Department of War and the Louisiana Purchase #DataTransparency #GovernmentSpending',
+    body:
+      'Ever wondered how the early U.S. government spent money? Explore historic spending in early financial reports, ' +
+      'now on @FiscalService Fiscal Data! #DataTransparency #OpenData ',
+    emailSubject: 'See Historic Government Spending on Fiscal Data',
+    emailBody:
+      'Ever been curious about how the early U.S. government spent money? This short piece on Fiscal Data explores ' +
+      'some early financial reports highlighting historic spending of the early government, including expenses for ' +
+      'the Department of War and public debt from the Louisiana Purchase.',
+    url: envBaseUrl + '/featured-content/historic-govt-spending/',
+    image: envBaseUrl + '/images/gov_spend.png',
+  },
+
+  links: {
+    exploreMore: [
+      {
+        text: 'Government Spending Open Data | USAspending',
+        url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
+      },
+      {
+        text: 'Federal Spending | U.S. Treasury Fiscal Data',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'Government Revenue | U.S. Treasury Fiscal Data',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'National Deficit | U.S. Treasury Fiscal Data',
+        url: '/americas-finance-guide/national-deficit/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Combined Statement',
+        url: '/datasets/combined-statement',
+      },
+      {
+        text: 'Account of Receipts and Expenditures',
+        url: '/datasets/account-of-receipts-and-expenditures',
+      },
+      {
+        text: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      },
+      {
+        text: 'Historical Debt Outstanding | U.S. Treasury Fiscal Data ',
+        url: '/datasets/historical-debt-outstanding/historical-debt-outstanding',
+      },
+    ],
+  },
+};
+
 const featuredContentPages = {
   'story-of-data-transparency': storyOfDataTransparency,
+  'historic-govt-spending': historicGovtSpending,
 };
 
 export const getFeaturedContentPage = pageName => featuredContentPages[pageName];
@@ -184,6 +248,44 @@ const featuredContentCitations = page => {
   };
 };
 
+const historicGovtSpendingCitations = page => {
+  return {
+    accountsOfReceiptsAndExpenditures: (
+      <CustomLink
+        url="/datasets/account-of-receipts-and-expenditures"
+        id="Account of the Receipts and Expenditures of the United States"
+        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
+      >
+        Account of Receipts and Expenditures of the U.S. Government
+      </CustomLink>
+    ),
+    monthlyTreasuryStatement: (
+      <CustomLink
+        url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
+        id="Monthly Treasury Statement"
+        onClick={() => analyticsEventHandler(page, 'Monthly Treasury Statement')}
+      >
+        Monthly Treasury Statement
+      </CustomLink>
+    ),
+    usaSpending: (
+      <CustomLink url="https://www.usaspending.gov" id="USAspending.gov" onClick={() => analyticsEventHandler(page, 'USAspending.gov')}>
+        USAspending.gov
+      </CustomLink>
+    ),
+    combinedStatement: (
+      <CustomLink
+        url="/datasets/combined-statement"
+        id="Combined Statement of Receipts, Outlays, and Balances"
+        onClick={() => analyticsEventHandler(page, 'Combined Statement of Receipts, Outlays, and Balances')}
+      >
+        Combined Statement of Receipts, Outlays, and Balances
+      </CustomLink>
+    ),
+  };
+};
+
 export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
+  'historic-govt-spending': historicGovtSpendingCitations('See Historic Government Spending'),
 };

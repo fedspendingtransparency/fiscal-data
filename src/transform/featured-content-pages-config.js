@@ -15,6 +15,22 @@ const featuredContentPagesSource = {
       subHeading: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
     },
   },
+  'historic-govt-spending': {
+    slug: '/featured-content/historic-govt-spending/',
+    breadCrumbLinkName: 'See Historic Government Spending ',
+    seoConfig: {
+      pageTitle: 'See Historic Government Spending ',
+      description:
+        'Ever been curious about how the early U.S. government spent money? We explore some early financial reports ' +
+        'highlighting historic spending of the early government.',
+      keywords: 'fiscal data, transparency, history, federal finances',
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'See Historic Government Spending',
+      subHeading: 'Ever been curious about how the early U.S. government spent money?',
+    },
+  },
 };
 
 const freshFeaturedContentPages = () => {
