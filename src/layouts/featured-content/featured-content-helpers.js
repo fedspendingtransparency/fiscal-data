@@ -80,8 +80,13 @@ export const historicGovtSpending = {
     primary: '#263A73',
     secondary: '#cfd8f3',
   },
+  image: {
+    imageRefDesktop: '/images/gov_spend.png',
+    imageRefMobile: '/images/gov_spend.png',
+    altText: 'See Historic Government Spending',
+  },
   socialShare: {
-    title: 'See Historic Government Spending ',
+    title: 'See Historic Government Spending',
     description:
       'Explore early U.S. government spending in this new short piece from @FiscalService Fiscal Data highlighting ' +
       'early expenses from the Department of War and the Louisiana Purchase #DataTransparency #GovernmentSpending',

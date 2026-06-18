@@ -5,6 +5,9 @@
   background-color: $body-background;
   padding: 2.15rem;
   margin-bottom: 2rem;
+  @media screen and (max-width: $breakpoint-md) {
+    padding: 1.25rem;
+  }
 }
 
 .image {
