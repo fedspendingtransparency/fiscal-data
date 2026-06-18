@@ -230,7 +230,7 @@ export const pageTileMap = {
          },
          'featured-content': {
            title: 'Introducing Featured Content',
-           body: 'Explore our collection of current data-related government spending topics and check back for new articles in the future.',
+           body: 'Explore our collection of current data-related government financial topics and check back for new articles in the future.',
            altText: 'Introducing Featured Content',
            desktopImage: 'featured-content-tile',
            mobileImage: 'featured-content-tile',
