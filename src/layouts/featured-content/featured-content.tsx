@@ -28,6 +28,19 @@ interface IFeaturedContentSection {
   index: number;
 }
 
+export const query = graphql`
+  query {
+    allFile(filter: { extension: { eq: "png" }, sourceInstanceName: { eq: "featured-content-images" } }) {
+      featuredImages: nodes {
+        name
+        childImageSharp {
+          gatsbyImageData(quality: 100, placeholder: BLURRED)
+        }
+      }
+    }
+  }
+`;
+
 const FeaturedContentPageLayout = ({ pageContext, data }) => {
   const { pageName, heroImage } = pageContext;
   const featuredContentPage = getFeaturedContentPage(pageName);
@@ -86,19 +99,6 @@ const FeaturedContentPageLayout = ({ pageContext, data }) => {
 };
 
 export default FeaturedContentPageLayout;
-
-export const query = graphql`
-  query {
-    allFile(filter: { extension: { eq: "png" }, sourceInstanceName: { eq: "featured-content-images" } }) {
-      featuredImages: nodes {
-        name
-        childImageSharp {
-          gatsbyImageData(quality: 100, placeholder: BLURRED)
-        }
-      }
-    }
-  }
-`;
 
 export const Head = ({ pageContext }) => {
   const { seoConfig, pageName } = pageContext;
