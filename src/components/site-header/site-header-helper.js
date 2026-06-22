@@ -54,7 +54,7 @@ export const menuSections = [
                featureId: 'featured-content',
                children: [
                  {
-                   to: '/featured-content/historic-data-now-available/',
+                   to: '/featured-content/historic-data-announcement/',
 
                    title: 'Historic Data Now Available',
                  },
@@ -63,7 +63,7 @@ export const menuSections = [
                    title: 'The Story of Data Transparency',
                  },
                  {
-                   to: '/featured-content/history-of-government-spending/',
+                   to: '/featured-content/historic-govt-spending/',
                    title: 'A History of Government Spending',
                  },
                ],
