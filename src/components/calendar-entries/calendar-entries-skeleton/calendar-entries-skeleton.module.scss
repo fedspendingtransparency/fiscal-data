@@ -1,0 +1,70 @@
+@use 'src/variables.module' as *;
+
+@keyframes skeletonPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.bar {
+  display: block;
+  height: 1.2em;
+  border-radius: 4px;
+  background-color: #e4e6e8;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.titleBar {
+  width: 60%;
+  max-width: 478px;
+}
+
+.dateBar {
+  width: 6rem;
+}
+
+.timeBar {
+  width: 5rem;
+}
+
+.statusDot {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background-color: #e4e6e8;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.controlPlaceholder {
+  width: 260px;
+  height: 4rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  background-color: #e4e6e8;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.paginationPlaceholder {
+  width: 14rem;
+  height: 2.5rem;
+  border-radius: 4px;
+  background-color: #e4e6e8;
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .statusDot,
+  .controlPlaceholder,
+  .paginationPlaceholder {
+    animation: none;
+  }
+}
