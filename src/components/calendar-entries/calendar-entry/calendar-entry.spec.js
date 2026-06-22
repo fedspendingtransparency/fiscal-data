@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import * as Gatsby from 'gatsby';
 import CalendarEntry, { releaseCalendarDatasetClickEvent } from './calendar-entry';
 import Analytics from '../../../utils/analytics/analytics';
-import * as sortHelper from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
 
 describe('Calendar Entry', () => {
   const firstDate = '2000-01-01';
@@ -15,20 +14,12 @@ describe('Calendar Entry', () => {
     url: '/test-dataset-url/',
   };
 
-  beforeAll(() => {
-    jest.spyOn(sortHelper, 'getLocalTimeZone').mockReturnValue('America/New_York');
-  });
-
-  afterAll(() => {
-    sortHelper.getLocalTimeZone.mockRestore();
-  });
-
   it('renders a calendar entry with the correct title, date, time and status', () => {
     render(<CalendarEntry dataset={dataset} />);
 
     expect(screen.getByTestId('title').textContent).toEqual('Test name');
     expect(screen.getByTestId('date').textContent).toEqual('01/01/2000');
-    expect(screen.getByTestId('time').textContent).toEqual('8:00 am (EST)');
+    expect(screen.getByTestId('time').textContent).toEqual('8:00 am');
     expect(screen.getByTestId('updated-text').textContent).toEqual('Not Released');
   });
 
@@ -42,7 +33,7 @@ describe('Calendar Entry', () => {
     render(<CalendarEntry dataset={modifiedDataset} />);
 
     expect(screen.getByTestId('date').textContent).toEqual('01/19/2022');
-    expect(screen.getByTestId('time').textContent).toEqual('7:00 pm (EST)');
+    expect(screen.getByTestId('time').textContent).toEqual('7:00 pm');
   });
 
   it('navigates to the dataset detail page when clicked on', () => {

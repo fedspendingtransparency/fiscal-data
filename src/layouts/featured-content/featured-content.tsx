@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import { graphql } from 'gatsby';
 import SiteLayout from '../../components/siteLayout/siteLayout';
 import PageHelmet from '../../components/page-helmet/page-helmet';
 import {
@@ -12,6 +13,7 @@ import {
   socialShareMobile,
   subTitle,
   rectangleBar,
+  line,
 } from './featured-content.module.scss';
 import SocialShare from '../../components/social-share/social-share';
 import CitationList from '../../components/citation-list/citation-list';
@@ -26,7 +28,20 @@ interface IFeaturedContentSection {
   index: number;
 }
 
-const FeaturedContentPageLayout = ({ pageContext }) => {
+export const query = graphql`
+  query {
+    allFile(filter: { extension: { eq: "png" }, sourceInstanceName: { eq: "featured-content-images" } }) {
+      featuredImages: nodes {
+        name
+        childImageSharp {
+          gatsbyImageData(quality: 100, placeholder: BLURRED)
+        }
+      }
+    }
+  }
+`;
+
+const FeaturedContentPageLayout = ({ pageContext, data }) => {
   const { pageName, heroImage } = pageContext;
   const featuredContentPage = getFeaturedContentPage(pageName);
   const colors = featuredContentPage?.colors || {};
@@ -48,7 +63,12 @@ const FeaturedContentPageLayout = ({ pageContext }) => {
             <div className={contentContainer}>
               <div className={mainContent}>
                 {image && (
-                  <FeaturedContentImage imageRefDesktop={image.imageRefDesktop} imageRefMobile={image.imageRefMobile} altText={image.altText} />
+                  <FeaturedContentImage
+                    imageRefDesktop={image.imageRefDesktop}
+                    imageRefMobile={image.imageRefMobile}
+                    altText={image.altText}
+                    images={data}
+                  />
                 )}
                 <div className={rectangleBar} style={{ backgroundColor: colors.primary }} />
                 {heroImage.subHeading !== '' && (
@@ -66,6 +86,7 @@ const FeaturedContentPageLayout = ({ pageContext }) => {
                 <div data-testid="social-share-desktop" className={socialShareDesktop}>
                   <SocialShare copy={socialShare} pageName={pageTitle} headerLevel="h2" displayStyle="responsive" />
                 </div>
+                <div className={line}></div>
                 <CitationList header="Explore More" citations={exploreMoreCitations} pageName={pageTitle} />
                 <CitationList header="Discover Datasets" citations={discoverDatasetsCitations} pageName={pageTitle} />
               </aside>
