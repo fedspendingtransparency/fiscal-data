@@ -1,4 +1,4 @@
-@use '../../variables.module' as *;
+@use '../../variables.module.scss' as *;
 
 .featuredContentContainer {
   display: flex;
@@ -51,6 +51,10 @@
 
   .relatedContent {
     width: 20rem;
+
+    .line {
+      display: none;
+    }
   }
 }
 .socialShareDesktop {
@@ -79,13 +83,17 @@
   }
 
   .socialShareMobile {
-    margin: 1rem 0 2.875rem 0;
+    margin: 0.75rem 0 3.625rem 0;
   }
 
   .contentContainer {
     .mainContent {
       margin-right: 0;
       width: 100%;
+
+      .subTitle {
+        margin: 0 0 0.875rem;
+      }
 
       .sectionContainer {
         margin-bottom: 0;
@@ -94,6 +102,17 @@
 
     .relatedContent {
       width: 100%;
+
+      .line {
+        width: 100%;
+        border-bottom: solid 1px #c2c2c2;
+        bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      .listHeader {
+        margin: 1.25rem 0 0.5rem;
+      }
     }
     flex-direction: column;
   }

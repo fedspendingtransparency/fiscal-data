@@ -55,8 +55,14 @@ describe('Featured Content Template', () => {
     heroImage,
   };
 
+  const mockData = {
+    allFile: {
+      featuredImages: [],
+    },
+  };
+
   it('renders the featured content page heading, subtitle, and sidebar links', async () => {
-    const { findByRole, getByTestId } = render(<FeaturedContentPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, getByTestId } = render(<FeaturedContentPageLayout pageContext={mockPageContext} data={mockData} />, {
       wrapper,
     });
 
@@ -79,7 +85,7 @@ describe('Featured Content Template', () => {
   });
 
   it('does not render a Data Sources and Methodologies section', async () => {
-    const { findByRole, queryByRole } = render(<FeaturedContentPageLayout pageContext={mockPageContext} />, {
+    const { findByRole, queryByRole } = render(<FeaturedContentPageLayout pageContext={mockPageContext} data={mockData} />, {
       wrapper,
     });
 
