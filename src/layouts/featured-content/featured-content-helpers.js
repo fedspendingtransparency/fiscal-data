@@ -81,8 +81,8 @@ export const historicGovtSpending = {
     secondary: '#cfd8f3',
   },
   image: {
-    imageRefDesktop: '/images/gov_spend.png',
-    imageRefMobile: '/images/gov_spend.png',
+    imageRefDesktop: 'gov_spend',
+    imageRefMobile: 'gov_spend',
     altText: 'See Historic Government Spending',
   },
   socialShare: {
@@ -99,35 +99,35 @@ export const historicGovtSpending = {
       'some early financial reports highlighting historic spending of the early government, including expenses for ' +
       'the Department of War and public debt from the Louisiana Purchase.',
     url: envBaseUrl + '/featured-content/historic-govt-spending/',
-    image: envBaseUrl + '/images/gov_spend.png',
+    image: envBaseUrl + '/featured-content-images/gov_spend.png',
   },
 
   links: {
     exploreMore: [
       {
-        text: 'Government Spending Open Data | USAspending',
+        text: 'Government Spending Open Data',
         url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
       },
       {
-        text: 'Federal Spending | U.S. Treasury Fiscal Data',
+        text: 'Federal Spending',
         url: '/americas-finance-guide/federal-spending/',
       },
       {
-        text: 'Government Revenue | U.S. Treasury Fiscal Data',
-        url: '/americas-finance-guide/federal-spending/',
+        text: 'Government Revenue',
+        url: '/americas-finance-guide/government-revenue/',
       },
       {
-        text: 'National Deficit | U.S. Treasury Fiscal Data',
+        text: 'National Deficit',
         url: '/americas-finance-guide/national-deficit/',
       },
     ],
     discoverDatasets: [
       {
-        text: 'Combined Statement',
+        text: 'Combined Statement | U.S. Treasury Fiscal Data',
         url: '/datasets/combined-statement',
       },
       {
-        text: 'Account of Receipts and Expenditures',
+        text: 'Account of Receipts and Expenditures | U.S. Treasury Fiscal Data',
         url: '/datasets/account-of-receipts-and-expenditures',
       },
       {
@@ -135,7 +135,7 @@ export const historicGovtSpending = {
         url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
       },
       {
-        text: 'Historical Debt Outstanding | U.S. Treasury Fiscal Data ',
+        text: 'Historical Debt Outstanding',
         url: '/datasets/historical-debt-outstanding/historical-debt-outstanding',
       },
     ],
@@ -162,7 +162,7 @@ const featuredContentCitations = page => {
     accountsOfReceiptsAndExpendituresDataset: (
       <CustomLink
         url="/datasets/account-of-receipts-and-expenditures"
-        id="Account of the Receipts and Expenditures of the United States"
+        id="Account of the Receipts and Expenditures"
         onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
       >
         Account of the Receipts and Expenditures of the United States
@@ -248,43 +248,6 @@ const featuredContentCitations = page => {
         onClick={() => analyticsEventHandler('National Deficit', 'Debt Citation Click')}
       >
         deficit
-      </CustomLink>
-    ),
-  };
-};
-
-const historicGovtSpendingCitations = page => {
-  return {
-    accountsOfReceiptsAndExpenditures: (
-      <CustomLink
-        url="/datasets/account-of-receipts-and-expenditures"
-        id="Account of the Receipts and Expenditures of the United States"
-        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
-      >
-        Account of Receipts and Expenditures of the U.S. Government
-      </CustomLink>
-    ),
-    monthlyTreasuryStatement: (
-      <CustomLink
-        url="/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government"
-        id="Monthly Treasury Statement"
-        onClick={() => analyticsEventHandler(page, 'Monthly Treasury Statement')}
-      >
-        Monthly Treasury Statement
-      </CustomLink>
-    ),
-    usaSpending: (
-      <CustomLink url="https://www.usaspending.gov" id="USAspending.gov" onClick={() => analyticsEventHandler(page, 'USAspending.gov')}>
-        USAspending.gov
-      </CustomLink>
-    ),
-    combinedStatement: (
-      <CustomLink
-        url="/datasets/combined-statement"
-        id="Combined Statement of Receipts, Outlays, and Balances"
-        onClick={() => analyticsEventHandler(page, 'Combined Statement of Receipts, Outlays, and Balances')}
-      >
-        Combined Statement of Receipts, Outlays, and Balances
       </CustomLink>
     ),
   };
