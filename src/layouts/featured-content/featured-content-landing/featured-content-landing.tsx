@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import HomePageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
-import { banner, categoryHeader, content, sectionBar, tileGrid } from './featured-content-landing.module.scss';
+import { banner, categoryHeader, content, sectionBar, tileGrid, featuredContentHeader, bannerIcon } from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
 
 const FeaturedContentLanding = () => {
@@ -26,7 +26,11 @@ const FeaturedContentLanding = () => {
   return (
     <div data-testid="featured-content-landing">
       <div className={banner} data-testid="featured-content-banner">
-        <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" />
+        <div className={featuredContentHeader}>
+          <h1>Featured Content</h1>
+          <p>A Collection of Current Data-related Government Financial Topics</p>
+        </div>
+        <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" className={bannerIcon} />
       </div>
       <div className={content}>
         {featuredContentLanding.map(section => (
@@ -47,12 +51,13 @@ const FeaturedContentLanding = () => {
                   }}
                   images={images}
                   rightTile
+                  showLine
                   analyticsCategory="Featured Content Navigation"
                   hoverAnalyticsCategory="Featured Content Cards"
                 />
               ))}
             </div>
-            <div className={sectionBar} />
+            {/*<div className={sectionBar} />*/}
           </section>
         ))}
       </div>

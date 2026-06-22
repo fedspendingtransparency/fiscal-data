@@ -15,6 +15,7 @@ import {
   textSection,
   twoColLayout,
   rightTileText,
+  line
 } from './homepage-tile.module.scss';
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
@@ -28,6 +29,7 @@ const HomePageTile = ({
   layout,
   explainerTile,
   rightTile,
+  showLine = false,
   analyticsCategory = 'Homepage Navigation',
   hoverAnalyticsCategory = 'Homepage Cards',
 }) => {
@@ -63,6 +65,7 @@ const HomePageTile = ({
     <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
       <div className={tileLayoutWrapper}>
         <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
+        {showLine && <div className={line} />}
         <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}

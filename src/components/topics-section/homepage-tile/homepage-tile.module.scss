@@ -9,6 +9,13 @@
     width: 100%;
   }
 
+  .line {
+    width: 100%;
+    margin: 1rem 0;
+    border-bottom: solid 1px #d8d8d8;
+    bottom: 0.5rem;
+  }
+
   // triggered in desktop form, where image/text is side by side
   &.twoColLayout {
     @media screen and (min-width: $breakpoint-lg) {

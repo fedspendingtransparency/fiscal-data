@@ -1,12 +1,35 @@
 @use 'src/variables.module' as *;
 
 .banner {
-  width: 100%;
+  position: relative;
+  min-height: 250px;
+  background: #193059;
+  display: flex;
+  align-items: center;
+  overflow: hidden
+}
 
-  img {
-    display: block;
-    width: 100%;
-    height: 250px;
+.bannerIcon {
+  position: absolute;
+  right: 8rem;
+  top: 55%;
+  transform: translateY(-50%);
+  width: 325px;
+}
+
+.featuredContentHeader {
+  padding-left: 8rem;
+
+  h1 {
+    margin: 0 0 1rem 0;
+  }
+
+  p {
+    margin: 0;
+  }
+  h1,
+  p {
+    color: white;
   }
 }
 
@@ -52,5 +75,40 @@
 @media screen and (min-width: $breakpoint-lg) {
   .tileGrid {
     grid-template-columns: repeat(3, 1fr); // desktop: 3 per row
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .content {
+    padding: 0 2rem;
+  }
+
+  .banner {
+    min-height: 250px;
+    align-items: flex-start;
+  }
+  .featuredContentHeader {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-top: 4rem;
+    max-width: 18rem;
+    z-index: 2
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .bannerIcon {
+    position: absolute;
+    right: -4rem;
+    width: 225px;
+    z-index: 1;
+    top: 45%;
   }
 }
