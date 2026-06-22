@@ -6,6 +6,7 @@ import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
 import { Link } from 'gatsby';
 import Analytics from '../../../../utils/analytics/analytics';
 import CustomLink from '../../../links/custom-link/custom-link';
+import Experimental from '../../../experimental/experimental';
 
 const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, setActiveState }) => {
   const [isExpanded, setIsExpanded] = useState(defaultOpen);
@@ -74,7 +75,7 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
       </div>
       <div hidden={!isExpanded}>
         {sections.map(section => {
-          return (
+          const sectionContent = (
             <div data-testid={'expandedContent'} key={`${header}-${section.sectionHeader}`}>
               {section.sectionHeader && <div className={sectionHeader}>{section.sectionHeader}</div>}
               <div className={linkContainer}>
@@ -110,6 +111,11 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
               </div>
             </div>
           );
+          if (section.isExperimental) {
+            return <Experimental featureId={section.featureId}>{sectionContent}</Experimental>;
+          }
+
+          return sectionContent;
         })}
       </div>
     </>

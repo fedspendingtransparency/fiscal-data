@@ -68,6 +68,18 @@ const MobileMenu = ({ setOpenGlossary }) => {
         },
       ],
     },
+    {
+      sectionHeader: 'FEATURED CONTENT',
+      analyticsAction: 'Topics Click',
+      isExperimental: true,
+      featureId: 'featured-content',
+      children: [
+        {
+          to: '/featured-content/story-of-data-transparency/',
+          name: 'The Story of Data Transparency',
+        },
+      ],
+    },
   ];
 
   const tools = [

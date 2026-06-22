@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { title, toolTip, tooltipLabel, tooltipRow, value } from '../../deficit-chart/deficit-chart.module.scss';
 import { dot } from '../chart-legend.module.scss';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
@@ -13,6 +13,15 @@ interface ICustomTooltip {
 }
 
 const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setFocused, labelByYear, curFY, customData }) => {
+  const activePayload = customData ? customData[0] : payload?.[0];
+  const focusedYear = activePayload?.payload?.year;
+
+  useEffect(() => {
+    if (focusedYear) {
+      setFocused(focusedYear);
+    }
+  }, [focusedYear, setFocused]);
+
   if (customData) {
     const year = customData[0].payload.year;
     const yearLabel = customData[0].payload.year === curFY ? `FYTD ${year}` : year;
@@ -41,7 +50,6 @@ const CustomTooltip: FunctionComponent<ICustomTooltip> = ({ payload, label, setF
     const year = payload[0].payload.year;
     const yearLabel = payload[0].payload.year === curFY ? `FYTD ${year}` : year;
     const categoryLabel = label === curFY ? `FYTD ${label}` : label;
-    setFocused(year);
     return (
       <div className={toolTip} data-testid="CustomTooltip">
         <div className={tooltipLabel}>{labelByYear ? yearLabel : categoryLabel}</div>

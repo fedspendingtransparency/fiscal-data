@@ -14,7 +14,7 @@ const ReportGenerator: FunctionComponent<IReportGenerator> = ({ generatedReport 
 
   return (
     <Document title={downloadName}>
-      <Page style={pageContainer} wrap={false}>
+      <Page style={pageContainer}>
         <Text style={styles.title}>{documentTitle}</Text>
         {reportInfo.map((line, index) => {
           const { name, value, style } = line;
