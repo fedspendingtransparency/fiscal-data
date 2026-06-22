@@ -107,6 +107,7 @@ export const historicGovtSpending = {
       {
         text: 'Government Spending Open Data',
         url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
+        external: true,
       },
       {
         text: 'Federal Spending',
@@ -123,11 +124,11 @@ export const historicGovtSpending = {
     ],
     discoverDatasets: [
       {
-        text: 'Combined Statement | U.S. Treasury Fiscal Data',
+        text: 'Combined Statement',
         url: '/datasets/combined-statement',
       },
       {
-        text: 'Account of Receipts and Expenditures | U.S. Treasury Fiscal Data',
+        text: 'Account of Receipts and Expenditures',
         url: '/datasets/account-of-receipts-and-expenditures',
       },
       {
