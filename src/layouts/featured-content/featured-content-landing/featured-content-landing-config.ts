@@ -19,7 +19,7 @@ export const featuredContentBanner = {
 
 export const featuredContentLanding: FeaturedCategory[] = [
          {
-           category: 'Historic Data',
+           category: 'HISTORIC DATA',
            articles: [
              {
                title: 'Historic Data Now Available',
@@ -44,7 +44,7 @@ export const featuredContentLanding: FeaturedCategory[] = [
                  'Government has all the details!',
                image: 'historic-government-spending',
                altText: 'See Historic Government Spending',
-               path: '/featured-content/historic-government-spending/',
+               path: '/featured-content/historic-govt-spending/',
                analyticsName: 'See Historic Government Spending',
              },
            ],
