@@ -1,8 +1,13 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import type { TooltipContentProps } from 'recharts';
 import { CPI_MAX_YEAR, CPI_MIN_YEAR } from './cpi-data';
 import { convertDollars, formatDollars, isYearInRange } from './inflation-math';
 import {
   arrow,
+  chartHeading,
+  chartSection,
+  chartTooltip,
   chip,
   container,
   error,
@@ -26,6 +31,24 @@ import {
 interface IExample {
   label: string;
 }
+
+interface IChartPoint {
+  year: number;
+  value: number;
+}
+
+const compactDollars = (value: number): string =>
+  value.toLocaleString('en-US', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 1 });
+
+const ChartTooltip: FunctionComponent<TooltipContentProps<number, string>> = ({ active, payload, label: tipLabel }) => {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div className={chartTooltip}>
+      <div>{tipLabel}</div>
+      <strong>{formatDollars(payload[0].value as number)}</strong>
+    </div>
+  );
+};
 
 const EXAMPLES: IExample[] = [
   { label: '$1 in 1950 to today' },
@@ -56,6 +79,18 @@ const InflationCalculator: FunctionComponent = () => {
   const result_ = useMemo(() => {
     if (validationError) return null;
     return convertDollars(parsed.amt, parsed.fy, parsed.ty);
+  }, [parsed, validationError]);
+
+  const chartData = useMemo<IChartPoint[]>(() => {
+    if (validationError) return [];
+    const start = Math.min(parsed.fy, parsed.ty);
+    const end = Math.max(parsed.fy, parsed.ty);
+    const points: IChartPoint[] = [];
+    for (let year = start; year <= end; year++) {
+      const converted = convertDollars(parsed.amt, parsed.fy, year);
+      if (converted) points.push({ year, value: converted.toValue });
+    }
+    return points;
   }, [parsed, validationError]);
 
   return (
@@ -128,6 +163,23 @@ const InflationCalculator: FunctionComponent = () => {
               CPI: <strong>{result_.fromCpi.toFixed(1)}</strong> to <strong>{result_.toCpi.toFixed(1)}</strong>
             </span>
           </div>
+        </div>
+      ) : null}
+
+      {chartData.length > 1 ? (
+        <div className={chartSection}>
+          <h2 className={chartHeading}>
+            Equivalent value of {formatDollars(parsed.amt)} ({Math.min(parsed.fy, parsed.ty)}&ndash;{Math.max(parsed.fy, parsed.ty)})
+          </h2>
+          <ResponsiveContainer width="100%" height={280}>
+            <LineChart data={chartData} margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e1e1e1" vertical={false} />
+              <XAxis dataKey="year" tick={{ fontSize: 12, fill: '#555' }} minTickGap={24} />
+              <YAxis tickFormatter={compactDollars} tick={{ fontSize: 12, fill: '#555' }} width={64} />
+              <Tooltip content={props => <ChartTooltip {...props} />} />
+              <Line type="monotone" dataKey="value" stroke="#0071bc" strokeWidth={2} dot={false} activeDot={{ r: 4 }} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       ) : null}
 

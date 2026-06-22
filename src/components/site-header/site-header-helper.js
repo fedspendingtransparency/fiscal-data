@@ -67,6 +67,10 @@ export const menuSections = [
         to: '/currency-exchange-rates-converter/',
         title: 'Currency Exchange Rates Converter',
       },
+      {
+        to: '/inflation-calculator/',
+        title: 'Inflation Calculator',
+      },
     ],
   },
   {

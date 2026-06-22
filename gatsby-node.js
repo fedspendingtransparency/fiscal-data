@@ -1121,6 +1121,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     component: path.resolve(`./src/layouts/currency-exchange-rates-converter/index.tsx`),
   });
 
+  createPage({
+    path: `/inflation-calculator/`,
+    matchPath: '/inflation-calculator/',
+    component: path.resolve(`./src/layouts/inflation-calculator/index.tsx`),
+  });
+
   if (ENV_ID !== 'production') {
     createPage({
       path: `/experimental/`,

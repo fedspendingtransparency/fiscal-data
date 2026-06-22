@@ -146,6 +146,30 @@
   }
 }
 
+.chartSection {
+  margin-top: 1.5rem;
+}
+
+.chartHeading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #112e51;
+  margin: 0 0 0.75rem;
+}
+
+.chartTooltip {
+  background: #fff;
+  border: 1px solid #d6d7d9;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  color: #333;
+
+  strong {
+    color: #112e51;
+  }
+}
+
 .footnote {
   font-size: 0.8125rem;
   color: #555;

@@ -1,0 +1,58 @@
+.pageContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.relatedResources {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-family: 'Source Sans Pro', sans-serif;
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #112e51;
+    margin: 0 0 1rem;
+  }
+}
+
+.resourceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.resourceItem {
+  border: 1px solid #d6d7d9;
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+
+  a {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0071bc;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: #555;
+    margin: 0.25rem 0 0;
+  }
+}
+
+.sourceNote {
+  max-width: 720px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1.5rem;
+  font-size: 0.8125rem;
+  color: #555;
+  line-height: 1.5;
+
+  a {
+    color: #0071bc;
+  }
+}
