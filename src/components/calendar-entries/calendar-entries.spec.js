@@ -1,5 +1,5 @@
 import React from 'react';
-import CalendarEntriesList, { releaseCalendarSortEvent } from './calendar-entries';
+import CalendarEntriesList, { dedupeReleases, releaseCalendarSortEvent } from './calendar-entries';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { fireEvent, render, waitForElementToBeRemoved, within } from '@testing-library/react';
@@ -140,6 +140,28 @@ describe('Calendar Entries List', () => {
 
     const calendarEntries = getAllByTestId('calendar-entry');
     within(calendarEntries[0]).getByText('11/22/2023');
+  });
+
+  describe('dedupeReleases', () => {
+    it('removes entries sharing a datasetId, date, and time', () => {
+      const withDupes = [
+        { datasetId: 'a', date: '2023-11-22', time: '1500' },
+        { datasetId: 'a', date: '2023-11-22', time: '1500' },
+        { datasetId: 'a', date: '2023-11-22', time: '1600' },
+        { datasetId: 'b', date: '2023-11-22', time: '1500' },
+      ];
+      expect(dedupeReleases(withDupes)).toHaveLength(3);
+    });
+
+    it('keeps the first occurrence of a duplicate', () => {
+      const withDupes = [
+        { datasetId: 'a', date: '2023-11-22', time: '1500', released: 'true' },
+        { datasetId: 'a', date: '2023-11-22', time: '1500', released: 'false' },
+      ];
+      const result = dedupeReleases(withDupes);
+      expect(result).toHaveLength(1);
+      expect(result[0].released).toBe('true');
+    });
   });
 
   it('triggers an analytics event when the sort changes', async () => {

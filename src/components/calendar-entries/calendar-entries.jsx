@@ -28,6 +28,18 @@ export const releaseCalendarSortEvent = {
 const releaseCalendarUrl = `https://api.fiscaldata.treasury.gov/services/calendar/release`;
 const metadataUrl = `https://api.fiscaldata.treasury.gov/services/dtg/metadata/`;
 
+export const dedupeReleases = releases => {
+  const seen = new Set();
+  return releases.filter(r => {
+    const key = `${r.datasetId}-${r.date}-${`${r.time}`.replace(/:/g, '')}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+};
+
 const CalendarEntriesList = () => {
   const [loading, setLoading] = useState(true);
   const [apiData, setApiData] = useState(null);
@@ -55,7 +67,7 @@ const CalendarEntriesList = () => {
   useEffect(() => {
     (async () => {
       if (metaData) {
-        const res = await basicFetch(releaseCalendarUrl);
+        const res = await dedupeReleases(await basicFetch(releaseCalendarUrl));
         res.forEach((element, index) => {
           const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
           if (datasetMetaData) {
