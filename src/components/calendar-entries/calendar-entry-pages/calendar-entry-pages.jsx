@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarEntry from '../calendar-entry/calendar-entry';
 import { separateEntriesByDate, separateEntriesByName } from '../calendar-entry-sort-helper/calendar-entry-sort-helper';
-import { entriesGroup, separatorStyle } from './calendar-entry-pages.module.scss';
+import { entriesGroup, separatorStyle, disclaimerNote, dateContainer } from './calendar-entry-pages.module.scss';
 
 const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPage, earliestDate }) => {
   // Separate the entries into separate chunks of (entriesPerPage) length
@@ -20,7 +20,10 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
     for (const separator in separatedEntries) {
       calendarEntries.push(
         <div className={entriesGroup}>
-          <div className={separatorStyle}>{separator}</div>
+          <div className={dateContainer}>
+            <div className={separatorStyle}>{separator}</div>
+            <div className={disclaimerNote}>All times are shown in the user's local time dependent on user operating system configuration.</div>
+          </div>
           {separatedEntries[separator].map(d => {
             if (d !== undefined) {
               return (
