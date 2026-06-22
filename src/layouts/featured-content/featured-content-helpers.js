@@ -149,8 +149,8 @@ const featuredContentCitations = page => {
     accountsOfReceiptsAndExpendituresDataset: (
       <CustomLink
         url="/datasets/account-of-receipts-and-expenditures"
-        id="Account of the Receipts and Expenditures of the United States"
-        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
+        id="Account of the Receipts and Expenditures"
+        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures')}
       >
         Account of the Receipts and Expenditures
       </CustomLink>

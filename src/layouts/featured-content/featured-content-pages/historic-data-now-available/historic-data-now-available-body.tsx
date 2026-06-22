@@ -3,7 +3,7 @@ import { featuredContentCitationsMap } from '../../featured-content-helpers';
 import { line } from './historic-data-now-available-body.module.scss';
 
 export const HistoricDataNowAvailableBody = (): ReactElement => {
-  const { accountsOfReceiptsAndExpendituresDataset } = featuredContentCitationsMap['historic-data-announcement'];
+  const { accountsOfReceiptsAndExpendituresDataset, combinedStatementDataset } = featuredContentCitationsMap['historic-data-announcement'];
 
   return (
     <div>
@@ -13,8 +13,8 @@ export const HistoricDataNowAvailableBody = (): ReactElement => {
       </p>
       <p>
         This milestone provides insight into federal receipts and expenditures data from 1793 onward, including Treasury's{' '}
-        {accountsOfReceiptsAndExpendituresDataset} (1793–1890) and the Combined Statement of Receipts, Outlays, and Balances (1872–2025). Together,
-        these records offer a comprehensive picture of America's finances spanning more than 230 years.{' '}
+        {accountsOfReceiptsAndExpendituresDataset} (1793–1890) and the {combinedStatementDataset} (1872–2025). Together, these records offer a
+        comprehensive picture of America's finances spanning more than 230 years.{' '}
       </p>
       <p>
         This release offers an unprecedented view of government revenue collection and spending since the nation's founding. It enables analysis of an
