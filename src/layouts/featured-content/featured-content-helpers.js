@@ -165,7 +165,7 @@ const featuredContentCitations = page => {
         id="Account of the Receipts and Expenditures"
         onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
       >
-        Account of the Receipts and Expenditures of the United States
+        Account of the Receipts and Expenditures
       </CustomLink>
     ),
     federalFundingAccountabilityAct: (
@@ -255,5 +255,5 @@ const featuredContentCitations = page => {
 
 export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
-  'historic-govt-spending': historicGovtSpendingCitations('See Historic Government Spending'),
+  'historic-govt-spending': featuredContentCitations('See Historic Government Spending'),
 };
