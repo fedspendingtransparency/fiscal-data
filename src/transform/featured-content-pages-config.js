@@ -31,6 +31,22 @@ const featuredContentPagesSource = {
       subHeading: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
     },
   },
+  'historic-govt-spending': {
+    slug: '/featured-content/historic-govt-spending/',
+    breadCrumbLinkName: 'See Historic Government Spending ',
+    seoConfig: {
+      pageTitle: 'See Historic Government Spending | U.S. Treasury Fiscal Data',
+      description:
+        'Ever been curious about how the early U.S. government spent money? We explore some early financial reports ' +
+        'highlighting historic spending of the early government.',
+      keywords: 'fiscal data, transparency, history, federal finances',
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'See Historic Government Spending',
+      subHeading: 'Ever been curious about how the early U.S. government spent money?',
+    },
+  },
 };
 
 const freshFeaturedContentPages = () => {
