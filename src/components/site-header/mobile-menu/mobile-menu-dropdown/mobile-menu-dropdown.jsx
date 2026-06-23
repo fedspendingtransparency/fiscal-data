@@ -77,7 +77,17 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
         {sections.map(section => {
           const sectionContent = (
             <div data-testid={'expandedContent'} key={`${header}-${section.sectionHeader}`}>
-              {section.sectionHeader && <div className={sectionHeader}>{section.sectionHeader}</div>}
+              {section.sectionHeader && (
+                <div className={sectionHeader}>
+                  {section.to ? (
+                    <CustomLink url={section.to} onClick={() => clickHandler(title, section.sectionHeader)}>
+                      {section.sectionHeader}
+                    </CustomLink>
+                  ) : (
+                    section.sectionHeader
+                  )}
+                </div>
+              )}
               <div className={linkContainer}>
                 {section.children.map(page => {
                   if (page.name === 'Glossary') {
