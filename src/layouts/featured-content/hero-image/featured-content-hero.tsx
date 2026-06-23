@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useWindowSize } from 'usehooks-ts';
 import {
   featuredContentHeroPrimary,
   featuredContentHeroSecondary,
@@ -19,7 +18,7 @@ const FeaturedContentHero: FunctionComponent<IFeaturedContentHero> = ({
   primaryColor = featuredContentHeroPrimary,
   secondaryColor = featuredContentHeroSecondary,
 }) => {
-  const { width } = useWindowSize({ initializeWithValue: false });
+  const width = 6000;
 
   const lineHeight = 8;
   const chevronHeight = 18;
@@ -44,18 +43,16 @@ const FeaturedContentHero: FunctionComponent<IFeaturedContentHero> = ({
         </h1>
       </div>
       <div className={heroBorder} data-testid="hero-border">
-        {!!width && (
-          <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
-            <defs>
-              <linearGradient id="featuredContentGradient" cx="50%" cy="50%" r="50%">
-                <stop offset="38%" stopColor={primaryColor} />
-                <stop offset="50%" stopColor={secondaryColor} />
-                <stop offset="62%" stopColor={primaryColor} />
-              </linearGradient>
-            </defs>
-            <path d={'M0 0 ' + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + ' Z'} fill="url(#featuredContentGradient)" />
-          </svg>
-        )}
+        <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
+          <defs>
+            <linearGradient id="featuredContentGradient">
+              <stop offset="38%" stopColor={primaryColor} />
+              <stop offset="50%" stopColor={secondaryColor} />
+              <stop offset="62%" stopColor={primaryColor} />
+            </linearGradient>
+          </defs>
+          <path d={'M0 0 ' + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + ' Z'} fill="url(#featuredContentGradient)" />
+        </svg>
       </div>
     </>
   );
