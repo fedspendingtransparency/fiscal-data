@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { caret, headerExpanded, linkContainer, mainHeader, resourceLink, sectionHeader } from './mobile-menu-dropdown.module.scss';
+import {
+  caret,
+  headerExpanded,
+  linkContainer,
+  mainHeader,
+  resourceLink,
+  sectionHeader,
+  sectionHeaderContainer,
+} from './mobile-menu-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight';
@@ -80,9 +88,11 @@ const MobileMenuDropdown = ({ header, sections, defaultOpen, setOpenGlossary, se
               {section.sectionHeader && (
                 <div className={sectionHeader}>
                   {section.to ? (
-                    <CustomLink url={section.to} onClick={() => clickHandler(title, section.sectionHeader)}>
-                      {section.sectionHeader}
-                    </CustomLink>
+                    <div className={sectionHeaderContainer}>
+                      <Link to={section.to} onClick={() => clickHandler(title, section.sectionHeader)}>
+                        {section.sectionHeader}
+                      </Link>
+                    </div>
                   ) : (
                     section.sectionHeader
                   )}
