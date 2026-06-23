@@ -105,7 +105,15 @@ const MenuDropdown = ({ content, activeDropdown, setActiveDropdown, glossaryClic
         const sectionContent = (
           <div className={dropdownRow} key={index}>
             <div className={dropdownColumnOne}>
-              <div className={dropdownTitle}>{section.header}</div>
+              <div className={dropdownTitle}>
+                {section.to ? (
+                  <Link to={section.to} onClick={() => handlePageClick(title, section.header)}>
+                    {section.header}
+                  </Link>
+                ) : (
+                  section.header
+                )}
+              </div>
               <div>
                 {section.children.map(page => (
                   <div key={page.title} className={dropdownListItem}>

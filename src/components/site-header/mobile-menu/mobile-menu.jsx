@@ -70,13 +70,22 @@ const MobileMenu = ({ setOpenGlossary }) => {
     },
     {
       sectionHeader: 'FEATURED CONTENT',
+      to: '/featured-content/',
       analyticsAction: 'Topics Click',
       isExperimental: true,
       featureId: 'featured-content',
       children: [
         {
+          to: '/featured-content/historic-data-announcement/',
+          name: 'Historic Data Now Available',
+        },
+        {
           to: '/featured-content/story-of-data-transparency/',
           name: 'The Story of Data Transparency',
+        },
+        {
+          to: '/featured-content/historic-govt-spending/',
+          name: 'A History of Government Spending',
         },
       ],
     },
