@@ -19,7 +19,7 @@ const FeaturedContentHero: FunctionComponent<IFeaturedContentHero> = ({
   primaryColor = featuredContentHeroPrimary,
   secondaryColor = featuredContentHeroSecondary,
 }) => {
-  const { width } = useWindowSize();
+  const { width } = useWindowSize({ initializeWithValue: false });
 
   const lineHeight = 8;
   const chevronHeight = 18;
@@ -44,7 +44,7 @@ const FeaturedContentHero: FunctionComponent<IFeaturedContentHero> = ({
         </h1>
       </div>
       <div className={heroBorder} data-testid="hero-border">
-        {width && (
+        {!!width && (
           <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
             <defs>
               <linearGradient id="featuredContentGradient" cx="50%" cy="50%" r="50%">
