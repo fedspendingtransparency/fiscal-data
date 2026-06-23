@@ -35,7 +35,7 @@ const featuredContentPagesSource = {
     slug: '/featured-content/historic-govt-spending/',
     breadCrumbLinkName: 'See Historic Government Spending ',
     seoConfig: {
-      pageTitle: 'See Historic Government Spending | U.S. Treasury Fiscal Data',
+      pageTitle: 'See Historic Government Spending',
       description:
         'Ever been curious about how the early U.S. government spent money? We explore some early financial reports ' +
         'highlighting historic spending of the early government.',
