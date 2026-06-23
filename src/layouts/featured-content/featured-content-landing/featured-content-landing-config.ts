@@ -26,7 +26,7 @@ export const featuredContentLanding: FeaturedCategory[] = [
                body: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
                image: 'historic-data-now-available',
                altText: 'Historic Data Now Available',
-               path: '/featured-content/historic-data-now-available/',
+               path: '/featured-content/historic-data-announcement/',
                analyticsName: 'Historic Data Now Available',
              },
              {
