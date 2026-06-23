@@ -21,6 +21,9 @@ import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
+import {
+  featuredContentArticleTitle
+} from '../../../layouts/featured-content/featured-content-landing/featured-content-landing.module.scss';
 
 let homepageTile;
 const HomePageTile = ({
@@ -30,9 +33,12 @@ const HomePageTile = ({
   explainerTile,
   rightTile,
   showLine = false,
+  headingLevel ='h5',
+  featuredContentArticle = false,
   analyticsCategory = 'Homepage Navigation',
   hoverAnalyticsCategory = 'Homepage Cards',
 }) => {
+  const TitleTag = headingLevel;
   let desktopImage, mobileImage;
 
   if (images) {
@@ -69,7 +75,8 @@ const HomePageTile = ({
         <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
-            <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>
+            <TitleTag className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}
+            ${featuredContentArticle ? featuredContentArticleTitle : ''}`}>{content.title}</TitleTag>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
         </div>

@@ -42,6 +42,11 @@
   }
 }
 
+.featuredContentArticleTitle {
+  font-weight: $light-plus-weight;
+  font-size: $font-size-32;
+}
+
 .content {
   max-width: $main-width;
   margin: 0 auto 4rem;
@@ -71,7 +76,7 @@
 
 .tileGrid {
   display: grid;
-  gap: 3.5rem;
+  gap: 3.625rem;
   grid-template-columns: 1fr; // mobile: 1 per row
 }
 
