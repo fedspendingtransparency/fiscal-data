@@ -31,7 +31,8 @@ export const featuredContentLanding: FeaturedCategory[] = [
              },
              {
                title: 'The Story of Data Transparency',
-               body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
+               body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.' +
+                 ' Learn more about the history of US data in this feature.',
                image: 'story-of-data-transparency',
                altText: 'The Story of Data Transparency',
                path: '/featured-content/story-of-data-transparency/',

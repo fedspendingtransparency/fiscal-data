@@ -9,6 +9,10 @@
   overflow: hidden;
 }
 
+.container {
+  padding-bottom: 5rem;
+}
+
 .bannerIcon {
   position: absolute;
   right: 10rem;
@@ -30,11 +34,13 @@
   h1 {
     font-size: $font-size-40;
     font-weight: $light-plus-weight;
+    margin-bottom: 0.50rem;
   }
 
   p {
-    font-weight: $light-weight;
     font-size: $font-size-20;
+    font-weight: lighter;
+    margin-top: 0;
   }
   h1,
   p {
@@ -43,8 +49,11 @@
 }
 
 .featuredContentArticleTitle {
+  margin-top: 0;
   font-weight: $light-plus-weight;
   font-size: $font-size-32;
+  margin-bottom: 1rem;
+
 }
 
 .content {
@@ -68,10 +77,11 @@
 }
 
 .categoryHeader {
-  margin: 1.25rem 0 2rem;
+  margin: 2rem 0 3rem;
   color: #666;
   font-size: $font-size-20;
   font-weight: $semi-bold-weight; // 600
+  padding-top: 0;
 }
 
 .tileGrid {

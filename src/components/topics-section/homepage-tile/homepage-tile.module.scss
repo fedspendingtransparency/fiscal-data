@@ -11,9 +11,8 @@
 
   .line {
     width: 100%;
-    margin: 1rem 0;
+    margin: 1.5rem 0 .5rem;
     border-bottom: solid 1px #d8d8d8;
-    bottom: 0.5rem;
   }
 
   // triggered in desktop form, where image/text is side by side
@@ -64,6 +63,10 @@
         padding-top: 0.5rem;
       }
     }
+  }
+
+  h2 {
+    min-width: 350px;
   }
 
   .comingSoon {

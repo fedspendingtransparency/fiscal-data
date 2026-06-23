@@ -2,7 +2,16 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import HomePageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
-import { banner, categoryHeader, content, tileGrid, featuredContentHeader, bannerIcon, featuredContentArticleTitle } from './featured-content-landing.module.scss';
+import {
+  banner,
+  categoryHeader,
+  content,
+  tileGrid,
+  featuredContentHeader,
+  bannerIcon,
+  featuredContentArticleTitle,
+  container
+} from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
 
 const FeaturedContentLanding = () => {
@@ -24,7 +33,7 @@ const FeaturedContentLanding = () => {
   const bannerImage = images.allFile.topicsImages.find(image => image.name === featuredContentBanner.image);
 
   return (
-    <div data-testid="featured-content-landing">
+    <div className={container} data-testid="featured-content-landing">
       <div className={banner} data-testid="featured-content-banner">
         <div className={featuredContentHeader}>
           <h1>Featured Content</h1>
