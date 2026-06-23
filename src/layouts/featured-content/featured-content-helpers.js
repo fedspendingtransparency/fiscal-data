@@ -160,7 +160,7 @@ export const historicGovtSpending = {
   links: {
     exploreMore: [
       {
-        text: 'Government Spending Open Data',
+        text: 'Government Spending Open Data | USAspending',
         url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
         external: true,
       },
