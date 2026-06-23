@@ -15,8 +15,9 @@ import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
 import { pageTileMap } from './homepage-tile/homepage-tile-helper';
 import Experimental from '../experimental/experimental';
+import { useWindowSize } from 'usehooks-ts';
 
-export const TopicsSection = ({ images, width }) => {
+export const TopicsSection = ({ images }) => {
   const mainWidth = 8;
   const secondaryWidth = 4;
 
@@ -29,7 +30,36 @@ export const TopicsSection = ({ images, width }) => {
     },
   });
 
+  const featuredContent = (
+    <Experimental featureId="featured-content">
+      <div className={sectionHeader}>FEATURED CONTENT</div>
+      <HomePageTile content={pageTileMap['featured-content']} images={images} rightTile />
+      <div className={line} />
+      <HomePageTile content={pageTileMap['historic-data-now-available']} images={images} rightTile />
+      <div className={featuredContentLine} />
+    </Experimental>
+  );
+  const featuredTopics = (
+    <>
+      <div className={sectionHeader}>FEATURED TOPICS</div>
+      <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
+      <div className={line} />
+      <HomePageTile content={pageTileMap['interest-expense']} images={images} rightTile />
+      <div className={line} />
+      <HomePageTile content={pageTileMap['savings-bonds']} images={images} rightTile />
+    </>
+  );
+  const tools = (
+    <>
+      <div className={featuredContentLine} />
+      <div className={sectionHeader}>TOOLS</div>
+      <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
+    </>
+  );
+
   const explainerTiles = ['revenue', 'spending', 'deficit', 'debt'];
+  const { width } = useWindowSize();
+  const isMobile = width < pxToNumber(breakpointLg);
 
   return (
     <div className={topicsSectionContainer} data-testid="topics-section">
@@ -49,32 +79,29 @@ export const TopicsSection = ({ images, width }) => {
                   );
                 })}
               </Stack>
-              <div className={featuredContentLine} />
-              <div className={sectionHeader}>TOOLS</div>
-              <HomePageTile content={pageTileMap['currency-exchange-rates']} layout="two-col" images={images} />
+              {isMobile && (
+                <>
+                  {featuredContent}
+                  {featuredTopics}
+                  {tools}
+                </>
+              )}
+              {!isMobile && tools}
             </Grid>
-            <Grid container size={{ lg: secondaryWidth }}>
-              <div className={insightsSectionContainer}>
-                <Experimental featureId="featured-content">
-                  <div className={sectionHeader}>FEATURED CONTENT</div>
-                  <HomePageTile content={pageTileMap['featured-content']} images={images} rightTile />
-                  <div className={line} />
-                  <HomePageTile content={pageTileMap['historic-data-now-available']} images={images} rightTile />
-                  <div className={featuredContentLine} />
-                </Experimental>
-                <div className={sectionHeader}>FEATURED TOPICS</div>
-                <HomePageTile content={pageTileMap['state-and-local-government-series']} images={images} rightTile />
-                <div className={line} />
-                <HomePageTile content={pageTileMap['interest-expense']} images={images} rightTile />
-                <div className={line} />
-                <HomePageTile content={pageTileMap['savings-bonds']} images={images} rightTile />
-              </div>
-            </Grid>
+            {!isMobile && (
+              <Grid container size={{ lg: secondaryWidth }}>
+                <div className={insightsSectionContainer}>
+                  {featuredContent}
+                  {featuredTopics}
+                </div>
+              </Grid>
+            )}
           </Grid>
         </ThemeProvider>
       </div>
     </div>
   );
 };
+
 
 export default TopicsSection;
