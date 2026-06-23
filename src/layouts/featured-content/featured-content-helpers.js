@@ -74,8 +74,134 @@ export const storyOfDataTransparency = {
   },
 };
 
+export const historicDataNowAvailable = {
+  title: 'Historic Data Now Available',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: 'historic-data-now-available',
+    imageRefMobile: 'historic-data-now-available',
+    altText: 'Historic Data Now Available',
+  },
+  socialShare: {
+    title: 'Historic Data Now Available',
+    description:
+      'Discover newly released federal receipts and expenditure data, now available on Fiscal Data. ' +
+      'For the first time, access centuries of federal financial information in one modern, accessible platform.',
+    body:
+      'Explore 230 years of U.S. federal finances! New data from 1793 is now available from @FiscalService Fiscal Data. Dive into historical ' +
+      'receipts and expenditures, analyze trends, and understand the financial foundations of America. Visit now! #FiscalHistory #OpenData ' +
+      '#USFinances',
+    emailSubject: 'Historic Data Now Available on Fiscal Data',
+    emailBody:
+      'Explore 230 years of U.S. federal finances using the newly released data on Fiscal Data. Dive into historical receipts and expenditures, ' +
+      'analyze trends, and understand the financial foundations of America. Learn more about this historic release! ',
+    url: envBaseUrl + '/featured-content/historic-data-announcement/',
+    image: envBaseUrl + '/images/historic-data-now-available.png',
+  },
+  links: {
+    exploreMore: [
+      {
+        text: 'Federal Spending',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'Government Revenue',
+        url: '/americas-finance-guide/government-revenue/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Account of Receipts and Expenditures',
+        url: '/datasets/account-of-receipts-and-expenditures',
+      },
+      {
+        text: 'Combined Statement',
+        url: '/datasets/combined-statement',
+      },
+      {
+        text: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      },
+    ],
+  },
+};
+
+export const historicGovtSpending = {
+  title: 'See Historic Government Spending',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: 'gov_spend',
+    imageRefMobile: 'gov_spend',
+    altText: 'See Historic Government Spending',
+  },
+  socialShare: {
+    title: 'See Historic Government Spending',
+    description:
+      'Explore early U.S. government spending in this new short piece from @FiscalService Fiscal Data highlighting ' +
+      'early expenses from the Department of War and the Louisiana Purchase #DataTransparency #GovernmentSpending',
+    body:
+      'Ever wondered how the early U.S. government spent money? Explore historic spending in early financial reports, ' +
+      'now on @FiscalService Fiscal Data! #DataTransparency #OpenData ',
+    emailSubject: 'See Historic Government Spending on Fiscal Data',
+    emailBody:
+      'Ever been curious about how the early U.S. government spent money? This short piece on Fiscal Data explores ' +
+      'some early financial reports highlighting historic spending of the early government, including expenses for ' +
+      'the Department of War and public debt from the Louisiana Purchase.',
+    url: envBaseUrl + '/featured-content/historic-govt-spending/',
+    image: envBaseUrl + '/featured-content-images/gov_spend.png',
+  },
+
+  links: {
+    exploreMore: [
+      {
+        text: 'Government Spending Open Data',
+        url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
+        external: true,
+      },
+      {
+        text: 'Federal Spending',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'Government Revenue',
+        url: '/americas-finance-guide/government-revenue/',
+      },
+      {
+        text: 'National Deficit',
+        url: '/americas-finance-guide/national-deficit/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Combined Statement',
+        url: '/datasets/combined-statement',
+      },
+      {
+        text: 'Account of Receipts and Expenditures',
+        url: '/datasets/account-of-receipts-and-expenditures',
+      },
+      {
+        text: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      },
+      {
+        text: 'Historical Debt Outstanding',
+        url: '/datasets/historical-debt-outstanding/historical-debt-outstanding',
+      },
+    ],
+  },
+};
+
 const featuredContentPages = {
   'story-of-data-transparency': storyOfDataTransparency,
+  'historic-data-announcement': historicDataNowAvailable,
+  'historic-govt-spending': historicGovtSpending,
 };
 
 export const getFeaturedContentPage = pageName => featuredContentPages[pageName];
@@ -93,10 +219,10 @@ const featuredContentCitations = page => {
     accountsOfReceiptsAndExpendituresDataset: (
       <CustomLink
         url="/datasets/account-of-receipts-and-expenditures"
-        id="Account of the Receipts and Expenditures of the United States"
-        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
+        id="Account of the Receipts and Expenditures"
+        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures')}
       >
-        Account of the Receipts and Expenditures of the United States
+        Account of the Receipts and Expenditures
       </CustomLink>
     ),
     federalFundingAccountabilityAct: (
@@ -186,4 +312,6 @@ const featuredContentCitations = page => {
 
 export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
+  'historic-data-announcement': featuredContentCitations('Historic Data Now Available'),
+  'historic-govt-spending': featuredContentCitations('See Historic Government Spending'),
 };

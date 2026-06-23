@@ -5,7 +5,7 @@ const featuredContentPagesSource = {
     seoConfig: {
       pageTitle: 'The Story of Data Transparency',
       description:
-        ' U.S. Government financial transparency was established in the Constitution. ' +
+        'U.S. Government financial transparency was established in the Constitution. ' +
         'Learn more about how transparency has evolved to get us where we are today.',
       keywords: 'fiscal data, transparency, history, federal finances',
     },
@@ -13,6 +13,38 @@ const featuredContentPagesSource = {
     heroImage: {
       heading: 'The Story of Data Transparency',
       subHeading: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
+    },
+  },
+  'historic-data-announcement': {
+    slug: '/featured-content/historic-data-announcement/',
+    breadCrumbLinkName: 'Historic Data Now Available',
+    seoConfig: {
+      pageTitle: 'Historic Data Now Available',
+      description:
+        'Discover newly released federal receipts and expenditure data, now available on Fiscal Data. ' +
+        'For the first time, access centuries of federal financial information in one modern, accessible platform.',
+      keywords: 'government expenditures, government spending, government revenue, open data, fiscal data, how-to, transparency',
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'Historic Data Now Available',
+      subHeading: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
+    },
+  },
+  'historic-govt-spending': {
+    slug: '/featured-content/historic-govt-spending/',
+    breadCrumbLinkName: 'See Historic Government Spending ',
+    seoConfig: {
+      pageTitle: 'See Historic Government Spending | U.S. Treasury Fiscal Data',
+      description:
+        'Ever been curious about how the early U.S. government spent money? We explore some early financial reports ' +
+        'highlighting historic spending of the early government.',
+      keywords: 'fiscal data, transparency, history, federal finances',
+    },
+    prodReady: false,
+    heroImage: {
+      heading: 'See Historic Government Spending',
+      subHeading: 'Ever been curious about how the early U.S. government spent money?',
     },
   },
 };
