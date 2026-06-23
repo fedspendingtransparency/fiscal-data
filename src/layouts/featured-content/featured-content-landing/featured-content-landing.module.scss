@@ -96,24 +96,28 @@
 
   .banner {
     min-height: 250px;
-    align-items: flex-start;
+    align-items: center;
   }
   .featuredContentHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
-    padding-left: 1.5rem;
-    padding-top: 4rem;
-    max-width: 18rem;
-    z-index: 2
+    z-index: 2;
+    font-weight: $light-plus-weight;
+
+
+    h1 {
+      font-size: $font-size-32;
+      margin-bottom: 0.50rem;
+    }
+
+    p {
+      font-size: $font-size-18;
+      margin-top: 0;
+    }
   }
 
-  h1 {
-    font-size: 1.75rem;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.4;
-  }
 
   .bannerIcon {
     position: absolute;
