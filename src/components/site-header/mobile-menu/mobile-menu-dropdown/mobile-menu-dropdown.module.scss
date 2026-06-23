@@ -26,6 +26,13 @@
   }
 }
 
+.sectionHeaderContainer {
+  a {
+    text-decoration: none;
+    color: $font-body-copy;
+  }
+}
+
 .mainHeader {
   padding: 0.875rem 0 0.875rem 1rem;
 }
