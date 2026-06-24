@@ -75,3 +75,14 @@
     }
   }
 }
+@media screen and (min-width: $breakpoint-lg) and (max-width: $breakpoint-xl -1) {
+  .pageLinkButtonContainer {
+    transform: none;
+    margin-right: 1rem;
+  }
+  .pageLinks {
+    a {
+      margin-right: 1.5rem;
+    }
+  }
+}
