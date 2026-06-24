@@ -19,3 +19,14 @@
   display: flex;
   align-items: center;
 }
+
+@media screen and (max-width: $breakpoint-lg) {
+  .dateContainer {
+    display: block;
+  }
+  .disclaimerNote {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+}
