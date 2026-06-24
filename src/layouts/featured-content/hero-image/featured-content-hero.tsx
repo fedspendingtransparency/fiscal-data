@@ -19,7 +19,8 @@ const FeaturedContentHero: FunctionComponent<IFeaturedContentHero> = ({
   primaryColor = featuredContentHeroPrimary,
   secondaryColor = featuredContentHeroSecondary,
 }) => {
-  const { width } = useWindowSize({ initializeWithValue: false });
+  const { width: windowWidth } = useWindowSize({ initializeWithValue: false });
+  const width = windowWidth || 1920;
 
   const lineHeight = 8;
   const chevronHeight = 18;
