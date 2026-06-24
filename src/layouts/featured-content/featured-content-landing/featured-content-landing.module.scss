@@ -89,12 +89,6 @@
   grid-template-columns: 1fr; // mobile: 1 per row
 }
 
-@media screen and (min-width: $breakpoint-md) {
-  .tileGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media screen and (min-width: $breakpoint-lg) {
   .tileGrid {
     grid-template-columns: repeat(3, 1fr); // desktop: 3 per row
@@ -141,5 +135,13 @@
 
   .tileGrid {
     gap: 0;
+
+    > :last-child [class*='mobileLine'] {
+      display: none;
+    }
+  }
+
+  .container {
+    padding-bottom: 0;
   }
 }
