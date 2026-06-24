@@ -48,13 +48,23 @@ export const menuSections = [
       },
       {
         header: 'FEATURED CONTENT',
+        to: '/featured-content/',
         analyticsAction: 'Topics Click',
         isExperimental: true,
         featureId: 'featured-content',
         children: [
           {
+            to: '/featured-content/historic-data-announcement/',
+
+            title: 'Historic Data Now Available',
+          },
+          {
             to: '/featured-content/story-of-data-transparency/',
             title: 'The Story of Data Transparency',
+          },
+          {
+            to: '/featured-content/historic-govt-spending/',
+            title: 'See Historic Government Spending',
           },
         ],
       },

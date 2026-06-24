@@ -74,6 +74,61 @@ export const storyOfDataTransparency = {
   },
 };
 
+export const historicDataNowAvailable = {
+  title: 'Historic Data Now Available',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: 'historic-data-now-available',
+    imageRefMobile: 'historic-data-now-available',
+    altText: 'Historic Data Now Available',
+  },
+  socialShare: {
+    title: 'Historic Data Now Available',
+    description:
+      'Discover newly released federal receipts and expenditure data, now available on Fiscal Data. ' +
+      'For the first time, access centuries of federal financial information in one modern, accessible platform.',
+    body:
+      'Explore 230 years of U.S. federal finances! New data from 1793 is now available from @FiscalService Fiscal Data. Dive into historical ' +
+      'receipts and expenditures, analyze trends, and understand the financial foundations of America. Visit now! #FiscalHistory #OpenData ' +
+      '#USFinances',
+    emailSubject: 'Historic Data Now Available on Fiscal Data',
+    emailBody:
+      'Explore 230 years of U.S. federal finances using the newly released data on Fiscal Data. Dive into historical receipts and expenditures, ' +
+      'analyze trends, and understand the financial foundations of America. Learn more about this historic release! ',
+    url: envBaseUrl + '/featured-content/historic-data-announcement/',
+    image: envBaseUrl + '/images/historic-data-now-available.png',
+  },
+  links: {
+    exploreMore: [
+      {
+        text: 'Federal Spending',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'Government Revenue',
+        url: '/americas-finance-guide/government-revenue/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Account of Receipts and Expenditures',
+        url: '/datasets/account-of-receipts-and-expenditures',
+      },
+      {
+        text: 'Combined Statement',
+        url: '/datasets/combined-statement',
+      },
+      {
+        text: 'Monthly Treasury Statement (MTS)',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-by-source-and-outlays-by-function-of-the-u-s-government',
+      },
+    ],
+  },
+};
+
 export const historicGovtSpending = {
   title: 'See Historic Government Spending',
   colors: {
@@ -105,7 +160,7 @@ export const historicGovtSpending = {
   links: {
     exploreMore: [
       {
-        text: 'Government Spending Open Data',
+        text: 'Government Spending Open Data | USAspending',
         url: 'https://www.usaspending.gov/featured-content/spending-stories/preserving-americas-story',
         external: true,
       },
@@ -145,6 +200,7 @@ export const historicGovtSpending = {
 
 const featuredContentPages = {
   'story-of-data-transparency': storyOfDataTransparency,
+  'historic-data-announcement': historicDataNowAvailable,
   'historic-govt-spending': historicGovtSpending,
 };
 
@@ -164,7 +220,7 @@ const featuredContentCitations = page => {
       <CustomLink
         url="/datasets/account-of-receipts-and-expenditures"
         id="Account of the Receipts and Expenditures"
-        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures of the United States')}
+        onClick={() => analyticsEventHandler(page, 'Account of the Receipts and Expenditures')}
       >
         Account of the Receipts and Expenditures
       </CustomLink>
@@ -256,5 +312,6 @@ const featuredContentCitations = page => {
 
 export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
+  'historic-data-announcement': featuredContentCitations('Historic Data Now Available'),
   'historic-govt-spending': featuredContentCitations('See Historic Government Spending'),
 };

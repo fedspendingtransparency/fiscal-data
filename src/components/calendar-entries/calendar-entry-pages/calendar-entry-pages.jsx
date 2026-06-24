@@ -7,7 +7,7 @@ const CalendarEntryPages = ({ entries, activePage, selectedOption, entriesPerPag
   // Separate the entries into separate chunks of (entriesPerPage) length
   // (since they should already be in correct order)
   const chunkedEntries = [];
-  for (let i = 0; i < entries.length; i += entriesPerPage) {
+  for (let i = 0; i < entries?.length; i += entriesPerPage) {
     chunkedEntries.push(entries.slice(i, i + entriesPerPage));
   }
 

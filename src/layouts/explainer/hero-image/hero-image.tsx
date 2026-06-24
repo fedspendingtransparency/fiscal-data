@@ -11,7 +11,8 @@ const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primary
   const status = debtToThePennyData(state => state.status);
   const refreshIfStale = debtToThePennyData(state => state.refreshIfStale);
 
-  const { width } = useWindowSize();
+  const { width: windowWidth } = useWindowSize({ initializeWithValue: false });
+  const width = windowWidth || 1920;
 
   useEffect(() => {
     refreshIfStale();
@@ -56,16 +57,18 @@ const HeroImage: FunctionComponent<IHeroImage> = ({ heading, subHeading, primary
         {children}
       </div>
       <div className={heroBorder} data-testid="hero-border">
-        <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
-          <defs>
-            <linearGradient id="Gradient">
-              <stop offset="38%" stopColor={primaryColor} />
-              <stop offset="50%" stopColor={secondaryColor} />
-              <stop offset="62%" stopColor={primaryColor} />
-            </linearGradient>
-          </defs>
-          <path d={'M0 0 ' + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + ' Z'} fill="url(#Gradient)" />
-        </svg>
+        {!!width && (
+          <svg height="28" width="100%" preserveAspectRatio="xMidYMid slice" viewBox={`0 0 ${width} 28`}>
+            <defs>
+              <linearGradient id="Gradient">
+                <stop offset="38%" stopColor={primaryColor} />
+                <stop offset="50%" stopColor={secondaryColor} />
+                <stop offset="62%" stopColor={primaryColor} />
+              </linearGradient>
+            </defs>
+            <path d={'M0 0 ' + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9 + ' Z'} fill="url(#Gradient)" />
+          </svg>
+        )}
       </div>
     </>
   );

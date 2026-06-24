@@ -100,8 +100,8 @@ describe('Calendar Entries List', () => {
   });
 
   it('renders a list of calendar entries, a sort-by button, and a pagination component', async () => {
-    const { getByRole, getByText, getAllByTestId } = render(<CalendarEntriesList />);
-    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const { getByRole, getByTestId, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByTestId('calendarEntriesSkeleton'));
     const previousPageButton = getByRole('button', { name: 'Previous page' });
     const nextPageButton = getByRole('button', { name: 'Next page' });
     const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
@@ -113,8 +113,8 @@ describe('Calendar Entries List', () => {
   });
 
   it('passes the Name and Date options to the dropdown', async () => {
-    const { getByRole, getByText } = render(<CalendarEntriesList />);
-    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const { getByRole, getByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByTestId('calendarEntriesSkeleton'));
 
     const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
     fireEvent.click(dropdownButton);
@@ -124,15 +124,15 @@ describe('Calendar Entries List', () => {
   });
 
   it('sorts the entries by name order', async () => {
-    const { getByText, getAllByTestId } = render(<CalendarEntriesList />);
-    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const { getByTestId, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByTestId('calendarEntriesSkeleton'));
     const calendarEntries = getAllByTestId('calendar-entry');
     within(calendarEntries[0]).getByText('State and Local Government Series (SLGS) Daily Rate Table');
   });
 
   it('sorts the entries by date order', async () => {
-    const { getByRole, getByText, getAllByTestId } = render(<CalendarEntriesList />);
-    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const { getByRole, getByTestId, getAllByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByTestId('calendarEntriesSkeleton'));
     const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
     fireEvent.click(dropdownButton);
     const updatedOptionButton = getByRole('button', { name: sortOptions[1].label });
@@ -147,8 +147,8 @@ describe('Calendar Entries List', () => {
     window.dataLayer = window.dataLayer || [];
     const spy = jest.spyOn(window.dataLayer, 'push');
 
-    const { getByRole, getByText } = render(<CalendarEntriesList />);
-    await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const { getByRole, getByTestId } = render(<CalendarEntriesList />);
+    await waitForElementToBeRemoved(() => getByTestId('calendarEntriesSkeleton'));
     const dropdownButton = getByRole('button', { name: 'Change Sort By: from Date' });
     fireEvent.click(dropdownButton);
     const updatedOptionButton = getByRole('button', { name: sortOptions[1].label });
