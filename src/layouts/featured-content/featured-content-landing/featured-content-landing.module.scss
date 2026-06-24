@@ -34,7 +34,7 @@
   h1 {
     font-size: $font-size-40;
     font-weight: $light-plus-weight;
-    margin-bottom: 0.50rem;
+    margin-bottom: 0.5rem;
   }
 
   p {
@@ -53,7 +53,6 @@
   font-weight: $light-plus-weight;
   font-size: $font-size-32;
   margin-bottom: 1rem;
-
 }
 
 .content {
@@ -103,7 +102,6 @@
 }
 
 @media screen and (max-width: $breakpoint-sm - 1) {
-
   .banner {
     min-height: 250px;
     align-items: center;
@@ -116,10 +114,9 @@
     z-index: 2;
     font-weight: $light-plus-weight;
 
-
     h1 {
       font-size: $font-size-32;
-      margin-bottom: 0.50rem;
+      margin-bottom: 0.5rem;
     }
 
     p {
@@ -134,5 +131,11 @@
     width: 225px;
     z-index: 1;
     top: 45%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .categoryHeader {
+    margin: 2rem 0 1.5rem;
   }
 }

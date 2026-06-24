@@ -11,7 +11,7 @@
 
   .line {
     width: 100%;
-    margin: 1.5rem 0 0.625rem;
+    margin: 1.875rem 0 0.625rem;
     border-bottom: solid 1px #d8d8d8;
   }
 
@@ -75,7 +75,6 @@
 
   h2 {
     min-width: 350px;
-    padding-top: 1.5rem;
   }
 
   .comingSoon {
@@ -117,6 +116,10 @@
     display: block;
   }
   .mainContent {
+    h2 {
+      padding-top: 1.875rem;
+    }
+
     .explainerImageContainer {
       padding-top: 0;
     }
