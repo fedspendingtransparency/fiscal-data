@@ -5,7 +5,6 @@ import {
   dropdown,
   dropdownContainer,
   entriesContainer,
-  loadingIcon,
   mainContainer,
   notYetUpdated,
   pagination,
@@ -19,7 +18,7 @@ import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
 import { sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { basicFetch } from '../../utils/api-utils';
-import LoadingIndicator from '../loading-indicator/loading-indicator';
+import CalendarEntriesSkeleton from './calendar-entries-skeleton/calendar-entries-skeleton';
 
 export const maxEntriesPerPage = 25;
 export const releaseCalendarSortEvent = {
@@ -156,7 +155,7 @@ const CalendarEntriesList = () => {
   };
 
   return loading ? (
-    <LoadingIndicator loadingClass={loadingIcon} />
+    <CalendarEntriesSkeleton count={maxEntriesPerPage} />
   ) : (
     <div className={mainContainer}>
       <div className={dropdownContainer}>
