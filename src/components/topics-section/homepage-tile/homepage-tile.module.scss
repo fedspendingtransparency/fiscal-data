@@ -15,6 +15,14 @@
     border-bottom: solid 1px #d8d8d8;
   }
 
+  .desktopLine {
+    display: block;
+  }
+
+  .mobileLine {
+    display: none;
+  }
+
   // triggered in desktop form, where image/text is side by side
   &.twoColLayout {
     @media screen and (min-width: $breakpoint-lg) {
@@ -114,5 +122,13 @@
     .afgBookIcon {
       padding-top: 1.03125rem;
     }
+  }
+
+  .desktopLine {
+    display: none;
+  }
+
+  .mobileLine {
+    display: none;
   }
 }

@@ -15,7 +15,9 @@ import {
   textSection,
   twoColLayout,
   rightTileText,
-  line
+  line,
+  desktopLine,
+  mobileLine
 } from './homepage-tile.module.scss';
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
@@ -71,16 +73,18 @@ const HomePageTile = ({
     <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
       <div className={tileLayoutWrapper}>
         <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
-        {showLine && <div className={line} />}
+        {showLine && <div className={`${line} ${desktopLine}`} />}
         <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
-            <TitleTag className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}
+            <TitleTag
+              className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}
             ${featuredContentArticle ? featuredContentArticleTitle : ''}`}>{content.title}</TitleTag>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
         </div>
       </div>
+      {showLine && <div className={`${line} ${mobileLine}`} />}
     </div>
   );
 
