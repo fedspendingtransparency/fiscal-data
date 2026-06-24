@@ -29,7 +29,6 @@
   box-sizing: border-box;
   position: relative;
   z-index: 2;
-  padding: 0 0.625rem;
 
   h1 {
     font-size: $font-size-40;
@@ -58,7 +57,6 @@
 .content {
   max-width: $main-width;
   margin: 0 auto 4rem;
-  padding: 0 0.625rem;
   box-sizing: border-box;
 }
 
@@ -137,5 +135,15 @@
 
   .container {
     padding-bottom: 0;
+  }
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .featuredContentHeader {
+    padding: 0 0.625rem;
+  }
+
+  .content {
+    padding: 0 0.625rem;
   }
 }
