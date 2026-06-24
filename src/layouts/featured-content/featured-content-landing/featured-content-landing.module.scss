@@ -29,6 +29,7 @@
   box-sizing: border-box;
   position: relative;
   z-index: 2;
+  padding: 0 0.625rem;
 
   h1 {
     font-size: $font-size-40;
@@ -136,9 +137,5 @@
 
   .container {
     padding-bottom: 0;
-  }
-
-  .featuredContentHeader {
-    padding: 0 0.625rem;
   }
 }
