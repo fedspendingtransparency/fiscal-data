@@ -9,3 +9,13 @@
     font-weight: 600;
   }
 }
+
+.dateContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+.disclaimerNote {
+  display: flex;
+  align-items: center;
+}
