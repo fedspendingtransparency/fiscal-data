@@ -119,16 +119,18 @@
     .explainerImageContainer {
       padding-top: 0;
     }
+
     .afgBookIcon {
       padding-top: 1.03125rem;
     }
-  }
 
-  .desktopLine {
-    display: none;
-  }
+    .desktopLine {
+      display: none;
+    }
 
-  .mobileLine {
-    display: none;
+    .mobileLine {
+      display: block;
+    }
+
   }
 }
