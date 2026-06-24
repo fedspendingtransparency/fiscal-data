@@ -26,7 +26,6 @@
   max-width: $main-width;
   width: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
   box-sizing: border-box;
   position: relative;
   z-index: 2;
@@ -62,12 +61,6 @@
   box-sizing: border-box;
 }
 
-@media screen and (min-width: $breakpoint-sm) {
-  .content {
-    padding: 0 2rem;
-  }
-}
-
 // Gray separator that marks the start of each category section.
 .sectionBar {
   height: 4px;
@@ -76,7 +69,7 @@
 }
 
 .categoryHeader {
-  margin: 2rem 0 3rem;
+  margin: 2.5rem 0 3rem;
   color: #666;
   font-size: $font-size-20;
   font-weight: $semi-bold-weight; // 600
@@ -143,5 +136,9 @@
 
   .container {
     padding-bottom: 0;
+  }
+
+  .featuredContentHeader {
+    padding: 0 0.625rem;
   }
 }
