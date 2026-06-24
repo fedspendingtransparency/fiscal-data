@@ -75,6 +75,7 @@
 
   h2 {
     min-width: 350px;
+    padding-top: 30px;
   }
 
   .comingSoon {
@@ -131,6 +132,10 @@
     .mobileLine {
       display: block;
     }
-
   }
+}
+
+.featured-content-landing {
+  a:last-child .mainContent .mobileLine {
+    display: none;  }
 }
