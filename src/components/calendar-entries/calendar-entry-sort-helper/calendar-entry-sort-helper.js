@@ -43,9 +43,13 @@ export const separateEntriesByDate = entries => {
   return separators;
 };
 
-export const convertDateAndTimeToDateTime = (dateString, timeStringInUTC) => {
+export const convertDateAndTimeToUTCDate = (dateString, timeStringInUTC) => {
   const time = `${timeStringInUTC[0]}${timeStringInUTC[1]}:${timeStringInUTC[2]}${timeStringInUTC[3]}:00`;
-  const dateTimeString = `${dateString}T${time}.000Z`;
-  const utcDateTime = new Date(dateTimeString);
-  return toZonedTime(utcDateTime, 'America/New_York');
+  return new Date(`${dateString}T${time}.000Z`);
 };
+
+export const convertDateAndTimeToDateTime = (dateString, timeStringInUTC) => {
+  return toZonedTime(convertDateAndTimeToUTCDate(dateString, timeStringInUTC), 'America/New_York');
+};
+
+export const getLocalTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;

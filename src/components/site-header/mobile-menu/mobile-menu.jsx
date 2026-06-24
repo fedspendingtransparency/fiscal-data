@@ -85,7 +85,7 @@ const MobileMenu = ({ setOpenGlossary }) => {
         },
         {
           to: '/featured-content/historic-govt-spending/',
-          name: 'A History of Government Spending',
+          name: 'See Historic Government Spending',
         },
       ],
     },

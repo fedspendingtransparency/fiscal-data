@@ -58,9 +58,9 @@ export const HistoricGovtSpendingBody = (): ReactElement => {
       </p>
       <BoxedImage images={images} name="ledger2_colored" altText="A page from a historic federal financial report listing government expenses." />
       <p>
-        These early reports also provide a glimpse into the expenses and funding for the 1803 Louisiana Purchase. In the 1805 Account of the Receipts
-        and Expenditures, there are expenses of $8,625 for Land Titles in Louisiana, as well as interest payments on Louisiana Stock as part of the
-        Public Debt.
+        These early reports also provide a glimpse into the expenses and funding for the 1803 Louisiana Purchase. In the 1805{' '}
+        {accountsOfReceiptsAndExpendituresDataset}, there are expenses of $8,625 for Land Titles in Louisiana, as well as interest payments on
+        Louisiana Stock as part of the Public Debt.
       </p>
       <BoxedImage images={images} name="ledger3_colored" altText="A page from a historic federal financial report listing government expenses." />
       <BoxedImage images={images} name="ledger4_colored" altText="A page from a historic federal financial report listing government expenses." />
