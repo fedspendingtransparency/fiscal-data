@@ -9,7 +9,7 @@ const featuredContentPagesSource = {
         'Learn more about how transparency has evolved to get us where we are today.',
       keywords: 'fiscal data, transparency, history, federal finances',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'The Story of Data Transparency',
       subHeading: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
@@ -25,7 +25,7 @@ const featuredContentPagesSource = {
         'For the first time, access centuries of federal financial information in one modern, accessible platform.',
       keywords: 'government expenditures, government spending, government revenue, open data, fiscal data, how-to, transparency',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'Historic Data Now Available',
       subHeading: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
@@ -41,7 +41,7 @@ const featuredContentPagesSource = {
         'highlighting historic spending of the early government.',
       keywords: 'fiscal data, transparency, history, federal finances',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'See Historic Government Spending',
       subHeading: 'Ever been curious about how the early U.S. government spent money?',

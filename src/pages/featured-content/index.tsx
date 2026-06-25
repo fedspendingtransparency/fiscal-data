@@ -5,7 +5,7 @@ import PageHelmet from '../../components/page-helmet/page-helmet';
 import FeaturedContentLanding from '../../layouts/featured-content/featured-content-landing/featured-content-landing';
 
 const FeaturedContentLandingPage = () => (
-  <SiteLayout isPreProd={ENV_ID === 'preprod'}>
+  <SiteLayout isPreProd={false}>
     <FeaturedContentLanding />
   </SiteLayout>
 );
