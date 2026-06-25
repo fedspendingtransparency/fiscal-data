@@ -43,8 +43,8 @@ const HomePageTile = ({
   let desktopImage, mobileImage;
 
   if (images) {
-    desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
-    mobileImage = images.allFile.topicsImages.find(image => image.name === content.mobileImage);
+    desktopImage = images.allFile.topicsImages.find(image => image.name === content?.desktopImage);
+    mobileImage = images.allFile.topicsImages.find(image => image.name === content?.mobileImage);
   }
 
   const afgIcon = '/images/AFG-icon.svg';
@@ -52,14 +52,14 @@ const HomePageTile = ({
   const desktop = (
     <GatsbyImage
       image={getImage(desktopImage)}
-      alt={content.altText}
+      alt={content?.altText}
       loading="eager"
       role="presentation"
       className={explainerTile ? explainerImage : null}
     />
   );
 
-  const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content.altText} loading="eager" role="presentation" />;
+  const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content?.altText} loading="eager" role="presentation" />;
 
   const responsiveImage = (
     <>

@@ -36,7 +36,7 @@ export const TopicsSection = ({ images }) => {
       <div className={sectionHeader}>FEATURED CONTENT</div>
       <HomePageTile content={pageTileMap['featured-content']} images={images} rightTile />
       <div className={line} />
-      <HomePageTile content={pageTileMap['historic-data-announcement']} images={images} rightTile />
+      <HomePageTile content={pageTileMap['historic-data-now-available']} images={images} rightTile />
       <div className={featuredContentLine} />
     </Experimental>
   );
