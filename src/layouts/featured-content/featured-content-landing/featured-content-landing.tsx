@@ -2,16 +2,7 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import HomePageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
-import {
-  banner,
-  categoryHeader,
-  content,
-  tileGrid,
-  featuredContentHeader,
-  bannerIcon,
-  featuredContentArticleTitle,
-  container
-} from './featured-content-landing.module.scss';
+import { banner, categoryHeader, content, tileGrid, featuredContentHeader, bannerIcon, container } from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
 
 const FeaturedContentLanding = () => {
@@ -61,7 +52,7 @@ const FeaturedContentLanding = () => {
                   images={images}
                   rightTile
                   showLine
-                  headingLevel='h2'
+                  headingLevel="h2"
                   featuredContentArticle
                   analyticsCategory="Featured Content Navigation"
                   hoverAnalyticsCategory="Featured Content Cards"
