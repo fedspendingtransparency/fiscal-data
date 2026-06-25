@@ -9,6 +9,20 @@
     width: 100%;
   }
 
+  .line {
+    width: 100%;
+    margin: 1.875rem 0 0.625rem;
+    border-bottom: solid 1px #d8d8d8;
+  }
+
+  .desktopLine {
+    display: block;
+  }
+
+  .mobileLine {
+    display: none;
+  }
+
   // triggered in desktop form, where image/text is side by side
   &.twoColLayout {
     @media screen and (min-width: $breakpoint-lg) {
@@ -59,6 +73,13 @@
     }
   }
 
+  h2 {
+    min-width: 350px;
+    &.responsiveTitle {
+      min-width: 0;
+    }
+  }
+
   .comingSoon {
     width: 98.75%;
     margin-left: auto;
@@ -98,11 +119,28 @@
     display: block;
   }
   .mainContent {
+    h2 {
+      padding-top: 1.5rem;
+    }
+
+    .line {
+      margin: 1.5rem 0;
+    }
+
     .explainerImageContainer {
       padding-top: 0;
     }
+
     .afgBookIcon {
       padding-top: 1.03125rem;
+    }
+
+    .desktopLine {
+      display: none;
+    }
+
+    .mobileLine {
+      display: block;
     }
   }
 }

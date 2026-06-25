@@ -72,7 +72,6 @@ const MobileMenu = ({ setOpenGlossary }) => {
       sectionHeader: 'FEATURED CONTENT',
       to: '/featured-content/',
       analyticsAction: 'Topics Click',
-      isExperimental: true,
       featureId: 'featured-content',
       children: [
         {
