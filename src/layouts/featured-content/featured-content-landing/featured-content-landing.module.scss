@@ -16,10 +16,13 @@
 .bannerIcon {
   position: absolute;
   right: 10rem;
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
   width: 325px;
   z-index: 1;
+  :global(.gatsby-image-wrapper) {
+    width: 100%;
+  }
 }
 
 .featuredContentHeader {
