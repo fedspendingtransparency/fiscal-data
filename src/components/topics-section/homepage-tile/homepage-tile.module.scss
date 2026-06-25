@@ -75,6 +75,9 @@
 
   h2 {
     min-width: 350px;
+    &.responsiveTitle {
+      min-width: 0;
+    }
   }
 
   .comingSoon {
