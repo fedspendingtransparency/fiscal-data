@@ -30,7 +30,7 @@ export const storyOfDataTransparency = {
       'over time! This short piece highlights the roots of financial transparency and the ways that Fiscal ' +
       'Data has continued to advance government transparency. ',
     url: envBaseUrl + '/featured-content/story-of-data-transparency/',
-    image: envBaseUrl + '/images/story-of-data-transparency.png',
+    image: envBaseUrl + '/featured-content-images/story-of-data-transparency.png',
   },
   links: {
     exploreMore: [
@@ -99,7 +99,7 @@ export const historicDataNowAvailable = {
       'Explore 230 years of U.S. federal finances using the newly released data on Fiscal Data. Dive into historical receipts and expenditures, ' +
       'analyze trends, and understand the financial foundations of America. Learn more about this historic release! ',
     url: envBaseUrl + '/featured-content/historic-data-announcement/',
-    image: envBaseUrl + '/images/historic-data-now-available.png',
+    image: envBaseUrl + '/featured-content-images/historic-data-now-available.png',
   },
   links: {
     exploreMore: [
@@ -136,8 +136,8 @@ export const historicGovtSpending = {
     secondary: '#cfd8f3',
   },
   image: {
-    imageRefDesktop: 'gov_spend',
-    imageRefMobile: 'gov_spend',
+    imageRefDesktop: 'historic-government-spending',
+    imageRefMobile: 'historic-government-spending',
     altText: 'See Historic Government Spending',
   },
   socialShare: {
@@ -154,7 +154,7 @@ export const historicGovtSpending = {
       'some early financial reports highlighting historic spending of the early government, including expenses for ' +
       'the Department of War and public debt from the Louisiana Purchase.',
     url: envBaseUrl + '/featured-content/historic-govt-spending/',
-    image: envBaseUrl + '/featured-content-images/gov_spend.png',
+    image: envBaseUrl + '/featured-content-images/historic-government-spending.png',
   },
 
   links: {
