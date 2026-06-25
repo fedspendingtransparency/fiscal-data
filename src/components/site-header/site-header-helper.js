@@ -50,7 +50,6 @@ export const menuSections = [
         header: 'FEATURED CONTENT',
         to: '/featured-content/',
         analyticsAction: 'Topics Click',
-        isExperimental: true,
         featureId: 'featured-content',
         children: [
           {

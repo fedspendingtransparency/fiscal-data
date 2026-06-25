@@ -15,19 +15,36 @@ import {
   textSection,
   twoColLayout,
   rightTileText,
+  responsiveTitle,
+  line,
+  desktopLine,
+  mobileLine,
 } from './homepage-tile.module.scss';
 import { Link } from 'gatsby-link';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import Analytics from '../../../utils/analytics/analytics';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
+import { featuredContentArticleTitle } from '../../../layouts/featured-content/featured-content-landing/featured-content-landing.module.scss';
 
 let homepageTile;
-const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => {
+const HomePageTile = ({
+  content,
+  images,
+  layout,
+  explainerTile,
+  rightTile,
+  showLine = false,
+  headingLevel = 'h5',
+  featuredContentArticle = false,
+  analyticsCategory = 'Homepage Navigation',
+  hoverAnalyticsCategory = 'Homepage Cards',
+}) => {
+  const TitleTag = headingLevel;
   let desktopImage, mobileImage;
 
   if (images) {
-    desktopImage = images.allFile.topicsImages.find(image => image.name === content.desktopImage);
-    mobileImage = images.allFile.topicsImages.find(image => image.name === content.mobileImage);
+    desktopImage = images.allFile.topicsImages.find(image => image.name === content?.desktopImage);
+    mobileImage = images.allFile.topicsImages.find(image => image.name === content?.mobileImage);
   }
 
   const afgIcon = '/images/AFG-icon.svg';
@@ -35,14 +52,14 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
   const desktop = (
     <GatsbyImage
       image={getImage(desktopImage)}
-      alt={content.altText}
+      alt={content?.altText}
       loading="eager"
       role="presentation"
       className={explainerTile ? explainerImage : null}
     />
   );
 
-  const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content.altText} loading="eager" role="presentation" />;
+  const mobile = <GatsbyImage image={getImage(mobileImage)} alt={content?.altText} loading="eager" role="presentation" />;
 
   const responsiveImage = (
     <>
@@ -55,20 +72,27 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
     <div className={`${mainContent} ${layout === 'two-col' ? twoColLayout : ''}`} data-testid="tile">
       <div className={tileLayoutWrapper}>
         <div className={`${imageSection} ${explainerTile ? explainerImageContainer : ''}`}>{responsiveImage}</div>
+        {showLine && <div className={`${line} ${desktopLine}`} />}
         <div className={`${textSection} ${content.path ? '' : comingSoon}`}>
           <div className={content.mainFeature ? iconTitle : ''}>
             {content.mainFeature && <img src={afgIcon} alt="An open book with a coin above the pages." className={afgBookIcon} />}
-            <h5 className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}`}>{content.title}</h5>
+            <TitleTag
+              className={`${content.mainFeature ? mainTitle : secondaryTitle} ${rightTile ? rightTileText : ''}
+            ${featuredContentArticle ? `${featuredContentArticleTitle} ${responsiveTitle}` : ''}`}
+            >
+              {content.title}
+            </TitleTag>
           </div>
           <div>{content.bodyGenerator ? content.bodyGenerator() : content.body}</div>
         </div>
       </div>
+      {showLine && <div className={`${line} ${mobileLine}`} />}
     </div>
   );
 
   const analyticsHandler = (event, label) => {
     Analytics.event({
-      category: 'Homepage Navigation',
+      category: analyticsCategory,
       action: 'Citation Click',
       label: label,
     });
@@ -81,7 +105,7 @@ const HomePageTile = ({ content, images, layout, explainerTile, rightTile }) => 
   const handleMouseEnter = label => {
     homepageTile = setTimeout(() => {
       Analytics.event({
-        category: 'Homepage Cards',
+        category: hoverAnalyticsCategory,
         action: 'Card Hover',
         label: label,
       });

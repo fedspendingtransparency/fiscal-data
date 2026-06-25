@@ -219,4 +219,22 @@ export const pageTileMap = {
     path: 'featured-content/story-of-data-transparency/',
     analyticsName: 'The Story of Data Transparency',
   },
+  'historic-data-now-available': {
+    title: 'Historic Data Now Available',
+    body: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov',
+    altText: 'Historic Data Now Available',
+    desktopImage: 'historic-data-now-available',
+    mobileImage: 'historic-data-now-available',
+    path: 'featured-content/historic-data-announcement/',
+    analyticsName: 'Historic Data Now Available',
+  },
+  'featured-content': {
+    title: 'Introducing Featured Content',
+    body: 'Explore our collection of current data-related government financial topics and check back for new articles in the future.',
+    altText: 'Introducing Featured Content',
+    desktopImage: 'featured-content-tile',
+    mobileImage: 'featured-content-tile',
+    path: '/featured-content/',
+    analyticsName: 'Introducing Featured Content',
+  },
 };

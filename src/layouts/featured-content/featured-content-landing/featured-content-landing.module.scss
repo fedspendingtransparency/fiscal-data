@@ -1,0 +1,149 @@
+@use 'src/variables.module' as *;
+
+.banner {
+  position: relative;
+  min-height: 250px;
+  background: #193059;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  padding-bottom: 5rem;
+}
+
+.bannerIcon {
+  position: absolute;
+  right: 10rem;
+  top: 55%;
+  transform: translateY(-50%);
+  width: 325px;
+  z-index: 1;
+}
+
+.featuredContentHeader {
+  max-width: $main-width;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+
+  h1 {
+    font-size: $font-size-40;
+    font-weight: $light-plus-weight;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: $font-size-20;
+    font-weight: lighter;
+    margin-top: 0;
+  }
+  h1,
+  p {
+    color: white;
+  }
+}
+
+.featuredContentArticleTitle {
+  margin-top: 0;
+  font-weight: $light-plus-weight;
+  font-size: $font-size-32;
+  margin-bottom: 1rem;
+}
+
+.content {
+  max-width: $main-width;
+  margin: 0 auto 4rem;
+  box-sizing: border-box;
+}
+
+// Gray separator that marks the start of each category section.
+.sectionBar {
+  height: 4px;
+  background: #d8d8d8;
+  margin: 4rem 0 2rem; // 64px top / 32px bottom
+}
+
+.categoryHeader {
+  margin: 2.5rem 0 3rem;
+  color: #666;
+  font-size: $font-size-20;
+  font-weight: $semi-bold-weight; // 600
+  padding-top: 0;
+}
+
+.tileGrid {
+  display: grid;
+
+  grid-template-columns: 1fr; // mobile: 1 per row
+}
+
+@media screen and (min-width: $breakpoint-lg) {
+  .tileGrid {
+    column-gap: clamp(1.25rem, 2.75vw, 3.625rem);
+    row-gap: clamp(2rem, 4vw, 3.625rem);
+    grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+  }
+}
+
+@media screen and (max-width: $breakpoint-sm - 1) {
+  .banner {
+    min-height: 250px;
+    align-items: center;
+  }
+  .featuredContentHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    font-weight: $light-plus-weight;
+
+    h1 {
+      font-size: $font-size-32;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: $font-size-18;
+      margin-top: 0;
+    }
+  }
+
+  .bannerIcon {
+    position: absolute;
+    right: -4rem;
+    width: 225px;
+    z-index: 1;
+    top: 45%;
+  }
+}
+
+@media screen and (max-width: $breakpoint-lg) {
+  .categoryHeader {
+    margin: 2rem 0 1.5rem;
+  }
+
+  .tileGrid {
+    > :last-child [class*='mobileLine'] {
+      display: none;
+    }
+  }
+
+  .container {
+    padding-bottom: 0;
+  }
+}
+
+@media screen and (max-width: $breakpoint-xl) {
+  .featuredContentHeader {
+    padding: 0 0.625rem;
+  }
+
+  .content {
+    padding: 0 0.625rem;
+  }
+}
