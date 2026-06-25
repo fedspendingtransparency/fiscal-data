@@ -55,6 +55,10 @@ $max-img-width-desktop: 48.219rem;
     border-bottom: solid 4px #d8d8d8;
     bottom: 0.5rem;
   }
+
+  .featuredContentLineTop {
+    display: none;
+  }
 }
 
 @media screen and (max-width: $breakpoint-lg - 1) {
