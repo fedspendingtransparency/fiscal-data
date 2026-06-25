@@ -15,7 +15,7 @@
 
 .bannerIcon {
   position: absolute;
-  right: 10rem;
+  right: max(0.625rem, calc((100% - #{$main-width}) / 2));
   top: 50%;
   transform: translateY(-50%);
   width: 325px;
