@@ -24,6 +24,29 @@ describe('Revenue Explainer Page', () => {
       .should('be.visible');
   };
 
+  const normalizeHref = (href: string | null): string => href?.replace(/\/$/, '') || '';
+
+  const hrefSelector = (url: string): string => {
+    const normalizedHref = normalizeHref(url);
+    return `a[href="${normalizedHref}"], a[href="${normalizedHref}/"]`;
+  };
+
+  const findLinkByNameAndHref = (name: string, url: string) => {
+    const selector = hrefSelector(url);
+
+    return cy
+      .get(selector, { timeout: pageLoadTimeout })
+      .should($links => {
+        const matchingLink = [...$links].some(anchor => anchor.textContent?.includes(name));
+        expect(matchingLink, `${name} link to ${url}`).to.be.true;
+      })
+      .then($links => {
+        const target = [...$links].find(anchor => anchor.textContent?.includes(name));
+        expect(target, `${name} link to ${url}`).to.exist;
+        return cy.wrap(target);
+      });
+  };
+
   beforeEach(() => {
     visitRevenueExplainer();
   });
@@ -91,17 +114,9 @@ describe('Revenue Explainer Page', () => {
       hyperlinks2.forEach(link => {
         waitForSourcesSection();
 
-        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout }).should($links => {
-          const matchingHref = [...$links].some(anchor => anchor.getAttribute('href')?.replace(/\/$/, '') === link.url);
-          expect(matchingHref, `${link.name} link to ${link.url}`).to.be.true;
-        });
-
-        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout }).then($links => {
-          const target = [...$links].find(anchor => anchor.getAttribute('href')?.replace(/\/$/, '') === link.url);
-          cy.wrap(target)
-            .scrollIntoView()
-            .click();
-        });
+        findLinkByNameAndHref(link.name, link.url)
+          .scrollIntoView()
+          .click();
         cy.url().should('include', link.url);
         visitRevenueExplainer();
       });

@@ -24,6 +24,22 @@ describe('Deficit Explainer Page', () => {
       .should('be.visible');
   };
 
+  const normalizeHref = (href: string | null): string => href?.replace(/\/$/, '') || '';
+
+  const hrefSelector = (url: string): string => {
+    const normalizedHref = normalizeHref(url);
+    return `a[href="${normalizedHref}"], a[href="${normalizedHref}/"]`;
+  };
+
+  const assertLinkByNameAndHref = (name: string, url: string) => {
+    const selector = hrefSelector(url);
+
+    cy.get(selector, { timeout: pageLoadTimeout }).should($links => {
+      const matchingLink = [...$links].some(anchor => anchor.textContent?.includes(name));
+      expect(matchingLink, `${name} link to ${url}`).to.be.true;
+    });
+  };
+
   beforeEach(() => {
     visitDeficitExplainer();
   });
@@ -153,10 +169,7 @@ describe('Deficit Explainer Page', () => {
     ];
 
     mtsUrls.forEach(url => {
-      cy.findAllByRole('link', { name: 'Monthly Treasury Statement (MTS)' }, { timeout: pageLoadTimeout }).should($links => {
-        const hrefs = [...$links].map(link => link.getAttribute('href'));
-        expect(hrefs).to.include(url);
-      });
+      assertLinkByNameAndHref('Monthly Treasury Statement (MTS)', url);
     });
   });
 
