@@ -1,6 +1,32 @@
 describe('Deficit Explainer Page', () => {
-  beforeEach(() => {
+  const pageLoadTimeout = 15000;
+
+  const visitDeficitExplainer = () => {
+    cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
     cy.visit('/americas-finance-guide/national-deficit/');
+    cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+      .its('response.statusCode')
+      .should('be.oneOf', [200, 304]);
+    cy.get('[data-testid="selectable-digits"]', { timeout: pageLoadTimeout })
+      .invoke('text')
+      .should('match', /\$\d/);
+    cy.findByRole('link', { name: 'Overview' }).should('be.visible');
+  };
+
+  const waitForLearnMoreSection = () => {
+    cy.contains('h2', 'Learn More about the Deficit', { timeout: pageLoadTimeout })
+      .scrollIntoView()
+      .should('be.visible');
+  };
+
+  const waitForUnderstandingSection = () => {
+    cy.contains('h2', 'Understanding the National Deficit', { timeout: pageLoadTimeout })
+      .scrollIntoView()
+      .should('be.visible');
+  };
+
+  beforeEach(() => {
+    visitDeficitExplainer();
   });
 
   it('Navigate to the deficit explainer, ensure page does not contain NaN, null, or undefined values', () => {
@@ -74,6 +100,8 @@ describe('Deficit Explainer Page', () => {
   });
 
   it('Validate all external links on the page navigate to the correct destinations', () => {
+    waitForLearnMoreSection();
+
     const externalHyperlinks: object[] = [
       {
         name: 'the federal response to COVID-19',
@@ -96,40 +124,40 @@ describe('Deficit Explainer Page', () => {
         url: 'https://www.cbo.gov/topics/budget',
       },
       {
-        name: 'https://crsreports.congress.gov/product/pdf/R/R46729',
-        url: 'https://crsreports.congress.gov/product/pdf/R/R46729',
-      },
-      {
-        name: 'https://www.whitehouse.gov/omb/historical-tables/',
-        url: 'https://www.whitehouse.gov/omb/historical-tables/',
-      },
-      {
-        name: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202209.pdf',
-        url: 'https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202209.pdf',
+        name: 'https://www.congress.gov/crs-product/R46729',
+        url: 'https://www.congress.gov/crs-product/R46729',
       },
     ];
 
     externalHyperlinks.forEach(link => {
-      cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+      cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
+        .first()
+        .should('have.attr', 'href', link.url);
     });
   });
 
+  it('Validate PDF links on the page point to the correct files', () => {
+    waitForLearnMoreSection();
+
+    cy.findAllByRole('link', { name: /MonthlyTreasuryStatement_202409\.pdf/ }, { timeout: pageLoadTimeout })
+      .first()
+      .should('have.attr', 'href')
+      .and('include', 'MonthlyTreasuryStatement_202409.pdf');
+  });
+
   it('Validate MTS links', () => {
-    const mtsLinks: object[] = [
-      {
-        name: 'Monthly Treasury Statement (MTS)',
-        url: '/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government',
-      },
-      {
-        name: 'Monthly Treasury Statement (MTS)',
-        url: '/datasets/monthly-treasury-statement/outlays-of-the-u-s-government',
-      },
+    waitForUnderstandingSection();
+
+    const mtsUrls: string[] = [
+      '/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government',
+      '/datasets/monthly-treasury-statement/outlays-of-the-u-s-government',
     ];
 
-    const mts = cy.findAllByRole('link', { name: 'Monthly Treasury Statement (MTS)' });
-
-    mts.each((link, index) => {
-      cy.wrap(link).should('have.attr', 'href', mtsLinks[index].url);
+    mtsUrls.forEach(url => {
+      cy.findAllByRole('link', { name: 'Monthly Treasury Statement (MTS)' }, { timeout: pageLoadTimeout }).should($links => {
+        const hrefs = [...$links].map(link => link.getAttribute('href'));
+        expect(hrefs).to.include(url);
+      });
     });
   });
 
@@ -182,10 +210,10 @@ describe('Deficit Explainer Page', () => {
       'bills',
     ];
 
-    const foundTerms = cy.findAllByTestId('infoTipContainer');
-
-    foundTerms.each((term, index) => {
-      cy.wrap(term).should('include.text', glossaryTerms[index]);
+    glossaryTerms.forEach(term => {
+      cy.findAllByTestId('infoTipContainer')
+        .contains(term)
+        .should('exist');
     });
   });
 

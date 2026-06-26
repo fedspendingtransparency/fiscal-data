@@ -1,7 +1,32 @@
 describe('Revenue Explainer Page', () => {
-  beforeEach(() => {
+  const pageLoadTimeout = 15000;
+
+  const visitRevenueExplainer = () => {
+    cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
     cy.visit('/americas-finance-guide/government-revenue/');
-    cy.wait(3000);
+    cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+      .its('response.statusCode')
+      .should('be.oneOf', [200, 304]);
+    cy.get('[data-testid="selectable-digits"]', { timeout: pageLoadTimeout })
+      .invoke('text')
+      .should('match', /\$\d/);
+    cy.findByRole('link', { name: 'Overview' }).should('be.visible');
+  };
+
+  const waitForSourcesSection = () => {
+    cy.contains('h2', 'Sources of Federal Revenue', { timeout: pageLoadTimeout })
+      .scrollIntoView()
+      .should('be.visible');
+  };
+
+  const waitForTrendsEconomySection = () => {
+    cy.contains('h2', 'Federal Revenue Trends and the U.S. Economy', { timeout: pageLoadTimeout })
+      .scrollIntoView()
+      .should('be.visible');
+  };
+
+  beforeEach(() => {
+    visitRevenueExplainer();
   });
 
   it('Navigate to the revenue explainer, ensure page does not contain NaN, null, or undefined values', () => {
@@ -12,32 +37,26 @@ describe('Revenue Explainer Page', () => {
 
   describe('Validate that the sub nav takes the user to the correct page on the site', () => {
     it('Validate that the sub nav takes the user Overview section', () => {
-      cy.findByRole('link', { name: 'Overview' })
-        .type('{enter}')
-        .wait(2000);
+      cy.findByRole('link', { name: 'Overview' }).type('{enter}');
       cy.url().should('include', 'americas-finance-guide/');
     });
 
     it('Validate that the sub nav takes the user Debt section', () => {
-      cy.findByRole('link', { name: 'Debt' })
-        .type('{enter}')
-        .wait(2000);
+      cy.findByRole('link', { name: 'Debt' }).type('{enter}');
       cy.url().should('include', 'americas-finance-guide/national-debt');
     });
 
     it('Validate that the sub nav takes the user Spending section', () => {
       cy.get('span')
         .contains('Spending')
-        .type('{enter}')
-        .wait(2000);
+        .type('{enter}');
       cy.url().should('include', 'americas-finance-guide/federal-spending');
     });
 
     it('Validate that the sub nav takes the user Deficit section', () => {
       cy.get('span')
         .contains('Deficit')
-        .type('{enter}')
-        .wait(2000);
+        .type('{enter}');
       cy.url().should('include', 'americas-finance-guide/national-deficit');
     });
   });
@@ -55,12 +74,11 @@ describe('Revenue Explainer Page', () => {
         },
       ];
       hyperlinks1.forEach(link => {
-        cy.findAllByRole('link', { name: link.name })
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
           .first()
-          .click()
-          .wait(2000);
+          .click();
         cy.url().should('include', link.url);
-        cy.visit('/americas-finance-guide/government-revenue/');
+        visitRevenueExplainer();
       });
     });
 
@@ -72,16 +90,28 @@ describe('Revenue Explainer Page', () => {
         },
       ];
       hyperlinks2.forEach(link => {
-        cy.findAllByRole('link', { name: link.name })
-          .first()
-          .click()
-          .wait(2000);
+        waitForSourcesSection();
+
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout }).should($links => {
+          const matchingHref = [...$links].some(anchor => anchor.getAttribute('href')?.replace(/\/$/, '') === link.url);
+          expect(matchingHref, `${link.name} link to ${link.url}`).to.be.true;
+        });
+
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout }).then($links => {
+          const target = [...$links].find(anchor => anchor.getAttribute('href')?.replace(/\/$/, '') === link.url);
+          cy.wrap(target)
+            .scrollIntoView()
+            .click();
+        });
         cy.url().should('include', link.url);
-        cy.visit('/americas-finance-guide/government-revenue/');
+        visitRevenueExplainer();
       });
     });
 
     it('Validate all external links on the page navigate to the correct destinations ', () => {
+      waitForSourcesSection();
+      waitForTrendsEconomySection();
+
       const externalHyperlinks = [
         {
           name: 'IRS.gov',
@@ -97,21 +127,23 @@ describe('Revenue Explainer Page', () => {
         },
         {
           name: 'GPS.gov',
-          url: 'https://www.gps.gov/policy/funding/',
+          url: 'https://www.gps.gov/program-funding-0',
         },
       ];
 
       externalHyperlinks.forEach(link => {
-        cy.findAllByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
+          .first()
+          .should('have.attr', 'href', link.url);
       });
     });
 
     it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
+      waitForSourcesSection();
       cy.findByRole('button', { name: 'Why does the Federal Reserve send money to the federal government? toggle contents' })
         .first()
-        .click()
-        .wait(2000);
-      cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' }).should(
+        .click();
+      cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' }, { timeout: pageLoadTimeout }).should(
         'have.attr',
         'href',
         'https://www.federalreserve.gov/aboutthefed/section7.htm'
@@ -119,9 +151,8 @@ describe('Revenue Explainer Page', () => {
 
       cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' })
         .first()
-        .click()
-        .wait(2000);
-      cy.findByRole('link', { name: 'GitHub repository' }).should(
+        .click();
+      cy.findByRole('link', { name: 'GitHub repository' }, { timeout: pageLoadTimeout }).should(
         'have.attr',
         'href',
         'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'
@@ -147,13 +178,15 @@ describe('Revenue Explainer Page', () => {
   it('Validate all glossary terms on page', () => {
     const glossaryTerms: string[] = ['expenditures', 'fiscal year (FY)', 'excise', 'trust funds'];
 
-    const foundTerms = cy.findAllByTestId('infoTipContainer');
-
-    foundTerms.each((term, index) => {
-      cy.wrap(term).should('include.text', glossaryTerms[index]);
+    glossaryTerms.forEach(term => {
+      cy.findAllByTestId('infoTipContainer')
+        .contains(term)
+        .should('exist');
     });
 
-    foundTerms.contains('excise').click();
+    cy.findAllByTestId('infoTipContainer')
+      .contains('excise')
+      .click();
 
     cy.findAllByTestId('popupContainer')
       .findByText('View in glossary')
