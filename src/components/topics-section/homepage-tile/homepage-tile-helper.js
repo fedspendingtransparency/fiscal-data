@@ -221,7 +221,7 @@ export const pageTileMap = {
   },
   'historic-data-now-available': {
     title: 'Historic Data Now Available',
-    body: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov',
+    body: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
     altText: 'Historic Data Now Available',
     desktopImage: 'historic-data-now-available',
     mobileImage: 'historic-data-now-available',
