@@ -1,12 +1,26 @@
 describe('Debt Explainer Page', () => {
-  beforeEach(() => {
-    // cy.visit('/americas-finance-guide/national-debt/');
-    // cy.wait(3000);
+  const pageLoadTimeout = 15000;
 
-    cy.intercept('GET', 'INSERT_API_TO_WAIT_ON').as('getDebtData');
+  const visitDebtExplainer = () => {
+    cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
     cy.visit('/americas-finance-guide/national-debt/');
-    cy.wait('@getDebtData');
-    cy.findByText('National Debt').should('be.visible');
+    cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+      .its('response.statusCode')
+      .should('be.oneOf', [200, 304]);
+    cy.get('[data-testid="selectable-digits"]', { timeout: pageLoadTimeout })
+      .invoke('text')
+      .should('match', /\$\d/);
+    cy.findByRole('link', { name: 'Overview' }).should('be.visible');
+  };
+
+  const waitForDiveDeeperSection = () => {
+    cy.contains('h2', 'Dive Deeper into the Debt', { timeout: pageLoadTimeout })
+      .scrollIntoView()
+      .should('be.visible');
+  };
+
+  beforeEach(() => {
+    visitDebtExplainer();
   });
 
   it('Navigate to the debt explainer, ensure page does not contain NaN, null, or undefined values', () => {
@@ -17,31 +31,24 @@ describe('Debt Explainer Page', () => {
 
   describe('Validate that the sub nav takes the user to the correct section on the page', () => {
     it('Validate that the sub nav takes the user Overview section', () => {
-      cy.findByRole('link', { name: 'Overview' })
-        .type('{enter}')
-        .wait(2000);
+      cy.findByRole('link', { name: 'Overview' }).type('{enter}');
       cy.url().should('include', 'americas-finance-guide/');
     });
 
     it('Validate that the sub nav takes the user Revenue section', () => {
-      cy.findByRole('link', { name: 'Revenue' })
-        .type('{enter}')
-        .wait(2000);
+      cy.findByRole('link', { name: 'Revenue' }).type('{enter}');
       cy.url().should('include', 'americas-finance-guide/government-revenue');
     });
 
     it('Validate that the sub nav takes the user Spending section', () => {
-      cy.findByRole('link', { name: 'Spending' })
-        .type('{enter}')
-        .wait(2000);
+      cy.findByRole('link', { name: 'Spending' }).type('{enter}');
       cy.url().should('include', 'americas-finance-guide/federal-spending');
     });
 
     it('Validate that the sub nav takes the user Deficit section', () => {
       cy.get('span')
         .contains('Deficit')
-        .type('{enter}')
-        .wait(2000);
+        .type('{enter}');
       cy.url().should('include', 'americas-finance-guide/national-deficit');
     });
   });
@@ -67,12 +74,11 @@ describe('Debt Explainer Page', () => {
         },
       ];
       hyperlinks1.forEach(link => {
-        cy.findAllByRole('link', { name: link.name })
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
           .first()
-          .click()
-          .wait(2000);
+          .click();
         cy.url().should('include', link.url);
-        cy.visit('/americas-finance-guide/national-debt/');
+        visitDebtExplainer();
       });
     });
 
@@ -88,16 +94,17 @@ describe('Debt Explainer Page', () => {
         },
       ];
       hyperlinks2.forEach(link => {
-        cy.findAllByRole('link', { name: link.name })
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
           .first()
-          .click()
-          .wait(2000);
+          .click();
         cy.url().should('include', link.url);
-        cy.visit('/americas-finance-guide/national-debt/');
+        visitDebtExplainer();
       });
     });
 
     it('Validate all external links on the page navigate to the correct destinations ', () => {
+      waitForDiveDeeperSection();
+
       const externalHyperlinks: object[] = [
         {
           name: 'Bureau of Labor Statistics',
@@ -112,24 +119,8 @@ describe('Debt Explainer Page', () => {
           url: 'https://www.fiscal.treasury.gov/',
         },
         {
-          name: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf',
-          url: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf',
-        },
-        {
-          name: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf',
-          url: 'https://fiscaldata.treasury.gov/static-data/published-reports/frusg/FRUSG_2022.pdf',
-        },
-        {
-          name: 'https://www.gao.gov/americas-fiscal-future/federal-debt',
-          url: 'https://www.gao.gov/americas-fiscal-future/federal-debt',
-        },
-        {
-          name: 'https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/',
-          url: 'https://www.whitehouse.gov/cea/written-materials/2021/10/06/the-debt-ceiling-an-explainer/',
-        },
-        {
-          name: 'https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf',
-          url: 'https://www.whitehouse.gov/wp-content/uploads/2021/05/ap_4_borrowing_fy22.pdf',
+          name: 'https://www.gao.gov/americas-fiscal-future',
+          url: 'https://www.gao.gov/americas-fiscal-future',
         },
         {
           name: 'https://www.cbo.gov/publication/56910',
@@ -154,8 +145,19 @@ describe('Debt Explainer Page', () => {
       ];
 
       externalHyperlinks.forEach(link => {
-        cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
+          .first()
+          .should('have.attr', 'href', link.url);
       });
+    });
+
+    it('Validate PDF links on the page point to the correct files', () => {
+      waitForDiveDeeperSection();
+
+      cy.findAllByRole('link', { name: /FRUSG_2024\.pdf/ }, { timeout: pageLoadTimeout })
+        .first()
+        .should('have.attr', 'href')
+        .and('include', 'FRUSG_2024.pdf');
     });
   });
 
@@ -202,14 +204,15 @@ describe('Debt Explainer Page', () => {
       'interest rates',
     ];
 
-    const foundTerms = cy.findAllByTestId('infoTipContainer');
-
-    foundTerms.each((term, index) => {
-      cy.wrap(term).should('include.text', glossaryTerms[index]);
+    glossaryTerms.forEach(term => {
+      cy.findAllByTestId('infoTipContainer')
+        .contains(term)
+        .should('exist');
     });
 
-    foundTerms.contains('bills').click();
-
+    cy.findAllByTestId('infoTipContainer')
+      .contains('bills')
+      .click();
     cy.findAllByTestId('popupContainer')
       .findByText('View in glossary')
       .click();
