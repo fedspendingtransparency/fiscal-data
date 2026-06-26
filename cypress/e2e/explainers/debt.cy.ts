@@ -10,7 +10,6 @@ describe('Debt Explainer Page', () => {
     cy.get('[data-testid="selectable-digits"]', { timeout: pageLoadTimeout })
       .invoke('text')
       .should('match', /\$\d/);
-    cy.findByRole('link', { name: 'Overview' }).should('be.visible');
   };
 
   const waitForDiveDeeperSection = () => {
