@@ -30,7 +30,9 @@ const FeaturedContentLanding = () => {
           <h1>Featured Content</h1>
           <p>A Collection of Current Data-related Government Financial Topics</p>
         </div>
-        <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" className={bannerIcon} />
+        <div className={bannerIcon}>
+          <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" />
+        </div>
       </div>
       <div className={content}>
         {featuredContentLanding.map(section => (

@@ -11,6 +11,7 @@ import {
   topicsGrid,
   topicsSectionContainer,
   featuredContentLine,
+  featuredContentLineTop,
 } from './topics-section.module.scss';
 import { breakpointLg, breakpointMd } from '../../variables.module.scss';
 import { pxToNumber } from '../../helpers/styles-helper/styles-helper';
@@ -33,6 +34,7 @@ export const TopicsSection = ({ images }) => {
 
   const featuredContent = (
     <>
+      <div className={`${featuredContentLine} ${featuredContentLineTop}`} />
       <div className={sectionHeader}>FEATURED CONTENT</div>
       <HomePageTile content={pageTileMap['featured-content']} images={images} rightTile />
       <div className={line} />
