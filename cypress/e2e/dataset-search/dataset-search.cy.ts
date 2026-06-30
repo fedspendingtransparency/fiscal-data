@@ -9,22 +9,29 @@ describe('Homepage user flow validation', () => {
 });
 
 describe('Fiscal Data Treasury Datasets Page', () => {
+  const getDatasetSearchInput = () => cy.findByLabelText('Enter search terms');
+
+  const typeDatasetSearch = (query: string) => {
+    getDatasetSearchInput()
+      .should('exist')
+      .clear({ force: true })
+      .type(query, { force: true });
+  };
+
   beforeEach(() => {
-    cy.visit('/datasets/').wait(3000);
+    cy.visit('/datasets/');
+    getDatasetSearchInput().should('exist');
   });
   it('validate search query searches', () => {
-    cy.findByLabelText('Enter search terms')
-
-      .should('be.visible')
-      .type('MTS');
+    typeDatasetSearch('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
   });
   it('validate search query clears', () => {
-    cy.findByLabelText('Enter search terms')
-      .should('be.visible')
-      .type('MTS');
+    typeDatasetSearch('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
-    cy.findByLabelText('clear').click();
+    cy.findByLabelText('clear')
+      .should('exist')
+      .click({ force: true });
     cy.contains("Searching Datasets matching '").should('not.exist');
   });
   it('validates tooltips on the Dataset Keyword Search tooltip', () => {
