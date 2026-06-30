@@ -1,6 +1,19 @@
 describe('About us interaction flow', () => {
+  const pageLoadTimeout = 15000;
+
+  const visitAboutUsPage = () => {
+    cy.intercept('GET', '**/api/**').as('apiCalls'); // Adjust the pattern to match your actual API endpoints
+    cy.visit('/about-us/');
+    cy.wait('@apiCalls', { timeout: pageLoadTimeout })
+      .its('response.statusCode')
+      .should('be.oneOf', [200, 304]);
+    cy.findAllByText('About Fiscal Data', { timeout: pageLoadTimeout })
+      .should('exist')
+      .should('be.visible');
+  };
+
   beforeEach(() => {
-    cy.visit('/about-us/').wait(1500);
+    visitAboutUsPage();
   });
 
   it('Verifies about us page loads', () => {
