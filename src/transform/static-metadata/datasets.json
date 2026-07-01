@@ -466,7 +466,7 @@
         "label": "No CUSIP - Special Announcement", "value": "spec-ann-no-cusip"
       },
       "dataTableRequest" : {
-        "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results, pdf_filenm_announcemt",
+        "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results,pdf_filenm_spec_announcemt",
         "dateField": "auction_date"
       },
       "dateFilterLabel": "Issue Date",
