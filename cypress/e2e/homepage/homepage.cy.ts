@@ -43,7 +43,6 @@ describe('Homepage user flow validation', () => {
   });
 
   it('then finds and navigates to AFG home page', () => {
-    cy.findAllByTestId('tile-link');
     cy.contains("Your Guide to America's Finances").click();
     cy.url().should('include', '/americas-finance-guide/');
   });
