@@ -8,5 +8,5 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
-  retries: 2,
+  retries: 0,
 });
