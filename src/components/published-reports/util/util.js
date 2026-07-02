@@ -156,6 +156,18 @@ export const isReportGroupDailyFrequency = reports => {
   return isDaily;
 };
 
+// yearly means every year represented in the report group has exactly one report month
+export const isReportGroupYearlyFrequency = reports => {
+  const years = new Set();
+  const yearMonths = new Set();
+  reports.forEach(report => {
+    const reportDate = report.report_date;
+    years.add(reportDate.getFullYear());
+    yearMonths.add(reportDate.getFullYear() + '-' + reportDate.getMonth());
+  });
+  return years.size > 0 && yearMonths.size === years.size;
+};
+
 export const isValidReportGroup = report => {
   return report.report_group_id !== undefined && Number(report.report_group_id) > -1;
 };

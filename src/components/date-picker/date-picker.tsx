@@ -6,9 +6,11 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons/faCalendar';
 import DropdownLabelButton from '../dropdown-label-button/dropdown-label-button';
 import DropdownContainer from '../dropdown-container/dropdown-container';
 import GridMonthPicker from './grid-month-picker/grid-month-picker';
+import MonthListPicker from './month-list-picker/month-list-picker';
 
 interface IDatePicker {
   isDaily: boolean;
+  isYearly?: boolean;
   latestDate: Date;
   earliestDate: Date;
   allDates: string[];
@@ -24,6 +26,7 @@ interface IDatePicker {
 
 const DatePicker: FunctionComponent<IDatePicker> = ({
   isDaily,
+  isYearly,
   latestDate,
   earliestDate,
   allDates,
@@ -75,7 +78,16 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             earliestDate={earliestDate}
           />
         )}
-        {active && !isDaily && !generatedReport && (
+        {active && !isDaily && !generatedReport && isYearly && (
+          <MonthListPicker
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            handleClose={handleClose}
+            allReportDates={allDates}
+            active={active}
+          />
+        )}
+        {active && !isDaily && !generatedReport && !isYearly && (
           <MonthPicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
