@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import ReportsSection from './reports-section/reports-section';
-import Experimental from '../experimental/experimental';
 import GenerativeReportsSection from './generative-reports-section/generative-reports-section';
 import FilterReportsSection from './filter-reports-section/filter-reports-section';
 import { IDatasetConfig } from '../../models/IDatasetConfig';
@@ -31,10 +30,8 @@ const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ p
       <ErrorBoundary fallback={reportErrorMessage}>
         <ReportsSection dataset={pageConfig} />
       </ErrorBoundary>
-      {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && (
-        <Experimental featureId="fipReportsSection">
-          <FilterReportsSection dataset={pageConfig} />
-        </Experimental>
+      {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && isAllowedInContext('fipReportsSection') && (
+        <FilterReportsSection dataset={pageConfig} />
       )}
       {pageConfig.runTimeReportConfig && !pageConfig.runTimeReportConfig?.experimental && <FilterReportsSection dataset={pageConfig} />}
     </>
