@@ -71,7 +71,7 @@ const HowSavingsBondsFinanceGovernment: FunctionComponent<{ width?: number }> = 
   );
 
   const savingsBondsByTypeHistorical = allSavingsBondsByTypeHistorical.allSavingsBondsByTypeHistoricalCsv.savingsBondsByTypeHistoricalCsv;
-  const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?filter=record_date:eq';
+  const howSavingBondsSold = 'v1/debt/mspd/mspd_table_1?';
 
   useEffect(() => {
     basicFetch(`${apiPrefix}${howSavingBondsSold}&page[size]=1`).then((metaRes: ApiResponse) => {
