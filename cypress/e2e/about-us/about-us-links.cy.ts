@@ -10,11 +10,6 @@ describe('About Us Links interaction flow', () => {
   it('Validates all links on the page function as intended', () => {
     const links: object[] = [
       {
-        name: 'Bureau of the Fiscal Service (Fiscal Service)',
-        url: 'https://fiscal.treasury.gov/about.html',
-        external: true,
-      },
-      {
         name: 'getting started section',
         url: 'api-documentation/#getting-started',
         external: false,
@@ -73,7 +68,7 @@ describe('About Us Links interaction flow', () => {
       },
       {
         name: 'Economic Impact Payments Page',
-        url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
+        url: 'https://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
         external: true,
       },
       {
@@ -93,7 +88,7 @@ describe('About Us Links interaction flow', () => {
       },
       {
         name: 'Economic Impact Payments Page',
-        url: 'http://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
+        url: 'https://www.irs.gov/coronavirus-tax-relief-and-economic-impact-payments',
         external: true,
       },
     ];
