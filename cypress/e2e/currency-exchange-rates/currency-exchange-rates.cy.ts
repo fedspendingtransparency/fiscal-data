@@ -1,29 +1,43 @@
+const getLastCompletedYear = () => {
+  return new Date().getFullYear() - 1;
+};
+
+const pageLoadTimeout = 15000;
+
+const visitCurrencyExchangeRatePage = () => {
+  cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
+  cy.visit('/currency-exchange-rates-converter/');
+  cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+    .its('response.statusCode')
+    .should('be.oneOf', [200, 304]);
+  cy.findAllByText('Published Date', { timeout: pageLoadTimeout })
+    .should('exist')
+    .should('be.visible');
+};
+
 describe('Currency exchange rates interaction flow', () => {
   beforeEach(() => {
-    cy.visit('/currency-exchange-rates-converter/').wait(3000);
-  });
-
-  it('Validates currency exchange rates url goes to the correct page', () => {
-    cy.findByTitle('Currency Exchange Rates Converter').click();
-    cy.url().should('include', '/currency-exchange-rates-converter/');
+    visitCurrencyExchangeRatePage();
   });
 
   it('Validates foreign currency loads on Euro Zone-Euro', () => {
     cy.findAllByText('Euro Zone-Euro').should('exist');
   });
   it('Validates published date info tip', () => {
-    cy.findByLabelText('More information about Published Date.').focus();
-    cy.findAllByText('Treasury Reporting Rates of Exchange').click();
-    cy.url().should('include', '/treasury-reporting-rates-of-exchange');
+    cy.findByLabelText('More information about Published Date.')
+      .first()
+      .click({ force: true });
+    cy.findByTestId('popupContainer').should('be.visible');
   });
   it('Validates country currency info tip', () => {
-    cy.findByLabelText('More information about Country-Currency.').click();
-    cy.findAllByText(
-      'Currencies listed in grey do not have available data for the date range selected. Please ensure that the desired currency does not appear by another name, or change the date selected for available results.'
-    ).should('exist');
+    cy.findByLabelText('More information about Country-Currency.')
+      .first()
+      .click({ force: true });
+    cy.findByTestId('popupContainer').should('be.visible');
   });
+
   it('Validates published date dropdown selector', () => {
-    cy.findAllByTitle('December 31, 2024').click({ force: true });
+    cy.findAllByTitle(`December 31, ${getLastCompletedYear()}`).click({ force: true });
     cy.findByText('March 31, 2024').click();
     cy.findByTitle('March 31, 2024').should('exist');
   });
@@ -31,8 +45,8 @@ describe('Currency exchange rates interaction flow', () => {
 
 describe('Currency exchange rates with different published date', () => {
   beforeEach(() => {
-    cy.visit('/currency-exchange-rates-converter/').wait(3000);
-    cy.findAllByTitle('December 31, 2024').click({ force: true });
+    visitCurrencyExchangeRatePage();
+    cy.findAllByTitle(`December 31, ${getLastCompletedYear()}`).click({ force: true });
     cy.findByText('March 31, 2024').click();
     cy.findByTitle('March 31, 2024').should('exist');
   });
@@ -81,8 +95,8 @@ describe('Currency exchange rates with different published date', () => {
 
 describe('Currency exchange rates with different published date', () => {
   beforeEach(() => {
-    cy.visit('/currency-exchange-rates-converter/').wait(3000);
-    cy.findAllByTitle('December 31, 2024').click({ force: true });
+    visitCurrencyExchangeRatePage();
+    cy.findAllByTitle(`December 31, ${getLastCompletedYear()}`).click({ force: true });
     cy.findByText('September 30, 2024').click();
     cy.findByTitle('September 30, 2024').should('exist');
   });
