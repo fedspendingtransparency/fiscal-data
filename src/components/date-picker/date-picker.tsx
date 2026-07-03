@@ -85,6 +85,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             handleClose={handleClose}
             allReportDates={allDates}
             active={active}
+            latestDate={latestDate}
+            earliestDate={earliestDate}
           />
         )}
         {active && !isDaily && !generatedReport && !isYearly && (

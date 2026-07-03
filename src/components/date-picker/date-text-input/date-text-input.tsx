@@ -18,6 +18,7 @@ interface iDateTextInput {
   maxDateErrorMessage?: string;
   fromDate?: Date;
   toDate?: Date;
+  allowYearOnly?: boolean;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
@@ -40,6 +41,7 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   maxDateErrorMessage,
   fromDate,
   toDate,
+  allowYearOnly,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -99,7 +101,18 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   };
 
   const isValid = (input: string) => {
-    const { month, day, year, numeric } = parseInput(input);
+    let dateInput = input;
+    if (allowYearOnly && /^\d{4}$/.test(input.trim())) {
+      // resolve a year-only entry to that year's report date
+      const yearMatch = allDates?.find(date => date.endsWith(' ' + input.trim()));
+      if (!yearMatch) {
+        setValidInput(false);
+        setErrorMessage(noMatchDefaultMessage);
+        return;
+      }
+      dateInput = yearMatch;
+    }
+    const { month, day, year, numeric } = parseInput(dateInput);
     const validEntry = isValidMonth(month) && isValidYear(year) && (!day || isValidDay(day));
     let formattedDate: string;
     if (validEntry) {

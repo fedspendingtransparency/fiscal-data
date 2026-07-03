@@ -1,9 +1,8 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
-import { dropdownContainer, dropdownList, selected } from './month-list-picker.module.scss';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { dropdownList, selected } from './month-list-picker.module.scss';
+import DateDropdown from '../date-dropdown/date-dropdown';
 import ScrollContainer from '../../scroll-container/scroll-container';
 import { monthFullNames } from '../../../utils/api-utils';
-import { analyticsEventHandler } from '../../../helpers/insights/insight-helpers';
-import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 interface IMonthListPicker {
   selectedDate: Date;
@@ -11,6 +10,8 @@ interface IMonthListPicker {
   handleClose: () => void;
   allReportDates: string[];
   active: boolean;
+  latestDate: Date;
+  earliestDate: Date;
 }
 
 const monthYearToDate = (monthYear: string): Date => {
@@ -18,50 +19,88 @@ const monthYearToDate = (monthYear: string): Date => {
   return new Date(`${month} 1, ${year}`);
 };
 
-// Flat single-click list of "Month Year" dates, used for yearly report groups in place
-// of the month/year picker with an apply step
-const MonthListPicker: FunctionComponent<IMonthListPicker> = ({ selectedDate, setSelectedDate, handleClose, allReportDates, active }) => {
-  const monthYearOptions = [...new Set(allReportDates)].sort((a, b) => monthYearToDate(b).getTime() - monthYearToDate(a).getTime());
-  const selectedMonthYear = selectedDate ? monthFullNames[selectedDate.getMonth()] + ' ' + selectedDate.getFullYear() : '';
+// Flat list of "Month Year" dates, used for yearly report groups in place of the
+// month/year picker
+const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
+  selectedDate,
+  setSelectedDate,
+  handleClose,
+  allReportDates,
+  active,
+  latestDate,
+  earliestDate,
+}: IMonthListPicker) => {
+  const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
+  const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
   const scrollToSelectedDate = useRef(null);
 
+  const monthYearOptions = [...new Set(allReportDates)].sort((a, b) => monthYearToDate(b).getTime() - monthYearToDate(a).getTime());
+  const selectedMonthYear = selectedMonth + ' ' + selectedYear;
+  // example uses the latest report date so it always matches the dataset's actual format
+  const latestMonthYear = monthYearOptions[0];
+  const searchBarLabel = latestMonthYear ? `Published Date (Example: ${latestMonthYear} or ${latestMonthYear.split(' ')[1]})` : undefined;
+
   const handleDateClick = (monthYear: string) => {
-    const eventAction = 'Published Report Date Selection';
-    analyticsEventHandler('Data Download', monthYear, eventAction);
-    ga4DataLayerPush({
-      event: eventAction,
-      eventLabel: monthYear,
-    });
-    setSelectedDate(monthYearToDate(monthYear));
-    handleClose();
+    const [month, year] = monthYear.split(' ');
+    setSelectedMonth(month);
+    setSelectedYear(year);
   };
+
+  const handleApply = () => {
+    setSelectedDate(new Date(selectedMonth + ' 01, ' + selectedYear));
+    if (handleClose) {
+      handleClose();
+    }
+  };
+
+  useEffect(() => {
+    if (!active) {
+      setSelectedMonth(monthFullNames[selectedDate.getMonth()]);
+      setSelectedYear(selectedDate.getFullYear().toString());
+    }
+  }, [active]);
 
   useEffect(() => {
     if (scrollToSelectedDate.current) {
       scrollToSelectedDate.current.scrollIntoView({ block: 'nearest' });
     }
-  }, [active]);
+  }, [active, selectedMonthYear]);
 
   return (
-    <div className={dropdownContainer}>
-      <div className={dropdownList}>
-        <ScrollContainer deps={[monthYearOptions, selectedMonthYear]}>
-          <ul>
-            {monthYearOptions.map((option, i) => (
-              <li key={i}>
-                <button
-                  className={option === selectedMonthYear ? selected : null}
-                  onClick={() => handleDateClick(option)}
-                  ref={option === selectedMonthYear ? scrollToSelectedDate : null}
-                >
-                  {option}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </ScrollContainer>
-      </div>
-    </div>
+    <>
+      {active && (
+        <DateDropdown
+          handleClose={handleClose}
+          handleApply={handleApply}
+          setSelectedMonth={setSelectedMonth}
+          setSelectedYear={setSelectedYear}
+          allDates={allReportDates}
+          selectedDate={selectedMonthYear}
+          fromDate={earliestDate}
+          toDate={latestDate}
+          label={searchBarLabel}
+          allowYearOnly
+        >
+          <div className={dropdownList}>
+            <ScrollContainer deps={[monthYearOptions, selectedMonthYear]}>
+              <ul>
+                {monthYearOptions.map((option, i) => (
+                  <li key={i}>
+                    <button
+                      className={option === selectedMonthYear ? selected : null}
+                      onClick={() => handleDateClick(option)}
+                      ref={option === selectedMonthYear ? scrollToSelectedDate : null}
+                    >
+                      {option}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </ScrollContainer>
+          </div>
+        </DateDropdown>
+      )}
+    </>
   );
 };
 
