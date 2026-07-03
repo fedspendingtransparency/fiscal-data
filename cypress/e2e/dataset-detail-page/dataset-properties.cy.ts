@@ -1,6 +1,19 @@
+const pageLoadTimeout = 15000;
+
+const visitDailyTreasuryStatementPage = () => {
+  cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
+  cy.visit('/datasets/daily-treasury-statement/');
+  cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+    .its('response.statusCode')
+    .should('be.oneOf', [200, 304]);
+  cy.findAllByText('Operating Cash Balance', { timeout: pageLoadTimeout })
+    .should('exist')
+    .should('be.visible');
+};
+
 describe('Dataset Properties', () => {
   beforeEach(() => {
-    cy.visit('/datasets/daily-treasury-statement/');
+    visitDailyTreasuryStatementPage();
   });
 
   it('Navigate to the dataset page, click between the data dictionary, data tables, metadata, and notes & known limitations tabs and verify that content loads for each tab', () => {

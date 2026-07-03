@@ -32,10 +32,9 @@ describe('Fiscal Data Treasury Datasets Page', () => {
   // };
 
   beforeEach(() => {
-    // cy.visit('/datasets/');
-    // getDatasetSearchInput().should('exist');
     visitDatasetSearchPage();
   });
+
   it.skip('validate search query searches', () => {
     typeDatasetSearch('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
