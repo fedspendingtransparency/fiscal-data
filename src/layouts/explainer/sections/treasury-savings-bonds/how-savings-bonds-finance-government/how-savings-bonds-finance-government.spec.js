@@ -72,18 +72,12 @@ describe('How Savings Bonds Finance The Government Section', () => {
         'begin:https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/securities_sales?filter=security_type_desc:eq:Savings%20Bond',
         mockSavingsBondTypesData
       )
-      .route(
-        'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=1',
-        mockMSPDData
-      )
+      .route('https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?&page[size]=1', mockMSPDData)
       .route(
         'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?sort=-record_date&page[size]=1',
         mockMSPDData2
       )
-      .route(
-        'https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?filter=record_date:eq&page[size]=30',
-        mockMSPDData2
-      );
+      .route('https://www.transparency.treasury.gov/services/api/fiscal_service/v1/debt/mspd/mspd_table_1?&page[size]=30', mockMSPDData2);
   });
 
   afterAll(() => {
