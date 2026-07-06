@@ -5,16 +5,15 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://uat.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.uat.fiscaldata.treasury.gov/main',
   STRICT_SSL: true,
-  EXPERIMENTAL_WHITELIST: [
+  EXPERIMENTAL_ALLOWLIST: [
     'experimental-page',
     'afg-overview',
     'publishedReportsSection',
     'dataPreview',
     'chartingConfigurationTool',
-    'fipReportsSection',
     'featured-content',
   ],
-  LOWER_ENV_FEATURE_WHITELIST: ['reportGeneration'],
+  LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2014Q3-052': {
       slug: '/top-treasury-offset-program/',

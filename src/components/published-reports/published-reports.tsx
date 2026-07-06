@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import ReportsSection from './reports-section/reports-section';
-import Experimental from '../experimental/experimental';
 import GenerativeReportsSection from './generative-reports-section/generative-reports-section';
 import FilterReportsSection from './filter-reports-section/filter-reports-section';
+import LowerEnvironmentFeature from '../lower-environment-feature/lower-environment-feature';
 import { IDatasetConfig } from '../../models/IDatasetConfig';
 import { ErrorBoundary } from 'react-error-boundary';
 import CustomLink from '../links/custom-link/custom-link';
@@ -31,10 +31,12 @@ const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ p
       <ErrorBoundary fallback={reportErrorMessage}>
         <ReportsSection dataset={pageConfig} />
       </ErrorBoundary>
+      {/* Experimental configs render in allowlisted lower envs (dev/uat) with no toggle, never in qat/prod.
+          Non-experimental configs render everywhere. */}
       {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && (
-        <Experimental featureId="fipReportsSection">
+        <LowerEnvironmentFeature featureId="fipReportsSection">
           <FilterReportsSection dataset={pageConfig} />
-        </Experimental>
+        </LowerEnvironmentFeature>
       )}
       {pageConfig.runTimeReportConfig && !pageConfig.runTimeReportConfig?.experimental && <FilterReportsSection dataset={pageConfig} />}
     </>

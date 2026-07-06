@@ -256,15 +256,15 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
   };
 };
 
-const vetApiMetadataAgainstWhitelist = (whitelistMap, datasets, minimumDatasetCount) => {
+const vetApiMetadataAgainstAllowlist = (allowlistMap, datasets, minimumDatasetCount) => {
   const vettedList = [];
-  Object.keys(whitelistMap).forEach(whitelistId => {
-    const matchedInMeta = datasets.find(ds => ds.datasetId === whitelistId);
+  Object.keys(allowlistMap).forEach(allowlistId => {
+    const matchedInMeta = datasets.find(ds => ds.datasetId === allowlistId);
     if (matchedInMeta) {
       vettedList.push(matchedInMeta);
     } else {
-      // warn if the whitelisted dataset doesn't exist in the API Load
-      console.warn(`Dataset ${whitelistId} is missing in metadata from API`);
+      // warn if the allowlisted dataset doesn't exist in the API Load
+      console.warn(`Dataset ${allowlistId} is missing in metadata from API`);
     }
   });
 
@@ -274,13 +274,13 @@ const vetApiMetadataAgainstWhitelist = (whitelistMap, datasets, minimumDatasetCo
     At least ${minimumDatasetCount} are for required for a successful build`);
   }
 
-  // make a note of non-whitelisted Datasets in the API response
+  // make a note of non-allowlisted Datasets in the API response
   if (vettedList.length < datasets.length) {
     datasets
       .filter(ds => !vettedList.includes(ds))
       .forEach(ignored => {
         console.info(`NOTE: Api Metadata for Dataset "${ignored.title}" [${ignored.datasetId}]
-      was not on the whitelist and is excluded from this build.`);
+      was not on the allowlist and is excluded from this build.`);
       });
   }
   return vettedList;
@@ -390,7 +390,7 @@ const addDatasetsToTopics = datasetIdMap => {
 
 // exported for unit-tests
 exports.transformMapper = transformMapper;
-exports.vetApiMetadataAgainstWhitelist = vetApiMetadataAgainstWhitelist;
+exports.vetApiMetadataAgainstAllowlist = vetApiMetadataAgainstAllowlist;
 exports.sortApisByOrder = sortApisByOrder;
 exports.sortFieldsByOrder = sortFieldsByOrder;
 exports.extractPublishedReportsType = extractPublishedReportsType;
@@ -411,7 +411,7 @@ exports.metadataTransform = async function(
   addDatasetsToTopics(datasetIdMap);
 
   const metadataObjects = camelcaseKeys.default(metadataObjectsFromApi, { deep: true });
-  const vettedDatasets = vetApiMetadataAgainstWhitelist(datasetIdMap, metadataObjects, minimumDatasetCount);
+  const vettedDatasets = vetApiMetadataAgainstAllowlist(datasetIdMap, metadataObjects, minimumDatasetCount);
   console.info(
     'EXCLUDED FOR LACK OF APIS:',
     vettedDatasets.filter(dataset => !dataset.apis.length).map(ds => ds.title)

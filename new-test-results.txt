@@ -2577,7 +2577,7 @@ PASS Standard Tests src/components/dataset-data/dataset-data.spec.js (17.454 s)
     √ does not duplicate api calls when switching from a large table to a small one (359 ms)
     √ includes ReportDataToggle on the page (102 ms)
     √ includes ReportDataToggle on the page (142 ms)
-    √ grabs the published reports from the publishedReports prop if the dataset is whitelisted (183 ms)
+    √ grabs the published reports from the publishedReports prop if the dataset is allowlisted (183 ms)
     √ published report dates are refreshed when the published reports  (340 ms)
     √ passes down the captured published reports to the PublishedReports component (227 ms)
     √ transmits a preview-loaded analytics event when reports tab is first selected but not when
@@ -2780,7 +2780,7 @@ PASS Standard Tests src/transform/metadata-transform.spec.js
   Metadata Transform
     √ formats dataset-wide date specs as MM/dd/YYYY when retrieving dates from child apiEndpoints (10 ms)
     √ it creates kebab-cased pathName values for each api endpoint (1 ms)
-    √ returns a vetted list that excludes non-whitelisted datasets (9 ms)
+    √ returns a vetted list that excludes non-allowlisted datasets (9 ms)
     √ throws an error if the minimum number of datasets cannot be vetted (1 ms)
     √ sorts the api tables based on the field api_sort_order_nbr (aka apiSortOrderNbr) (3 ms)
     √ sorts the table fields based on the field sort_order_nbr (aka sortOrderNbr) (1 ms)
@@ -2802,7 +2802,7 @@ PASS Standard Tests src/components/download-percentage-status/download-percentag
 
   console.info
     NOTE: Api Metadata for Dataset "undefined" [015-BFS-2014Q3-075]
-          was not on the whitelist and is excluded from this build.
+          was not on the allowlist and is excluded from this build.
 
       at forEach (src/transform/metadata-transform.js:247:15)
           at Array.forEach (<anonymous>)
@@ -3573,7 +3573,7 @@ PASS Standard Tests src/utils/authenticating-fetch/authenticating-fetch-runtime.
 PASS Standard Tests src/helpers/published-reports/published-reports.spec.js
   Published Reports helpers
     √ exports a function that correctly fetches published report data and vets them by
-    appropriate whitelists (2 ms)
+    appropriate allowlists (2 ms)
 
 PASS Standard Tests src/layouts/feature/dsm/dsm.spec.ts
   Feature DSM Components
