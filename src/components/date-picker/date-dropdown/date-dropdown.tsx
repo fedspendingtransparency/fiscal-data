@@ -1,12 +1,5 @@
 import React, { FunctionComponent, ReactElement, useState } from 'react';
-import {
-  applyButton,
-  buttonContainer,
-  cancelButton,
-  checkIcon,
-  dropdownContainer,
-  inputContainer,
-} from './date-dropdown.module.scss';
+import { applyButton, buttonContainer, cancelButton, checkIcon, dropdownContainer, inputContainer } from './date-dropdown.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import DateTextInput from '../date-text-input/date-text-input';
@@ -30,6 +23,7 @@ interface IDateDropdown {
   fromDate?: Date;
   toDate?: Date;
   hideFooter?: boolean;
+  allowYearOnly?: boolean;
 }
 
 const DateDropdown: FunctionComponent<IDateDropdown> = ({
@@ -48,6 +42,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
   fromDate,
   toDate,
   hideFooter,
+  allowYearOnly,
 }: IDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
@@ -87,6 +82,7 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
             maxDateErrorMessage={maxDateErrorMessage}
             fromDate={fromDate}
             toDate={toDate}
+            allowYearOnly={allowYearOnly}
           />
         </div>
         {children}

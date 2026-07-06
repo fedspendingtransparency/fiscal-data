@@ -45,10 +45,10 @@ describe('Run Time Filter Report Section', () => {
         ],
       }
     )
-    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=spec-ann`, [
+    .route(`https://www.transparency.treasury.gov/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q3-051&path_contains=spec-ann-no-cusip`, [
       {
         report_date: '2025-10-27',
-        path: '/static-data/published-reports/auctions-query/spec-ann/A_20251027_1.pdf',
+        path: '/static-data/published-reports/auctions-query/spec-ann-no-cusip/A_20251027_1.pdf',
         report_group_desc: 'Special Announcement (.pdf)',
         report_group_id: '24',
         report_group_sort_order_nbr: '5',
@@ -272,7 +272,7 @@ describe('Run Time Filter Report Section', () => {
             optionValues: ['1234', '5678'],
             specialAnnouncement: {
               label: 'No CUSIP or Issue Date - Special Announcement',
-              value: 'spec-ann',
+              value: 'spec-ann-no-cusip',
             },
           },
           apis: [apiMock],
@@ -297,7 +297,7 @@ describe('Run Time Filter Report Section', () => {
             optionValues: ['1234', '5678'],
             specialAnnouncement: {
               label: 'No CUSIP or Issue Date - Special Announcement',
-              value: 'spec-ann',
+              value: 'spec-ann-no-cusip',
             },
           },
           apis: [apiMock],
