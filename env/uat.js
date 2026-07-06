@@ -11,10 +11,9 @@ module.exports = {
     'publishedReportsSection',
     'dataPreview',
     'chartingConfigurationTool',
-    'fipReportsSection',
     'featured-content',
   ],
-  LOWER_ENV_FEATURE_WHITELIST: ['reportGeneration'],
+  LOWER_ENV_FEATURE_WHITELIST: ['reportGeneration', 'fipReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2014Q3-052': {
       slug: '/top-treasury-offset-program/',
