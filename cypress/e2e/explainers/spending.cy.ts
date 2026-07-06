@@ -1,4 +1,3 @@
-
 describe('Spending Explainer Page', () => {
   const pageLoadTimeout = 15000;
 
@@ -71,7 +70,7 @@ describe('Spending Explainer Page', () => {
       'obligation',
       'agency',
       'appropriations',
-      'supplemental appropriations'
+      'supplemental appropriations',
     ];
 
     glossaryTerms.forEach(term => {
@@ -89,98 +88,112 @@ describe('Spending Explainer Page', () => {
       .click();
   });
 
+  describe('Validate that the sub nav takes the user to the correct page on the site', () => {
+    it('Validate that the sub nav takes the user Overview section', () => {
+      cy.findByRole('link', { name: 'Overview' }).type('{enter}');
+      cy.url().should('include', 'americas-finance-guide/');
+    });
 
-describe('Validate that the sub nav takes the user to the correct page on the site', () => {
-  it('Validate that the sub nav takes the user Overview section', () => {
-    cy.findByRole('link', { name: 'Overview' }).type('{enter}');
-    cy.url().should('include', 'americas-finance-guide/');
-  });
+    it('Validate that the sub nav takes the user Debt section', () => {
+      cy.findByRole('link', { name: 'Debt' }).type('{enter}');
+      cy.url().should('include', 'americas-finance-guide/national-debt');
+    });
 
-  it('Validate that the sub nav takes the user Debt section', () => {
-    cy.findByRole('link', { name: 'Debt' }).type('{enter}');
-    cy.url().should('include', 'americas-finance-guide/national-debt');
-  });
+    it('Validate that the sub nav takes the user Spending section', () => {
+      cy.get('span')
+        .contains('Spending')
+        .type('{enter}');
+      cy.url().should('include', 'americas-finance-guide/federal-spending');
+    });
 
-  it('Validate that the sub nav takes the user Spending section', () => {
-    cy.get('span')
-      .contains('Spending')
-      .type('{enter}');
-    cy.url().should('include', 'americas-finance-guide/federal-spending');
-  });
-
-  it('Validate that the sub nav takes the user Deficit section', () => {
-    cy.get('span')
-      .contains('Deficit')
-      .type('{enter}');
-    cy.url().should('include', 'americas-finance-guide/national-deficit');
-  });
-});
-
-describe('Validate all links on page', () => {
-  it('Validate all external links on the page navigate to the correct destinations ', () => {
-    waitForSourcesSection();
-    waitForTrendsEconomySection();
-
-    const externalHyperlinks = [
-      {
-        name: 'USAspending.gov',
-        url: 'https://www.usaspending.gov/explorer',
-      },
-      {
-        name: 'Social Security Act',
-        url: 'https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm',
-      },
-      {
-        name: 'COVID-19 Spending Profile',
-        url: 'https://www.usaspending.gov/disaster/covid-19?publicLaw=all',
-      }
-    ];
-
-    externalHyperlinks.forEach(link => {
-      cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
-        .first()
-        .should('have.attr', 'href', link.url);
+    it('Validate that the sub nav takes the user Deficit section', () => {
+      cy.get('span')
+        .contains('Deficit')
+        .type('{enter}');
+      cy.url().should('include', 'americas-finance-guide/national-deficit');
     });
   });
 
-  it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
-    waitForSourcesSection();
-    cy.findByRole('button', { name: 'What does the future of Social Security and Medicare look like?' })
-      .first()
-      .click();
-    cy.findByRole('link', { name: 'Annual Reports on the Financial Status of Social Security and Medicare' }, { timeout: pageLoadTimeout }).should(
-      'have.attr',
-      'href',
-      'https://www.ssa.gov/oact/TRSUM/'
-    );
-
-    cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' })
-      .first()
-      .click();
-    cy.findByRole('link', { name: 'GitHub repository' }, { timeout: pageLoadTimeout }).should(
-      'have.attr',
-      'href',
-      'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'
-    );
-  });
-
-  it('Part 2: Validate all internal links on the page navigate to the correct destinations', () => {
-    const hyperlinks2 = [
-      {
-        name: 'Monthly Treasury Statement (MTS)',
-        url: '/datasets/monthly-treasury-statement/receipts-of-the-u-s-government',
-      },
-    ];
-    hyperlinks2.forEach(link => {
+  describe('Validate all links on page', () => {
+    it('Validate all external links on the page navigate to the correct destinations ', () => {
       waitForSourcesSection();
+      waitForTrendsEconomySection();
 
-      findLinkByNameAndHref(link.name, link.url)
-        .scrollIntoView()
-        .click();
-      cy.url().should('include', link.url);
-      visitSpendingExplainer();
+      const externalHyperlinks = [
+        {
+          name: 'USAspending.gov',
+          url: 'https://www.usaspending.gov/explorer',
+        },
+        {
+          name: 'Social Security Act',
+          url: 'https://www.ssa.gov/OP_Home/ssact/ssact-toc.htm',
+        },
+        {
+          name: 'COVID-19 Spending Profile',
+          url: 'https://www.usaspending.gov/disaster/covid-19?publicLaw=all',
+        },
+      ];
+
+      externalHyperlinks.forEach(link => {
+        cy.findAllByRole('link', { name: link.name }, { timeout: pageLoadTimeout })
+          .first()
+          .should('have.attr', 'href', link.url);
+      });
     });
-  });
+
+    it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
+      waitForTrendsEconomySection();
+      cy.findByRole('button', { name: 'What does the future of Social Security and Medicare look like? toggle contents' })
+        .first()
+        .click();
+      cy.findByRole('link', { name: 'Annual Reports on the Financial Status of Social Security and Medicare' }, { timeout: pageLoadTimeout }).should(
+        'have.attr',
+        'href',
+        'https://www.ssa.gov/oact/TRSUM/'
+      );
+
+      cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' })
+        .first()
+        .click();
+      cy.findByRole('link', { name: 'GitHub repository' }, { timeout: pageLoadTimeout }).should(
+        'have.attr',
+        'href',
+        'https://github.com/fedspendingtransparency/fiscal-data/tree/master/documentation'
+      );
+    });
+
+    it('Part 2: Validate all internal links on the page navigate to the correct destinations', () => {
+      const hyperlinks2 = [
+        {
+          name: 'Monthly Treasury Statement (MTS)',
+          url: '/datasets/monthly-treasury-statement/receipts-of-the-u-s-government',
+        },
+      ];
+      hyperlinks2.forEach(link => {
+        waitForSourcesSection();
+
+        findLinkByNameAndHref(link.name, link.url)
+          .scrollIntoView()
+          .click();
+        cy.url().should('include', link.url);
+        visitSpendingExplainer();
+      });
+    });
+
+    it('Validate that the related datasets section contains the correct datasets', () => {
+      const relatedDs: string[] = [
+        'Monthly Treasury Statement (MTS)',
+        'Interest Expense on the Public Debt Outstanding',
+        'Daily Treasury Statement (DTS)',
+        'Financial Report of the U.S. Government',
+      ];
+
+      const foundRelatedDs = cy.findAllByTestId('cardWrapper');
+
+      foundRelatedDs.each((ds, index) => {
+        cy.wrap(ds).should('include.text', relatedDs[index]);
+      });
+    });
   });
 });
 
