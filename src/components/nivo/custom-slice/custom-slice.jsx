@@ -22,17 +22,30 @@ const CustomSlices = ({
         setCustomAnimationTriggeredOnce(true);
       }
       const stepDuration = duration ? duration : 50;
+      const timers = [];
 
       slices.forEach((slice, index) => {
-        setTimeout(() => {
-          setCurrentSlice(slice);
-          mouseMove(slice);
-        }, stepDuration * index + 550);
+        timers.push(
+          setTimeout(() => {
+            setCurrentSlice(slice);
+            mouseMove(slice);
+          }, stepDuration * index + 550)
+        );
       });
 
-      setTimeout(() => {
+      timers.push(
+        setTimeout(() => {
+          setCurrentSlice(null);
+        }, stepDuration * (slices.length + 1) + 550)
+      );
+
+      return () => {
+        timers.forEach(timer => clearTimeout(timer));
         setCurrentSlice(null);
-      }, stepDuration * (slices.length + 1) + 550);
+        if (groupMouseLeave) {
+          groupMouseLeave();
+        }
+      };
     }
   }, [inView]);
 
