@@ -122,15 +122,6 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
   }, [status, payload]);
 
   useEffect(() => {
-    if (inView && hoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setHoverDisabled(false);
-      }, 6000);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [inView]);
-
-  useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width]);
 
@@ -223,6 +214,7 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
                         groupMouseLeave: handleGroupOnMouseLeave,
                         mouseMove: handleMouseLeave,
                         inView,
+                        onAnimationComplete: () => setHoverDisabled(false),
                       }),
                     'mesh',
                     'legends',

@@ -92,15 +92,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   }, [status, payload]);
 
   useEffect(() => {
-    if (inView && hoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setHoverDisabled(false);
-      }, 5000);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [inView]);
-
-  useEffect(() => {
     applyTextScaling(chartParent, chartWidth, width, fontSize_10);
   }, [width]);
 
@@ -218,6 +209,7 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                           inView,
                           mouseMove: handleMouseMove,
                           groupMouseLeave: lineChartOnMouseLeave,
+                          onAnimationComplete: () => setHoverDisabled(false),
                         }),
                       'mesh',
                     ]}

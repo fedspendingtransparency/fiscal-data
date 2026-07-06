@@ -10,6 +10,7 @@ const CustomSlices = ({
   duration,
   customAnimationTriggeredOnce,
   setCustomAnimationTriggeredOnce,
+  onAnimationComplete,
 }) => {
   const [style, setStyle] = useState({});
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
@@ -36,6 +37,9 @@ const CustomSlices = ({
       timers.push(
         setTimeout(() => {
           setCurrentSlice(null);
+          if (onAnimationComplete) {
+            onAnimationComplete();
+          }
         }, stepDuration * (slices.length + 1) + 550)
       );
 
@@ -44,6 +48,9 @@ const CustomSlices = ({
         setCurrentSlice(null);
         if (groupMouseLeave) {
           groupMouseLeave();
+        }
+        if (onAnimationComplete) {
+          onAnimationComplete();
         }
       };
     }
