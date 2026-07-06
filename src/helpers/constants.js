@@ -43,7 +43,7 @@ const globalConstants = {
     publishedReports: {
       /**
        * If you alter this list of dataset ids, you will need to also update the same list
-       * in published-reports.js > whitelistDatasetIds until Node/Gatsby-node is converted
+       * in published-reports.js > allowlistDatasetIds until Node/Gatsby-node is converted
        * to ES6 module syntax from CommonJS
        */
       datasets: [

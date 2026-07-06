@@ -9,7 +9,7 @@ jest.mock('gatsby-env-variables', () => ({
   ENV_ID: 'dev',
   API_BASE_URL: 'https://www.transparency.treasury.gov',
   ADDITIONAL_DATASETS: {},
-  EXPERIMENTAL_WHITELIST: ['mock experimental feature'],
+  EXPERIMENTAL_ALLOWLIST: ['mock experimental feature'],
 }));
 
 describe('Experimental wrapper component', () => {
