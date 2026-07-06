@@ -5,15 +5,8 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://dev.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.dev.fiscaldata.treasury.gov/main',
   STRICT_SSL: true,
-  EXPERIMENTAL_WHITELIST: [
-    'experimental-page',
-    'not-found-md',
-    'apiNKL',
-    'publishedReportsSection',
-    'chartingConfigurationTool',
-    'featured-content',
-    'fipReportsSection',
-  ],
+  EXPERIMENTAL_WHITELIST: ['experimental-page', 'not-found-md', 'apiNKL', 'publishedReportsSection', 'chartingConfigurationTool', 'featured-content'],
+  LOWER_ENV_FEATURE_WHITELIST: ['fipReportsSection'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2025Q2-002': {
       slug: '/monthly-treasury-disbursements/',
