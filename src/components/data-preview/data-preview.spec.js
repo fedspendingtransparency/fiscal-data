@@ -13,7 +13,7 @@ import {
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { mockPublishedReportsMTS, whiteListIds } from '../../helpers/published-reports/published-reports';
+import { mockPublishedReportsMTS, allowListIds } from '../../helpers/published-reports/published-reports';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { DataPreview } from './data-preview';
 import userEvent from '@testing-library/user-event';
@@ -362,11 +362,11 @@ describe('DataPreview', () => {
   //   expect(callsToApiForUpdatedTable.length).toEqual(1);
   // });
 
-  it(`grabs the published reports from the publishedReports prop if the dataset is whitelisted`, async () => {
+  it(`grabs the published reports from the publishedReports prop if the dataset is allowlisted`, async () => {
     const origId = config.datasetId;
     const mockDatasetId = Object.keys(mockPublishedReportsMTS)[0];
-    if (whiteListIds && whiteListIds.length) {
-      config.datasetId = whiteListIds[0];
+    if (allowListIds && allowListIds.length) {
+      config.datasetId = allowListIds[0];
     }
 
     getPublishedDates.mockClear();

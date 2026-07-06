@@ -3,7 +3,7 @@
 // the code base.
 //import globalConstants from "../constants";
 
-//const whitelistDatasetIds = globalConstants.config.publishedReports.datasets;
+//const allowlistDatasetIds = globalConstants.config.publishedReports.datasets;
 // TODO - Update Node/Gatsby-Node to ES6 vs CommonJS
 const { getDateWithoutTimeZoneAdjust } = require('../../utils/date-utils');
 
@@ -15,7 +15,7 @@ const { getDateWithoutTimeZoneAdjust } = require('../../utils/date-utils');
  * **********************************************************
  * @type {string[]}
  */
-const whitelistDatasetIds = [
+const allowlistDatasetIds = [
   '015-BFS-2014Q1-13',
   '015-BFS-2014Q3-076',
   '015-BFS-2014Q1-11',
@@ -38,22 +38,22 @@ const whitelistDatasetIds = [
   '015-BFS-2026Q1-002',
   '015-BFS-2026Q1-001',
 ];
-exports.whiteListIds = whitelistDatasetIds;
+exports.allowListIds = allowlistDatasetIds;
 
-const whitelistedGroupsByDataset = {};
+const allowlistedGroupsByDataset = {};
 
 const getPublishedReports = async (datasetId, baseUrl, requestUtil) => {
-  // Todo - Remove all references to whiteListIds when every dataset is approved for use from the
+  // Todo - Remove all references to allowListIds when every dataset is approved for use from the
   // publishedReports api.
   let publishedReports = null;
 
-  if (whitelistDatasetIds.some(d => d === datasetId)) {
+  if (allowlistDatasetIds.some(d => d === datasetId)) {
     const url = `${baseUrl}/services/dtg/publishedfiles?dataset_id=${datasetId}`;
     publishedReports = await requestUtil(url)
       .then(async res => {
         let reports = await res.json().then(body => body);
-        if (whitelistedGroupsByDataset[datasetId]) {
-          reports = reports.filter(rpt => whitelistedGroupsByDataset[datasetId].includes(rpt['report_group_desc']));
+        if (allowlistedGroupsByDataset[datasetId]) {
+          reports = reports.filter(rpt => allowlistedGroupsByDataset[datasetId].includes(rpt['report_group_desc']));
         }
         reports.forEach(report => {
           if (report.report_date && typeof report.report_date === 'string') {

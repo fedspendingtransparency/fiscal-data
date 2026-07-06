@@ -11,7 +11,7 @@ const releaseCalendarEntries = require('../testData/release-calendar.mock.data.j
 
 // make separate untransformed copy of mock obj
 const datasetForPathName = JSON.parse(JSON.stringify(datasetInTransformation));
-const vetApiMetadataAgainstWhitelist = require('./metadata-transform').vetApiMetadataAgainstWhitelist;
+const vetApiMetadataAgainstAllowlist = require('./metadata-transform').vetApiMetadataAgainstAllowlist;
 const transformMapper = require('./metadata-transform').transformMapper;
 const sortApisByOrder = require('./metadata-transform').sortApisByOrder;
 const sortFieldsByOrder = require('./metadata-transform').sortFieldsByOrder;
@@ -21,7 +21,7 @@ const determineSEO = require('./metadata-transform').determineSEO;
 const reciprocateRelationships = require('./metadata-transform').reciprocateRelationships;
 
 describe('Metadata Transform', () => {
-  const mockWhitelistMap = {
+  const mockAllowlistMap = {
     '015-BFS-2014Q3-065': {
       slug: '/debt-to-the-penny/',
     },
@@ -55,7 +55,7 @@ describe('Metadata Transform', () => {
     },
     {
       datasetId: '015-BFS-2014Q3-075',
-      name: 'Non-whitelisted Debt to the Shilling',
+      name: 'Non-allowlisted Debt to the Shilling',
       slug: '/debt-to-the-shilling/',
       apiSortOrderNbr: '2',
     },
@@ -152,23 +152,23 @@ describe('Metadata Transform', () => {
     expect(datasetForPathName.apis[0].pathName).toEqual('debt-to-the-nickel');
   });
 
-  it('returns a vetted list that excludes non-whitelisted datasets', () => {
-    // Test will break if a "missing from whitelist" error occurs.
-    const slugsFromVettedList = vetApiMetadataAgainstWhitelist(
-      mockWhitelistMap,
+  it('returns a vetted list that excludes non-allowlisted datasets', () => {
+    // Test will break if a "missing from allowlist" error occurs.
+    const slugsFromVettedList = vetApiMetadataAgainstAllowlist(
+      mockAllowlistMap,
       mockTransformedDatasetsFromApi,
-      Object.entries(mockWhitelistMap).length
+      Object.entries(mockAllowlistMap).length
     ).map(ds => ds.slug);
 
-    // returns all the whitelisted items in mock Metadata and
-    // excludes non-whitelisted '/debt-to-the-shilling/'.
+    // returns all the allowlisted items in mock Metadata and
+    // excludes non-allowlisted '/debt-to-the-shilling/'.
     expect(slugsFromVettedList).toEqual(['/debt-to-the-penny/', '/debt-to-the-nickel/', '/debt-to-the-quarter/']);
   });
 
   it(`throws an error if the minimum number of datasets cannot be vetted`, () => {
     let errorCaught = false;
     try {
-      vetApiMetadataAgainstWhitelist(mockWhitelistMap, mockTransformedDatasetsFromApi, Object.entries(mockWhitelistMap).length + 1);
+      vetApiMetadataAgainstAllowlist(mockAllowlistMap, mockTransformedDatasetsFromApi, Object.entries(mockAllowlistMap).length + 1);
     } catch (error) {
       errorCaught = error;
     }

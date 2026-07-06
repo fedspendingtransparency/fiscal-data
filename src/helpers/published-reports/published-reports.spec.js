@@ -2,7 +2,7 @@ const { getPublishedReports } = require('./published-reports');
 describe('Published Reports helpers', () => {
   // todo - Break the following test out into multiple tests
   it(`exports a function that correctly fetches published report data and vets them by
-    appropriate whitelists`, async () => {
+    appropriate allowlists`, async () => {
     const mockResponseObj = [
       {
         report_date: '1869-01-31',
@@ -49,14 +49,14 @@ describe('Published Reports helpers', () => {
     const emptyReports = await getPublishedReports('UNVETTED-DATASET-ID', 'http://mock.base.url', mockUtils.mockRequestUtil);
     const publishedReports = await getPublishedReports('015-BFS-2014Q1-11', 'http://mock.base.url', mockUtils.mockRequestUtil);
 
-    // url only called for whitelisted dataset and is correctly formulated
+    // url only called for allowlisted dataset and is correctly formulated
     expect(mockRequestSpy).toHaveBeenCalledTimes(1);
     expect(mockRequestSpy).toHaveBeenCalledWith('http://mock.base.url/services/dtg/publishedfiles?dataset_id=015-BFS-2014Q1-11');
 
-    // returns empty array for non-whitelisted dataset ID
+    // returns empty array for non-allowlisted dataset ID
     expect(emptyReports).toStrictEqual(null);
 
-    // returns correctly filtered array for whitelisted dataset with its own whitelisted group_desc
+    // returns correctly filtered array for allowlisted dataset with its own allowlisted group_desc
     // values
     expect(publishedReports.length).toEqual(5);
 
