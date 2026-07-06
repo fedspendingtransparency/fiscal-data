@@ -31,7 +31,7 @@ const PublishedReports: FunctionComponent<{ pageConfig: IDatasetConfig }> = ({ p
       <ErrorBoundary fallback={reportErrorMessage}>
         <ReportsSection dataset={pageConfig} />
       </ErrorBoundary>
-      {/* Experimental configs render in whitelisted lower envs (dev/uat) with no toggle, never in qat/prod.
+      {/* Experimental configs render in allowlisted lower envs (dev/uat) with no toggle, never in qat/prod.
           Non-experimental configs render everywhere. */}
       {pageConfig.runTimeReportConfig && pageConfig.runTimeReportConfig?.experimental && (
         <LowerEnvironmentFeature featureId="fipReportsSection">

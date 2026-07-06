@@ -6,6 +6,6 @@ module.exports = {
   DATA_DOWNLOAD_BASE_URL: 'https://stg.fiscaldata.treasury.gov',
   WEB_SOCKET_BASE_URL: 'wss://downloads.stg.fiscaldata.treasury.gov/main',
   STRICT_SSL: true,
-  EXPERIMENTAL_WHITELIST: ['experimental-page'],
+  EXPERIMENTAL_ALLOWLISTT: ['experimental-page'],
   ADDITIONAL_ENDPOINTS: {},
 };

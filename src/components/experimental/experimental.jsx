@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { EXPERIMENTAL_WHITELIST, ENV_ID } from 'gatsby-env-variables';
+import { EXPERIMENTAL_ALLOWLIST, ENV_ID } from 'gatsby-env-variables';
 import { siteContext } from '../persist/persist';
 
-export const isAllowedInContext = featureId => ENV_ID !== 'production' && EXPERIMENTAL_WHITELIST.includes(featureId);
+export const isAllowedInContext = featureId => ENV_ID !== 'production' && EXPERIMENTAL_ALLOWLIST.includes(featureId);
 
 /**
  *
  * @param children
- * @param featureId - Id specifying what experimental feature is whitelisted in the env file.
+ * @param featureId - Id specifying what experimental feature is allowlisted in the env file.
  * @param exclude - When true, exclude this content. This helps when swapping out existing prod features with experimental features.
  * @returns {JSX.Element}
  */

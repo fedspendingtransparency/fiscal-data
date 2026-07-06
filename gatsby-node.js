@@ -55,7 +55,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   console.info(`Loading release calendar from ${releaseCalendarUrl} ` + `with${apiKey ? '' : 'out'} authentication.`);
 
   if (ENV_ID !== 'production') {
-    console.info('App is including datasets whitelisted for lower environments');
+    console.info('App is including datasets allowlist for lower environments');
     if (ADDITIONAL_DATASETS && Object.keys(ADDITIONAL_DATASETS).length) {
       Object.assign(datasetIdMap, ADDITIONAL_DATASETS);
       console.info(
@@ -64,7 +64,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
       );
     }
   } else {
-    console.info('App is including only datasets whitelisted for production environments');
+    console.info('App is including only datasets allowlisted for production environments');
   }
 
   let numMetaDataCalls = 0;
