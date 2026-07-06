@@ -15,10 +15,6 @@ const Responses = () => {
       description: 'OK - Response to a successful GET request',
     },
     {
-      responseCode: '304',
-      description: 'Not modified - Cached response',
-    },
-    {
       responseCode: '400',
       description: 'Bad Request - Request was malformed',
     },
@@ -30,14 +26,7 @@ const Responses = () => {
       responseCode: '404',
       description: 'Not Found - When a non-existent resource is requested',
     },
-    {
-      responseCode: '405',
-      description: 'Method Not Allowed - Attempting anything other than a GET request',
-    },
-    {
-      responseCode: '429',
-      description: 'Too Many Requests - Request failed due to rate limiting',
-    },
+
     {
       responseCode: '500',
       description: 'Internal Server Error - The server failed to fulfill a request',
