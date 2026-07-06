@@ -1,4 +1,4 @@
-import { getDayOptions, getMonthOptions, getYearReportOptions, getFileDisplay } from './util';
+import { getDayOptions, getMonthOptions, getYearReportOptions, getFileDisplay, isReportGroupYearlyFrequency } from './util';
 import { dailyReports, reports } from '../test-helper';
 
 describe('The util', () => {
@@ -30,13 +30,22 @@ describe('The util', () => {
     expect(dayOptions[4].label).toBe(11);
   });
 
+  it('identifies report groups with one report month per year as yearly', () => {
+    const yearlyReports = [2020, 2021, 2022].map(year => ({ report_date: new Date(`9/30/${year}`) }));
+    expect(isReportGroupYearlyFrequency(yearlyReports)).toBe(true);
+  });
+
+  it('does not identify monthly report groups as yearly', () => {
+    expect(isReportGroupYearlyFrequency(reports)).toBe(false);
+  });
+
   it('replaces (.xlsx) with .xlsx when file type is xlsx', () => {
     const curReportFile = {
       report_group_desc: 'My-Report (.xlsx)',
-      path: 'file.xlsx'
+      path: 'file.xlsx',
     };
 
-    const result = getFileDisplay(curReportFile)
+    const result = getFileDisplay(curReportFile);
 
     expect(result.fullName).toBe('My-Report.xlsx');
     expect(result.fileType).toBe('.xlsx');
