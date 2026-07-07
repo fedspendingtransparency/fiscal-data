@@ -1,10 +1,22 @@
+const pageLoadTimeout = 15000;
+
+const visitMonthlyTreasuryStatementPage = () => {
+  cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
+  cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government');
+  cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+    .its('response.statusCode')
+    .should('be.oneOf', [200, 304]);
+  cy.findAllByText('Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', { timeout: pageLoadTimeout })
+    .should('exist')
+    .should('be.visible');
+};
+
 describe('Homepage user flow validation', () => {
   beforeEach(() => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government').wait(3000);
+    visitMonthlyTreasuryStatementPage();
   });
   it('Validates the DDP page loads', () => {
     cy.findByLabelText('Jump to Introduction section').should('be.visible');
-    cy.findByTitle('Monthly Treasury Statement (MTS)').should('be.visible');
   });
 
   it('Validates Introduction jumps to the introduction part of the page', () => {

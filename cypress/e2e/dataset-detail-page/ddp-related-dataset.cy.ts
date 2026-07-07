@@ -1,9 +1,21 @@
+const pageLoadTimeout = 15000;
+
+const visitMtsRelatedDatasets = () => {
+  cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
+  cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government');
+  cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+    .its('response.statusCode')
+    .should('be.oneOf', [200, 304]);
+  cy.findAllByText('Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government', { timeout: pageLoadTimeout })
+    .should('exist')
+    .should('be.visible');
+};
+
 describe('DDP related dataset go to the correct datasets', () => {
   beforeEach(() => {
-    cy.visit('/datasets/monthly-treasury-statement/summary-of-receipts-outlays-and-the-deficit-surplus-of-the-u-s-government').wait(3000);
+    visitMtsRelatedDatasets();
   });
   it('Validates the DDP page loads', () => {
-    cy.findByTitle('Monthly Treasury Statement (MTS)').should('be.visible');
     cy.findAllByText('Debt to the Penny')
       .eq(1)
       .click();

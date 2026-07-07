@@ -1,13 +1,21 @@
-// TODO: Address the flaky (skipped) tests
+const pageLoadTimeout = 15000;
+
+const visitGlossaryPopup = () => {
+  cy.intercept('GET', '**/services/api/fiscal_service/**').as('fiscalData');
+  cy.visit('/');
+  cy.wait('@fiscalData', { timeout: pageLoadTimeout })
+    .its('response.statusCode')
+    .should('be.oneOf', [200, 304]);
+  cy.findAllByText('Resources').click();
+  cy.findAllByText('Glossary').click();
+};
+
 describe('Glossary terms interaction flow', () => {
   beforeEach(() => {
-    cy.visit('/').wait(3000);
-    cy.findAllByText('Resources').click();
-    cy.findAllByText('Glossary')
-      .click()
-      .wait(3000);
+    visitGlossaryPopup();
   });
-  it.skip('Verifies Glossary opens and closes correctly', () => {
+
+  it('Verifies Glossary opens and closes correctly', () => {
     cy.findByText('Search the glossary').should('exist');
     cy.findByLabelText('Close glossary').click();
     cy.findByText('Search the glossary').should('not.exist');
