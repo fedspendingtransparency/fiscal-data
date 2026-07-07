@@ -15,6 +15,88 @@ const visitCurrencyExchangeRatePage = () => {
     .should('be.visible');
 };
 
+const datasetPagePath = '/datasets/treasury-reporting-rates-exchange/treasury-reporting-rates-of-exchange';
+
+const relatedResourceLinks = [
+  {
+    text: 'Report of Foreign Bank and Financial Accounts (FBAR) | IRS.gov',
+    url: 'https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar',
+  },
+  {
+    text: 'About Form 8938, Statement of Specified Foreign Financial Assets | IRS.gov',
+    url: 'https://www.irs.gov/forms-pubs/about-form-8938',
+  },
+  {
+    text: 'Foreign currency and currency exchange rates | IRS.gov',
+    url: 'https://www.irs.gov/individuals/international-taxpayers/foreign-currency-and-currency-exchange-rates',
+  },
+  {
+    text: 'Yearly Average Currency Exchange Rates | IRS.gov',
+    url: 'https://www.irs.gov/individuals/international-taxpayers/yearly-average-currency-exchange-rates',
+  },
+  {
+    text: 'U.S. citizens and residents abroad filing requirements | IRS.gov',
+    url: 'https://www.irs.gov/individuals/international-taxpayers/us-citizens-and-residents-abroad-filing-requirements',
+  },
+];
+
+describe('Currency exchange rates page links', () => {
+  beforeEach(() => {
+    visitCurrencyExchangeRatePage();
+  });
+
+  it('Validates the Related Resources links', () => {
+    relatedResourceLinks.forEach(({ text, url }) => {
+      cy.contains('a', text)
+        .should('be.visible')
+        .and('have.attr', 'href', url)
+        .and('have.attr', 'target', '_blank');
+    });
+  });
+
+  it('Validates the Treasury Financial Manual link in the legal disclaimer', () => {
+    cy.contains('a', 'Treasury Financial Manual, volume 1, part 2, section 3235')
+      .should('be.visible')
+      .and('have.attr', 'target', '_blank')
+      .invoke('attr', 'href')
+      .should('include', 'tfx.treasury.gov/tfm/volume1/part2/chapter-3200-foreign-currency-accounting-and-reporting');
+  });
+
+  it('Validates the Data Source dataset link navigates to the dataset page', () => {
+    cy.contains('h2', 'Data Source')
+      .parent()
+      .within(() => {
+        cy.contains('a', 'Treasury Reporting Rates of Exchange')
+          .invoke('attr', 'href')
+          .should('include', datasetPagePath);
+        cy.contains('a', 'Treasury Reporting Rates of Exchange').click();
+      });
+    cy.url().should('include', datasetPagePath);
+  });
+
+  it('Validates the dataset link inside the "How is this converter different" accordion', () => {
+    const accordionTitle = 'How is this foreign currency converter different from others?';
+    cy.contains(accordionTitle).click();
+    cy.contains('[data-testid="section"]', accordionTitle).within(() => {
+      cy.contains('a', 'Treasury Reporting Rates of Exchange')
+        .should('be.visible')
+        .invoke('attr', 'href')
+        .should('include', datasetPagePath);
+    });
+  });
+
+  it('Validates the IRS link inside the "IRS tax forms" accordion', () => {
+    const accordionTitle = 'Can I use these exchange rates for my IRS tax forms?';
+    cy.contains(accordionTitle).click();
+    cy.contains('[data-testid="section"]', accordionTitle).within(() => {
+      cy.contains('a', 'Let us help you | IRS.gov')
+        .should('be.visible')
+        .and('have.attr', 'href', 'https://www.irs.gov/help/let-us-help-you')
+        .and('have.attr', 'target', '_blank');
+    });
+  });
+});
+
 describe('Currency exchange rates interaction flow', () => {
   beforeEach(() => {
     visitCurrencyExchangeRatePage();
