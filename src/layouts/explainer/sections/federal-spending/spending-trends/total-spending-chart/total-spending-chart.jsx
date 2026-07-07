@@ -125,24 +125,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   }, []);
 
   useEffect(() => {
-    if (spendingInView && spendingHoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setSpendingHoverDisabled(false);
-      }, 5500);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [spendingInView]);
-
-  useEffect(() => {
-    if (gdpInView && gdpHoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setGdpHoverDisabled(false);
-      }, 5500);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [gdpInView]);
-
-  useEffect(() => {
     const { finalGDPData, gdpMaxYear, gdpMaxAmount } = beaGDPData;
 
     basicFetch(chartDataEndPoint)
@@ -410,6 +392,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                               duration: 450,
                               customAnimationTriggeredOnce: animationTriggeredOnce,
                               setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                              onAnimationComplete: () => setSpendingHoverDisabled(false),
                             }),
                         ]}
                       />
@@ -433,6 +416,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                               duration: 450,
                               customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
                               setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                              onAnimationComplete: () => setGdpHoverDisabled(false),
                             }),
                         ]}
                       />

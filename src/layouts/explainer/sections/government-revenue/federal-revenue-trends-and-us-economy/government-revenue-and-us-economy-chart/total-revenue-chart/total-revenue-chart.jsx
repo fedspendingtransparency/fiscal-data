@@ -137,24 +137,6 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   }, []);
 
   useEffect(() => {
-    if (revenueInView && revenueHoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setRevenueHoverDisabled(false);
-      }, 5500);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [revenueInView]);
-
-  useEffect(() => {
-    if (gdpInView && gdpHoverDisabled === true) {
-      const hoverTimer = setTimeout(() => {
-        setGdpHoverDisabled(false);
-      }, 5500);
-      return () => clearTimeout(hoverTimer);
-    }
-  }, [gdpInView]);
-
-  useEffect(() => {
     const { finalGDPData, gdpMaxYear } = beaGDPData;
 
     basicFetch(chartDataEndPoint)
@@ -376,6 +358,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             duration: 450,
                             customAnimationTriggeredOnce: animationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setAnimationTriggeredOnce,
+                            onAnimationComplete: () => setRevenueHoverDisabled(false),
                           }),
                       ]}
                     />
@@ -401,6 +384,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             duration: 450,
                             customAnimationTriggeredOnce: secondaryAnimationTriggeredOnce,
                             setCustomAnimationTriggeredOnce: setSecondaryAnimationTriggeredOnce,
+                            onAnimationComplete: () => setGdpHoverDisabled(false),
                           }),
                       ]}
                     />
