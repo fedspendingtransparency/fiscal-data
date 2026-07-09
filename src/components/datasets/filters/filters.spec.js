@@ -6,7 +6,6 @@ import { timeRangeCompleteAnalyticsObject } from './filterTimeRange/filterTimeRa
 import Analytics from '../../../utils/analytics/analytics';
 import { siteContext } from '../../persist/persist';
 import { cleanup, fireEvent, render, within } from '@testing-library/react';
-import { useStaticQuery } from 'gatsby';
 
 jest.mock('../../../components/truncate/truncate.jsx', () => () => 'Truncator');
 
@@ -28,10 +27,6 @@ describe('Filter Main', () => {
 
   beforeEach(() => {
     filters = mockFilters;
-    useStaticQuery.mockImplementation(() => {
-      return { allFile: { heroImages: [] } };
-    });
-
     component = (
       <siteContext.Provider
         value={{
@@ -381,6 +376,8 @@ describe('Filter Main', () => {
         eventLabel: 'Last Updated',
       });
     });
+
+    console.log(infoButtons.map(b => b.getAttribute('aria-label')));
   });
 });
 

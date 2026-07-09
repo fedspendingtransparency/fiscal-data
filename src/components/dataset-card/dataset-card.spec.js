@@ -1,9 +1,8 @@
 import React from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import DatasetCard from './dataset-card';
-import { fireEvent, render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useStaticQuery } from 'gatsby';
 
 jest.mock('react-device-detect', () => ({
   isFirefox: false,
@@ -41,9 +40,6 @@ describe('DatasetCard', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    useStaticQuery.mockImplementation(() => {
-      return { allFile: { heroImages: [] } };
-    });
   });
 
   it('entire card, when clicked, links to relevant dataset detail page', () => {

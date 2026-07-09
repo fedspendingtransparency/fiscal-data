@@ -77,7 +77,6 @@ describe('Dataset-Detail layout component', () => {
             siteUrl: `https://fiscalData.treasury.gov`,
           },
         },
-        allFile: { heroImages: [] },
       });
     });
   });
@@ -187,12 +186,6 @@ describe('Dataset-Detail layout component', () => {
 describe('Dataset detail - helper updateDates', () => {
   let consoleWarn;
 
-  beforeEach(() => {
-    useStaticQuery.mockImplementation(() => {
-      return { allFile: { heroImages: [] } };
-    });
-  });
-
   beforeAll(() => {
     consoleWarn = global.console.warn;
     global.console.warn = jest.fn();
@@ -240,7 +233,6 @@ describe('Dataset - banner callout', () => {
             siteUrl: `https://fiscalData.treasury.gov`,
           },
         },
-        allFile: { heroImages: [] },
       });
     });
   });
