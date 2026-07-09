@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import SearchResultCards from './search-result-cards';
 import { SortOptions } from '../search-results-helper';
 import { setWindowMockFontSize } from '../../../../utils/mock-utils';
-import { useStaticQuery } from 'gatsby';
 
 jest.mock('usehooks-ts', () => ({
   ...jest.requireActual('usehooks-ts'),
@@ -26,13 +25,15 @@ activeSort.sortFn = mockSorter;
 
 describe('Search Results Cards', () => {
   HTMLCanvasElement.prototype.getContext = jest.fn();
+  //   let component;
   setWindowMockFontSize('16px');
+  //   renderer.act(() => {
+  //     component = renderer.create(
+  //       <SearchResultCards allDatasets={mockAllDatasets} filteredDatasets={mockFilteredDatasets} activeSort={activeSort} width={100} />
+  //     );
+  //   });
 
-  beforeEach(() => {
-    useStaticQuery.mockImplementation(() => {
-      return { allFile: { heroImages: [] } };
-    });
-  });
+  // const instance = component.root;
 
   it('creates a card for each item in the array of allDatasets', () => {
     const { getAllByTestId } = render(

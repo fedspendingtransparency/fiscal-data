@@ -3,7 +3,6 @@ import { cleanup, render, screen } from '@testing-library/react';
 import RelatedDatasets, { context, title } from './related-datasets';
 import Analytics from '../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
-import { useStaticQuery } from 'gatsby';
 
 const sortedDataset1 = 'dataset b';
 const sortedDataset2 = 'dataset f';
@@ -14,11 +13,6 @@ const mockRelatedDatasets = [{ name: sortedDataset3 }, { name: sortedDataset1 },
 const referrer = 'Referring Dataset';
 
 describe('RelatedDatasets', () => {
-  beforeEach(() => {
-    useStaticQuery.mockImplementation(() => {
-      return { allFile: { heroImages: [] } };
-    });
-  });
   afterEach(() => {
     cleanup();
   });
