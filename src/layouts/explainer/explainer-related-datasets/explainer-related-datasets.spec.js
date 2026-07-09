@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ExplainerRelatedDatasets from './explainer-related-datasets';
+import { useStaticQuery } from 'gatsby';
 
 describe('Explainer Related Datasets', () => {
   const mockDatasets = [
@@ -15,6 +16,12 @@ describe('Explainer Related Datasets', () => {
       slug: '2nd Test Slug',
     },
   ];
+
+  beforeEach(() => {
+    useStaticQuery.mockImplementation(() => {
+      return { allFile: { heroImages: [] } };
+    });
+  });
 
   const testReferrer = 'Sample';
 

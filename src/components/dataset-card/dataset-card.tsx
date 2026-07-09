@@ -24,43 +24,25 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
   const [applyFocusStyle, setApplyFocusStyle] = useState(false);
   const focusStyle = isFirefox ? card_withFocus_FireFox : card_withFocus;
 
-  const { allFile } = useStaticQuery(
-    graphql`
-      query {
-        allFile(filter: { sourceInstanceName: { eq: "dataset-search-hero-images" } }) {
-          heroImages: nodes {
-            name
-            childImageSharp {
-              gatsbyImageData(quality: 100, placeholder: NONE)
+  const { allFile } =
+    useStaticQuery(
+      graphql`
+        query {
+          allFile(filter: { sourceInstanceName: { eq: "dataset-search-hero-images" } }) {
+            heroImages: nodes {
+              name
+              childImageSharp {
+                gatsbyImageData(quality: 100, placeholder: NONE)
+              }
             }
           }
         }
-      }
-    `
-  );
-
-  console.log(allFile.heroImages[0]);
+      `
+    ) | {};
 
   const assignHeroImage = () => {
-    switch (dataset.heroNumber) {
-      case 0:
-        return allFile.heroImages[0];
-      case 1:
-        return allFile.heroImages[1];
-      case 2:
-        return allFile.heroImages[2];
-      case 3:
-        return allFile.heroImages[3];
-      case 4:
-        return allFile.heroImages[4];
-      case 5:
-        return allFile.heroImages[5];
-      case 6:
-        return allFile.heroImages[6];
-      case 7:
-        return allFile.heroImages[7];
-      case 8:
-        return allFile.heroImages[8];
+    if (dataset.heroNumber && allFile?.heroImages) {
+      return allFile.heroImages[dataset.heroNumber];
     }
   };
 
