@@ -168,6 +168,14 @@ export const isReportGroupYearlyFrequency = reports => {
   return years.size > 0 && yearMonths.size === years.size;
 };
 
+// quarterly means the previous complete year has exactly 4 reports
+export const isReportGroupQuarterlyFrequency = reports => {
+  const previousYear = new Date().getFullYear() - 1;
+  const count = reports.filter(report => report.report_date.getFullYear() === previousYear).length;
+
+  return count === 4;
+};
+
 export const isValidReportGroup = report => {
   return report.report_group_id !== undefined && Number(report.report_group_id) > -1;
 };

@@ -12,6 +12,7 @@ interface IMonthListPicker {
   active: boolean;
   latestDate: Date;
   earliestDate: Date;
+  isQuarterly: boolean;
 }
 
 const monthYearToDate = (monthYear: string): Date => {
@@ -29,6 +30,7 @@ const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
   active,
   latestDate,
   earliestDate,
+  isQuarterly,
 }: IMonthListPicker) => {
   const [selectedMonth, setSelectedMonth] = useState(monthFullNames[selectedDate.getMonth()]);
   const [selectedYear, setSelectedYear] = useState<string>(selectedDate.getFullYear().toString());
@@ -79,7 +81,6 @@ const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
           fromDate={earliestDate}
           toDate={latestDate}
           label={searchBarLabel}
-          allowYearOnly
         >
           <div className={dropdownList}>
             <ScrollContainer deps={[monthYearOptions, selectedMonthYear]}>
