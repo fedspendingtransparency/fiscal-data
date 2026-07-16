@@ -36,7 +36,8 @@ export const applyFormatting = entry => {
 };
 
 export const glossaryLookup = (value, glossary, page) => {
-  const entry = findGlossaryTerm(value, glossary)?.filter(e => e.site_page.includes(page.split(' ')[0]))[0];
+  // Page filtering removed. Can be re-added if different pages need different definitions (ensure CSV page names match actual page names).
+  const entry = findGlossaryTerm(value, glossary)?.[0];
   let glossaryTerm = '';
   let definition = '';
   let definitionFormatted;
