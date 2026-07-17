@@ -88,7 +88,7 @@
   .tileGrid {
     column-gap: clamp(1.25rem, 2.75vw, 3.625rem);
     row-gap: clamp(2rem, 4vw, 3.625rem);
-    grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
   }
 }
 
