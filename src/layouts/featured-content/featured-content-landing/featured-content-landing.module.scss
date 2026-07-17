@@ -66,8 +66,11 @@
 // Gray separator that marks the start of each category section.
 .sectionBar {
   height: 4px;
-  background: #d8d8d8;
-  margin: 4rem 0 2rem; // 64px top / 32px bottom
+  background: #c2c2c2;
+  margin: 4rem 0 0; // 64px top / 32px bottom
+}
+.sectionBar + .categoryHeader {
+  margin-top: 1.25rem;
 }
 
 .categoryHeader {
