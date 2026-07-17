@@ -81,6 +81,8 @@ const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
           fromDate={earliestDate}
           toDate={latestDate}
           label={searchBarLabel}
+          allowYearOnly
+          allowQuarterlyOnly={isQuarterly}
         >
           <div className={dropdownList}>
             <ScrollContainer deps={[monthYearOptions, selectedMonthYear]}>
