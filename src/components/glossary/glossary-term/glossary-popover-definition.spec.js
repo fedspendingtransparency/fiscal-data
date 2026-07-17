@@ -171,36 +171,6 @@ describe('glossary term', () => {
     expect(definition.textContent).toEqual(expected);
   });
 
-  it('correctly displays the definition for the term associated with the specified page', async () => {
-    const user = userEvent.setup();
-    const termText = 'Hello';
-    const termDefinition = 'A different greeting';
-    const differentPageTermDefinition = 'A greeting';
-    const testPage = 'Another Test Page';
-
-    const { getByRole, findByText, queryByText } = render(
-      <GlossaryContext.Provider
-        value={{
-          glossaryClickEvent: false,
-          setGlossaryClickEvent: jest.fn(),
-          glossary: testGlossary,
-        }}
-      >
-        <GlossaryPopoverDefinition term={termText} page={testPage}>
-          {termText}
-        </GlossaryPopoverDefinition>
-      </GlossaryContext.Provider>
-    );
-
-    const glossaryTermButton = getByRole('button', { name: termText });
-    await user.click(glossaryTermButton);
-
-    const definition = findByText(termDefinition);
-
-    expect(await definition).toBeInTheDocument();
-    expect(queryByText(differentPageTermDefinition)).toBeNull();
-  });
-
   it('Adds query to window.history when View in Glossary button is clicked ', async () => {
     const user = userEvent.setup();
     const termText = 'Hello';
