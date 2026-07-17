@@ -41,7 +41,7 @@ const featuredContentPagesSource = {
         'open data for U.S. government finances on Fiscal Data.',
       keywords: 'open data, fiscal data, how-to, transparency',
     },
-    prodReady: false,
+    prodReady: true,
     heroImage: {
       heading: 'Getting Started on Fiscal Data',
       subHeading: 'Fiscal Data is your one-stop shop for federal financial data.',
