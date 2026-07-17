@@ -24,7 +24,6 @@ interface IDateDropdown {
   toDate?: Date;
   hideFooter?: boolean;
   allowYearOnly?: boolean;
-  allowQuarterlyOnly?: boolean;
 }
 
 const DateDropdown: FunctionComponent<IDateDropdown> = ({
@@ -44,7 +43,6 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
   toDate,
   hideFooter,
   allowYearOnly,
-  allowQuarterlyOnly,
 }: IDateDropdown) => {
   const [validInput, setValidInput] = useState(false);
   const [inputFocus, setInputFocus] = useState(false);
@@ -85,7 +83,6 @@ const DateDropdown: FunctionComponent<IDateDropdown> = ({
             fromDate={fromDate}
             toDate={toDate}
             allowYearOnly={allowYearOnly}
-            allowQuarterlyOnly={allowQuarterlyOnly}
           />
         </div>
         {children}

@@ -19,7 +19,6 @@ interface iDateTextInput {
   fromDate?: Date;
   toDate?: Date;
   allowYearOnly?: boolean;
-  allowQuarterlyOnly?: boolean;
 }
 
 export const invalidDateText = 'Invalid date. Please check input and format.';
@@ -43,7 +42,6 @@ const DateTextInput: FunctionComponent<iDateTextInput> = ({
   fromDate,
   toDate,
   allowYearOnly,
-  allowQuarterlyOnly,
 }) => {
   const dateInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState<string>();

@@ -40,8 +40,13 @@ const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
   const selectedMonthYear = selectedMonth + ' ' + selectedYear;
   // example uses the latest report date so it always matches the dataset's actual format
   const latestMonthYear = monthYearOptions[0];
-  const searchBarLabel = latestMonthYear ? `Published Date (Example: ${latestMonthYear} or ${latestMonthYear.split(' ')[1]})` : undefined;
-
+  const searchBarLabel = isQuarterly
+    ? latestMonthYear
+      ? `Published Date (Example: ${latestMonthYear})`
+      : undefined
+    : latestMonthYear
+    ? `Published Date (Example: ${latestMonthYear} or ${latestMonthYear.split(' ')[1]})`
+    : undefined;
   const handleDateClick = (monthYear: string) => {
     const [month, year] = monthYear.split(' ');
     setSelectedMonth(month);
@@ -82,7 +87,6 @@ const MonthListPicker: FunctionComponent<IMonthListPicker> = ({
           toDate={latestDate}
           label={searchBarLabel}
           allowYearOnly
-          allowQuarterlyOnly={isQuarterly}
         >
           <div className={dropdownList}>
             <ScrollContainer deps={[monthYearOptions, selectedMonthYear]}>
