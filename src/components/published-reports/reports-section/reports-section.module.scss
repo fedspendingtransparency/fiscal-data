@@ -13,6 +13,11 @@
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+
+  @media screen and (max-width: $breakpoint-xl) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .publishDate {
@@ -34,5 +39,23 @@
   .note {
     font-weight: $semi-bold-weight;
     padding-right: 0.25rem;
+  }
+}
+
+.button {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  display: block;
+  width: 11.125rem;
+  margin-left: auto;
+
+  @media screen and (max-width: $breakpoint-xl) {
+    margin: 0.5rem 0 0 0;
   }
 }
