@@ -151,6 +151,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
               />
             )}
             <LowerEnvironmentFeature featureId="combinedStatement">
+              {/*only display 'download all' option if a zip file is present (combinedStatements)*/}
               {zipFile && (
                 <a
                   href={zipFile.path}
@@ -160,7 +161,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
                   aria-label={`Download ${zipFileName}`}
                   className={button}
                 >
-                  Download All Files
+                  Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
                 </a>
               )}
             </LowerEnvironmentFeature>
