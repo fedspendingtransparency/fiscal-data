@@ -42,6 +42,16 @@ export const DownloadReportTable: FunctionComponent<{
   const [perPage, setPerPage] = useState(5);
   const showPaginationControls = true;
 
+  // Filter out .zip files
+  const filterZipFiles = (reportsList: IPublishedReportDataJson[]) => {
+    return (
+      reportsList?.filter(report => {
+        const fileName = report.path ? report.path.split('/').slice(-1)[0] : '';
+        return !fileName.toLowerCase().endsWith('.zip');
+      }) || []
+    );
+  };
+
   const handleJump = page => {
     const pageNum = Math.max(1, page);
     setCurrentPage(Math.min(pageNum, maxPage));
@@ -49,13 +59,14 @@ export const DownloadReportTable: FunctionComponent<{
 
   const getCurrentData = () => {
     if (reports?.length) {
+      const filteredReports = filterZipFiles(reports);
       const start = currentPage === 1 ? 0 : (currentPage - 1) * perPage;
       const rowsToShow = start + perPage;
-      const stop = rowsToShow > reports?.length ? reports?.length : rowsToShow;
+      const stop = rowsToShow > filteredReports.length ? filteredReports.length : rowsToShow;
       setRowsShowing({ begin: start + 1, end: stop });
-      setMaxPage(Math.ceil(reports.length / perPage));
-      setMaxRows(reports.length);
-      setDisplayReports(reports.slice(start, stop));
+      setMaxPage(Math.ceil(filteredReports.length / perPage));
+      setMaxRows(filteredReports.length);
+      setDisplayReports(filteredReports.slice(start, stop));
     }
   };
 

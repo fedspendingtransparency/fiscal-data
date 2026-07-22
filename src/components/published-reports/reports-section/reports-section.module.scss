@@ -36,3 +36,16 @@
     padding-right: 0.25rem;
   }
 }
+
+.button {
+  color: $content-section-background;
+  font-weight: $semi-bold-weight;
+  background-color: $primary;
+  border: 1px solid $primary;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  display: block;
+  width: 8rem;
+}
