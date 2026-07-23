@@ -121,7 +121,7 @@ describe('Search Results', () => {
 
     expect(datalayerSpy).toHaveBeenCalledWith({
       event: 'Sort Click',
-      eventLabel: 'Recently Updated',
+      eventLabel: 'Popular',
     });
   });
 });
