@@ -13,7 +13,7 @@ module.exports = {
     'chartingConfigurationTool',
     'featured-content',
   ],
-  LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection'],
+  LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection', 'combinedStatement'],
   ADDITIONAL_DATASETS: {
     '015-BFS-2014Q3-052': {
       slug: '/top-treasury-offset-program/',

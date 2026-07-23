@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import DownloadReportTable from '../download-report-table/download-report-table';
-import { filtersContainer } from './reports-section.module.scss';
+import { filtersContainer, button } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import DatePicker from '../../../components/date-picker/date-picker';
@@ -11,6 +11,7 @@ import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatabl
 import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
 import { useErrorBoundary } from 'react-error-boundary';
+import LowerEnvironmentFeature from '../../lower-environment-feature/lower-environment-feature';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { publishedReports: publishedReportsProp, hideReportDatePicker, reportSelection, publishedReportsTip } = dataset;
@@ -25,6 +26,8 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   const [allReportYears, setAllReportYears] = useState<string[]>();
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [filterByReport, setFilterByReport] = useState<boolean>();
+  const [zipFile, setZipFile] = useState<IPublishedReportDataJson | null>(null);
+  const [zipFileName, setZipFileName] = useState<string | null>(null);
 
   const updateReportSelection = (date: Date, isDaily: boolean, sortedReports: IPublishedReportDataJson[]) => {
     if (date) {
@@ -102,6 +105,27 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
     setFilterByReport(reportSelection === 'byReport');
   }, []);
 
+  useEffect(() => {
+    if (currentReports?.length > 0) {
+      const foundZip = currentReports.find(report => {
+        const fileName = report.path ? report.path.split('/').slice(-1)[0] : '';
+        return fileName.toLowerCase().endsWith('.zip');
+      });
+
+      if (foundZip) {
+        setZipFile(foundZip);
+        const name = foundZip.path ? foundZip.path.split('/').slice(-1)[0] : 'archive.zip';
+        setZipFileName(name);
+      } else {
+        setZipFile(null);
+        setZipFileName(null);
+      }
+    } else {
+      setZipFile(null);
+      setZipFileName(null);
+    }
+  }, [currentReports]);
+
   const getDisplayStatus = (reports: IPublishedReportDataJson[]) => {
     return reports && reports.length > 0 ? 'block' : 'none';
   };
@@ -126,6 +150,21 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
                 ariaLabel="Enter report date"
               />
             )}
+            <LowerEnvironmentFeature featureId="combinedStatement">
+              {/*only display 'download all' option if a zip file is present (combinedStatements)*/}
+              {zipFile && (
+                <a
+                  href={zipFile.path}
+                  download={zipFileName}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={`Download ${zipFileName}`}
+                  className={button}
+                >
+                  Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
+                </a>
+              )}
+            </LowerEnvironmentFeature>
           </div>
         )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
