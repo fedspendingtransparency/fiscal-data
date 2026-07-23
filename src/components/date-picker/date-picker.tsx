@@ -11,6 +11,7 @@ import MonthListPicker from './month-list-picker/month-list-picker';
 interface IDatePicker {
   isDaily: boolean;
   isYearly?: boolean;
+  isQuarterly?: boolean;
   latestDate: Date;
   earliestDate: Date;
   allDates: string[];
@@ -27,6 +28,7 @@ interface IDatePicker {
 const DatePicker: FunctionComponent<IDatePicker> = ({
   isDaily,
   isYearly,
+  isQuarterly,
   latestDate,
   earliestDate,
   allDates,
@@ -78,7 +80,8 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             earliestDate={earliestDate}
           />
         )}
-        {active && !isDaily && !generatedReport && isYearly && (
+
+        {active && !isDaily && !generatedReport && (isYearly || isQuarterly) && (
           <MonthListPicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -87,9 +90,10 @@ const DatePicker: FunctionComponent<IDatePicker> = ({
             active={active}
             latestDate={latestDate}
             earliestDate={earliestDate}
+            isQuarterly={isQuarterly}
           />
         )}
-        {active && !isDaily && !generatedReport && !isYearly && (
+        {active && !isDaily && !generatedReport && !isYearly && !isQuarterly && (
           <MonthPicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}

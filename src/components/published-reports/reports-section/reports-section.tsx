@@ -4,7 +4,13 @@ import { filtersContainer, button } from './reports-section.module.scss';
 import DatasetSectionContainer from '../../dataset-section-container/dataset-section-container';
 import { getPublishedDates } from '../../../helpers/dataset-detail/report-helpers';
 import DatePicker from '../../../components/date-picker/date-picker';
-import { getAllReportDates, isReportGroupDailyFrequency, isReportGroupYearlyFrequency, isValidReportGroup } from '../util/util';
+import {
+  getAllReportDates,
+  isReportGroupDailyFrequency,
+  isReportGroupYearlyFrequency,
+  isReportGroupQuarterlyFrequency,
+  isValidReportGroup,
+} from '../util/util';
 import { IDatasetConfig } from '../../../models/IDatasetConfig';
 import { IPublishedReportDataJson } from '../../../models/IPublishedReportDataJson';
 import DataPreviewDatatableBanner from '../../data-preview/data-preview-datatable-banner/data-preview-datatable-banner';
@@ -20,6 +26,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
   const [allReports, setAllReports] = useState<IPublishedReportDataJson[]>();
   const [isDailyReport, setIsDailyReport] = useState<boolean>();
   const [isYearlyReport, setIsYearlyReport] = useState<boolean>();
+  const [isQuarterlyReport, setIsQuarterlyReport] = useState<boolean>();
   const [latestReportDate, setLatestReportDate] = useState<Date>();
   const [earliestReportDate, setEarliestReportDate] = useState<Date>();
   const [allReportDates, setAllReportDates] = useState<string[]>();
@@ -77,6 +84,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
           const isDaily = sortedReports && isReportGroupDailyFrequency(sortedReports);
           setIsDailyReport(isDaily);
           setIsYearlyReport(!isDaily && isReportGroupYearlyFrequency(sortedReports));
+          setIsQuarterlyReport(!isDaily && isReportGroupQuarterlyFrequency(sortedReports));
 
           const { allDates, allYears } = getAllReportDates(isDaily, sortedReports);
           setAllReportDates(allDates);
@@ -139,6 +147,7 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
               <DatePicker
                 isDaily={isDailyReport}
                 isYearly={isYearlyReport}
+                isQuarterly={isQuarterlyReport}
                 latestDate={latestReportDate}
                 earliestDate={earliestReportDate}
                 allDates={allReportDates}
