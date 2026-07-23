@@ -161,7 +161,9 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
                   aria-label={`Download ${zipFileName}`}
                   className={button}
                 >
-                  Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
+                  <span>
+                    Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
+                  </span>
                 </a>
               )}
             </LowerEnvironmentFeature>
