@@ -36,6 +36,7 @@ export interface IDatasetConfig {
   filterTopics: string[];
   filters: string[];
   name: string;
+  popularity_rank: number;
   notesAndKnownLimitations: string;
   publishedReports: IPublishedReportDataJson[]; // from metadata
   publishedReportsTip: string; // from metadata
