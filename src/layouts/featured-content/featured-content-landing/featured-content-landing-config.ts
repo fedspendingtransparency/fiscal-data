@@ -57,8 +57,8 @@ export const featuredContentLanding: FeaturedCategory[] = [
       {
         title: 'Getting Started on Fiscal Data',
         body:
-          'Fiscal Data is your one-stop shop for federal financial data. Check out this quick guide to exploring and analyzing open data ' +
-          'for U.S. government finances.',
+          'Check out Fiscal Data’s guide to help you get started exploring federal financial data. This short piece helps you understand ' +
+          'how to find the data you’re looking for so you can review and analyze the numbers yourself.',
         image: 'getting-started-on-fiscal-data',
         altText: 'Getting Started on Fiscal Data',
         path: '/featured-content/getting-started/',
