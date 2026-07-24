@@ -46,16 +46,21 @@
   color: $content-section-background;
   font-weight: $semi-bold-weight;
   background-color: $primary;
-  border: 1px solid $primary;
   border-radius: 3px;
   text-decoration: none;
-  text-align: center;
   padding: 0.5rem 1.5rem;
-  display: block;
-  width: 11.125rem;
+  display: flex;
+  align-items: center;
   margin-left: auto;
+  width: 9.49rem;
+  height: 1.5rem;
+  justify-content: center;
 
   @media screen and (max-width: $breakpoint-xl) {
     margin: 0.5rem 0 0 0;
   }
+}
+
+.button:hover {
+  background-color: $primary-darker;
 }
