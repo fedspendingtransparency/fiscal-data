@@ -2,7 +2,16 @@ import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import HomePageTile from '../../../components/topics-section/homepage-tile/homepage-tile';
-import { banner, categoryHeader, content, tileGrid, featuredContentHeader, bannerIcon, container } from './featured-content-landing.module.scss';
+import {
+  banner,
+  categoryHeader,
+  content,
+  tileGrid,
+  featuredContentHeader,
+  bannerIcon,
+  container,
+  sectionBar,
+} from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
 
 const FeaturedContentLanding = () => {
@@ -35,8 +44,9 @@ const FeaturedContentLanding = () => {
         </div>
       </div>
       <div className={content}>
-        {featuredContentLanding.map(section => (
+        {featuredContentLanding.map((section, sectionIndex) => (
           <section key={section.category}>
+            {sectionIndex > 0 && <div className={sectionBar} data-testid="section-bar" />}
             <h2 className={categoryHeader}>{section.category}</h2>
             <div className={tileGrid}>
               {section.articles.map(article => (

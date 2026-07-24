@@ -84,6 +84,36 @@ describe('Featured Content Template', () => {
     expect(discoverDatasets).toBeInTheDocument();
   });
 
+  it('renders the getting started page body with citation links and glossary term', async () => {
+    const gettingStartedContext = {
+      pageName: 'getting-started',
+      seoConfig,
+      heroImage: {
+        heading: 'Getting Started on Fiscal Data',
+        subHeading: '',
+      },
+    };
+
+    const { findByRole, getAllByRole, getByRole, getByText } = render(
+      <FeaturedContentPageLayout pageContext={gettingStartedContext} data={mockData} />,
+      {
+        wrapper,
+      }
+    );
+
+    const sectionHeading = await findByRole('heading', { name: 'Getting Started on Fiscal Data' });
+    expect(sectionHeading).toBeInTheDocument();
+
+    // the site header nav also contains a Dataset Search link
+    expect(getAllByRole('link', { name: 'Dataset Search' }).length).toBeGreaterThanOrEqual(1);
+    expect(getByRole('link', { name: 'savings bonds' })).toBeInTheDocument();
+    expect(getByRole('link', { name: 'cost of maintaining the debt' })).toBeInTheDocument();
+    expect(getByText('metadata')).toBeInTheDocument();
+
+    expect(getByRole('link', { name: /Debt to the Penny/ })).toBeInTheDocument();
+    expect(getByRole('link', { name: /Treasury Reporting Rates of Exchange/ })).toBeInTheDocument();
+  });
+
   it('does not render a Data Sources and Methodologies section', async () => {
     const { findByRole, queryByRole } = render(<FeaturedContentPageLayout pageContext={mockPageContext} data={mockData} />, {
       wrapper,
