@@ -20,7 +20,7 @@ const mockDatasets = [
 
 describe('search results helper', () => {
   it('establishes sort options with four values', () => {
-    expect(SortOptions.length).toBe(4);
+    expect(SortOptions.length).toBe(5);
   });
 
   it('sets indexes the sort options', () => {
