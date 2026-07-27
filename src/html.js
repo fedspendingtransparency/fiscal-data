@@ -9,6 +9,7 @@ export default function HTML(props) {
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="google0d97ddb72bf2a701.html" />
         <script
           src={`https://eex-gateway.voc.ttecgov.us/sites/fiscaldata/${ENV_ID === 'production' ? 'production' : 'staging'}/gateway.min.js`}
           type="text/javascript"
