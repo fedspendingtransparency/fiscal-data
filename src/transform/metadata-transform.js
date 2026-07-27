@@ -50,6 +50,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
   return {
     item: {
       datasetId: 'datasetId',
+      popularity_rank: 'popularityRank',
       dataFormats: 'fileTypes',
       name: 'title',
       tagLine: 'shortDescription',
