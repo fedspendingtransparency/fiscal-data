@@ -20,6 +20,7 @@ const DatasetsPage = ({ pageContext }) => {
           datasets: nodes {
             name
             datasetId
+            popularity_rank
             relatedTopics
             allColumnNames
             allPrettyNames
