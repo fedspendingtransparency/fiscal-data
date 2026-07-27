@@ -104,7 +104,6 @@ const DownloadItemButton = ({
                 onClick={() => clickFunction(true)}
                 ref={ref}
                 aria-hidden={true}
-                enclosingCharacter=""
                 tabIndex={-1}
               />
             </>
@@ -115,7 +114,6 @@ const DownloadItemButton = ({
               data={smallTableCSVData}
               filename={downloadName + '.csv'}
               onClick={() => clickFunction(true)}
-              enclosingCharacter=""
             >
               {children}
             </CSVLink>
