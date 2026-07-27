@@ -198,10 +198,75 @@ export const historicGovtSpending = {
   },
 };
 
+export const gettingStarted = {
+  title: 'Getting Started on Fiscal Data',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: 'getting-started-on-fiscal-data',
+    imageRefMobile: 'getting-started-on-fiscal-data',
+    altText: 'Getting Started on Fiscal Data',
+  },
+  socialShare: {
+    title: 'Getting Started on Fiscal Data',
+    description:
+      'Be a part of federal financial transparency! Check out this quick guide to exploring and analyzing ' +
+      'open data for U.S. government finances on Fiscal Data.',
+    body: "Check out @FiscalService Fiscal Data's new page to help you get started exploring federal financial data! " + '#FiscalData #OpenData ',
+    emailSubject: 'Getting Started on Fiscal Data',
+    emailBody:
+      "Check out Fiscal Data's guide to help you get started exploring federal financial data. This short piece " +
+      "helps you understand how to find the data you're looking for so you can review and analyze the numbers yourself. ",
+    url: envBaseUrl + '/featured-content/getting-started/',
+    image: envBaseUrl + '/featured-content-images/getting-started-on-fiscal-data.png',
+  },
+  links: {
+    exploreMore: [
+      {
+        text: 'Understanding the National Debt',
+        url: '/americas-finance-guide/national-debt/',
+      },
+      {
+        text: 'Federal Spending',
+        url: '/americas-finance-guide/federal-spending/',
+      },
+      {
+        text: 'Treasury Savings Bonds Explained',
+        url: '/treasury-savings-bonds/',
+      },
+      {
+        text: 'About Us',
+        url: '/about-us/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Debt to the Penny',
+        url: '/datasets/debt-to-the-penny',
+      },
+      {
+        text: 'Treasury Reporting Rates of Exchange',
+        url: '/datasets/treasury-reporting-rates-exchange',
+      },
+      {
+        text: 'Monthly Statement of the Public Debt (MSPD)',
+        url: '/datasets/monthly-statement-public-debt',
+      },
+      {
+        text: 'U.S. Treasury-Owned Gold',
+        url: '/datasets/status-report-government-gold-reserve',
+      },
+    ],
+  },
+};
+
 const featuredContentPages = {
   'story-of-data-transparency': storyOfDataTransparency,
   'historic-data-announcement': historicDataNowAvailable,
   'historic-govt-spending': historicGovtSpending,
+  'getting-started': gettingStarted,
 };
 
 export const getFeaturedContentPage = pageName => featuredContentPages[pageName];
@@ -307,6 +372,34 @@ const featuredContentCitations = page => {
         deficit
       </CustomLink>
     ),
+    datasetSearchLink: (
+      <CustomLink url="/datasets/" id="Dataset Search" onClick={() => analyticsEventHandler(page, 'Dataset Search')}>
+        Dataset Search
+      </CustomLink>
+    ),
+    federalSpendingLink: (
+      <CustomLink
+        url="/americas-finance-guide/federal-spending/"
+        id="Federal Spending"
+        onClick={() => analyticsEventHandler(page, 'Federal Spending')}
+      >
+        federal spending
+      </CustomLink>
+    ),
+    savingsBondsLink: (
+      <CustomLink url="/treasury-savings-bonds/" id="Treasury Savings Bonds" onClick={() => analyticsEventHandler(page, 'Treasury Savings Bonds')}>
+        savings bonds
+      </CustomLink>
+    ),
+    interestExpenseInsightLink: (
+      <CustomLink
+        url="/interest-expense-avg-interest-rates/"
+        id="Interest Expense and Average Interest Rates"
+        onClick={() => analyticsEventHandler(page, 'Interest Expense and Average Interest Rates')}
+      >
+        cost of maintaining the debt
+      </CustomLink>
+    ),
   };
 };
 
@@ -314,4 +407,5 @@ export const featuredContentCitationsMap = {
   'story-of-data-transparency': featuredContentCitations('The Story of Data Transparency'),
   'historic-data-announcement': featuredContentCitations('Historic Data Now Available'),
   'historic-govt-spending': featuredContentCitations('See Historic Government Spending'),
+  'getting-started': featuredContentCitations('Getting Started on Fiscal Data'),
 };
