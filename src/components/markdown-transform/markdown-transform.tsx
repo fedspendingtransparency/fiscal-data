@@ -4,6 +4,9 @@ import reactElementToJSXString from 'react-element-to-jsx-string';
 import ReactMarkdown from 'react-markdown';
 import CustomLink from '../links/custom-link/custom-link';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+
+const rehypePlugins = [rehypeRaw, rehypeSanitize];
 
 const replaceLinkTextWithLink = string => {
   const regex = /(https?:\/\/[^\s]+)/g;
@@ -26,7 +29,7 @@ export const MarkdownTransform: FunctionComponent = ({ content, isBanner, custom
               return <CustomLink url={href}>{children}</CustomLink>;
             },
           }}
-          rehypePlugins={[rehypeRaw]}
+          rehypePlugins={rehypePlugins}
         />
       ) : (
         <ReactMarkdown
@@ -37,7 +40,7 @@ export const MarkdownTransform: FunctionComponent = ({ content, isBanner, custom
               return <CustomLink url={href}>{children}</CustomLink>;
             },
           }}
-          rehypePlugins={[rehypeRaw]}
+          rehypePlugins={rehypePlugins}
         />
       )}
     </>
