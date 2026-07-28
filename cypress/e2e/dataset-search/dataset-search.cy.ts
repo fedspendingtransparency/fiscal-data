@@ -12,7 +12,7 @@ const visitDatasetSearchPage = () => {
 };
 
 describe('Homepage user flow validation', () => {
-  it.skip('Validates Contact Us Opens correct email', () => {
+  it('Validates Contact Us Opens correct email', () => {
     cy.visit('/');
 
     cy.findByRole('link', { name: 'Dataset Search' }).then($link => {
@@ -22,24 +22,24 @@ describe('Homepage user flow validation', () => {
 });
 
 describe('Fiscal Data Treasury Datasets Page', () => {
-  // const getDatasetSearchInput = () => cy.findByLabelText('Enter search terms');
-  //
-  // const typeDatasetSearch = (query: string) => {
-  //   getDatasetSearchInput()
-  //     .should('exist')
-  //     .clear({ force: true })
-  //     .type(query, { force: true });
-  // };
+  const getDatasetSearchInput = () => cy.findByLabelText('Enter search terms');
+
+  const typeDatasetSearch = (query: string) => {
+    getDatasetSearchInput()
+      .should('exist')
+      .clear({ force: true })
+      .type(query, { force: true });
+  };
 
   beforeEach(() => {
     visitDatasetSearchPage();
   });
 
-  it.skip('validate search query searches', () => {
+  it('validate search query searches', () => {
     typeDatasetSearch('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
   });
-  it.skip('validate search query clears', () => {
+  it('validate search query clears', () => {
     typeDatasetSearch('MTS');
     cy.contains("Searching Datasets matching '").should('be.visible');
     cy.findByLabelText('clear')
@@ -47,21 +47,15 @@ describe('Fiscal Data Treasury Datasets Page', () => {
       .click({ force: true });
     cy.contains("Searching Datasets matching '").should('not.exist');
   });
-  it.skip('validates tooltips on the Dataset Keyword Search tooltip', () => {
-    cy.findByLabelText('More information about Dataset Keyword Search.')
-      .should('exist')
-      .click({ force: true });
-    cy.findByText('Dataset Keyword Search').should('be.visible');
-  });
 
-  it.skip('sorts search results properly when selecting different options from the Sort By dropdown', () => {
-    cy.findByText('Recently Updated').click();
-    cy.findByText('Alphabetical (A to Z)').click();
+  it('sorts search results properly when selecting different options from the Sort By dropdown', () => {
     cy.findByText('Alphabetical (A to Z)').click();
     cy.findByText('Alphabetical (Z to A)').click();
+    cy.findByText('Alphabetical (Z to A)').click();
+    cy.findByText('Recently Updated').click();
   });
 
-  it.skip('filters by Last Updated and validates the filters and results', () => {
+  it('filters by Last Updated and validates the filters and results', () => {
     // Open the 'Last Updated' filter section
     cy.findByText('Last Year').click();
     cy.findByRole('button', { name: 'Last Year' }).should('be.visible');
@@ -75,7 +69,7 @@ describe('Fiscal Data Treasury Datasets Page', () => {
     cy.contains('Last Updated filters for datasets that have been updated within the selected time period. ').should('be.visible');
   });
 
-  it.skip('filters by Start Date and validates the filters and results', () => {
+  it('filters by Start Date and validates the filters and results', () => {
     cy.findByText('1790 - 1989').click({ force: true });
     cy.findByText('Start Date:').should('be.visible');
     cy.findByText('Clear All Filters').should('be.visible');
@@ -90,19 +84,32 @@ describe('Fiscal Data Treasury Datasets Page', () => {
 
   it('filters by Time Range and validates results', () => {
     cy.findByText('Time Range').click({ force: true });
-    cy.findByLabelText('From Date').type('01/01/2015');
-    cy.findByLabelText('To Date').type('01/01/2015');
-    cy.findByText('TIPS and CPI Data');
+    cy.findByLabelText('From Date').click({ force: true });
+    cy.get('[aria-label="Month"]')
+      .first()
+      .type('01');
+    cy.get('[aria-label="Day"]')
+      .first()
+      .type('01');
+    cy.get('[aria-label="Year"]')
+      .first()
+      .type('1873');
+    cy.findByLabelText('To Date').click({ force: true });
+    cy.get('[aria-label="Month"]')
+      .last()
+      .type('01');
+    cy.get('[aria-label="Day"]')
+      .last()
+      .type('01');
+    cy.get('[aria-label="Year"]')
+      .last()
+      .type('1874');
 
-    //Time Range tooltip validation
-
-    cy.findByLabelText('More information about Time Range.')
-      .should('exist')
-      .click({ force: true });
-    cy.contains('Limit results to datasets spanning entire time range').should('be.visible');
+    cy.findByText('Combined Statement').should('be.visible');
+    cy.findByText('Debt to the Penny').should('not.be.visible');
   });
 
-  it.skip('filters by Dataset Publisher and validates the filters and results', () => {
+  it('filters by Dataset Publisher and validates the filters and results', () => {
     cy.findByText('Disbursing and Debt Management').click({ force: true });
     cy.findByText('Dataset Publisher:').click();
     cy.contains('Federal Credit Similar Maturity Rates').should('be.visible');
@@ -116,43 +123,32 @@ describe('Fiscal Data Treasury Datasets Page', () => {
     );
   });
 
-  it.skip('filters by Date Format and validates the filters and results', () => {
+  it('filters by Date Format and validates the filters and results', () => {
     cy.findByText('Reports (PDF)').click({ force: true });
-
     cy.contains('Financial Report of the U.S. Government').should('be.visible');
     cy.findByText('Clear All Filters').should('be.visible');
     cy.findByRole('button', { name: 'Reports (PDF)' }).should('be.visible');
     cy.findByRole('button', { name: 'Reports (PDF)' }).click();
-
     cy.findByText('Clear All Filters').should('not.exist');
-
-    //Data Format Tooltip validation
-    cy.findByLabelText('More information about Data Format.')
-      .should('exist')
-      .click({ force: true });
-    cy.contains('Data Format filters for datasets with the selected options to access the data or published report.').should('be.visible');
   });
 
-  it.skip('filters by Topics and validates the filters and results', () => {
+  it('filters by Topics and validates the filters and results', () => {
     cy.findByText('Interest & Exchange Rates').click();
     cy.findByText('Financial Summaries').click();
-
     cy.findByText('TIPS and CPI Data').should('be.visible');
     cy.findByText('Gift Contributions to Reduce The public Debt').should('not.exist');
   });
 
-  it.skip('combines multiple filters and validates results', () => {
+  it('combines multiple filters and validates results', () => {
     cy.findByText('1990 - 1999').click();
     cy.findByText('Revenue').click();
-
     cy.findByText('Financial Report of the U.S. Government').should('be.visible');
   });
 
-  it.skip('displays no search results banner and clears filters', () => {
+  it('displays no search results banner and clears filters', () => {
     cy.findByText('1990 - 1999').click();
     cy.findByText('Revenue').click();
     cy.findByText('Administrative Resource Center').click();
-
     cy.findByText('Sorry, no results were found matching your search.').should('be.visible');
     //clears filters
     cy.findByText('Clear All Filters').should('exist');
