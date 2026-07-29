@@ -66,8 +66,11 @@
 // Gray separator that marks the start of each category section.
 .sectionBar {
   height: 4px;
-  background: #d8d8d8;
-  margin: 4rem 0 2rem; // 64px top / 32px bottom
+  background: #c2c2c2;
+  margin: 4rem 0 0; // 64px top / 32px bottom
+}
+.sectionBar + .categoryHeader {
+  margin-top: 1.25rem;
 }
 
 .categoryHeader {
@@ -88,7 +91,7 @@
   .tileGrid {
     column-gap: clamp(1.25rem, 2.75vw, 3.625rem);
     row-gap: clamp(2rem, 4vw, 3.625rem);
-    grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
   }
 }
 

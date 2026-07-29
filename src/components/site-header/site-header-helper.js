@@ -65,6 +65,10 @@ export const menuSections = [
             to: '/featured-content/historic-govt-spending/',
             title: 'See Historic Government Spending',
           },
+          {
+            to: '/featured-content/getting-started/',
+            title: 'Getting Started on Fiscal Data',
+          },
         ],
       },
     ],

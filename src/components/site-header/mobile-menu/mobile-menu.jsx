@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import MenuButton from '../menu-button/menu-button';
@@ -85,6 +83,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
         {
           to: '/featured-content/historic-govt-spending/',
           name: 'See Historic Government Spending',
+        },
+        {
+          to: '/featured-content/getting-started/',
+          name: 'Getting Started on Fiscal Data',
         },
       ],
     },

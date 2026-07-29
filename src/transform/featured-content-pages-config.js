@@ -31,6 +31,22 @@ const featuredContentPagesSource = {
       subHeading: 'Federal receipts and expenditure data dating back to 1793 is now available for the first time on FiscalData.Treasury.gov.',
     },
   },
+  'getting-started': {
+    slug: '/featured-content/getting-started/',
+    breadCrumbLinkName: 'Getting Started on Fiscal Data',
+    seoConfig: {
+      pageTitle: 'Getting Started on Fiscal Data',
+      description:
+        'Be a part of federal financial transparency! Check out this quick guide to exploring and analyzing ' +
+        'open data for U.S. government finances on Fiscal Data.',
+      keywords: 'open data, fiscal data, how-to, transparency',
+    },
+    prodReady: true,
+    heroImage: {
+      heading: 'Getting Started on Fiscal Data',
+      subHeading: 'Fiscal Data is your one-stop shop for federal financial data.',
+    },
+  },
   'historic-govt-spending': {
     slug: '/featured-content/historic-govt-spending/',
     breadCrumbLinkName: 'See Historic Government Spending ',

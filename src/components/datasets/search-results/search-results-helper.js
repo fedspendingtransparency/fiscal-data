@@ -21,6 +21,13 @@ export const SortOptions = [
     },
   },
   {
+    id: 'popularity',
+    label: 'Popular',
+    sortFn: (a, b) => {
+      return (a.popularity_rank ?? Infinity) - (b.popularity_rank ?? Infinity);
+    },
+  },
+  {
     id: 'lastUpdated',
     label: 'Recently Updated',
     sortFn: (a, b) => {

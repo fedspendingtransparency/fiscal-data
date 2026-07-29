@@ -11,4 +11,5 @@ export interface IDataset {
   apis?: IDatasetApi[];
   displayOrder?: number;
   relatedTopics?: string[];
+  popularity_rank?: number;
 }
