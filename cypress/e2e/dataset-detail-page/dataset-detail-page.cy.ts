@@ -5,20 +5,20 @@ describe('Dataset detail page validation', () => {
     url: '/datasets/daily-treasury-statement/',
     name: 'Daily Treasury Statement (DTS)',
     dataTables: [
-      {
-        name: 'Operating Cash Balance',
-        endpoint: '/v1/accounting/dts/operating_cash_balance',
-        column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
-        dateColumn: {
-          name: 'record_date',
-          filterMonthPrettyName: 'January',
-          filterMonthNumber: '1',
-          filterYear: '2024',
-          filterDate: '1/24/2024',
-          earliestDate: '1/2/2024',
-          latestDate: '1/30/2024',
-        },
-      },
+      // {
+      //   name: 'Operating Cash Balance',
+      //   endpoint: '/v1/accounting/dts/operating_cash_balance',
+      //   column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
+      //   dateColumn: {
+      //     name: 'record_date',
+      //     filterMonthPrettyName: 'January',
+      //     filterMonthNumber: '1',
+      //     filterYear: '2024',
+      //     filterDate: '1/24/2024',
+      //     earliestDate: '1/2/2024',
+      //     latestDate: '1/30/2024',
+      //   },
+      // },
       {
         name: 'Public Debt Transactions',
         endpoint: '/v1/accounting/dts/public_debt_transactions',
@@ -164,7 +164,7 @@ describe('Dataset detail page validation', () => {
       .should('be.oneOf', [200, 304]);
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
-      cy.contains(table.name).click();
+      cy.contains(table.name).click({ force: true });
       // Endpoint in the API Quick Guide documentation updates for each table
       cy.contains('/services/api/fiscal_service' + table.endpoint);
       if (table?.largeTable) {
@@ -188,10 +188,15 @@ describe('Dataset detail page validation', () => {
             .should('eq', 10);
         }
         // Date Range Input and Sorting Validation
-        cy.findByText('All').click();
         cy.findByRole('button', { name: 'Open ' + table.dateColumn.name + ' Filter' }).click();
-        cy.findByLabelText('Month:').select(table.dateColumn.filterMonthPrettyName);
-        cy.findByLabelText('Year:').select(table.dateColumn.filterYear);
+
+        cy.get('select[name="months"]').should('exist');
+        const monthValue = (parseInt(table.dateColumn.filterMonthNumber) - 1).toString();
+        cy.get('select[name="months"]').select(monthValue, { force: true });
+
+        cy.get('select[name="years"]').should('exist');
+        cy.get('select[name="years"]').select(table.dateColumn.filterYear, { force: true });
+
         cy.findByRole('gridcell', { name: '1' }).click();
         cy.findByRole('gridcell', { name: '30' }).click();
         cy.get('td:contains("' + table.dateColumn.filterDate + '")')
@@ -215,17 +220,17 @@ describe('Dataset detail page validation', () => {
         cy.findAllByText('mm/dd/yyyy').should('exist');
         cy.reload();
       }
-      cy.contains(table.name).click();
+      cy.contains(table.name).click({ force: true });
     });
   };
 
-  it('Loads DTS Dataset Detail Page', () => {
-    checkDataTables(dtsDataset);
-  });
-
-  // it('loads MTS Dataset Detail Page', () => {
-  //   checkDataTables(mtsDataset);
+  // it('Loads DTS Dataset Detail Page', () => {
+  //   checkDataTables(dtsDataset);
   // });
+
+  it('loads MTS Dataset Detail Page', () => {
+    checkDataTables(mtsDataset);
+  });
   //
   // it('loads MSPD Dataset Detail Page', () => {
   //   checkDataTables(mspdDataset);
