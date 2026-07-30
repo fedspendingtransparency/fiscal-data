@@ -80,8 +80,9 @@ const PageHelmet = ({
         data-testid="version-info"
         name="build-info"
         content={
-          `TAG: ${latestTag} | CURRENT BRANCH: ${currentBranch} | COMMIT HASH: ${latestCommit?.hash} | COMMIT MESSAGE: ${latestCommit?.message} | ` +
-          `COMMIT DATE: ${latestCommit?.date} | ENV ID: ${ENV_ID}`}
+          `\nTAG: ${latestTag} \nCURRENT BRANCH: ${currentBranch} \nCOMMIT MESSAGE: ${latestCommit?.message} ` +
+          `\nCOMMIT DATE: ${latestCommit?.date} \nENV ID: ${ENV_ID} \nCOMMIT HASH: ${latestCommit?.hash} `
+        }
       />
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width" />
