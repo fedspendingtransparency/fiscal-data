@@ -4,9 +4,9 @@ import reactElementToJSXString from 'react-element-to-jsx-string';
 import ReactMarkdown from 'react-markdown';
 import CustomLink from '../links/custom-link/custom-link';
 import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 
-const rehypePlugins = [rehypeRaw, rehypeSanitize];
+const rehypePlugins = [rehypeRaw, [rehypeSanitize, defaultSchema];
 
 const replaceLinkTextWithLink = string => {
   const regex = /(https?:\/\/[^\s]+)/g;

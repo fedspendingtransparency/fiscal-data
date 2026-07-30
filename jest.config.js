@@ -12,6 +12,7 @@ module.exports = {
     '^gatsby-plugin-utils/(.*)$': [`gatsby-plugin-utils/dist/$1`, `gatsby-plugin-utils/$1`],
     '^csv-stringify/sync': '<rootDir>/node_modules/csv-stringify/dist/cjs/sync.cjs',
     'rehype-raw': '<rootDir>/__mocks__/react-markdown.js',
+    'rehype-sanitize': '<rootDir>/__mocks__/rehype-sanitize.js',
     'react-pdf': '<rootDir>/__mocks__/react-pdf.js',
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
   },
