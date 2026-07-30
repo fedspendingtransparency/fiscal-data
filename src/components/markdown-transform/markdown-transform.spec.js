@@ -2,14 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { MarkdownTransform } from './markdown-transform';
 import rehypeSanitize, { defaultSchema } from './rehype-sanitize';
+import ReactMarkdown from 'react-markdown';
 
 jest.mock('react-markdown', () => {
   const mockReact = require('react');
   const mockComponent = jest.fn(({ children }) => mockReact.createElement(mockReact.Fragment, null, children));
   return { __esModule: true, default: mockComponent };
 });
-
-import { ReactMarkdown } from 'react-markdown';
 
 const testContent = 'This is a link in markdown: [Link](https://fiscaldata.treasury.gov)';
 
