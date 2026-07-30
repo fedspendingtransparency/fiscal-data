@@ -6,7 +6,7 @@ import CustomLink from '../links/custom-link/custom-link';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 
-const rehypePlugins = [rehypeRaw, [rehypeSanitize, defaultSchema];
+const rehypePlugins = [rehypeRaw, [rehypeSanitize, defaultSchema]];
 
 const replaceLinkTextWithLink = string => {
   const regex = /(https?:\/\/[^\s]+)/g;
