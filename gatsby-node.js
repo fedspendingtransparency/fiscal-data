@@ -537,6 +537,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       dataTableRequest: DataTableRequest,
     }
     type Datasets implements Node {
+      popularity_rank: Int,
       publishedReports: [PublishedReport!],
       dataFormats: [String!],
       filters: [String!],
