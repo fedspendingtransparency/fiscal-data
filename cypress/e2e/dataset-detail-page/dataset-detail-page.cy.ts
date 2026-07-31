@@ -5,20 +5,20 @@ describe('Dataset detail page validation', () => {
     url: '/datasets/daily-treasury-statement/',
     name: 'Daily Treasury Statement (DTS)',
     dataTables: [
-      // {
-      //   name: 'Operating Cash Balance',
-      //   endpoint: '/v1/accounting/dts/operating_cash_balance',
-      //   column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
-      //   dateColumn: {
-      //     name: 'record_date',
-      //     filterMonthPrettyName: 'January',
-      //     filterMonthNumber: '1',
-      //     filterYear: '2024',
-      //     filterDate: '1/24/2024',
-      //     earliestDate: '1/2/2024',
-      //     latestDate: '1/30/2024',
-      //   },
-      // },
+      {
+        name: 'Operating Cash Balance',
+        endpoint: '/v1/accounting/dts/operating_cash_balance',
+        column: { prettyName: 'Type of Account', name: 'account_type', searchTerm: 'Table II' },
+        dateColumn: {
+          name: 'record_date',
+          filterMonthPrettyName: 'January',
+          filterMonthNumber: '1',
+          filterYear: '2024',
+          filterDate: '1/24/2024',
+          earliestDate: '1/2/2024',
+          latestDate: '1/30/2024',
+        },
+      },
       {
         name: 'Public Debt Transactions',
         endpoint: '/v1/accounting/dts/public_debt_transactions',
@@ -165,10 +165,14 @@ describe('Dataset detail page validation', () => {
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
       cy.contains(table.name).click({ force: true });
+      cy.wait('@fiscalData', { timeout: pageLoadTimeout });
+
       // Endpoint in the API Quick Guide documentation updates for each table
-      cy.contains('/services/api/fiscal_service' + table.endpoint);
+      cy.findByRole('tab', { name: 'Table' }).should('be.visible');
+      cy.contains('/services/api/fiscal_service' + table.endpoint, { timeout: 50000 });
+
       if (table?.largeTable) {
-        cy.contains('Text filtering has been limited due to large table size');
+        cy.contains('Text filtering has been limited due to large table size', { timeout: 10000 });
       } else {
         // Text search validation
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
@@ -220,17 +224,17 @@ describe('Dataset detail page validation', () => {
         cy.findAllByText('mm/dd/yyyy').should('exist');
         cy.reload();
       }
-      cy.contains(table.name).click({ force: true });
+      cy.findByRole('button', { name: table.name }).click({ force: true });
     });
   };
 
-  // it('Loads DTS Dataset Detail Page', () => {
-  //   checkDataTables(dtsDataset);
-  // });
-
-  it('loads MTS Dataset Detail Page', () => {
-    checkDataTables(mtsDataset);
+  it('Loads DTS Dataset Detail Page', () => {
+    checkDataTables(dtsDataset);
   });
+
+  // it('loads MTS Dataset Detail Page', () => {
+  //   checkDataTables(mtsDataset);
+  // });
   //
   // it('loads MSPD Dataset Detail Page', () => {
   //   checkDataTables(mspdDataset);
