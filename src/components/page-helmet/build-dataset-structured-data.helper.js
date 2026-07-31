@@ -65,7 +65,7 @@ const DatasetStructuredData = config => {
   structuredData.distribution.forEach(d => (d.contentUrl = getUrl(config)));
   structuredData.temporalCoverage = setTemporalCoverage(config);
 
-  return JSON.stringify(structuredData);
+  return JSON.stringify(structuredData).replace(/</g, '\\u003c');
 };
 
 export default DatasetStructuredData;
