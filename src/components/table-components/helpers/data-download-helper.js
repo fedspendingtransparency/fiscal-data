@@ -25,16 +25,20 @@ export const getDownloadData = (tableRowModel, downloadHeaderKeys) => {
   return downloadData;
 };
 
+const csvFormulaaTrigger = /^[=+\-@\t\r]/;
+
+export const escapedCsvCell = value => {
+  let stringValue = String(value ?? '');
+
+  if (csvFormulaaTrigger.test(stringValue) && isNaN(Number(stringValue))) {
+    stringValue = `'${stringValue}`;
+  }
+  return stringValue.replace(/"/g, '""');
+};
+
 export const getDataWithTextQualifiers = downloadData => {
   if (downloadData) {
-    return downloadData.map(entry => {
-      const dataWithTextQualifiers = [];
-      Object.values(entry).forEach(val => {
-        const stringValue = String(val ?? '');
-        dataWithTextQualifiers.push(stringValue.includes(',') ? `"${stringValue}"` : stringValue);
-      });
-      return dataWithTextQualifiers;
-    });
+    return downloadData.map(entry => Object.values(entry).map(escapedCsvCell));
   }
 };
 
