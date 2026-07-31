@@ -362,8 +362,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     if (err && !process.env.BLS_API_KEY) {
       console.warn('BLS_API_KEY not set: USING COMMITTED BLS SAMPLE DTA< CPI figures will be out of date');
       resultDataBLS = JSON.parse(fs.readFileSync('./static/data/CPI/bls-data-fallback.json', 'utf8'));
-    }
-    else if (err) {
+    } else if (err) {
       resultDataBLS = await getBLSData()
         .then(res => res)
         .catch(error => {
@@ -389,7 +388,8 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     });
   });
 
-  const beaURL = `https://apps.bea.gov/api/data/?UserID=${process.env.BEA_USER_ID}` +
+  const beaURL =
+    `https://apps.bea.gov/api/data/?UserID=${process.env.BEA_USER_ID}` +
     `&method=GETDATA&datasetname=NIPA&TableName=T10105&frequency=Q&year=X&ResultFormat=JSON`;
 
   const fetchBEA = async () => {
@@ -413,9 +413,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
   // This file can be used for any local testing, otherwise the fallback api response will include 10 years of data
   // fs.readFile('./static/data/bea/bea-data-fallback.json', 'utf8', async (err, data) => {
   fs.readFile('./static/data/bea-data.json', 'utf8', async (err, data) => {
-    if (err && !process.env.BLS_API_KEY) {
-      console.warn('BLS_API_KEY not set: USING COMMITTED BLS SAMPLE DTA< CPI figures will be out of date');
-      resultDataBLS = JSON.parse(fs.readFileSync('./static/data/bea/bea-data-fallback.json', 'utf8'));
+    if (err && !process.env.BEA_USER_ID) {
+      console.warn('BEA_USER_ID not set: USING COMMITTED BLS SAMPLE DTA< CPI figures will be out of date');
+      resultDataBEA = JSON.parse(fs.readFileSync('./static/data/bea/bea-data-fallback.json', 'utf8'));
     } else if (err) {
       resultDataBEA = await fetchBEA()
         .then(res => res)
