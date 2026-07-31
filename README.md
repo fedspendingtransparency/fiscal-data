@@ -27,14 +27,14 @@ Update the snapshots used in the unit tests with:
 
 
 ## API Keys for Local Builds
-The build pull consumer price index data for the Bureau of Labor Statistics and GDP data from the
-Bureau of Economic Analysis. Both require a free registration key. 
+The build pulls consumer price index data from the Bureau of Labor Statistics and GDP data from the
+Bureau of Economic Analysis. Both require a free registration key.
 
-**You do not need keys to run the project.** Without them the build uses the sample responses 
-committed under `sttic/data/`, so the site builds and runs normally, the CPI and GDP figures on the 
-explainer pages will simply be out of date, and teh build log will say so. 
+**You do not need keys to run the project.** Without them the build uses the sample responses
+committed under `static/data/`, so the site builds and runs normally, the CPI and GDP figures on the 
+explainer pages will simply be out of date, and the build log will say so. 
 
-to build with live data, register for your own keys (both are free and issued instantly)
+To build with live data, register for your own keys (both are free and issued instantly):
 
 * BLS: https://data.bls.gov/registrationEngine/
 * BEA: https://apps.bea.gov/API/signup/
