@@ -88,6 +88,7 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.18",
+    "dotenv": "^8.6.0",
     "fuse.js": "^7.0.0",
     "gatsby": "^5.16.1",
     "gatsby-env-variables": "^2.0.0",

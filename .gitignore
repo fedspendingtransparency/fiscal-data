@@ -63,6 +63,8 @@ workspace.xml
 
 # dotenv environment variables file
 .env
+.env.*
+!.env.example
 
 # gatsby files
 .cache/
