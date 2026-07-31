@@ -18,6 +18,8 @@ import ReportFilter from '../report-filter/report-filter';
 import { sectionTitle } from '../published-reports';
 import { useErrorBoundary } from 'react-error-boundary';
 import LowerEnvironmentFeature from '../../lower-environment-feature/lower-environment-feature';
+import { analyticsEventHandler } from '../../../helpers/insights/insight-helpers';
+import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
 
 const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ dataset }) => {
   const { publishedReports: publishedReportsProp, hideReportDatePicker, reportSelection, publishedReportsTip } = dataset;
@@ -54,6 +56,16 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
         setCurrentReports(filteredReports);
       }
     }
+  };
+
+  const handleApplyGa4Click = () => {
+    const eventLabel = zipFileName;
+    const eventAction = 'Published Report Download All';
+    analyticsEventHandler('Data Download', eventLabel, eventAction);
+    ga4DataLayerPush({
+      event: eventAction,
+      eventLabel: eventLabel,
+    });
   };
 
   useEffect(() => {
@@ -164,15 +176,14 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
               {zipFile && (
                 <a
                   href={zipFile.path}
+                  className={button}
                   download={zipFileName}
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={`Download ${zipFileName}`}
-                  className={button}
+                  onClick={handleApplyGa4Click}
                 >
-                  <span>
-                    Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
-                  </span>
+                  Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
                 </a>
               )}
             </LowerEnvironmentFeature>
