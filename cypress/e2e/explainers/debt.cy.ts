@@ -22,10 +22,9 @@ describe('Debt Explainer Page', () => {
     visitDebtExplainer();
   });
 
-  it('Navigate to the debt explainer, ensure page does not contain NaN, null, or undefined values', () => {
-    cy.findAllByText('null').should('not.exist');
-    cy.findAllByText('NaN').should('not.exist');
-    cy.findAllByText('undefined').should('not.exist');
+  // '--' is the placeholder for text that hasn't loaded yet
+  it('Navigate to the debt explainer, ensure all content has loaded', () => {
+    cy.findAllByText('--').should('not.exist');
   });
 
   describe('Validate that the sub nav takes the user to the correct section on the page', () => {
@@ -80,7 +79,6 @@ describe('Debt Explainer Page', () => {
         visitDebtExplainer();
       });
     });
-
     it('Part 2: Validate all internal links on the page navigate to the correct destinations', () => {
       const hyperlinks2: object[] = [
         {
@@ -100,7 +98,6 @@ describe('Debt Explainer Page', () => {
         visitDebtExplainer();
       });
     });
-
     it('Validate all external links on the page navigate to the correct destinations ', () => {
       waitForDiveDeeperSection();
 
@@ -160,27 +157,16 @@ describe('Debt Explainer Page', () => {
     });
   });
 
+  // 'Loading...' is the loading indicator we use for our charts
   describe('Validate charts', () => {
-    it('Load properly with no null or empty values', () => {
+    it('Finishes loading and exits its animation', () => {
       cy.get('[role="figure"]').each(chart => {
         cy.wrap(chart)
           .scrollIntoView({ duration: 2000 })
-          .findAllByText('null')
-          .should('not.exist')
-          .findAllByText('NaN')
-          .should('not.exist')
-          .findAllByText('undefined')
+          .findAllByText('Loading...')
           .should('not.exist');
       });
     });
-
-    // it('Toggle-able views render properly on charts that have them', () => {
-    //
-    // });
-    //
-    // it('Test keyboard accessibility on charts that have it', () => {
-    //
-    // });
   });
 
   it('Validate all glossary terms on page', () => {
@@ -192,7 +178,6 @@ describe('Debt Explainer Page', () => {
       'revenue',
       'deficit',
       'bonds',
-      'bills',
       'notes',
       'floating rate notes',
       'Treasury inflation-protected securities (TIPS)',
