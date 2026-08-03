@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { IDataTableProps } from '../../../models/IDataTableProps';
 import { smallTableDownloadData } from '../../../recoil/smallTableDownloadData';
-import { constructDateHeader, getSortedColumnsData } from '../../dtg-table/data-table-helper';
+import { getSortedColumnsData } from '../../dtg-table/data-table-helper';
 import { json2xml } from 'xml-js';
 import { overlayContainerNoFooter, rawDataTableContainer } from './data-preview-data-table.module.scss';
 import TableFooter from '../../table-components/table-footer/table-footer';
@@ -9,6 +9,7 @@ import DataPreviewDataTableBody from './data-preview-data-table-body/data-previe
 import DataPreviewDataTableHeader from './data-preview-data-table-header/data-preview-data-table-header';
 import { DataTableContext } from '../data-preview-context';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, Table, useReactTable } from '@tanstack/react-table';
+import { setCsvDownload } from '../../table-components/helpers/data-download-helper';
 
 const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
   setTableColumnSortData,
@@ -155,7 +156,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
     }
 
     if (!table.getSortedRowModel()?.flatRows[0]?.original.columnName) {
-      let downloadData = [];
+      const downloadData = [];
       const downloadHeaders = [];
       const downloadHeaderKeys = [];
       table.getHeaderGroups()[0].headers.forEach(header => {
@@ -181,20 +182,7 @@ const DataPreviewDataTable: FunctionComponent<IDataTableProps> = ({
       };
       setSmallTableJSONData(JSON.stringify({ data: downloadData }));
       setSmallTableXMLData(json2xml(JSON.stringify(xmlData), { compact: true }));
-      downloadData = downloadData.map(entry => {
-        const dataWithTextQualifiers = [];
-        Object.values(entry).forEach(val => {
-          const stringValue = String(val ?? '');
-          dataWithTextQualifiers.push(stringValue.includes(',') ? `"${stringValue}"` : stringValue);
-        });
-        return dataWithTextQualifiers;
-      });
-      downloadData.unshift(downloadHeaders);
-      if (hasDownloadTimestamp) {
-        const dateHeader = constructDateHeader(datasetName, dateRange);
-        downloadData.unshift(dateHeader);
-      }
-      setSmallTableCSVData(downloadData);
+      setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
     }
   }, [columnVisibility, table.getSortedRowModel(), table.getVisibleFlatColumns()]);
 
