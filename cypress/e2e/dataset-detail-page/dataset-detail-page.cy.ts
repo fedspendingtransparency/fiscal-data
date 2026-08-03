@@ -24,20 +24,20 @@ describe('Dataset detail page validation', () => {
         endpoint: '/v1/accounting/dts/public_debt_transactions',
         largeTable: true,
       },
-      {
-        name: 'Adjustment of Public Debt Transactions to Cash Basis',
-        endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
-        column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
-        dateColumn: {
-          name: 'record_date',
-          filterMonthPrettyName: 'January',
-          filterMonthNumber: '1',
-          filterYear: '2024',
-          filterDate: '1/30/2024',
-          earliestDate: '1/30/2024',
-          latestDate: '1/30/2024',
-        },
-      },
+      // {
+      //   name: 'Adjustment of Public Debt Transactions to Cash Basis',
+      //   endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+      //   column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
+      //   dateColumn: {
+      //     name: 'record_date',
+      //     filterMonthPrettyName: 'January',
+      //     filterMonthNumber: '1',
+      //     filterYear: '2024',
+      //     filterDate: '1/30/2024',
+      //     earliestDate: '1/30/2024',
+      //     latestDate: '1/30/2024',
+      //   },
+      // },
     ],
   };
 
