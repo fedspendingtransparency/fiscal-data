@@ -27,7 +27,7 @@ const DownloadReportTableRow: FunctionComponent<{
       const rawLocation = curReportFile.path;
       const location = rawLocation && isSafeHref(rawLocation) && !isOffOrigin(rawLocation) ? rawLocation : null;
       if (rawLocation && !location) {
-        console.warn(`Ignoring off-site published report path: ${rawLocation}`);
+        console.warn(`Ignoring off-site published report path that does not resolve to this site.`);
       }
       setReportLocation(location);
       const name = location ? location.split('/').slice(-1)[0] : 'report';

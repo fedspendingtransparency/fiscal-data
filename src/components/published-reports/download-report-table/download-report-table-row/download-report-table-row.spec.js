@@ -38,7 +38,7 @@ describe('Download report table row component', () => {
     downloadLink.click();
   });
 
-  it('does not build a adownload link from an off-site report path', () => {
+  it('does not build a  download link from an off-site report path', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     const offSiteReport = { ...mockReports[0], path: '//evil.tld/payload.pdf' };
     const { getByTestId } = render(<DownloadReportTableRow reportFile={offSiteReport} />);
@@ -46,7 +46,8 @@ describe('Download report table row component', () => {
     expect(getByTestId('file-download-row')).toBeInTheDocument();
     const anchor = getByTestId('file-download-row').querySelector('a');
     expect(anchor?.getAttribute('href') || '').not.toContain('evil.tld');
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('evil.tld/payload.pdf'));
+    expect(warn).toHaveBeenCalled();
+    expect(warn.mock.calls.flat().join(' ')).not.toContain('evil.tld');
     warn.mockRestore();
   });
 
