@@ -21,4 +21,4 @@ export const removeDuplicateReleases = entries => {
   });
 
   return [...uniqueEntries.values()];
-}
+};

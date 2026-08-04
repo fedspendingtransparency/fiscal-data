@@ -77,7 +77,7 @@ const CalendarEntriesList = () => {
         const sortedReleases = sortByDate(filteredReleases);
 
         setApiData(sortedReleases);
-        setEntries(sortedReleases)
+        setEntries(sortedReleases);
       }
     })();
   }, [metaData]);
