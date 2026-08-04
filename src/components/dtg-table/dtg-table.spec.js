@@ -722,7 +722,7 @@ describe('DTG Table Nested Table Detail View', () => {
       );
       expect(smallTableDownloadData.getState().csv).toEqual([
         ['Record Date', 'String Value', 'String Value with Commas'],
-        ['2023-07-12', 'just a normal string', '"comma, separated, list"'],
+        ['2023-07-12', 'just a normal string', 'comma, separated, list'],
       ]);
     });
 

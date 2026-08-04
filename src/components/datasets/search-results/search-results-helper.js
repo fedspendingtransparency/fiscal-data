@@ -24,7 +24,7 @@ export const SortOptions = [
     id: 'popularity',
     label: 'Popular',
     sortFn: (a, b) => {
-      return a.popularity_rank - b.popularity_rank;
+      return (a.popularity_rank ?? Infinity) - (b.popularity_rank ?? Infinity);
     },
   },
   {
