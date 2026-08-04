@@ -50,14 +50,14 @@ describe('page helmet', () => {
     });
 
     it('includes version-info', () => {
-      const versionInfoScript = document.head.querySelector('script[data-testid="version-info"]');
+      const versionInfoScript = document.head.querySelector('meta[data-testid="version-info"]').content;
       expect(versionInfoScript).toBeDefined();
-      expect(versionInfoScript.innerHTML).toContain('TAG: 2021.5.1');
-      expect(versionInfoScript.innerHTML).toContain('CURRENT BRANCH: prod');
-      expect(versionInfoScript.innerHTML).toContain('COMMIT HASH: 123abc');
-      expect(versionInfoScript.innerHTML).toContain('COMMIT MESSAGE: mock commit msg');
-      expect(versionInfoScript.innerHTML).toContain('COMMIT DATE: date of commit');
-      expect(versionInfoScript.innerHTML).toContain('ENV ID: production');
+      expect(versionInfoScript).toContain('TAG: 2021.5.1');
+      expect(versionInfoScript).toContain('CURRENT BRANCH: prod');
+      expect(versionInfoScript).toContain('COMMIT HASH: 123abc');
+      expect(versionInfoScript).toContain('COMMIT MESSAGE: mock commit msg');
+      expect(versionInfoScript).toContain('COMMIT DATE: date of commit');
+      expect(versionInfoScript).toContain('ENV ID: production');
     });
 
     it('does not include structured data when not needed', () => {

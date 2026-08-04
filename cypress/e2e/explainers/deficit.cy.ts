@@ -44,17 +44,9 @@ describe('Deficit Explainer Page', () => {
     visitDeficitExplainer();
   });
 
-  it('Navigate to the deficit explainer, ensure page does not contain NaN, null, or undefined values', () => {
-    cy.findAllByText('null').should('not.exist');
-    cy.findAllByText('NaN').should('not.exist');
-    cy.findAllByText('undefined').should('not.exist');
-
-    // also an option to get everything in the body
-    // cy.get('body').then(body => {
-    //   cy.contains('null').should('not.exist');
-    //   cy.contains('NaN').should('not.exist');
-    //   cy.contains('undefined').should('not.exist');
-    // });
+  // '--' is the placeholder for text that hasn't loaded yet
+  it('Navigate to the deficit explainer, ensure all content has loaded', () => {
+    cy.findAllByText('--').should('not.exist');
   });
 
   describe('Validate that the sub nav takes the user to the correct section on the page', () => {
@@ -79,7 +71,7 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate all internal links on the page navigate to the correct destinations', () => {
+  it('Validate all internal links on the page navigate to the correct destinations', () => {
     const hyperlinks = [
       {
         name: 'national debt',
@@ -173,11 +165,11 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  it.skip('Validate Data Sources & Methodologies hyperlinks', () => {
+  it('Validate Data Sources & Methodologies hyperlinks', () => {
     const dsmLinks = [
       {
         name: 'Monthly Treasury Statement (MTS)',
-        url: '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government',
+        url: '/datasets/monthly-treasury-statement/summary-of-receipts-and-outlays-of-the-u-s-government/',
       },
       {
         name: 'GitHub repository',
@@ -188,11 +180,12 @@ describe('Deficit Explainer Page', () => {
     const button = cy.findByRole('button', { name: 'Data Sources & Methodologies toggle contents' });
     button.scrollIntoView({ offset: { top: 300, left: 0 }, duration: 1000 });
     button.click();
-    cy.findByTestId('DSM_content').within(() =>
+
+    cy.findByTestId('DSM_content').within(() => {
       dsmLinks.forEach(link => {
         cy.findByRole('link', { name: link.name }).should('have.attr', 'href', link.url);
-      })
-    );
+      });
+    });
   });
 
   it('Validate that the related datasets section contains the correct datasets', () => {
@@ -229,6 +222,15 @@ describe('Deficit Explainer Page', () => {
     });
   });
 
-  // TODO
-  describe('Validate charts', () => {});
+  // 'Loading...' is the loading indicator we use for our charts
+  describe('Validate charts', () => {
+    it('Finishes loading and exits its animation', () => {
+      cy.get('[role="figure"]').each(chart => {
+        cy.wrap(chart)
+          .scrollIntoView({ duration: 2000 })
+          .findAllByText('Loading...')
+          .should('not.exist');
+      });
+    });
+  });
 });
