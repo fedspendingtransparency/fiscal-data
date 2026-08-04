@@ -5,6 +5,17 @@ import React from 'react';
 
 const envBaseUrl = BASE_URL || '';
 
+export const featuredContentLandingSocialShare = {
+  title: 'Featured Content',
+  description: '',
+  body: '',
+  emailSubject: '',
+  emailBody: '',
+  url: envBaseUrl + '/featured-content/',
+  image: envBaseUrl + '',
+
+}
+
 export const storyOfDataTransparency = {
   title: 'The Story of Data Transparency',
   colors: {

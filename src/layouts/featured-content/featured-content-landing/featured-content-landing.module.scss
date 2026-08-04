@@ -63,6 +63,12 @@
   box-sizing: border-box;
 }
 
+.divider {
+  height: 1px;
+  background: #c2c2c2;
+  margin: 1rem 0 0;
+}
+
 // Gray separator that marks the start of each category section.
 .sectionBar {
   height: 4px;
@@ -85,6 +91,13 @@
   display: grid;
 
   grid-template-columns: 1fr; // mobile: 1 per row
+}
+
+.socialShare {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0.5rem 0rem;
 }
 
 @media screen and (min-width: $breakpoint-lg) {
