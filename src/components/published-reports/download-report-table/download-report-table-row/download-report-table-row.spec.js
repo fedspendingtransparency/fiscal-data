@@ -45,7 +45,7 @@ describe('Download report table row component', () => {
 
     expect(getByTestId('file-download-row')).toBeInTheDocument();
     const anchor = getByTestId('file-download-row').querySelector('a');
-    expect(anchor?.getAtribute('href') || '').not.toContain('evil.tld');
+    expect(anchor?.getAttribute('href') || '').not.toContain('evil.tld');
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('evil.tld/payload.pdf'));
     warn.mockRestore();
   });

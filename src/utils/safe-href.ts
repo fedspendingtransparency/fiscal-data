@@ -1,10 +1,10 @@
-const SAFE_PROTOCOLS = ['http:', 'https:', 'matilto:', 'tel:'];
+const SAFE_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:'];
 
 const FALLBACK_ORIGIN = 'https://fiscaldata.treasury.gov';
 
 export const currentOrigin = (): string => (typeof window !== 'undefined' ? window.location.origin : FALLBACK_ORIGIN);
 
-export const parseHref = (href: string): url | null => {
+export const parseHref = (href: string): URL | null => {
   if (!href || typeof href !== 'string') return null;
   try {
     return new URL(href, currentOrigin());
@@ -18,7 +18,7 @@ export const isSafeHref = (href: string): boolean => {
   return !!url && SAFE_PROTOCOLS.includes(url.protocol);
 };
 
-export const isOFfOrigin = (href: string): boolean => {
+export const isOffOrigin = (href: string): boolean => {
   const url = parseHref(href);
   if (!url) return false;
   if (url.protocol === 'mailto:' || url.protocol === 'tel:') return false;

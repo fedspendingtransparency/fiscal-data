@@ -5,7 +5,7 @@ import { IPublishedReportDataJson } from '../../../../models/IPublishedReportDat
 import { getDateLabelForReport } from '../../../../helpers/dataset-detail/report-helpers';
 import { getFileSize } from '../../download-report/download-helpers';
 import DownloadContents from '../download-button/download-button';
-import { isOFfOrigin, isSafeHref } from '../../../../utils/safe-href';
+import { isOffOrigin, isSafeHref } from '../../../../utils/safe-href';
 
 const DownloadReportTableRow: FunctionComponent<{
   reportFile?: IPublishedReportDataJson;
@@ -24,13 +24,12 @@ const DownloadReportTableRow: FunctionComponent<{
   const updateData = () => {
     if (reportFile) {
       const curReportFile: IPublishedReportDataJson = reportFile;
-      // const location = curReportFile.path;
-      // setReportLocation(location || null);
       const rawLocation = curReportFile.path;
-      const location = rawLocation && isSafeHref(rawLocation) && !isOFfOrigin(rawLocation) ? rawLocation : null;
+      const location = rawLocation && isSafeHref(rawLocation) && !isOffOrigin(rawLocation) ? rawLocation : null;
       if (rawLocation && !location) {
         console.warn(`Ignoring off-site published report path: ${rawLocation}`);
       }
+      setReportLocation(location);
       const name = location ? location.split('/').slice(-1)[0] : 'report';
       setFileName(name);
       setPublishedDate(curReportFile.report_date ? getDateLabelForReport(curReportFile, isDailyReport, true) : 'N/A');
