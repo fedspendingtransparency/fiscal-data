@@ -55,6 +55,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
         anchorEl={anchorElement}
         keepMounted
         disablePortal
+        disableScrollLock
         open={Boolean(anchorElement)}
         onClose={() => handleCloseOrChange(selectedOption)}
       >
