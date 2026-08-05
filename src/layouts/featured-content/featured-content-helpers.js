@@ -6,15 +6,26 @@ import React from 'react';
 const envBaseUrl = BASE_URL || '';
 
 export const featuredContentLandingSocialShare = {
-  title: 'Featured Content',
-  description: '',
-  body: '',
-  emailSubject: '',
-  emailBody: '',
-  url: envBaseUrl + '/featured-content/',
-  image: envBaseUrl + '',
-
-}
+         title: 'Featured Content Now Available',
+         description:
+           'Explore 230 years of U.S. federal finances from @FiscalService Fiscal Data! Dive into historical federal receipts and expenditures, ' +
+           'U.S. financial data transparency, and historical U.S. government spending. ' +
+           '#FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
+         body:
+           'Explore our collection of current data-related government financial topics and check back for new articles in the future from ' +
+           '@FiscalService Fiscal Data! Dive into 230 years of historical receipts and expenditures, ' +
+           'learn about the story of federal financial data transparency since America’s founding, ' +
+           'explore early U.S. government spending, check out the guide to get started on Fiscal Data, and more. ' +
+           'Visit now! #FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
+         emailSubject: 'Featured Content Now Available on Fiscal Data',
+         emailBody:
+           'Explore our collection of current data-related government financial topics and check back for new articles in the future. ' +
+           'Dive into 230 years of historical receipts and expenditures, ' +
+           'learn about the story of federal financial data transparency since America’s founding, explore early U.S. government spending, ' +
+           'check out the guide to get started on Fiscal Data, and more. Learn more about this historic release!',
+         url: envBaseUrl + '/featured-content/',
+         image: envBaseUrl + '/topics-section-images/featured-content-tile.png',
+       };
 
 export const storyOfDataTransparency = {
   title: 'The Story of Data Transparency',
