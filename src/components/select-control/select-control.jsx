@@ -20,7 +20,7 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
   return `Change ${ariaLabelText} from ${selectedOptionLabel}`;
 };
 
-const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, showAll, optionLabelKey, className }) => {
+const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, showAll, optionLabelKey, className, dataTestId }) => {
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
 
   const [droppedDown, setDroppedDown] = useState(false);
@@ -54,7 +54,7 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
       <div className={`${selector_container} ${className ? className : ''}`} onBlur={onBlurHandler} onFocus={onFocusHandler} role="presentation">
         <button
           name="dropdownToggle"
-          data-testid="toggle-button"
+          data-testid={'toggle-button'}
           className={selector_button}
           aria-haspopup="true"
           aria-expanded={droppedDown}
@@ -73,7 +73,7 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
               return (
                 <React.Fragment key={`${colName}-${index}`}>
                   {(!option.hideable || showAll) && (
-                    <li className={selector_option}>
+                    <li className={selector_option} data-testid={dataTestId}>
                       <button
                         data-testid="selector-option"
                         className={classNames([selector_optionButton, isSelectedOption ? selector_optionSelected : ''])}
