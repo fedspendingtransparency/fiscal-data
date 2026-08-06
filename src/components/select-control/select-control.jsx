@@ -20,7 +20,7 @@ export const ariaLabeler = (selectedOptionLabel, ariaLabel, label) => {
   return `Change ${ariaLabelText} from ${selectedOptionLabel}`;
 };
 
-const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, showAll, optionLabelKey, className, dataTestId }) => {
+const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandler, showAll, optionLabelKey, className, ga4Selector }) => {
   const labelKey = optionLabelKey ? optionLabelKey : 'label';
 
   const [droppedDown, setDroppedDown] = useState(false);
@@ -73,7 +73,7 @@ const SelectControl = ({ label, options, selectedOption, ariaLabel, changeHandle
               return (
                 <React.Fragment key={`${colName}-${index}`}>
                   {(!option.hideable || showAll) && (
-                    <li className={selector_option} data-testid={dataTestId}>
+                    <li className={selector_option} data-testid={ga4Selector}>
                       <button
                         data-testid="selector-option"
                         className={classNames([selector_optionButton, isSelectedOption ? selector_optionSelected : ''])}
