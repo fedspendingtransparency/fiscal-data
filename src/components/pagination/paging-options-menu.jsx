@@ -18,6 +18,13 @@ const PagingOptionsMenu = ({ menuProps }) => {
     }
   }, [selected]);
 
+  useEffect(() => {
+    if (!anchorElement) return;
+    const handleScroll = () => setAnchorElement(null);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [anchorElement]);
+
   const handleOpen = event => {
     setAnchorElement(event.currentTarget);
   };
