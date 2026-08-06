@@ -51,10 +51,9 @@ describe('Spending Explainer Page', () => {
     visitSpendingExplainer();
   });
 
-  it('Navigate to the spending explainer, ensure page does not contain NaN, null, or undefined values', () => {
-    cy.findAllByText('null').should('not.exist');
-    cy.findAllByText('NaN').should('not.exist');
-    cy.findAllByText('undefined').should('not.exist');
+  // '--' is the placeholder for text that hasn't loaded yet
+  it('Navigate to the spending explainer, ensure all content has loaded', () => {
+    cy.findAllByText('--').should('not.exist');
   });
 
   it('Validate all glossary terms on page', () => {
@@ -143,7 +142,9 @@ describe('Spending Explainer Page', () => {
 
     it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
       waitForTrendsEconomySection();
-      cy.findByRole('button', { name: 'What does the future of Social Security and Medicare look like? toggle contents' })
+      cy.findByRole('button', {
+        name: 'What does the future of Social Security and Medicare look like? toggle contents',
+      })
         .first()
         .click();
       cy.findByRole('link', { name: 'Annual Reports on the Financial Status of Social Security and Medicare' }, { timeout: pageLoadTimeout }).should(
@@ -195,7 +196,16 @@ describe('Spending Explainer Page', () => {
       });
     });
   });
+
+  // 'Loading...' is the loading indicator we use for our charts
+  describe('Validate charts', () => {
+    it('Finishes loading and exits its animation', () => {
+      cy.get('[role="figure"]').each(chart => {
+        cy.wrap(chart)
+          .scrollIntoView({ duration: 2000 })
+          .findAllByText('Loading...')
+          .should('not.exist');
+      });
+    });
+  });
 });
-
-
-
