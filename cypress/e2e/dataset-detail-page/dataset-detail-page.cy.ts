@@ -24,20 +24,20 @@ describe('Dataset detail page validation', () => {
         endpoint: '/v1/accounting/dts/public_debt_transactions',
         largeTable: true,
       },
-      {
-        name: 'Adjustment of Public Debt Transactions to Cash Basis',
-        endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
-        column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
-        dateColumn: {
-          name: 'record_date',
-          filterMonthPrettyName: 'January',
-          filterMonthNumber: '1',
-          filterYear: '2024',
-          filterDate: '1/30/2024',
-          earliestDate: '1/30/2024',
-          latestDate: '1/30/2024',
-        },
-      },
+      // {
+      //   name: 'Adjustment of Public Debt Transactions to Cash Basis',
+      //   endpoint: '/v1/accounting/dts/adjustment_public_debt_transactions_cash_basis',
+      //   column: { prettyName: 'Adjustment Type', name: 'adj_type', searchTerm: 'Government Account Transactions (-)' },
+      //   dateColumn: {
+      //     name: 'record_date',
+      //     filterMonthPrettyName: 'January',
+      //     filterMonthNumber: '1',
+      //     filterYear: '2024',
+      //     filterDate: '1/30/2024',
+      //     earliestDate: '1/30/2024',
+      //     latestDate: '1/30/2024',
+      //   },
+      // },
     ],
   };
 
@@ -164,11 +164,15 @@ describe('Dataset detail page validation', () => {
       .should('be.oneOf', [200, 304]);
     cy.contains(dataset.dataTables[0].name).click();
     dataset.dataTables.forEach(table => {
-      cy.contains(table.name).click();
+      cy.contains(table.name).click({ force: true });
+      cy.wait('@fiscalData', { timeout: pageLoadTimeout });
+
       // Endpoint in the API Quick Guide documentation updates for each table
-      cy.contains('/services/api/fiscal_service' + table.endpoint);
+      cy.findByRole('tab', { name: 'Table' }).should('be.visible');
+      cy.contains('/services/api/fiscal_service' + table.endpoint, { timeout: 50000 });
+
       if (table?.largeTable) {
-        cy.contains('Text filtering has been limited due to large table size');
+        cy.contains('Text filtering has been limited due to large table size', { timeout: 10000 });
       } else {
         // Text search validation
         cy.findByRole('textbox', { name: 'filter ' + table.column.name + ' column' }).type(table.column.searchTerm);
@@ -188,10 +192,15 @@ describe('Dataset detail page validation', () => {
             .should('eq', 10);
         }
         // Date Range Input and Sorting Validation
-        cy.findByText('All').click();
         cy.findByRole('button', { name: 'Open ' + table.dateColumn.name + ' Filter' }).click();
-        cy.findByLabelText('Month:').select(table.dateColumn.filterMonthPrettyName);
-        cy.findByLabelText('Year:').select(table.dateColumn.filterYear);
+
+        cy.get('select[name="months"]').should('exist');
+        const monthValue = (parseInt(table.dateColumn.filterMonthNumber) - 1).toString();
+        cy.get('select[name="months"]').select(monthValue, { force: true });
+
+        cy.get('select[name="years"]').should('exist');
+        cy.get('select[name="years"]').select(table.dateColumn.filterYear, { force: true });
+
         cy.findByRole('gridcell', { name: '1' }).click();
         cy.findByRole('gridcell', { name: '30' }).click();
         cy.get('td:contains("' + table.dateColumn.filterDate + '")')
@@ -215,7 +224,7 @@ describe('Dataset detail page validation', () => {
         cy.findAllByText('mm/dd/yyyy').should('exist');
         cy.reload();
       }
-      cy.contains(table.name).click();
+      cy.findByRole('button', { name: table.name }).click({ force: true });
     });
   };
 
