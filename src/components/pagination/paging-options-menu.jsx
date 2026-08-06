@@ -11,6 +11,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [selectedOption, setSelectedOption] = useState(selected);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     if (label === 'Go to Page' && selected !== selectedOption) {
@@ -19,18 +20,19 @@ const PagingOptionsMenu = ({ menuProps }) => {
   }, [selected]);
 
   useEffect(() => {
-    if (!anchorElement) return;
-    const handleScroll = () => setAnchorElement(null);
+    if (!open) return;
+    const handleScroll = () => setOpen(false);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [anchorElement]);
+  }, [open]);
 
   const handleOpen = event => {
     setAnchorElement(event.currentTarget);
+    setOpen(true);
   };
 
   const handleCloseOrChange = value => {
-    setAnchorElement(null);
+    setOpen(false);
     setSelectedOption(value);
     if (updateSelected) {
       updateSelected(value);
@@ -52,7 +54,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
         aria-label="rows-per-page-menu"
         onClick={handleOpen}
         variant="outlined"
-        endIcon={anchorElement === null ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+        endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
         disabled={disabled}
       >
         {selectedOption}
@@ -63,7 +65,7 @@ const PagingOptionsMenu = ({ menuProps }) => {
         keepMounted
         disablePortal
         disableScrollLock
-        open={Boolean(anchorElement)}
+        open={open}
         onClose={() => handleCloseOrChange(selectedOption)}
       >
         {renderMenuItems()}
