@@ -15,7 +15,7 @@ import {
 import SelectControl from '../select-control/select-control';
 import PageButtons from '../pagination/page-buttons';
 import CalendarEntryPages from './calendar-entry-pages/calendar-entry-pages';
-import { sortOptions } from './calendar-helpers';
+import { removeDuplicateReleases, sortOptions } from './calendar-helpers';
 import Analytics from '../../utils/analytics/analytics';
 import { basicFetch } from '../../utils/api-utils';
 import CalendarEntriesSkeleton from './calendar-entries-skeleton/calendar-entries-skeleton';
@@ -56,20 +56,28 @@ const CalendarEntriesList = () => {
     (async () => {
       if (metaData) {
         const res = await basicFetch(releaseCalendarUrl);
-        res.forEach((element, index) => {
-          const datasetMetaData = metaData.find(d => d.dataset_id === element.datasetId);
-          if (datasetMetaData) {
-            res[index] = {
-              ...element,
-              dataset: {
-                name: datasetMetaData.title,
-                slug: `/${datasetMetaData.dataset_path}/`,
-              },
-            };
+
+        const releases = res.map(element => {
+          const datasetMetaData = metaData.find(
+            d => d.dataset_id === element.datasetId
+          );
+          if (!datasetMetaData) {
+            return element;
           }
+          return {
+            ...element,
+            dataset: {
+              name: datasetMetaData.title,
+              slug: `/${datasetMetaData.dataset_path}/`,
+            },
+          };
         });
-        setApiData(sortByDate(res));
-        setEntries(sortByDate(res));
+
+        const filteredReleases = removeDuplicateReleases(releases);
+        const sortedReleases = sortByDate(filteredReleases);
+
+        setApiData(sortedReleases);
+        setEntries(sortedReleases);
       }
     })();
   }, [metaData]);

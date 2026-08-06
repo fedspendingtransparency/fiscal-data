@@ -11,8 +11,12 @@ import {
   bannerIcon,
   container,
   sectionBar,
+  socialShare,
+  divider
 } from './featured-content-landing.module.scss';
 import { featuredContentBanner, featuredContentLanding } from './featured-content-landing-config';
+import { featuredContentLandingSocialShare } from '../featured-content-helpers';
+import SocialShare from '../../../components/social-share/social-share';
 
 const FeaturedContentLanding = () => {
   const images = useStaticQuery(
@@ -31,7 +35,6 @@ const FeaturedContentLanding = () => {
   );
 
   const bannerImage = images.allFile.topicsImages.find(image => image.name === featuredContentBanner.image);
-
   return (
     <div className={container} data-testid="featured-content-landing">
       <div className={banner} data-testid="featured-content-banner">
@@ -43,6 +46,10 @@ const FeaturedContentLanding = () => {
           <GatsbyImage image={getImage(bannerImage)} alt={featuredContentBanner.altText} loading="eager" />
         </div>
       </div>
+      <div className={socialShare}>
+        <SocialShare copy={featuredContentLandingSocialShare} pageName={'Featured Content'} displayStyle="horizontal" />
+      </div>
+      <div className={divider} />
       <div className={content}>
         {featuredContentLanding.map((section, sectionIndex) => (
           <section key={section.category}>

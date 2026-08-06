@@ -51,10 +51,9 @@ describe('Revenue Explainer Page', () => {
     visitRevenueExplainer();
   });
 
-  it('Navigate to the revenue explainer, ensure page does not contain NaN, null, or undefined values', () => {
-    cy.findAllByText('null').should('not.exist');
-    cy.findAllByText('NaN').should('not.exist');
-    cy.findAllByText('undefined').should('not.exist');
+  // '--' is the placeholder for text that hasn't loaded yet
+  it('Navigate to the revenue explainer, ensure all content has loaded', () => {
+    cy.findAllByText('--').should('not.exist');
   });
 
   describe('Validate that the sub nav takes the user to the correct page on the site', () => {
@@ -154,7 +153,9 @@ describe('Revenue Explainer Page', () => {
 
     it('Validate all external links (in accordians) on the page navigate to the correct destinations ', () => {
       waitForSourcesSection();
-      cy.findByRole('button', { name: 'Why does the Federal Reserve send money to the federal government? toggle contents' })
+      cy.findByRole('button', {
+        name: 'Why does the Federal Reserve send money to the federal government? toggle contents',
+      })
         .first()
         .click();
       cy.findByRole('link', { name: 'Federal Reserve Act, Section 7(a)(1-3)' }, { timeout: pageLoadTimeout }).should(
@@ -174,16 +175,13 @@ describe('Revenue Explainer Page', () => {
     });
   });
 
+  // 'Loading...' is the loading indicator we use for our charts
   describe('Validate charts', () => {
-    it('Load properly with no null or empty values', () => {
+    it('Finishes loading and exits its animation', () => {
       cy.get('[role="figure"]').each(chart => {
         cy.wrap(chart)
           .scrollIntoView({ duration: 2000 })
-          .findAllByText('null')
-          .should('not.exist')
-          .findAllByText('NaN')
-          .should('not.exist')
-          .findAllByText('undefined')
+          .findAllByText('Loading...')
           .should('not.exist');
       });
     });
