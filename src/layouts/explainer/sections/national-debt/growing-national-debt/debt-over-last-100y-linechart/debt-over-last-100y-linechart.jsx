@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Line } from '@nivo/line';
+import React, { useEffect, useState, useMemo } from 'react';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
 import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
@@ -26,9 +26,21 @@ import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDat
 import { debtExplainerPrimary } from '../../../../../../variables.module.scss';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useWindowSize } from 'usehooks-ts';
+import { useXAxisScale, useYAxisScale } from 'recharts';
 
 let gaTimerDebt100Yrs;
 let ga4Timer;
+
+const usePointPositions = data => {
+  const xScale = useXAxisScale();
+  const yScale = useYAxisScale();
+  return useMemo(() => {
+    if (!xScale || !yScale) {
+      return null;
+    }
+    return data.map(datum => ({ x: xScale(datum.x), y: yScale(datum.y), data: datum }));
+  }, [xScale, yScale, data]);
+};
 
 const DebtOverLast100y = ({ cpiDataByYear }) => {
   const [isLoading, setIsLoading] = useState(true);

@@ -15,6 +15,17 @@
     width: 100%;
   }
 
+  :global(.recharts-wrapper) {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  :global(.rechart-surface) {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+  }
+
   .headerContainer {
     display: flex;
     justify-content: center;
