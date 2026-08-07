@@ -278,7 +278,7 @@ describe('TableSectionContainer with Pivot Options', () => {
       </>
     );
     expect(getByTestId('pivotOptionsDrawer').className).toContain(active);
-    fireEvent.click(getByTestId('pivotToggle'));
+    fireEvent.click(getByTestId('hide-pivot-options'));
     expect(getByTestId('pivotOptionsDrawer').className).not.toContain(active);
   });
 
@@ -302,7 +302,7 @@ describe('TableSectionContainer with Pivot Options', () => {
         />
       </>
     );
-    fireEvent.click(getByTestId('pivotToggle'));
+    fireEvent.click(getByTestId('hide-pivot-options'));
   });
 
   it('relays an endpoint value when it receives it in the serverSidePagination prop', async () => {
