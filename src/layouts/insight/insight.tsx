@@ -39,7 +39,7 @@ const InsightPageLayout = ({ pageContext }) => {
         <div className={insightsContainer}>
           <InsightHeroImage heading={heroImage.heading}>{insightHeroMap[pageName].component()}</InsightHeroImage>
           <div data-testid="social-share-mobile" className={socialShareMobile}>
-            <SocialShare copy={insightSocialShareMap[pageName]} pageName={insightsPageName[pageName]} headerLevel="h2" displayStyle="responsive" />
+            <SocialShare copy={insightSocialShareMap[pageName]} pageName={insightsPageName[pageName]} headerLevel="h2" displayStyle="horizontal" />
           </div>
           <InsightLastUpdated endpoint={insightLastUpdated[pageName]?.endpoint} />
           <div className={contentContainer}>
