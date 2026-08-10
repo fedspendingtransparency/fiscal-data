@@ -9,24 +9,6 @@ describe('SLGS Insights Page', () => {
       .should('be.oneOf', [200, 304]);
   };
 
-  const waitForExploreMoreSection = () => {
-    cy.contains('h2', 'Explore More', { timeout: pageLoadTimeout })
-      .scrollIntoView()
-      .should('be.visible');
-  };
-
-  const waitForDiscoverDatasetsSection = () => {
-    cy.contains('h2', 'Discover Datasets', { timeout: pageLoadTimeout })
-      .scrollIntoView()
-      .should('be.visible');
-  };
-
-  const waitForDataSourcesSection = () => {
-    cy.contains('h2', 'Data Sources and Methodologies', { timeout: pageLoadTimeout })
-      .scrollIntoView()
-      .should('be.visible');
-  };
-
   beforeEach(() => {
     visitSlgsInsightPage();
   });
@@ -49,7 +31,6 @@ describe('SLGS Insights Page', () => {
 
   describe('Validate all links on page', () => {
     it('Part 1: Validate all internal links under Explore More on the page navigate to the correct destinations ', () => {
-      waitForExploreMoreSection();
       const hyperlinks1: object[] = [
         {
           name: 'Understanding the National Debt | U.S. Treasury Fiscal Data',
@@ -71,7 +52,6 @@ describe('SLGS Insights Page', () => {
   });
 
   it('Part 2: Validate all internal links under Discover Datasets on the page navigate to the correct destinations ', () => {
-    waitForDiscoverDatasetsSection();
     const hyperlinks1: object[] = [
       {
         name: 'State and Local Government Series Securities (Non-Marketable) | U.S. Treasury Fiscal Data',
@@ -100,7 +80,6 @@ describe('SLGS Insights Page', () => {
   });
 
   it('Part 3: Validate all links under Data Sources navigate to the correct destinations ', () => {
-    waitForDataSourcesSection();
     cy.findByRole('link', { name: 'State and Local Government Series Securities (Non-Marketable)' }, { timeout: pageLoadTimeout }).should(
       'have.attr',
       'href',
