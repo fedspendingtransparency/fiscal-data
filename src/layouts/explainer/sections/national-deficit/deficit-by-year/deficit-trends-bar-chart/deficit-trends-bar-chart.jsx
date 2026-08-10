@@ -1,6 +1,6 @@
-import { Bar } from '@nivo/bar';
+import React, { useEffect, useState, useCallback } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
-import React, { useEffect, useState } from 'react';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
@@ -11,7 +11,6 @@ import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
-import CustomBar from './custom-bar/custom-bar';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
@@ -35,7 +34,7 @@ export const DeficitTrendsBarChart = () => {
   const [minValue, setMinValue] = useState('');
   const [headerYear, setHeaderYear] = useState('--');
   const [headerDeficit, setHeaderDeficit] = useState('--');
-  const [lastBar, setLastBar] = useState();
+  const [activeBarIndex, setActiveBarIndex] = useState(null);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -52,34 +51,16 @@ export const DeficitTrendsBarChart = () => {
     width: 495,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
-    theme: {
-      fontSize: fontSize_14,
-      fontFamily: 'Source Sans Pro',
-      textColor: fontBodyCopy,
-      axis: {
-        ticks: {
-          text: {
-            fontSize: desktop ? fontSize_14 : fontSize_12,
-          },
-        },
-      },
-    },
-    axisBottom: {
-      tickSize: 0,
-      tickPadding: 5,
-      tickRotation: 0,
-      tickValues: tickValuesX,
-    },
-    axisLeft: {
-      format: formatCurrency,
-      tickSize: 0,
-      tickPadding: 5,
-      tickRotation: 0,
-      tickValues: tickValuesY,
-    },
     highlightColor: fontTitle,
     animationDuration: 2000,
   };
+
+  const tickStyle = {
+    fill: fontBodyCopy,
+    fontSize: desktop ? fontSize_14 : fontSize_12,
+    fontFamily: 'sans-serif',
+  };
+
   const startingYear = '2001';
   const delayIncrement = 1250;
 
@@ -125,33 +106,26 @@ export const DeficitTrendsBarChart = () => {
       });
   };
 
-  const resetHeaderValues = () => {
+  const resetHeaderValues = useCallback(() => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
+    setActiveBarIndex(chartData ? chartData.length - 1 : null);
+  }, [mostRecentFiscalYear, mostRecentDeficit, chartData]);
 
-    if (lastBar) lastBar.style.fill = chartConfigs.highlightColor;
-  };
-
-  const onBarMouseEnter = (data, event) => {
-    if (data && event && data.data.year >= startingYear) {
-      const barSVGs = Array.from(event.target.parentNode.parentNode.children);
-      const currentBarElement = event.target.parentNode.children[0];
-      currentBarElement.style.fill = chartConfigs.highlightColor;
-      const lastBarElement = barSVGs[barSVGs.length - 1].children[0];
-      if (currentBarElement !== lastBarElement) {
-        lastBarElement.style.fill = deficitExplainerPrimary;
+  const onBarMouseEnter = useCallback(
+    (data, index) => {
+      if (data && data.year >= startingYear) {
+        setActiveBarIndex(index);
+        setHeaderYear(data.year);
+        setHeaderDeficit(data.deficit);
       }
-      setLastBar(lastBarElement);
-      setHeaderYear(data.data.year);
-      setHeaderDeficit(data.data.deficit);
-    }
-  };
+    },
+    [startingYear]
+  );
 
-  const onBarMouseLeave = (data, event) => {
-    if (event.target) {
-      event.target.parentNode.children[0].style.fill = deficitExplainerPrimary;
-    }
-  };
+  const onBarMouseLeave = useCallback(() => {
+    resetHeaderValues();
+  }, [resetHeaderValues]);
 
   const handleGoogleAnalyticsMouseEnter = () => {
     const gaEvent = getGAEvent('30');
@@ -186,13 +160,14 @@ export const DeficitTrendsBarChart = () => {
       const initialDelay = delayIncrement + 500;
       let headerDelay = initialDelay;
       let barDelay = initialDelay;
-      const barSVGs = Array.from(document.querySelector(`[data-testid='deficitTrendsChartParent'] svg`).children[1].children);
-      barSVGs.splice(0, 5);
+      const chartContainer = document.querySelector(`[data-testid='deficitTrendsChartParent']`);
+      if (!chartContainer) return;
+
+      const barSVGs = Array.from(chartContainer.querySelectorAll('.recharts-bar-rectangle path'));
 
       // Run bar highlight wave
-      barSVGs.forEach(element => {
-        const finalBar = barSVGs[barSVGs.length - 1].children[0];
-        const bar = element.children[0];
+      barSVGs.forEach((bar, index) => {
+        const finalBar = barSVGs[barSVGs.length - 1];
 
         if (inView) {
           setTimeout(() => {
@@ -216,6 +191,13 @@ export const DeficitTrendsBarChart = () => {
           }, (headerDelay += delayIncrement / chartData.length));
         }
       });
+
+      // Set the last bar as active after animation completes
+      if (inView) {
+        setTimeout(() => {
+          setActiveBarIndex(chartData.length - 1);
+        }, headerDelay);
+      }
     }
   }, [inView, chartData]);
 
@@ -234,6 +216,8 @@ export const DeficitTrendsBarChart = () => {
     if (!!chartData) {
       addInnerChartAriaLabel(chartConfigs.parent);
       const tickValues = generateTickValues(chartData);
+      console.log('X-axis tick values:', tickValues[0]);
+
       setMinValue(tickValues[1][0]);
       setMaxValue(tickValues[1][tickValues[1].length - 1]);
       setTickValuesX(tickValues[0]);
@@ -285,39 +269,43 @@ export const DeficitTrendsBarChart = () => {
           ) : (
             <div
               className={barChart}
-              onMouseLeave={resetHeaderValues}
+              onMouseLeave={onBarMouseLeave}
               onBlur={resetHeaderValues}
               data-testid="deficitTrendsChartParent"
               role="presentation"
               ref={ref}
             >
-              <Bar
-                barComponent={CustomBar}
+              <BarChart
                 width={chartConfigs.width}
                 height={chartConfigs.height}
                 data={chartData}
-                keys={['deficit']}
-                indexBy="year"
-                margin={{ top: desktop ? 15 : 10, right: 15, bottom: 25, left: 55 }}
-                padding={desktop ? 0.3 : 0.35}
-                colors={({ id, data }) => String(data[`${id}Color`])}
-                axisBottom={chartConfigs.axisBottom}
-                axisLeft={chartConfigs.axisLeft}
-                enableGridX={true}
-                theme={chartConfigs.theme}
-                layers={['grid', 'axes', 'bars']}
-                valueScale={{ type: 'linear', clamp: true, min: minValue, max: maxValue }}
-                minValue={minValue}
-                maxValue={maxValue}
-                gridXValues={tickValuesX}
-                gridYValues={tickValuesY}
-                onMouseEnter={(data, event) => {
-                  onBarMouseEnter(data, event);
-                }}
-                onMouseLeave={(data, event) => {
-                  onBarMouseLeave(data, event);
-                }}
-              />
+                margin={{ top: 15, right: 50, bottom: 15, left: 0 }}
+                barCategoryGap={desktop ? '23%' : '26%'}
+              >
+                <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} />
+                <XAxis
+                  dataKey="year"
+                  tick={tickStyle}
+                  tickLine={false}
+                  axisLine={false}
+                  ticks={tickValuesX}
+                  interval={0}
+                  padding={{ left: 0, right: 0 }}
+                />
+                <YAxis
+                  tick={tickStyle}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={formatCurrency}
+                  ticks={tickValuesY}
+                  domain={[minValue, maxValue]}
+                />
+                <Bar dataKey="deficit" onMouseEnter={onBarMouseEnter} isAnimationActive={false} barSize={11}>
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === activeBarIndex ? chartConfigs.highlightColor : entry.deficitColor} />
+                  ))}
+                </Bar>
+              </BarChart>
             </div>
           )}
         </ChartContainer>
