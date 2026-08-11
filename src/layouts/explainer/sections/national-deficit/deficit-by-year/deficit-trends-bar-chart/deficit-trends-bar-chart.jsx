@@ -300,7 +300,7 @@ export const DeficitTrendsBarChart = () => {
                   ticks={tickValuesY}
                   domain={[minValue, maxValue]}
                 />
-                <Bar dataKey="deficit" onMouseEnter={onBarMouseEnter} isAnimationActive={false} barSize={11}>
+                <Bar dataKey="deficit" onMouseEnter={onBarMouseEnter} isAnimationActive={false} barSize={desktop ? 11 : 8}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={index === activeBarIndex ? chartConfigs.highlightColor : entry.deficitColor} />
                   ))}
