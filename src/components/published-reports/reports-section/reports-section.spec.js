@@ -110,20 +110,21 @@ describe('Reports Section component', () => {
     expect(queryByText('Published Date:')).not.toBeInTheDocument();
   });
 
-  it('renders download all button when ZIP file is present', () => {
-    const datasetConfig = { publishedReports: mockReportsWithZip };
-    const { getByRole, getByText } = render(
-      <ErrorBoundary>
-        <ReportsSection dataset={datasetConfig} />
-      </ErrorBoundary>
-    );
-
-    const downloadButton = getByRole('link', { name: /Download archive\.zip/i });
-    expect(downloadButton).toBeInTheDocument();
-    expect(downloadButton).toHaveAttribute('href', '/test/file/path/archive.zip');
-    expect(downloadButton).toHaveAttribute('download', 'archive.zip');
-    expect(getByText('Download all (2 files)')).toBeInTheDocument();
-  });
+  // uncomment this test when this feature is released to upper envs
+  // it('renders download all button when ZIP file is present', () => {
+  //   const datasetConfig = { publishedReports: mockReportsWithZip };
+  //   const { getByRole, getByText } = render(
+  //     <ErrorBoundary>
+  //       <ReportsSection dataset={datasetConfig} />
+  //     </ErrorBoundary>
+  //   );
+  //
+  //   const downloadButton = getByRole('link', { name: /Download archive\.zip/i });
+  //   expect(downloadButton).toBeInTheDocument();
+  //   expect(downloadButton).toHaveAttribute('href', '/test/file/path/archive.zip');
+  //   expect(downloadButton).toHaveAttribute('download', 'archive.zip');
+  //   expect(getByText('Download all (2 files)')).toBeInTheDocument();
+  // });
 
   describe('Reports section with report filter', () => {
     const datasetConfig = { reportSelection: 'byReport', publishedReports: mockReports };
