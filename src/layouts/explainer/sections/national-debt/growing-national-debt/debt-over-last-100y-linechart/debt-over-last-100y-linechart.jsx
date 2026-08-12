@@ -16,7 +16,7 @@ import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
-import { ChartScaling, Crosshair, HoverPoint, HoverSlices } from './debt-over-last-100y-linechart-layers';
+import { ChartScaling, Crosshair, HoverPoint, HoverSlices } from '../../../../explainer-helpers/explainer-recharts-helper';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import Analytics from '../../../../../../utils/analytics/analytics';
