@@ -15,11 +15,6 @@
 .barChart {
   margin-bottom: 1rem;
   width: 100%;
-  overflow: visible;
-
-  & svg {
-    overflow: visible; /* Allow SVG content to extend */
-  }
 
   & [class*='recharts-cartesian-grid-horizontal'] line {
     transform: translateX(-5px);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
@@ -48,7 +48,7 @@ export const DeficitTrendsBarChart = () => {
 
   const chartConfigs = {
     parent: 'deficitTrendsChartParent',
-    width: desktop ? 455 : 380,
+    width: 495,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
     highlightColor: fontTitle,
@@ -207,13 +207,13 @@ export const DeficitTrendsBarChart = () => {
   useEffect(() => {
     getChartData();
   }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
-      applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
-    });
-  }, [width, chartData]);
+  //
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
+  //     applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
+  //   });
+  // }, [width, chartData]);
 
   useEffect(() => {
     if (!!chartData) {
@@ -279,42 +279,43 @@ export const DeficitTrendsBarChart = () => {
               role="presentation"
               ref={ref}
             >
-              <BarChart
-                width={chartConfigs.width}
-                height={chartConfigs.height}
-                data={chartData}
-                margin={{ top: 15, right: 0, bottom: 15, left: 0 }}
-                barCategoryGap={desktop ? 20 : 5}
-                onMouseMove={onChartMouseMove}
-                onMouseLeave={onBarMouseLeave}
-              >
-                <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
-                <XAxis
-                  dataKey="year"
-                  tick={tickStyle}
-                  tickLine={false}
-                  axisLine={false}
-                  ticks={tickValuesX}
-                  interval={0}
-                  padding={{ left: 0, right: 0 }}
-                />
-                <YAxis
-                  tick={tickStyle}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={formatCurrency}
-                  ticks={tickValuesY}
-                  domain={[minValue, maxValue]}
-                />
-                <Bar
-                  barGap={desktop ? 20 : 5}
-                  dataKey="deficit"
-                  isAnimationActive={false}
-                  barSize={desktop ? 11 : 8}
-                  fill={deficitExplainerPrimary}
-                  activeBar={{ fill: chartConfigs.highlightColor }}
-                />
-              </BarChart>
+              <ResponsiveContainer width="100%" height={desktop ? 388 : 300}>
+                <BarChart
+                  width={chartConfigs.width}
+                  height={chartConfigs.height}
+                  data={chartData}
+                  margin={{ top: 15, right: 0, bottom: 15, left: 0 }}
+                  barCategoryGap={1}
+                  onMouseMove={onChartMouseMove}
+                  onMouseLeave={onBarMouseLeave}
+                >
+                  <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
+                  <XAxis
+                    dataKey="year"
+                    tick={tickStyle}
+                    tickLine={false}
+                    axisLine={false}
+                    ticks={tickValuesX}
+                    interval={0}
+                    padding={{ left: 0, right: 0 }}
+                  />
+                  <YAxis
+                    tick={tickStyle}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={formatCurrency}
+                    ticks={tickValuesY}
+                    domain={[minValue, maxValue]}
+                  />
+                  <Bar
+                    dataKey="deficit"
+                    isAnimationActive={false}
+                    barSize={desktop ? 11 : 8}
+                    fill={deficitExplainerPrimary}
+                    activeBar={{ fill: chartConfigs.highlightColor }}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           )}
         </ChartContainer>
