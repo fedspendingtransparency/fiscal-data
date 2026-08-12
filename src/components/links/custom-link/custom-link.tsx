@@ -4,6 +4,7 @@ import ExternalLink from '../external-link/external-link';
 import Analytics from '../../../utils/analytics/analytics';
 import useGAEventTracking from '../../../hooks/useGAEventTracking';
 import PageScrollLink from '../page-scroll-link/page-scroll-link';
+import { isOffOrigin, isSafeHref } from '../../../utils/safe-href';
 
 type CustomLinkProps = {
   url: string;
@@ -40,7 +41,7 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
   tabindex,
   className,
   skipExternalModal = false,
-  'aria-label': ariaLabel
+  'aria-label': ariaLabel,
 }: CustomLinkProps) => {
   const [urlOrHref, setUrlOrHref] = useState(href || url);
   const [ext, setExt] = useState(external);
@@ -86,12 +87,13 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
     if (curPath !== urlOrHref) setUrlOrHref(curPath);
   }, [ext, url, href]);
 
-  const isAbsolute = urlOrHref.startsWith('http');
-  const isSameSite = !isAbsolute || (typeof window !== 'undefined' && isAbsolute && new URL(urlOrHref).hostname === window.location.hostname);
-
-  const treatAsExternal = (ext ?? false) || (isAbsolute && !isSameSite && ['http', 'tel'].some(p => urlOrHref.startsWith(p)));
+  const hrefToCheck = urlOrHref.replace(/^external:/, '');
+  const isSafe = !hrefToCheck || isSafeHref(hrefToCheck);
+  const treatAsExternal = isSafe && ((ext ?? false) || isOffOrigin(hrefToCheck) || hrefToCheck.startsWith('tel'));
 
   switch (true) {
+    case !isSafe:
+      return <>{children}</>;
     case treatAsExternal:
       return (
         <ExternalLink

@@ -111,6 +111,7 @@ const ChartTableToggle = ({
           {selectedTab === 1 ? (
             <HideLegendToggle
               displayText={legend ? 'Hide Legend' : 'Show Legend'}
+              ga4Selector={legend ? 'hide-legend' : 'show-legend'}
               displayIcon={faSlidersH}
               showToggle={showToggleChart}
               onToggleLegend={onToggleLegend}

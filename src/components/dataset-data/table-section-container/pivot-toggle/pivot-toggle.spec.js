@@ -22,7 +22,7 @@ describe('PivotToggle component', () => {
   it('fires its click handler when clicked', () => {
     const { getByTestId } = render(<PivotToggle clickHandler={mockHandler} open={false} />);
     expect(handlerTracker).toBeNull();
-    fireEvent.click(getByTestId('pivotToggle'));
+    fireEvent.click(getByTestId('show-pivot-options'));
     expect(handlerTracker).toEqual('called');
   });
 });
