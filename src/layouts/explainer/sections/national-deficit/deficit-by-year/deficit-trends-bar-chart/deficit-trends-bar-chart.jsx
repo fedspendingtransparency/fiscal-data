@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
-import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon } from './deficit-trends-bar-chart.module.scss';
+import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
@@ -48,7 +48,7 @@ export const DeficitTrendsBarChart = () => {
 
   const chartConfigs = {
     parent: 'deficitTrendsChartParent',
-    width: 495,
+    width: desktop ? 455 : 380,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
     highlightColor: fontTitle,
@@ -112,15 +112,18 @@ export const DeficitTrendsBarChart = () => {
     setActiveBarIndex(chartData ? chartData.length - 1 : null);
   }, [mostRecentFiscalYear, mostRecentDeficit, chartData]);
 
-  const onBarMouseEnter = useCallback(
-    (data, index) => {
-      if (data && data.year >= startingYear) {
-        setActiveBarIndex(index);
-        setHeaderYear(data.year);
-        setHeaderDeficit(data.deficit);
+  const onChartMouseMove = useCallback(
+    e => {
+      if (e && e.activeTooltipIndex !== undefined) {
+        const data = chartData[e.activeTooltipIndex];
+        if (data && data.year >= startingYear && data.deficit !== '') {
+          setActiveBarIndex(e.activeTooltipIndex);
+          setHeaderYear(data.year);
+          setHeaderDeficit(data.deficit);
+        }
       }
     },
-    [startingYear]
+    [chartData, startingYear]
   );
 
   const onBarMouseLeave = useCallback(() => {
@@ -223,6 +226,7 @@ export const DeficitTrendsBarChart = () => {
       setTickValuesX(tickValues[0]);
       setTickValuesY(tickValues[1]);
     }
+    console.log(chartData);
   }, [chartData]);
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
@@ -279,10 +283,12 @@ export const DeficitTrendsBarChart = () => {
                 width={chartConfigs.width}
                 height={chartConfigs.height}
                 data={chartData}
-                margin={{ top: 15, right: 50, bottom: 15, left: 0 }}
-                barCategoryGap={desktop ? '23%' : '26%'}
+                margin={{ top: 15, right: 0, bottom: 15, left: 0 }}
+                barCategoryGap={desktop ? 20 : 5}
+                onMouseMove={onChartMouseMove}
+                onMouseLeave={onBarMouseLeave}
               >
-                <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} />
+                <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
                 <XAxis
                   dataKey="year"
                   tick={tickStyle}
@@ -300,11 +306,14 @@ export const DeficitTrendsBarChart = () => {
                   ticks={tickValuesY}
                   domain={[minValue, maxValue]}
                 />
-                <Bar dataKey="deficit" onMouseEnter={onBarMouseEnter} isAnimationActive={false} barSize={desktop ? 11 : 8}>
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index === activeBarIndex ? chartConfigs.highlightColor : entry.deficitColor} />
-                  ))}
-                </Bar>
+                <Bar
+                  barGap={desktop ? 20 : 5}
+                  dataKey="deficit"
+                  isAnimationActive={false}
+                  barSize={desktop ? 11 : 8}
+                  fill={deficitExplainerPrimary}
+                  activeBar={{ fill: chartConfigs.highlightColor }}
+                />
               </BarChart>
             </div>
           )}

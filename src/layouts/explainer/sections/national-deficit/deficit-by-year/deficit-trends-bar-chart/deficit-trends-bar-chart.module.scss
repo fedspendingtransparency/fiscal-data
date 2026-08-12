@@ -15,15 +15,24 @@
 .barChart {
   margin-bottom: 1rem;
   width: 100%;
+  overflow: visible;
+
+  & svg {
+    overflow: visible; /* Allow SVG content to extend */
+  }
 
   & [class*='recharts-cartesian-grid-horizontal'] line {
     transform: translateX(-5px);
-    width: calc(100% + 15px);
+    width: calc(100% + 30px);
   }
 
   & [class*='recharts-cartesian-grid-vertical'] line:last-child {
     display: none;
   }
+}
+
+.customGrid .recharts-cartesian-grid-vertical line:last-child {
+  display: none;
 }
 
 .loadingIcon {
