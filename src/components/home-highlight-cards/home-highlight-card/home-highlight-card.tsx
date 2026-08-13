@@ -35,7 +35,7 @@ import { IDatasetApi } from '../../../models/IDatasetApi';
 import { IDataset } from '../../../models/IDataset';
 import { DatasetFieldDataType } from '../../../models/fdg-types';
 import { ariaLabels, formatCardValue } from '../home-highlight-cards-helper/home-highlight-cards-helper';
-import BarGraph from '../../charts/bar/bar';
+import BarGraph from '../../charts/recharts-bar/recharts-bar';
 import Sparkler from './sparkler/sparkler';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { ga4DataLayerPush } from '../../../helpers/google-analytics/google-analytics-helper';
