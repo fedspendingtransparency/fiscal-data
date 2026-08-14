@@ -207,13 +207,6 @@ export const DeficitTrendsBarChart = () => {
   useEffect(() => {
     getChartData();
   }, []);
-  //
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     applyChartScaling(chartConfigs.parent, chartConfigs.width, chartConfigs.height);
-  //     applyTextScaling(chartConfigs.parent, chartConfigs.width, width, chartConfigs.fontSize);
-  //   });
-  // }, [width, chartData]);
 
   useEffect(() => {
     if (!!chartData) {
@@ -254,6 +247,13 @@ export const DeficitTrendsBarChart = () => {
       </div>
     </div>
   );
+
+  const CustomBar = props => {
+    const { fill, x, y, width, height, index } = props;
+    const barFill = index === activeBarIndex ? chartConfigs.highlightColor : deficitExplainerPrimary;
+
+    return <rect x={x} y={y} width={width} height={height} fill={barFill} />;
+  };
 
   return (
     <>
@@ -308,10 +308,14 @@ export const DeficitTrendsBarChart = () => {
                   />
                   <Bar
                     dataKey="deficit"
-                    isAnimationActive={false}
+                    isAnimationActive={true}
+                    animationBegin={0}
+                    animationDuration={1250}
+                    animationEasing="ease-out"
                     barSize={desktop ? 11 : 8}
                     fill={deficitExplainerPrimary}
                     activeBar={{ fill: chartConfigs.highlightColor }}
+                    shape={<CustomBar />}
                   />
                 </BarChart>
               </ResponsiveContainer>
