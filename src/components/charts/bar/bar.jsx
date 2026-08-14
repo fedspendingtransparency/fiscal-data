@@ -42,7 +42,6 @@ const BarGraph = ({
 
   // Used for the homepage cards
   const handleTempValueChange = (payload, value) => {
-    console.log('do we get here', payload, value);
     // The mouse is leaving the bar and the homepage card should show the original value
     if (!value) {
       setTempValue(null);
@@ -57,7 +56,6 @@ const BarGraph = ({
         // The mouse is entering the bar and the homepage card should show that bar's value
       } else {
         const key = payload[0].dataKey;
-        console.log('setting value', curData[key]);
         setTempValue(curData[key]);
         setTempDate(curData[dateField]);
       }
