@@ -108,8 +108,8 @@ describe('SLGS Insights Page', () => {
       cy.get('[role="figure"]').each(chart => {
         cy.wrap(chart)
           .scrollIntoView({ duration: 2000 })
-          .findAllByText('Loading...')
-          .should('not.exist');
+          .find('.recharts-wrapper', { timeout: pageLoadTimeout })
+          .should('be.visible');
       });
     });
   });
