@@ -35,8 +35,9 @@ export const DeficitTrendsBarChart = () => {
   const [headerYear, setHeaderYear] = useState('--');
   const [headerDeficit, setHeaderDeficit] = useState('--');
   const [activeBarIndex, setActiveBarIndex] = useState(null);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
-  const [animationsComplete, setAnimationsComplete] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
+  const [hasAnimated, setHasAnimated] = useState(false); // used for initial render
+  const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
 
   const { showBoundary } = useErrorBoundary();
 
@@ -89,7 +90,7 @@ export const DeficitTrendsBarChart = () => {
           deficitSum += Math.abs(entry.deficit);
         });
         setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
-        const newData = preAPIData.concat(apiData); // REMOVED setAnimationDurations call
+        const newData = preAPIData.concat(apiData);
         const latestYear = newData[newData.length - 1].year;
         const latestDeficit = newData[newData.length - 1].deficit;
         setMostRecentFiscalYear(latestYear);
@@ -155,11 +156,8 @@ export const DeficitTrendsBarChart = () => {
 
   useEffect(() => {
     if (inView && chartData) {
-      // Add a small delay to ensure the chart renders before animating
-      const timer = setTimeout(() => {
-        setShouldAnimate(true);
-      }, 100);
-      return () => clearTimeout(timer);
+      setShouldAnimate(true);
+      setHasAnimated(true);
     }
   }, [inView, chartData]);
 
@@ -292,7 +290,7 @@ export const DeficitTrendsBarChart = () => {
                     />
                     <Bar
                       dataKey="deficit"
-                      isAnimationActive={true}
+                      isAnimationActive={!hasAnimated}
                       animationBegin={0}
                       animationDuration={barGrowthAnimation}
                       animationEasing="ease-out"
