@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import helpers from './helpers/helpers';
+// import helpers from './helpers/helpers';
 import { Bar, BarChart, Tooltip } from 'recharts';
 import { barDiv } from '../bar/bar.module.scss';
 
@@ -25,7 +25,7 @@ const BarGraph = ({
   graphIndex,
   valueKeys,
   divClass,
-  colors = ['#0071bc'],
+  colors = '#0071bc',
   enableGridY = false,
   enableLabel = false,
   isInteractive = true,
@@ -41,9 +41,7 @@ const BarGraph = ({
 }) => {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
-  const [index, setIndex] = useState('');
   const [isValidChart, setIsValidChart] = useState(false);
-  const [activeBarIndex, setActiveBarIndex] = useState(-1);
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false);
 
@@ -57,8 +55,6 @@ const BarGraph = ({
 
   // Used for the homepage cards
   const handleTempValueChange = (payload, value) => {
-    // setTempDate(curData['record_date']);
-    // setTempValue(curData[key]);
     // The mouse is leaving the bar and the homepage card should show the original value
     if (!value) {
       setTempValue(null);
@@ -79,32 +75,33 @@ const BarGraph = ({
     }
   };
 
-  const resetValue = () => {
-    // setActiveBarIndex(-1);
+  const resetValue = callback => {
     handleTempValueChange(null, null);
+    if (callback) {
+      setTimeout(() => {
+        callback(false);
+      }, 500);
+    }
   };
 
   useEffect(() => {
+    console.log(chartTitle, colors);
     setData(graphData);
     setKeys(valueKeys);
-    setIndex(graphIndex);
     checkIfValidChart(graphData, valueKeys, graphIndex);
   }, [graphData, valueKeys, graphIndex]);
 
-  const onMouseEnter = cardId => {
-    helpers.mouseEnterEvent(cardId);
+  const onMouseEnter = () => {
+    // helpers.mouseEnterEvent(cardId);
+    setChartHover(true);
     if (mouseEnter) {
       mouseEnter();
     }
   };
 
-  //bars too short
-
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
-      console.log(payload);
       const key = payload[0].dataKey;
-      console.log(payload[0].payload[key]);
       const curData = payload[0].payload;
       setTempDate(curData['record_date']);
       setTempValue(curData[key]);
@@ -118,31 +115,14 @@ const BarGraph = ({
 
   return (
     isValidChart && (
-      // <div
-      //   data-testid="barGraph"
-      //   className={divClass || barDiv}
-      //   onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
-      //   onMouseEnter={() => onMouseEnter(cardId)}
-      //   role="presentation"
-      // >
       <div
         role="presentation"
         data-testid="barGraph"
         className={divClass || barDiv}
         onFocus={() => setChartFocus(true)}
-        onMouseOver={() => setChartHover(true)}
-        onMouseLeave={() => {
-          setTimeout(() => {
-            setChartHover(false);
-            resetValue();
-          }, 500);
-        }}
-        onBlur={() => {
-          setTimeout(() => {
-            setChartFocus(false);
-            resetValue();
-          }, 500);
-        }}
+        onMouseEnter={() => onMouseEnter(cardId)}
+        onMouseLeave={() => resetValue(setChartHover)}
+        onBlur={() => resetValue(setChartFocus)}
       >
         <BarChart
           margin={{
@@ -151,30 +131,26 @@ const BarGraph = ({
             bottom: 0,
             left: 2,
           }}
-          style={{ width: '100%', height: '100%', maxHeight: '226px' }}
+          style={{ width: '100%', height: '100%' }}
           responsive
           data={data}
           barCategoryGap={1}
           isAnimationActive={false}
           accessibilityLayer
+          ariaLabel={`${chartTitle} bar chart`}
+          stackOffset="sign"
         >
-          <Bar
-            dataKey={keys[0]}
-            fill="#0176c6"
-            opacity={chartFocus || chartHover ? 0.2 : 1}
-            activeBar={chartFocus || chartHover ? { opacity: 1 } : false}
-          />
+          {keys.map((key, index) => (
+            <Bar
+              dataKey={key}
+              fill={colors[index] || '#0071bc'}
+              stackId="stack"
+              opacity={chartFocus || chartHover ? 0.2 : 1}
+              activeBar={activeBar}
+              key={index}
+            />
+          ))}
           <Tooltip content={<CustomTooltip />} cursor={{ opacity: 0 }} active={chartFocus || chartHover} />
-          {/*<Tooltip*/}
-          {/*  cursor={{*/}
-          {/*    // stroke: '#00796B20',*/}
-          {/*    width: 'calc(100% - 2px)',*/}
-          {/*    // strokeWidth: 32,*/}
-          {/*  }}*/}
-          {/*  content={<CustomTooltip />}*/}
-          {/*  isAnimationActive={false}*/}
-          {/*  active={chartFocus || chartHover}*/}
-          {/*/>*/}
         </BarChart>
       </div>
     )
