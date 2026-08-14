@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
@@ -10,7 +10,7 @@ import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-ba
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
 import Analytics from '../../../../../../utils/analytics/analytics';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
 import { useInView } from 'react-intersection-observer';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
@@ -64,16 +64,6 @@ export const DeficitTrendsBarChart = () => {
   const startingYear = '2001';
   const delayIncrement = 1250;
 
-  const setAnimationDurations = (data, totalValues, totalDuration) => {
-    if (data) {
-      data.forEach(value => {
-        value['duration'] = Math.abs((value.deficit / totalValues) * totalDuration) + 500;
-        value['delay'] = 100;
-      });
-    }
-    return data;
-  };
-
   const getChartData = () => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
@@ -92,7 +82,7 @@ export const DeficitTrendsBarChart = () => {
           deficitSum += Math.abs(entry.deficit);
         });
         setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
-        const newData = setAnimationDurations(preAPIData.concat(apiData), deficitSum, chartConfigs.animationDuration);
+        const newData = preAPIData.concat(apiData); // REMOVED setAnimationDurations call
         const latestYear = newData[newData.length - 1].year;
         const latestDeficit = newData[newData.length - 1].deficit;
         setMostRecentFiscalYear(latestYear);
@@ -159,50 +149,30 @@ export const DeficitTrendsBarChart = () => {
   });
 
   useEffect(() => {
-    if (!!chartData) {
-      const initialDelay = delayIncrement + 500;
-      let headerDelay = initialDelay;
-      let barDelay = initialDelay;
-      const chartContainer = document.querySelector(`[data-testid='deficitTrendsChartParent']`);
-      if (!chartContainer) return;
+    if (!!chartData && inView) {
+      const animationStartDelay = 1250; // Wait for bar growth animation to complete
+      let sequentialDelay = animationStartDelay;
+      const delayPerBar = delayIncrement / chartData.length;
 
-      const barSVGs = Array.from(chartContainer.querySelectorAll('.recharts-bar-rectangle path'));
-
-      // Run bar highlight wave
-      barSVGs.forEach((bar, index) => {
-        const finalBar = barSVGs[barSVGs.length - 1];
-
-        if (inView) {
+      // Sequential highlight effect - update both headers AND activeBarIndex
+      chartData.forEach((element, index) => {
+        if (element.year >= startingYear) {
           setTimeout(() => {
-            bar.style.fill = chartConfigs.highlightColor;
-          }, (barDelay += delayIncrement / barSVGs.length));
-
-          if (bar !== finalBar) {
-            setTimeout(() => {
-              bar.style.fill = deficitExplainerPrimary;
-            }, barDelay + delayIncrement / barSVGs.length);
-          }
-        }
-      });
-
-      //Run animation for header values
-      chartData.forEach(element => {
-        if (inView && element.year >= startingYear) {
-          setTimeout(() => {
+            setActiveBarIndex(index); // This makes the bar turn grey
             setHeaderYear(element.year);
             setHeaderDeficit(element.deficit);
-          }, (headerDelay += delayIncrement / chartData.length));
+          }, (sequentialDelay += delayPerBar));
         }
       });
 
-      // Set the last bar as active after animation completes
-      if (inView) {
-        setTimeout(() => {
-          setActiveBarIndex(chartData.length - 1);
-        }, headerDelay);
-      }
+      // Keep the last bar grey after animation completes
+      setTimeout(() => {
+        setActiveBarIndex(chartData.length - 1);
+        setHeaderYear(mostRecentFiscalYear);
+        setHeaderDeficit(mostRecentDeficit);
+      }, sequentialDelay + 100);
     }
-  }, [inView, chartData]);
+  }, [inView, chartData, mostRecentFiscalYear, mostRecentDeficit]);
 
   useEffect(() => {
     getChartData();
@@ -212,14 +182,12 @@ export const DeficitTrendsBarChart = () => {
     if (!!chartData) {
       addInnerChartAriaLabel(chartConfigs.parent);
       const tickValues = generateTickValues(chartData);
-      console.log('X-axis tick values:', tickValues[0]);
 
       setMinValue(tickValues[1][0]);
       setMaxValue(tickValues[1][tickValues[1].length - 1]);
       setTickValuesX(tickValues[0]);
       setTickValuesY(tickValues[1]);
     }
-    console.log(chartData);
   }, [chartData]);
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
@@ -249,10 +217,11 @@ export const DeficitTrendsBarChart = () => {
   );
 
   const CustomBar = props => {
-    const { fill, x, y, width, height, index } = props;
+    const { x, y, width, height, index } = props;
     const barFill = index === activeBarIndex ? chartConfigs.highlightColor : deficitExplainerPrimary;
-
-    return <rect x={x} y={y} width={width} height={height} fill={barFill} />;
+    const actualHeight = Math.abs(height);
+    const actualY = height < 0 ? y + height : y;
+    return <rect x={x} y={actualY} width={width} height={actualHeight} fill={barFill} />;
   };
 
   return (
