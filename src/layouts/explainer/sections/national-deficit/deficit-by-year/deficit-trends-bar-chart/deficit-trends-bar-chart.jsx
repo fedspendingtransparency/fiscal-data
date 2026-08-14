@@ -35,6 +35,8 @@ export const DeficitTrendsBarChart = () => {
   const [headerYear, setHeaderYear] = useState('--');
   const [headerDeficit, setHeaderDeficit] = useState('--');
   const [activeBarIndex, setActiveBarIndex] = useState(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [animationsComplete, setAnimationsComplete] = useState(false);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -46,13 +48,17 @@ export const DeficitTrendsBarChart = () => {
     }
   };
 
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  });
+
   const chartConfigs = {
     parent: 'deficitTrendsChartParent',
     width: 495,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
     highlightColor: fontTitle,
-    animationDuration: 2000,
   };
 
   const tickStyle = {
@@ -62,7 +68,8 @@ export const DeficitTrendsBarChart = () => {
   };
 
   const startingYear = '2001';
-  const delayIncrement = 1250;
+  const barGrowthAnimation = 1250;
+  const barSequenceAnimation = 1500;
 
   const getChartData = () => {
     const apiData = [];
@@ -104,6 +111,8 @@ export const DeficitTrendsBarChart = () => {
 
   const onChartMouseMove = useCallback(
     e => {
+      if (!animationsComplete) return;
+
       if (e && e.activeTooltipIndex !== undefined) {
         const data = chartData[e.activeTooltipIndex];
         if (data && data.year >= startingYear && data.deficit !== '') {
@@ -113,12 +122,13 @@ export const DeficitTrendsBarChart = () => {
         }
       }
     },
-    [chartData, startingYear]
+    [chartData, startingYear, animationsComplete]
   );
 
   const onBarMouseLeave = useCallback(() => {
+    if (!animationsComplete) return;
     resetHeaderValues();
-  }, [resetHeaderValues]);
+  }, [resetHeaderValues, animationsComplete]);
 
   const handleGoogleAnalyticsMouseEnter = () => {
     const gaEvent = getGAEvent('30');
@@ -143,36 +153,39 @@ export const DeficitTrendsBarChart = () => {
     clearTimeout(ga4Timer);
   };
 
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-    triggerOnce: true,
-  });
+  useEffect(() => {
+    if (inView && chartData) {
+      // Add a small delay to ensure the chart renders before animating
+      const timer = setTimeout(() => {
+        setShouldAnimate(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [inView, chartData]);
 
   useEffect(() => {
-    if (!!chartData && inView) {
-      const animationStartDelay = 1250; // Wait for bar growth animation to complete
-      let sequentialDelay = animationStartDelay;
-      const delayPerBar = delayIncrement / chartData.length;
+    if (!!chartData && shouldAnimate) {
+      let sequentialDelay = barGrowthAnimation;
+      const delayPerBar = barSequenceAnimation / chartData.length;
 
-      // Sequential highlight effect - update both headers AND activeBarIndex
       chartData.forEach((element, index) => {
         if (element.year >= startingYear) {
           setTimeout(() => {
-            setActiveBarIndex(index); // This makes the bar turn grey
+            setActiveBarIndex(index);
             setHeaderYear(element.year);
             setHeaderDeficit(element.deficit);
           }, (sequentialDelay += delayPerBar));
         }
       });
 
-      // Keep the last bar grey after animation completes
       setTimeout(() => {
         setActiveBarIndex(chartData.length - 1);
         setHeaderYear(mostRecentFiscalYear);
         setHeaderDeficit(mostRecentDeficit);
+        setAnimationsComplete(true);
       }, sequentialDelay + 100);
     }
-  }, [inView, chartData, mostRecentFiscalYear, mostRecentDeficit]);
+  }, [shouldAnimate, chartData, mostRecentFiscalYear, mostRecentDeficit]);
 
   useEffect(() => {
     getChartData();
@@ -242,52 +255,55 @@ export const DeficitTrendsBarChart = () => {
           ) : (
             <div
               className={barChart}
-              onMouseLeave={onBarMouseLeave}
-              onBlur={resetHeaderValues}
+              onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
+              onBlur={animationsComplete ? resetHeaderValues : undefined}
               data-testid="deficitTrendsChartParent"
               role="presentation"
               ref={ref}
+              style={{ pointerEvents: animationsComplete ? 'auto' : 'none' }}
             >
-              <ResponsiveContainer width="100%" height={388}>
-                <BarChart
-                  width={chartConfigs.width}
-                  height={chartConfigs.height}
-                  data={chartData}
-                  margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
-                  onMouseMove={onChartMouseMove}
-                  onMouseLeave={onBarMouseLeave}
-                >
-                  <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
-                  <XAxis
-                    dataKey="year"
-                    tick={tickStyle}
-                    tickLine={false}
-                    axisLine={false}
-                    ticks={tickValuesX}
-                    interval={0}
-                    padding={{ left: 0, right: 0 }}
-                  />
-                  <YAxis
-                    tick={tickStyle}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={formatCurrency}
-                    ticks={tickValuesY}
-                    domain={[minValue, maxValue]}
-                  />
-                  <Bar
-                    dataKey="deficit"
-                    isAnimationActive={true}
-                    animationBegin={0}
-                    animationDuration={1250}
-                    animationEasing="ease-out"
-                    barSize={desktop ? 11 : 8}
-                    fill={deficitExplainerPrimary}
-                    activeBar={{ fill: chartConfigs.highlightColor }}
-                    shape={<CustomBar />}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+              {shouldAnimate && (
+                <ResponsiveContainer width="100%" height={388}>
+                  <BarChart
+                    width={chartConfigs.width}
+                    height={chartConfigs.height}
+                    data={chartData}
+                    margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
+                    onMouseMove={animationsComplete ? onChartMouseMove : undefined}
+                    onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
+                  >
+                    <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
+                    <XAxis
+                      dataKey="year"
+                      tick={tickStyle}
+                      tickLine={false}
+                      axisLine={false}
+                      ticks={tickValuesX}
+                      interval={0}
+                      padding={{ left: 0, right: 0 }}
+                    />
+                    <YAxis
+                      tick={tickStyle}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={formatCurrency}
+                      ticks={tickValuesY}
+                      domain={[minValue, maxValue]}
+                    />
+                    <Bar
+                      dataKey="deficit"
+                      isAnimationActive={true}
+                      animationBegin={0}
+                      animationDuration={barGrowthAnimation}
+                      animationEasing="ease-out"
+                      barSize={desktop ? 11 : 8}
+                      fill={deficitExplainerPrimary}
+                      activeBar={animationsComplete ? { fill: chartConfigs.highlightColor } : false}
+                      shape={<CustomBar />}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
             </div>
           )}
         </ChartContainer>
