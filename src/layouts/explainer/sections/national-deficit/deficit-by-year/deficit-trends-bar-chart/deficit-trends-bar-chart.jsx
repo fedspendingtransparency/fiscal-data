@@ -36,7 +36,6 @@ export const DeficitTrendsBarChart = () => {
   const [headerDeficit, setHeaderDeficit] = useState('--');
   const [activeBarIndex, setActiveBarIndex] = useState(null);
   const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
-  const [hasAnimated, setHasAnimated] = useState(false); // used for initial render
   const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
 
   const { showBoundary } = useErrorBoundary();
@@ -157,7 +156,6 @@ export const DeficitTrendsBarChart = () => {
   useEffect(() => {
     if (inView && chartData) {
       setShouldAnimate(true);
-      setHasAnimated(true);
     }
   }, [inView, chartData]);
 
@@ -290,7 +288,7 @@ export const DeficitTrendsBarChart = () => {
                     />
                     <Bar
                       dataKey="deficit"
-                      isAnimationActive={!hasAnimated}
+                      isAnimationActive={!animationsComplete}
                       animationBegin={0}
                       animationDuration={barGrowthAnimation}
                       animationEasing="ease-out"
