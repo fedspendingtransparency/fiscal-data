@@ -254,7 +254,6 @@ export const DeficitTrendsBarChart = () => {
       />
     );
   };
-  // console.log('RENDER STATE: ', { inView, hasData: !!chartData, shouldAnimate, animationsComplete });
 
   return (
     <>
