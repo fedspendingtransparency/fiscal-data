@@ -22,10 +22,7 @@ import LoadingIndicator from '../../../../../../components/loading-indicator/loa
 import { useErrorBoundary } from 'react-error-boundary';
 import { useWindowSize } from 'usehooks-ts';
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import {
-  yAxisFormatter
-} from '../../../treasury-savings-bonds/purchase-of-savings-bonds/savings-bonds-sold-by-type-chart/savings-bonds-sold-by-type-chart-helper';
+import { Label, Line, LineChart, ResponsiveContainer, Text, Tooltip, XAxis, YAxis } from 'recharts';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -69,9 +66,9 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
   const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
 
-  const chartParent = 'chartParent';
-  const chartWidth = 550;
-  const chartHeight = 490;
+  // const chartParent = 'chartParent';
+  // const chartWidth = 550;
+  // const chartHeight = 490;
 
   const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({
     fiscalYear: '--',
@@ -91,19 +88,19 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       label: gaEvent?.eventLabel,
     });
   };
-
-  const totalData = [
-    {
-      id: 'GDP',
-      color: '#666666',
-      data: gdpChartData,
-    },
-    {
-      id: 'Total Spending',
-      color: '#666666',
-      data: spendingChartData,
-    },
-  ];
+  //
+  // const totalData = [
+  //   {
+  //     id: 'GDP',
+  //     color: '#666666',
+  //     data: gdpChartData,
+  //   },
+  //   {
+  //     id: 'Total Spending',
+  //     color: '#666666',
+  //     data: spendingChartData,
+  //   },
+  // ];
 
   const percentageData = [
     {
@@ -113,7 +110,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     },
   ];
 
-  const [chartData, setChartData] = useState(totalData);
+  // const [chartData, setChartData] = useState(totalData);
 
   useEffect(() => {
     basicFetch(callOutDataEndPoint).then(res => {
@@ -249,16 +246,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     setSelectedChartView,
   };
 
-  useEffect(() => {
-    if (!selectedChartView) return;
-    if (selectedChartView === 'percentageGdp') {
-      setChartData(percentageData);
-    }
-    if (selectedChartView === 'totalSpending' && gdpChartData.length && spendingChartData.length) {
-      setChartData(totalData);
-    }
-  }, [selectedChartView, gdpChartData, spendingChartData]);
-
   const handleMouseEnter = () => {
     setChartHover(true);
     gaTimer = setTimeout(() => {
@@ -305,6 +292,31 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     }
   };
 
+  const updateDataHeader = payload => {
+    if (selectedChartView === 'totalSpending') {
+      const spendingData = payload[0]?.payload?.actual_spending;
+      const gdpData = payload[0]?.payload?.actual_gdp;
+      console.log(payload);
+      if (spendingData && gdpData) {
+        setTotalSpendingHeadingValues({
+          ...totalSpendingHeadingValues,
+          totalSpending: simplifyNumber(spendingData, false),
+          fiscalYear: payload[0]?.payload?.fiscalYear,
+          gdp: simplifyNumber(gdpData, false),
+        });
+      }
+    } else if (selectedChartView === 'percentageGdp') {
+      const percentData = payload[0];
+      if (percentData?.y) {
+        setTotalSpendingHeadingValues({
+          ...totalSpendingHeadingValues,
+          fiscalYear: percentData.x,
+          gdpRatio: percentData.y + '%',
+        });
+      }
+    }
+  };
+
   const { title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText } = getChartCopy(
     minYear,
     maxYear,
@@ -340,6 +352,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
+      console.log(payload);
+      // updateDataHeader(payload);
       // setYear(payload[0]?.payload.year);
       // const inflation = payload.find(x => x.dataKey === 'inflation');
       // setInflation(inflation.payload.inflation);
@@ -347,10 +361,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       // setSales(sales.payload.sales);
     }
     return <></>;
-  };
-
-  const axisFormat = {
-    fontSize: 14,
   };
 
   return (
@@ -381,12 +391,22 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   role="presentation"
                 >
                   {selectedChartView === 'totalSpending' && (
-                    <ResponsiveContainer height={352} width="99%">
-                      <LineChart data={gdpChartData} margin={{ top: 12, bottom: 0, left: 0, right: 4 }} accessibilityLayer>
-                        <XAxis dataKey="x" fontSize={14} />
-                        <YAxis fontSize={14} tickFormatter={value => yAxisFormatter(value)} tickCount={8} />
-                        <Line dataKey="actual_spending" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
-                        <Line dataKey="actual_gdp" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
+                    <ResponsiveContainer height={418} width="99%">
+                      <LineChart data={gdpChartData} margin={{ top: 12, bottom: 0, left: -12, right: 12 }} accessibilityLayer>
+                        <XAxis dataKey="x" fontSize={14} tick={{ fill: '#555' }} />
+                        <YAxis
+                          tick={{ fill: '#555' }}
+                          fontSize={14}
+                          domain={[0, maxAmount]}
+                          tickFormatter={value => '$' + value + ' T'}
+                          tickCount={8}
+                        />
+                        <Line dataKey="spending_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false}>
+                          <Label position="insideRight">Spending</Label>
+                          {/*<LabelList dataKey="spending_y" position="top" />*/}
+                          <Text textAnchor="end">######</Text>
+                        </Line>
+                        <Line dataKey="gdp_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
                         <Tooltip
                           content={<CustomTooltip />}
                           cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
@@ -397,11 +417,11 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                     </ResponsiveContainer>
                   )}
                   {selectedChartView === 'percentageGdp' && (
-                    <ResponsiveContainer height={352} width="99%">
-                      <LineChart data={gdpRatioChartData} margin={{ top: 12, bottom: 0, left: 0, right: 4 }} accessibilityLayer>
+                    <ResponsiveContainer height={418} width="99%">
+                      <LineChart data={gdpRatioChartData} margin={{ top: 12, bottom: 0, left: -12, right: 12 }} accessibilityLayer>
                         <XAxis dataKey="x" fontSize={14} />
                         <YAxis ticks={[0, 10, 20, 30, 40, 50]} fontSize={14} tickFormatter={val => val + '%'} />
-                        <Line dataKey="y" stroke="#666666" dot={false} strokeWidth={1} activeDot={true} isAnimationActive={false} />
+                        <Line dataKey="y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
                         <Tooltip
                           content={<CustomTooltip />}
                           cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
