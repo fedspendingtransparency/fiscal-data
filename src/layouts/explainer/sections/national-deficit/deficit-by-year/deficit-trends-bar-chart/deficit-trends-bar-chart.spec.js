@@ -12,6 +12,29 @@ describe('Deficit Trends Bar Chart', () => {
     setGlobalFetchResponse(jest, mockDeficitTrendsData);
   });
 
+  it('DIAGNOSTIC', async () => {
+    const { container, findByTestId, queryAllByTestId } = render(
+      <ErrorBoundary>
+        <DeficitTrendsBarChart />
+      </ErrorBoundary>
+    );
+
+    // 1. data loaded + ref div mounted?
+    const parent = await findByTestId('deficitTrendsChartParent');
+    console.log('PARENT MOUNTED:', !!parent);
+    console.log('BARS BEFORE INTERSECT:', queryAllByTestId('customBar').length);
+
+    // 2. now that the ref exists, trigger the observer
+    await act(async () => {
+      mockAllIsIntersecting(true);
+    });
+
+    console.log('BARS AFTER INTERSECT:', queryAllByTestId('customBar').length);
+    console.log('SVG PRESENT:', !!container.querySelector('svg'));
+    console.log('RECHARTS WRAPPER:', !!container.querySelector('.recharts-wrapper'));
+    console.log('HTML LENGTH:', container.innerHTML.length);
+  });
+
   it('renders the trends chart', async () => {
     const { findByTestId } = render(
       <ErrorBoundary>
