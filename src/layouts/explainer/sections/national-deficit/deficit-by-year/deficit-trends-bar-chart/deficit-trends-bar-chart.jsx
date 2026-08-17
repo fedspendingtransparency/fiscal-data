@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
@@ -37,6 +37,7 @@ export const DeficitTrendsBarChart = () => {
   const [activeBarIndex, setActiveBarIndex] = useState(null);
   const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
   const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
+  const [entranceDone, setEntranceDone] = useState(false);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -109,20 +110,28 @@ export const DeficitTrendsBarChart = () => {
     setActiveBarIndex(chartData ? chartData.length - 1 : null);
   }, [mostRecentFiscalYear, mostRecentDeficit, chartData]);
 
-  const onChartMouseMove = useCallback(
-    e => {
+  const handleBarActivate = useCallback(
+    rawIndex => {
       if (!animationsComplete) return;
-
-      if (e && e.activeTooltipIndex !== undefined) {
-        const data = chartData[e.activeTooltipIndex];
-        if (data && data.year >= startingYear && data.deficit !== '') {
-          setActiveBarIndex(e.activeTooltipIndex);
-          setHeaderYear(data.year);
-          setHeaderDeficit(data.deficit);
-        }
+      const index = Number(rawIndex);
+      if (Number.isNaN(index)) return;
+      const data = chartData[index];
+      if (data && data.year >= startingYear && data.deficit !== '') {
+        setActiveBarIndex(index);
+        setHeaderYear(data.year);
+        setHeaderDeficit(data.deficit);
       }
     },
     [chartData, startingYear, animationsComplete]
+  );
+
+  const onChartMouseMove = useCallback(
+    e => {
+      if (e && e.activeTooltipIndex !== undefined) {
+        handleBarActivate(e.activeTooltipIndex);
+      }
+    },
+    [handleBarActivate]
   );
 
   const onBarMouseLeave = useCallback(() => {
@@ -163,6 +172,7 @@ export const DeficitTrendsBarChart = () => {
     if (!!chartData && shouldAnimate) {
       let sequentialDelay = barGrowthAnimation;
       const delayPerBar = barSequenceAnimation / chartData.length;
+      setTimeout(() => setEntranceDone(true), barGrowthAnimation);
 
       chartData.forEach((element, index) => {
         if (element.year >= startingYear) {
@@ -226,11 +236,23 @@ export const DeficitTrendsBarChart = () => {
   );
 
   const CustomBar = props => {
-    const { x, y, width, height, index } = props;
-    const barFill = index === activeBarIndex ? chartConfigs.highlightColor : deficitExplainerPrimary;
+    const { x, y, width, height, index, activeIndex } = props;
+    const barFill = index === activeIndex ? chartConfigs.highlightColor : deficitExplainerPrimary;
     const actualHeight = Math.abs(height);
     const actualY = height < 0 ? y + height : y;
-    return <rect x={x} y={actualY} width={width} height={actualHeight} fill={barFill} />;
+    return (
+      <rect
+        data-testid="custom-bar"
+        tabIndex={0}
+        onMouseOver={() => handleBarActivate(index)}
+        onFocus={() => handleBarActivate(index)}
+        x={x}
+        y={actualY}
+        width={width}
+        height={actualHeight}
+        fill={barFill}
+      />
+    );
   };
 
   return (
@@ -269,6 +291,7 @@ export const DeficitTrendsBarChart = () => {
                     onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
                   >
                     <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
+                    <Tooltip content={() => null} cursor={false} isAnimationActive={false} />
                     <XAxis
                       dataKey="year"
                       tick={tickStyle}
@@ -288,14 +311,14 @@ export const DeficitTrendsBarChart = () => {
                     />
                     <Bar
                       dataKey="deficit"
-                      isAnimationActive={!animationsComplete}
+                      isAnimationActive={!entranceDone}
                       animationBegin={0}
                       animationDuration={barGrowthAnimation}
                       animationEasing="ease-out"
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
-                      activeBar={animationsComplete ? { fill: chartConfigs.highlightColor } : false}
-                      shape={<CustomBar />}
+                      activeBar={false}
+                      shape={<CustomBar activeIndex={activeBarIndex} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>
