@@ -55,8 +55,8 @@ describe('Debt Trends Over Time Chart', () => {
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-    const chartSlice = await getByTestId('debtTrendsChart').querySelector('div > div > svg > g > g > rect:nth-child(1)');
-    expect(chartSlice).toBeInTheDocument();
+    expect(await findByTestId('customSlices')).toBeInTheDocument();
+    expect(getByTestId('customSlices').querySelectorAll('rect').length).toBeGreaterThan(0);
   });
 
   it('initializes with the earliest data point', async () => {
