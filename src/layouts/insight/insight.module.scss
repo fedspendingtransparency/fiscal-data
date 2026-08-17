@@ -60,6 +60,7 @@ $state-and-local-government-series-light: #a4bcfd66;
   max-width: $link-container-width;
   margin: 0 auto;
 }
+
 @media screen and (min-width: $breakpoint-lg) {
   .sectionHeading {
     max-width: calc(100% - $link-container-width);
