@@ -164,7 +164,7 @@ const DownloadItemButton = ({
   return (
     <div>
       {asyncAction ? (
-        <button className={dictionary} onClick={asyncAction} disabled={disabled} data-testid="download-data-dictionary">
+        <button className={dictionary} onClick={asyncAction} disabled={disabled}>
           <span className="labelText">{label} </span>
           {fileSize && <span className="fileSize"> ({fileSize})</span>}
         </button>

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Area, AreaChart, XAxis, YAxis, ZIndexLayer } from 'recharts';
+import { Line } from '@nivo/line';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import { breakpointLg } from '../../../../../../variables.module.scss';
-import {
-  chartConfigs,
-  dataHeader,
-  formatDollarTick,
-  getChartCopy,
-  getChartMargin,
-  getNiceDomain,
-  getTicks,
-} from './debt-over-last-100y-linechart-helper';
+import { breakpointLg, fontSize_10 } from '../../../../../../variables.module.scss';
+import { chartConfigs, dataHeader, getChartCopy } from './debt-over-last-100y-linechart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
-import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
-import { ChartScaling, Crosshair, HoverPoint, HoverSlices } from '../../../../explainer-helpers/explainer-recharts-helper';
+import {
+  addInnerChartAriaLabel,
+  applyChartScaling,
+  applyTextScaling,
+  chartInViewProps,
+  getChartTheme,
+  LineChartCustomPoint,
+  nivoCommonLineChartProps,
+} from '../../../../explainer-helpers/explainer-charting-helper';
+import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import Analytics from '../../../../../../utils/analytics/analytics';
@@ -42,7 +42,6 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '$--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
   const [hoverDisabled, setHoverDisabled] = useState(true);
-  const [currentSlice, setCurrentSlice] = useState(null);
   const payload = debtOutstandingData(state => state.payload);
   const status = debtOutstandingData(state => state.status);
   const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
@@ -82,7 +81,7 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
     const axisValues = [];
     let axisVal = debtMinYear.x;
     for (let i = 0; i < 6; i++) {
-      axisValues.push(axisVal);
+      axisValues.push(`${axisVal}`);
       axisVal += 20;
     }
     setBottomAxisValues(axisValues);
@@ -105,7 +104,14 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
       totalDebt: simplifyNumber(debtLastAmountActual, true),
     });
 
-    setChartData(finalDebtChartData);
+    const totalData = [
+      {
+        id: 'Total Debt',
+        color: debtExplainerPrimary,
+        data: finalDebtChartData,
+      },
+    ];
+    setChartData(totalData);
     setIsLoading(false);
   };
 
@@ -114,6 +120,15 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
       processData();
     }
   }, [status, payload]);
+
+  useEffect(() => {
+    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
+  }, [width]);
+
+  useEffect(() => {
+    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
+    addInnerChartAriaLabel(chartParent);
+  }, [isLoading]);
 
   const handleGroupOnMouseLeave = () => {
     setTotalDebtHeadingValues({
@@ -178,72 +193,54 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
                 role="presentation"
                 ref={ref}
               >
-                <AreaChart
+                <Line
+                  {...nivoCommonLineChartProps}
                   data={chartData}
+                  layers={[
+                    'grid',
+                    'crosshair',
+                    'markers',
+                    'axes',
+                    'areas',
+                    'lines',
+                    props =>
+                      LineChartCustomPoint({
+                        ...props,
+                        seriesId: 'Total Debt',
+                      }),
+                    props =>
+                      CustomSlices({
+                        ...props,
+                        groupMouseLeave: handleGroupOnMouseLeave,
+                        mouseMove: handleMouseLeave,
+                        inView,
+                        onAnimationComplete: () => setHoverDisabled(false),
+                      }),
+                    'mesh',
+                    'legends',
+                  ]}
+                  theme={getChartTheme(width)}
+                  colors={d => d.color}
                   width={chartWidth}
                   height={chartHeight}
-                  margin={getChartMargin(width < pxToNumber(breakpointLg))}
-                  style={{ width: '100%', height: 'auto' }}
-                  accessibilityLayer={false}
-                  role="img"
-                >
-                  <ChartScaling parent={chartParent} chartWidth={chartWidth} chartHeight={chartHeight} pageWidth={width} />
-                  <Crosshair currentSlice={currentSlice} />
-                  <XAxis
-                    dataKey="x"
-                    type="number"
-                    domain={getNiceDomain(minYear, maxYear)}
-                    ticks={bottomAxisValue}
-                    interval={0}
-                    height={chartConfigs.axisThickness}
-                    tickSize={chartConfigs.tickSize}
-                    tickMargin={chartConfigs.tickMargin}
-                    axisLine={chartConfigs.axisLine}
-                    tickLine={chartConfigs.tickLine}
-                    tick={chartConfigs.tick}
-                    zIndex={chartConfigs.zIndex.axis}
-                  />
-                  <YAxis
-                    dataKey="y"
-                    type="number"
-                    domain={[0, maxAmount]}
-                    ticks={getTicks(0, maxAmount, 7)}
-                    interval={0}
-                    width={chartConfigs.axisThickness}
-                    tickFormatter={formatDollarTick}
-                    tickSize={chartConfigs.tickSize}
-                    tickMargin={chartConfigs.tickMargin}
-                    axisLine={chartConfigs.axisLine}
-                    tickLine={chartConfigs.tickLine}
-                    tick={chartConfigs.tick}
-                    zIndex={chartConfigs.zIndex.axis}
-                  />
-                  <Area
-                    dataKey="y"
-                    type="linear"
-                    fill={debtExplainerPrimary}
-                    fillOpacity={1}
-                    stroke={debtExplainerPrimary}
-                    strokeWidth={2}
-                    baseValue={0}
-                    dot={false}
-                    activeDot={false}
-                    isAnimationActive={false}
-                  />
-                  <ZIndexLayer zIndex={chartConfigs.zIndex.point}>
-                    <HoverPoint data={chartData} currentSlice={currentSlice} />
-                  </ZIndexLayer>
-                  <ZIndexLayer zIndex={chartConfigs.zIndex.slices}>
-                    <HoverSlices
-                      data={chartData}
-                      setCurrentSlice={setCurrentSlice}
-                      groupMouseLeave={handleGroupOnMouseLeave}
-                      mouseMove={handleMouseLeave}
-                      inView={inView}
-                      onAnimationComplete={() => setHoverDisabled(false)}
-                    />
-                  </ZIndexLayer>
-                </AreaChart>
+                  margin={
+                    width < pxToNumber(breakpointLg) ? { top: 25, right: 25, bottom: 35, left: 65 } : { top: 20, right: 15, bottom: 35, left: 50 }
+                  }
+                  xScale={{
+                    type: 'linear',
+                    min: minYear,
+                    max: maxYear,
+                  }}
+                  yScale={{
+                    type: 'linear',
+                    min: 0,
+                    max: maxAmount,
+                  }}
+                  axisBottom={{ ...chartConfigs.axisBottom, tickValues: bottomAxisValue }}
+                  axisLeft={chartConfigs.axisLeft}
+                  enableArea={true}
+                  areaOpacity={1}
+                />
               </div>
             )}
           </ChartContainer>

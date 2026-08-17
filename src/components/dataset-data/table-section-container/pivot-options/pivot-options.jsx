@@ -82,7 +82,7 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
             </span>
             <span className={dropdownContainer}>
               <SelectControl
-                ga4Selector="pivot-view-options"
+                data-testid="pivot-options-view"
                 options={table.dataDisplays}
                 optionLabelKey="title"
                 ariaLabel="pivot view"
@@ -97,7 +97,6 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
             </span>
             <span className={dropdownContainer}>
               <SelectControl
-                ga4Selector="pivot-value-options"
                 options={pivotOptions}
                 optionLabelKey="prettyName"
                 ariaLabel="pivot value"

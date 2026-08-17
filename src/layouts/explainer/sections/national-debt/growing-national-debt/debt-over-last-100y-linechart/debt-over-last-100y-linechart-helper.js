@@ -2,9 +2,6 @@ import React from 'react';
 import { header, subHeader, headerContainer } from './debt-over-last-100y-linechart.module.scss';
 import numeral from 'numeral';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
-import { axisConfigs, subtractAxisThickness } from '../../../../explainer-helpers/explainer-recharts-helper';
-
-export { getNiceDomain, getTicks } from '../../../../explainer-helpers/explainer-recharts-helper';
 
 const { bls, historicalDebt } = explainerCitationsMap['national-debt'];
 
@@ -45,18 +42,24 @@ export const dataHeader = headingValues => {
   );
 };
 
-export const formatDollarTick = value => {
-  const newValue = numeral(value)
-    .format('0 a')
-    .toUpperCase();
-  return `$${newValue}`.replace(' ', '\u00A0');
-};
-
-export const getChartMargin = isMobile =>
-  subtractAxisThickness(isMobile ? { top: 25, right: 25, bottom: 35, left: 65 } : { top: 20, right: 15, bottom: 35, left: 50 });
-
 export const chartConfigs = {
-  ...axisConfigs,
-  tickSize: 10,
-  tickMargin: 5,
+  axisLeft: {
+    format: value => {
+      const newValue = numeral(value)
+        .format('0 a')
+        .toUpperCase();
+      return `$${newValue}`;
+    },
+    orient: 'left',
+    tickSize: 10,
+    tickPadding: 5,
+    tickRotation: 0,
+    tickValues: 7,
+  },
+  axisBottom: {
+    orient: 'bottom',
+    tickSize: 10,
+    tickPadding: 5,
+    tickRotation: 0,
+  },
 };
