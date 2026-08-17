@@ -242,7 +242,7 @@ export const DeficitTrendsBarChart = () => {
     const actualY = height < 0 ? y + height : y;
     return (
       <rect
-        data-testid="custom-bar"
+        data-testid="customBar"
         tabIndex={0}
         onMouseOver={() => handleBarActivate(index)}
         onFocus={() => handleBarActivate(index)}
@@ -254,6 +254,7 @@ export const DeficitTrendsBarChart = () => {
       />
     );
   };
+  // console.log('RENDER STATE: ', { inView, hasData: !!chartData, shouldAnimate, animationsComplete });
 
   return (
     <>
