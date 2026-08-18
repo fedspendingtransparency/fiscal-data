@@ -20,6 +20,28 @@ import { useWindowSize } from 'usehooks-ts';
 let gaTimerChart;
 let ga4Timer;
 
+const CustomBar = props => {
+  const { x, y, width, height, index, payload, activeIndex, onActivate, onFocusBar } = props;
+  const actualHeight = Math.abs(height);
+  const actualY = height < 0 ? y + height : y;
+
+  return (
+    <rect
+      data-testid="customBar"
+      data-bar-index={index}
+      tabIndex={0}
+      onMouseOver={() => onActivate(index)}
+      onFocus={() => onFocusBar(index, payload)}
+      x={x}
+      y={actualY}
+      width={width}
+      height={actualHeight}
+      fill={index === activeIndex ? fontTitle : deficitExplainerPrimary}
+      style={{ outline: 'none' }}
+    />
+  );
+};
+
 export const DeficitTrendsBarChart = () => {
   const { getGAEvent } = useGAEventTracking(null, 'DeficitExplainer');
   const { width } = useWindowSize();
@@ -37,7 +59,7 @@ export const DeficitTrendsBarChart = () => {
   const [activeBarIndex, setActiveBarIndex] = useState(null);
   const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
   const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
-  const [entranceDone, setEntranceDone] = useState(false);
+  const [entranceDone, setEntranceDone] = useState(false); // bar growth animation finished
 
   const { showBoundary } = useErrorBoundary();
 
@@ -125,6 +147,19 @@ export const DeficitTrendsBarChart = () => {
     [chartData, startingYear, animationsComplete]
   );
 
+  const onFocusBar = useCallback((index, payload) => {
+    if (!payload) return;
+
+    document.querySelectorAll('[data-bar-index]').forEach(el => {
+      el.style.fill = Number(el.dataset.barIndex) === index ? fontTitle : deficitExplainerPrimary;
+    });
+
+    const yearEl = document.querySelector(`[data-testid='deficitFiscalYearHeader']`);
+    const deficitEl = document.querySelector(`[data-testid='deficitTotalHeader']`);
+    if (yearEl) yearEl.textContent = payload.year;
+    if (deficitEl) deficitEl.textContent = `$${payload.deficit} T`;
+  }, []);
+
   const onChartMouseMove = useCallback(
     e => {
       if (e && e.activeTooltipIndex !== undefined) {
@@ -138,6 +173,16 @@ export const DeficitTrendsBarChart = () => {
     if (!animationsComplete) return;
     resetHeaderValues();
   }, [resetHeaderValues, animationsComplete]);
+
+  const onChartBlur = useCallback(
+    e => {
+      if (!animationsComplete) return;
+      if (!e.currentTarget.contains(e.relatedTarget)) {
+        resetHeaderValues();
+      }
+    },
+    [animationsComplete, resetHeaderValues]
+  );
 
   const handleGoogleAnalyticsMouseEnter = () => {
     const gaEvent = getGAEvent('30');
@@ -174,6 +219,7 @@ export const DeficitTrendsBarChart = () => {
       const delayPerBar = barSequenceAnimation / chartData.length;
       setTimeout(() => setEntranceDone(true), barGrowthAnimation);
 
+      // highlight wave: steps the grey bar across the chart after growth finishes
       chartData.forEach((element, index) => {
         if (element.year >= startingYear) {
           setTimeout(() => {
@@ -184,6 +230,7 @@ export const DeficitTrendsBarChart = () => {
         }
       });
 
+      // settle on the most recent year and enable hover
       setTimeout(() => {
         setActiveBarIndex(chartData.length - 1);
         setHeaderYear(mostRecentFiscalYear);
@@ -228,32 +275,12 @@ export const DeficitTrendsBarChart = () => {
       </div>
       <div>
         <div className={headerTitle} data-testid="deficitTotalHeader">
-          ${headerDeficit} {chartData ? 'T' : ''}
+          {chartData ? `$${headerDeficit} T` : `$${headerDeficit}`}
         </div>
         <span className={subHeader}>Total Deficit</span>
       </div>
     </div>
   );
-
-  const CustomBar = props => {
-    const { x, y, width, height, index, activeIndex } = props;
-    const barFill = index === activeIndex ? chartConfigs.highlightColor : deficitExplainerPrimary;
-    const actualHeight = Math.abs(height);
-    const actualY = height < 0 ? y + height : y;
-    return (
-      <rect
-        data-testid="customBar"
-        tabIndex={0}
-        onMouseOver={() => handleBarActivate(index)}
-        onFocus={() => handleBarActivate(index)}
-        x={x}
-        y={actualY}
-        width={width}
-        height={actualHeight}
-        fill={barFill}
-      />
-    );
-  };
 
   return (
     <>
@@ -274,7 +301,7 @@ export const DeficitTrendsBarChart = () => {
             <div
               className={barChart}
               onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
-              onBlur={animationsComplete ? resetHeaderValues : undefined}
+              onBlur={onChartBlur}
               data-testid="deficitTrendsChartParent"
               role="presentation"
               ref={ref}
@@ -291,6 +318,7 @@ export const DeficitTrendsBarChart = () => {
                     onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
                   >
                     <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
+                    {/* renders nothing, but Recharts 3 needs a Tooltip present to track activeTooltipIndex */}
                     <Tooltip content={() => null} cursor={false} isAnimationActive={false} />
                     <XAxis
                       dataKey="year"
@@ -318,7 +346,8 @@ export const DeficitTrendsBarChart = () => {
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
                       activeBar={false}
-                      shape={<CustomBar activeIndex={activeBarIndex} />}
+                      // shape lets us render our own bars instead of the stock Recharts rectangles
+                      shape={<CustomBar activeIndex={activeBarIndex} onActivate={handleBarActivate} onFocusBar={onFocusBar} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>
