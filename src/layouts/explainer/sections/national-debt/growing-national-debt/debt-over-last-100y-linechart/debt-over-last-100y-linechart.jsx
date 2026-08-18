@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Area, AreaChart, XAxis, YAxis, ZIndexLayer } from 'recharts';
+import { Area, AreaChart, Tooltip, XAxis, YAxis, ZIndexLayer } from 'recharts';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg } from '../../../../../../variables.module.scss';
@@ -16,7 +16,7 @@ import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
-import { ChartScaling, Crosshair, HoverPoint, HoverSlices } from '../../../../explainer-helpers/explainer-recharts-helper';
+import { ChartScaling, Crosshair, HoverPoint } from '../../../../explainer-helpers/explainer-recharts-helper';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import Analytics from '../../../../../../utils/analytics/analytics';
@@ -41,8 +41,11 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
   const [chartData, setChartData] = useState(null);
   const [totalDebtHeadingValues, setTotalDebtHeadingValues] = useState({ fiscalYear: '--', totalDebt: '$--' });
   const [bottomAxisValue, setBottomAxisValues] = useState([]);
-  const [hoverDisabled, setHoverDisabled] = useState(true);
-  const [currentSlice, setCurrentSlice] = useState(null);
+  const [defaultIndex, setDefaultIndex] = useState(null);
+  const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const [chartFocus, setChartFocus] = useState(false);
+  const [chartHover, setChartHover] = useState(false);
   const payload = debtOutstandingData(state => state.payload);
   const status = debtOutstandingData(state => state.status);
   const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
@@ -115,26 +118,44 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
     }
   }, [status, payload]);
 
-  const handleGroupOnMouseLeave = () => {
+  const handleActiveDatumChange = datum => {
     setTotalDebtHeadingValues({
-      fiscalYear: maxYear,
-      totalDebt: lastDebtValue,
+      fiscalYear: datum ? datum.x : maxYear,
+      totalDebt: datum ? datum.simplified : lastDebtValue,
     });
   };
 
-  const handleMouseLeave = slice => {
-    const debtData = slice.points[0].data;
-    if (debtData) {
-      setTotalDebtHeadingValues({
-        fiscalYear: debtData.x,
-        totalDebt: debtData.simplified,
+  useEffect(() => {
+    if (inView && chartData?.length && !animationTriggeredOnce) {
+      setAnimationTriggeredOnce(true);
+      const stepDuration = 50;
+      const timers = [];
+
+      chartData.forEach((point, index) => {
+        timers.push(
+          setTimeout(() => {
+            setDefaultIndex(index);
+          }, stepDuration * index + 550)
+        );
       });
+      timers.push(
+        setTimeout(() => {
+          setDefaultIndex(null);
+          setAnimationComplete(true);
+        }, stepDuration * chartData.length + 550)
+      );
+      return () => {
+        timers.forEach(timer => clearTimeout(timer));
+      };
     }
-  };
+  }, [inView, chartData]);
+
+  const chartActive = chartFocus || chartHover || !animationComplete;
 
   const { title: chartTitle, subtitle: chartSubtitle, footer: chartFooter, altText: chartAltText } = getChartCopy(minYear, maxYear);
 
   const handleChartMouseEnter = () => {
+    setChartHover(true);
     gaTimerDebt100Yrs = setTimeout(() => {
       Analytics.event({
         category: 'Explainers',
@@ -150,6 +171,7 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
     }, 3000);
   };
   const handleChartMouseLeave = () => {
+    setChartHover(false);
     clearTimeout(gaTimerDebt100Yrs);
     clearTimeout(ga4Timer);
   };
@@ -171,10 +193,12 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
             ) : (
               <div
                 className={lineChart}
-                style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
+                style={{ pointerEvents: animationComplete ? 'auto' : 'none' }}
                 data-testid="totalDebtChartParent"
                 onMouseEnter={handleChartMouseEnter}
                 onMouseLeave={handleChartMouseLeave}
+                onFocus={() => setChartFocus(true)}
+                onBlur={() => setChartFocus(false)}
                 role="presentation"
                 ref={ref}
               >
@@ -184,11 +208,17 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
                   height={chartHeight}
                   margin={getChartMargin(width < pxToNumber(breakpointLg))}
                   style={{ width: '100%', height: 'auto' }}
-                  accessibilityLayer={false}
-                  role="img"
                 >
                   <ChartScaling parent={chartParent} chartWidth={chartWidth} chartHeight={chartHeight} pageWidth={width} />
-                  <Crosshair currentSlice={currentSlice} />
+                  <Tooltip
+                    active={chartActive}
+                    defaultIndex={defaultIndex ?? undefined}
+                    content={() => null}
+                    cursor={false}
+                    isAnimationActive={false}
+                    wrapperStyle={{ display: 'none' }}
+                  />
+                  <Crosshair />
                   <XAxis
                     dataKey="x"
                     type="number"
@@ -231,17 +261,7 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
                     isAnimationActive={false}
                   />
                   <ZIndexLayer zIndex={chartConfigs.zIndex.point}>
-                    <HoverPoint data={chartData} currentSlice={currentSlice} />
-                  </ZIndexLayer>
-                  <ZIndexLayer zIndex={chartConfigs.zIndex.slices}>
-                    <HoverSlices
-                      data={chartData}
-                      setCurrentSlice={setCurrentSlice}
-                      groupMouseLeave={handleGroupOnMouseLeave}
-                      mouseMove={handleMouseLeave}
-                      inView={inView}
-                      onAnimationComplete={() => setHoverDisabled(false)}
-                    />
+                    <HoverPoint data={chartData} onActiveChange={handleActiveDatumChange} />
                   </ZIndexLayer>
                 </AreaChart>
               </div>
