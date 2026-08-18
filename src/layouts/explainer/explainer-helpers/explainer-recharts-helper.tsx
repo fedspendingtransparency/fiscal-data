@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useActiveTooltipDataPoints, usePlotArea, useXAxisScale, useYAxisScale } from 'recharts';
-import { fontSize_10, fontSize_14 } from '../../../variables.module.scss';
-import { addInnerChartAriaLabel, applyChartScaling, applyTextScaling } from './explainer-charting-helper';
+import { fontSize_14 } from '../../../variables.module.scss';
 import Point from '../../../components/nivo/custom-point/point';
 
 const e10 = Math.sqrt(50);
@@ -63,23 +62,6 @@ export const axisConfigs = {
 };
 
 export const useActiveDatum = () => useActiveTooltipDataPoints()?.[0];
-
-export const ChartScaling = ({ parent, chartWidth, chartHeight, pageWidth }) => {
-  const plotArea = usePlotArea();
-  const plotWidth = plotArea?.width;
-  const plotHeight = plotArea?.height;
-
-  useEffect(() => {
-    if (!plotWidth || !plotHeight) {
-      return;
-    }
-    applyChartScaling(parent, chartWidth.toString(), chartHeight.toString());
-    addInnerChartAriaLabel(parent);
-    applyTextScaling(parent, chartWidth, pageWidth, fontSize_10);
-  }, [parent, chartWidth, chartHeight, pageWidth, plotWidth, plotHeight]);
-
-  return null;
-};
 
 export const Crosshair = () => {
   const plotArea = usePlotArea();

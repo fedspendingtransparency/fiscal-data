@@ -29,13 +29,17 @@ describe('National Debt Over the Last 100 Years Chart', () => {
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(
+    const { getByTestId, container } = render(
       <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('totalDebtChartParent')).toBeInTheDocument();
+    const chartSurface = container.querySelector('svg.recharts-surface');
+    expect(chartSurface).toHaveAttribute('aria-label', 'Inner chart area');
+    expect(chartSurface).toHaveAttribute('width', String(550));
+    expect(chartSurface.getAttribute('viewBox')).toMatch(/^0 0 550 /);
   });
 
   it('renders the chart markers and data header labels', async () => {

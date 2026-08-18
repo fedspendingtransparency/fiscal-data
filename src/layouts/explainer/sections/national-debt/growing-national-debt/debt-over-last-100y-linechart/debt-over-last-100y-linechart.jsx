@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Area, AreaChart, Tooltip, XAxis, YAxis, ZIndexLayer } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis, ZIndexLayer } from 'recharts';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { breakpointLg } from '../../../../../../variables.module.scss';
@@ -16,7 +16,7 @@ import { visWithCallout } from '../../../../explainer.module.scss';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart, loadingIcon } from './debt-over-last-100y-linechart.module.scss';
 import { chartInViewProps } from '../../../../explainer-helpers/explainer-charting-helper';
-import { ChartScaling, Crosshair, HoverPoint } from '../../../../explainer-helpers/explainer-recharts-helper';
+import { Crosshair, HoverPoint } from '../../../../explainer-helpers/explainer-recharts-helper';
 import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
 import Analytics from '../../../../../../utils/analytics/analytics';
@@ -57,7 +57,6 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
   const { width } = useWindowSize();
   const { ref, inView } = useInView(chartInViewProps);
 
-  const chartParent = 'totalDebtChartParent';
   const chartWidth = 550;
   const chartHeight = 490;
 
@@ -202,68 +201,63 @@ const DebtOverLast100y = ({ cpiDataByYear }) => {
                 role="presentation"
                 ref={ref}
               >
-                <AreaChart
-                  data={chartData}
-                  width={chartWidth}
-                  height={chartHeight}
-                  margin={getChartMargin(width < pxToNumber(breakpointLg))}
-                  style={{ width: '100%', height: 'auto' }}
-                >
-                  <ChartScaling parent={chartParent} chartWidth={chartWidth} chartHeight={chartHeight} pageWidth={width} />
-                  <Tooltip
-                    active={chartActive}
-                    defaultIndex={defaultIndex ?? undefined}
-                    content={() => null}
-                    cursor={false}
-                    isAnimationActive={false}
-                    wrapperStyle={{ display: 'none' }}
-                  />
-                  <Crosshair />
-                  <XAxis
-                    dataKey="x"
-                    type="number"
-                    domain={getNiceDomain(minYear, maxYear)}
-                    ticks={bottomAxisValue}
-                    interval={0}
-                    height={chartConfigs.axisThickness}
-                    tickSize={chartConfigs.tickSize}
-                    tickMargin={chartConfigs.tickMargin}
-                    axisLine={chartConfigs.axisLine}
-                    tickLine={chartConfigs.tickLine}
-                    tick={chartConfigs.tick}
-                    zIndex={chartConfigs.zIndex.axis}
-                  />
-                  <YAxis
-                    dataKey="y"
-                    type="number"
-                    domain={[0, maxAmount]}
-                    ticks={getTicks(0, maxAmount, 7)}
-                    interval={0}
-                    width={chartConfigs.axisThickness}
-                    tickFormatter={formatDollarTick}
-                    tickSize={chartConfigs.tickSize}
-                    tickMargin={chartConfigs.tickMargin}
-                    axisLine={chartConfigs.axisLine}
-                    tickLine={chartConfigs.tickLine}
-                    tick={chartConfigs.tick}
-                    zIndex={chartConfigs.zIndex.axis}
-                  />
-                  <Area
-                    dataKey="y"
-                    type="linear"
-                    fill={debtExplainerPrimary}
-                    fillOpacity={1}
-                    stroke={debtExplainerPrimary}
-                    strokeWidth={2}
-                    baseValue={0}
-                    dot={false}
-                    activeDot={false}
-                    isAnimationActive={false}
-                  />
-                  <ZIndexLayer zIndex={chartConfigs.zIndex.point}>
-                    <HoverPoint data={chartData} onActiveChange={handleActiveDatumChange} />
-                  </ZIndexLayer>
-                </AreaChart>
+                <ResponsiveContainer width="100%" aspect={chartWidth / chartHeight} initialDimension={{ width: chartWidth, height: chartHeight }}>
+                  <AreaChart data={chartData} margin={getChartMargin(width < pxToNumber(breakpointLg))} aria-label="Inner chart area">
+                    <Tooltip
+                      active={chartActive}
+                      defaultIndex={defaultIndex ?? undefined}
+                      content={() => null}
+                      cursor={false}
+                      isAnimationActive={false}
+                      wrapperStyle={{ display: 'none' }}
+                    />
+                    <Crosshair />
+                    <XAxis
+                      dataKey="x"
+                      type="number"
+                      domain={getNiceDomain(minYear, maxYear)}
+                      ticks={bottomAxisValue}
+                      interval={0}
+                      height={chartConfigs.axisThickness}
+                      tickSize={chartConfigs.tickSize}
+                      tickMargin={chartConfigs.tickMargin}
+                      axisLine={chartConfigs.axisLine}
+                      tickLine={chartConfigs.tickLine}
+                      tick={chartConfigs.tick}
+                      zIndex={chartConfigs.zIndex.axis}
+                    />
+                    <YAxis
+                      dataKey="y"
+                      type="number"
+                      domain={[0, maxAmount]}
+                      ticks={getTicks(0, maxAmount, 7)}
+                      interval={0}
+                      width={chartConfigs.axisThickness}
+                      tickFormatter={formatDollarTick}
+                      tickSize={chartConfigs.tickSize}
+                      tickMargin={chartConfigs.tickMargin}
+                      axisLine={chartConfigs.axisLine}
+                      tickLine={chartConfigs.tickLine}
+                      tick={chartConfigs.tick}
+                      zIndex={chartConfigs.zIndex.axis}
+                    />
+                    <Area
+                      dataKey="y"
+                      type="linear"
+                      fill={debtExplainerPrimary}
+                      fillOpacity={1}
+                      stroke={debtExplainerPrimary}
+                      strokeWidth={2}
+                      baseValue={0}
+                      dot={false}
+                      activeDot={false}
+                      isAnimationActive={false}
+                    />
+                    <ZIndexLayer zIndex={chartConfigs.zIndex.point}>
+                      <HoverPoint data={chartData} onActiveChange={handleActiveDatumChange} />
+                    </ZIndexLayer>
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             )}
           </ChartContainer>
