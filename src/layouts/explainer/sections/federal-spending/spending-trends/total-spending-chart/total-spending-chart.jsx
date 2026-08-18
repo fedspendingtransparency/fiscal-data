@@ -321,14 +321,14 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     }
   }, [spendingInView]);
 
-  const HoverPoint = (payload, opacity) => {
+  const HoverPoint = payload => {
     const { cx, cy, strokeWidth } = payload;
-    const op = opacity ? (chartFocus || chartHover || !animationComplete ? 0 : 1) : undefined;
     return (
       <g data-testid="customPoints">
         {payload?.cx && (
           <Point currentPoint={{ x: cx, y: cy, strokeWidth: strokeWidth, opacity: chartFocus || chartHover || !animationComplete ? 0 : 1 }} />
         )}
+        <text></text>
       </g>
     );
   };
@@ -390,8 +390,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             active={chartFocus || chartHover || !animationComplete}
                             defaultIndex={defaultIndex}
                           />
-                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint opacity={true} />} />
-                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint opacity={true} />} />
+                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint />} />
+                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint />} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
