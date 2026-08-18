@@ -20,9 +20,17 @@ import { chartInViewProps } from '../../../../explainer-helpers/explainer-charti
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
-import { useWindowSize } from 'usehooks-ts';
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Line,
+  LineChart,
+  ReferenceDot,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
+import Point from '../../../../../../components/nivo/custom-point/point';
 
 const callOutDataEndPoint =
   apiPrefix +
@@ -38,7 +46,6 @@ let gaTimer;
 let ga4Timer;
 
 const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
-  const [spendingChartData, setSpendingChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +61,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [maxGDPValue, setMaxGDPValue] = useState(0);
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
   const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
@@ -61,22 +69,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false);
 
-  const [curFY, setCurFY] = useState();
+  const [curFY, setCurFY] = useState('--');
   const [curSpending, setCurSpending] = useState();
   const [curGDP, setCurGDP] = useState();
   const [curPercentGDP, setCurPercentGDP] = useState();
 
-  const { width } = useWindowSize();
+  // const { width } = useWindowSize();
 
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
   const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
-
-  const [totalSpendingHeadingValues, setTotalSpendingHeadingValues] = useState({
-    fiscalYear: '--',
-    totalSpending: '',
-    gdp: '',
-    gdpRatio: '',
-  });
 
   const { getGAEvent } = useGAEventTracking(null, 'SpendingExplainer');
   const { showBoundary } = useErrorBoundary();
@@ -125,8 +126,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           finalSpendingChartData.forEach(spending => {
             spending.spending_y = parseFloat(simplifyNumber(spending.actual_spending, false).slice(0, -2));
           });
-
-          setSpendingChartData(finalSpendingChartData);
 
           const spendingMinYear = finalSpendingChartData[0].x;
           const theMinYear = spendingMinYear;
@@ -185,12 +184,10 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           const chartLastGDPValue = rename[rename.length - 1].actual_gdp;
           setLastGDPValue(chartLastGDPValue);
 
-          setTotalSpendingHeadingValues({
-            fiscalYear: spendingMaxYear,
-            totalSpending: simplifyNumber(chartLastSpendingValue, false),
-            gdp: simplifyNumber(chartLastGDPValue, false),
-            gdpRatio: chartLastRatio,
-          });
+          setCurFY(spendingMaxYear);
+          setCurSpending(simplifyNumber(chartLastSpendingValue, false));
+          setCurGDP(simplifyNumber(chartLastGDPValue, false));
+          setCurPercentGDP(chartLastRatio);
 
           const chartMaxGDPValue = rename.reduce((max, gdp) => (max.x > gdp.x ? max.gdp_y : gdp.gdp_y));
 
@@ -272,7 +269,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     if (selectedChartView === 'totalSpending') {
       const spendingData = payload[0]?.payload?.actual_spending;
       const gdpData = payload[0]?.payload?.actual_gdp;
-      console.log(payload);
       if (spendingData && gdpData) {
         setCurFY(payload[0].payload.fiscalYear);
         setCurSpending(simplifyNumber(spendingData, false));
@@ -316,12 +312,26 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           }, stepDuration * index + 550)
         );
       });
-
+      setTimeout(() => {
+        setAnimationComplete(true);
+      }, stepDuration * gdpChartData.length + 550);
       return () => {
         timers.forEach(timer => clearTimeout(timer));
       };
     }
   }, [spendingInView]);
+
+  const HoverPoint = (payload, opacity) => {
+    const { cx, cy, strokeWidth } = payload;
+    const op = opacity ? (chartFocus || chartHover || !animationComplete ? 0 : 1) : undefined;
+    return (
+      <g data-testid="customPoints">
+        {payload?.cx && (
+          <Point currentPoint={{ x: cx, y: cy, strokeWidth: strokeWidth, opacity: chartFocus || chartHover || !animationComplete ? 0 : 1 }} />
+        )}
+      </g>
+    );
+  };
 
   return (
     <>
@@ -344,10 +354,13 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   data-testid="chartParent"
                   onMouseEnter={handleMouseEnter}
                   onFocus={() => setChartFocus(true)}
+                  onBlur={() => setChartFocus(false)}
                   onMouseLeave={() => {
                     handleGroupOnMouseLeave();
+                    setChartHover(false);
                     clearTimeout(gaTimer);
                     clearTimeout(ga4Timer);
+                    console.log('mouseLeave', chartFocus, animationComplete);
                   }}
                   role="presentation"
                 >
@@ -363,15 +376,22 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             tickFormatter={value => (value > 0 ? '$' + value + ' T' : '$' + value)}
                             tickCount={8}
                           />
-                          <Line dataKey="spending_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false}></Line>
+                          <Line dataKey="spending_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
                           <Line dataKey="gdp_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
                           <Tooltip
                             content={<CustomTooltip />}
-                            cursor={{ strokeDasharray: '6 6', stroke: '#555', strokeWidth: 2, strokeOpacity: 0.75 }}
+                            cursor={{
+                              strokeDasharray: '6 6',
+                              stroke: '#555',
+                              strokeWidth: 2,
+                              opacity: chartFocus || chartHover || !animationComplete ? 0.75 : 0,
+                            }}
                             isAnimationActive={false}
-                            // active={chartFocus || chartHover}
+                            active={chartFocus || chartHover || !animationComplete}
                             defaultIndex={defaultIndex}
                           />
+                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint opacity={true} />} />
+                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint opacity={true} />} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -386,7 +406,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                           content={<CustomTooltip />}
                           cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
                           isAnimationActive={false}
-                          // active={chartFocus || chartHover}
+                          active={chartFocus || chartHover || !animationComplete}
                         />
                       </LineChart>
                     </ResponsiveContainer>

@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Point = ({currentPoint, borderColor, borderWidth}) => {
+const Point = ({ currentPoint, borderColor, borderWidth }) => {
+  console.log(currentPoint);
   return (
     <g>
       <circle
@@ -8,7 +9,8 @@ const Point = ({currentPoint, borderColor, borderWidth}) => {
         fill="#D8D8D8"
         stroke={borderColor}
         strokeWidth={borderWidth}
-        fillOpacity={0.35}
+        opacity={currentPoint?.opacity === 0 ? 0 : ''}
+        fillOpacity={currentPoint?.opacity === 0 ? 0 : 0.35}
         cx={currentPoint?.x}
         cy={currentPoint?.y}
       />
@@ -17,12 +19,13 @@ const Point = ({currentPoint, borderColor, borderWidth}) => {
         fill="#000000"
         stroke="#000000"
         strokeWidth="4"
-        fillOpacity={0.85}
+        opacity={currentPoint?.opacity === 0 ? 0 : ''}
+        fillOpacity={currentPoint?.opacity === 0 ? 0 : 0.85}
         cx={currentPoint?.x}
         cy={currentPoint?.y}
       />
     </g>
   );
-}
+};
 
 export default Point;
