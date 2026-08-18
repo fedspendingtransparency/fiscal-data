@@ -56,9 +56,6 @@ $state-and-local-government-series-light: #a4bcfd66;
 }
 .socialShareMobile {
   display: block;
-  width: 100%;
-  max-width: $link-container-width;
-  margin: 0 auto;
 }
 @media screen and (min-width: $breakpoint-lg) {
   .sectionHeading {
