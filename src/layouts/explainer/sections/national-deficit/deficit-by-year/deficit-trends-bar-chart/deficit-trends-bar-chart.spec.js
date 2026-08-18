@@ -105,25 +105,26 @@ describe('Deficit Trends Bar Chart', () => {
   });
 
   it('Updates header values when mousing over a bar', async () => {
-    const { findByTestId, findAllByTestId, getByTestId } = render(
+    const { findByTestId, getAllByTestId, getByTestId } = render(
       <ErrorBoundary>
         <DeficitTrendsBarChart />
       </ErrorBoundary>
     );
 
+    // let the fetch resolve on real timers before switching to fake ones
     await findByTestId('deficitTrendsChartParent');
+    jest.useFakeTimers();
+
+    // scroll into view, then run the entrance + wave animations out
     act(() => {
       mockSetInView(true);
     });
-
-    const customBars = await findAllByTestId('customBar');
-    expect(customBars[0]).toBeInTheDocument();
-
-    // hover is gated on animationsComplete, so run the animation out first
-    jest.useFakeTimers();
     act(() => {
       jest.advanceTimersByTime(20000);
     });
+
+    const customBars = getAllByTestId('customBar');
+    expect(customBars[0]).toBeInTheDocument();
 
     act(() => {
       fireEvent.mouseOver(customBars[0]);
