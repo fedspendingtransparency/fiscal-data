@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
@@ -60,6 +60,8 @@ export const DeficitTrendsBarChart = () => {
   const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
   const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
   const [entranceDone, setEntranceDone] = useState(false); // bar growth animation finished
+
+  const pointerInsideRef = useRef(true);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -162,6 +164,7 @@ export const DeficitTrendsBarChart = () => {
 
   const onChartMouseMove = useCallback(
     e => {
+      if (!pointerInsideRef.current) return;
       if (e && e.activeTooltipIndex !== undefined) {
         handleBarActivate(e.activeTooltipIndex);
       }
@@ -315,7 +318,6 @@ export const DeficitTrendsBarChart = () => {
                     data={chartData}
                     margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
                     onMouseMove={animationsComplete ? onChartMouseMove : undefined}
-                    onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
                   >
                     <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
                     {/* renders nothing, but Recharts 3 needs a Tooltip present to track activeTooltipIndex */}
