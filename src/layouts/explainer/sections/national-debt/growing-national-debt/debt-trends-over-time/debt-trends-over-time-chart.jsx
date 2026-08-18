@@ -28,8 +28,23 @@ import LoadingIndicator from '../../../../../../components/loading-indicator/loa
 let gaTimerDebtTrends;
 let ga4Timer;
 
-const startYear = 1948;
-const maxPercent = 140;
+// The axis deliberately starts before the data does; the leading gap is expected.
+const axisStartYear = 1940;
+const decade = 10;
+const percentInterval = 20;
+const mobileTickInterval = 15;
+
+const getAxisEndYear = lastYear => Math.ceil(lastYear / decade) * decade;
+
+const getMaxPercent = data => Math.ceil(Math.max(...data.map(({ y }) => y)) / percentInterval) * percentInterval;
+
+const getMobileTicks = endYear => {
+  const ticks = [];
+  for (let year = axisStartYear; year <= endYear; year += mobileTickInterval) {
+    ticks.push(year);
+  }
+  return ticks;
+};
 
 const chartConfigs = {
   ...axisConfigs,
@@ -40,7 +55,7 @@ const chartConfigs = {
 const getChartMargin = isMobile =>
   subtractAxisThickness(isMobile ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 });
 
-const mobileBottomTicks = [1940, 1955, 1970, 1985, 2000, 2015, 2030];
+const desktopTickCount = 9;
 
 export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lineChartHoveredYear, setLineChartHoveredYear] = useState('');
@@ -160,6 +175,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   );
 
   const isMobile = width < pxToNumber(breakpointLg);
+  const axisEndYear = lastDebtValue.x ? getAxisEndYear(lastDebtValue.x) : axisStartYear;
+  const maxPercent = debtTrendsData.length ? getMaxPercent(debtTrendsData) : percentInterval;
 
   return (
     <>
@@ -200,8 +217,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                     <XAxis
                       dataKey="x"
                       type="number"
-                      domain={[startYear, lastDebtValue.x]}
-                      ticks={isMobile ? mobileBottomTicks : getTicks(startYear, lastDebtValue.x, 9)}
+                      domain={[axisStartYear, axisEndYear]}
+                      ticks={isMobile ? getMobileTicks(axisEndYear) : getTicks(axisStartYear, axisEndYear, desktopTickCount)}
                       interval={0}
                       height={chartConfigs.axisThickness}
                       tickSize={chartConfigs.tickSize}
