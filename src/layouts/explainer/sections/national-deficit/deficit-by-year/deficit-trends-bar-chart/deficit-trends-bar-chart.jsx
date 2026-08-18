@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14 } from '../../../../../../variables.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
@@ -20,26 +20,18 @@ import { useWindowSize } from 'usehooks-ts';
 let gaTimerChart;
 let ga4Timer;
 
-const CustomBar = props => {
-  const { x, y, width, height, index, payload, activeIndex, onActivate, onFocusBar } = props;
-  const actualHeight = Math.abs(height);
-  const actualY = height < 0 ? y + height : y;
+const HeaderSync = ({ active, payload, onActivePoint }) => {
+  const point = active && payload && payload.length ? payload[0].payload : null;
+  const year = point ? point.year : null;
+  const deficit = point ? point.deficit : null;
 
-  return (
-    <rect
-      data-testid="customBar"
-      data-bar-index={index}
-      tabIndex={0}
-      onMouseOver={() => onActivate(index)}
-      onFocus={() => onFocusBar(index, payload)}
-      x={x}
-      y={actualY}
-      width={width}
-      height={actualHeight}
-      fill={index === activeIndex ? fontTitle : deficitExplainerPrimary}
-      style={{ outline: 'none' }}
-    />
-  );
+  useEffect(() => {
+    if (year !== null && deficit !== null) {
+      onActivePoint(year, deficit);
+    }
+  }, [year, deficit, onActivePoint]);
+
+  return null;
 };
 
 export const DeficitTrendsBarChart = () => {
@@ -56,12 +48,10 @@ export const DeficitTrendsBarChart = () => {
   const [minValue, setMinValue] = useState('');
   const [headerYear, setHeaderYear] = useState('--');
   const [headerDeficit, setHeaderDeficit] = useState('--');
-  const [activeBarIndex, setActiveBarIndex] = useState(null);
-  const [shouldAnimate, setShouldAnimate] = useState(false); // tied to when chart is in view
-  const [animationsComplete, setAnimationsComplete] = useState(false); // controls hover effects
+  const [shouldAnimate, setShouldAnimate] = useState(false); // chart has scrolled into view
   const [entranceDone, setEntranceDone] = useState(false); // bar growth animation finished
-
-  const pointerInsideRef = useRef(true);
+  const [chartFocus, setChartFocus] = useState(false);
+  const [chartHover, setChartHover] = useState(false);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -83,7 +73,6 @@ export const DeficitTrendsBarChart = () => {
     width: 495,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
-    highlightColor: fontTitle,
   };
 
   const tickStyle = {
@@ -94,24 +83,18 @@ export const DeficitTrendsBarChart = () => {
 
   const startingYear = '2001';
   const barGrowthAnimation = 1250;
-  const barSequenceAnimation = 1500;
 
   const getChartData = () => {
     const apiData = [];
     basicFetch(`${apiPrefix}${endpointUrl}`)
       .then(result => {
-        let deficitSum = 0;
         result.data.forEach(entry => {
           const deficitValue = Math.abs(parseFloat(entry.current_fytd_net_outly_amt)) / 1000000000000;
-          deficitSum += deficitValue;
           apiData.push({
             year: entry.record_fiscal_year,
             deficit: deficitValue.toFixed(2),
             deficitColor: deficitExplainerPrimary,
           });
-        });
-        preAPIData.forEach(entry => {
-          deficitSum += Math.abs(entry.deficit);
         });
         setDate(getDateWithoutTimeZoneAdjust(new Date(result.data[result.data.length - 1].record_date)));
         const newData = preAPIData.concat(apiData);
@@ -128,68 +111,32 @@ export const DeficitTrendsBarChart = () => {
       });
   };
 
+  const handleActivePoint = useCallback((year, deficit) => {
+    setHeaderYear(year);
+    setHeaderDeficit(deficit);
+  }, []);
+
   const resetHeaderValues = useCallback(() => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
-    setActiveBarIndex(chartData ? chartData.length - 1 : null);
-  }, [mostRecentFiscalYear, mostRecentDeficit, chartData]);
+  }, [mostRecentFiscalYear, mostRecentDeficit]);
 
-  const handleBarActivate = useCallback(
-    rawIndex => {
-      if (!animationsComplete) return;
-      const index = Number(rawIndex);
-      if (Number.isNaN(index)) return;
-      const data = chartData[index];
-      if (data && data.year >= startingYear && data.deficit !== '') {
-        setActiveBarIndex(index);
-        setHeaderYear(data.year);
-        setHeaderDeficit(data.deficit);
-      }
-    },
-    [chartData, startingYear, animationsComplete]
-  );
-
-  const onFocusBar = useCallback((index, payload) => {
-    if (!payload) return;
-
-    document.querySelectorAll('[data-bar-index]').forEach(el => {
-      el.style.fill = Number(el.dataset.barIndex) === index ? fontTitle : deficitExplainerPrimary;
-    });
-
-    const yearEl = document.querySelector(`[data-testid='deficitFiscalYearHeader']`);
-    const deficitEl = document.querySelector(`[data-testid='deficitTotalHeader']`);
-    if (yearEl) yearEl.textContent = payload.year;
-    if (deficitEl) deficitEl.textContent = `$${payload.deficit} T`;
-  }, []);
-
-  const onChartMouseMove = useCallback(
+  const handleChartBlur = useCallback(
     e => {
-      if (!pointerInsideRef.current) return;
-      if (e && e.activeTooltipIndex !== undefined) {
-        handleBarActivate(e.activeTooltipIndex);
-      }
-    },
-    [handleBarActivate]
-  );
-
-  const onBarMouseLeave = useCallback(() => {
-    pointerInsideRef.current = false;
-    if (!animationsComplete) return;
-    resetHeaderValues();
-  }, [resetHeaderValues, animationsComplete]);
-
-  const onChartBlur = useCallback(
-    e => {
-      if (!animationsComplete) return;
       if (!e.currentTarget.contains(e.relatedTarget)) {
+        setChartFocus(false);
         resetHeaderValues();
       }
     },
-    [animationsComplete, resetHeaderValues]
+    [resetHeaderValues]
   );
 
+  const handleChartMouseLeave = useCallback(() => {
+    setChartHover(false);
+    resetHeaderValues();
+  }, [resetHeaderValues]);
+
   const handleGoogleAnalyticsMouseEnter = () => {
-    pointerInsideRef.current = true;
     const gaEvent = getGAEvent('30');
     gaTimerChart = setTimeout(() => {
       gaEvent &&
@@ -218,32 +165,14 @@ export const DeficitTrendsBarChart = () => {
     }
   }, [inView, chartData]);
 
+  // Entrance growth only. Once it's done we flip isAnimationActive off so that
+  // later re-renders (hover, focus, resize) don't re-trigger the grow.
   useEffect(() => {
     if (!!chartData && shouldAnimate) {
-      let sequentialDelay = barGrowthAnimation;
-      const delayPerBar = barSequenceAnimation / chartData.length;
-      setTimeout(() => setEntranceDone(true), barGrowthAnimation);
-
-      // highlight wave: steps the grey bar across the chart after growth finishes
-      chartData.forEach((element, index) => {
-        if (element.year >= startingYear) {
-          setTimeout(() => {
-            setActiveBarIndex(index);
-            setHeaderYear(element.year);
-            setHeaderDeficit(element.deficit);
-          }, (sequentialDelay += delayPerBar));
-        }
-      });
-
-      // settle on the most recent year and enable hover
-      setTimeout(() => {
-        setActiveBarIndex(chartData.length - 1);
-        setHeaderYear(mostRecentFiscalYear);
-        setHeaderDeficit(mostRecentDeficit);
-        setAnimationsComplete(true);
-      }, sequentialDelay + 100);
+      const timer = setTimeout(() => setEntranceDone(true), barGrowthAnimation + 100);
+      return () => clearTimeout(timer);
     }
-  }, [shouldAnimate, chartData, mostRecentFiscalYear, mostRecentDeficit]);
+  }, [shouldAnimate, chartData]);
 
   useEffect(() => {
     getChartData();
@@ -305,12 +234,14 @@ export const DeficitTrendsBarChart = () => {
           ) : (
             <div
               className={barChart}
-              onMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
-              onBlur={onChartBlur}
               data-testid="deficitTrendsChartParent"
               role="presentation"
               ref={ref}
-              style={{ pointerEvents: animationsComplete ? 'auto' : 'none' }}
+              onFocus={() => setChartFocus(true)}
+              onBlur={handleChartBlur}
+              onMouseOver={() => setChartHover(true)}
+              onMouseLeave={handleChartMouseLeave}
+              style={{ pointerEvents: entranceDone ? 'auto' : 'none' }}
             >
               {shouldAnimate && (
                 <ResponsiveContainer width="100%" height={388}>
@@ -319,12 +250,9 @@ export const DeficitTrendsBarChart = () => {
                     height={chartConfigs.height}
                     data={chartData}
                     margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
-                    onMouseMove={animationsComplete ? onChartMouseMove : undefined}
-                    onBarMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
+                    accessibilityLayer
                   >
                     <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
-                    {/* renders nothing, but Recharts 3 needs a Tooltip present to track activeTooltipIndex */}
-                    <Tooltip content={() => null} cursor={false} isAnimationActive={false} />
                     <XAxis
                       dataKey="year"
                       tick={tickStyle}
@@ -342,6 +270,12 @@ export const DeficitTrendsBarChart = () => {
                       ticks={tickValuesY}
                       domain={[minValue, maxValue]}
                     />
+                    <Tooltip
+                      content={<HeaderSync onActivePoint={handleActivePoint} />}
+                      cursor={{ fill: 'rgba(0, 0, 0, 0.06)' }} // TODO: figure out color for this
+                      isAnimationActive={false}
+                      active={chartFocus || chartHover}
+                    />
                     <Bar
                       dataKey="deficit"
                       isAnimationActive={!entranceDone}
@@ -351,8 +285,6 @@ export const DeficitTrendsBarChart = () => {
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
                       activeBar={false}
-                      // shape lets us render our own bars instead of the stock Recharts rectangles
-                      shape={<CustomBar activeIndex={activeBarIndex} onActivate={handleBarActivate} onFocusBar={onFocusBar} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>
