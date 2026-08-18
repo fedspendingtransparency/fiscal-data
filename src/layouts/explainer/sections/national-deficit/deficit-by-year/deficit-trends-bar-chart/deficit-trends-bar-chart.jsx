@@ -20,7 +20,8 @@ import { useWindowSize } from 'usehooks-ts';
 let gaTimerChart;
 let ga4Timer;
 
-const HeaderSync = ({ active, payload, onActivePoint }) => {
+// move to own component in future?
+export const HeaderSync = ({ active, payload, onActivePoint }) => {
   const point = active && payload && payload.length ? payload[0].payload : null;
   const year = point ? point.year : null;
   const deficit = point ? point.deficit : null;
@@ -51,7 +52,7 @@ export const DeficitTrendsBarChart = () => {
   const [shouldAnimate, setShouldAnimate] = useState(false); // chart has scrolled into view
   const [entranceDone, setEntranceDone] = useState(false); // bar growth animation finished
   const [chartFocus, setChartFocus] = useState(false);
-  const [chartHover, setChartHover] = useState(false);
+  const [chartHover, setChartHover] = useState(false); // separate from focus to prevent mouse/key mix-ups
 
   const { showBoundary } = useErrorBoundary();
 
@@ -165,8 +166,6 @@ export const DeficitTrendsBarChart = () => {
     }
   }, [inView, chartData]);
 
-  // Entrance growth only. Once it's done we flip isAnimationActive off so that
-  // later re-renders (hover, focus, resize) don't re-trigger the grow.
   useEffect(() => {
     if (!!chartData && shouldAnimate) {
       const timer = setTimeout(() => setEntranceDone(true), barGrowthAnimation + 100);

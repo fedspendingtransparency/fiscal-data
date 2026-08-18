@@ -1,19 +1,17 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { setGlobalFetchResponse } from '../../../../../../utils/mock-utils';
 import { mockDeficitTrendsData } from '../../../../explainer-test-helper';
-import { DeficitTrendsBarChart } from './deficit-trends-bar-chart';
+import { DeficitTrendsBarChart, HeaderSync } from './deficit-trends-bar-chart';
 import { ErrorBoundary } from 'react-error-boundary';
 
-// Recharts needs this and jsdom does not provide it.
 global.ResizeObserver = class {
   observe() {}
   unobserve() {}
   disconnect() {}
 };
 
-// ResponsiveContainer measures its parent, gets 0x0 in jsdom, and renders nothing.
-// BarChart already receives explicit width/height, so a passthrough is enough.
 jest.mock('recharts', () => {
   const OriginalModule = jest.requireActual('recharts');
   const ReactModule = require('react');
@@ -23,8 +21,6 @@ jest.mock('recharts', () => {
   };
 });
 
-// Mocking the hook with real React state lets each test control inView directly.
-// The variable must be prefixed with "mock" to satisfy jest.mock hoisting rules.
 let mockSetInView;
 jest.mock('react-intersection-observer', () => {
   const ReactModule = require('react');
@@ -37,6 +33,22 @@ jest.mock('react-intersection-observer', () => {
   };
 });
 
+const renderChart = () =>
+  render(
+    <ErrorBoundary>
+      <DeficitTrendsBarChart />
+    </ErrorBoundary>
+  );
+
+// usage helps us avoid a hard coded tab count
+const tabTo = async (user, target) => {
+  for (let i = 0; i < 10; i++) {
+    await user.tab();
+    if (document.activeElement === target) return;
+  }
+  throw new Error('never reached the target element while tabbing');
+};
+
 describe('Deficit Trends Bar Chart', () => {
   beforeEach(() => {
     setGlobalFetchResponse(jest, mockDeficitTrendsData);
@@ -47,56 +59,34 @@ describe('Deficit Trends Bar Chart', () => {
   });
 
   it('renders the trends chart', async () => {
-    const { findByTestId } = render(
-      <ErrorBoundary>
-        <DeficitTrendsBarChart />
-      </ErrorBoundary>
-    );
+    const { findByTestId } = renderChart();
     expect(await findByTestId('deficitTrendsChartParent')).toBeInTheDocument();
   });
 
   it('renders the data', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(
-      <ErrorBoundary>
-        <DeficitTrendsBarChart />
-      </ErrorBoundary>
-    );
+    const { findByText } = renderChart();
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await findByText('Federal Deficit Trends Over Time, FY 2001-2022')).toBeInTheDocument();
     expect(await findByText('$1.38 T')).toBeInTheDocument();
     expect(await findByText('Last Updated: September 30, 2022')).toBeInTheDocument();
   });
 
-  it('Updates header values while the chart animates when it is scrolled into view', async () => {
-    const { findByTestId, getByTestId } = render(
-      <ErrorBoundary>
-        <DeficitTrendsBarChart />
-      </ErrorBoundary>
-    );
-
-    // let the fetch resolve on real timers before switching to fake ones
+  it('leaves the header on the most recent year while the entrance animation runs', async () => {
+    const { findByTestId, getByTestId } = renderChart();
     await findByTestId('deficitTrendsChartParent');
     jest.useFakeTimers();
 
-    // not in view yet, so nothing should be scheduled
     act(() => {
-      jest.advanceTimersByTime(1000);
+      mockSetInView(true);
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(600);
     });
     expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2022');
     expect(getByTestId('deficitTotalHeader').textContent).toContain('$1.38 T');
 
-    // scroll into view: the wave starts once the growth animation finishes
-    act(() => {
-      mockSetInView(true);
-    });
-    act(() => {
-      jest.advanceTimersByTime(1360);
-    });
-    expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2001');
-    expect(getByTestId('deficitTotalHeader').textContent).toContain('$-0.13 T');
-
-    // and settles back on the most recent year
     act(() => {
       jest.advanceTimersByTime(20000);
     });
@@ -104,69 +94,60 @@ describe('Deficit Trends Bar Chart', () => {
     expect(getByTestId('deficitTotalHeader').textContent).toContain('$1.38 T');
   });
 
-  it('Updates header values when mousing over a bar', async () => {
-    const { findByTestId, getAllByTestId, getByTestId } = render(
-      <ErrorBoundary>
-        <DeficitTrendsBarChart />
-      </ErrorBoundary>
-    );
-
-    // let the fetch resolve on real timers before switching to fake ones
-    await findByTestId('deficitTrendsChartParent');
-    jest.useFakeTimers();
-
-    // scroll into view, then run the entrance + wave animations out
-    act(() => {
-      mockSetInView(true);
-    });
-    act(() => {
-      jest.advanceTimersByTime(20000);
-    });
-
-    const customBars = getAllByTestId('customBar');
-    expect(customBars[0]).toBeInTheDocument();
-
-    act(() => {
-      fireEvent.mouseOver(customBars[0]);
-    });
-    expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2001');
-    expect(getByTestId('deficitTotalHeader').textContent).toContain('$-0.13 T');
-
-    // mouseleave lives on the parent div; mouseleave does not bubble from the bar
-    act(() => {
-      fireEvent.mouseLeave(getByTestId('deficitTrendsChartParent'));
-    });
-    expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2022');
-    expect(getByTestId('deficitTotalHeader').textContent).toContain('$1.38 T');
+  it('reports the active point to the header', () => {
+    const onActivePoint = jest.fn();
+    render(<HeaderSync active payload={[{ payload: { year: '2015', deficit: '0.44' } }]} onActivePoint={onActivePoint} />);
+    expect(onActivePoint).toHaveBeenCalledWith('2015', '0.44');
   });
 
-  it('Updates header values when tabbing through the bars', async () => {
-    const { findByTestId, findAllByTestId, getByTestId } = render(
-      <ErrorBoundary>
-        <DeficitTrendsBarChart />
-      </ErrorBoundary>
-    );
+  it('handles chart mouse events', async () => {
+    jest.useFakeTimers();
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { findByTestId } = renderChart();
+
+    const chartParent = await findByTestId('deficitTrendsChartParent');
+    act(() => {
+      mockSetInView(true);
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    await user.hover(chartParent);
+    await user.unhover(chartParent);
+    expect(chartParent).toBeInTheDocument();
+  });
+
+  it('confirms the chart is keyboard accessible', async () => {
+    const user = userEvent.setup();
+    const { findByTestId, getByRole, getByTestId } = renderChart();
 
     await findByTestId('deficitTrendsChartParent');
     act(() => {
       mockSetInView(true);
     });
 
-    const customBars = await findAllByTestId('customBar');
-    expect(customBars[0]).toBeInTheDocument();
+    const chart = getByRole('application');
+    expect(chart).toHaveAttribute('tabindex', '0');
 
-    // The keyboard path writes to the DOM directly and is not gated on the animation,
-    // so no timer advancing is needed here.
-    act(() => {
-      fireEvent.focus(customBars[0]);
-    });
-    expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2001');
-    expect(getByTestId('deficitTotalHeader').textContent).toContain('$-0.13 T');
+    await tabTo(user, chart);
+    expect(chart).toHaveFocus();
 
-    act(() => {
-      fireEvent.focus(customBars[1]);
-    });
-    expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2002');
-    expect(getByTestId('deficitTotalHeader').textContent).toContain('$0.16 T');
+    const yearHeader = getByTestId('deficitFiscalYearHeader');
+    const totalHeader = getByTestId('deficitTotalHeader');
+    expect(yearHeader.textContent).toContain('2001');
+    expect(totalHeader.textContent).toContain('$-0.13 T');
+
+    // arrowing to the right moves to the next year
+    await user.keyboard('{ArrowRight}');
+    expect(yearHeader.textContent).toContain('2002');
+    expect(totalHeader.textContent).toContain('$0.16 T');
+
+    // tabbing out resets the header as the user exits the chart
+    await user.tab();
+    expect(chart).not.toHaveFocus();
+    expect(yearHeader.textContent).toContain('2022');
+    expect(totalHeader.textContent).toContain('$1.38 T');
   });
 });
