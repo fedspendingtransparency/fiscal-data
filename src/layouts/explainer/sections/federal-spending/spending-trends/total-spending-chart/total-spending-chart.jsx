@@ -60,9 +60,11 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false);
+
   const [curFY, setCurFY] = useState();
   const [curSpending, setCurSpending] = useState();
   const [curGDP, setCurGDP] = useState();
+  const [curPercentGDP, setCurPercentGDP] = useState();
 
   const { width } = useWindowSize();
 
@@ -236,37 +238,35 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   };
 
   const handleGroupOnMouseLeave = () => {
-    setTotalSpendingHeadingValues({
-      fiscalYear: maxYear,
-      totalSpending: simplifyNumber(lastSpendingValue, false),
-      gdp: simplifyNumber(lastGDPValue, false),
-      gdpRatio: lastRatio,
-    });
+    setCurFY(maxYear);
+    setCurSpending(simplifyNumber(lastSpendingValue, false));
+    setCurGDP(simplifyNumber(lastGDPValue, false));
+    setCurPercentGDP(lastRatio);
   };
 
-  const handleMouseLeave = slice => {
-    if (selectedChartView === 'totalSpending') {
-      const spendingData = slice.points[0]?.data;
-      const gdpData = slice.points[1]?.data;
-      if (spendingData && gdpData) {
-        setTotalSpendingHeadingValues({
-          ...totalSpendingHeadingValues,
-          totalSpending: simplifyNumber(spendingData.actual, false),
-          fiscalYear: spendingData.fiscalYear,
-          gdp: simplifyNumber(gdpData.actual, false),
-        });
-      }
-    } else if (selectedChartView === 'percentageGdp') {
-      const percentData = slice.points[0]?.data;
-      if (percentData) {
-        setTotalSpendingHeadingValues({
-          ...totalSpendingHeadingValues,
-          fiscalYear: percentData.x,
-          gdpRatio: percentData.y + '%',
-        });
-      }
-    }
-  };
+  // const handleMouseLeave = slice => {
+  //   if (selectedChartView === 'totalSpending') {
+  //     const spendingData = slice.points[0]?.data;
+  //     const gdpData = slice.points[1]?.data;
+  //     if (spendingData && gdpData) {
+  //       setTotalSpendingHeadingValues({
+  //         ...totalSpendingHeadingValues,
+  //         totalSpending: simplifyNumber(spendingData.actual, false),
+  //         fiscalYear: spendingData.fiscalYear,
+  //         gdp: simplifyNumber(gdpData.actual, false),
+  //       });
+  //     }
+  //   } else if (selectedChartView === 'percentageGdp') {
+  //     const percentData = slice.points[0]?.data;
+  //     if (percentData) {
+  //       setTotalSpendingHeadingValues({
+  //         ...totalSpendingHeadingValues,
+  //         fiscalYear: percentData.x,
+  //         gdpRatio: percentData.y + '%',
+  //       });
+  //     }
+  //   }
+  // };
 
   const updateDataHeader = payload => {
     if (selectedChartView === 'totalSpending') {
@@ -274,21 +274,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       const gdpData = payload[0]?.payload?.actual_gdp;
       console.log(payload);
       if (spendingData && gdpData) {
-        setTotalSpendingHeadingValues({
-          ...totalSpendingHeadingValues,
-          totalSpending: simplifyNumber(spendingData, false),
-          fiscalYear: payload[0]?.payload?.fiscalYear,
-          gdp: simplifyNumber(gdpData, false),
-        });
+        setCurFY(payload[0].payload.fiscalYear);
+        setCurSpending(simplifyNumber(spendingData, false));
+        setCurGDP(simplifyNumber(gdpData, false));
       }
     } else if (selectedChartView === 'percentageGdp') {
-      const percentData = payload[0];
-      if (percentData?.y) {
-        setTotalSpendingHeadingValues({
-          ...totalSpendingHeadingValues,
-          fiscalYear: percentData.x,
-          gdpRatio: percentData.y + '%',
-        });
+      const percentData = payload[0]?.y;
+      if (percentData) {
+        setCurFY(payload[0].payload.fiscalYear);
+        setCurPercentGDP(percentData);
       }
     }
   };
@@ -301,10 +295,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
-      console.log(payload);
-      setCurFY(payload[0].payload.fiscalYear);
-      setCurSpending(simplifyNumber(payload[0].payload.actual_spending, false));
-      setCurGDP(simplifyNumber(payload[0].payload.actual_gdp, false));
+      console.log(payload, defaultIndex);
+      updateDataHeader(payload);
     }
     return <></>;
   };
@@ -353,6 +345,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   onMouseEnter={handleMouseEnter}
                   onFocus={() => setChartFocus(true)}
                   onMouseLeave={() => {
+                    handleGroupOnMouseLeave();
                     clearTimeout(gaTimer);
                     clearTimeout(ga4Timer);
                   }}
@@ -367,14 +360,14 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             tick={{ fill: '#555' }}
                             fontSize={14}
                             domain={[0, maxAmount]}
-                            tickFormatter={value => '$' + value + ' T'}
+                            tickFormatter={value => (value > 0 ? '$' + value + ' T' : '$' + value)}
                             tickCount={8}
                           />
                           <Line dataKey="spending_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false}></Line>
                           <Line dataKey="gdp_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
                           <Tooltip
                             content={<CustomTooltip />}
-                            cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
+                            cursor={{ strokeDasharray: '6 6', stroke: '#555', strokeWidth: 2, strokeOpacity: 0.75 }}
                             isAnimationActive={false}
                             // active={chartFocus || chartHover}
                             defaultIndex={defaultIndex}
@@ -393,7 +386,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                           content={<CustomTooltip />}
                           cursor={{ strokeDasharray: '4 4', stroke: '#555', strokeWidth: '2px' }}
                           isAnimationActive={false}
-                          active={chartFocus || chartHover}
+                          // active={chartFocus || chartHover}
                         />
                       </LineChart>
                     </ResponsiveContainer>
