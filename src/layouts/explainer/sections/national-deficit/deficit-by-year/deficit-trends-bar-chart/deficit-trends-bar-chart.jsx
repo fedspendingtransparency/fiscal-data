@@ -316,7 +316,6 @@ export const DeficitTrendsBarChart = () => {
                 <ResponsiveContainer width="100%" height={388}>
                   <BarChart
                     width={chartConfigs.width}
-                    fgetG
                     height={chartConfigs.height}
                     data={chartData}
                     margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
