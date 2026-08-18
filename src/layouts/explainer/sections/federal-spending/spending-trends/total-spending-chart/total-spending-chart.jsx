@@ -74,6 +74,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [curGDP, setCurGDP] = useState();
   const [curPercentGDP, setCurPercentGDP] = useState();
 
+  const [chartActive, setChartActive] = useState(false);
+
   // const { width } = useWindowSize();
 
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
@@ -150,13 +152,13 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
             const spendingAmount = spending.spending_y;
             const matchingGDP = rename.filter(g => g.fiscalYear === spendingYear).map(g => g.gdp_y)[0];
             const gdpRatio = spendingAmount / matchingGDP;
-            console.log(spendingAmount, matchingGDP);
+            // console.log(spendingAmount, matchingGDP);
             finalGdpRatioChartData.push({
               x: spendingYear,
               y: gdpRatio * 100,
             });
           });
-          console.log(finalGdpRatioChartData);
+          // console.log(finalGdpRatioChartData);
           setRatioGdpChartData(finalGdpRatioChartData);
 
           const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
@@ -199,7 +201,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           });
           setGdpChartData(chartData_combined);
 
-          console.log(chartData_combined);
+          // console.log(chartData_combined);
           copyPageData({
             fiscalYear: theMaxYear,
             totalSpending: getShortForm(chartLastSpendingValue, false),
@@ -291,7 +293,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
-      console.log(payload, defaultIndex);
+      // console.log(payload, defaultIndex);
       updateDataHeader(payload);
     }
     return <></>;
@@ -322,16 +324,31 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   }, [spendingInView]);
 
   const HoverPoint = payload => {
-    const { cx, cy, strokeWidth } = payload;
+    const { cx, cy, strokeWidth, label, active } = payload;
+    console.log(payload);
     return (
       <g data-testid="customPoints">
-        {payload?.cx && (
-          <Point currentPoint={{ x: cx, y: cy, strokeWidth: strokeWidth, opacity: chartFocus || chartHover || !animationComplete ? 0 : 1 }} />
+        {payload?.cx && <Point currentPoint={{ x: cx, y: cy, r: 1.5, strokeWidth: strokeWidth, opacity: !active && chartActive ? 0 : 1 }} />}
+        {label && (
+          <text
+            x={cx - 5}
+            y={cy + 30}
+            style={{ fontSize: '12px', fontFamily: '"Source Sans Pro", sans-serif', fill: '#666', fontWeight: '600', textAnchor: 'end' }}
+          >
+            {label}
+          </text>
         )}
-        <text></text>
       </g>
     );
   };
+
+  useEffect(() => {
+    console.log(`${curSpending?.split(' ')?.[0]}, ${curFY}, ${maxYear}, ${maxSpendingValue}`);
+  }, [curFY, curSpending]);
+
+  useEffect(() => {
+    setChartActive(chartFocus || chartHover || !animationComplete);
+  }, [chartHover, chartFocus, animationComplete]);
 
   return (
     <>
@@ -360,7 +377,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                     setChartHover(false);
                     clearTimeout(gaTimer);
                     clearTimeout(ga4Timer);
-                    console.log('mouseLeave', chartFocus, animationComplete);
                   }}
                   role="presentation"
                 >
@@ -376,22 +392,36 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             tickFormatter={value => (value > 0 ? '$' + value + ' T' : '$' + value)}
                             tickCount={8}
                           />
-                          <Line dataKey="spending_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
-                          <Line dataKey="gdp_y" stroke="#666666" dot={false} strokeWidth={2} activeDot={true} isAnimationActive={false} />
+                          <Line
+                            dataKey="spending_y"
+                            stroke="#666666"
+                            dot={false}
+                            strokeWidth={2}
+                            activeDot={chartActive && <HoverPoint active={true} />}
+                            isAnimationActive={false}
+                          />
+                          <Line
+                            dataKey="gdp_y"
+                            stroke="#666666"
+                            dot={false}
+                            strokeWidth={2}
+                            activeDot={chartActive && <HoverPoint active={true} />}
+                            isAnimationActive={false}
+                          />
                           <Tooltip
                             content={<CustomTooltip />}
                             cursor={{
                               strokeDasharray: '6 6',
                               stroke: '#555',
                               strokeWidth: 2,
-                              opacity: chartFocus || chartHover || !animationComplete ? 0.75 : 0,
+                              opacity: chartActive ? 0.75 : 0,
                             }}
                             isAnimationActive={false}
-                            active={chartFocus || chartHover || !animationComplete}
+                            active={chartActive}
                             defaultIndex={defaultIndex}
                           />
-                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint />} />
-                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint />} />
+                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint label="Spending" />} />
+                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint label="GDP" />} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>

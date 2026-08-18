@@ -5,7 +5,7 @@ const Point = ({ currentPoint, borderColor, borderWidth }) => {
   return (
     <g>
       <circle
-        r={8}
+        r={currentPoint?.r ? currentPoint?.r * 4 : 8}
         fill="#D8D8D8"
         stroke={borderColor}
         strokeWidth={borderWidth}
@@ -15,7 +15,7 @@ const Point = ({ currentPoint, borderColor, borderWidth }) => {
         cy={currentPoint?.y}
       />
       <circle
-        r={2}
+        r={currentPoint?.r ? currentPoint?.r : 2}
         fill="#000000"
         stroke="#000000"
         strokeWidth="4"
