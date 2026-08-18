@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from '@nivo/bar';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { fontBodyCopy, fontSize_16, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../../variables.module.scss';
 import { barChartContainer, title, loadingIcon, container } from './intragovernmental-holdings-chart.module.scss';
@@ -9,6 +8,7 @@ import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
+import { BarChart, Legend, ResponsiveContainer, XAxis, Bar, LabelList } from 'recharts';
 
 const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
   const [isChartRendered, setIsChartRendered] = useState(false);
@@ -113,6 +113,18 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
               <div data-testid="breakdownChart" className={barChartContainer}>
+                <ResponsiveContainer>
+                  <BarChart data={chartData}>
+                    <XAxis />
+                    <Legend />
+                    <Bar dataKey="Intragovernmental Holdings" stackId="a" fill={debtExplainerLightSecondary} background>
+                      <LabelList dataKey="Intragovernmental Holdings" />
+                    </Bar>
+                    <Bar dataKey="Debt Held by the Public" stackId="a" fill={debtExplainerPrimary} background>
+                      <LabelList dataKey="Debt Held by the Public" />
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
                 <Bar
                   barComponent={CustomBar}
                   width={chartWidth}
