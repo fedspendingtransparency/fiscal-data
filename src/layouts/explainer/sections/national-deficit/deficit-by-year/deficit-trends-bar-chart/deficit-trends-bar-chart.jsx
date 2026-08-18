@@ -173,6 +173,7 @@ export const DeficitTrendsBarChart = () => {
   );
 
   const onBarMouseLeave = useCallback(() => {
+    pointerInsideRef.current = false;
     if (!animationsComplete) return;
     resetHeaderValues();
   }, [resetHeaderValues, animationsComplete]);
@@ -188,6 +189,7 @@ export const DeficitTrendsBarChart = () => {
   );
 
   const handleGoogleAnalyticsMouseEnter = () => {
+    pointerInsideRef.current = true;
     const gaEvent = getGAEvent('30');
     gaTimerChart = setTimeout(() => {
       gaEvent &&
@@ -314,10 +316,12 @@ export const DeficitTrendsBarChart = () => {
                 <ResponsiveContainer width="100%" height={388}>
                   <BarChart
                     width={chartConfigs.width}
+                    fgetG
                     height={chartConfigs.height}
                     data={chartData}
                     margin={{ top: 15, right: 15, bottom: 15, left: 0 }}
                     onMouseMove={animationsComplete ? onChartMouseMove : undefined}
+                    onBarMouseLeave={animationsComplete ? onBarMouseLeave : undefined}
                   >
                     <CartesianGrid stroke="#ccc" horizontal={true} vertical={true} className={customGrid} />
                     {/* renders nothing, but Recharts 3 needs a Tooltip present to track activeTooltipIndex */}
