@@ -2,19 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, getChartCopy } from './total-revenue-chart-helper';
 import { visWithCallout } from '../../../../../explainer.module.scss';
-import VisualizationCallout
-  from '../../../../../../../components/visualization-callout/visualization-callout';
+import VisualizationCallout from '../../../../../../../components/visualization-callout/visualization-callout';
 import { container, lineChart, loadingIcon } from './total-revenue-chart.module.scss';
 import { revenueExplainerPrimary } from '../../../revenue.module.scss';
-import {
-  addInnerChartAriaLabel,
-  applyChartScaling,
-  chartInViewProps
-} from '../../../../../explainer-helpers/explainer-charting-helper';
+import { addInnerChartAriaLabel, applyChartScaling, chartInViewProps } from '../../../../../explainer-helpers/explainer-charting-helper';
 import { apiPrefix, basicFetch } from '../../../../../../../utils/api-utils';
-import {
-  adjustDataForInflation
-} from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
+import { adjustDataForInflation } from '../../../../../../../helpers/inflation-adjust/inflation-adjust';
 import simplifyNumber from '../../../../../../../helpers/simplify-number/simplifyNumber';
 import numeral from 'numeral';
 import { getShortForm } from '../../../../../../../utils/rounding-utils';
@@ -23,15 +16,7 @@ import Analytics from '../../../../../../../utils/analytics/analytics';
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
-import {
-  Line,
-  LineChart,
-  ReferenceDot,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { Line, LineChart, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Point from '../../../../../../../components/nivo/custom-point/point';
 
 let gaTimerTotalRevenue;
@@ -204,8 +189,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           const lastRatio_formatted = numeral(chartLastRatio).format('0%');
 
           setLastRatio(chartLastRatio);
-
-          if (chartFirstRatio !== chartLastRatio) {
+          if (firstRatio_formatted !== lastRatio_formatted) {
             setCalloutCopy(
               `the Revenue-to-GDP ratio has ${
                 lastRatio_formatted > firstRatio_formatted ? 'increased' : 'decreased'
@@ -233,7 +217,6 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
             chartData_combined.push({ ...data, ...finalRevenueChartData[index] });
           });
           setGdpChartData(chartData_combined);
-          console.log(chartData_combined);
 
           copyPageData({
             fiscalYear: revenueMaxYear.x,
@@ -344,7 +327,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       });
       setTimeout(() => {
         setSecondaryAnimationComplete(true);
-      }, stepDuration * gdpChartData.length + 550);
+      }, stepDuration * gdpRatioChartData.length + 550);
       return () => {
         timers.forEach(timer => clearTimeout(timer));
       };

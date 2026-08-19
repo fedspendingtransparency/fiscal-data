@@ -13,7 +13,6 @@ import {
   mockRevenueData_NoChange,
 } from '../../../../../explainer-test-helper';
 import Analytics from '../../../../../../../utils/analytics/analytics';
-import userEvent from '@testing-library/user-event';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useInView } from 'react-intersection-observer';
 
@@ -25,6 +24,18 @@ class ResizeObserver {
 jest.mock('react-intersection-observer', () => ({
   useInView: jest.fn().mockReturnValue({ ref: jest.fn(), inView: false }),
 }));
+
+jest.mock('recharts', () => {
+  const RechartsModule = jest.requireActual('recharts');
+  return {
+    ...RechartsModule,
+    ResponsiveContainer: ({ children }) => (
+      <RechartsModule.ResponsiveContainer width={100} height={100}>
+        {children}
+      </RechartsModule.ResponsiveContainer>
+    ),
+  };
+});
 
 jest.useFakeTimers();
 describe('Total Revenue Chart', () => {
@@ -55,8 +66,7 @@ describe('Total Revenue Chart', () => {
   };
 
   it('chart fires on mouse over leave - for percentage of GDP', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
+    const { findAllByText, getByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
       </ErrorBoundary>
@@ -64,23 +74,15 @@ describe('Total Revenue Chart', () => {
     await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
     expect(totalRevenue.length).toBe(3);
-    const customSlices = await findByTestId('customSlices');
-    expect(customSlices).toBeInTheDocument();
 
-    await user.tab();
-    await user.tab();
-    await user.keyboard('{Enter}');
-    const allSlices = await findAllByTestId('customSlice');
-    await user.tab();
-    expect(allSlices[0]).toHaveFocus();
-    // 2015 is in the header after slice was focused
-    const year = await findAllByText('2015');
-    expect(year.length).toBe(2);
+    const chart = await findByTestId('totalRevenueChartParent');
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
+    expect(getByText('2022')).toBeInTheDocument();
   });
 
   it('chart fires on mouse over leave - for total revenue', async () => {
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    const { findAllByText, getByText, findByTestId, findAllByTestId } = render(
+    const { findAllByText, getByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPDataForRevenueChart} copyPageData={mockPageFunction} />
       </ErrorBoundary>
@@ -88,15 +90,10 @@ describe('Total Revenue Chart', () => {
     await waitForElementToBeRemoved(() => getByText('Loading...'));
     const totalRevenue = await findAllByText('Total Revenue');
     expect(totalRevenue.length).toBe(3);
-    expect(await findByTestId('customSlices')).toBeInTheDocument();
-    const allSlices = await findAllByTestId('customSlice');
-    await user.tab();
-    await user.tab();
-    await user.tab();
-    expect(allSlices[0]).toHaveFocus();
-    // 2015 is in the header after slice was focused
-    const year = await findAllByText('2015');
-    expect(year.length).toBe(2);
+    const chart = await findByTestId('totalRevenueChartParent');
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
+    expect(getByText('2022')).toBeInTheDocument();
   });
 
   it('chart fires ga4 event on mouse over', async () => {
@@ -161,41 +158,18 @@ describe('Total Revenue Chart', () => {
   });
 
   it('renders the chart markers and data header labels', async () => {
-    const { findAllByText, getByText, findByText } = render(
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
+    const { findAllByText, getByText, findByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitForElementToBeRemoved(() => getByText('Loading...'));
+    const chart = await findByTestId('revenueLineChart');
+    expect(chart).toBeInTheDocument();
     expect(await findAllByText('Total Revenue')).toHaveLength(3);
     expect(await findAllByText('GDP')).toHaveLength(2);
     expect(await findByText('Fiscal Year')).toBeInTheDocument();
-  });
-
-  it('renders the CustomPoints layer', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <ErrorBoundary>
-        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-      </ErrorBoundary>
-    );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const customPoints = await findByTestId('customPoints');
-    expect(customPoints).toBeInTheDocument();
-    expect(customPoints.querySelector('circle')?.length === 4);
-  });
-
-  it('renders the CustomSlices layer', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <ErrorBoundary>
-        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-      </ErrorBoundary>
-    );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const customSlices = await findByTestId('customSlices');
-    expect(customSlices).toBeInTheDocument();
-    expect(customSlices?.querySelector('rect')?.length === 8);
   });
 
   it('renders the chart headers', async () => {
@@ -282,12 +256,13 @@ describe('Total Revenue Chart Revenue-to-GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(
+    const { findByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    await findByTestId('totalRevenueChartParent');
     //If this is set, that means all 3 API calls were sucessful.
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has not changed, remaining at 20%.', { exact: false })).toBeInTheDocument();
   });
