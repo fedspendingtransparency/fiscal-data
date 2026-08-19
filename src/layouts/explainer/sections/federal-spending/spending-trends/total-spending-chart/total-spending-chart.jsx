@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, getChartCopy } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
+import VisualizationCallout
+  from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
 import { container, lineChart, loadingIcon } from './total-spending-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
-import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
+import {
+  adjustDataForInflation
+} from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
@@ -17,7 +20,15 @@ import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
 import numeral from 'numeral';
-import { Line, LineChart, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Line,
+  LineChart,
+  ReferenceDot,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 import Point from '../../../../../../components/nivo/custom-point/point';
 
 const callOutDataEndPoint =
@@ -301,7 +312,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       });
       setTimeout(() => {
         setSecondaryAnimationComplete(true);
-      }, stepDuration * gdpChartData.length + 550);
+      }, stepDuration * gdpRatioChartData.length + 550);
       return () => {
         timers.forEach(timer => clearTimeout(timer));
       };
