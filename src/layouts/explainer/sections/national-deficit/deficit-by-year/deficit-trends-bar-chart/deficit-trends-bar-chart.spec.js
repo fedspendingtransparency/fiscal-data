@@ -40,6 +40,14 @@ const renderChart = () =>
     </ErrorBoundary>
   );
 
+const runChartAnimations = async () => {
+  for (let i = 0; i < 4; i++) {
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+  }
+};
+
 // usage helps us avoid a hard coded tab count
 const tabTo = async (user, target) => {
   for (let i = 0; i < 10; i++) {
@@ -87,9 +95,7 @@ describe('Deficit Trends Bar Chart', () => {
     expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2022');
     expect(getByTestId('deficitTotalHeader').textContent).toContain('$1.38 T');
 
-    act(() => {
-      jest.advanceTimersByTime(20000);
-    });
+    await runChartAnimations();
     expect(getByTestId('deficitFiscalYearHeader').textContent).toContain('2022');
     expect(getByTestId('deficitTotalHeader').textContent).toContain('$1.38 T');
   });
@@ -110,9 +116,8 @@ describe('Deficit Trends Bar Chart', () => {
       mockSetInView(true);
     });
 
-    act(() => {
-      jest.advanceTimersByTime(2000);
-    });
+    await runChartAnimations();
+    expect(chartParent).toHaveStyle({ pointerEvents: 'auto' });
 
     await user.hover(chartParent);
     await user.unhover(chartParent);

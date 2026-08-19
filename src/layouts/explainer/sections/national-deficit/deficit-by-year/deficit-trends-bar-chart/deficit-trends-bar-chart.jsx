@@ -58,6 +58,7 @@ export const DeficitTrendsBarChart = () => {
 
   const sweepRan = useRef(false);
   const sweepStartTimer = useRef(null);
+  const sweepEndTimer = useRef(null);
   const sweepFrame = useRef(null);
 
   const { showBoundary } = useErrorBoundary();
@@ -92,7 +93,7 @@ export const DeficitTrendsBarChart = () => {
   const startingYear = '2001';
   const barGrowthAnimation = 1250;
   const delayIncrement = 1250; // total length of the bar highlight wave
-  const sweepStartDelay = 150; // beat between bars finishing and the wave kicking off
+  const sweepStartDelay = 150; // buffer between bars finishing and the wave kicking off
 
   const getChartData = () => {
     const apiData = [];
@@ -133,6 +134,7 @@ export const DeficitTrendsBarChart = () => {
 
   const stopSweep = useCallback(() => {
     clearTimeout(sweepStartTimer.current);
+    clearTimeout(sweepEndTimer.current);
     cancelAnimationFrame(sweepFrame.current);
     setSweepIndex(null);
     setWaveComplete(true);
@@ -150,8 +152,10 @@ export const DeficitTrendsBarChart = () => {
 
   const handleChartMouseLeave = useCallback(() => {
     setChartHover(false);
-    resetHeaderValues();
-  }, [resetHeaderValues]);
+    if (!chartFocus) {
+      resetHeaderValues();
+    }
+  }, [chartFocus, resetHeaderValues]);
 
   const handleGoogleAnalyticsMouseEnter = () => {
     const gaEvent = getGAEvent('30');
@@ -204,15 +208,15 @@ export const DeficitTrendsBarChart = () => {
     const offset = chartData.length - sweepData.length;
     const step = delayIncrement / sweepData.length;
 
-    // Index is derived from elapsed time rather than counted up, so a slow frame
-    // skips a bar instead of pushing every remaining step back
     sweepStartTimer.current = setTimeout(() => {
-      const start = performance.now();
+      let start = null;
       setSweepIndex(offset);
+
       const tick = now => {
+        if (start === null) start = now;
         const i = Math.floor((now - start) / step);
         if (i >= sweepData.length) {
-          stopSweep(); // final bar handed off to the idle highlight
+          stopSweep();
           return;
         }
         setSweepIndex(offset + i);
@@ -221,15 +225,18 @@ export const DeficitTrendsBarChart = () => {
       sweepFrame.current = requestAnimationFrame(tick);
     }, sweepStartDelay);
 
+    sweepEndTimer.current = setTimeout(stopSweep, sweepStartDelay + delayIncrement);
+
     return () => {
       clearTimeout(sweepStartTimer.current);
+      clearTimeout(sweepEndTimer.current);
       cancelAnimationFrame(sweepFrame.current);
     };
   }, [chartData, entranceDone, stopSweep]);
 
   // Run animation for header values
   useEffect(() => {
-    if (sweepIndex === null || !chartData) return;
+    if (sweepIndex === null || !chartData || !chartData[sweepIndex]) return;
     setHeaderYear(chartData[sweepIndex].year);
     setHeaderDeficit(chartData[sweepIndex].deficit);
   }, [sweepIndex, chartData]);
@@ -245,9 +252,15 @@ export const DeficitTrendsBarChart = () => {
     getChartData();
   }, []);
 
+  // runs once the chart is actually mounted, which only happens after it scrolls in
+  useEffect(() => {
+    if (!!chartData && shouldAnimate) {
+      addInnerChartAriaLabel(chartConfigs.parent);
+    }
+  }, [chartData, shouldAnimate]);
+
   useEffect(() => {
     if (!!chartData) {
-      addInnerChartAriaLabel(chartConfigs.parent);
       const tickValues = generateTickValues(chartData);
 
       setMinValue(tickValues[1][0]);
@@ -257,8 +270,8 @@ export const DeficitTrendsBarChart = () => {
     }
   }, [chartData]);
 
-  const idle = !chartHover && !chartFocus;
-  const highlightYear = chartData && sweepIndex !== null ? chartData[sweepIndex].year : waveComplete && idle ? mostRecentFiscalYear : null;
+  const highlightActive = entranceDone && (waveComplete || sweepIndex !== null);
+  const highlightYear = highlightActive ? headerYear : null;
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
 
@@ -354,7 +367,7 @@ export const DeficitTrendsBarChart = () => {
                       animationEasing="ease-out"
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
-                      activeBar={waveComplete ? { fill: chartConfigs.highlightColor } : false}
+                      activeBar={false} // Cell controls bar highlight feature
                     >
                       {chartData.map(entry => (
                         <Cell key={entry.year} fill={entry.year === highlightYear ? chartConfigs.highlightColor : deficitExplainerPrimary} />
