@@ -66,11 +66,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [calloutCopy, setCalloutCopy] = useState('');
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false);
+  const [chartActive, setChartActive] = useState(false);
 
   const [curFY, setCurFY] = useState('--');
   const [curSpending, setCurSpending] = useState();
   const [curGDP, setCurGDP] = useState();
   const [curPercentGDP, setCurPercentGDP] = useState();
+
+  const [defaultIndex, setDefaultIndex] = useState(0);
+  const [secondaryDefaultIndex, setSecondaryDefaultIndex] = useState(0);
 
   const chartTheme = {
     height: 418,
@@ -80,8 +84,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     line: { stroke: '#666' },
     cursor: { strokeDasharray: '6 6', stroke: '#555', strokeWidth: 2 },
   };
-
-  const [chartActive, setChartActive] = useState(false);
 
   const { ref: spendingRef, inView: spendingInView } = useInView(chartInViewProps);
   const { ref: gdpRef, inView: gdpInView } = useInView(chartInViewProps);
@@ -239,7 +241,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   };
 
   const handleGroupOnMouseLeave = () => {
-    setCurFY(maxYear);
+    setCurFY(maxYear.toString());
     setCurSpending(simplifyNumber(lastSpendingValue, false));
     setCurGDP(simplifyNumber(lastGDPValue, false));
     setCurPercentGDP(lastRatio);
@@ -258,7 +260,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
       const percentData = payload[0]?.payload?.y;
       if (percentData) {
         setCurFY(payload[0]?.payload?.x);
-        setCurPercentGDP(numeral(percentData).format('0%'));
+        setCurPercentGDP(percentData);
       }
     }
   };
@@ -275,9 +277,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     }
     return <></>;
   };
-
-  const [defaultIndex, setDefaultIndex] = useState(0);
-  const [secondaryDefaultIndex, setSecondaryDefaultIndex] = useState(0);
 
   useEffect(() => {
     if (spendingInView && gdpChartData.length && !animationTriggeredOnce) {
@@ -345,6 +344,11 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
     setChartActive(chartFocus || chartHover || (selectedChartView === 'totalSpending' ? !animationComplete : !secondaryAnimationComplete));
   }, [chartHover, chartFocus, animationComplete, secondaryAnimationComplete, selectedChartView]);
 
+  useEffect(() => {
+    if (!chartActive && animationComplete) {
+      handleGroupOnMouseLeave();
+    }
+  }, [chartActive]);
   return (
     <>
       {chartToggleConfig && (
@@ -372,7 +376,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   onFocus={() => setChartFocus(true)}
                   onBlur={() => setChartFocus(false)}
                   onMouseLeave={() => {
-                    handleGroupOnMouseLeave();
                     setChartHover(false);
                     clearTimeout(gaTimer);
                     clearTimeout(ga4Timer);
