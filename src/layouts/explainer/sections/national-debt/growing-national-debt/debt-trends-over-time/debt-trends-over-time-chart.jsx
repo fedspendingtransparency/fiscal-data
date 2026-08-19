@@ -20,7 +20,6 @@ import LoadingIndicator from '../../../../../../components/loading-indicator/loa
 let gaTimerDebtTrends;
 let ga4Timer;
 
-// The axis deliberately starts before the data does; the leading gap is expected.
 const axisStartYear = 1940;
 const decade = 10;
 const percentInterval = 20;
@@ -109,8 +108,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     }
   }, [status, payload]);
 
-  // Fires for hover, arrow-key navigation, and the intro sweep alike; `datum` is undefined once the
-  // reader leaves the chart, which returns the headers to the most recent year.
   const handleActiveDatumChange = datum => {
     setLineChartHoveredYear(datum ? datum.x : '');
     setLineChartHoveredValue(datum ? formatPercentage(datum.y) : '');
@@ -141,8 +138,6 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     }
   }, [inView, debtTrendsData]);
 
-  // The chart's decorations (crosshair, point marker) are live whenever the reader is driving it by
-  // mouse or keyboard, and while the intro sweep drives it for them.
   const chartActive = chartFocus || chartHover || !animationComplete;
 
   const handleMouseEnterLineChart = () => {
@@ -229,15 +224,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
                   id="debt-trends"
                   role="presentation"
                 >
-                    />
-                  {/* ResponsiveContainer keeps the chart's internal coordinate space equal to its rendered pixel
-                      size. Without it the SVG has to be stretched with a viewBox, and Recharts — which reads the
-                      pointer in DOM pixels — puts the crosshair increasingly far from the cursor as you move right. */}
                   <ResponsiveContainer width="100%" aspect={chartWidth / chartHeight} initialDimension={{ width: chartWidth, height: chartHeight }}>
                     <LineChart data={debtTrendsData} margin={getChartMargin(isMobile)} aria-label="Inner chart area">
-                      {/* Owns the active index that the crosshair, point, and data headers all read from. It has no
-                          visible content of its own — the intro sweep drives it through defaultIndex, and Recharts'
-                          accessibility layer drives it from hover and left/right arrow keys. */}
                       <Tooltip
                         active={chartActive}
                         defaultIndex={defaultIndex ?? undefined}
