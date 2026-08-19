@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Cell } from 'recharts';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14 } from '../../../../../../variables.module.scss';
+import { breakpointLg, fontBodyCopy, fontSize_12, fontSize_14, fontTitle } from '../../../../../../variables.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import { endpointUrl, generateTickValues, preAPIData } from './deficit-trends-bar-chart-helpers';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
@@ -53,6 +53,12 @@ export const DeficitTrendsBarChart = () => {
   const [entranceDone, setEntranceDone] = useState(false); // bar growth animation finished
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false); // separate from focus to prevent mouse/key mix-ups
+  const [sweepIndex, setSweepIndex] = useState(null); // bar highlight wave position
+  const [waveComplete, setWaveComplete] = useState(false); // wave finished or was skipped; chart is interactive
+
+  const sweepRan = useRef(false);
+  const sweepStartTimer = useRef(null);
+  const sweepFrame = useRef(null);
 
   const { showBoundary } = useErrorBoundary();
 
@@ -74,6 +80,7 @@ export const DeficitTrendsBarChart = () => {
     width: 495,
     height: 388,
     fontSize: desktop ? fontSize_14 : fontSize_12,
+    highlightColor: fontTitle,
   };
 
   const tickStyle = {
@@ -84,6 +91,8 @@ export const DeficitTrendsBarChart = () => {
 
   const startingYear = '2001';
   const barGrowthAnimation = 1250;
+  const delayIncrement = 1250; // total length of the bar highlight wave
+  const sweepStartDelay = 150; // beat between bars finishing and the wave kicking off
 
   const getChartData = () => {
     const apiData = [];
@@ -121,6 +130,13 @@ export const DeficitTrendsBarChart = () => {
     setHeaderYear(mostRecentFiscalYear);
     setHeaderDeficit(mostRecentDeficit);
   }, [mostRecentFiscalYear, mostRecentDeficit]);
+
+  const stopSweep = useCallback(() => {
+    clearTimeout(sweepStartTimer.current);
+    cancelAnimationFrame(sweepFrame.current);
+    setSweepIndex(null);
+    setWaveComplete(true);
+  }, []);
 
   const handleChartBlur = useCallback(
     e => {
@@ -173,6 +189,58 @@ export const DeficitTrendsBarChart = () => {
     }
   }, [shouldAnimate, chartData]);
 
+  // Run bar highlight wave
+  useEffect(() => {
+    if (!chartData || !entranceDone || sweepRan.current) return;
+    const sweepData = chartData.filter(entry => entry.year >= startingYear);
+
+    sweepRan.current = true;
+
+    if (!sweepData.length) {
+      setWaveComplete(true);
+      return;
+    }
+
+    const offset = chartData.length - sweepData.length;
+    const step = delayIncrement / sweepData.length;
+
+    // Index is derived from elapsed time rather than counted up, so a slow frame
+    // skips a bar instead of pushing every remaining step back
+    sweepStartTimer.current = setTimeout(() => {
+      const start = performance.now();
+      setSweepIndex(offset);
+      const tick = now => {
+        const i = Math.floor((now - start) / step);
+        if (i >= sweepData.length) {
+          stopSweep(); // final bar handed off to the idle highlight
+          return;
+        }
+        setSweepIndex(offset + i);
+        sweepFrame.current = requestAnimationFrame(tick);
+      };
+      sweepFrame.current = requestAnimationFrame(tick);
+    }, sweepStartDelay);
+
+    return () => {
+      clearTimeout(sweepStartTimer.current);
+      cancelAnimationFrame(sweepFrame.current);
+    };
+  }, [chartData, entranceDone, stopSweep]);
+
+  // Run animation for header values
+  useEffect(() => {
+    if (sweepIndex === null || !chartData) return;
+    setHeaderYear(chartData[sweepIndex].year);
+    setHeaderDeficit(chartData[sweepIndex].deficit);
+  }, [sweepIndex, chartData]);
+
+  // Keyboard users skip the wave rather than waiting it out
+  useEffect(() => {
+    if (!chartFocus || waveComplete) return;
+    stopSweep();
+    resetHeaderValues();
+  }, [chartFocus, waveComplete, stopSweep, resetHeaderValues]);
+
   useEffect(() => {
     getChartData();
   }, []);
@@ -188,6 +256,9 @@ export const DeficitTrendsBarChart = () => {
       setTickValuesY(tickValues[1]);
     }
   }, [chartData]);
+
+  const idle = !chartHover && !chartFocus;
+  const highlightYear = chartData && sweepIndex !== null ? chartData[sweepIndex].year : waveComplete && idle ? mostRecentFiscalYear : null;
 
   const { mtsSummary } = explainerCitationsMap['national-deficit'];
 
@@ -240,7 +311,7 @@ export const DeficitTrendsBarChart = () => {
               onBlur={handleChartBlur}
               onMouseOver={() => setChartHover(true)}
               onMouseLeave={handleChartMouseLeave}
-              style={{ pointerEvents: entranceDone ? 'auto' : 'none' }}
+              style={{ pointerEvents: entranceDone && waveComplete ? 'auto' : 'none' }}
             >
               {shouldAnimate && (
                 <ResponsiveContainer width="100%" height={388}>
@@ -273,7 +344,7 @@ export const DeficitTrendsBarChart = () => {
                       content={<HeaderSync onActivePoint={handleActivePoint} />}
                       cursor={false}
                       isAnimationActive={false}
-                      active={chartFocus || chartHover}
+                      active={waveComplete && (chartFocus || chartHover)}
                     />
                     <Bar
                       dataKey="deficit"
@@ -283,11 +354,10 @@ export const DeficitTrendsBarChart = () => {
                       animationEasing="ease-out"
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
-                      activeBar={{ fill: '#555555' }}
+                      activeBar={waveComplete ? { fill: chartConfigs.highlightColor } : false}
                     >
-                      {chartData.map(bar => (
-                        // to prevent duplicate bars showing (if user moves mouse quickly), only show this filled cell if cursor is outside of chart focus
-                        <Cell key={bar.year} fill={!chartHover && !chartFocus && bar.year === headerYear ? '#555555' : deficitExplainerPrimary} />
+                      {chartData.map(entry => (
+                        <Cell key={entry.year} fill={entry.year === highlightYear ? chartConfigs.highlightColor : deficitExplainerPrimary} />
                       ))}
                     </Bar>
                   </BarChart>
