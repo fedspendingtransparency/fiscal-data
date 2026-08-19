@@ -64,8 +64,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [secondaryAnimationComplete, setSecondaryAnimationComplete] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
   const [calloutCopy, setCalloutCopy] = useState('');
-  const [spendingHoverDisabled, setSpendingHoverDisabled] = useState(true);
-  const [gdpHoverDisabled, setGdpHoverDisabled] = useState(true);
   const [chartFocus, setChartFocus] = useState(false);
   const [chartHover, setChartHover] = useState(false);
 
@@ -273,7 +271,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
-      console.log(payload);
       updateDataHeader(payload);
     }
     return <></>;
@@ -383,7 +380,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   role="presentation"
                 >
                   {selectedChartView === 'totalSpending' && (
-                    <div ref={spendingRef}>
+                    <div data-testid="spendingLineChart" ref={spendingRef} style={{ pointerEvents: !animationComplete ? 'none' : 'auto' }}>
                       <ResponsiveContainer height={chartTheme.height} width="99%">
                         <LineChart data={gdpChartData} margin={chartTheme.margin} accessibilityLayer>
                           <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
@@ -427,7 +424,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                     </div>
                   )}
                   {selectedChartView === 'percentageGdp' && (
-                    <div ref={gdpRef}>
+                    <div ref={gdpRef} style={{ pointerEvents: !secondaryAnimationComplete ? 'none' : 'auto' }}>
                       <ResponsiveContainer height={chartTheme.height} width="99%">
                         <LineChart data={gdpRatioChartData} margin={chartTheme.margin} accessibilityLayer>
                           <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
