@@ -19,7 +19,7 @@ import { chartInViewProps } from '../../../../explainer-helpers/explainer-charti
 import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
-
+import numeral from 'numeral';
 import {
   Line,
   LineChart,
@@ -162,7 +162,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
             finalGdpRatioChartData.push({
               x: parseInt(spendingYear),
-              y: gdpRatio * 100,
+              y: gdpRatio,
             });
           });
 
@@ -171,14 +171,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
           setMaxAmount(maxAmountLocal);
 
-          const chartFirstRatio = (finalSpendingChartData[0].spending_y / rename[0].gdp_y) * 100;
-          const chartLastRatio = (finalSpendingChartData[finalSpendingChartData.length - 1].spending_y / rename[rename.length - 1].gdp_y) * 100;
+          const chartFirstRatio = finalSpendingChartData[0].spending_y / rename[0].gdp_y;
+          const chartLastRatio = finalSpendingChartData[finalSpendingChartData.length - 1].spending_y / rename[rename.length - 1].gdp_y;
           setLastRatio(chartLastRatio);
 
           if (chartFirstRatio !== chartLastRatio) {
             setCalloutCopy(
-              ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${chartFirstRatio ||
-                '--'} to ${chartLastRatio || '--'}`
+              ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${numeral(chartFirstRatio).format(
+                '0%'
+              ) || '--'} to ${numeral(chartLastRatio).format('0%') || '--'}`
             );
           } else {
             setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
@@ -256,10 +257,10 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
         setCurGDP(simplifyNumber(gdpData, false));
       }
     } else if (selectedChartView === 'percentageGdp') {
-      const percentData = payload[0]?.y;
+      const percentData = payload[0]?.payload?.y;
       if (percentData) {
-        setCurFY(payload[0].payload.fiscalYear);
-        setCurPercentGDP(percentData);
+        setCurFY(payload[0]?.payload?.x);
+        setCurPercentGDP(numeral(percentData).format('0%'));
       }
     }
   };
@@ -272,6 +273,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const CustomTooltip = ({ payload = [] }) => {
     if (payload.length > 0) {
+      console.log(payload);
       updateDataHeader(payload);
     }
     return <></>;
@@ -357,7 +359,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
               footer={chartFooter}
               header={dataHeader(
                 chartToggleConfig,
-                { fiscalYear: curFY, totalSpending: curSpending, gdp: curGDP, gdpRatio: curPercentGDP },
+                { fiscalYear: curFY, totalSpending: curSpending, gdp: curGDP, gdpRatio: numeral(curPercentGDP).format('0%') },
                 handleClick
               )}
               date={lastUpdatedDate}
@@ -430,9 +432,9 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                         <LineChart data={gdpRatioChartData} margin={chartTheme.margin} accessibilityLayer>
                           <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
                           <YAxis
-                            ticks={[0, 10, 20, 30, 40, 50]}
+                            ticks={[0, 0.1, 0.2, 0.3, 0.4, 0.5]}
                             fontSize={chartTheme.axis.fontSize}
-                            tickFormatter={val => val + '%'}
+                            tickFormatter={val => val * 100 + '%'}
                             tick={{ ...chartTheme.axis.tick }}
                           />
                           <Line
