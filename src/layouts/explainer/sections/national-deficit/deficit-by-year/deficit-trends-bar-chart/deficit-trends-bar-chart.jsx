@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Cell } from 'recharts';
 import { deficitExplainerPrimary } from '../../national-deficit.module.scss';
 import { barChart, container, headerTitle, subHeader, headerContainer, loadingIcon, customGrid } from './deficit-trends-bar-chart.module.scss';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
@@ -284,7 +284,12 @@ export const DeficitTrendsBarChart = () => {
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
                       activeBar={{ fill: '#555555' }}
-                    />
+                    >
+                      {chartData.map(bar => (
+                        // to prevent duplicate bars showing (if user moves mouse quickly), only show this filled cell if cursor is outside of chart focus
+                        <Cell key={bar.year} fill={!chartHover && !chartFocus && bar.year === headerYear ? '#555555' : deficitExplainerPrimary} />
+                      ))}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               )}
