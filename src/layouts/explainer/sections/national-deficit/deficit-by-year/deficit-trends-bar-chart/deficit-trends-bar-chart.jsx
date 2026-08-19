@@ -283,7 +283,7 @@ export const DeficitTrendsBarChart = () => {
                       animationEasing="ease-out"
                       barSize={desktop ? 11 : 8}
                       fill={deficitExplainerPrimary}
-                      activeBar={false}
+                      activeBar={{ fill: '#555555' }}
                     />
                   </BarChart>
                 </ResponsiveContainer>
