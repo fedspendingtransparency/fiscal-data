@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Point = ({ currentPoint, borderColor, borderWidth }) => {
-  console.log(currentPoint);
   return (
     <g>
       <circle
