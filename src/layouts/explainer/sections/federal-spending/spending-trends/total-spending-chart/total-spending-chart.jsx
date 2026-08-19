@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { dataHeader, getChartCopy } from './total-spending-chart-helper';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import VisualizationCallout
-  from '../../../../../../components/visualization-callout/visualization-callout';
+import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import { spendingExplainerPrimary } from '../../federal-spending.module.scss';
 import { container, lineChart, loadingIcon } from './total-spending-chart.module.scss';
 import { apiPrefix, basicFetch } from '../../../../../../utils/api-utils';
 import simplifyNumber from '../../../../../../helpers/simplify-number/simplifyNumber';
-import {
-  adjustDataForInflation
-} from '../../../../../../helpers/inflation-adjust/inflation-adjust';
+import { adjustDataForInflation } from '../../../../../../helpers/inflation-adjust/inflation-adjust';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import useGAEventTracking from '../../../../../../hooks/useGAEventTracking';
@@ -20,15 +17,7 @@ import { useInView } from 'react-intersection-observer';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 import { useErrorBoundary } from 'react-error-boundary';
 import numeral from 'numeral';
-import {
-  Line,
-  LineChart,
-  ReferenceDot,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from 'recharts';
+import { Line, LineChart, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Point from '../../../../../../components/nivo/custom-point/point';
 
 const callOutDataEndPoint =
@@ -56,8 +45,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastSpendingValue, setLastSpendingValue] = useState('');
-  const [maxSpendingValue, setMaxSpendingValue] = useState(0);
-  const [maxGDPValue, setMaxGDPValue] = useState(0);
+
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
@@ -146,8 +134,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
           const spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => (max > spending.spending_y ? max : spending.spending_y));
 
-          setMaxSpendingValue(spendingMaxAmount);
-
           const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear);
           const filteredGDPData_chartData = [];
           filteredGDPData.forEach(data => {
@@ -177,14 +163,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
             filteredGDPData_chartData[filteredGDPData_chartData.length - 1].gdp_y;
           setLastRatio(chartLastRatio);
 
-          if (chartFirstRatio !== chartLastRatio) {
+          const firstRatio_formatted = numeral(chartFirstRatio).format('0%');
+          const lastRatio_formatted = numeral(chartLastRatio).format('0%');
+          if (firstRatio_formatted !== lastRatio_formatted) {
             setCalloutCopy(
-              ` the Spending to GDP ratio has ${chartLastRatio > chartFirstRatio ? 'increased' : 'decreased'} from ${numeral(chartFirstRatio).format(
-                '0%'
-              ) || '--'} to ${numeral(chartLastRatio).format('0%') || '--'}`
+              ` the Spending to GDP ratio has ${lastRatio_formatted > firstRatio_formatted ? 'increased' : 'decreased'} from ${firstRatio_formatted ||
+                '--'} to ${lastRatio_formatted || '--'}`
             );
           } else {
-            setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${chartFirstRatio}`);
+            setCalloutCopy(`the Spending to GDP ratio has not changed, remaining at ${firstRatio_formatted}`);
           }
 
           const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual_spending;
@@ -198,9 +185,6 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           setCurGDP(simplifyNumber(chartLastGDPValue, false));
           setCurPercentGDP(chartLastRatio);
 
-          const chartMaxGDPValue = filteredGDPData_chartData.reduce((max, gdp) => (max.x > gdp.x ? max.gdp_y : gdp.gdp_y));
-
-          setMaxGDPValue(chartMaxGDPValue);
           const chartData_combined = [];
 
           filteredGDPData_chartData.forEach((data, index) => {
@@ -300,7 +284,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
         timers.forEach(timer => clearTimeout(timer));
       };
     }
-  }, [spendingInView]);
+  }, [spendingInView, gdpChartData]);
 
   useEffect(() => {
     if (gdpInView && gdpRatioChartData.length && !secondaryAnimationTriggeredOnce) {
@@ -322,7 +306,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
         timers.forEach(timer => clearTimeout(timer));
       };
     }
-  }, [gdpInView]);
+  }, [gdpInView, gdpRatioChartData]);
 
   const HoverPoint = payload => {
     const { cx, cy, strokeWidth, label, active } = payload;
@@ -347,11 +331,11 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   }, [chartHover, chartFocus, animationComplete, secondaryAnimationComplete, selectedChartView]);
 
   useEffect(() => {
-    console.log(curSpending, lastSpendingValue);
-    if (!chartActive && animationComplete) {
+    if (!chartActive && (selectedChartView === 'totalSpending' ? animationComplete : secondaryAnimationComplete)) {
       handleGroupOnMouseLeave();
     }
   }, [chartActive]);
+
   return (
     <>
       {chartToggleConfig && (
@@ -423,7 +407,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             active={chartActive}
                             defaultIndex={defaultIndex}
                           />
-                          <ReferenceDot x={maxYear} y={lastSpendingValue} shape={<HoverPoint label="Spending" />} />
+                          <ReferenceDot x={maxYear} y={lastSpendingValue} shape={<HoverPoint label="Total Spending" />} />
                           <ReferenceDot x={maxYear} y={lastGDPValue} shape={<HoverPoint label="GDP" />} />
                         </LineChart>
                       </ResponsiveContainer>
