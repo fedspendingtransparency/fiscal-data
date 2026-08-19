@@ -271,7 +271,7 @@ export const DeficitTrendsBarChart = () => {
                     />
                     <Tooltip
                       content={<HeaderSync onActivePoint={handleActivePoint} />}
-                      cursor={{ fill: '#0000000f' }} // TODO: figure out color for this
+                      cursor={false}
                       isAnimationActive={false}
                       active={chartFocus || chartHover}
                     />
