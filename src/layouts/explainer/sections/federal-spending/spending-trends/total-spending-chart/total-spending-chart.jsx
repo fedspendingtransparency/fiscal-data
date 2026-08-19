@@ -149,15 +149,15 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           setMaxSpendingValue(spendingMaxAmount);
 
           const filteredGDPData = finalGDPData.filter(g => g.fiscalYear <= spendingMaxYear && g.fiscalYear >= spendingMinYear);
-          const rename = [];
+          const filteredGDPData_chartData = [];
           filteredGDPData.forEach(data => {
-            rename.push({ actual_gdp: data.actual, gdp_y: data.y, x: data.x, fiscalYear: data.fiscalYear });
+            filteredGDPData_chartData.push({ actual_gdp: data.actual, gdp_y: data.y, x: data.x, fiscalYear: data.fiscalYear });
           });
           const finalGdpRatioChartData = [];
           finalSpendingChartData.forEach(spending => {
             const spendingYear = spending.fiscalYear;
             const spendingAmount = spending.spending_y;
-            const matchingGDP = rename.filter(g => g.fiscalYear === spendingYear).map(g => g.gdp_y)[0];
+            const matchingGDP = filteredGDPData_chartData.filter(g => g.fiscalYear === spendingYear).map(g => g.gdp_y)[0];
             const gdpRatio = spendingAmount / matchingGDP;
 
             finalGdpRatioChartData.push({
@@ -171,8 +171,10 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           const maxAmountLocal = Math.ceil((spendingMaxAmount > gdpMaxAmount ? spendingMaxAmount : gdpMaxAmount) / 5) * 5;
           setMaxAmount(maxAmountLocal);
 
-          const chartFirstRatio = finalSpendingChartData[0].spending_y / rename[0].gdp_y;
-          const chartLastRatio = finalSpendingChartData[finalSpendingChartData.length - 1].spending_y / rename[rename.length - 1].gdp_y;
+          const chartFirstRatio = finalSpendingChartData[0].spending_y / filteredGDPData_chartData[0].gdp_y;
+          const chartLastRatio =
+            finalSpendingChartData[finalSpendingChartData.length - 1].spending_y /
+            filteredGDPData_chartData[filteredGDPData_chartData.length - 1].gdp_y;
           setLastRatio(chartLastRatio);
 
           if (chartFirstRatio !== chartLastRatio) {
@@ -186,22 +188,22 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           }
 
           const chartLastSpendingValue = finalSpendingChartData[finalSpendingChartData.length - 1].actual_spending;
-          setLastSpendingValue(chartLastSpendingValue);
+          setLastSpendingValue(finalSpendingChartData[finalSpendingChartData.length - 1].spending_y);
 
-          const chartLastGDPValue = rename[rename.length - 1].actual_gdp;
-          setLastGDPValue(chartLastGDPValue);
+          const chartLastGDPValue = filteredGDPData_chartData[filteredGDPData_chartData.length - 1].actual_gdp;
+          setLastGDPValue(filteredGDPData_chartData[filteredGDPData_chartData.length - 1].gdp_y);
 
           setCurFY(spendingMaxYear);
           setCurSpending(simplifyNumber(chartLastSpendingValue, false));
           setCurGDP(simplifyNumber(chartLastGDPValue, false));
           setCurPercentGDP(chartLastRatio);
 
-          const chartMaxGDPValue = rename.reduce((max, gdp) => (max.x > gdp.x ? max.gdp_y : gdp.gdp_y));
+          const chartMaxGDPValue = filteredGDPData_chartData.reduce((max, gdp) => (max.x > gdp.x ? max.gdp_y : gdp.gdp_y));
 
           setMaxGDPValue(chartMaxGDPValue);
           const chartData_combined = [];
 
-          rename.forEach((data, index) => {
+          filteredGDPData_chartData.forEach((data, index) => {
             chartData_combined.push({ ...data, ...finalSpendingChartData[index] });
           });
           setGdpChartData(chartData_combined);
@@ -242,8 +244,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
 
   const handleGroupOnMouseLeave = () => {
     setCurFY(maxYear.toString());
-    setCurSpending(simplifyNumber(lastSpendingValue, false));
-    setCurGDP(simplifyNumber(lastGDPValue, false));
+    setCurSpending(lastSpendingValue + ' T');
+    setCurGDP(lastGDPValue + ' T');
     setCurPercentGDP(lastRatio);
   };
 
@@ -345,6 +347,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   }, [chartHover, chartFocus, animationComplete, secondaryAnimationComplete, selectedChartView]);
 
   useEffect(() => {
+    console.log(curSpending, lastSpendingValue);
     if (!chartActive && animationComplete) {
       handleGroupOnMouseLeave();
     }
