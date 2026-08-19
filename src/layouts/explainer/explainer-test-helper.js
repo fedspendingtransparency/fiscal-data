@@ -1181,25 +1181,25 @@ export const mockBeaGDPData = {
     {
       x: 2011,
       actual: 22560300363991.676,
-      fiscalYear: '2015',
+      fiscalYear: '2011',
       y: 22.56,
     },
     {
       x: 2012,
       actual: 22560300363991.676,
-      fiscalYear: '2015',
+      fiscalYear: '2012',
       y: 22.56,
     },
     {
       x: 2013,
       actual: 22560300363991.676,
-      fiscalYear: '2015',
+      fiscalYear: '2013',
       y: 22.56,
     },
     {
       x: 2014,
       actual: 22560300363991.676,
-      fiscalYear: '2015',
+      fiscalYear: '2014',
       y: 22.56,
     },
     {
