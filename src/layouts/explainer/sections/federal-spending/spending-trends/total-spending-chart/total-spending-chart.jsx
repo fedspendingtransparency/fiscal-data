@@ -420,8 +420,8 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                             active={chartActive}
                             defaultIndex={defaultIndex}
                           />
-                          <ReferenceDot x={maxYear} y={maxSpendingValue} shape={<HoverPoint label="Spending" />} />
-                          <ReferenceDot x={maxYear} y={maxGDPValue} shape={<HoverPoint label="GDP" />} />
+                          <ReferenceDot x={maxYear} y={lastSpendingValue} shape={<HoverPoint label="Spending" />} />
+                          <ReferenceDot x={maxYear} y={lastGDPValue} shape={<HoverPoint label="GDP" />} />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
