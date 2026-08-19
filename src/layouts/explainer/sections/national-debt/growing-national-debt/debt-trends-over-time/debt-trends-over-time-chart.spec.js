@@ -1,5 +1,4 @@
-import { act, render, waitFor } from '@testing-library/react';
-import { fireEvent } from '@testing-library/dom';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { nationalDebtSectionIds } from '../../national-debt';
 import React from 'react';
 import { determineBEAFetchResponse } from '../../../../../../utils/mock-utils';
@@ -47,16 +46,40 @@ describe('Debt Trends Over Time Chart', () => {
     expect((await getByTestId('customPoints').querySelector('circle')?.length) === 2);
   });
 
-  it('Renders the chart slices', async () => {
-    const { findByTestId, getByTestId } = render(
+  it('moves between data points with the arrow keys from a single tab stop', async () => {
+    const { findByTestId, getByTestId, container } = render(
       <>
         <DebtTrendsOverTimeChart beaGDPData={mockBeaGDPData} sectionId={sectionId} />
       </>
     );
 
     expect(await findByTestId('debtTrendsChart')).toBeInTheDocument();
-    expect(await findByTestId('customSlices')).toBeInTheDocument();
-    expect(getByTestId('customSlices').querySelectorAll('rect').length).toBeGreaterThan(0);
+    await findByTestId('customPoints');
+
+    // keep the chart out of view so the intro sweep doesn't drive the headers during this test
+    mockAllIsIntersecting(false);
+
+    // the whole chart is one tab stop rather than one per year
+    const chartSurface = container.querySelector('svg.recharts-surface');
+    expect(chartSurface).toHaveAttribute('tabindex', '0');
+    expect(chartSurface).toHaveAttribute('aria-label', 'Inner chart area');
+    expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+
+    const expectYear = year => waitFor(() => expect(getByTestId('debtTrendsYearHeader').textContent).toContain(year));
+
+    // the mock GDP fixture runs 2011-2022, so focusing lands on 2011 and each arrow steps one year
+    fireEvent.focus(chartSurface);
+    await expectYear('2011');
+
+    fireEvent.keyDown(chartSurface, { key: 'ArrowRight' });
+    await expectYear('2012');
+
+    fireEvent.keyDown(chartSurface, { key: 'ArrowLeft' });
+    await expectYear('2011');
+
+    // leaving the chart returns the headers to the most recent year
+    fireEvent.blur(chartSurface);
+    await expectYear('2021');
   });
 
   it('initializes with the earliest data point', async () => {

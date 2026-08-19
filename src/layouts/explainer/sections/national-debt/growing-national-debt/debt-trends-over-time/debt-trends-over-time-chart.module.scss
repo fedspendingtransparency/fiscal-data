@@ -21,16 +21,6 @@
         opacity: 0.75;
       }
     }
-    :global(.recharts-wrapper) {
-      width: 100% !important;
-      height: auto !important;
-    }
-
-    :global(.recharts-surface) {
-      display: block;
-      width: 100% !important;
-      height: auto !important;
-    }
   }
 
   .title {
