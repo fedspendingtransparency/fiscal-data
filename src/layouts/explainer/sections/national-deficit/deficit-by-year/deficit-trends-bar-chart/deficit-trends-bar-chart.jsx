@@ -64,11 +64,9 @@ export const DeficitTrendsBarChart = () => {
   const { showBoundary } = useErrorBoundary();
 
   const formatCurrency = v => {
-    if (parseFloat(v) < 0) {
-      return `-$${Math.abs(v)} T`;
-    } else {
-      return `$${v} T`;
-    }
+    const num = parseFloat(v);
+    const formatted = num === 0 ? '0' : Number.isInteger(num) ? `${num}.0` : v;
+    return num < 0 ? `-$${Math.abs(formatted)} T` : `$${formatted} T`;
   };
 
   const { ref, inView } = useInView({
