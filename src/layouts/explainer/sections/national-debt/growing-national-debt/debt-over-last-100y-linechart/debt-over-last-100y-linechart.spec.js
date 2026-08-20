@@ -29,13 +29,17 @@ describe('National Debt Over the Last 100 Years Chart', () => {
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(
+    const { getByTestId, container } = render(
       <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     expect(await getByTestId('totalDebtChartParent')).toBeInTheDocument();
+    const chartSurface = container.querySelector('svg.recharts-surface');
+    expect(chartSurface).toHaveAttribute('aria-label', 'Inner chart area');
+    expect(chartSurface).toHaveAttribute('width', String(550));
+    expect(chartSurface.getAttribute('viewBox')).toMatch(/^0 0 550 /);
   });
 
   it('renders the chart markers and data header labels', async () => {
@@ -62,16 +66,33 @@ describe('National Debt Over the Last 100 Years Chart', () => {
     expect((await getByTestId('customPoints').querySelector('circle')?.length) === 2);
   });
 
-  it('renders the CustomSlices layer', async () => {
+  it('moves between data points with the arrow keys from a single tab stop', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(
+    const { findByTestId, container } = render(
       <>
         <DebtOverLast100y cpiDataByYear={mockCpiDataset} />
       </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    expect(await getByTestId('customSlices')).toBeInTheDocument();
-    expect((await getByTestId('customSlices')?.querySelector('rect')?.length) === 100);
+    await findByTestId('customPoints');
+
+    mockAllIsIntersecting(false);
+
+    const chartSurface = container.querySelector('svg.recharts-surface');
+    expect(chartSurface).toHaveAttribute('tabindex', '0');
+    expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+
+    fireEvent.focus(chartSurface);
+    expect((await findByTestId('dynamic-year-header')).textContent).toContain('1922');
+
+    fireEvent.keyDown(chartSurface, { key: 'ArrowRight' });
+    expect((await findByTestId('dynamic-year-header')).textContent).toContain('1923');
+
+    fireEvent.keyDown(chartSurface, { key: 'ArrowLeft' });
+    expect((await findByTestId('dynamic-year-header')).textContent).toContain('1922');
+
+    fireEvent.blur(chartSurface);
+    expect((await findByTestId('dynamic-year-header')).textContent).toContain('2022');
   });
 
   it('renders the chart headers', async () => {
@@ -101,7 +122,7 @@ describe('National Debt Over the Last 100 Years Chart', () => {
       </>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    expect(await findByTestId('customSlices')).toBeInTheDocument();
+    expect(await findByTestId('customPoints')).toBeInTheDocument();
 
     // explicitly declare that the chart is not scrolled into view
     mockAllIsIntersecting(false);
