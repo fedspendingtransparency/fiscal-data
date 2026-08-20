@@ -281,6 +281,42 @@ describe('PivotOptions component does render children', () => {
     });
   });
 
+  it('reinitializes the pivot when it is cleared without the table changing', () => {
+    const PivotOptionsWithState = () => {
+      const [pivotSelection, setSelectedPivot] = React.useState({
+        pivotView: selectedTable.dataDisplays[1],
+        pivotValue: selectedTable.fields[3],
+      });
+      return (
+        <>
+          <button onClick={() => setSelectedPivot(null)}>clear pivot</button>
+          <PivotOptions table={selectedTable} pivotSelection={pivotSelection} setSelectedPivot={setSelectedPivot} />
+        </>
+      );
+    };
+
+    const { getByRole, getByTestId } = render(<PivotOptionsWithState />);
+    expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
+
+    fireEvent.click(getByRole('button', { name: 'clear pivot' }));
+
+    expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
+    // back to the table's default pivot view rather than the previously selected one
+    expect(getByRole('button', { name: `Change pivot view from ${selectedTable.dataDisplays[0].title}` })).toBeInTheDocument();
+  });
+
+  it('initializes the pivot once per table change', () => {
+    const setSelectedPivotSpy = jest.fn();
+    const otherTable = { ...selectedTable, dataDisplays: [...selectedTable.dataDisplays] };
+    const pivotSelection = { pivotView: selectedTable.dataDisplays[1], pivotValue: selectedTable.fields[3] };
+
+    const { rerender } = render(<PivotOptions table={selectedTable} pivotSelection={pivotSelection} setSelectedPivot={setSelectedPivotSpy} />);
+    expect(setSelectedPivotSpy).toHaveBeenCalledTimes(1);
+
+    rerender(<PivotOptions table={otherTable} pivotSelection={pivotSelection} setSelectedPivot={setSelectedPivotSpy} />);
+    expect(setSelectedPivotSpy).toHaveBeenCalledTimes(2);
+  });
+
   it('hides pivot options when all data tables is selected', () => {
     const setSelectedPivotSpy = jest.fn();
     const selectedPivotView = selectedTable.dataDisplays[4];
