@@ -2,11 +2,18 @@
 
 .barChartContainer {
   width: 100%;
+  // reserves the chart's footprint before it mounts, so the in-view observer has something to
+  // measure and the card doesn't shift when the chart appears (matches config.height in the jsx)
+  min-height: 20rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    min-height: 27.69rem;
+  }
 }
 
 .container {
   & :global(.chartContainerChart) {
-    min-height: 16.44rem;
+    min-height: 20rem;
 
     @media screen and (min-width: $breakpoint-lg - 1) {
       min-height: 27.69rem;
@@ -23,4 +30,65 @@
 
 .title {
   margin-bottom: 1rem;
+}
+
+.valueLabel {
+  // the old chart's 36px label scaled down with its viewBox; this is that rendered size
+  font-size: 1.25rem;
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    font-size: 1.875rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.valueLabelVisible {
+  opacity: 1;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  list-style: none;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    flex-wrap: nowrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    gap: 0.5rem;
+    min-height: 2.125rem; // 34px row, matching the old legend item
+  }
+}
+
+.legendSwatch {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 0.625rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    width: 2rem;
+    height: 1rem;
+  }
 }
