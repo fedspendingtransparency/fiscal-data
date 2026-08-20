@@ -113,74 +113,74 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
               <div data-testid="breakdownChart" className={barChartContainer}>
-                <ResponsiveContainer>
-                  <BarChart data={chartData}>
-                    <XAxis />
+                <ResponsiveContainer width={chartWidth} height={chartHeight}>
+                  <BarChart data={chartData} barCategoryGap="24%">
+                    <XAxis tickLine={false} dataKey="record_calendar_year" />
                     <Legend />
-                    <Bar dataKey="Intragovernmental Holdings" stackId="a" fill={debtExplainerLightSecondary} background>
-                      <LabelList dataKey="Intragovernmental Holdings" />
+                    <Bar dataKey="Intragovernmental Holdings" stackId="a" fill={debtExplainerLightSecondary}>
+                      <LabelList dataKey="Intragovernmental Holdings"  />
                     </Bar>
-                    <Bar dataKey="Debt Held by the Public" stackId="a" fill={debtExplainerPrimary} background>
+                    <Bar dataKey="Debt Held by the Public" stackId="a" fill={debtExplainerPrimary}>
                       <LabelList dataKey="Debt Held by the Public" />
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
-                <Bar
-                  barComponent={CustomBar}
-                  width={chartWidth}
-                  height={chartHeight}
-                  data={chartData}
-                  keys={['Intragovernmental Holdings', 'Debt Held by the Public']}
-                  indexBy="record_calendar_year"
-                  margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
-                  padding={0.24}
-                  valueScale={{ type: 'linear' }}
-                  indexScale={{ type: 'band', round: true }}
-                  colors={[debtExplainerLightSecondary, debtExplainerPrimary]}
-                  isInteractive={false}
-                  borderColor={fontBodyCopy}
-                  axisTop={null}
-                  axisRight={null}
-                  axisLeft={null}
-                  axisBottom={{
-                    tickSize: 0,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                  }}
-                  enableGridY={true}
-                  gridYValues={[0]}
-                  enableLabel={false}
-                  legends={[
-                    {
-                      dataFrom: 'keys',
-                      anchor: 'bottom-left',
-                      direction: 'row',
-                      justify: false,
-                      translateX: -125,
-                      translateY: 90,
-                      itemsSpacing: 15,
-                      itemWidth: 250,
-                      itemHeight: 40,
-                      itemDirection: 'left-to-right',
-                      itemOpacity: 1,
-                      symbolSize: 20,
-                      symbolShape: CustomSymbolShape,
-                      symbolSpacing: 28,
-                    },
-                  ]}
-                  layers={[
-                    ...layers,
-                    () => {
-                      // this final empty layer fn is called only after everything else is
-                      // rendered, so it serves as a handy postRender hook.
-                      // It's wrapped in a setTimout to avoid triggering a browser warning
-                      setTimeout(() => setIsChartRendered(true));
-                      return <></>;
-                    },
-                  ]}
-                  ariaLabel="Chart of Debt Breakdown"
-                  theme={fiveTheme}
-                />
+                {/*<Bar*/}
+                {/*  barComponent={CustomBar}*/}
+                {/*  width={chartWidth}*/}
+                {/*  height={chartHeight}*/}
+                {/*  data={chartData}*/}
+                {/*  keys={['Intragovernmental Holdings', 'Debt Held by the Public']}*/}
+                {/*  indexBy="record_calendar_year"*/}
+                {/*  margin={{ top: 30, right: 144, bottom: 50, left: 144 }}*/}
+                {/*  padding={0.24}*/}
+                {/*  valueScale={{ type: 'linear' }}*/}
+                {/*  indexScale={{ type: 'band', round: true }}*/}
+                {/*  colors={[debtExplainerLightSecondary, debtExplainerPrimary]}*/}
+                {/*  isInteractive={false}*/}
+                {/*  borderColor={fontBodyCopy}*/}
+                {/*  axisTop={null}*/}
+                {/*  axisRight={null}*/}
+                {/*  axisLeft={null}*/}
+                {/*  axisBottom={{*/}
+                {/*    tickSize: 0,*/}
+                {/*    tickPadding: 5,*/}
+                {/*    tickRotation: 0,*/}
+                {/*  }}*/}
+                {/*  enableGridY={true}*/}
+                {/*  gridYValues={[0]}*/}
+                {/*  enableLabel={false}*/}
+                {/*  legends={[*/}
+                {/*    {*/}
+                {/*      dataFrom: 'keys',*/}
+                {/*      anchor: 'bottom-left',*/}
+                {/*      direction: 'row',*/}
+                {/*      justify: false,*/}
+                {/*      translateX: -125,*/}
+                {/*      translateY: 90,*/}
+                {/*      itemsSpacing: 15,*/}
+                {/*      itemWidth: 250,*/}
+                {/*      itemHeight: 40,*/}
+                {/*      itemDirection: 'left-to-right',*/}
+                {/*      itemOpacity: 1,*/}
+                {/*      symbolSize: 20,*/}
+                {/*      symbolShape: CustomSymbolShape,*/}
+                {/*      symbolSpacing: 28,*/}
+                {/*    },*/}
+                {/*  ]}*/}
+                {/*  layers={[*/}
+                {/*    ...layers,*/}
+                {/*    () => {*/}
+                {/*      // this final empty layer fn is called only after everything else is*/}
+                {/*      // rendered, so it serves as a handy postRender hook.*/}
+                {/*      // It's wrapped in a setTimout to avoid triggering a browser warning*/}
+                {/*      setTimeout(() => setIsChartRendered(true));*/}
+                {/*      return <></>;*/}
+                {/*    },*/}
+                {/*  ]}*/}
+                {/*  ariaLabel="Chart of Debt Breakdown"*/}
+                {/*  theme={fiveTheme}*/}
+                {/*/>*/}
               </div>
             )}
           </ChartContainer>
