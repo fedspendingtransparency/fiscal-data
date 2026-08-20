@@ -19,7 +19,26 @@ jest.mock('react-intersection-observer', () => ({
   useInView: jest.fn().mockReturnValue({ ref: jest.fn(), inView: false }),
 }));
 
+jest.mock('recharts', () => {
+  const RechartsModule = jest.requireActual('recharts');
+  return {
+    ...RechartsModule,
+    ResponsiveContainer: ({ children }) => (
+      <RechartsModule.ResponsiveContainer width={100} height={100}>
+        {children}
+      </RechartsModule.ResponsiveContainer>
+    ),
+  };
+});
+
 describe('Total Spending Chart', () => {
+  class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.ResizeObserver = ResizeObserver;
+
   const mockPageFunction = () => {
     return null;
   };
@@ -32,7 +51,7 @@ describe('Total Spending Chart', () => {
         mockCallOutData
       )
       .route(
-        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_datet`,
+        `begin:v1/accounting/mts/mts_table_5?fields=current_fytd_net_outly_amt,record_date,record_fiscal_year&filter=line_code_nbr:eq:5691,record_calendar_month:eq:09&sort=record_date`,
         mockSpendingData
       );
     determineBEAFetchResponse(jest, mockSpendingData);
@@ -56,52 +75,30 @@ describe('Total Spending Chart', () => {
 
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId } = render(
+    const { findByTestId } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    expect(await getByTestId('chartParent')).toBeInTheDocument();
+    const chart = await findByTestId('chartParent');
+    expect(chart).toBeInTheDocument();
   });
 
   it('renders the chart markers and data header labels', async () => {
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getAllByText, getByText } = render(
+    const { getAllByText, getByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    const chart = await findByTestId('chartParent');
+    expect(chart).toBeInTheDocument();
     expect(getAllByText('Total Spending')).toHaveLength(3);
     expect(getAllByText('GDP')).toHaveLength(2);
     expect(await getByText('Fiscal Year')).toBeInTheDocument();
-  });
-
-  it('renders the CustomPoints layer', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <ErrorBoundary>
-        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-      </ErrorBoundary>
-    );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const customPoints = await findByTestId('customPoints');
-    expect(customPoints).toBeInTheDocument();
-    await waitFor(() => expect(customPoints.querySelectorAll('circle').length).toBe(4));
-  });
-
-  it('renders the CustomSlices layer', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId } = render(
-      <ErrorBoundary>
-        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
-      </ErrorBoundary>
-    );
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const customSlices = await findByTestId('customSlices');
-    expect(customSlices).toBeInTheDocument();
-    await waitFor(() => expect(customSlices.querySelectorAll('rect').length).toBeGreaterThan(0));
   });
 
   it('renders the chart headers', async () => {
@@ -138,37 +135,37 @@ describe('Total Spending Chart', () => {
   });
 
   it('fires the mouse events for Total Spending view', async () => {
+    useInView.mockReturnValue({ ref: jest.fn(), inView: true });
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByTestId, getByRole } = render(
+    const { getByRole, findByTestId, getByText } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
-    const slices = await findByTestId('customSlices');
+
     const spendingButton = getByRole('button', { name: 'Total Spending' });
+    const chart = await findByTestId('chartParent');
     fireEvent.click(spendingButton);
-    expect(slices).toBeInTheDocument();
-    const slice = slices?.querySelector('rect');
-    fireEvent.mouseOver(slice);
-    fireEvent.mouseMove(slice);
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
+    expect(getByText('2022')).toBeInTheDocument();
   });
 
   it('fires the mouse events for GDP view', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { getByTestId, findByRole } = render(
+    const { findByTestId, findByRole, getByText } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
     const gdpButton = await findByRole('button', { name: 'Percentage of GDP' });
+    const chart = await findByTestId('chartParent');
     fireEvent.click(gdpButton);
-    const slices = await getByTestId('customSlices');
-    expect(slices).toBeInTheDocument();
-    const slice = slices?.querySelector('rect');
-    fireEvent.mouseOver(slice);
-    fireEvent.mouseMove(slice);
+    fireEvent.mouseOver(chart);
+    fireEvent.mouseLeave(chart);
+    expect(getByText('2022')).toBeInTheDocument();
   });
 
   it('enables spending hover after timer ends', async () => {
@@ -182,9 +179,11 @@ describe('Total Spending Chart', () => {
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    await findByTestId('chartParent');
     const spendingLineChart = await findByTestId('spendingLineChart');
+
     expect(spendingLineChart).toHaveStyle('pointer-events: none');
-    jest.advanceTimersByTime(7000);
+    jest.runAllTimers();
     await waitFor(() => expect(spendingLineChart).toHaveStyle('pointer-events: auto'));
   });
 });
@@ -242,12 +241,13 @@ describe('Total Spending Chart Spending to GDP Ratio No Change', () => {
 
   it('renders the calloutText', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
-    const { findByText } = render(
+    const { findByText, getByText, findByTestId } = render(
       <ErrorBoundary>
         <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={mockPageFunction} />
       </ErrorBoundary>
     );
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled);
+    await findByTestId('chartParent');
     //If this is set, that means all 3 API calls were successful.
     expect(await findByText('Since 2015, the Spending to GDP ratio has not changed, remaining at 25%', { exact: false })).toBeInTheDocument();
   });

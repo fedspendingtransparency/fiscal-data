@@ -348,7 +348,6 @@ const HomeHighlightCard: FunctionComponent<HighlightCardProps> = ({ cardId, data
                   setTempValue={setTempValue}
                   setTempDate={setTempDate}
                   dateField={api ? api.dateField : ''}
-                  useCustomBarComponent
                   mouseEnter={barChartMouseEnter}
                 />
                 <div className={xAxis}>
