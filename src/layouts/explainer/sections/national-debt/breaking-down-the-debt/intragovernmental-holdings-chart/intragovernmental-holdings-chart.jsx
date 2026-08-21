@@ -31,7 +31,6 @@ import LoadingIndicator from '../../../../../../components/loading-indicator/loa
 
 const holdingsKey = 'Intragovernmental Holdings';
 const publicDebtKey = 'Debt Held by the Public';
-const chartParent = 'breakdownChart';
 
 const barGrowthDuration = 2000; // both segments grow together now (no native way to load a bar & then have other grow from its ending point)
 const labelFadeDelay = 250; // pause between the bars finishing and the label values fading in
@@ -141,7 +140,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
 
   useEffect(() => {
     if (!!data && shouldAnimate) {
-      addInnerChartAriaLabel(chartParent);
+      addInnerChartAriaLabel('breakdownChart');
     }
   }, [data, shouldAnimate]);
 
@@ -168,7 +167,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
-              <div data-testid={chartParent} className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
+              <div data-testid={'breakdownChart'} className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
                 {shouldAnimate && (
                   <ResponsiveContainer width="100%" height={config.height} debounce={50}>
                     <BarChart data={data} margin={config.margin}>
