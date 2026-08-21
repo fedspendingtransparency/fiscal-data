@@ -36,7 +36,7 @@
   opacity: 0;
   animation: valueLabelFadeIn 0.4s ease-in forwards;
 
-  @media screen and (min-width: $breakpoint-lg - 1) {
+  @media screen and (min-width: $breakpoint-sm) {
     font-size: 1.875rem;
   }
 
