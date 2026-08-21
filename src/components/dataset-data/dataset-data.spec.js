@@ -110,6 +110,24 @@ describe('DatasetData', () => {
     expect(tableTenSelect).toBeInTheDocument();
   });
 
+  it(`keeps the pivot options when switching to All Data Tables and back to the same table`, async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    const { getByRole, getByTestId, queryByTestId, findByRole } = render(
+      <>
+        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
+      </>
+    );
+    expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
+
+    await user.click(getByRole('button', { name: 'Table 1' }));
+    await user.click(await findByRole('button', { name: 'All Data Tables' }));
+    expect(queryByTestId('pivotOptionsBar')).not.toBeInTheDocument();
+
+    await user.click(getByRole('button', { name: 'All Data Tables' }));
+    await user.click(await findByRole('button', { name: 'Table 1' }));
+    expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
+  });
+
   it(`initializes the selected table to the first element in the apis array`, () => {
     const { getByRole } = render(
       <>

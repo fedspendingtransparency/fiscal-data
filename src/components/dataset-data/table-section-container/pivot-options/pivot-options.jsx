@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { containerBar, dropdownContainer, formControl, selectLabel } from './pivot-options.module.scss';
 import SelectControl from '../../../select-control/select-control';
 import Analytics from '../../../../utils/analytics/analytics';
@@ -59,8 +59,13 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
     }
   };
 
+  const lastInitialized = useRef({ table: null, pivotsUpdated: null });
+
   useEffect(() => {
     if (table && !table.allDataTables) {
+      const isNewTarget = lastInitialized.current.table !== table || lastInitialized.current.pivotsUpdated !== pivotsUpdated;
+      if (!isNewTarget && pivotSelection) return;
+      lastInitialized.current = { table, pivotsUpdated };
       const localPivotFields = getPivotFields(table);
       setPivotFields(localPivotFields);
       const pivot = {
@@ -70,7 +75,7 @@ const PivotOptions = ({ datasetName, table, pivotSelection, setSelectedPivot, pi
       setSelectedPivot(pivot);
       setPivotOptions(pivot.pivotView.dimensionField ? localPivotFields : [{ prettyName: '— N / A —' }]);
     }
-  }, [table, pivotsUpdated]);
+  }, [table, pivotsUpdated, pivotSelection]);
 
   return (
     <>
