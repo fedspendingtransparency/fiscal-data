@@ -86,7 +86,6 @@ describe('Intragovernmental Holdings Chart', () => {
   it('renders a value label for each stacked segment', () => {
     const { getByText } = renderChart();
 
-    // scoped to text nodes -- recharts wraps labels in a group whose text content matches too
     expect(getByText('$10.26 T', { selector: 'text' })).toBeInTheDocument();
     expect(getByText('$4.74 T', { selector: 'text' })).toBeInTheDocument();
     expect(getByText('$10.39 T', { selector: 'text' })).toBeInTheDocument();
