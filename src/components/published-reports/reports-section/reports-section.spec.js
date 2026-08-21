@@ -122,7 +122,7 @@ describe('Reports Section component', () => {
     expect(downloadButton).toBeInTheDocument();
     expect(downloadButton).toHaveAttribute('href', '/test/file/path/archive.zip');
     expect(downloadButton).toHaveAttribute('download', 'archive.zip');
-    expect(getByText('Download all (2 files)')).toBeInTheDocument();
+    expect(getByText('Download All (2 files)')).toBeInTheDocument();
   });
 
   describe('Reports section with report filter', () => {
