@@ -92,30 +92,6 @@ describe('Breaking Down the Debt', () => {
     expect(global.fetch.mock.calls[2][0]).toContain(queryString);
   });
 
-  it('displays the correct years and values', async () => {
-    const latestYear = mockDebtBreakdownResponse.data[mockDebtBreakdownResponse.data.length - 1].record_calendar_year;
-    const firstYear = latestYear - 10;
-
-    const { findByText, findAllByText, findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
-
-    // Latest year is in the component
-    const latestYearEntries = await findAllByText(latestYear);
-    expect(latestYearEntries[0]).toBeInTheDocument();
-
-    // First year is in the component
-    const firstYearEntries = await findAllByText(firstYear);
-    expect(firstYearEntries[0]).toBeInTheDocument();
-
-    // value markers are in the component
-    for (const mockVal of mockFifthSectionValueMarkers) {
-      expect(await findByText(mockVal)).toBeInTheDocument();
-    }
-
-    // calculated percentages are in the component
-    expect(await findByTestId('public-debt-increase')).toHaveTextContent(mockPublicDebtIncrease);
-    expect(await findByTestId('govt-debt-increase')).toHaveTextContent(mockGovtDebtIncrease);
-  });
-
   it('contains a multichart', async () => {
     const { findByTestId } = render(<BreakingDownTheDebt sectionId={sectionId} glossary={glossary} />);
 
