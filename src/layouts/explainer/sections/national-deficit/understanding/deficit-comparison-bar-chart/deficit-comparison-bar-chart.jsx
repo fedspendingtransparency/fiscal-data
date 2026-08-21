@@ -1,5 +1,5 @@
 import { visWithCallout } from '../../../../explainer.module.scss';
-import { Bar } from '@nivo/bar';
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
 import React, { useEffect, useState } from 'react';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
@@ -33,38 +33,38 @@ const DeficitComparisonBarChart = ({ sectionId }) => {
   const [data, setData] = useState(null);
   const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
   const { width } = useWindowSize();
+  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   const { endpoints } = nationalDeficitSectionConfigs[sectionId];
   const { mtsOutlays } = explainerCitationsMap['national-deficit'];
   const desktop = width >= pxToNumber(breakpointLg);
   const chartParent = 'chartParentDiv';
   const { showBoundary } = useErrorBoundary();
+  const { ref, inView } = useInView(chartInViewProps);
 
   const setAnimationDurations = data => {
-    if (data && data.length >= 2) {
-      const revenue = parseFloat(data[0]['revenue']);
-      const deficit = data[0]['deficit'];
-      const spending = parseFloat(data[1]['spending']);
+    if (data && data.length) {
+      const revenue = parseFloat(data[0].revenue);
+      const deficit = parseFloat(data[0].deficit);
+      const spending = parseFloat(data[0].spending);
       const totalDuration = 2000;
       const total = revenue + deficit + spending;
-      const revenue_duration = (revenue / total) * totalDuration;
-      const deficit_duration = (deficit / total) * totalDuration;
-      const spending_duration = (spending / total) * totalDuration;
-
+      const revenueDuration = (revenue / total) * totalDuration;
+      const deficitDuration = (deficit / total) * totalDuration;
+      const spendingDuration = (spending / total) * totalDuration;
       if (!debtMarkerDelay) {
-        setDebtMarkerDelay(revenue_duration + deficit_duration + spending_duration + 1250);
+        setDebtMarkerDelay(revenueDuration + deficitDuration + spendingDuration + 1250);
       }
-
-      data[0]['revenue_animation_duration'] = revenue_duration;
-      data[0]['deficit_animation_duration'] = deficit_duration;
-      data[1]['spending_animation_duration'] = spending_duration;
-      data[1]['revenue_deficit_animation_duration'] = revenue_duration + deficit_duration;
-
+      data[0].revenue_animation_duration = revenueDuration;
+      data[0].deficit_animation_duration = deficitDuration;
+      data[0].spending_animation_duration = spendingDuration;
+      data[0].revenue_deficit_animation_duration = revenueDuration + deficitDuration;
       return data;
     }
+    return data;
   };
 
-  const chartData = setAnimationDurations(data);
+  const chartData = data;
 
   const footer = (
     <div>
@@ -147,6 +147,12 @@ const DeficitComparisonBarChart = ({ sectionId }) => {
       });
   }, []);
 
+  useEffect(() => {
+    if (inView && data) {
+      setShouldAnimate(true);
+    }
+  }, [inView, data]);
+
   if (!data && deficitValue && revenueValue && spendingValue && deficitChangeValue) {
     const deficitDifference = Math.abs(deficitValue - deficitChangeValue);
     let deficitDifferenceText = '';
@@ -170,19 +176,15 @@ const DeficitComparisonBarChart = ({ sectionId }) => {
         id: 0,
         revenue: revenueValue,
         deficit: deficitValue,
-      },
-      {
-        id: 1,
         spending: spendingValue,
       },
     ]);
   }
-  const { ref, inView } = useInView(chartInViewProps);
 
   return (
     <figure className={visWithCallout}>
       <>
-        <div data-testid="deficitComparisonChart" className={container}>
+        <div data-testid="deficitComparisonChart" className={container} ref={ref}>
           <ChartContainer
             title={`${chartCopy.title}${lastFiscalYear || '--'}`}
             altText={`${chartCopy.altText}${lastFiscalYear}.`}
@@ -192,30 +194,42 @@ const DeficitComparisonBarChart = ({ sectionId }) => {
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
-              <div className={barChart} data-testid="chartParentDiv" ref={ref}>
-                <Bar
-                  barComponent={props => CustomBar({ ...props, inView })}
-                  width={desktop ? 408 : 304}
-                  height={desktop ? desktopHeight : mobileHeight}
-                  axisTop={null}
-                  axisRight={null}
-                  axisLeft={null}
-                  axisBottom={null}
-                  data={chartData}
-                  keys={['revenue', 'deficit', 'spending']}
-                  margin={desktop ? { top: 0, right: 74, bottom: 0, left: 74 } : { top: 0, right: 65, bottom: 0, left: 65 }}
-                  padding={desktop ? 0.29 : 0.19}
-                  valueScale={{ type: 'linear' }}
-                  colors={barChartColors}
-                  isInteractive={false}
-                  borderColor={fontBodyCopy}
-                  enableGridY={true}
-                  gridYValues={[0]}
-                  enableLabel={false}
-                  layers={[...layers]}
-                  theme={theme}
-                />
-              </div>
+              <ResponsiveContainer width="100%" height={desktop ? desktopHeight : mobileHeight}>
+                {shouldAnimate && (
+                  <BarChart
+                    data={chartData}
+                    barSize={70}
+                    barGap={15}
+                    margin={desktop ? { top: 0, right: 74, bottom: 0, left: 74 } : { top: 0, right: 65, bottom: 0, left: 65 }}
+                  >
+                    <XAxis dataKey="id" tickLine={false} tick={false} height={1} axisLine={{ stroke: fontBodyCopy, strokeWidth: 1 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={false} />
+                    <Bar
+                      dataKey="revenue"
+                      stackId="total"
+                      animationBegin={0}
+                      animationDuration={1500}
+                      fill={barChartColors[0]}
+                      shape={props => <CustomBar {...props} dataKey="revenue" inView={inView} />}
+                    />
+                    <Bar
+                      dataKey="deficit"
+                      stackId="total"
+                      animationBegin={0}
+                      animationDuration={1500}
+                      fill={barChartColors[1]}
+                      shape={props => <CustomBar {...props} dataKey="deficit" inView={inView} />}
+                    />
+                    <Bar
+                      dataKey="spending"
+                      fill={barChartColors[2]}
+                      animationBegin={1500}
+                      animationDuration={1500}
+                      shape={props => <CustomBar {...props} dataKey="spending" inView={inView} />}
+                    />
+                  </BarChart>
+                )}
+              </ResponsiveContainer>
             )}
           </ChartContainer>
         </div>
