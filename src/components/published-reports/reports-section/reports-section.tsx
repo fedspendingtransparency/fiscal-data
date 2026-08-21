@@ -171,22 +171,20 @@ const ReportsSection: FunctionComponent<{ dataset: IDatasetConfig }> = ({ datase
                 ariaLabel="Enter report date"
               />
             )}
-            <LowerEnvironmentFeature featureId="combinedStatement">
-              {/*only display 'download all' option if a zip file is present (combinedStatements)*/}
-              {zipFile && (
-                <a
-                  href={zipFile.path}
-                  className={button}
-                  download={zipFileName}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={`Download ${zipFileName}`}
-                  onClick={handleApplyGa4Click}
-                >
-                  Download all ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
-                </a>
-              )}
-            </LowerEnvironmentFeature>
+            {/*only display 'Download All' option if a zip file is present (combinedStatements)*/}
+            {zipFile && (
+              <a
+                href={zipFile.path}
+                className={button}
+                download={zipFileName}
+                target="_blank"
+                rel="noreferrer noopener"
+                aria-label={`Download ${zipFileName}`}
+                onClick={handleApplyGa4Click}
+              >
+                Download All ({currentReports.length - 1} {currentReports.length - 1 === 1 ? 'file' : 'files'})
+              </a>
+            )}
           </div>
         )}
         <DownloadReportTable reports={currentReports} isDailyReport={isDailyReport} />
