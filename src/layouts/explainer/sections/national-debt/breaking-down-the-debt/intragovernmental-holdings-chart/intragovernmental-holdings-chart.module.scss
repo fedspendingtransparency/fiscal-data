@@ -2,11 +2,17 @@
 
 .barChartContainer {
   width: 100%;
+  margin: 0 auto;
+  min-height: 20rem;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    min-height: 27.69rem;
+  }
 }
 
 .container {
   & :global(.chartContainerChart) {
-    min-height: 16.44rem;
+    min-height: 20rem;
 
     @media screen and (min-width: $breakpoint-lg - 1) {
       min-height: 27.69rem;
@@ -23,4 +29,70 @@
 
 .title {
   margin-bottom: 1rem;
+}
+
+.valueLabel {
+  font-size: 1.25rem;
+  opacity: 0;
+  animation: valueLabelFadeIn 0.4s ease-in forwards;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    font-size: 1.875rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@keyframes valueLabelFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0.625rem 0 0 0;
+  padding: 0;
+  font-size: 0.75rem;
+  list-style: none;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    flex-wrap: nowrap;
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    gap: 0.5rem;
+    min-height: 2.125rem; // 34px row, matching old legend item
+  }
+}
+
+.legendSwatch {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 0.625rem;
+
+  @media screen and (min-width: $breakpoint-lg - 1) {
+    width: 2rem;
+    height: 1rem;
+  }
 }

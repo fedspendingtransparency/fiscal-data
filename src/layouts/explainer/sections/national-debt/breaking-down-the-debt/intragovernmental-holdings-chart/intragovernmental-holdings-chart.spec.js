@@ -1,7 +1,26 @@
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import React from 'react';
 import IntragovernmentalHoldingsChart from './intragovernmental-holdings-chart';
 import { nationalDebtSectionIds } from '../../national-debt';
+
+let mockInView = true;
+
+// the chart only mounts once it scrolls into view, observer needed to report visibility
+jest.mock('react-intersection-observer', () => ({
+  ...jest.requireActual('react-intersection-observer'),
+  useInView: () => ({ ref: jest.fn(), inView: mockInView }),
+}));
+
+jest.mock('recharts', () => {
+  const actualRecharts = jest.requireActual('recharts');
+  const ReactActual = jest.requireActual('react');
+
+  return {
+    ...actualRecharts,
+    ResponsiveContainer: ({ children, height }) =>
+      ReactActual.cloneElement(children, { width: 800, height: typeof height === 'number' ? height : 400 }),
+  };
+});
 
 const mockData = [
   {
@@ -26,32 +45,72 @@ const mockData = [
   },
 ];
 
-jest.useFakeTimers();
 describe('Intragovernmental Holdings Chart', () => {
   const sectionId = nationalDebtSectionIds[4];
 
+  beforeEach(() => {
+    jest.useFakeTimers();
+    mockInView = true;
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  // recharts holds labels back while a bar is animating, so let the entrance timer run out first
+  const renderChart = () => {
+    const utils = render(<IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />);
+
+    act(() => {
+      jest.runOnlyPendingTimers();
+    });
+
+    return utils;
+  };
+
   it('renders the legend', () => {
-    const { getByText } = render(<IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />);
+    const { getByText } = renderChart();
 
     expect(getByText('Intragovernmental Holdings')).toBeInTheDocument();
     expect(getByText('Debt Held by the Public')).toBeInTheDocument();
   });
 
-  it('renders the markers', () => {
-    const { getByText } = render(<IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />);
+  it('orders the legend independently of the stacking order', () => {
+    const { container } = renderChart();
 
-    expect(getByText('$10.26 T')).toBeInTheDocument();
-    expect(getByText('$4.74 T')).toBeInTheDocument();
-    expect(getByText('$10.39 T')).toBeInTheDocument();
-    expect(getByText('$4.72 T')).toBeInTheDocument();
+    const legendLabels = [...container.querySelectorAll('.recharts-legend-wrapper li')].map(item => item.textContent);
+
+    expect(legendLabels).toEqual(['Intragovernmental Holdings', 'Debt Held by the Public']);
   });
 
-  it('markers start with opacity 0', () => {
-    const { getByText } = render(<IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />);
+  it('renders a value label for each stacked segment', () => {
+    const { getByText } = renderChart();
 
-    expect(getByText('$10.26 T')).toHaveStyle({ opacity: 0 });
-    expect(getByText('$4.74 T')).toHaveStyle({ opacity: 0 });
-    expect(getByText('$10.39 T')).toHaveStyle({ opacity: 0 });
-    expect(getByText('$4.72 T')).toHaveStyle({ opacity: 0 });
+    expect(getByText('$10.26 T', { selector: 'text' })).toBeInTheDocument();
+    expect(getByText('$4.74 T', { selector: 'text' })).toBeInTheDocument();
+    expect(getByText('$10.39 T', { selector: 'text' })).toBeInTheDocument();
+    expect(getByText('$4.72 T', { selector: 'text' })).toBeInTheDocument();
+  });
+
+  it('anchors the earlier year labels left of the bars and the recent year labels right', () => {
+    const { getByText } = renderChart();
+
+    expect(getByText('$10.26 T', { selector: 'text' })).toHaveAttribute('text-anchor', 'end');
+    expect(getByText('$4.74 T', { selector: 'text' })).toHaveAttribute('text-anchor', 'end');
+    expect(getByText('$10.39 T', { selector: 'text' })).toHaveAttribute('text-anchor', 'start');
+    expect(getByText('$4.72 T', { selector: 'text' })).toHaveAttribute('text-anchor', 'start');
+  });
+
+  it('renders the percent change callout', () => {
+    const { getByTestId } = renderChart();
+    expect(getByTestId('public-debt-increase')).toHaveTextContent('1');
+    expect(getByTestId('govt-debt-increase')).toHaveTextContent('0');
+  });
+
+  it('holds the chart back until it scrolls into view', () => {
+    mockInView = false;
+    const { queryByText } = render(<IntragovernmentalHoldingsChart sectionId={sectionId} data={mockData} date={new Date()} />);
+    expect(queryByText('$10.26 T', { selector: 'text' })).not.toBeInTheDocument();
+    expect(queryByText('Intragovernmental Holdings')).not.toBeInTheDocument();
   });
 });
