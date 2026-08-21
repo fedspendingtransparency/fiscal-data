@@ -12,16 +12,29 @@
   }
 }
 
+.barChart {
+  margin-bottom: 1rem;
+  width: 100%;
+
+  & [class*='recharts-cartesian-grid-horizontal'] line {
+    transform: translateX(-5px);
+    width: calc(100% + 30px);
+  }
+
+  & [class*='recharts-cartesian-grid-vertical'] line:last-child {
+    display: none;
+  }
+}
+
+.customGrid .recharts-cartesian-grid-vertical line:last-child {
+  display: none;
+}
+
 .loadingIcon {
   @include grayLargeLoadingIcon;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.barChart {
-  margin-bottom: 1rem;
-  width: 100%;
 }
 
 .headerTitle {

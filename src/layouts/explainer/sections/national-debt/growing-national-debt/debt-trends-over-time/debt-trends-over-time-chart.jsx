@@ -1,23 +1,15 @@
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
-import { breakpointLg, debtExplainerPrimary, fontSize_10 } from '../../../../../../variables.module.scss';
+import { breakpointLg, debtExplainerPrimary } from '../../../../../../variables.module.scss';
 import React, { useEffect, useState } from 'react';
 import Analytics from '../../../../../../utils/analytics/analytics';
 import { container, header, headerContainer, lineChartContainer, loadingIcon, subHeader } from './debt-trends-over-time-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import { Line } from '@nivo/line';
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, ZIndexLayer } from 'recharts';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import {
-  addInnerChartAriaLabel,
-  applyChartScaling,
-  applyTextScaling,
-  formatPercentage,
-  getChartTheme,
-  LineChartCustomPoint,
-  nivoCommonLineChartProps,
-} from '../../../../explainer-helpers/explainer-charting-helper';
+import { formatPercentage } from '../../../../explainer-helpers/explainer-charting-helper';
+import { axisConfigs, Crosshair, getTicks, HoverPoint, subtractAxisThickness } from '../../../../explainer-helpers/explainer-recharts-helper';
 import { getDateWithoutTimeZoneAdjust } from '../../../../../../utils/date-utils';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
-import CustomSlices from '../../../../../../components/nivo/custom-slice/custom-slice';
 import { debtOutstandingData } from '../../../../../../recoil/debtOutstandingDataState';
 import { useInView } from 'react-intersection-observer';
 import { getShortForm } from '../../../../../../utils/rounding-utils';
@@ -28,6 +20,34 @@ import LoadingIndicator from '../../../../../../components/loading-indicator/loa
 let gaTimerDebtTrends;
 let ga4Timer;
 
+const axisStartYear = 1940;
+const decade = 10;
+const percentInterval = 20;
+const mobileTickInterval = 15;
+
+const getAxisEndYear = lastYear => Math.ceil(lastYear / decade) * decade;
+
+const getMaxPercent = data => Math.ceil(Math.max(...data.map(({ y }) => y)) / percentInterval) * percentInterval;
+
+const getMobileTicks = endYear => {
+  const ticks = [];
+  for (let year = axisStartYear; year <= endYear; year += mobileTickInterval) {
+    ticks.push(year);
+  }
+  return ticks;
+};
+
+const chartConfigs = {
+  ...axisConfigs,
+  tickSize: 6,
+  tickMargin: 8,
+};
+
+const getChartMargin = isMobile =>
+  subtractAxisThickness(isMobile ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 });
+
+const desktopTickCount = 9;
+
 export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lineChartHoveredYear, setLineChartHoveredYear] = useState('');
   const [lineChartHoveredValue, setLineChartHoveredValue] = useState('');
@@ -36,7 +56,11 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   const [lastDebtValue, setLastDebtValue] = useState({});
   const [lastRawDebtValue, setLastRawDebtValue] = useState('');
   const [lastGDPValue, setLastGDPValue] = useState('');
-  const [hoverDisabled, setHoverDisabled] = useState(true);
+  const [defaultIndex, setDefaultIndex] = useState(null);
+  const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const [chartFocus, setChartFocus] = useState(false);
+  const [chartHover, setChartHover] = useState(false);
   const payload = debtOutstandingData(state => state.payload);
   const status = debtOutstandingData(state => state.status);
   const refreshIfStale = debtOutstandingData(state => state.refreshIfStale);
@@ -71,15 +95,8 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
         });
       }
     });
-    const finalData = [
-      {
-        id: 'us',
-        color: 'hsl(219, 70%, 50%)',
-        data: debtToGDP,
-      },
-    ];
-    setDebtTrendsData(finalData);
-    setLastDebtValue(finalData[0].data[finalData[0].data.length - 1]);
+    setDebtTrendsData(debtToGDP);
+    setLastDebtValue(debtToGDP[debtToGDP.length - 1]);
     if (lastRawDebtMatchedValue) setLastRawDebtValue(lastRawDebtMatchedValue.debt_outstanding_amt);
     setLastGDPValue(lastGDPValue);
     setIsLoadingDebtTrends(false);
@@ -91,24 +108,40 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     }
   }, [status, payload]);
 
-  useEffect(() => {
-    applyTextScaling(chartParent, chartWidth, width, fontSize_10);
-  }, [width]);
-
-  useEffect(() => {
-    applyChartScaling(chartParent, chartWidth.toString(), chartHeight.toString());
-    addInnerChartAriaLabel(chartParent);
-  }, [isLoadingDebtTrends]);
-
-  const handleMouseMove = slice => {
-    const debtData = slice.points[0].data;
-    if (debtData) {
-      setLineChartHoveredValue(formatPercentage(debtData.y));
-      setLineChartHoveredYear(debtData.x);
-    }
+  const handleActiveDatumChange = datum => {
+    setLineChartHoveredYear(datum ? datum.x : '');
+    setLineChartHoveredValue(datum ? formatPercentage(datum.y) : '');
   };
 
+  useEffect(() => {
+    if (inView && debtTrendsData?.length && !animationTriggeredOnce) {
+      setAnimationTriggeredOnce(true);
+      const stepDuration = 50;
+      const timers = [];
+
+      debtTrendsData.forEach((point, index) => {
+        timers.push(
+          setTimeout(() => {
+            setDefaultIndex(index);
+          }, stepDuration * index + 550)
+        );
+      });
+      timers.push(
+        setTimeout(() => {
+          setDefaultIndex(null);
+          setAnimationComplete(true);
+        }, stepDuration * debtTrendsData.length + 550)
+      );
+      return () => {
+        timers.forEach(timer => clearTimeout(timer));
+      };
+    }
+  }, [inView, debtTrendsData]);
+
+  const chartActive = chartFocus || chartHover || !animationComplete;
+
   const handleMouseEnterLineChart = () => {
+    setChartHover(true);
     gaTimerDebtTrends = setTimeout(() => {
       Analytics.event({
         category: 'Explainers',
@@ -125,13 +158,9 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
   };
 
   const handleMouseLeaveLineChart = () => {
+    setChartHover(false);
     clearTimeout(gaTimerDebtTrends);
     clearTimeout(ga4Timer);
-  };
-
-  const lineChartOnMouseLeave = () => {
-    setLineChartHoveredValue(formatPercentage(lastDebtValue.y));
-    setLineChartHoveredYear(lastDebtValue.x);
   };
 
   const headerContent = () => {
@@ -140,11 +169,15 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     return (
       <div className={headerContainer}>
         <div>
-          <div className={header}>{yearDisplay}</div>
+          <div className={header} data-testid="debtTrendsYearHeader">
+            {yearDisplay}
+          </div>
           <span className={subHeader}>Fiscal Year</span>
         </div>
         <div>
-          <div className={header}>{debtToGDPDisplay}</div>
+          <div className={header} data-testid="debtTrendsValueHeader">
+            {debtToGDPDisplay}
+          </div>
           <span className={subHeader}>Debt to GDP</span>
         </div>
       </div>
@@ -160,6 +193,10 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
     </>
   );
 
+  const isMobile = width < pxToNumber(breakpointLg);
+  const axisEndYear = lastDebtValue.x ? getAxisEndYear(lastDebtValue.x) : axisStartYear;
+  const maxPercent = debtTrendsData.length ? getMaxPercent(debtTrendsData) : percentInterval;
+
   return (
     <>
       {debtTrendsData && (
@@ -171,82 +208,76 @@ export const DebtTrendsOverTimeChart = ({ sectionId, beaGDPData, width }) => {
               header={headerContent()}
               footer={footerContent}
               date={lastDebtValue?.x ? getDateWithoutTimeZoneAdjust(`${lastDebtValue.x}-09-30`) : null}
-              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.data[0].x ?? '--'} to ${
-                lastDebtValue.x
-              }.`}
+              altText={`Line graph displaying the federal debt to GDP trend over time from ${debtTrendsData[0]?.x ?? '--'} to ${lastDebtValue.x}.`}
             >
               {isLoadingDebtTrends ? (
                 <LoadingIndicator loadingClass={loadingIcon} />
               ) : (
                 <div
                   className={lineChartContainer}
-                  style={{ pointerEvents: hoverDisabled ? 'none' : 'auto' }}
+                  style={{ pointerEvents: animationComplete ? 'auto' : 'none' }}
                   data-testid={`${chartParent}`}
                   onMouseEnter={handleMouseEnterLineChart}
                   onMouseLeave={handleMouseLeaveLineChart}
+                  onFocus={() => setChartFocus(true)}
+                  onBlur={() => setChartFocus(false)}
                   id="debt-trends"
                   role="presentation"
                 >
-                  <Line
-                    {...nivoCommonLineChartProps}
-                    data={debtTrendsData}
-                    width={chartWidth}
-                    height={chartHeight}
-                    theme={getChartTheme(width)}
-                    layers={[
-                      'grid',
-                      'crosshair',
-                      'lines',
-                      'axes',
-                      props =>
-                        LineChartCustomPoint({
-                          ...props,
-                          seriesId: 'us',
-                        }),
-                      props =>
-                        CustomSlices({
-                          ...props,
-                          inView,
-                          mouseMove: handleMouseMove,
-                          groupMouseLeave: lineChartOnMouseLeave,
-                          onAnimationComplete: () => setHoverDisabled(false),
-                        }),
-                      'mesh',
-                    ]}
-                    margin={
-                      width < pxToNumber(breakpointLg) ? { top: 10, right: 25, bottom: 40, left: 55 } : { top: 10, right: 25, bottom: 30, left: 50 }
-                    }
-                    xScale={{
-                      type: 'linear',
-                      min: 1948,
-                      max: lastDebtValue.x,
-                    }}
-                    yScale={{
-                      type: 'linear',
-                      min: 0,
-                      max: 140,
-                      stacked: true,
-                      reverse: false,
-                    }}
-                    yFormat=" >-.2f"
-                    axisBottom={{
-                      orient: 'bottom',
-                      tickSize: 6,
-                      tickPadding: 8,
-                      tickRotation: 0,
-                      tickValues: width < pxToNumber(breakpointLg) ? [1940, 1955, 1970, 1985, 2000, 2015, 2030] : 9,
-                    }}
-                    axisLeft={{
-                      format: formatPercentage,
-                      orient: 'left',
-                      tickSize: 6,
-                      tickPadding: 8,
-                      tickValues: 8,
-                    }}
-                    pointLabelYOffset={-12}
-                    colors={debtExplainerPrimary}
-                    onMouseLeave={lineChartOnMouseLeave}
-                  />
+                  <ResponsiveContainer width="100%" aspect={chartWidth / chartHeight} initialDimension={{ width: chartWidth, height: chartHeight }}>
+                    <LineChart data={debtTrendsData} margin={getChartMargin(isMobile)} aria-label="Inner chart area">
+                      <Tooltip
+                        active={chartActive}
+                        defaultIndex={defaultIndex ?? undefined}
+                        content={() => null}
+                        cursor={false}
+                        isAnimationActive={false}
+                        wrapperStyle={{ display: 'none' }}
+                      />
+                      <Crosshair />
+                      <XAxis
+                        dataKey="x"
+                        type="number"
+                        domain={[axisStartYear, axisEndYear]}
+                        ticks={isMobile ? getMobileTicks(axisEndYear) : getTicks(axisStartYear, axisEndYear, desktopTickCount)}
+                        interval={0}
+                        height={chartConfigs.axisThickness}
+                        tickSize={chartConfigs.tickSize}
+                        tickMargin={chartConfigs.tickMargin}
+                        axisLine={chartConfigs.axisLine}
+                        tickLine={chartConfigs.tickLine}
+                        tick={chartConfigs.tick}
+                        zIndex={chartConfigs.zIndex.axis}
+                      />
+                      <YAxis
+                        dataKey="y"
+                        type="number"
+                        domain={[0, maxPercent]}
+                        ticks={getTicks(0, maxPercent, 8)}
+                        interval={0}
+                        width={chartConfigs.axisThickness}
+                        tickFormatter={formatPercentage}
+                        tickSize={chartConfigs.tickSize}
+                        tickMargin={chartConfigs.tickMargin}
+                        axisLine={chartConfigs.axisLine}
+                        tickLine={chartConfigs.tickLine}
+                        tick={chartConfigs.tick}
+                        zIndex={chartConfigs.zIndex.axis}
+                      />
+                      <Line
+                        dataKey="y"
+                        type="linear"
+                        stroke={debtExplainerPrimary}
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={false}
+                        isAnimationActive={false}
+                      />
+                      <ZIndexLayer zIndex={chartConfigs.zIndex.point}>
+                        <HoverPoint data={debtTrendsData} onActiveChange={handleActiveDatumChange} />
+                      </ZIndexLayer>
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               )}
             </ChartContainer>
