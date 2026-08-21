@@ -11,7 +11,7 @@ import {
   debtExplainerPrimary,
   debtExplainerLightSecondary,
 } from '../../../../../../variables.module.scss';
-import { boldWeight } from '../../national-debt.module.scss';
+import { boldWeight, breakpointSm } from '../../national-debt.module.scss';
 import {
   barChartContainer,
   title,
@@ -101,7 +101,7 @@ export const ChartLegend = () => (
 
 const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
   const { width: windowWidth } = useWindowSize();
-  const desktop = windowWidth >= pxToNumber(breakpointLg);
+  const desktop = windowWidth >= pxToNumber(breakpointSm);
   const config = desktop ? desktopConfig : mobileConfig;
 
   // handles gap between bars
@@ -189,6 +189,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
                         animationDuration={barGrowthDuration}
                         animationEasing="linear"
                       >
+                        {/*recharts will render LabelList after the <Bar> animation completes*/}
                         <LabelList dataKey={holdingsKey} content={renderValueLabel} />
                       </Bar>
                       <Bar
@@ -201,6 +202,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
                         animationDuration={barGrowthDuration}
                         animationEasing="linear"
                       >
+                        {/*recharts will render LabelList after the <Bar> animation completes*/}
                         <LabelList dataKey={publicDebtKey} content={renderValueLabel} />
                       </Bar>
                       <Legend verticalAlign="bottom" content={<ChartLegend />} wrapperStyle={{ width: '100%', left: 0 }} />

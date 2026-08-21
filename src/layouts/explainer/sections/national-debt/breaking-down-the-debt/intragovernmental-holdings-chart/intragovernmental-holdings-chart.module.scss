@@ -5,7 +5,7 @@
   margin: 0 auto;
   min-height: 20rem;
 
-  @media screen and (min-width: $breakpoint-lg - 1) {
+  @media screen and (min-width: $breakpoint-sm) {
     min-height: 27.69rem;
   }
 }
@@ -61,7 +61,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem 0.75rem;
-  margin: 0;
+  margin: 0.625rem 0 0 0;
   padding: 0;
   font-size: 0.75rem;
   list-style: none;
