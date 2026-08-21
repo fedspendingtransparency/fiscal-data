@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from '@nivo/bar';
-import { barDiv } from './bar.module.scss';
-import CustomBarComponent from './bar-component/bar-component';
-import helpers from './helpers/helpers';
+import { Bar, BarChart, Tooltip } from 'recharts';
+import { barDiv } from '../bar/bar.module.scss';
 
 /**
  * Generates a bar graph based on data passed into the component.
@@ -12,10 +10,6 @@ import helpers from './helpers/helpers';
  *                    in "../helpers/helpers".
  * @param valueKeys {String[]} - Column names of which values should be plotted (Y-Axis values).
  * @param index {String} - Column name specifying the X-Axis grouping.
- * @param axisBottom {Object} - defaulted to null, because when this property is undefined, the
- * Chart will be rendered with tick marks
- * @param axisLeft {Object} - defaulted to null, because when this property is undefined, the
- * Chart will be rendered with tick marks
  * @returns {*} - Bar graph of plotted data
  */
 
@@ -26,100 +20,123 @@ const BarGraph = ({
   graphIndex,
   valueKeys,
   divClass,
-  colors = ['#0071bc'],
-  enableGridY = false,
-  enableLabel = false,
-  isInteractive = true,
-  axisBottom = null,
-  axisLeft = null,
+  colors = '#0071bc',
   setTempValue,
   setTempDate,
   dateField,
-  useCustomBarComponent,
   mouseEnter,
-  ...props
 }) => {
   const [data, setData] = useState([]);
   const [keys, setKeys] = useState([]);
-  const [index, setIndex] = useState('');
   const [isValidChart, setIsValidChart] = useState(false);
-  const [activeBarIndex, setActiveBarIndex] = useState(-1);
+  const [chartFocus, setChartFocus] = useState(false);
+  const [chartHover, setChartHover] = useState(false);
 
   const checkIfValidChart = (data, keys, index) => {
     let isValid = false;
-    if (data && data instanceof Array && data.length && index && keys && keys instanceof Array && keys.length) {
+    if (data && data instanceof Array && data?.length && index && keys && keys instanceof Array && keys.length) {
       isValid = true;
     }
     setIsValidChart(isValid);
   };
 
   // Used for the homepage cards
-  const handleTempValueChange = (i, value) => {
+  const handleTempValueChange = (payload, value) => {
     // The mouse is leaving the bar and the homepage card should show the original value
     if (!value) {
       setTempValue(null);
       setTempDate(null);
       // The bar chart has two bars combining for a net value, which is the value that should
       // be displayed
-    } else if (data[i].combinedValue) {
-      setTempValue(data[i].combinedValue);
-      setTempDate(data[i][dateField]);
-      // The mouse is entering the bar and the homepage card should show that bar's value
     } else {
-      setTempValue(value);
-      setTempDate(data[i][dateField]);
+      const curData = payload[0].payload;
+      if (curData.combinedValue) {
+        setTempValue(curData.combinedValue);
+        setTempDate(curData[dateField]);
+        // The mouse is entering the bar and the homepage card should show that bar's value
+      } else {
+        const key = payload[0].dataKey;
+        setTempValue(curData[key]);
+        setTempDate(curData[dateField]);
+      }
     }
   };
 
-  const resetValue = () => {
-    setActiveBarIndex(-1);
-    handleTempValueChange(data.index, null);
+  const resetValue = callback => {
+    if (callback) {
+      setTimeout(() => {
+        handleTempValueChange(null, null);
+        callback(false);
+      }, 500);
+    }
   };
 
   useEffect(() => {
     setData(graphData);
     setKeys(valueKeys);
-    setIndex(graphIndex);
     checkIfValidChart(graphData, valueKeys, graphIndex);
   }, [graphData, valueKeys, graphIndex]);
 
-  const BarComponent = props =>
-    useCustomBarComponent && (
-      <CustomBarComponent setActiveIndex={setActiveBarIndex} activeIndex={activeBarIndex} handleTempValueChange={handleTempValueChange} {...props} />
-    );
-
-  const onMouseEnter = cardId => {
-    helpers.mouseEnterEvent(cardId);
+  const onMouseEnter = () => {
+    setChartHover(true);
     if (mouseEnter) {
       mouseEnter();
     }
   };
 
+  const CustomTooltip = ({ payload = [] }) => {
+    if (payload.length > 0) {
+      const key = payload[0].dataKey;
+      const curData = payload[0].payload;
+      setTempDate(curData['record_date']);
+      setTempValue(curData[key]);
+      handleTempValueChange(payload, !!payload);
+    }
+    return null;
+  };
+
+  //remove active bar when chart is not in focus
+  const activeBar = chartFocus || chartHover ? { opacity: 1 } : false;
+
   return (
     isValidChart && (
       <div
+        role="presentation"
         data-testid="barGraph"
         className={divClass || barDiv}
-        onMouseLeave={() => helpers.mouseLeaveEvent(cardId, resetValue)}
-        onMouseEnter={() => onMouseEnter(cardId)}
-        role={'presentation'}
+        onFocus={() => setChartFocus(true)}
+        onMouseEnter={() => onMouseEnter()}
+        onMouseLeave={() => resetValue(setChartHover)}
+        onBlur={() => resetValue(setChartFocus)}
       >
-        <Bar
-          ariaLabel={`${chartTitle} bar chart`}
+        <BarChart
+          margin={{
+            top: 0,
+            right: 2,
+            bottom: 0,
+            left: 2,
+          }}
+          style={{ width: '100%', height: '100%' }}
+          responsive
           data={data}
-          keys={keys}
-          indexBy={index}
-          colors={colors}
-          enableGridY={enableGridY}
-          enableLabel={enableLabel}
-          isInteractive={isInteractive}
-          axisBottom={axisBottom}
-          axisLeft={axisLeft}
-          height={100}
-          width={226}
-          barComponent={useCustomBarComponent && BarComponent}
-          {...props}
-        />
+          barCategoryGap={1}
+          isAnimationActive={false}
+          accessibilityLayer
+          ariaLabel={`${chartTitle} bar chart`}
+          stackOffset="sign"
+        >
+          {keys.map((key, index) => (
+            <Bar
+              dataKey={key}
+              fill={colors[index] || '#0071bc'}
+              stackId="stack"
+              opacity={chartFocus || chartHover ? 0.2 : 1}
+              activeBar={activeBar}
+              key={index}
+            />
+          ))}
+          <Tooltip content={<CustomTooltip />} cursor={{ opacity: 0 }} active={chartFocus || chartHover} />
+        </BarChart>
       </div>
     )
   );

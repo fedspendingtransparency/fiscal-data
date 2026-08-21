@@ -83,7 +83,7 @@ export const preAPIData = [
 ];
 
 export const generateTickValues = chartData => {
-  const xValues = [2000];
+  const xValues = [];
   const yValues = [];
   const tickValues = [];
   const deficitValues = [];
@@ -98,13 +98,17 @@ export const generateTickValues = chartData => {
   });
   const maxValue = Math.max(...deficitValues);
   const minValue = Math.min(...deficitValues);
-  for (let i = Math.floor(minValue * 2) / 2; i <= Math.ceil(maxValue * 2) / 2; i += 0.5) {
-    if (i !== 0) {
-      yValues.push(i.toFixed(1));
-    } else {
-      yValues.push(i.toFixed());
-    }
+
+  const minTick = Math.floor(minValue * 2) / 2;
+  const maxTick = Math.ceil(maxValue * 2) / 2;
+  const steps = Math.round((maxTick - minTick) / 0.5);
+
+  for (let step = 0; step <= steps; step++) {
+    const i = minTick + step * 0.5;
+    const roundedValue = Math.round(i * 10) / 10;
+    yValues.push(roundedValue);
   }
+
   const uniqueXValues = [...new Set(xValues)];
   tickValues.push(uniqueXValues);
   tickValues.push(yValues);
