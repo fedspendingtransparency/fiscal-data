@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { useInView } from 'react-intersection-observer';
 import { useWindowSize } from 'usehooks-ts';
@@ -18,7 +18,6 @@ import {
   loadingIcon,
   container,
   valueLabel,
-  valueLabelVisible,
   legend,
   legendItem,
   legendSwatch,
@@ -34,14 +33,14 @@ const holdingsKey = 'Intragovernmental Holdings';
 const publicDebtKey = 'Debt Held by the Public';
 const chartParent = 'breakdownChart';
 
-const barGrowthDuration = 2000; // both segments grow together, so the stack lands as one
-const labelFadeDelay = 250; // beat between the bars finishing and the values fading in
-const entranceBuffer = 300; // covers the fade before animation is switched off for good
-const barCategoryGap = 5; // fixed px, so the gap doesn't scale with the plot width
+const barGrowthDuration = 2000; // both segments grow together now (no native way to load a bar & then have other grow from its ending point)
+const labelFadeDelay = 250; // pause between the bars finishing and the label values fading in
+const labelFadeDuration = 400; // length of fading effect for labels
+const labelFadeStart = barGrowthDuration + labelFadeDelay;
+const entranceComplete = labelFadeStart + labelFadeDuration + 250;
 
-// These are the old chart's *rendered* dimensions (its 550-wide viewBox scaled ~0.85 to fit the
-// container), not its viewBox numbers -- recharts draws at real pixel sizes, so nothing scales them
-// down anymore. Left/right margins are the gutters the value labels live in.
+const barSpacing = 30;
+
 const desktopConfig = {
   height: 443,
   margin: { top: 26, right: 122, bottom: 10, left: 122 },
@@ -60,21 +59,17 @@ const mobileConfig = {
   tickFontSize: fontSize_12,
 };
 
-// legend reads in the opposite order from the stack, so it's declared rather than derived from the bars
+// used for setting order of legend keys
 const legendPayload = [
-  { value: publicDebtKey, type: 'rect', id: publicDebtKey, color: debtExplainerPrimary },
   { value: holdingsKey, type: 'rect', id: holdingsKey, color: debtExplainerLightSecondary },
+  { value: publicDebtKey, type: 'rect', id: publicDebtKey, color: debtExplainerPrimary },
 ];
 
-// a stacked segment can hand back either the raw value or the segment's [start, end] range
 const getSegmentValue = value => (Array.isArray(value) ? value[1] - value[0] : Number(value));
 
 const formatTrillions = value => `$${getSegmentValue(value).toFixed(2)} T`;
 
-// values sit outside the stack: left of the earlier year, right of the most recent one. The text is
-// mounted from the start and only its opacity transitions -- mounting it on a timer meant the
-// browser had to insert and lay out four nodes mid-animation, which is what caused the jump.
-export const BarValueLabel = ({ viewBox = {}, x, y, width, value, index, config, visible }) => {
+export const BarValueLabel = ({ viewBox = {}, x, y, width, value, index, config }) => {
   const barX = viewBox.x ?? x;
   const barY = viewBox.y ?? y;
   const barWidth = viewBox.width ?? width;
@@ -82,7 +77,7 @@ export const BarValueLabel = ({ viewBox = {}, x, y, width, value, index, config,
 
   return (
     <text
-      className={visible ? `${valueLabel} ${valueLabelVisible}` : valueLabel}
+      className={valueLabel}
       x={alignRight ? barX + barWidth + config.labelSideOffset : barX - config.labelSideOffset}
       y={barY + config.labelBaselineOffset}
       textAnchor={alignRight ? 'start' : 'end'}
@@ -94,9 +89,9 @@ export const BarValueLabel = ({ viewBox = {}, x, y, width, value, index, config,
   );
 };
 
-export const ChartLegend = ({ payload }) => (
+export const ChartLegend = () => (
   <ul className={legend} style={{ color: fontBodyCopy }}>
-    {payload.map(({ value, color }) => (
+    {legendPayload.map(({ value, color }) => (
       <li key={value} className={legendItem}>
         <span className={legendSwatch} style={{ backgroundColor: color }} />
         {value}
@@ -105,17 +100,22 @@ export const ChartLegend = ({ payload }) => (
   </ul>
 );
 
-const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
+const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
   const { width: windowWidth } = useWindowSize();
   const desktop = windowWidth >= pxToNumber(breakpointLg);
   const config = desktop ? desktopConfig : mobileConfig;
 
+  // handles gap between bars
+  const plotWidth = 2 * (config.barSize + barSpacing);
+  const chartMaxWidth = plotWidth + config.margin.left + config.margin.right;
+
   const [shouldAnimate, setShouldAnimate] = useState(false); // chart has scrolled into view
-  const [entranceDone, setEntranceDone] = useState(false); // sequence finished; nothing re-animates after this
-  const [labelsVisible, setLabelsVisible] = useState(false);
+  const [entranceDone, setEntranceDone] = useState(false); // sequence finished, nothing re-animates after this
 
   const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
   const { mspdSummary } = explainerCitationsMap['national-debt'];
+
+  const renderValueLabel = useCallback(props => <BarValueLabel {...props} config={config} />, [config]);
 
   const calcPercentIncrease = (key, rows) => {
     const row0 = rows?.[0]?.[key];
@@ -124,27 +124,21 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     return Math.round(((row1 - row0) / row0) * 100).toFixed();
   };
 
-  // hold the animation until the chart has scrolled into view
+  // start animation after chart has scrolled into view
   useEffect(() => {
     if (inView && data) {
       setShouldAnimate(true);
     }
   }, [inView, data]);
 
-  // values fade in a beat after the bars land, then animation is switched off entirely -- otherwise
-  // a resize makes recharts replay the entrance
+  // switches animation off so a resize can't replay the entrance
   useEffect(() => {
     if (!shouldAnimate) return;
-    const labelTimer = setTimeout(() => setLabelsVisible(true), barGrowthDuration + labelFadeDelay);
-    const entranceTimer = setTimeout(() => setEntranceDone(true), barGrowthDuration + labelFadeDelay + entranceBuffer);
+    const entranceTimer = setTimeout(() => setEntranceDone(true), entranceComplete);
 
-    return () => {
-      clearTimeout(labelTimer);
-      clearTimeout(entranceTimer);
-    };
+    return () => clearTimeout(entranceTimer);
   }, [shouldAnimate]);
 
-  // runs once the chart is actually mounted, which only happens after it scrolls in
   useEffect(() => {
     if (!!data && shouldAnimate) {
       addInnerChartAriaLabel(chartParent);
@@ -174,10 +168,10 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
-              <div data-testid={chartParent} className={barChartContainer} ref={ref}>
+              <div data-testid={chartParent} className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
                 {shouldAnimate && (
                   <ResponsiveContainer width="100%" height={config.height} debounce={50}>
-                    <BarChart data={data} margin={config.margin} barCategoryGap={barCategoryGap}>
+                    <BarChart data={data} margin={config.margin}>
                       <XAxis
                         dataKey="record_calendar_year"
                         tick={{ fill: fontBodyCopy, fontSize: config.tickFontSize }}
@@ -185,7 +179,6 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
                         tickMargin={5}
                         axisLine={{ stroke: fontBodyCopy, strokeWidth: 2 }}
                       />
-                      {/* hidden, but pinned to the data max so the stack fills the plot like the old chart */}
                       <YAxis hide domain={[0, 'dataMax']} />
                       <Bar
                         dataKey={holdingsKey}
@@ -195,9 +188,9 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
                         isAnimationActive={!entranceDone}
                         animationBegin={0}
                         animationDuration={barGrowthDuration}
-                        animationEasing="ease-out"
+                        animationEasing="linear"
                       >
-                        <LabelList dataKey={holdingsKey} content={props => <BarValueLabel {...props} config={config} visible={labelsVisible} />} />
+                        <LabelList dataKey={holdingsKey} content={renderValueLabel} />
                       </Bar>
                       <Bar
                         dataKey={publicDebtKey}
@@ -207,12 +200,11 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
                         isAnimationActive={!entranceDone}
                         animationBegin={0}
                         animationDuration={barGrowthDuration}
-                        animationEasing="ease-out"
+                        animationEasing="linear"
                       >
-                        <LabelList dataKey={publicDebtKey} content={props => <BarValueLabel {...props} config={config} visible={labelsVisible} />} />
+                        <LabelList dataKey={publicDebtKey} content={renderValueLabel} />
                       </Bar>
-                      {/* payload is declared so the legend can read in reverse without restacking the bars */}
-                      <Legend verticalAlign="bottom" content={<ChartLegend />} payload={legendPayload} wrapperStyle={{ width: '100%', left: 0 }} />
+                      <Legend verticalAlign="bottom" content={<ChartLegend />} wrapperStyle={{ width: '100%', left: 0 }} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}

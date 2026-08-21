@@ -2,6 +2,7 @@
 
 .barChartContainer {
   width: 100%;
+  margin: 0 auto; // chart is capped by maxWidth in the jsx, so center it in the card
   // reserves the chart's footprint before it mounts, so the in-view observer has something to
   // measure and the card doesn't shift when the chart appears (matches config.height in the jsx)
   min-height: 20rem;
@@ -36,19 +37,26 @@
   // the old chart's 36px label scaled down with its viewBox; this is that rendered size
   font-size: 1.25rem;
   opacity: 0;
-  transition: opacity 0.25s ease-in;
+  // duration must match labelFadeDuration in the jsx; the delay is passed inline per label
+  animation: valueLabelFadeIn 0.4s ease-in forwards;
 
   @media screen and (min-width: $breakpoint-lg - 1) {
     font-size: 1.875rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    animation: none;
+    opacity: 1; // base opacity is 0, so this has to be restored when the animation is off
   }
 }
 
-.valueLabelVisible {
-  opacity: 1;
+@keyframes valueLabelFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .legend {
