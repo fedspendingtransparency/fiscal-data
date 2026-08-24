@@ -629,7 +629,7 @@ exports.createSchemaCustomization = ({ actions }) => {
 const fetchFilterRows = async url => {
   const [endpoint] = String(url).split('?');
   const skip = reason => {
-    console.warn(`[createPages] filter options unavailable for ${endpoint} (${reason}); using an empty list.`);
+    console.warn(`[createPages] filter options unavailable); using an empty list.`);
     return [];
   };
   try {
