@@ -6,6 +6,7 @@ import {
   fetchAllPages,
   incorporateChartDates,
   pagedDatatableRequest,
+  pivotData,
 } from './api-utils';
 import * as helpers from './api-utils-helper';
 import { TableCache } from '../components/dataset-data/table-cache/table-cache';
@@ -305,6 +306,38 @@ describe('Api Utils function library', () => {
 
   it('builds correct pivot data using incorporateChartDates', () => {
     expect(incorporateChartDates(mockDataToPivot, mockPivotView)).toStrictEqual(mockPivotedData);
+  });
+
+  describe('prototype pollution guards (HX-121)', () => {
+    const hostileRow = JSON.parse('{"record_date":"__proto__","agency_nm":"__proto__","isAdmin":true,"amount":"1"}');
+
+    const hostileMeta = {
+      labels: { record_date: 'Record Date', agency_nm: 'Agency Name', isAdmin: 'Is Admin', amount: 'Amount' },
+      dataTypes: { record_date: 'DATE', agency_nm: 'STRING', isAdmin: 'STRING', amount: 'CURRENCY' },
+    };
+
+    afterEach(() => {
+      delete Object.prototype.isAdmin;
+      delete Object.prototype.amount;
+    });
+
+    it('does not let incorporateChartDates pollute Object.prototype', () => {
+      const pivotView = { ...mockPivotView, aggregateOn: [{ field: 'record_date', type: 'DATE' }] };
+
+      const result = incorporateChartDates({ data: [hostileRow], meta: { ...hostileMeta } }, pivotView);
+
+      expect({}.isAdmin).toBeUndefined();
+      expect(result.data).toHaveLength(1);
+    });
+
+    it('does not let pivotData pollute Object.prototype', () => {
+      const pivotView = { dimensionField: 'agency_nm', title: 'Agency Name', aggregateOn: null, lastRowSnapshot: null };
+
+      const result = pivotData({ data: [hostileRow], meta: { ...hostileMeta } }, 'record_date', pivotView, 'amount', null);
+
+      expect({}.amount).toBeUndefined();
+      expect(result.data).toHaveLength(1);
+    });
   });
 
   it('builds correct api date filter for custom date ranges', () => {

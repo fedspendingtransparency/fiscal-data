@@ -626,6 +626,25 @@ exports.createSchemaCustomization = ({ actions }) => {
   createTypes(typeDefs);
 };
 
+const fetchFilterRows = async url => {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const body = await res.json();
+    if (!Array.isArray(body?.data)) throw new Error('response contained no data array');
+    return body.data;
+  } catch (error) {
+    console.warn(`[createPages] filter options unavailable for ${url}; using an empty list. ${error.message}`);
+    return [];
+  }
+};
+
+const sortedFieldValues = (rows, field) =>
+  rows
+    .map(row => row?.[field])
+    .filter(value => typeof value === 'string')
+    .sort((a, b) => a.localeCompare(b));
+
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage, createRedirect } = actions;
 
@@ -967,9 +986,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           let filterOptionsUrl = `${API_BASE_URL}/services/api/fiscal_service/`;
           filterOptionsUrl += `${api.endpoint}?fields=${filterConfig.filterField}`;
           filterOptionsUrl += `&page[size]=10000&sort=${filterConfig.filterField}`;
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[filterConfig.filterField]).sort((a, b) => a.localeCompare(b)))
-          );
+          const options = sortedFieldValues(await fetchFilterRows(filterOptionsUrl), filterConfig.filterField);
           runTimeReportOptions.push(...options);
         }
         if (api.userFilter) {
@@ -977,9 +994,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           filterOptionsUrl += `${api.endpoint}?fields=${api.userFilter.field}`;
           filterOptionsUrl += `&page[size]=10000&sort=${api.userFilter.field}`;
 
-          const options = await fetch(filterOptionsUrl).then(res =>
-            res.json().then(body => body.data.map(row => row[api.userFilter.field]).sort((a, b) => a.localeCompare(b)))
-          );
+          const options = sortedFieldValues(await fetchFilterRows(filterOptionsUrl), api.userFilter.field);
           api.userFilter.optionValues = [...new Set(options)]; // uniquify results
         }
         if (api.apiFilter) {
@@ -1000,31 +1015,20 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             const multiOptions = {};
             for (const val of api.apiFilter.fieldFilter.value) {
               const newUrl = filterOptionsUrl + `&filter=${api.apiFilter.fieldFilter.field}:eq:${val}`;
-              const options = await fetch(newUrl).then(res =>
-                res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-              );
+              const options = sortedFieldValues(await fetchFilterRows(newUrl), api.apiFilter.field);
               multiOptions[val] = options;
             }
             api.apiFilter.optionValues = multiOptions; // uniquify results
           } else if (api.apiFilter.labelField) {
             //Different field used for value vs label (ex. FBP)
-            let options;
             const labelOptions = {};
-            await fetch(filterOptionsUrl).then(res =>
-              res.json().then(body => {
-                const filterLabels = body.data;
-                if (api.apiFilter?.labelField) {
-                  filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
-                }
-                options = body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b));
-              })
-            );
+            const filterLabels = await fetchFilterRows(filterOptionsUrl);
+            filterLabels.forEach(row => (labelOptions[row[api.apiFilter.field]] = row[api.apiFilter.labelField]));
+            const options = sortedFieldValues(filterLabels, api.apiFilter.field);
             api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
             api.apiFilter.optionLabels = labelOptions;
           } else {
-            const options = await fetch(filterOptionsUrl).then(res =>
-              res.json().then(body => body.data.map(row => row[api.apiFilter.field]).sort((a, b) => a.localeCompare(b)))
-            );
+            const options = sortedFieldValues(await fetchFilterRows(filterOptionsUrl), api.apiFilter.field);
             api.apiFilter.optionValues = { all: [...new Set(options)] }; // uniquify results
           }
         }
