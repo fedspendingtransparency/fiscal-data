@@ -3,12 +3,12 @@ import { icon, selectColumnsIcon, toggleButton, toggleContainer } from './hideLe
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrosshairs } from '@fortawesome/free-solid-svg-icons/faCrosshairs';
 
-const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend, selectedTab, role }) => {
+const HideLegendToggle = ({ displayText, displayIcon, showToggle, onToggleLegend, selectedTab, role, ga4Selector }) => {
   return (
     <>
       <div className={toggleContainer} role={role}>
         {selectedTab && showToggle && (
-          <button className={toggleButton} onClick={onToggleLegend}>
+          <button className={toggleButton} onClick={onToggleLegend} data-testid={ga4Selector}>
             <span>
               <FontAwesomeIcon icon={displayIcon} className={displayIcon === faCrosshairs ? selectColumnsIcon : icon} size="1x" />
               {displayText}

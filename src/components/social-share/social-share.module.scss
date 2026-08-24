@@ -61,6 +61,8 @@
 @media screen and (max-width: $breakpoint-lg - 1) {
   .socialShareContent {
     height: 1.125rem;
+    max-width: 20rem;
+    margin: 0 auto;
   }
 
   .shareButton {

@@ -1,72 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from '@nivo/bar';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { useInView } from 'react-intersection-observer';
+import { useWindowSize } from 'usehooks-ts';
 import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
-import { fontBodyCopy, fontSize_16, fontSize_14, debtExplainerPrimary, debtExplainerLightSecondary } from '../../../../../../variables.module.scss';
-import { barChartContainer, title, loadingIcon, container } from './intragovernmental-holdings-chart.module.scss';
+import {
+  breakpointLg,
+  fontBodyCopy,
+  fontSize_12,
+  fontSize_14,
+  debtExplainerPrimary,
+  debtExplainerLightSecondary,
+} from '../../../../../../variables.module.scss';
+import { boldWeight, breakpointSm } from '../../national-debt.module.scss';
+import {
+  barChartContainer,
+  title,
+  loadingIcon,
+  container,
+  valueLabel,
+  legend,
+  legendItem,
+  legendSwatch,
+} from './intragovernmental-holdings-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
-import CustomBar from './custom-bar/customBar';
-import { addInnerChartAriaLabel, applyChartScaling } from '../../../../explainer-helpers/explainer-charting-helper';
+import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
+import { addInnerChartAriaLabel } from '../../../../explainer-helpers/explainer-charting-helper';
 import ChartContainer from '../../../../explainer-components/chart-container/chart-container';
 import { explainerCitationsMap } from '../../../../explainer-helpers/explainer-helpers';
 import LoadingIndicator from '../../../../../../components/loading-indicator/loading-indicator';
 
-const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
-  const [isChartRendered, setIsChartRendered] = useState(false);
-  const [debtMarkerDelay, setDebtMarkerDelay] = useState(null);
+const holdingsKey = 'Intragovernmental Holdings';
+const publicDebtKey = 'Debt Held by the Public';
 
-  const chartParent = 'breakdownChart';
-  const chartWidth = 550;
-  const chartHeight = 490;
+const barGrowthDuration = 2000; // both segments grow together now (no native way to load a bar & then have other grow from its ending point)
+const labelFadeDelay = 250; // pause between the bars finishing and the label values fading in
+const labelFadeDuration = 400; // length of fading effect for labels
+const labelFadeStart = barGrowthDuration + labelFadeDelay;
+const entranceComplete = labelFadeStart + labelFadeDuration + 250;
 
+const barSpacing = 30;
+
+const desktopConfig = {
+  height: 443,
+  margin: { top: 26, right: 122, bottom: 10, left: 122 },
+  barSize: 74,
+  labelSideOffset: 15,
+  labelBaselineOffset: 30,
+  tickFontSize: fontSize_14,
+};
+
+const mobileConfig = {
+  height: 320,
+  margin: { top: 20, right: 84, bottom: 10, left: 84 },
+  barSize: 54,
+  labelSideOffset: 12,
+  labelBaselineOffset: 22,
+  tickFontSize: fontSize_12,
+};
+
+// used for setting order of legend keys
+const legendPayload = [
+  { value: holdingsKey, type: 'rect', id: holdingsKey, color: debtExplainerLightSecondary },
+  { value: publicDebtKey, type: 'rect', id: publicDebtKey, color: debtExplainerPrimary },
+];
+
+const getSegmentValue = value => (Array.isArray(value) ? value[1] - value[0] : Number(value));
+
+const formatTrillions = value => `$${getSegmentValue(value).toFixed(2)} T`;
+
+export const BarValueLabel = ({ viewBox = {}, x, y, width, value, index, config }) => {
+  const barX = viewBox.x ?? x;
+  const barY = viewBox.y ?? y;
+  const barWidth = viewBox.width ?? width;
+  const alignRight = index !== 0;
+
+  return (
+    <text
+      className={valueLabel}
+      x={alignRight ? barX + barWidth + config.labelSideOffset : barX - config.labelSideOffset}
+      y={barY + config.labelBaselineOffset}
+      textAnchor={alignRight ? 'start' : 'end'}
+      fill={fontBodyCopy}
+      fontWeight={boldWeight}
+    >
+      {formatTrillions(value)}
+    </text>
+  );
+};
+
+export const ChartLegend = () => (
+  <ul className={legend} style={{ color: fontBodyCopy }}>
+    {legendPayload.map(({ value, color }) => (
+      <li key={value} className={legendItem}>
+        <span className={legendSwatch} style={{ backgroundColor: color }} />
+        {value}
+      </li>
+    ))}
+  </ul>
+);
+
+const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
+  const { width: windowWidth } = useWindowSize();
+  const desktop = windowWidth >= pxToNumber(breakpointSm);
+  const config = desktop ? desktopConfig : mobileConfig;
+
+  // handles gap between bars
+  const plotWidth = 2 * (config.barSize + barSpacing);
+  const chartMaxWidth = plotWidth + config.margin.left + config.margin.right;
+
+  const [shouldAnimate, setShouldAnimate] = useState(false); // chart has scrolled into view
+  const [entranceDone, setEntranceDone] = useState(false); // sequence finished, nothing re-animates after this
+
+  const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
   const { mspdSummary } = explainerCitationsMap['national-debt'];
 
-  const setAnimationDurations = data => {
-    if (data && data.length >= 2) {
-      const holdings = Math.max(data[0]['Intragovernmental Holdings'], data[1]['Intragovernmental Holdings']);
-      const debt = Math.max(data[0]['Debt Held by the Public'], data[1]['Debt Held by the Public']);
-      const totalDuration = 2000;
-      const debt_duration = (debt / (debt + holdings)) * totalDuration;
-      const holdings_duration = (holdings / (debt + holdings)) * totalDuration;
-      if (!debtMarkerDelay) {
-        setDebtMarkerDelay(debt_duration + holdings_duration + 1250);
-      }
-      data[0]['debt_animation_duration'] = debt_duration;
-      data[1]['debt_animation_duration'] = debt_duration;
-      data[0]['holdings_animation_duration'] = holdings_duration;
-      data[1]['holdings_animation_duration'] = holdings_duration;
-      return data;
-    }
-  };
-
-  const chartData = setAnimationDurations(data);
-
-  const fiveTheme = {
-    fontSize: fontSize_16,
-    textColor: fontBodyCopy,
-    markers: {
-      lineStrokeWidth: 0,
-    },
-    grid: {
-      line: {
-        stroke: fontBodyCopy,
-        strokeWidth: 2,
-      },
-    },
-    legends: {
-      text: {
-        fontSize: fontSize_16,
-      },
-    },
-    axis: {
-      ticks: {
-        text: {
-          fontSize: fontSize_14,
-        },
-      },
-    },
-  };
-
-  const layers = ['bars', 'grid', 'legends', 'annotations', 'axes'];
+  const renderValueLabel = useCallback(props => <BarValueLabel {...props} config={config} />, [config]);
 
   const calcPercentIncrease = (key, rows) => {
     const row0 = rows?.[0]?.[key];
@@ -75,19 +123,26 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
     return Math.round(((row1 - row0) / row0) * 100).toFixed();
   };
 
-  // generate rectangular color swatches in footer legend
-  const CustomSymbolShape = ({ x, y, size, fill, borderWidth, borderColor }) => {
-    return (
-      <rect x={x} y={y} fill={fill} strokeWidth={borderWidth} stroke={borderColor} width={size * 2} height={size} style={{ pointerEvents: 'none' }} />
-    );
-  };
+  // start animation after chart has scrolled into view
+  useEffect(() => {
+    if (inView && data) {
+      setShouldAnimate(true);
+    }
+  }, [inView, data]);
+
+  // switches animation off so a resize can't replay the entrance
+  useEffect(() => {
+    if (!shouldAnimate) return;
+    const entranceTimer = setTimeout(() => setEntranceDone(true), entranceComplete);
+
+    return () => clearTimeout(entranceTimer);
+  }, [shouldAnimate]);
 
   useEffect(() => {
-    if (isChartRendered) {
-      applyChartScaling(chartParent, chartWidth, chartHeight + 30);
-      addInnerChartAriaLabel(chartParent);
+    if (!!data && shouldAnimate) {
+      addInnerChartAriaLabel('breakdownChart');
     }
-  }, [isChartRendered]);
+  }, [data, shouldAnimate]);
 
   const chartFooter = <p>Visit the {mspdSummary} to explore and download this data.</p>;
 
@@ -112,63 +167,48 @@ const IntragovernmentalHoldingsChart = ({ sectionId, data, date, width }) => {
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
-              <div data-testid="breakdownChart" className={barChartContainer}>
-                <Bar
-                  barComponent={CustomBar}
-                  width={chartWidth}
-                  height={chartHeight}
-                  data={chartData}
-                  keys={['Intragovernmental Holdings', 'Debt Held by the Public']}
-                  indexBy="record_calendar_year"
-                  margin={{ top: 30, right: 144, bottom: 50, left: 144 }}
-                  padding={0.24}
-                  valueScale={{ type: 'linear' }}
-                  indexScale={{ type: 'band', round: true }}
-                  colors={[debtExplainerLightSecondary, debtExplainerPrimary]}
-                  isInteractive={false}
-                  borderColor={fontBodyCopy}
-                  axisTop={null}
-                  axisRight={null}
-                  axisLeft={null}
-                  axisBottom={{
-                    tickSize: 0,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                  }}
-                  enableGridY={true}
-                  gridYValues={[0]}
-                  enableLabel={false}
-                  legends={[
-                    {
-                      dataFrom: 'keys',
-                      anchor: 'bottom-left',
-                      direction: 'row',
-                      justify: false,
-                      translateX: -125,
-                      translateY: 90,
-                      itemsSpacing: 15,
-                      itemWidth: 250,
-                      itemHeight: 40,
-                      itemDirection: 'left-to-right',
-                      itemOpacity: 1,
-                      symbolSize: 20,
-                      symbolShape: CustomSymbolShape,
-                      symbolSpacing: 28,
-                    },
-                  ]}
-                  layers={[
-                    ...layers,
-                    () => {
-                      // this final empty layer fn is called only after everything else is
-                      // rendered, so it serves as a handy postRender hook.
-                      // It's wrapped in a setTimout to avoid triggering a browser warning
-                      setTimeout(() => setIsChartRendered(true));
-                      return <></>;
-                    },
-                  ]}
-                  ariaLabel="Chart of Debt Breakdown"
-                  theme={fiveTheme}
-                />
+              <div data-testid={'breakdownChart'} className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
+                {shouldAnimate && (
+                  <ResponsiveContainer width="100%" height={config.height} debounce={50}>
+                    <BarChart data={data} margin={config.margin}>
+                      <XAxis
+                        dataKey="record_calendar_year"
+                        tick={{ fill: fontBodyCopy, fontSize: config.tickFontSize }}
+                        tickLine={false}
+                        tickMargin={5}
+                        axisLine={{ stroke: fontBodyCopy, strokeWidth: 2 }}
+                      />
+                      <YAxis hide domain={[0, 'dataMax']} />
+                      <Bar
+                        dataKey={holdingsKey}
+                        stackId="debtBreakdown"
+                        fill={debtExplainerLightSecondary}
+                        barSize={config.barSize}
+                        isAnimationActive={!entranceDone}
+                        animationBegin={0}
+                        animationDuration={barGrowthDuration}
+                        animationEasing="linear"
+                      >
+                        {/*recharts will render LabelList after the <Bar> animation completes*/}
+                        <LabelList dataKey={holdingsKey} content={renderValueLabel} />
+                      </Bar>
+                      <Bar
+                        dataKey={publicDebtKey}
+                        stackId="debtBreakdown"
+                        fill={debtExplainerPrimary}
+                        barSize={config.barSize}
+                        isAnimationActive={!entranceDone}
+                        animationBegin={0}
+                        animationDuration={barGrowthDuration}
+                        animationEasing="linear"
+                      >
+                        {/*recharts will render LabelList after the <Bar> animation completes*/}
+                        <LabelList dataKey={publicDebtKey} content={renderValueLabel} />
+                      </Bar>
+                      <Legend verticalAlign="bottom" content={<ChartLegend />} wrapperStyle={{ width: '100%', left: 0 }} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             )}
           </ChartContainer>
