@@ -627,15 +627,18 @@ exports.createSchemaCustomization = ({ actions }) => {
 };
 
 const fetchFilterRows = async url => {
+  const [endpoint] = String(url).split('?');
+  const skip = reason => {
+    console.warn(`[createPages] filter options unavailable for ${endpoint} (${reason}); using an empty list.`);
+    return [];
+  };
   try {
     const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) return skip(`HTTP ${res.status}`);
     const body = await res.json();
-    if (!Array.isArray(body?.data)) throw new Error('response contained no data array');
-    return body.data;
-  } catch (error) {
-    console.warn(`[createPages] filter options unavailable for ${url}; using an empty list. ${error.message}`);
-    return [];
+    return Array.isArray(body?.data) ? body.data : skip('response contained no data array');
+  } catch {
+    return skip('request failed or response was not valid JSON');
   }
 };
 
