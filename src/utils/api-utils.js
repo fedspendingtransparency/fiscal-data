@@ -401,9 +401,9 @@ const convertAggregateValuesToDate = (row, aggregateOn) => {
 };
 
 export const pivotData = (data, dateField, pivotView, pivotValueField, aggregateOn, from, to, filterFn) => {
-  const indexed = {};
-  const labels = {};
-  const dataTypes = {};
+  const indexed = Object.create(null);
+  const labels = Object.create(null);
+  const dataTypes = Object.create(null);
   const dimensionField = pivotView.dimensionField;
 
   // simple falsiness doesn't work here because of zero vals and 'null' transmitted as a
@@ -502,7 +502,7 @@ export const incorporateChartDates = (data, pivotView) => {
     labels[aggregateDateField] = 'Time Period';
     dataTypes[aggregateDateField] = 'AGGREGATION_DATE';
 
-    const indexed = {};
+    const indexed = Object.create(null);
     data.data.forEach(row => {
       let rowKey;
 
