@@ -16,9 +16,9 @@ const labelFadeDuration = 400; // keep in sync with the .barLabel animation in t
 export const entranceComplete = spendingGrowthBegin + spendingGrowthDuration + labelFadeDuration + 250;
 
 export const desktopConfig = {
-  width: 408,
+  width: 420,
   height: desktopHeight,
-  margin: { top: 0, right: 74, bottom: 0, left: 74 },
+  margin: { top: 40, right: 74, bottom: 0, left: 74 },
   barSize: 92,
   barGap: 38,
   labelOffsetLeft: 65,
@@ -32,7 +32,7 @@ export const desktopConfig = {
 export const mobileConfig = {
   width: 304,
   height: mobileHeight,
-  margin: { top: 0, right: 65, bottom: 0, left: 65 },
+  margin: { top: 24, right: 65, bottom: 0, left: 65 },
   barSize: 70,
   barGap: 17,
   labelOffsetLeft: 42,
