@@ -56,6 +56,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [lastUpdatedDate, setLastUpdatedDate] = useState(null);
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastSpendingValue, setLastSpendingValue] = useState('');
+  const [xAxisValues, setXAxisValues] = useState([]);
 
   const [selectedChartView, setSelectedChartView] = useState('totalSpending');
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
@@ -142,6 +143,14 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           const spendingMaxYear = finalSpendingChartData[finalSpendingChartData.length - 1].x;
           const theMaxYear = Math.min(gdpMaxYear, spendingMaxYear);
           setMaxYear(theMaxYear);
+
+          const axisYears = [];
+          for (let year = theMinYear; year <= theMaxYear; year += 1) {
+            if (year % 2 === 0) {
+              axisYears.push(year);
+            }
+          }
+          setXAxisValues(axisYears);
 
           const spendingMaxAmount = finalSpendingChartData.reduce((max, spending) => (max > spending.spending_y ? max : spending.spending_y));
 
@@ -384,7 +393,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                     <div data-testid="spendingLineChart" ref={spendingRef} style={{ pointerEvents: !animationComplete ? 'none' : 'auto' }}>
                       <ResponsiveContainer height={chartTheme.height} width="99%">
                         <LineChart data={gdpChartData} margin={chartTheme.margin} accessibilityLayer>
-                          <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
+                          <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} ticks={xAxisValues} />
                           <YAxis
                             tick={{ ...chartTheme.axis.tick }}
                             fontSize={chartTheme.axis.fontSize}
@@ -428,7 +437,7 @@ const TotalSpendingChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                     <div ref={gdpRef} style={{ pointerEvents: !secondaryAnimationComplete ? 'none' : 'auto' }}>
                       <ResponsiveContainer height={chartTheme.height} width="99%">
                         <LineChart data={gdpRatioChartData} margin={chartTheme.margin} accessibilityLayer>
-                          <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
+                          <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} ticks={xAxisValues} />
                           <YAxis
                             ticks={[0, 0.1, 0.2, 0.3, 0.4, 0.5]}
                             fontSize={chartTheme.axis.fontSize}

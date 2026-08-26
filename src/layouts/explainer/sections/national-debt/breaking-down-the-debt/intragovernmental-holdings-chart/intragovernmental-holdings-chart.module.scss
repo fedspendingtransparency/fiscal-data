@@ -4,6 +4,12 @@
   width: 100%;
   margin: 0 auto;
   min-height: 20rem;
+  svg {
+    outline: none;
+    g {
+      outline: none;
+    }
+  }
 
   @media screen and (min-width: $breakpoint-sm) {
     min-height: 27.69rem;

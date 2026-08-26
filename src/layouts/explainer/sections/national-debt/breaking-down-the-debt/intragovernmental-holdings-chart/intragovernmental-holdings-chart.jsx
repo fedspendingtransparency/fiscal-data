@@ -2,25 +2,25 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { useInView } from 'react-intersection-observer';
 import { useWindowSize } from 'usehooks-ts';
-import VisualizationCallout from '../../../../../../components/visualization-callout/visualization-callout';
+import VisualizationCallout
+  from '../../../../../../components/visualization-callout/visualization-callout';
 import {
-  breakpointLg,
+  debtExplainerLightSecondary,
+  debtExplainerPrimary,
   fontBodyCopy,
   fontSize_12,
-  fontSize_14,
-  debtExplainerPrimary,
-  debtExplainerLightSecondary,
+  fontSize_14
 } from '../../../../../../variables.module.scss';
 import { boldWeight, breakpointSm } from '../../national-debt.module.scss';
 import {
   barChartContainer,
-  title,
-  loadingIcon,
   container,
-  valueLabel,
   legend,
   legendItem,
   legendSwatch,
+  loadingIcon,
+  title,
+  valueLabel,
 } from './intragovernmental-holdings-chart.module.scss';
 import { visWithCallout } from '../../../../explainer.module.scss';
 import { pxToNumber } from '../../../../../../helpers/styles-helper/styles-helper';
@@ -99,7 +99,7 @@ export const ChartLegend = () => (
   </ul>
 );
 
-const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
+const IntragovernmentalHoldingsChart = ({ data, date }) => {
   const { width: windowWidth } = useWindowSize();
   const desktop = windowWidth >= pxToNumber(breakpointSm);
   const config = desktop ? desktopConfig : mobileConfig;
@@ -167,7 +167,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
             {!data ? (
               <LoadingIndicator loadingClass={loadingIcon} />
             ) : (
-              <div data-testid={'breakdownChart'} className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
+              <div data-testid="breakdownChart" className={barChartContainer} style={{ maxWidth: chartMaxWidth }} ref={ref}>
                 {shouldAnimate && (
                   <ResponsiveContainer width="100%" height={config.height} debounce={50}>
                     <BarChart data={data} margin={config.margin}>
@@ -188,6 +188,7 @@ const IntragovernmentalHoldingsChart = ({ data, date, width }) => {
                         animationBegin={0}
                         animationDuration={barGrowthDuration}
                         animationEasing="linear"
+                        zIndex={-1}
                       >
                         {/*recharts will render LabelList after the <Bar> animation completes*/}
                         <LabelList dataKey={holdingsKey} content={renderValueLabel} />

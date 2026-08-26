@@ -28,7 +28,6 @@ const callOutDataEndPoint =
 const chartDataEndPoint = apiPrefix + 'v1/accounting/mts/mts_table_4?filter=line_code_nbr:eq:830,record_calendar_month:eq:09&sort=record_date';
 
 const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
-  const [revenueChartData, setRevenueChartData] = useState([]);
   const [gdpChartData, setGdpChartData] = useState([]);
   const [gdpRatioChartData, setRatioGdpChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +40,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
   const [lastGDPValue, setLastGDPValue] = useState('');
   const [lastRevenueValue, setLastRevenueValue] = useState('');
   const [selectedChartView, setSelectedChartView] = useState('totalRevenue');
+  const [xAxisValues, setXAxisValues] = useState([]);
 
   const [animationTriggeredOnce, setAnimationTriggeredOnce] = useState(false);
   const [secondaryAnimationTriggeredOnce, setSecondaryAnimationTriggeredOnce] = useState(false);
@@ -145,13 +145,19 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
             revenue.revenue_y = parseFloat(simplifyNumber(revenue.actual_revenue, false).slice(0, -2));
           });
 
-          setRevenueChartData(finalRevenueChartData);
-
           const revenueMaxYear = finalRevenueChartData.reduce((max, revenue) => (max.x > revenue.x ? max : revenue));
           setMaxYear(revenueMaxYear.x);
 
           const revenueMinYear = finalRevenueChartData.reduce((min, revenue) => (min.x < revenue.x ? min : revenue));
           setMinYear(revenueMinYear.x);
+
+          const axisYears = [];
+          for (let year = revenueMinYear.x; year <= revenueMaxYear.x; year += 1) {
+            if (year % 2 === 0) {
+              axisYears.push(year);
+            }
+          }
+          setXAxisValues(axisYears);
 
           const revenueMaxAmount = finalRevenueChartData.reduce((min, revenue) => (min.revenue_y > revenue.revenue_y ? min : revenue));
 
@@ -379,7 +385,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   <div data-testid="revenueLineChart" ref={revenueRef} style={{ pointerEvents: !animationComplete ? 'none' : 'auto' }}>
                     <ResponsiveContainer height={chartTheme.height} width="99%">
                       <LineChart data={gdpChartData} margin={chartTheme.margin} accessibilityLayer>
-                        <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
+                        <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} ticks={xAxisValues} />
                         <YAxis
                           tick={{ ...chartTheme.axis.tick }}
                           fontSize={chartTheme.axis.fontSize}
@@ -423,7 +429,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
                   <div ref={gdpRef} style={{ pointerEvents: !secondaryAnimationComplete ? 'none' : 'auto' }}>
                     <ResponsiveContainer height={chartTheme.height} width="99%">
                       <LineChart data={gdpRatioChartData} margin={chartTheme.margin} accessibilityLayer>
-                        <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} />
+                        <XAxis dataKey="x" fontSize={chartTheme.axis.fontSize} tick={{ ...chartTheme.axis.tick }} ticks={xAxisValues} />
                         <YAxis
                           ticks={[0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3]}
                           fontSize={chartTheme.axis.fontSize}

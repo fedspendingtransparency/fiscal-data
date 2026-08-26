@@ -19,6 +19,13 @@
 .barChart {
   margin: 0 auto 2rem;
   width: 100%;
+
+  svg {
+    outline: none;
+    g {
+      outline: none;
+    }
+  }
 }
 
 .barLabel {
