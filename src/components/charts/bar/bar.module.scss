@@ -2,7 +2,10 @@
 .barDiv {
   width: 100%;
   height: 100%;
-  canvas {
-    cursor: pointer !important; // @nivo/bar@0.73.1 inline styles their cursor to either be "auto" or "normal" with no other way for users to update this.
+  svg {
+    outline: none;
+    g {
+      outline: none;
+    }
   }
 }
