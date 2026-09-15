@@ -5,7 +5,7 @@ import { MarkdownTransform } from '../../markdown-transform/markdown-transform';
 const BannerContent = ({ content }) => {
   return (
     <>
-      <div className={bannerContent} data-testid={'announcement-banner'}>
+      <div className={bannerContent} data-testid="announcement-banner">
         <MarkdownTransform content={content} isBanner={true} />
       </div>
     </>
