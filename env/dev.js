@@ -27,5 +27,63 @@ module.exports = {
     322: {
       endpoint: '',
     },
+    // TODO: Confirm that we do NOT use selectColumns field if we want to show every column
+    // TODO: Confirm if we need a dateField field for each API
+    329: {
+      endpoint: 'v1/accounting/od/treasury_securities_auctions_v2',
+      downloadName: 'Auctions_TreasurySecurities_v2',
+      alwaysSortWith: ['-comp_auction_close_date', 'noncomp_auction_close_date', '-issue_date', '-maturity_date'],
+      selectColumns: [
+        'cusip',
+        'security_type',
+        'security_desc',
+        'comp_auction_close_date',
+        'noncomp_auction_close_date',
+        'issue_date',
+        'price_per_amt',
+        'maturity_date',
+        'pdf_filenm_announcemt',
+        'pdf_filenm_spec_announcement',
+        'pdf_filenm_comp_results',
+        'pdf_filenm_noncomp_results',
+        'xml_filenm_announcemt',
+        'xml_filenm_comp_results',
+        'xml_filenm_noncomp_results',
+      ],
+    },
+    330: {
+      endpoint: 'v1/accounting/od/upcoming_auctions_v2',
+      downloadName: 'Upcoming_Auctions_v2',
+      alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
+    },
+    331: {
+      endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
+      downloadName: 'TIPSandCPIdata_Summary_v2',
+      alwaysSortWith: ['-comp_auction_close_date'],
+    },
+    332: {
+      endpoint: 'v1/accounting/od/tips_cpi_data_details_v2',
+      downloadName: 'TIPSandCPIdata_Details_v2',
+      alwaysSortWith: ['-index_date’ '],
+      selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+    },
+    334: {
+      endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
+      downloadName: 'frn_daily_indexes_v2',
+      alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+      // TODO: Determine if we would carry over the customFormatting as well from API 263 on endpointConfig.js
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['spread'],
+          decimalPlaces: 3,
+        },
+        {
+          type: 'NUMBER',
+          fields: ['daily_index', 'daily_int_accrual_rate'],
+          noFormatting: true,
+        },
+      ],
+    },
   },
 };
