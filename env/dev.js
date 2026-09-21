@@ -28,7 +28,7 @@ module.exports = {
       endpoint: '',
     },
     329: {
-      endpoint: 'v2/accounting/od/treasury_securities_auctions_v2',
+      endpoint: 'v1/accounting/od/auctions_query_updated',
       downloadName: 'Auctions_TreasurySecurities_v2',
       alwaysSortWith: ['-comp_auction_close_date', '-noncomp_auction_close_date', '-issue_date', '-maturity_date'],
       selectColumns: [
@@ -50,17 +50,17 @@ module.exports = {
       ],
     },
     330: {
-      endpoint: 'v2/accounting/od/upcoming_auctions_v2',
+      endpoint: 'v1/accounting/od/upcoming_auctions_updated',
       downloadName: 'Upcoming_Auctions_v2',
       alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
     },
     331: {
-      endpoint: 'v2/accounting/od/tips_cpi_data_summary_v2',
+      endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
       downloadName: 'TIPSandCPIdata_Summary_v2',
       alwaysSortWith: ['-comp_auction_close_date'],
     },
     332: {
-      endpoint: 'v2/accounting/od/tips_cpi_data_details_v2',
+      endpoint: 'v1/accounting/od/tips_cpi_data_detail_v2',
       downloadName: 'TIPSandCPIdata_Details_v2',
       alwaysSortWith: ['-index_date'],
       selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
