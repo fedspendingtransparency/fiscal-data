@@ -28,7 +28,7 @@ module.exports = {
       endpoint: '',
     },
     329: {
-      endpoint: 'v1/accounting/od/auctions_query_updated',
+      endpoint: 'v1/accounting/od/treasury_securities_auctions_v2',
       downloadName: 'Auctions_TreasurySecurities_v2',
       alwaysSortWith: ['-comp_auction_close_date', '-noncomp_auction_close_date', '-issue_date', '-maturity_date'],
       selectColumns: [
@@ -50,7 +50,7 @@ module.exports = {
       ],
     },
     330: {
-      endpoint: 'v1/accounting/od/upcoming_auctions_updated',
+      endpoint: 'v1/accounting/od/upcoming_auctions_v2',
       downloadName: 'Upcoming_Auctions_v2',
       alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
     },
@@ -66,7 +66,7 @@ module.exports = {
       selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
     },
     334: {
-      endpoint: 'v2/accounting/od/frn_daily_indexes_v2',
+      endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
       downloadName: 'frn_daily_indexes_v2',
       alwaysSortWith: ['cusip', 'start_of_accrual_period'],
       customFormatting: [
