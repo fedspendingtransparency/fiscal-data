@@ -1,4 +1,11 @@
-import { dashes, doubleDashs, explainerArrow, pillDataContainer, pillDataPercent, pillDataValue } from '../hero-image/hero-image.module.scss';
+import {
+  dashes,
+  doubleDashs,
+  explainerArrow,
+  pillDataContainer,
+  pillDataPercent,
+  pillDataValue
+} from '../hero-image/hero-image.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownLong } from '@fortawesome/free-solid-svg-icons/faDownLong';
 import { faUpLong } from '@fortawesome/free-solid-svg-icons/faUpLong';
@@ -64,8 +71,8 @@ export const getPillData = (
   leftPillTooltipText: string,
   rightPillTooltipText: string
 ): JSX.Element => {
-  const displayValue = value != null && !isNaN(value) && value !== 0 ? getShortForm(value.toString()) : '--';
-  const displayPercent = percent != null && !isNaN(percent) && percent !== 0 ? percent.toFixed() : '--';
+  const displayValue = value != null && !isNaN(value) ? getShortForm(value.toString()) : '--';
+  const displayPercent = percent != null && !isNaN(percent) ? percent.toFixed() : '--';
   const valueLength = displayValue.length + 1;
   const percentLength = displayPercent.length + 1;
 
