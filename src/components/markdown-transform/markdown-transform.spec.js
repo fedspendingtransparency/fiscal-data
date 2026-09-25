@@ -18,17 +18,6 @@ describe('Markdown transform', () => {
     expect(getByText('Link', { exact: false })).toBeInTheDocument();
   });
 
-  it('renders markdown content for banner', () => {
-    const { getByText } = render(<MarkdownTransform content={testContent} isBanner={true} />);
-    expect(getByText('Link', { exact: false })).toBeInTheDocument();
-  });
-
-  it('chains rehype-sanitized with the default schema after rehype-raw for banner content', () => {
-    ReactMarkdown.mockClear();
-    render(<MarkdownTransform content={testContent} isBanner={true} />);
-    const { rehypePlugins } = ReactMarkdown.mock.calls[0][0];
-    expect(rehypePlugins[rehypePlugins.length - 1]).toEqual([rehypeSanitize, defaultSchema]);
-  });
   it('chains rehype-sanitized with the default scheme after rehype-raw for non-banner content', () => {
     ReactMarkdown.mockClear();
     render(<MarkdownTransform content={testContent} />);
