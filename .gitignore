@@ -87,3 +87,6 @@ yarn-error.log
 
 # scss type definitions
 *.scss.d.ts
+
+# Personal Claude Code memory (not shared with team)
+CLAUDE.local.md
