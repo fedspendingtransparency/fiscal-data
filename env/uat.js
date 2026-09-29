@@ -15,18 +15,36 @@ module.exports = {
   ],
   LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection', 'combinedStatement'],
   ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-052': {
-      slug: '/top-treasury-offset-program/',
+    '015-BFS-2014Q3-050': {
+      slug: '/tips-cpi-data/',
       seoConfig: {
-        pageTitle: 'Treasury Offset Program (TOP)',
+        pageTitle: 'TIPS and CPI Data',
         description:
-          'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
-          'pay off delinquent debts such as unpaid child support.',
-        keywords: 'Debt, Revenue',
+          'Treasury Inflation Protected Securities (TIPS) issued by the U.S. Treasury and Consumer Price Index (CPI) numbers released by the Bureau of Labor Statistics (BLS).',
+        keywords: 'Consumer Price Index, CPI',
       },
-      topics: ['debt', 'revenue'],
-      relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
+      topics: ['auctions', 'interest-exchange-rates'],
+      relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
       currentDateButton: 'byMonth',
+      datePreset: 'all',
+      detailView: {
+        apiId: 332,
+        field: 'cusip',
+        label: 'CUSIP',
+        dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
+        summaryTableFields: [
+          'cusip',
+          'series',
+          'interest_rate',
+          'security_term',
+          'original_issue_date',
+          'maturity_date',
+          'dated_date',
+          'ref_cpi_on_dated_date',
+          'additional_issue_date',
+        ],
+        selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+      },
     },
   },
   ADDITIONAL_ENDPOINTS: {
@@ -229,7 +247,7 @@ module.exports = {
         'price_per_amt',
         'maturity_date',
         'pdf_filenm_announcemt',
-        'pdf_filenm_spec_announcement',
+        'pdf_filenm_spec_announcemt',
         'pdf_filenm_comp_results',
         'pdf_filenm_noncomp_results',
         'xml_filenm_announcemt',
@@ -248,6 +266,7 @@ module.exports = {
     // 331: {
     //   endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
     //   downloadName: 'TIPSandCPIdata_Summary_v2',
+    //   dateField: 'comp_auction_close_date',
     //   alwaysSortWith: ['-comp_auction_close_date'],
     // },
     // 332: {
@@ -269,7 +288,7 @@ module.exports = {
     //       customType: 'dateList',
     //     },
     //   ],
-    //   // selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+    //   selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
     // },
     //FRN Daily Indexes V2
     334: {
