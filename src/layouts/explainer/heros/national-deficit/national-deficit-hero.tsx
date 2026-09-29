@@ -1,15 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import {
   counterSourceInfo,
-  footNotes,
-  deficitBoxContainer,
-  heroImageSubHeading,
   deficit,
+  deficitBoxContainer,
   flapWrapper,
+  footNotes,
+  heroImageSubHeading,
 } from '../../hero-image/hero-image.module.scss';
 import SplitFlapDisplay from '../../../../components/split-flap-display/split-flap-display';
 import GlossaryPopoverDefinition from '../../../../components/glossary/glossary-term/glossary-popover-definition';
-import { getChangeLabel, getFootNotesDateRange, getPillData, deficitUrl } from '../hero-helper';
+import { deficitUrl, getChangeLabel, getFootNotesDateRange, getPillData } from '../hero-helper';
 import { getShortForm } from '../../../../utils/rounding-utils';
 import { getDataFromCacheOrFetch } from '../../../../../react-query-client';
 import { explainerCitationsMap } from '../../explainer-helpers/explainer-helpers';
@@ -28,8 +28,8 @@ const NationalDeficitHero = (): ReactElement => {
   const [currentFiscalYear, setCurrentFiscalYear] = useState<string>('');
   const [deficitStatus, setDeficitStatus] = useState<string>('');
   const [deficitDif, setDeficitDif] = useState<string>('');
-  const [deficitDifPill, setDeficitDifPill] = useState<number>(0);
-  const [deficitDifPercent, setDeficitDifPercent] = useState<number>(0);
+  const [deficitDifPill, setDeficitDifPill] = useState<number>(null);
+  const [deficitDifPercent, setDeficitDifPercent] = useState<number>(null);
 
   const numberFormat = new Intl.NumberFormat('en-US');
 
