@@ -164,7 +164,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[detailApi.apiId] = new TableCache();
       }
       setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
+        !!detailViewState ? { field: selectedTable.detailApi.field, label: selectedTable.detailApi.label, value: detailViewState.value } : null
       );
     }
   }, [detailViewState]);
@@ -206,7 +206,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 canceledObj,
                 tableCaches[displayedTable.apiId],
                 detailViewState,
-                config?.detailView?.field,
+                selectedTable?.detailApi?.field,
                 userFilterSelection,
                 setUserFilterUnmatchedForDateRange,
                 queryClient
@@ -323,7 +323,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           )}
           {detailApi && !detailViewState && (
             <div className={detailViewNotice}>
-              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config?.dateRangeLockCopy}
             </div>
           )}
         </FilterAndDownload>

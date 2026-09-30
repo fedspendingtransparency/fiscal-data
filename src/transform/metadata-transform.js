@@ -111,6 +111,7 @@ const transformMapper = (datasetIdMap, endpointConfigIdMap, topics, filters, rel
       dataset.apis = dataset.apis.filter(api => !api.markedForDelete);
       dataset.relatedDatasets = mappedDataset && mappedDataset.relatedDatasets ? mappedDataset.relatedDatasets : [];
       dataset.currentDateButton = mappedDataset && mappedDataset.currentDateButton ? mappedDataset.currentDateButton : null;
+      dataset.dateRangeLockCopy = mappedDataset && mappedDataset.dateRangeLockCopy ? mappedDataset.dateRangeLockCopy : null;
       dataset.runTimeReportConfig = mappedDataset && mappedDataset.runTimeReportConfig ? mappedDataset.runTimeReportConfig : null;
       dataset.hideRawDataTable = mappedDataset && mappedDataset.hideRawDataTable ? mappedDataset.hideRawDataTable : null;
       dataset.hideReportDatePicker = mappedDataset && mappedDataset.hideReportDatePicker ? mappedDataset.hideReportDatePicker : null;

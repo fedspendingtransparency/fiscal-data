@@ -534,25 +534,8 @@
     "topics": ["auctions", "interest-exchange-rates"],
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-056", "015-BFS-2014Q3-048", "015-BFS-2014Q3-049"],
     "currentDateButton": "byMonth",
-    "datePreset": "all",
-    "detailView": {
-      "apiId": 300,
-      "field": "cusip",
-      "label": "CUSIP",
-      "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
-      "summaryTableFields": [
-        "cusip",
-        "series",
-        "interest_rate",
-        "security_term",
-        "original_issue_date",
-        "maturity_date",
-        "dated_date",
-        "ref_cpi_on_dated_date",
-        "additional_issue_date"
-      ],
-      "selectColumns": ["index_date", "ref_cpi", "index_ratio", "pdf_link", "xml_link"]
-    }
+    "dateRangeLockCopy": "To filter data by date range, select a CUSIP from the table below.",
+    "datePreset": "all"
   },
   "015-BFS-2014Q3-051": {
     "slug": "/federal-investments-program-statement-of-account/",
@@ -610,15 +593,7 @@
     "relatedDatasets": ["015-BFS-2014Q3-045", "015-BFS-2014Q3-050", "015-BFS-2014Q3-049", "015-BFS-2014Q1-14", "015-BFS-2014Q3-048"],
     "currentDateButton": "byDay",
     "datePreset": "all",
-    "detailView": {
-      "apiId": 317,
-      "field": "operation_date",
-      "label": "Operation Date",
-      "secondaryField": "operation_start_time_est",
-      "dateRangeLockCopy": "To filter data by date range, select an Operation Date from the table below.",
-      "summaryTableFields": ["operation_date", "operation_start_time_est", "operation_close_time_est", "settlement_date"],
-      "selectColumns": ["cusip_nbr", "coupon_rate_pct", "maturity_date", "par_amt_accepted", "weighted_avg_accepted_price"]
-    }
+    "dateRangeLockCopy": "To filter data by date range, select an Operation Date from the table below."
   },
   "015-BFS-2014Q3-053": {
     "slug": "/unemployment-trust-funds-report-selection/",

@@ -2748,12 +2748,22 @@ const endpointConfig = {
       'results_xml',
       'special_ann_pdf',
     ],
+    detailApi: {
+      apiId: 317,
+      field: 'operation_date',
+      label: 'Operation Date',
+      secondaryField: 'operation_start_time_est',
+      dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
+      summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
+      selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+    },
   },
   // Buybacks
   '317': {
     endpoint: 'v1/accounting/od/buybacks_security_details',
     dateField: 'operation_date',
     downloadName: 'Buybacks_Security_Details',
+    isDetailApi: true,
     alwaysSortWith: ['-operation_date', 'maturity_date'],
     hideColumns: ['operation_date'],
     selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],

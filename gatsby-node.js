@@ -646,6 +646,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          dateRangeLockCopy
           runTimeReportConfig {
             filterField
             filterLabel

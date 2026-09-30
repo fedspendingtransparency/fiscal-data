@@ -10,7 +10,7 @@ import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
 import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { columnsConstructorData, constructDefaultColumnsFromTableData, getInvisibleColumns, getSortedColumnsData } from './data-table-helper';
-import { selectColumnsWrapper, selectColumnPanelActive, selectColumnPanelInactive } from './dtg-table-column-selector.module.scss';
+import { selectColumnPanelActive, selectColumnPanelInactive, selectColumnsWrapper } from './dtg-table-column-selector.module.scss';
 import { rawDataTableContainer, tableStyle } from '../table-components/filtered-table/filtered-table.module.scss';
 
 import TableColumnSelector from '../table-components/column-select/table-column-selector';
@@ -59,7 +59,6 @@ export default function DtgTable({
     columnConfig,
     customFormatting,
   } = tableProps;
-
   const [reactTableData, setReactTableData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(defaultRowsPerPage);
@@ -69,7 +68,7 @@ export default function DtgTable({
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const filteredDateRange = reactTableFilteredState(state => state.dateRange);
-  const { detailView } = config;
+  const { detailApi: detailView } = selectedTable;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
   const [allColumns, setAllColumns] = useState([]);
 
@@ -359,7 +358,7 @@ export default function DtgTable({
                       <TableBody
                         table={table}
                         dataTypes={reactTableData.meta.dataTypes}
-                        detailViewConfig={config?.detailView}
+                        detailViewConfig={detailView}
                         setDetailViewState={setDetailViewState}
                         setSummaryValues={setSummaryValues}
                       />

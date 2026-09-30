@@ -184,7 +184,7 @@ module.exports = {
       ],
     },
     332: {
-      endpoint: 'v1/accounting/od/tips_cpi_data_details_v2',
+      endpoint: 'v1/accounting/od/tips_cpi_data_detail_v2',
       downloadName: 'TIPSandCPIdata_Details_v2',
       dateField: 'index_date',
       alwaysSortWith: ['-index_date'],
