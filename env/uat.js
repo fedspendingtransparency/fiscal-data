@@ -14,21 +14,7 @@ module.exports = {
     'featured-content',
   ],
   LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection', 'combinedStatement'],
-  ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-052': {
-      slug: '/top-treasury-offset-program/',
-      seoConfig: {
-        pageTitle: 'Treasury Offset Program (TOP)',
-        description:
-          'This dataset shows how Treasury offsets federal payments, such as tax refunds, to ' +
-          'pay off delinquent debts such as unpaid child support.',
-        keywords: 'Debt, Revenue',
-      },
-      topics: ['debt', 'revenue'],
-      relatedDatasets: ['015-BFS-2020Q4-xx', '015-BFS-2014Q1-03', '015-BFS-2014Q1-13', '015-BFS-2017Q2-003'],
-      currentDateButton: 'byMonth',
-    },
-  },
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '299': {
       endpoint: 'v1/debt/treasury_offset_program',
@@ -211,6 +197,56 @@ module.exports = {
         'inflation_adj_amt',
         'redeemed_amt',
         'outstanding_amt',
+      ],
+    },
+    // Auctions Query V2
+    329: {
+      endpoint: 'v1/accounting/od/treasury_securities_auctions_v2',
+      dateField: 'record_date',
+      downloadName: 'Auctions_TreasurySecurities_v2',
+      alwaysSortWith: ['-comp_auction_close_date', 'noncomp_auction_close_date', '-issue_date', '-maturity_date'],
+      selectColumns: [
+        'cusip',
+        'security_type',
+        'security_desc',
+        'comp_auction_close_date',
+        'noncomp_auction_close_date',
+        'issue_date',
+        'price_per_amt',
+        'maturity_date',
+        'pdf_filenm_announcemt',
+        'pdf_filenm_spec_announcemt',
+        'pdf_filenm_comp_results',
+        'pdf_filenm_noncomp_results',
+        'xml_filenm_announcemt',
+        'xml_filenm_comp_results',
+        'xml_filenm_noncomp_results',
+      ],
+    },
+    // Upcoming Auctions V2
+    330: {
+      endpoint: 'v1/accounting/od/upcoming_auctions_v2',
+      dateField: 'record_date',
+      downloadName: 'Upcoming_Auctions_v2',
+      alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
+    },
+    //FRN Daily Indexes V2
+    334: {
+      endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
+      dateField: 'record_date',
+      downloadName: 'frn_daily_indexes_v2',
+      alwaysSortWith: ['cusip', 'start_of_accrual_period'],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['spread'],
+          decimalPlaces: 3,
+        },
+        {
+          type: 'NUMBER',
+          fields: ['daily_index', 'daily_int_accrual_rate'],
+          noFormatting: true,
+        },
       ],
     },
   },
