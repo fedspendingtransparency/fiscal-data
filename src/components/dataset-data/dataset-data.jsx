@@ -21,8 +21,8 @@ import BannerCallout from '../banner-callout/banner-callout';
 
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
   const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
-  const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
-  const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
+  const filteredApis = apis.filter(api => !api?.isDetailApi);
+  const [detailApi, setDetailApi] = useState();
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -120,7 +120,10 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
-      // setUserFilterSelection(null);
+      if (selectedTable?.detailApi) {
+        const detailConfig = apis.find(api => api?.apiId && api?.apiId === selectedTable.detailApi?.apiId);
+        setDetailApi(detailConfig);
+      }
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }

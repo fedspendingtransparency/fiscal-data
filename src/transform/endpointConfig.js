@@ -2518,6 +2518,7 @@ const endpointConfig = {
     dateField: 'index_date',
     alwaysSortWith: ['-index_date'],
     hideColumns: ['cusip', 'original_issue_date'],
+    isDetailApi: true,
     customFormatting: [
       {
         type: 'NUMBER',
@@ -2537,6 +2538,24 @@ const endpointConfig = {
     downloadName: 'TIPSandCPIdata_Summary',
     dateField: 'original_issue_date',
     alwaysSortWith: ['-original_issue_date'],
+    detailApi: {
+      apiId: 300,
+      field: 'cusip',
+      label: 'CUSIP',
+      dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
+      summaryTableFields: [
+        'cusip',
+        'series',
+        'interest_rate',
+        'security_term',
+        'original_issue_date',
+        'maturity_date',
+        'dated_date',
+        'ref_cpi_on_dated_date',
+        'additional_issue_date',
+      ],
+      selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+    },
     selectColumns: [],
     customFormatting: [
       {
