@@ -14,39 +14,7 @@ module.exports = {
     'featured-content',
   ],
   LOWER_ENV_FEATURE_ALLOWLIST: ['reportGeneration', 'fipReportsSection', 'combinedStatement'],
-  ADDITIONAL_DATASETS: {
-    '015-BFS-2014Q3-050': {
-      slug: '/tips-cpi-data/',
-      seoConfig: {
-        pageTitle: 'TIPS and CPI Data',
-        description:
-          'Treasury Inflation Protected Securities (TIPS) issued by the U.S. Treasury and Consumer Price Index (CPI) numbers released by the Bureau of Labor Statistics (BLS).',
-        keywords: 'Consumer Price Index, CPI',
-      },
-      topics: ['auctions', 'interest-exchange-rates'],
-      relatedDatasets: ['015-BFS-2014Q3-045', '015-BFS-2014Q3-056', '015-BFS-2014Q3-048', '015-BFS-2014Q3-049'],
-      currentDateButton: 'byMonth',
-      datePreset: 'all',
-      detailView: {
-        apiId: 332,
-        field: 'cusip',
-        label: 'CUSIP',
-        dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
-        summaryTableFields: [
-          'cusip',
-          'series',
-          'interest_rate',
-          'security_term',
-          'original_issue_date',
-          'maturity_date',
-          'dated_date',
-          'ref_cpi_on_dated_date',
-          'additional_issue_date',
-        ],
-        selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
-      },
-    },
-  },
+  ADDITIONAL_DATASETS: {},
   ADDITIONAL_ENDPOINTS: {
     '299': {
       endpoint: 'v1/debt/treasury_offset_program',
@@ -262,34 +230,6 @@ module.exports = {
       downloadName: 'Upcoming_Auctions_v2',
       alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
     },
-    // TIPS and CPI V2
-    // 331: {
-    //   endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
-    //   downloadName: 'TIPSandCPIdata_Summary_v2',
-    //   dateField: 'comp_auction_close_date',
-    //   alwaysSortWith: ['-comp_auction_close_date'],
-    // },
-    // 332: {
-    //   endpoint: 'v1/accounting/od/tips_cpi_data_details_v2',
-    //   downloadName: 'TIPSandCPIdata_Details_v2',
-    //   dateField: 'index_date',
-    //   alwaysSortWith: ['-index_date'],
-    //   hideColumns: ['cusip', 'original_issue_date'],
-    //   customFormatting: [
-    //     {
-    //       type: 'NUMBER',
-    //       fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
-    //       decimalPlaces: 6,
-    //     },
-    //     {
-    //       type: 'STRING',
-    //       fields: ['additional_issue_date'],
-    //       breakChar: ',',
-    //       customType: 'dateList',
-    //     },
-    //   ],
-    //   selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
-    // },
     //FRN Daily Indexes V2
     334: {
       endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
