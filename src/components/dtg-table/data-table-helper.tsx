@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
 
-const customFormat = (stringValue: string, decimalPlaces: number) => {
+const customFormat = (stringValue: number, decimalPlaces: number) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
   let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -19,7 +19,7 @@ const customFormat = (stringValue: string, decimalPlaces: number) => {
   return returnString;
 };
 
-const reportLinkApis = [300, 204, 329, 316];
+const reportLinkApis = [301, 204, 329, 316];
 
 const publishedReportsLinkWrapper = (url: string, value: string, alias?: string) => {
   const multiLinks: string[] = value.split(',');
@@ -79,7 +79,7 @@ const publishedReportsLinksProcessor = (apiId: number, property: string, value: 
     }
   }
   //TIPS and CPI
-  if (apiId === 300) {
+  if (apiId === 301) {
     if (property === 'pdf_link' || property === 'xml_link') {
       return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/`, value);
     } else {

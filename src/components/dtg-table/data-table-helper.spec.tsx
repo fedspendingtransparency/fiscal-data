@@ -88,7 +88,7 @@ describe('columnsConstructorData', () => {
 });
 
 describe('publishedReports link rendering (via STRING cell)', () => {
-  const cell = (tableName, apiId, property) => buildColumn(property, 'STRING', tableName, apiId).cell;
+  const cell = (tableName: string, apiId: number, property) => buildColumn(property, 'STRING', tableName, apiId).cell;
   const linkCases = [
     ['Treasury Securities Auctions Data', 204, 'pdf_filenm_announcemt', 'auctions-query/announcements'],
     ['Treasury Securities Auctions Data', 204, 'xml_filenm_announcemt', 'auctions-query/announcements'],
@@ -96,8 +96,8 @@ describe('publishedReports link rendering (via STRING cell)', () => {
     ['Treasury Securities Auctions Data', 204, 'xml_filenm_comp_results', 'auctions-query/results'],
     ['Treasury Securities Auctions Data', 204, 'pdf_filenm_noncomp_results', 'auctions-query/ncr'],
     ['Treasury Securities Auctions Data', 204, 'pdf_filenm_spec_announcemt', 'auctions-query/spec-ann'],
-    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'pdf_link', 'tips-cpi'],
-    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'xml_link', 'tips-cpi'],
+    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 301, 'pdf_link', 'tips-cpi'],
+    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 301, 'xml_link', 'tips-cpi'],
     ['Buybacks Operations', 316, 'results_pdf', 'buybacks/result'],
     ['Buybacks Operations', 316, 'results_xml', 'buybacks/result'],
     ['Buybacks Operations', 316, 'final_ann_pdf', 'buybacks/announcement'],
@@ -118,7 +118,7 @@ describe('publishedReports link rendering (via STRING cell)', () => {
 
   it('returns the value unchanged for unmapped switch/branch cases on each table', () => {
     expect(cell('Treasury Securities Auctions Data', 204, 'unmapped')({ getValue: () => 'val' })).toBe('val');
-    expect(cell('Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'unmapped')({ getValue: () => 'val' })).toBe('val');
+    expect(cell('Reference CPI Numbers and Daily Index Ratios Summary Table', 301, 'unmapped')({ getValue: () => 'val' })).toBe('val');
     expect(cell('Buybacks Operations', 316, 'unmapped')({ getValue: () => 'val' })).toBe('val');
   });
 
