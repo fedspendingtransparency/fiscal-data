@@ -148,7 +148,7 @@ module.exports = {
     331: {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
       downloadName: 'TIPSandCPIdata_Summary_v2',
-      dateField: 'comp_auction_close_date',
+      dateField: 'original_issue_date',
       alwaysSortWith: ['-comp_auction_close_date'],
       detailApi: {
         apiId: 332,
