@@ -4,7 +4,11 @@ import FilterAndDownload from '../filter-download-container/filter-download-cont
 import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import TableSectionContainer from './table-section-container/table-section-container';
-import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
+import {
+  matchTableFromApiTables,
+  parseTableSelectionFromUrl,
+  rewriteUrl
+} from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { getApiData, getMetaData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
@@ -13,7 +17,13 @@ import Analytics from '../../utils/analytics/analytics';
 import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
+import {
+  bannerContainer,
+  detailViewNotice,
+  lockIcon,
+  placeholderButton,
+  placeholderText
+} from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
@@ -123,6 +133,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
       if (selectedTable?.detailApi) {
         const detailConfig = apis.find(api => api?.apiId && api?.apiId === selectedTable.detailApi?.apiId);
         setDetailApi(detailConfig);
+        setDetailViewState(null);
       }
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
