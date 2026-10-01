@@ -1,5 +1,5 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
-import React from 'react';
+import React, { JSX } from 'react';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from '../table-components/table-header/text-filter/text-filter';
 import DateRangeFilter from '../table-components/table-header/date-range-filter/date-range-filter';
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
 
-const customFormat = (stringValue, decimalPlaces) => {
+const customFormat = (stringValue: string, decimalPlaces: number) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
   let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -221,7 +221,7 @@ export const columnsConstructorData = (
               accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
-                let formattedValue: string;
+                let formattedValue: React.JSX.Element | string;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
                   if (value.includes('%')) {
@@ -317,7 +317,7 @@ export const columnHeaderFilterApplied = (appliedFilters, columnName) => {
   }
 };
 
-export const columnBodyFilterActive = (activeFilters, columnName) => {
+export const columnBodyFilterActive = (activeFilters: string[], columnName: string) => {
   if (!!activeFilters) {
     for (let i = 0; i < activeFilters.length; i++) {
       const name = activeFilters[i].split('-')[0];
@@ -328,7 +328,7 @@ export const columnBodyFilterActive = (activeFilters, columnName) => {
   }
 };
 
-export const columnBodyFilterApplied = (appliedFilters, columnName) => {
+export const columnBodyFilterApplied = (appliedFilters: string[], columnName: string) => {
   if (!!appliedFilters) {
     for (let i = 0; i < appliedFilters.length; i++) {
       if (columnName.includes(appliedFilters[i])) {
@@ -352,7 +352,7 @@ export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hide
   }
 };
 
-export const constructDateHeader = (datasetName, dateRange) => {
+export const constructDateHeader = (datasetName: string, dateRange) => {
   const timestampData = [];
   timestampData.push(`${datasetName}.`);
   const date = new Date(dateRange.to.toString());
@@ -366,7 +366,7 @@ export const constructDateHeader = (datasetName, dateRange) => {
   return timestampData;
 };
 
-export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns) => {
+export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns: string[]) => {
   const constructedDefaultColumns = [];
   const constructedAdditionalColumns = [];
   for (const column of table.getAllLeafColumns()) {

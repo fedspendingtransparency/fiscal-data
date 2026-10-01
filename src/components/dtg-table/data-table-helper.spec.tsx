@@ -1,22 +1,21 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import {
-  columnsConstructorData,
-  getColumnFilter,
-  rightAlign,
-  columnHeaderFilterActive,
-  columnHeaderFilterApplied,
   columnBodyFilterActive,
   columnBodyFilterApplied,
-  getSortedColumnsData,
+  columnHeaderFilterActive,
+  columnHeaderFilterApplied,
+  columnsConstructorData,
   constructDateHeader,
   constructDefaultColumnsFromTableData,
+  getColumnFilter,
   getInvisibleColumns,
+  getSortedColumnsData,
+  rightAlign,
 } from './data-table-helper';
 
 const buildRawData = dataTypes => ({ meta: { dataTypes }, data: [] });
-const buildColumn = (property, type, tableName = 'tbl', customFormatConfig = []) =>
-  columnsConstructorData(buildRawData({ [property]: type }), [], tableName, [{ property, name: property }], customFormatConfig)[0];
+const buildColumn = (property, type, tableName = 'tbl', apiId = 123, customFormatConfig = []) =>
+  columnsConstructorData(buildRawData({ [property]: type }), [], tableName, apiId, [{ property, name: property }], customFormatConfig)[0];
 const renderJSX = jsx => render(jsx);
 
 describe('columnsConstructorData', () => {
@@ -30,6 +29,7 @@ describe('columnsConstructorData', () => {
       buildRawData({ a: 'STRING', b: 'STRING' }),
       ['b'],
       'tbl',
+      123,
       [
         { property: 'a', name: 'A' },
         { property: 'b', name: 'B' },
@@ -46,17 +46,17 @@ describe('columnsConstructorData', () => {
 
   it('formats DATE columns with default and custom formats', () => {
     expect(buildColumn('d', 'DATE').cell({ getValue: () => '2024-01-15' })).toBe('1/15/2024');
-    expect(buildColumn('d', 'DATE', 'tbl', [{ type: 'DATE', fields: ['d'], dateFormat: 'YYYY-MM-DD' }]).cell({ getValue: () => '2024-01-15' })).toBe(
-      '2024-01-15'
-    );
+    expect(
+      buildColumn('d', 'DATE', 'tbl', 123, [{ type: 'DATE', fields: ['d'], dateFormat: 'YYYY-MM-DD' }]).cell({ getValue: () => '2024-01-15' })
+    ).toBe('2024-01-15');
   });
 
   it('handles NUMBER columns across all formatting branches', () => {
     expect(buildColumn('n', 'NUMBER').cell({ getValue: () => '1500' })).toBe('1,500');
-    expect(buildColumn('n', 'NUMBER', 'tbl', [{ type: 'NUMBER', fields: ['n'], decimalPlaces: 2 }]).cell({ getValue: () => '1234.5' })).toBe(
+    expect(buildColumn('n', 'NUMBER', 'tbl', 123, [{ type: 'NUMBER', fields: ['n'], decimalPlaces: 2 }]).cell({ getValue: () => '1234.5' })).toBe(
       '1,234.50'
     );
-    const noFmt = buildColumn('n', 'NUMBER', 'tbl', [{ type: 'NUMBER', fields: ['n'], noFormatting: true }]).cell;
+    const noFmt = buildColumn('n', 'NUMBER', 'tbl', 123, [{ type: 'NUMBER', fields: ['n'], noFormatting: true }]).cell;
     expect(noFmt({ getValue: () => '7' })).toBe('7');
     expect(noFmt({ getValue: () => '' })).toBe('');
     const spread = buildColumn('spread', 'NUMBER', 'FRN Daily Indexes').cell;
@@ -88,28 +88,28 @@ describe('columnsConstructorData', () => {
 });
 
 describe('publishedReports link rendering (via STRING cell)', () => {
-  const cell = (tableName, property) => buildColumn(property, 'STRING', tableName).cell;
+  const cell = (tableName, apiId, property) => buildColumn(property, 'STRING', tableName, apiId).cell;
   const linkCases = [
-    ['Treasury Securities Auctions Data', 'pdf_filenm_announcemt', 'auctions-query/announcements'],
-    ['Treasury Securities Auctions Data', 'xml_filenm_announcemt', 'auctions-query/announcements'],
-    ['Treasury Securities Auctions Data', 'pdf_filenm_comp_results', 'auctions-query/results'],
-    ['Treasury Securities Auctions Data', 'xml_filenm_comp_results', 'auctions-query/results'],
-    ['Treasury Securities Auctions Data', 'pdf_filenm_noncomp_results', 'auctions-query/ncr'],
-    ['Treasury Securities Auctions Data', 'pdf_filenm_spec_announcemt', 'auctions-query/spec-ann'],
-    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 'pdf_link', 'tips-cpi'],
-    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 'xml_link', 'tips-cpi'],
-    ['Buybacks Operations', 'results_pdf', 'buybacks/result'],
-    ['Buybacks Operations', 'results_xml', 'buybacks/result'],
-    ['Buybacks Operations', 'final_ann_pdf', 'buybacks/announcement'],
-    ['Buybacks Operations', 'final_ann_xml', 'buybacks/announcement'],
-    ['Buybacks Operations', 'preliminary_ann_xml', 'buybacks/preliminary'],
-    ['Buybacks Operations', 'preliminary_ann_pdf', 'buybacks/preliminary'],
-    ['Buybacks Operations', 'special_ann_pdf', 'buybacks/special-announcement'],
+    ['Treasury Securities Auctions Data', 204, 'pdf_filenm_announcemt', 'auctions-query/announcements'],
+    ['Treasury Securities Auctions Data', 204, 'xml_filenm_announcemt', 'auctions-query/announcements'],
+    ['Treasury Securities Auctions Data', 204, 'pdf_filenm_comp_results', 'auctions-query/results'],
+    ['Treasury Securities Auctions Data', 204, 'xml_filenm_comp_results', 'auctions-query/results'],
+    ['Treasury Securities Auctions Data', 204, 'pdf_filenm_noncomp_results', 'auctions-query/ncr'],
+    ['Treasury Securities Auctions Data', 204, 'pdf_filenm_spec_announcemt', 'auctions-query/spec-ann'],
+    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'pdf_link', 'tips-cpi'],
+    ['Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'xml_link', 'tips-cpi'],
+    ['Buybacks Operations', 316, 'results_pdf', 'buybacks/result'],
+    ['Buybacks Operations', 316, 'results_xml', 'buybacks/result'],
+    ['Buybacks Operations', 316, 'final_ann_pdf', 'buybacks/announcement'],
+    ['Buybacks Operations', 316, 'final_ann_xml', 'buybacks/announcement'],
+    ['Buybacks Operations', 316, 'preliminary_ann_xml', 'buybacks/preliminary'],
+    ['Buybacks Operations', 316, 'preliminary_ann_pdf', 'buybacks/preliminary'],
+    ['Buybacks Operations', 316, 'special_ann_pdf', 'buybacks/special-announcement'],
   ];
 
   it('renders links for every mapped property across all 3 published-report tables', () => {
-    linkCases.forEach(([tableName, property, subdir]) => {
-      const { container } = renderJSX(cell(tableName, property)({ getValue: () => 'fileA.pdf' }));
+    linkCases.forEach(([tableName, apiId, property, subdir]) => {
+      const { container } = renderJSX(cell(tableName, apiId, property)({ getValue: () => 'fileA.pdf' }));
       const link = container.querySelector('a');
       expect(link?.getAttribute('href')).toContain(`/static-data/published-reports/${subdir}/`);
       expect(link?.getAttribute('href')).toContain('fileA.pdf');
@@ -117,13 +117,13 @@ describe('publishedReports link rendering (via STRING cell)', () => {
   });
 
   it('returns the value unchanged for unmapped switch/branch cases on each table', () => {
-    expect(cell('Treasury Securities Auctions Data', 'unmapped')({ getValue: () => 'val' })).toBe('val');
-    expect(cell('Reference CPI Numbers and Daily Index Ratios Summary Table', 'unmapped')({ getValue: () => 'val' })).toBe('val');
-    expect(cell('Buybacks Operations', 'unmapped')({ getValue: () => 'val' })).toBe('val');
+    expect(cell('Treasury Securities Auctions Data', 204, 'unmapped')({ getValue: () => 'val' })).toBe('val');
+    expect(cell('Reference CPI Numbers and Daily Index Ratios Summary Table', 300, 'unmapped')({ getValue: () => 'val' })).toBe('val');
+    expect(cell('Buybacks Operations', 316, 'unmapped')({ getValue: () => 'val' })).toBe('val');
   });
 
   it('renders multiple anchors for a comma-separated list of files', () => {
-    const { container } = renderJSX(cell('Treasury Securities Auctions Data', 'pdf_filenm_announcemt')({ getValue: () => 'a.pdf, b.pdf' }));
+    const { container } = renderJSX(cell('Treasury Securities Auctions Data', 204, 'pdf_filenm_announcemt')({ getValue: () => 'a.pdf, b.pdf' }));
     expect(container.querySelectorAll('a')).toHaveLength(2);
   });
 
@@ -133,7 +133,7 @@ describe('publishedReports link rendering (via STRING cell)', () => {
     ['ofbbr12345p2.pdf', 'Detail'],
     ['BBDR_12345_1.pdf', 'Detail'],
   ])('overrides Buybacks alias for %s to %s', (filename, expected) => {
-    const { getByText } = renderJSX(cell('Buybacks Operations', 'results_pdf')({ getValue: () => filename }));
+    const { getByText } = renderJSX(cell('Buybacks Operations', 316, 'results_pdf')({ getValue: () => filename }));
     expect(getByText(expected)).toBeInTheDocument();
   });
 });
