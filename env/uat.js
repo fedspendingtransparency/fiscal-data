@@ -229,6 +229,16 @@ module.exports = {
       dateField: 'record_date',
       downloadName: 'Upcoming_Auctions_v2',
       alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
+      hideColumns: [
+        'record_date',
+        'src_line_nbr',
+        'record_fiscal_year',
+        'record_fiscal_quarter',
+        'record_calendar_year',
+        'record_calendar_quarter',
+        'record_calendar_month',
+        'record_calendar_day',
+      ],
     },
     //FRN Daily Indexes V2
     334: {
