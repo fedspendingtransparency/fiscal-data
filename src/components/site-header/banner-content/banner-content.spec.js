@@ -7,12 +7,12 @@ describe('ContentUnavailable', () => {
     render(
       <BannerContent
         content={
-          "We're working to correct an issue with this dataset. Please find the static data at https://fiscaldata.treasury.gov/static-data/published-reports/debt_to_penny.pdf"
+          "We're working to correct an issue with this dataset. Please find the static data at [Debt to the Penny](https://fiscaldata.treasury.gov/static-data/published-reports/debt_to_penny.pdf)"
         }
       />
     );
     expect(screen.getByText(`Please find the static data at`, { exact: false })).toBeInTheDocument();
-    expect(screen.getByText('href=', { exact: false })).toBeInTheDocument();
+    expect(screen.getByText('Debt to the Penny', { exact: false })).toBeInTheDocument();
   });
 
   it('does not close when closable is set to false', () => {
