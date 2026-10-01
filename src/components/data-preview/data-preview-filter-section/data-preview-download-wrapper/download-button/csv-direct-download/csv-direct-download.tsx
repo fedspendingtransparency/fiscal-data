@@ -40,6 +40,7 @@ const CsvDirectDownload: FunctionComponent = ({ filename, downloadData, handleCl
         onClick={handleClick}
         ref={ref}
         aria-hidden={downloadTimestamp}
+        enclosingCharacter=""
         tabIndex={downloadTimestamp ? -1 : 0}
       >
         {!downloadTimestamp && children}
