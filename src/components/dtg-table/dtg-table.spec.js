@@ -10,7 +10,14 @@ import {
   TestDataOneRow,
 } from './test-data';
 import * as helpers from './dtg-table-helper';
-import { act, fireEvent, render, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  waitForElementToBeRemoved,
+  within
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   additionalColLabels,
@@ -35,11 +42,13 @@ describe('DTG table component', () => {
 
   beforeEach(() => jest.resetAllMocks());
 
+  const reqTableProps = { config: {}, selectedTable: { apiId: '123' } };
+
   it('renders a table', () => {
     const { getByRole } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -52,7 +61,7 @@ describe('DTG table component', () => {
     const { getAllByRole } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -65,7 +74,7 @@ describe('DTG table component', () => {
     const { getAllByRole } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: mockTableData, perPage: 5, columnConfig: mockColumnConfig, config: {} }}
+          tableProps={{ rawData: mockTableData, perPage: 5, columnConfig: mockColumnConfig, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
@@ -79,7 +88,7 @@ describe('DTG table component', () => {
     const { getAllByRole } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: mockTableData, columnConfig: mockColumnConfig, config: {} }}
+          tableProps={{ rawData: mockTableData, columnConfig: mockColumnConfig, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setTableColumnSortData={jest.fn()}
           setIsLoading={jest.fn()}
@@ -103,7 +112,7 @@ describe('DTG table component', () => {
     const { getAllByRole, getByTestId } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -156,7 +165,11 @@ describe('DTG table component', () => {
       const { getByText, getByRole } = render(
         <>
           <DtgTable
-            tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, tableName: 'tableName', config: {} }}
+            tableProps={{
+              rawData: { data: MoreTestData, meta: { dataTypes: [] } },
+              tableName: 'tableName',
+              ...reqTableProps,
+            }}
             setManualPagination={jest.fn()}
             setIsLoading={jest.fn()}
           />
@@ -180,7 +193,7 @@ describe('DTG table component', () => {
         const { getByText } = render(
           <>
             <DtgTable
-              tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
+              tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, ...reqTableProps }}
               setManualPagination={jest.fn()}
               setIsLoading={jest.fn()}
             />
@@ -198,7 +211,7 @@ describe('DTG table component', () => {
         const { getByText } = render(
           <>
             <DtgTable
-              tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, config: {} }}
+              tableProps={{ rawData: { data: MoreTestData, meta: { dataTypes: [] } }, ...reqTableProps }}
               setManualPagination={jest.fn()}
               setIsLoading={jest.fn()}
             />
@@ -218,7 +231,7 @@ describe('DTG table component', () => {
   //       <DtgTable
   //         tableMeta={{ 'total-count': 500 }}
   //         userFilterSelection={{ value: 'A' }}
-  //         tableProps={{ rawData: { data: ['hello'], meta: { dataTypes: [] } }, config: {} }}
+  //         tableProps={{ rawData: { data: ['hello'], meta: { dataTypes: [] } }, ...reqTableProps  }}
   //         setManualPagination={mockSetManualPagination}
   //         setIsLoading={mockSetIsLoading}
   //       />
@@ -231,11 +244,13 @@ describe('DTG table component', () => {
 });
 
 describe('DtgTable component - API Error', () => {
+  const reqTableProps = { config: {}, selectedTable: { apiId: '123' } };
+
   it('shows an apiError message when apiError exists', () => {
     const { getByText } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -248,7 +263,7 @@ describe('DtgTable component - API Error', () => {
     const { queryByRole } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', config: {} }}
+          tableProps={{ rawData: { data: TestData, meta: { dataTypes: [] } }, apiError: 'Error', ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -261,11 +276,13 @@ describe('DtgTable component - API Error', () => {
 });
 
 describe('DtgTable component with shouldPage property and tableData with only one row', () => {
+  const reqTableProps = { config: {}, selectedTable: { apiId: '123' } };
+
   it('does show table footer if shouldPage property is included in tableProps', () => {
     const { getByTestId } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -277,7 +294,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const { getByText } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -292,7 +309,7 @@ describe('DtgTable component with shouldPage property and tableData with only on
     const { getByTestId } = render(
       <>
         <DtgTable
-          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, config: {} }}
+          tableProps={{ rawData: { data: TestDataOneRow, meta: { dataTypes: [] } }, ...reqTableProps }}
           setManualPagination={jest.fn()}
           setIsLoading={jest.fn()}
         />
@@ -340,6 +357,8 @@ describe('DTG Table Nested Table Detail View', () => {
       columnConfig: mockColumnConfig,
       publishedReports: mockPublishedReports,
       hasPublishedReports: false,
+      config: {},
+      selectedTable: { apiId: 123 },
     };
 
     it('renders column headers with table sort buttons', async () => {
@@ -353,7 +372,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
             }}
             setTableColumnSortData={jest.fn()}
             selectColumnPanel={true}
@@ -393,7 +411,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
             }}
             setTableColumnSortData={jest.fn()}
             selectColumnPanel={true}
@@ -430,7 +447,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
             }}
             setTableColumnSortData={jest.fn()}
             selectColumnPanel={true}
@@ -462,7 +478,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
             }}
             setTableColumnSortData={jest.fn()}
             selectColumnPanel={true}
@@ -490,7 +505,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
             }}
             setTableColumnSortData={jest.fn()}
             selectColumnPanel={true}
@@ -517,7 +531,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               hideColumns: ['src_line_nbr'],
             }}
             setTableColumnSortData={jest.fn()}
@@ -549,7 +562,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               selectColumns: defaultSelectedColumnsMock,
             }}
             setTableColumnSortData={jest.fn()}
@@ -584,7 +596,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               selectColumns: defaultColumnsTypeCheckMock,
             }}
             setTableColumnSortData={jest.fn()}
@@ -623,7 +634,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               selectColumns: ['spread'],
               customFormatting: customFormatter,
             }}
@@ -652,7 +662,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               selectColumns: ['spread', 'additional_date'],
               customFormatting: customFormatter,
             }}
@@ -677,7 +686,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               tableName: 'tableName',
-              config: {},
               selectColumns: defaultColumnsTypeCheckMock,
               dateRange: {
                 from: '2022-08-31',
@@ -705,7 +713,6 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableDownloadWithTextQualifier,
               tableName: 'tableName',
-              config: {},
               columnConfig: mockColumnConfigDownloadWithTextQualifier,
               dateRange: {
                 from: '2022-08-31',

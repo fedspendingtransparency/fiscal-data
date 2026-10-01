@@ -467,6 +467,7 @@ export const mockPaginatedTableProps = {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_4',
     rowCount: 21000,
+    apiId: 123,
   },
   config: {},
   dateRange: dateRange,
