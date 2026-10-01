@@ -13,13 +13,12 @@ import {
 import * as DatasetDataHelpers from '../../components/dataset-data/dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { mockPublishedReportsMTS, allowListIds } from '../../helpers/published-reports/published-reports';
+import { allowListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import { fireEvent, render, waitFor, within } from '@testing-library/react';
 import { DataPreview } from './data-preview';
 import userEvent from '@testing-library/user-event';
 
 jest.useFakeTimers();
-// jest.mock('../truncate/truncate.jsx', () => () => 'Truncator');
 jest.mock('../../helpers/dataset-detail/report-helpers', function() {
   return {
     __esModule: true,
