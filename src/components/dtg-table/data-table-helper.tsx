@@ -1,15 +1,15 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
-import React from 'react';
+import React, { JSX } from 'react';
 import { currencyFormatter, customNumberFormatter, numberFormatter } from '../../helpers/text-format/text-format';
 import TextFilter from '../table-components/table-header/text-filter/text-filter';
 import DateRangeFilter from '../table-components/table-header/date-range-filter/date-range-filter';
 import CustomLink from '../links/custom-link/custom-link';
-import { downloadLinkIcon, downloadLinkContainer } from './dtg-table.module.scss';
+import { downloadLinkContainer, downloadLinkIcon } from './dtg-table.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowDown } from '@fortawesome/free-solid-svg-icons/faCloudArrowDown';
 import dayjs from 'dayjs';
 
-const customFormat = (stringValue, decimalPlaces) => {
+const customFormat = (stringValue: number, decimalPlaces: number) => {
   // if block is to show "-$123,123.23" instead of "$-123,123.23"
   const absVal = Math.abs(stringValue);
   let returnString = '$' + absVal.toFixed(decimalPlaces).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -19,11 +19,7 @@ const customFormat = (stringValue, decimalPlaces) => {
   return returnString;
 };
 
-const tablesWithPublishedReportLinks = [
-  'Treasury Securities Auctions Data',
-  'Reference CPI Numbers and Daily Index Ratios Summary Table',
-  'Buybacks Operations',
-];
+const reportLinkApis = [301, 204, 329, 316];
 
 const publishedReportsLinkWrapper = (url: string, value: string, alias?: string) => {
   const multiLinks: string[] = value.split(',');
@@ -64,8 +60,9 @@ const publishedReportsLinkWrapper = (url: string, value: string, alias?: string)
   );
 };
 
-const publishedReportsLinksProcessor = (tableName, property, value) => {
-  if (tableName === 'Treasury Securities Auctions Data') {
+const publishedReportsLinksProcessor = (apiId: number, property: string, value: string) => {
+  //Auction Query
+  if (apiId === 329 || apiId === 204) {
     switch (property) {
       case 'pdf_filenm_announcemt':
       case 'xml_filenm_announcemt':
@@ -81,14 +78,16 @@ const publishedReportsLinksProcessor = (tableName, property, value) => {
         return value;
     }
   }
-  if (tableName === 'Reference CPI Numbers and Daily Index Ratios Summary Table') {
+  //TIPS and CPI
+  if (apiId === 301) {
     if (property === 'pdf_link' || property === 'xml_link') {
       return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/`, value);
     } else {
       return value;
     }
   }
-  if (tableName === 'Buybacks Operations') {
+  //Buybacks
+  if (apiId === 316) {
     switch (property) {
       case 'results_pdf':
         return publishedReportsLinkWrapper(`/static-data/published-reports/buybacks/result/`, value, 'PDF');
@@ -116,8 +115,17 @@ export const columnsConstructorData = (
   rawData: Record<string, Record<string, unknown>>,
   hideColumns: string[],
   tableName: string,
+  apiId: number,
   columnConfig: { property: string; name: string }[],
-  customFormatConfig: { type: string; fields: string[]; dateFormat: string }[]
+  customFormatConfig: {
+    type: string;
+    fields: string[];
+    dateFormat: string;
+    noFormatting?: boolean;
+    decimalPlaces?: number;
+    customType?: string;
+    breakChar?: string;
+  }[]
 ): ColumnDef<string, string | Date | number>[] => {
   if (rawData.meta && columnConfig) {
     return columnConfig
@@ -148,7 +156,7 @@ export const columnsConstructorData = (
               accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
-                let formattedValue;
+                let formattedValue: string | number;
                 const customFormat = customFormatConfig?.find(config => config.type === 'NUMBER' && config.fields.includes(property));
                 if (!!customFormat && !customFormat.noFormatting) {
                   formattedValue = customNumberFormatter.format(value, customFormat.decimalPlaces);
@@ -213,7 +221,7 @@ export const columnsConstructorData = (
               accessorFn: value => (value[property] === 'null' ? '' : value[property]),
               cell: ({ getValue }) => {
                 const value = getValue();
-                let formattedValue;
+                let formattedValue: React.JSX.Element | string;
                 const customFormat = customFormatConfig?.find(config => config.type === 'STRING' && config.fields.includes(property));
                 if (value !== undefined) {
                   if (value.includes('%')) {
@@ -229,8 +237,8 @@ export const columnsConstructorData = (
                       }
                     });
                   } else {
-                    if (tablesWithPublishedReportLinks.includes(tableName)) {
-                      formattedValue = publishedReportsLinksProcessor(tableName, property, value);
+                    if (reportLinkApis.includes(apiId)) {
+                      formattedValue = publishedReportsLinksProcessor(apiId, property, value);
                     } else {
                       formattedValue = value;
                     }
@@ -309,7 +317,7 @@ export const columnHeaderFilterApplied = (appliedFilters, columnName) => {
   }
 };
 
-export const columnBodyFilterActive = (activeFilters, columnName) => {
+export const columnBodyFilterActive = (activeFilters: string[], columnName: string) => {
   if (!!activeFilters) {
     for (let i = 0; i < activeFilters.length; i++) {
       const name = activeFilters[i].split('-')[0];
@@ -320,7 +328,7 @@ export const columnBodyFilterActive = (activeFilters, columnName) => {
   }
 };
 
-export const columnBodyFilterApplied = (appliedFilters, columnName) => {
+export const columnBodyFilterApplied = (appliedFilters: string[], columnName: string) => {
   if (!!appliedFilters) {
     for (let i = 0; i < appliedFilters.length; i++) {
       if (columnName.includes(appliedFilters[i])) {
@@ -344,7 +352,7 @@ export const getSortedColumnsData = (table: Table<Record<string, unknown>>, hide
   }
 };
 
-export const constructDateHeader = (datasetName, dateRange) => {
+export const constructDateHeader = (datasetName: string, dateRange) => {
   const timestampData = [];
   timestampData.push(`${datasetName}.`);
   const date = new Date(dateRange.to.toString());
@@ -358,7 +366,7 @@ export const constructDateHeader = (datasetName, dateRange) => {
   return timestampData;
 };
 
-export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns) => {
+export const constructDefaultColumnsFromTableData = (table, defaultSelectedColumns: string[]) => {
   const constructedDefaultColumns = [];
   const constructedAdditionalColumns = [];
   for (const column of table.getAllLeafColumns()) {

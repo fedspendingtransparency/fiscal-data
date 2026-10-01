@@ -15,12 +15,12 @@ const DataTableProvider = ({ children, config, detailViewState }) => {
   const [appliedFilters, setAppliedFilters] = useState([]);
 
   React.useMemo(() => {
-    const { hideColumns, tableName, customFormatting } = tableProps ?? {};
+    const { hideColumns, tableName, selectedTable, customFormatting } = tableProps ?? {};
     const colConfig = detailViewState ? tableProps?.detailColumnConfig : tableProps?.columnConfig;
     if (reactTableData) {
       const detailViewAPI = config?.detailView ? config.apis.find(api => api.apiId === config.detailView.apiId) : null;
       const hideCols = detailViewState ? detailViewAPI.hideColumns : hideColumns;
-      const baseColumns = columnsConstructorData(reactTableData, hideCols, tableName, colConfig, customFormatting);
+      const baseColumns = columnsConstructorData(reactTableData, hideCols, tableName, selectedTable.apiId, colConfig, customFormatting);
       setAllColumns(baseColumns);
     }
     if (tableProps) {
