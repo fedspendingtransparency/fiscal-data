@@ -545,6 +545,7 @@ export const mockReactTableProps_rawData_nestedDetailTable = {
     dateField: 'record_date',
     endpoint: 'v1/accounting/dts/dts_table_1',
     rowCount: 1000,
+    detailApi: detailViewConfig,
   },
   dateRange: {
     from: new Date(2021, 0, 21),
@@ -552,7 +553,7 @@ export const mockReactTableProps_rawData_nestedDetailTable = {
   },
   serverSidePagination: null,
   shouldPage: true,
-  config: { detailView: detailViewConfig, apis: [{ apiId: 317 }] },
+  config: { apis: [{ apiId: 317 }] },
 };
 
 export const ColSelectColConfig = [

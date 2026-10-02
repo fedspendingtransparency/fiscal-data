@@ -4,6 +4,8 @@ import { pivotData } from '../../utils/api-utils';
 import {
   bannerTableConfig,
   config,
+  detailApiConfig,
+  detailTableConfig,
   fivePriorFormatted,
   latestDateFormatted,
   mockAccumulableData,
@@ -15,7 +17,7 @@ import {
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import { mockPublishedReportsMTS, allowListIds } from '../../helpers/published-reports/published-reports';
+import { allowListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -73,9 +75,7 @@ describe('DatasetData', () => {
 
   it(`renders the DatasetData component which has the expected title text at desktop mode`, () => {
     const { getByTestId } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const title = getByTestId('sectionHeader');
     expect(title.innerHTML).toBe('Data Preview');
@@ -83,9 +83,7 @@ describe('DatasetData', () => {
 
   it(`contains a FilterAndDownload component`, () => {
     const { getByTestId } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const filterDownload = getByTestId('filterDownloadContainer');
     expect(filterDownload).toBeInTheDocument();
@@ -113,9 +111,7 @@ describe('DatasetData', () => {
   it(`keeps the pivot options when switching to All Data Tables and back to the same table`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getByTestId, queryByTestId, findByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     expect(getByTestId('pivotOptionsBar')).toBeInTheDocument();
 
@@ -130,9 +126,7 @@ describe('DatasetData', () => {
 
   it(`initializes the selected table to the first element in the apis array`, () => {
     const { getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     //selected table name will display within dropdown button
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -140,11 +134,7 @@ describe('DatasetData', () => {
   });
 
   it('calls rewriteUrl to append the table name but does not send a lastUrl (in order to prevent triggering an analytics hit)', () => {
-    render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
-    );
+    render(<DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />);
     expect(urlRewriteSpy).toHaveBeenNthCalledWith(1, config.apis[0], '/mock-dataset/', {
       pathname: '/datasets/mock-dataset/',
     });
@@ -153,9 +143,7 @@ describe('DatasetData', () => {
   it('selects the correct table when it is specified in the url', async () => {
     const setSelectedTableFromUrl = jest.fn();
     render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableFromUrl} location={mockLocationWithTablePathName} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableFromUrl} location={mockLocationWithTablePathName} />
     );
 
     expect(setSelectedTableFromUrl).toHaveBeenCalledWith(config.apis[2]);
@@ -163,9 +151,7 @@ describe('DatasetData', () => {
 
   it(`initializes the dateRange to the appropriate values`, () => {
     const { getByTestId, getByText } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const filterAndDownload = getByTestId('filterDownloadContainer');
     expect(filterAndDownload).toBeInTheDocument();
@@ -176,9 +162,7 @@ describe('DatasetData', () => {
   it(`updates date range to appropriate values when new table is selected`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByText, getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const dataTableSelect = getByRole('button', { name: 'Table 1' });
     await user.click(dataTableSelect);
@@ -191,9 +175,7 @@ describe('DatasetData', () => {
   it(`sends the updated props to FilterAndDownload component when a new data table is selected`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByTestId } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
     await user.click(tableSelect);
@@ -206,9 +188,7 @@ describe('DatasetData', () => {
   it(`records an analytics event when a new table is selected`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, getAllByTestId } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
     await user.click(tableSelect);
@@ -298,9 +278,7 @@ describe('DatasetData', () => {
   it(`does not pass the pagination endpoint to DTGTable when the rowCount is above 5000 and a pivot dimension IS active`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole, findByText } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -321,9 +299,7 @@ describe('DatasetData', () => {
   it(`raises state on setSelectedTable when the table is updated`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -336,9 +312,7 @@ describe('DatasetData', () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const spy = jest.spyOn(DatasetDataHelpers, 'rewriteUrl');
     const { getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     //Update selected table to table 5
     const tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -352,9 +326,7 @@ describe('DatasetData', () => {
   it(`does not duplicate API calls when a user switches between two tables with paginated data`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     // select one paginated table
     let tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -382,9 +354,7 @@ describe('DatasetData', () => {
   it(`does not duplicate api calls when switching from a large table to a small one`, async () => {
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
     const { getByRole } = render(
-      <>
-        <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={config} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     // select one paginated table
     let tableSelect = getByRole('button', { name: config.apis[0].tableName });
@@ -410,13 +380,11 @@ describe('DatasetData', () => {
     getPublishedDates.mockClear();
 
     render(
-      <>
-        <DatasetDataComponent
-          config={config}
-          setSelectedTableProp={setSelectedTableMock}
-          publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
-        />
-      </>
+      <DatasetDataComponent
+        config={config}
+        setSelectedTableProp={setSelectedTableMock}
+        publishedReportsProp={mockPublishedReportsMTS[mockDatasetId]}
+      />
     );
     expect(getPublishedDates).toHaveBeenCalledTimes(1);
     expect(getPublishedDates).toHaveBeenCalledWith(mockPublishedReportsMTS[mockDatasetId]);
@@ -457,9 +425,7 @@ describe('DatasetData', () => {
     ];
 
     rerender(
-      <>
-        <DatasetDataComponent config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={updatedMockPublishedReportsMTS} />
-      </>
+      <DatasetDataComponent config={config} setSelectedTableProp={setSelectedTableMock} publishedReportsProp={updatedMockPublishedReportsMTS} />
     );
 
     expect(getPublishedDates).toHaveBeenCalledTimes(2);
@@ -471,9 +437,7 @@ describe('DatasetData', () => {
   it(`renders the datatable banner when datatableBanner exists`, () => {
     const bannerText = 'This is a test';
     const { getByTestId } = render(
-      <>
-        <DatasetDataComponent config={bannerTableConfig} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
-      </>
+      <DatasetDataComponent config={bannerTableConfig} width={2000} setSelectedTableProp={setSelectedTableMock} location={mockLocation} />
     );
     expect(getByTestId('datatable-banner')).toHaveTextContent(bannerText);
   });
@@ -489,14 +453,12 @@ describe('Nested Data Table', () => {
   const fetchSpy = jest.spyOn(global, 'fetch');
   beforeEach(async () => {
     instance = render(
-      <>
-        <DatasetDataComponent
-          config={{ ...config, detailView: { apiId: 300 } }}
-          width={2000}
-          setSelectedTableProp={setSelectedTableMock}
-          location={mockLocation}
-        />
-      </>
+      <DatasetDataComponent
+        config={{ ...config, detailView: { apiId: 300 } }}
+        width={2000}
+        setSelectedTableProp={setSelectedTableMock}
+        location={mockLocation}
+      />
     );
   });
 
@@ -513,11 +475,7 @@ describe('Nested Data Table', () => {
 });
 
 const renderComp = (config, location = { pathname: '/datasets/mock-dataset/' }) =>
-  render(
-    <>
-      <DatasetDataComponent config={config} width={1200} location={location} setSelectedTableProp={() => {}} />
-    </>
-  );
+  render(<DatasetDataComponent config={config} width={1200} location={location} setSelectedTableProp={() => {}} />);
 
 describe('DatasetDataComponent more coverage ', () => {
   jest.mock('../filter-download-container/filter-download-container', () =>
@@ -557,15 +515,15 @@ describe('DatasetDataComponent more coverage ', () => {
   });
 
   it('shows the detail-view lock notice when a detail API is configured', () => {
-    const baseConfig = JSON.parse(JSON.stringify(config));
-    baseConfig.detailView = {
-      apiId: 300,
-      field: 'record_date',
-      label: 'Locked',
-      dateRangeLockCopy: 'Locked Range',
-    };
-
-    const { getByText } = renderComp(baseConfig);
+    const { getByText } = render(
+      <DatasetDataComponent
+        config={detailTableConfig}
+        width={1200}
+        location={{ pathname: '/datasets/mock-dataset/' }}
+        selectedTable={{ detailApi: detailApiConfig }}
+        setSelectedTableProp={() => {}}
+      />
+    );
     expect(getByText('Locked Range')).toBeInTheDocument();
   });
 });

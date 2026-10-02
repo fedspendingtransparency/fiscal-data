@@ -13,7 +13,9 @@ import AggregationNotice from './aggregation-notice/aggregation-notice';
 import GLOBALS from '../../../helpers/constants';
 import DynamicConfig from './dynamic-config/dynamicConfig';
 import Experimental from '../../experimental/experimental';
-import { determineUserFilterUnmatchedForDateRange } from '../../filter-download-container/user-filter/user-filter';
+import {
+  determineUserFilterUnmatchedForDateRange
+} from '../../filter-download-container/user-filter/user-filter';
 
 import {
   active,
@@ -89,7 +91,7 @@ const TableSectionContainer = ({
 
   const setDisableDownloadButton = disableDownloadButtonState(state => state.setDisabled);
   const formatDate = detailDate => {
-    const fieldType = selectedTable.fields.find(field => field.columnName === config.detailView?.field)?.dataType;
+    const fieldType = selectedTable.fields.find(field => field.columnName === selectedTable.detailApi?.field)?.dataType;
     const customFormat = selectedTable?.customFormatting?.find(config => config.type === 'DATE');
     return customFormat?.dateFormat && fieldType === 'DATE' ? dayjs(detailDate).format(customFormat.dateFormat) : detailDate;
   };
@@ -101,7 +103,9 @@ const TableSectionContainer = ({
     selectedPivot = selectedPivot || {};
     const { columnConfig, width } = setTableConfig(config, selectedTable, selectedPivot, apiData);
     // DetailColumnConfig is used for the TIPS and CPI detail view table
-    const { columnConfig: detailColumnConfig } = config.detailView ? setTableConfig(config, config.detailView, selectedPivot, apiData) : {};
+    const { columnConfig: detailColumnConfig } = selectedTable.detailApi
+      ? setTableConfig(config, selectedTable.detailApi, selectedPivot, apiData)
+      : {};
     let displayData = apiData ? apiData.data : null;
 
     if (userFilterSelection?.value && selectedTable.userFilter && apiData?.data) {
@@ -316,7 +320,7 @@ const TableSectionContainer = ({
           {isLoading && <LoadingIndicator loadingClass={loadingIcon} overlayClass={loadingSection} />}
           {!!detailViewState && tableProps?.columnConfig && (
             <SummaryTable
-              summaryTable={config?.detailView?.summaryTableFields}
+              summaryTable={selectedTable?.detailApi?.summaryTableFields}
               summaryValues={summaryValues}
               columnConfig={tableProps?.columnConfig}
               customFormatConfig={selectedTable?.customFormatting}

@@ -94,6 +94,79 @@ export const noPivotConfig = {
   },
 };
 
+export const detailApiConfig = {
+  apiId: 308,
+  field: 'record_date',
+  label: 'Locked',
+};
+
+export const detailTableConfig = {
+  slug: '/mock-dataset/',
+  datasetId: 'MOCK-DATASET-ID-0',
+  dateRangeLockCopy: 'Locked Range',
+  apis: [
+    {
+      tableName: 'Table 1',
+      pathName: 'table-1',
+      apiId: 309,
+      earliestDate: '2002-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint',
+      rowCount: 4000,
+      dateField: 'record_date',
+      detailApi: detailApiConfig,
+      dataDisplays: [{ name: 'Complete Table' }],
+
+      fields: [
+        {
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+        {
+          columnName: 'open_today_bal',
+          dataType: 'NUMBER',
+          prettyName: 'Opening Balance Today',
+        },
+      ],
+    },
+    {
+      tableName: 'Table 2',
+      pathName: 'table-2',
+      apiId: 308,
+      earliestDate: '2002-01-01',
+      latestDate,
+      endpoint: 'mockEndpoint2',
+      rowCount: 4000,
+      dateField: 'record_date',
+      isDetailApi: true,
+      dataDisplays: [{ name: 'Complete Table' }],
+
+      fields: [
+        {
+          columnName: 'facility_desc',
+          dataType: 'STRING',
+          prettyName: 'Facility',
+        },
+        {
+          columnName: 'published_count',
+          dataType: 'NUMBER',
+          prettyName: 'Or Perish',
+        },
+        {
+          columnName: 'record_date',
+          dataType: 'DATE',
+          prettyName: 'Record Date',
+        },
+      ],
+    },
+  ],
+  techSpecs: {
+    earliestDate: '2002-01-01',
+    latestDate,
+  },
+};
+
 export const config = {
   slug: '/mock-dataset/',
   datasetId: 'MOCK-DATASET-ID-0',

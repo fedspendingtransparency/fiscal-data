@@ -4,7 +4,11 @@ import FilterAndDownload from '../filter-download-container/filter-download-cont
 import DataTableSelect from '../datatable-select/datatable-select';
 import RangePresets from '../filter-download-container/range-presets/range-presets';
 import TableSectionContainer from './table-section-container/table-section-container';
-import { matchTableFromApiTables, parseTableSelectionFromUrl, rewriteUrl } from './dataset-data-helper/dataset-data-helper';
+import {
+  matchTableFromApiTables,
+  parseTableSelectionFromUrl,
+  rewriteUrl
+} from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import { getApiData, getMetaData } from './dataset-data-api-helper/dataset-data-api-helper';
 import { TableCache } from './table-cache/table-cache';
@@ -13,7 +17,13 @@ import Analytics from '../../utils/analytics/analytics';
 import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 import { faLock } from '@fortawesome/free-solid-svg-icons/faLock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { bannerContainer, detailViewNotice, lockIcon, placeholderButton, placeholderText } from './dataset-data.module.scss';
+import {
+  bannerContainer,
+  detailViewNotice,
+  lockIcon,
+  placeholderButton,
+  placeholderText
+} from './dataset-data.module.scss';
 import { queryClient } from '../../../react-query-client';
 import UserFilter from '../filter-download-container/user-filter/user-filter';
 import DatatableBanner from '../filter-download-container/datatable-banner/datatable-banner';
@@ -21,8 +31,8 @@ import BannerCallout from '../banner-callout/banner-callout';
 
 export const DatasetDataComponent = ({ config, finalDatesNotFound, location, publishedReportsProp, setSelectedTableProp }) => {
   const apis = config ? config.apis : [null]; // config.apis should always be available; but, fallback in case
-  const filteredApis = apis.filter(api => api?.apiId !== config?.detailView?.apiId);
-  const detailApi = apis.find(api => api?.apiId && api?.apiId === config?.detailView?.apiId);
+  const filteredApis = apis.filter(api => !api?.isDetailApi);
+  const [detailApi, setDetailApi] = useState();
   const [isFiltered, setIsFiltered] = useState(true);
   const [selectedTable, setSelectedTable] = useState();
   const [allTablesSelected, setAllTablesSelected] = useState(false);
@@ -120,7 +130,11 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
 
   useEffect(() => {
     if (selectedTable) {
-      // setUserFilterSelection(null);
+      if (selectedTable?.detailApi) {
+        const detailConfig = apis.find(api => api?.apiId && api?.apiId === selectedTable.detailApi?.apiId);
+        setDetailApi(detailConfig);
+        setDetailViewState(null);
+      }
       if (!selectedTable?.apiFilter?.disableDateRangeFilter) {
         setDateRange(null);
       }
@@ -161,7 +175,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
         tableCaches[detailApi.apiId] = new TableCache();
       }
       setDetailViewDownloadFilter(
-        !!detailViewState ? { field: config.detailView.field, label: config.detailView.label, value: detailViewState.value } : null
+        !!detailViewState ? { field: selectedTable.detailApi.field, label: selectedTable.detailApi.label, value: detailViewState.value } : null
       );
     }
   }, [detailViewState]);
@@ -203,7 +217,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
                 canceledObj,
                 tableCaches[displayedTable.apiId],
                 detailViewState,
-                config?.detailView?.field,
+                selectedTable?.detailApi?.field,
                 userFilterSelection,
                 setUserFilterUnmatchedForDateRange,
                 queryClient
@@ -320,7 +334,7 @@ export const DatasetDataComponent = ({ config, finalDatesNotFound, location, pub
           )}
           {detailApi && !detailViewState && (
             <div className={detailViewNotice}>
-              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config.detailView?.dateRangeLockCopy}
+              <FontAwesomeIcon icon={faLock} className={lockIcon} /> {config?.dateRangeLockCopy}
             </div>
           )}
         </FilterAndDownload>

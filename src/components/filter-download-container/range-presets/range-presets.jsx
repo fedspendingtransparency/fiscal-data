@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { header, presetContainer, radio, selected, toggleButton } from './range-presets.module.scss';
+import {
+  header,
+  presetContainer,
+  radio,
+  selected,
+  toggleButton
+} from './range-presets.module.scss';
 import { monthNames } from '../../../utils/api-utils';
 import { addDays, differenceInYears, subQuarters } from 'date-fns';
-import determineDateRange, { generateAnalyticsEvent, generateFormattedDate, prepAvailableDates } from './helpers/helper';
+import determineDateRange, {
+  generateAnalyticsEvent,
+  generateFormattedDate,
+  prepAvailableDates
+} from './helpers/helper';
 import DatePickers from '../datepickers/datepickers';
 
 const RangePresets = ({
@@ -117,7 +127,7 @@ const RangePresets = ({
       if (datePreset === 'current' && presets[0].key === 'current') {
         idealDefaultPreset = presets[0];
       }
-      if (datePreset === 'all' && presets[4].key === 'all') {
+      if (datePreset === 'all' && presets.length >= 4 && presets[4].key === 'all') {
         idealDefaultPreset = presets[4];
       }
       if (datePreset === 'custom' && customRangePreset === 'latestQuarter') {
