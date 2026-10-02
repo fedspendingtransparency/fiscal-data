@@ -4,6 +4,7 @@ import { pivotData } from '../../utils/api-utils';
 import {
   bannerTableConfig,
   config,
+  detailApiConfig,
   detailTableConfig,
   fivePriorFormatted,
   latestDateFormatted,
@@ -16,10 +17,7 @@ import {
 import * as DatasetDataHelpers from './dataset-data-helper/dataset-data-helper';
 import { getPublishedDates } from '../../helpers/dataset-detail/report-helpers';
 import Analytics from '../../utils/analytics/analytics';
-import {
-  allowListIds,
-  mockPublishedReportsMTS
-} from '../../helpers/published-reports/published-reports';
+import { allowListIds, mockPublishedReportsMTS } from '../../helpers/published-reports/published-reports';
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -522,6 +520,7 @@ describe('DatasetDataComponent more coverage ', () => {
         config={detailTableConfig}
         width={1200}
         location={{ pathname: '/datasets/mock-dataset/' }}
+        selectedTable={{ detailApi: detailApiConfig }}
         setSelectedTableProp={() => {}}
       />
     );

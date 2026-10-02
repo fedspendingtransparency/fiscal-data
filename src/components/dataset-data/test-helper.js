@@ -94,6 +94,12 @@ export const noPivotConfig = {
   },
 };
 
+export const detailApiConfig = {
+  apiId: 308,
+  field: 'record_date',
+  label: 'Locked',
+};
+
 export const detailTableConfig = {
   slug: '/mock-dataset/',
   datasetId: 'MOCK-DATASET-ID-0',
@@ -108,11 +114,9 @@ export const detailTableConfig = {
       endpoint: 'mockEndpoint',
       rowCount: 4000,
       dateField: 'record_date',
-      detailApi: {
-        apiId: 308,
-        field: 'record_date',
-        label: 'Locked',
-      },
+      detailApi: detailApiConfig,
+      dataDisplays: [{ name: 'Complete Table' }],
+
       fields: [
         {
           columnName: 'record_date',
@@ -125,7 +129,6 @@ export const detailTableConfig = {
           prettyName: 'Opening Balance Today',
         },
       ],
-      valueFieldOptions: ['open_today_bal'],
     },
     {
       tableName: 'Table 2',
@@ -137,6 +140,8 @@ export const detailTableConfig = {
       rowCount: 4000,
       dateField: 'record_date',
       isDetailApi: true,
+      dataDisplays: [{ name: 'Complete Table' }],
+
       fields: [
         {
           columnName: 'facility_desc',
