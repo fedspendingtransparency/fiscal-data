@@ -575,6 +575,8 @@ exports.createSchemaCustomization = ({ actions }) => {
     type DatasetsApis implements Node {
       alwaysSortWith: [String!],
       hideColumns: [String],
+      isDetailApi: Boolean,
+      detailApi: DetailView,
       additionalColumns: [String],
       selectColumns: [String!],
       userFilter: UserFilter,
@@ -644,6 +646,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           slug
           relatedDatasets
           currentDateButton
+          dateRangeLockCopy
           runTimeReportConfig {
             filterField
             filterLabel
@@ -745,6 +748,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             dateField
             alwaysSortWith
             hideColumns
+            isDetailApi
+            detailApi {
+              apiId
+              field
+              label
+              secondaryField
+              dateRangeLockCopy
+              summaryTableFields
+              selectColumns
+            }
             additionalColumns
             customFormatting {
               type

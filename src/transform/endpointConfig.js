@@ -2518,6 +2518,7 @@ const endpointConfig = {
     dateField: 'index_date',
     alwaysSortWith: ['-index_date'],
     hideColumns: ['cusip', 'original_issue_date'],
+    isDetailApi: true,
     customFormatting: [
       {
         type: 'NUMBER',
@@ -2537,6 +2538,24 @@ const endpointConfig = {
     downloadName: 'TIPSandCPIdata_Summary',
     dateField: 'original_issue_date',
     alwaysSortWith: ['-original_issue_date'],
+    detailApi: {
+      apiId: 300,
+      field: 'cusip',
+      label: 'CUSIP',
+      dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
+      summaryTableFields: [
+        'cusip',
+        'series',
+        'interest_rate',
+        'security_term',
+        'original_issue_date',
+        'maturity_date',
+        'dated_date',
+        'ref_cpi_on_dated_date',
+        'additional_issue_date',
+      ],
+      selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+    },
     selectColumns: [],
     customFormatting: [
       {
@@ -2729,12 +2748,22 @@ const endpointConfig = {
       'results_xml',
       'special_ann_pdf',
     ],
+    detailApi: {
+      apiId: 317,
+      field: 'operation_date',
+      label: 'Operation Date',
+      secondaryField: 'operation_start_time_est',
+      dateRangeLockCopy: 'To filter data by date range, select an Operation Date from the table below.',
+      summaryTableFields: ['operation_date', 'operation_start_time_est', 'operation_close_time_est', 'settlement_date'],
+      selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],
+    },
   },
   // Buybacks
   '317': {
     endpoint: 'v1/accounting/od/buybacks_security_details',
     dateField: 'operation_date',
     downloadName: 'Buybacks_Security_Details',
+    isDetailApi: true,
     alwaysSortWith: ['-operation_date', 'maturity_date'],
     hideColumns: ['operation_date'],
     selectColumns: ['cusip_nbr', 'coupon_rate_pct', 'maturity_date', 'par_amt_accepted', 'weighted_avg_accepted_price'],

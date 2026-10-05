@@ -103,7 +103,7 @@ export default function DtgTable({
   const [rowsShowing, setRowsShowing] = useState({ begin: 1, end: 1 });
   const [emptyDataMessage, setEmptyDataMessage] = useState();
   const filteredDateRange = reactTableFilteredState(state => state.dateRange);
-  const { detailView } = config;
+  const { detailApi: detailView } = selectedTable;
   const detailViewAPIConfig = detailView ? config.apis.find(api => api.apiId === detailView.apiId) : null;
   const [allColumns, setAllColumns] = useState([]);
 
@@ -393,7 +393,7 @@ export default function DtgTable({
                       <TableBody
                         table={table}
                         dataTypes={reactTableData.meta.dataTypes}
-                        detailViewConfig={config?.detailView}
+                        detailViewConfig={detailView}
                         setDetailViewState={setDetailViewState}
                         setSummaryValues={setSummaryValues}
                       />

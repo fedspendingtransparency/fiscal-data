@@ -19,7 +19,7 @@ const customFormat = (stringValue: number, decimalPlaces: number) => {
   return returnString;
 };
 
-const reportLinkApis = [301, 204, 329, 316];
+const reportLinkApis = [301, 204, 329, 316, 331];
 
 const publishedReportsLinkWrapper = (url: string, value: string, alias?: string) => {
   const multiLinks: string[] = value.split(',');
@@ -79,7 +79,7 @@ const publishedReportsLinksProcessor = (apiId: number, property: string, value: 
     }
   }
   //TIPS and CPI
-  if (apiId === 301) {
+  if (apiId === 301 || apiId === 331) {
     if (property === 'pdf_link' || property === 'xml_link') {
       return publishedReportsLinkWrapper(`/static-data/published-reports/tips-cpi/`, value);
     } else {

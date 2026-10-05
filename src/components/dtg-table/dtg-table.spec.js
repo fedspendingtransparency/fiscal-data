@@ -10,14 +10,7 @@ import {
   TestDataOneRow,
 } from './test-data';
 import * as helpers from './dtg-table-helper';
-import {
-  act,
-  fireEvent,
-  render,
-  waitFor,
-  waitForElementToBeRemoved,
-  within
-} from '@testing-library/react';
+import { act, fireEvent, render, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   additionalColLabels,
@@ -101,7 +94,7 @@ describe('DTG table component', () => {
   it('does not blow up when there is no data in a table', () => {
     const noDataComponent = render(
       <>
-        <DtgTable tableProps={{ config: {} }} setIsLoading={jest.fn()} />
+        <DtgTable tableProps={{ config: {}, selectedTable: {} }} setIsLoading={jest.fn()} />
       </>
     );
     expect(noDataComponent).toBeDefined();
@@ -330,8 +323,16 @@ describe('DTG Table Nested Table Detail View', () => {
         <DtgTable
           tableProps={{
             rawData: { data: DetailViewTestData, meta: { dataTypes: [] } },
-            selectedTable: { rowCount: 12 },
-            config: { detailView: { field: 'first', secondaryField: 'last', apiId: 1 }, apis: [{ apiId: 1 }] },
+            selectedTable: {
+              rowCount: 12,
+              apiId: 1,
+              endpoint: '/test/endpoint/',
+              detailApi: { field: 'first', secondaryField: 'last', apiId: 1 },
+              alwaysSortWith: ['-record_date'],
+              dateField: 'record_date',
+              hideColumns: [],
+            },
+            config: { apis: [{ apiId: 1 }] },
           }}
           detailViewState={detailViewState}
           setManualPagination={mockSetManualPagination}
@@ -752,8 +753,25 @@ describe('DTG Table Nested Table Detail View', () => {
               ...tableProps,
               rawData: mockTableData,
               config: {
-                detailView: { field: 'record_date', apiId: 1 },
-                apis: [{ apiId: 1, endpoint: '/test/endpoint/', alwaysSortWith: ['-record_date'], dateField: 'record_date', hideColumns: [] }],
+                apis: [
+                  {
+                    apiId: 1,
+                    endpoint: '/test/endpoint/',
+                    detailApi: { field: 'record_date', apiId: 2 },
+                    alwaysSortWith: ['-record_date'],
+                    dateField: 'record_date',
+                    hideColumns: [],
+                  },
+                  { apiId: 2, isDetailApi: true },
+                ],
+              },
+              selectedTable: {
+                apiId: 1,
+                endpoint: '/test/endpoint/',
+                detailApi: { field: 'record_date', apiId: 2 },
+                alwaysSortWith: ['-record_date'],
+                dateField: 'record_date',
+                hideColumns: [],
               },
               tableName: 'FRN Daily Indexes',
             }}

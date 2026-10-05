@@ -98,7 +98,7 @@ export default function determineDateRange(table, preset, currentDateButton) {
 }
 
 export const prepAvailableDates = dataDateRange => {
-  if (dataDateRange) {
+  if (dataDateRange?.earliestDate) {
     return {
       from: new Date(dataDateRange.earliestDate.replace(/-/g, '/')),
       to: new Date(dataDateRange.latestDate.replace(/-/g, '/')),

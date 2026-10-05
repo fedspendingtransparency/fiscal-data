@@ -113,92 +113,6 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    '139': {
-      endpoint: 'v1/debt/mspd/mspd_table_3_market',
-      dateField: 'record_date',
-      downloadName: 'MSPD_MktSecty',
-      dataDisplays: [
-        {
-          title: 'Security Class Description',
-          dimensionField: 'security_class1_desc',
-          roundingDenomination: 'millions',
-          filters: [
-            {
-              key: 'security_class2_desc',
-              operator: 'in',
-              value:
-                'null,Total Treasury Bills,Total Treasury Bonds,Total Treasury Floating ' +
-                'Rate Notes,Total Tresasury Floating Rate Notes,Treasury Floating Rate Notes,Total Treasury Inflation-Indexed ' +
-                'Bonds,Total Treasury Inflation-Indexed Notes,Total Treasury Inflation-Protected ' +
-                'Securities,Total Treasury TIPS,Total Treasury Notes,',
-            },
-            {
-              key: 'security_class1_desc',
-              operator: 'neq',
-              value: 'Total Marketable',
-            },
-          ],
-        },
-        {
-          title: 'Bonds by Maturity',
-          dimensionField: 'security_class2_desc',
-          roundingDenomination: 'millions',
-          filters: [
-            {
-              key: 'security_class2_desc',
-              operator: 'in',
-              value: 'Total Matured Treasury Bonds,Total Unmatured Treasury Bonds',
-            },
-          ],
-        },
-        {
-          title: 'Inflation-Protected Securities by Class',
-          dimensionField: 'security_class2_desc',
-          roundingDenomination: 'millions',
-          filters: [
-            {
-              key: 'security_class2_desc',
-              operator: 'in',
-              value:
-                'Total Treasury Inflation-Indexed Bonds,Total Treasury Inflation-Indexed ' +
-                'Notes,Total Treasury Inflation-Protected Securities,Total Treasury TIPS',
-            },
-          ],
-        },
-        {
-          title: 'Notes by Maturity',
-          dimensionField: 'security_class2_desc',
-          roundingDenomination: 'millions',
-          filters: [
-            {
-              key: 'security_class2_desc',
-              operator: 'in',
-              value: 'Total Matured Treasury Notes,Total Unmatured Treasury Notes',
-            },
-          ],
-        },
-      ],
-      valueFieldOptions: ['issued_amt', 'outstanding_amt', 'redeemed_amt'],
-      selectColumns: [
-        'record_date',
-        'security_type_desc',
-        'security_class1_desc',
-        'security_class2_desc',
-        'series_cd',
-        'interest_rate_pct',
-        'yield_pct',
-        'issue_date',
-        'maturity_date',
-        'interest_pay_date_1',
-        'interest_pay_date_2',
-        'interest_pay_date_3',
-        'interest_pay_date_4',
-        'issued_amt',
-        'inflation_adj_amt',
-        'redeemed_amt',
-        'outstanding_amt',
-      ],
-    },
     // Auctions Query V2
     329: {
       endpoint: 'v1/accounting/od/treasury_securities_auctions_v2',
@@ -239,6 +153,67 @@ module.exports = {
         'record_calendar_month',
         'record_calendar_day',
       ],
+    },
+    // TIPS and CPI V2
+    331: {
+      endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
+      downloadName: 'TIPSandCPIdata_Summary_v2',
+      dateField: 'original_issue_date',
+      alwaysSortWith: ['-comp_auction_close_date'],
+      detailApi: {
+        apiId: 332,
+        field: 'cusip',
+        label: 'CUSIP',
+        dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
+        summaryTableFields: [
+          'cusip',
+          'series',
+          'interest_rate',
+          'security_term',
+          'original_issue_date',
+          'maturity_date',
+          'dated_date',
+          'ref_cpi_on_dated_date',
+          'additional_issue_date',
+        ],
+        selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+      },
+      selectColumns: [],
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+          decimalPlaces: 6,
+        },
+        {
+          type: 'STRING',
+          fields: ['additional_issue_date'],
+          breakChar: ',',
+          customType: 'dateList',
+        },
+      ],
+    },
+    332: {
+      endpoint: 'v1/accounting/od/tips_cpi_data_detail_v2',
+      downloadName: 'TIPSandCPIdata_Details_v2',
+      dateField: 'index_date',
+      alwaysSortWith: ['-index_date'],
+      hideColumns: ['cusip', 'original_issue_date'],
+      isDetailApi: true,
+      customFormatting: [
+        {
+          type: 'NUMBER',
+          fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+          decimalPlaces: 6,
+        },
+        {
+          type: 'STRING',
+          fields: ['additional_issue_date'],
+          breakChar: ',',
+          customType: 'dateList',
+        },
+      ],
+      selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
     },
     //FRN Daily Indexes V2
     334: {

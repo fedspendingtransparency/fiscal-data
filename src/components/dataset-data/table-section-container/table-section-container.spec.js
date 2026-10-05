@@ -612,6 +612,7 @@ describe('formatDate function', () => {
     const selectedTable = {
       ...selectedTableLessFields,
       customFormatting: [{ type: 'DATE', dateFormat: 'MM/DD/YYYY' }],
+      detailApi: { apiId: 2, summaryTableFields: ['facility_desc', 'book_value_amt', 'report_date'], field: 'report_date' },
     };
 
     const { getByTestId } = render(
