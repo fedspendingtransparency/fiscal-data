@@ -281,7 +281,7 @@ export default function DtgTable({
 
   const table = useReactTable({
     columns: allColumns,
-    data: reactTableData?.data,
+    data: reactTableData?.data ?? [],
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
@@ -331,6 +331,7 @@ export default function DtgTable({
     }
   }, [table?.getAllLeafColumns()]);
 
+  // Builds the download data - dependencies are needed so the download updates in sync to the data showing in the UI table
   useEffect(() => {
     if (!!reactTableData?.meta?.dataTypes && table && table?.getAllLeafColumns()?.length > 0) {
       const { downloadHeaders, downloadHeaderKeys } = getDownloadHeaders(table.getHeaderGroups()[0].headers);
@@ -339,7 +340,7 @@ export default function DtgTable({
       setXmlDownload(downloadData, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
     }
-  }, [columnVisibility, sorting]);
+  }, [columnVisibility, sorting, table?.getFilteredRowModel()]);
 
   useEffect(() => {
     if (resetFilters && table) {
