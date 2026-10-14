@@ -1,58 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  getDateFilters,
-  getPaginationValues,
-  loadingTimeout,
-  netLoadingDelay
-} from './dtg-table-helper';
+import { getDateFilters, getPaginationValues, loadingTimeout, netLoadingDelay } from './dtg-table-helper';
 import { defaultPerPageOptions } from '../pagination/pagination-controls';
 import { pagedDatatableRequest, REACT_TABLE_MAX_NON_PAGINATED_SIZE } from '../../utils/api-utils';
-import NotShownMessage
-  from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
-import {
-  loadingIcon,
-  overlay,
-  overlayContainer,
-  overlayContainerNoFooter
-} from './dtg-table.module.scss';
+import NotShownMessage from '../dataset-data/table-section-container/not-shown-message/not-shown-message';
+import { loadingIcon, overlay, overlayContainer, overlayContainerNoFooter } from './dtg-table.module.scss';
 import { reactTableFilteredState } from '../../recoil/reactTableFilteredState';
 import { ErrorBoundary } from 'react-error-boundary';
 import DtgTableApiError from './dtg-table-api-error/dtg-table-api-error';
 import LoadingIndicator from '../loading-indicator/loading-indicator';
-import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable
-} from '@tanstack/react-table';
-import {
-  columnsConstructorData,
-  constructDefaultColumnsFromTableData,
-  getInvisibleColumns,
-  getSortedColumnsData
-} from './data-table-helper';
-import {
-  selectColumnPanelActive,
-  selectColumnPanelInactive,
-  selectColumnsWrapper
-} from './dtg-table-column-selector.module.scss';
-import {
-  rawDataTableContainer,
-  tableStyle
-} from '../table-components/filtered-table/filtered-table.module.scss';
+import { getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { columnsConstructorData, constructDefaultColumnsFromTableData, getInvisibleColumns, getSortedColumnsData } from './data-table-helper';
+import { selectColumnPanelActive, selectColumnPanelInactive, selectColumnsWrapper } from './dtg-table-column-selector.module.scss';
+import { rawDataTableContainer, tableStyle } from '../table-components/filtered-table/filtered-table.module.scss';
 
 import TableColumnSelector from '../table-components/column-select/table-column-selector';
 import TableHeader from '../table-components/table-header/table-header';
 import TableBody from '../table-components/table-body/table-body';
 import TableFooter from '../table-components/table-footer/table-footer';
 import { smallTableDownloadData } from '../../recoil/smallTableDownloadData';
-import {
-  getDownloadData,
-  getDownloadHeaders,
-  setCsvDownload,
-  setXmlDownload
-} from '../table-components/helpers/data-download-helper';
+import { getDownloadData, getDownloadHeaders, setCsvDownload, setXmlDownload } from '../table-components/helpers/data-download-helper';
 
 const defaultRowsPerPage = 10;
 export default function DtgTable({
@@ -119,6 +85,7 @@ export default function DtgTable({
   const [columnVisibility, setColumnVisibility] = useState(
     defaultSelectedColumns && defaultSelectedColumns.length > 0 && !pivotSelected ? defaultInvisibleColumns : {}
   );
+  const [columnFilters, setColumnFilters] = useState([]);
   let loadCanceled = false;
   let debounce;
   let loadTimer;
@@ -292,9 +259,11 @@ export default function DtgTable({
     state: {
       columnVisibility,
       sorting,
+      columnFilters,
     },
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -340,7 +309,7 @@ export default function DtgTable({
       setXmlDownload(downloadData, setSmallTableXMLData);
       setCsvDownload(downloadData, downloadHeaders, setSmallTableCSVData, hasDownloadTimestamp, datasetName, dateRange);
     }
-  }, [columnVisibility, sorting, table?.getFilteredRowModel()]);
+  }, [sorting, columnVisibility, columnFilters]);
 
   useEffect(() => {
     if (resetFilters && table) {
