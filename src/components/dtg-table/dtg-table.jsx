@@ -248,7 +248,7 @@ export default function DtgTable({
 
   const table = useReactTable({
     columns: allColumns,
-    data: reactTableData?.data ?? [],
+    data: reactTableData?.data,
     columnResizeMode: 'onChange',
     initialState: {
       pagination: {
