@@ -113,30 +113,6 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    // Auctions Query V2
-    329: {
-      endpoint: 'v1/accounting/od/treasury_securities_auctions_v2',
-      dateField: 'record_date',
-      downloadName: 'Auctions_TreasurySecurities_v2',
-      alwaysSortWith: ['-comp_auction_close_date', 'noncomp_auction_close_date', '-issue_date', '-maturity_date'],
-      selectColumns: [
-        'cusip',
-        'security_type',
-        'security_desc',
-        'comp_auction_close_date',
-        'noncomp_auction_close_date',
-        'issue_date',
-        'price_per_amt',
-        'maturity_date',
-        'pdf_filenm_announcemt',
-        'pdf_filenm_spec_announcemt',
-        'pdf_filenm_comp_results',
-        'pdf_filenm_noncomp_results',
-        'xml_filenm_announcemt',
-        'xml_filenm_comp_results',
-        'xml_filenm_noncomp_results',
-      ],
-    },
     // Upcoming Auctions V2
     330: {
       endpoint: 'v1/accounting/od/upcoming_auctions_v2',
