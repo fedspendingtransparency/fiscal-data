@@ -3054,25 +3054,6 @@ const endpointConfig = {
       'xml_filenm_noncomp_results',
     ],
   },
-  //FRN Daily Indexes V2
-  334: {
-    endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
-    dateField: 'record_date',
-    downloadName: 'frn_daily_indexes_v2',
-    alwaysSortWith: ['cusip', 'start_of_accrual_period'],
-    customFormatting: [
-      {
-        type: 'NUMBER',
-        fields: ['spread'],
-        decimalPlaces: 3,
-      },
-      {
-        type: 'NUMBER',
-        fields: ['daily_index', 'daily_int_accrual_rate'],
-        noFormatting: true,
-      },
-    ],
-  },
 };
 
 const setCompleteTableDisplayItem = response => {
