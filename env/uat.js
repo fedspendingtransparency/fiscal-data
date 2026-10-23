@@ -113,23 +113,6 @@ module.exports = {
       // 'Pivot Value' in UI, 'Pivot Value (Field)' on form
       valueFieldOptions: ['position_bil_amt'],
     },
-    // Upcoming Auctions V2
-    330: {
-      endpoint: 'v1/accounting/od/upcoming_auctions_v2',
-      dateField: 'record_date',
-      downloadName: 'Upcoming_Auctions_v2',
-      alwaysSortWith: ['-announcemt_date', '-comp_auction_close_date', '-issue_date'],
-      hideColumns: [
-        'record_date',
-        'src_line_nbr',
-        'record_fiscal_year',
-        'record_fiscal_quarter',
-        'record_calendar_year',
-        'record_calendar_quarter',
-        'record_calendar_month',
-        'record_calendar_day',
-      ],
-    },
     // TIPS and CPI V2
     331: {
       endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
