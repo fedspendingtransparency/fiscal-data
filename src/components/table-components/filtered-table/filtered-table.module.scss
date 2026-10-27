@@ -58,6 +58,7 @@ $borderRadius: 5px;
 }
 .nonRawDataTableContainer {
   max-height: 521px;
+  contain: inline-size;
 }
 
 .overlayContainerNoFooter {
