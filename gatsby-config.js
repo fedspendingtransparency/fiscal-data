@@ -98,6 +98,13 @@ module.exports = {
         path: `${__dirname}/static/featured-content-images/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `dataset-search-hero-images`,
+        path: `${__dirname}/static/images/dataset-search-hero-images/`,
+      },
+    },
 
     {
       resolve: `gatsby-source-filesystem`,
