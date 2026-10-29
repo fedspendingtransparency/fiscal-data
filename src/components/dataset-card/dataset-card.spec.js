@@ -1,12 +1,22 @@
 import React from 'react';
 import Analytics from '../../utils/analytics/analytics';
 import DatasetCard from './dataset-card';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useStaticQuery } from 'gatsby';
+import { getImage } from 'gatsby-plugin-image';
 
 jest.mock('react-device-detect', () => ({
   isFirefox: false,
 }));
+
+const mockHeroImage = { layout: 'constrained', width: 400, height: 146, images: { fallback: { src: 'hero.png' } } };
+
+const mockData = {
+  allFile: {
+    heroImages: ['Hero-0', 'Hero-1', 'Hero-2', 'Hero-3', 'Hero-4', 'Hero-5', 'Hero-6', 'Hero-7', 'Hero-8'],
+  },
+};
 
 describe('DatasetCard', () => {
   // Jest gives an error about the following not being implemented even though the tests pass.
@@ -40,6 +50,10 @@ describe('DatasetCard', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    useStaticQuery.mockImplementation(() => mockData);
+    jest.clearAllMocks();
+    getImage.mockReturnValue(mockHeroImage);
   });
 
   it('entire card, when clicked, links to relevant dataset detail page', () => {

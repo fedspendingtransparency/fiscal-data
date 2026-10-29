@@ -3,6 +3,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import RelatedDatasets, { context, title } from './related-datasets';
 import Analytics from '../../utils/analytics/analytics';
 import userEvent from '@testing-library/user-event';
+import { useStaticQuery } from 'gatsby';
+import { getImage } from 'gatsby-plugin-image';
 
 const sortedDataset1 = 'dataset b';
 const sortedDataset2 = 'dataset f';
@@ -12,7 +14,21 @@ const mockRelatedDatasets = [{ name: sortedDataset3 }, { name: sortedDataset1 },
 
 const referrer = 'Referring Dataset';
 
+const mockHeroImage = { layout: 'constrained', width: 400, height: 146, images: { fallback: { src: 'hero.png' } } };
+
+const mockData = {
+  allFile: {
+    heroImages: ['Hero-0', 'Hero-1', 'Hero-2', 'Hero-3', 'Hero-4', 'Hero-5', 'Hero-6', 'Hero-7', 'Hero-8'],
+  },
+};
+
 describe('RelatedDatasets', () => {
+  beforeEach(() => {
+    useStaticQuery.mockImplementation(() => mockData);
+    jest.clearAllMocks();
+    getImage.mockReturnValue(mockHeroImage);
+  });
+
   afterEach(() => {
     cleanup();
   });

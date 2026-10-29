@@ -11,6 +11,7 @@ jest.mock('gatsby-plugin-image', () => {
     ...plugin,
     StaticImage: jest.fn().mockImplementation(mockImage),
     GatsbyImage: jest.fn().mockImplementation(mockImage),
+    getImage: jest.fn().mockImplementation(plugin.getImage),
   };
   return mockPlugin;
 });

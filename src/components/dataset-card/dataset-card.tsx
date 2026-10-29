@@ -108,7 +108,6 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           </CardActionArea>
         </Card>
       )}
-      {!heroImage && <>still loading</>}
     </ThemeProvider>
   );
 };

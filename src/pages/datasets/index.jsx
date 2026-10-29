@@ -88,12 +88,9 @@ const DatasetsPage = ({ pageContext }) => {
 
   const { datasets } = allDatasets;
   const { topicIcons } = allFile;
-  const [defaultDatasets, setDefaultDatasets] = useState();
-
-  useMemo(() => {
-    const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
-    setDefaultDatasets(filteredDatasets);
-  }, []);
+  const defaultDatasets = useMemo(() => datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable), [
+    datasets,
+  ]);
 
   const breadCrumbLinks = [
     {
@@ -104,27 +101,24 @@ const DatasetsPage = ({ pageContext }) => {
       link: '/',
     },
   ];
-  const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const windowSize = useWindowSize();
   const updatedDatasets = useMetadataUpdater(defaultDatasets);
-  const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
-  const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
-  const fuse = useMemo(() => {
-    return new Fuse(updatedDatasets, options, searchIndex);
-  });
 
-  useMemo(() => {
+  const fuse = useMemo(() => {
+    const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
+    const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
+    return new Fuse(updatedDatasets, options, searchIndex);
+  }, [updatedDatasets]);
+
+  const searchResults = useMemo(() => {
     if (updatedDatasets && searchQuery) {
-      setSearchResults(
-        fuse.search(searchQuery).map(result => {
-          return { ...result.item, score: result.score };
-        })
-      );
-    } else {
-      setSearchResults(updatedDatasets);
+      return fuse.search(searchQuery).map(result => {
+        return { ...result.item, score: result.score };
+      });
     }
-  }, [updatedDatasets, searchQuery]);
+    return updatedDatasets;
+  }, [updatedDatasets, searchQuery, fuse]);
 
   const datasetAbstract = dataset => {
     if (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) {
