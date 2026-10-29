@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import FilterGroup from './filterGroup/filterGroup';
 import Topics from '../topics/topics';
-import { filtersIndexedById, filtersByGroupId, filterByDateRange } from '../../../transform/filters/filterDefinitions';
+import { filterByDateRange, filtersByGroupId, filtersIndexedById } from '../../../transform/filters/filterDefinitions';
 import { siteContext } from '../../persist/persist';
 import InfoTip, { infoTipAnalyticsObject } from '../../info-tip/info-tip';
 import FilterGroupReset from './filterGroupReset/filterGroupReset';
@@ -12,8 +12,9 @@ import FilterTimeRange, { timeRangeCompleteAnalyticsObject } from './filterTimeR
 import SearchFilterSummary from './searchFilterSummary/searchFilterSummary';
 import MobileFilterToggle from './mobileFilterToggle/mobileFilterToggle';
 import Analytics from '../../../utils/analytics/analytics';
-import { searchLayout, searchLayoutSection, searchLayoutFilters, searchLayoutMain } from './search-layout.module.scss';
-import { title, filterWrapper, filterSectionHeader, filterSectionTitle, filterSectionDivider } from './filters.module.scss';
+import { searchLayout, searchLayoutFilters, searchLayoutMain, searchLayoutSection } from './search-layout.module.scss';
+import { filterSectionDivider, filterSectionHeader, filterSectionTitle, filterWrapper, title } from './filters.module.scss';
+import LoadingIndicator from '../../loading-indicator/loading-indicator';
 
 export const lastUpdatedAnalyticsObject = {
   category: 'Dataset Search Page',
@@ -419,6 +420,7 @@ const FilterSection = ({
               topicIcons={topicIcons}
             />
             {filteredDatasets && <SearchResults filteredDatasets={filteredDatasets} allDatasets={updatedDatasets} searchIsActive={searchIsActive} />}
+            {!filteredDatasets && <LoadingIndicator />}
           </div>
         )}
       </div>

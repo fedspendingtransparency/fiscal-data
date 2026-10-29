@@ -31,7 +31,7 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
           heroImages: nodes {
             name
             childImageSharp {
-              gatsbyImageData(width: 400, placeholder: BLURRED)
+              gatsbyImageData(width: 400, height: 146, placeholder: DOMINANT_COLOR)
             }
           }
         }
@@ -90,22 +90,25 @@ const DatasetCard: FunctionComponent<DatasetCardProps> = ({ dataset, context, re
 
   return (
     <ThemeProvider theme={theme}>
-      <Card className={applyFocusStyle ? focusStyle : card} id={explainer ? dataset.name : null}>
-        <CardActionArea
-          component={Link}
-          to={cardLink}
-          onClick={clickHandler}
-          onFocus={() => setApplyFocusStyle(true)}
-          onBlur={() => setApplyFocusStyle(false)}
-          style={{ padding: 0 }}
-        >
-          <div>
-            {heroImage && <GatsbyImage image={heroImage} alt="hero" className={cardHeroImage} loading="eager" />}
-            <div className={datasetName}>{dataset.name}</div>
-          </div>
-          <DatasetStats dataset={dataset} />
-        </CardActionArea>
-      </Card>
+      {heroImage && (
+        <Card className={applyFocusStyle ? focusStyle : card} id={explainer ? dataset.name : null}>
+          <CardActionArea
+            component={Link}
+            to={cardLink}
+            onClick={clickHandler}
+            onFocus={() => setApplyFocusStyle(true)}
+            onBlur={() => setApplyFocusStyle(false)}
+            style={{ padding: 0 }}
+          >
+            <div>
+              <GatsbyImage image={heroImage} alt="hero" className={cardHeroImage} loading="eager" />
+              <div className={datasetName}>{dataset.name}</div>
+            </div>
+            <DatasetStats dataset={dataset} />
+          </CardActionArea>
+        </Card>
+      )}
+      {!heroImage && <>still loading</>}
     </ThemeProvider>
   );
 };

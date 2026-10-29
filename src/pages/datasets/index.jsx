@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import dates from '../../helpers/datasets/dates';
 import SiteLayout from '../../components/siteLayout/siteLayout';
@@ -11,6 +11,7 @@ import { dsTheme } from '../../theme';
 import '../../helpers/download-service/download-service';
 import { useMetadataUpdater } from '../../helpers/metadata/use-metadata-updater-hook';
 import Fuse from 'fuse.js';
+import { useWindowSize } from '../../hooks/windowResize';
 
 const DatasetsPage = ({ pageContext }) => {
   const { allDatasets, allFile } = useStaticQuery(
@@ -89,7 +90,7 @@ const DatasetsPage = ({ pageContext }) => {
   const { topicIcons } = allFile;
   const [defaultDatasets, setDefaultDatasets] = useState();
 
-  useEffect(() => {
+  useMemo(() => {
     const filteredDatasets = datasets.filter(dataset => (dataset.apis && dataset.apis[0].endpoint !== '') || dataset.hideRawDataTable);
     setDefaultDatasets(filteredDatasets);
   }, []);
@@ -105,42 +106,15 @@ const DatasetsPage = ({ pageContext }) => {
   ];
   const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [innerWidth, setInnerWidth] = useState();
-  const [finalDatesNotFound, setFinalDatesNotFound] = useState(true);
+  const windowSize = useWindowSize();
   const updatedDatasets = useMetadataUpdater(defaultDatasets);
   const options = { keys: ['name', 'summaryText', 'relatedTopics', 'allPrettyNames'], threshold: 0.2, includeScore: true, ignoreLocation: true };
   const searchIndex = Fuse.createIndex(options.keys, updatedDatasets);
-  const fuse = new Fuse(updatedDatasets, options, searchIndex);
+  const fuse = useMemo(() => {
+    return new Fuse(updatedDatasets, options, searchIndex);
+  });
 
-  useEffect(() => {
-    setFinalDatesNotFound(true);
-
-    if (typeof window !== 'undefined') {
-      setInnerWidth(window.innerWidth);
-    }
-
-    // todo - Break out code and add a removeEventListener
-    window.addEventListener('resize', () => {
-      setInnerWidth(window.innerWidth);
-    });
-  }, []);
-
-  useEffect(() => {
-    setFinalDatesNotFound(false);
-    setTimeout(() => {
-      if (updatedDatasets && searchQuery) {
-        setSearchResults(
-          fuse.search(searchQuery).map(result => {
-            return { ...result.item, score: result.score };
-          })
-        );
-      } else {
-        setSearchResults(updatedDatasets);
-      }
-    }, 100); // let the page load before positioning cards for the first time
-  }, [updatedDatasets]);
-
-  useEffect(() => {
+  useMemo(() => {
     if (updatedDatasets && searchQuery) {
       setSearchResults(
         fuse.search(searchQuery).map(result => {
@@ -150,7 +124,7 @@ const DatasetsPage = ({ pageContext }) => {
     } else {
       setSearchResults(updatedDatasets);
     }
-  }, [searchQuery]);
+  }, [updatedDatasets, searchQuery]);
 
   const datasetAbstract = dataset => {
     if (dataset && dataset.techSpecs && dataset.techSpecs.latestDate) {
@@ -167,7 +141,7 @@ const DatasetsPage = ({ pageContext }) => {
         <div className="searchBodyBackground">
           <div className={searchContainer}>
             <h1 className={page_title}>Datasets</h1>
-            <SearchField finalDatesNotFound={finalDatesNotFound} changeHandler={setSearchQuery} isLoading={finalDatesNotFound} />
+            <SearchField finalDatesNotFound={!updatedDatasets?.length} changeHandler={setSearchQuery} />
             <FilterSection
               searchIsActive={searchQuery.length > 0}
               searchResults={searchResults}
@@ -176,7 +150,7 @@ const DatasetsPage = ({ pageContext }) => {
               topicIcons={topicIcons}
               maxDate={maxDate}
               searchQuery={searchQuery}
-              isHandheld={innerWidth < 992}
+              isHandheld={windowSize && windowSize[0] > 0 && windowSize[0] < 992}
             />
           </div>
         </div>

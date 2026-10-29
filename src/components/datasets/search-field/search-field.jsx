@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { noButton, searchInput, searchInput_iconButton, searchInput_textField } from './search-field.module.scss';
+import {
+  noButton,
+  searchInput,
+  searchInput_iconButton,
+  searchInput_textField
+} from './search-field.module.scss';
 import { faSearch } from '@fortawesome/free-solid-svg-icons/faSearch';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,7 +41,7 @@ export const lastUpdatedInfoTipAnalyticsObject = {
   label: 'Keyword Search',
 };
 
-const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
+const SearchField = ({ changeHandler, finalDatesNotFound }) => {
   const context = useContext(siteContext);
   const { keywords, setKeywords } = context;
   const [localText, setLocalText] = useState(context ? keywords : '');
@@ -123,13 +128,13 @@ const SearchField = ({ changeHandler, finalDatesNotFound, isLoading }) => {
           ref={searchField}
           aria-label="Enter search terms"
           title="Enter Search Terms"
-          disabled={isLoading}
+          disabled={finalDatesNotFound}
         />
         <button
           data-testid="search-button"
           className={searchInput_iconButton}
           onClick={clear}
-          disabled={isLoading || searchIsEmpty}
+          disabled={finalDatesNotFound || searchIsEmpty}
           aria-hidden={searchIsEmpty}
           aria-label={!searchIsEmpty ? 'clear' : ''}
         >
