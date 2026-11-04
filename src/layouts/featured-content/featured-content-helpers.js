@@ -6,26 +6,26 @@ import React from 'react';
 const envBaseUrl = BASE_URL || '';
 
 export const featuredContentLandingSocialShare = {
-         title: 'Featured Content Now Available',
-         description:
-           'Explore 230 years of U.S. federal finances from @FiscalService Fiscal Data! Dive into historical federal receipts and expenditures, ' +
-           'U.S. financial data transparency, and historical U.S. government spending. ' +
-           '#FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
-         body:
-           'Explore our collection of current data-related government financial topics and check back for new articles in the future from ' +
-           '@FiscalService Fiscal Data! Dive into 230 years of historical receipts and expenditures, ' +
-           'learn about the story of federal financial data transparency since America’s founding, ' +
-           'explore early U.S. government spending, check out the guide to get started on Fiscal Data, and more. ' +
-           'Visit now! #FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
-         emailSubject: 'Featured Content Now Available on Fiscal Data',
-         emailBody:
-           'Explore our collection of current data-related government financial topics and check back for new articles in the future. ' +
-           'Dive into 230 years of historical receipts and expenditures, ' +
-           'learn about the story of federal financial data transparency since America’s founding, explore early U.S. government spending, ' +
-           'check out the guide to get started on Fiscal Data, and more. Learn more about this historic release!',
-         url: envBaseUrl + '/featured-content/',
-         image: envBaseUrl + '/topics-section-images/featured-content-tile.png',
-       };
+  title: 'Featured Content Now Available',
+  description:
+    'Explore 230 years of U.S. federal finances from @FiscalService Fiscal Data! Dive into historical federal receipts and expenditures, ' +
+    'U.S. financial data transparency, and historical U.S. government spending. ' +
+    '#FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
+  body:
+    'Explore our collection of current data-related government financial topics and check back for new articles in the future from ' +
+    '@FiscalService Fiscal Data! Dive into 230 years of historical receipts and expenditures, ' +
+    'learn about the story of federal financial data transparency since America’s founding, ' +
+    'explore early U.S. government spending, check out the guide to get started on Fiscal Data, and more. ' +
+    'Visit now! #FiscalHistory #OpenData #USFinances #DataTransparency #GovernmentSpending',
+  emailSubject: 'Featured Content Now Available on Fiscal Data',
+  emailBody:
+    'Explore our collection of current data-related government financial topics and check back for new articles in the future. ' +
+    'Dive into 230 years of historical receipts and expenditures, ' +
+    'learn about the story of federal financial data transparency since America’s founding, explore early U.S. government spending, ' +
+    'check out the guide to get started on Fiscal Data, and more. Learn more about this historic release!',
+  url: envBaseUrl + '/featured-content/',
+  image: envBaseUrl + '/topics-section-images/featured-content-tile.png',
+};
 
 export const storyOfDataTransparency = {
   title: 'The Story of Data Transparency',
@@ -355,7 +355,7 @@ const featuredContentCitations = page => {
     ),
     historicalDebtOutstandingDataset: (
       <CustomLink
-        url="datasets/historical-debt-outstanding/historical-debt-outstanding"
+        url="/datasets/historical-debt-outstanding/historical-debt-outstanding"
         id="Historical Debt Outstanding"
         onClick={() => analyticsEventHandler(page, 'Historical Debt Outstanding')}
       >
@@ -422,6 +422,42 @@ const featuredContentCitations = page => {
         cost of maintaining the debt
       </CustomLink>
     ),
+    treasurySecuritiesAuctionsDataLink: (
+      <CustomLink
+        url="/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data"
+        id="Treasury Securities Auctions Data"
+        onClick={() => analyticsEventHandler(page, 'Treasury Securities Auctions Data')}
+      >
+        Treasury Securities Auctions Data
+      </CustomLink>
+    ),
+    frnDailyIndexesLink: (
+      <CustomLink
+        url="/datasets/frn-daily-indexes/frn-daily-indexes"
+        id="FRN Daily Indexes"
+        onClick={() => analyticsEventHandler(page, 'FRN Daily Indexes')}
+      >
+        FRN Daily Indexes
+      </CustomLink>
+    ),
+    upcomingAuctions: (
+      <CustomLink
+        url="/datasets/upcoming-auctions/treasury-securities-upcoming-auctions"
+        id="Treasury Securities Upcoming Auctions Data"
+        onClick={() => analyticsEventHandler(page, 'Treasury Securities Upcoming Auctions Data')}
+      >
+        Upcoming Auctions
+      </CustomLink>
+    ),
+    tipsAndCpi: (
+      <CustomLink
+        url="/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table"
+        id="TIPS and CPI Data"
+        onClick={() => analyticsEventHandler(page, 'TIPS and CPI Data')}
+      >
+        TIPS and CPI
+      </CustomLink>
+    ),
   };
 };
 
@@ -430,4 +466,5 @@ export const featuredContentCitationsMap = {
   'historic-data-announcement': featuredContentCitations('Historic Data Now Available'),
   'historic-govt-spending': featuredContentCitations('See Historic Government Spending'),
   'getting-started': featuredContentCitations('Getting Started on Fiscal Data'),
+  'treasury-auctions-data': featuredContentCitations('Treasury Auctions Data Updates and Enhancements'),
 };
