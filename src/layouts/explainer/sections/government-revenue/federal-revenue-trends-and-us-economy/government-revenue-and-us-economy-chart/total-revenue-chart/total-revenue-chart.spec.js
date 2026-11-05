@@ -146,6 +146,17 @@ describe('Total Revenue Chart', () => {
     expect(await findByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false })).toBeInTheDocument();
   });
 
+  it('sends the page a formatted percentage for revenueRatio, not the raw ratio', async () => {
+    const copyPageData = jest.fn();
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalRevenueChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={copyPageData} />
+      </ErrorBoundary>
+    );
+    await findByText('Since 2015, the Revenue-to-GDP ratio has increased from 18% to 20%.', { exact: false });
+    expect(copyPageData).toHaveBeenCalledWith(expect.objectContaining({ revenueRatio: '20%' }));
+  });
+
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(
