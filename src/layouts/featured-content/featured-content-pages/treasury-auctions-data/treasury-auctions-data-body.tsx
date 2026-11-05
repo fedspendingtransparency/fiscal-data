@@ -3,7 +3,7 @@ import { featuredContentCitationsMap } from '../../featured-content-helpers';
 
 export const TreasuryAuctionsDataBody = (): ReactElement => {
   const { treasurySecuritiesAuctionsDataLink, frnDailyIndexesLink, upcomingAuctions, tipsAndCpi } = featuredContentCitationsMap[
-    'story-of-data-transparency'
+    'treasury-auctions-data'
   ];
 
   return (
