@@ -63,6 +63,22 @@ const featuredContentPagesSource = {
       subHeading: 'Ever been curious about how the early U.S. government spent money?',
     },
   },
+  'treasury-auctions-data': {
+    slug: '/featured-content/treasury-auctions-data-updates-enhancements/',
+    breadCrumbLinkName: 'Treasury Auctions Data Updates and Enhancements',
+    seoConfig: {
+      pageTitle: 'Treasury Auctions Data Updates and Enhancements',
+      description:
+        'Understand recent changes to four key Treasury Securities Auctions datasets on Fiscal Data, including a completely new data table ' +
+        'on interest payments.',
+      keywords: 'fiscal data, transparency, securities, open data, auctions',
+    },
+    prodReady: true,
+    heroImage: {
+      heading: 'Treasury Auctions Data Updates and Enhancements',
+      subHeading: 'Explore expanded Treasury Auctions data on Fiscal Data.',
+    },
+  },
 };
 
 const freshFeaturedContentPages = () => {
