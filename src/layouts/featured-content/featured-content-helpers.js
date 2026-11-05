@@ -293,7 +293,7 @@ export const treasuryAuctionsData = {
   image: {
     imageRefDesktop: 'treasury-auctions-data',
     imageRefMobile: 'treasury-auctions-data',
-    altText: '???',
+    altText: 'Treasury Auctions Data Updates and Enhancements',
   },
   socialShare: {
     title: 'Treasury Auctions Data Changes',
@@ -307,7 +307,7 @@ export const treasuryAuctionsData = {
     emailBody:
       'Do you use data related to Treasury Auctions on Fiscal Data? Check out this important update on recent changes to four key Auctions ' +
       'datasets: Treasury Securities Auctions Data, FRN Daily Indexes, Upcoming Auctions, and TIPs and CPI.',
-    url: envBaseUrl + '/featured-content/???/',
+    url: envBaseUrl + '/featured-content/treasury-auctions-data-updates-enhancements/',
     image: envBaseUrl + '/featured-content-images/treasury-auctions-data.png',
   },
   links: {

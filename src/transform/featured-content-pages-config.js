@@ -64,7 +64,7 @@ const featuredContentPagesSource = {
     },
   },
   'treasury-auctions-data': {
-    slug: '/featured-content/???/',
+    slug: '/featured-content/treasury-auctions-data-updates-enhancements/',
     breadCrumbLinkName: 'Treasury Auctions Data Updates and Enhancements',
     seoConfig: {
       pageTitle: 'Treasury Auctions Data Updates and Enhancements',
