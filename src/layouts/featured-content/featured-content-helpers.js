@@ -483,7 +483,7 @@ const featuredContentCitations = page => {
     ),
     treasurySecuritiesAuctionsDataLink: (
       <CustomLink
-        url="/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data"
+        url="/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated"
         id="Treasury Securities Auctions Data"
         onClick={() => analyticsEventHandler(page, 'Treasury Securities Auctions Data')}
       >
@@ -492,7 +492,7 @@ const featuredContentCitations = page => {
     ),
     frnDailyIndexesLink: (
       <CustomLink
-        url="/datasets/frn-daily-indexes/frn-daily-indexes"
+        url="/datasets/frn-daily-indexes/frn-daily-indexes-updated"
         id="FRN Daily Indexes"
         onClick={() => analyticsEventHandler(page, 'FRN Daily Indexes')}
       >
@@ -501,7 +501,7 @@ const featuredContentCitations = page => {
     ),
     upcomingAuctions: (
       <CustomLink
-        url="/datasets/upcoming-auctions/treasury-securities-upcoming-auctions"
+        url="/datasets/upcoming-auctions/treasury-securities-upcoming-auctions-updated"
         id="Treasury Securities Upcoming Auctions Data"
         onClick={() => analyticsEventHandler(page, 'Treasury Securities Upcoming Auctions Data')}
       >
@@ -510,7 +510,7 @@ const featuredContentCitations = page => {
     ),
     tipsAndCpi: (
       <CustomLink
-        url="/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table"
+        url="/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table-updated"
         id="TIPS and CPI Data"
         onClick={() => analyticsEventHandler(page, 'TIPS and CPI Data')}
       >
