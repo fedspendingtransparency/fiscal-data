@@ -284,11 +284,70 @@ export const gettingStarted = {
   },
 };
 
+export const treasuryAuctionsData = {
+  title: 'Treasury Auctions Data Updates and Enhancements',
+  colors: {
+    primary: '#263A73',
+    secondary: '#cfd8f3',
+  },
+  image: {
+    imageRefDesktop: 'treasury-auctions-data',
+    imageRefMobile: 'treasury-auctions-data',
+    altText: '???',
+  },
+  socialShare: {
+    title: 'Treasury Auctions Data Changes',
+    description:
+      'Catch up on recent changes and enhancements to four Treasury Securities Auctions datasets on @FiscalService Fiscal Data ' +
+      '#DataTransparency #OpenData',
+    body:
+      'Catch up on recent changes and enhancements to four Treasury Securities Auctions datasets on @FiscalService Fiscal Data ' +
+      '#DataTransparency #OpenData',
+    emailSubject: 'Treasury Auctions Data Changes on Fiscal Data',
+    emailBody:
+      'Do you use data related to Treasury Auctions on Fiscal Data? Check out this important update on recent changes to four key Auctions ' +
+      'datasets: Treasury Securities Auctions Data, FRN Daily Indexes, Upcoming Auctions, and TIPs and CPI.',
+    url: envBaseUrl + '/featured-content/???/',
+    image: envBaseUrl + '/featured-content-images/treasury-auctions-data.png',
+  },
+  links: {
+    exploreMore: [
+      {
+        text: 'Treasury Savings Bonds Explained',
+        url: '/treasury-savings-bonds/',
+      },
+      {
+        text: 'Understanding the National Debt',
+        url: '/americas-finance-guide/national-debt/',
+      },
+    ],
+    discoverDatasets: [
+      {
+        text: 'Treasury Securities Auctions Data',
+        url: '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
+      },
+      {
+        text: 'FRN Daily Indexes',
+        url: '/datasets/frn-daily-indexes/frn-daily-indexes-updated',
+      },
+      {
+        text: 'Treasury Securities Upcoming Auctions Data',
+        url: '/datasets/upcoming-auctions/treasury-securities-upcoming-auctions-updated',
+      },
+      {
+        text: 'TIPS and CPI Data',
+        url: '/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table-updated',
+      },
+    ],
+  },
+};
+
 const featuredContentPages = {
   'story-of-data-transparency': storyOfDataTransparency,
   'historic-data-announcement': historicDataNowAvailable,
   'historic-govt-spending': historicGovtSpending,
   'getting-started': gettingStarted,
+  'treasury-auctions-data': treasuryAuctionsData,
 };
 
 export const getFeaturedContentPage = pageName => featuredContentPages[pageName];
