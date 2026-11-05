@@ -9,6 +9,11 @@ import GlossaryPopoverDefinition from '../../../../../components/glossary/glossa
 import reactStringReplace from 'react-string-replace';
 import revenueConstants from '../constants';
 
+export const getLargestSource = rows =>
+  (rows || [])
+    .filter(row => Number.isFinite(Number(row?.current_fytd_rcpt_outly_amt)))
+    .sort((a, b) => Number(b.current_fytd_rcpt_outly_amt) - Number(a.current_fytd_rcpt_outly_amt))[0];
+
 const RevenueKeyTakeaways = () => {
   const [latestCompleteFiscalYear, setLatestCompleteFiscalYear] = useState(0);
   const [revenuePercentGDP, setRevenuePercentGDP] = useState(0);
@@ -56,16 +61,13 @@ const RevenueKeyTakeaways = () => {
       const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
 
       basicFetch(`${apiPrefix}${revenueConstants.PRIOR_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
-        const data = res.data;
+        const largest = getLargestSource(res?.data);
+        if (!largest) return;
 
-        // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
-        data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+        setPriorFYLargestSource(largest.classification_desc);
 
-        setPriorFYLargestSource(data[0]['classification_desc']);
-
-        // take the first index and use with currentFyAmt
-        const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
-        setPriorFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+        const percentOfTot = (Number(largest.current_fytd_rcpt_outly_amt) / Number(currentFyAmt)) * 100;
+        if (Number.isFinite(percentOfTot)) setPriorFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
       });
     });
 
@@ -74,16 +76,13 @@ const RevenueKeyTakeaways = () => {
       const currentFyAmt = res.data[0]['current_fytd_rcpt_outly_amt'];
 
       basicFetch(`${apiPrefix}${revenueConstants.CURRENT_MULTI_FYTD_RCPT_OUTLY_AMT}`).then(res => {
-        const data = res.data;
+        const largest = getLargestSource(res?.data);
+        if (!largest) return;
 
-        // sorting to get the highest current_fytd_rcpt_outly_amt that will provide us the highest %:
-        data.sort((a, b) => Number(b['current_fytd_rcpt_outly_amt']) - Number(a['current_fytd_rcpt_outly_amt']));
+        setCurrentFYLargestSource(largest.classification_desc);
 
-        setCurrentFYLargestSource(data[0]['classification_desc']);
-
-        // take the first index and use with currentFyAmt
-        const percentOfTot = (Number(data[0]['current_fytd_rcpt_outly_amt']) / Number(currentFyAmt)) * 100;
-        setCurrentFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
+        const percentOfTot = (Number(largest.current_fytd_rcpt_outly_amt) / Number(currentFyAmt)) * 100;
+        if (Number.isFinite(percentOfTot)) setCurrentFYLargestSourceTotPercent(Math.abs(percentOfTot).toFixed(1));
       });
 
       basicFetch(`${apiPrefix}${revenueConstants.CURRENT_FY}`).then(res => {

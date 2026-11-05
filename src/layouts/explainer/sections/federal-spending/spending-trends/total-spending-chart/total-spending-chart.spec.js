@@ -73,6 +73,17 @@ describe('Total Spending Chart', () => {
     expect(await findByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false })).toBeInTheDocument();
   });
 
+  it('sends the page a formatted percentage for percentOfGDP, not the raw ratio', async () => {
+    const copyPageData = jest.fn();
+    const { findByText } = render(
+      <ErrorBoundary>
+        <TotalSpendingChart cpiDataByYear={mockCpiDataset} beaGDPData={mockBeaGDPData} copyPageData={copyPageData} />
+      </ErrorBoundary>
+    );
+    await findByText('Since 2015, the Spending to GDP ratio has increased from 20% to 25%', { exact: false });
+    expect(copyPageData).toHaveBeenCalledWith(expect.objectContaining({ percentOfGDP: '25%' }));
+  });
+
   it('renders the chart', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch');
     const { findByTestId } = render(

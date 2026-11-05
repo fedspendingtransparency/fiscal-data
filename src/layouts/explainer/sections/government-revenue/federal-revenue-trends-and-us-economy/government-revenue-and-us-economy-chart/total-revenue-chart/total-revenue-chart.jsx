@@ -227,7 +227,7 @@ const TotalRevenueChart = ({ cpiDataByYear, beaGDPData, copyPageData }) => {
           copyPageData({
             fiscalYear: revenueMaxYear.x,
             revenueTotal: getShortForm(revenueLastAmountActual, false),
-            revenueRatio: chartLastRatio,
+            revenueRatio: Number.isFinite(chartLastRatio) ? lastRatio_formatted : '',
           });
         }
       })

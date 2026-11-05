@@ -2,7 +2,7 @@ import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import fetchMock from 'fetch-mock';
 import { determineBEANoQ3FetchResponse } from '../../../../../utils/mock-utils';
-import RevenueKeyTakeaways from './revenue-key-takeaways';
+import RevenueKeyTakeaways, { getLargestSource } from './revenue-key-takeaways';
 import revenueConstants from '../constants';
 import { beaResponse } from '../../../../../utils/mock-utils-mock-data';
 
@@ -31,6 +31,10 @@ describe('Revenue Key Takeaways evergreen values', () => {
   const mockPriorMulti_FROA = {
     data: [
       {
+        classification_desc: 'Social Insurance and Retirement Receipts',
+        current_fytd_rcpt_outly_amt: 'null',
+      },
+      {
         classification_desc: 'Individual Income Taxes',
         current_fytd_rcpt_outly_amt: '2044377037669.21',
       },
@@ -56,6 +60,10 @@ describe('Revenue Key Takeaways evergreen values', () => {
 
   const mockCurrentMulti_FROA = {
     data: [
+      {
+        classification_desc: 'Social Insurance and Retirement Receipts',
+        current_fytd_rcpt_outly_amt: 'null',
+      },
       {
         current_fytd_rcpt_outly_amt: '1114485265535.88',
         classification_desc: 'Individual Income Taxes',
@@ -165,5 +173,21 @@ describe('Revenue Key Takeaways containing GDP Q3 scenario', () => {
     await waitFor(() => expect(fetchSpy).toHaveBeenCalled());
     expect(await findAllByText('In fiscal year 2015', { exact: false })).toHaveLength(2);
     expect(await findByText('11.09 trillion', { exact: false })).toBeInTheDocument();
+  });
+});
+
+describe('getLargestSource', () => {
+  it('skips rows whose amount is not a number (the API sends the string "null" for header rows)', () => {
+    const rows = [
+      { classification_desc: 'Social Insurance and Retirement Receipts', current_fytd_rcpt_outly_amt: 'null' },
+      { classification_desc: 'Corporation Income Taxes', current_fytd_rcpt_outly_amt: '381414689057.62' },
+      { classification_desc: 'Individual Income Taxes', current_fytd_rcpt_outly_amt: '2845526866159.55' },
+    ];
+    expect(getLargestSource(rows).classification_desc).toBe('Individual Income Taxes');
+  });
+
+  it('returns undefined when there are no usable rows', () => {
+    expect(getLargestSource(undefined)).toBeUndefined();
+    expect(getLargestSource([{ classification_desc: 'x', current_fytd_rcpt_outly_amt: 'null' }])).toBeUndefined();
   });
 });
