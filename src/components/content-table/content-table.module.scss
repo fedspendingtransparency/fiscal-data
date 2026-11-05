@@ -30,6 +30,10 @@
     border-bottom: $table-border-style;
   }
 
+  .tableRow:last-child td {
+    border-bottom: none;
+  }
+
   .cellLabel {
     display: none;
   }
@@ -63,10 +67,6 @@
     .tableRow {
       border-top: $table-border-style;
       padding: 1.25rem 0;
-
-      &:last-child {
-        border-bottom: $table-border-style;
-      }
 
       td {
         border-bottom: none;
