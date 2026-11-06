@@ -223,7 +223,7 @@ export const pageTileMap = {
            title: 'Historic Data Now Available',
            body:
              "In celebration of America's 250th Anniversary, Federal receipts and expenditure data dating back to 1793 " +
-             "is now available on FiscalData.Treasury.gov.",
+             'is now available on FiscalData.Treasury.gov.',
            altText: 'Historic Data Now Available',
            desktopImage: 'historic-data-now-available',
            mobileImage: 'historic-data-now-available',
@@ -238,5 +238,14 @@ export const pageTileMap = {
            mobileImage: 'featured-content-tile',
            path: '/featured-content/',
            analyticsName: 'Introducing Featured Content',
+         },
+         'treasury-auctions-data': {
+           title: 'Treasury Auctions Data Updates and Enhancements',
+           body: 'Check out a quick overview of the enhancements and changes made to four Treasury Securities Auctions datasets',
+           altText: 'Treasury Auctions Data Updates and Enhancements',
+           desktopImage: 'treasury-auctions-data',
+           mobileImage: 'treasury-auctions-data',
+           path: '/featured-content/treasury-auctions-data-updates-enhancements/ ',
+           analyticsName: 'Treasury Auctions Data Updates and Enhancements',
          },
        };
