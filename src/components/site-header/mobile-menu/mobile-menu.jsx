@@ -88,6 +88,10 @@ const MobileMenu = ({ setOpenGlossary }) => {
           to: '/featured-content/getting-started/',
           name: 'Getting Started on Fiscal Data',
         },
+        {
+          to: '/featured-content/treasury-auctions-data-updates-enhancements/',
+          name: 'Treasury Auctions Data Updates and Enhancements',
+        },
       ],
     },
   ];
