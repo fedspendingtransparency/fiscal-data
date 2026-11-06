@@ -1,0 +1,91 @@
+@use 'src/variables.module' as *;
+
+.contentTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-16;
+  color: $font-body-copy;
+  margin: 1.5rem 0;
+
+  caption {
+    text-align: left;
+    font-weight: $semi-bold-weight;
+    color: $font-title;
+    margin-bottom: 0.5rem;
+  }
+
+  .headerCell {
+    text-align: left;
+    vertical-align: bottom;
+    font-weight: $semi-bold-weight;
+    color: $font-title;
+    padding: 0 1.5rem 1rem 0;
+    border-bottom: $table-border-style;
+  }
+
+  .tableRow td {
+    text-align: left;
+    vertical-align: top;
+    padding: 1rem 1.5rem 1rem 0;
+    border-bottom: $table-border-style;
+  }
+
+  .tableRow:last-child td {
+    border-bottom: none;
+  }
+
+  .cellLabel {
+    display: none;
+  }
+
+  .linkCell {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: $breakpoint-md - 1px) {
+  .contentTable {
+    font-size: $font-size-14;
+
+    thead {
+      // Keep headers available to screen readers while hiding them visually
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    tbody,
+    .tableRow,
+    .tableRow td {
+      display: block;
+    }
+
+    .tableRow {
+      border-top: $table-border-style;
+      padding: 1.25rem 0;
+
+      td {
+        border-bottom: none;
+        padding: 0;
+
+        &:not(:last-child) {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+
+    .cellLabel {
+      display: block;
+      font-weight: $semi-bold-weight;
+      color: $font-title;
+    }
+
+    .cellValue {
+      display: block;
+    }
+  }
+}
