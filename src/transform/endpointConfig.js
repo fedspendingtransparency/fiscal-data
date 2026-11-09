@@ -3071,6 +3071,67 @@ const endpointConfig = {
       'record_calendar_day',
     ],
   },
+  // TIPS and CPI V2
+  331: {
+    endpoint: 'v1/accounting/od/tips_cpi_data_summary_v2',
+    downloadName: 'TIPSandCPIdata_Summary_v2',
+    dateField: 'original_issue_date',
+    alwaysSortWith: ['-comp_auction_close_date'],
+    detailApi: {
+      apiId: 332,
+      field: 'cusip',
+      label: 'CUSIP',
+      dateRangeLockCopy: 'To filter data by date range, select a CUSIP from the table below.',
+      summaryTableFields: [
+        'cusip',
+        'series',
+        'interest_rate',
+        'security_term',
+        'original_issue_date',
+        'maturity_date',
+        'dated_date',
+        'ref_cpi_on_dated_date',
+        'additional_issue_date',
+      ],
+      selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+    },
+    selectColumns: [],
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+        decimalPlaces: 6,
+      },
+      {
+        type: 'STRING',
+        fields: ['additional_issue_date'],
+        breakChar: ',',
+        customType: 'dateList',
+      },
+    ],
+  },
+  332: {
+    endpoint: 'v1/accounting/od/tips_cpi_data_detail_v2',
+    downloadName: 'TIPSandCPIdata_Details_v2',
+    dateField: 'index_date',
+    alwaysSortWith: ['-index_date'],
+    hideColumns: ['cusip', 'original_issue_date'],
+    isDetailApi: true,
+    customFormatting: [
+      {
+        type: 'NUMBER',
+        fields: ['index_ratio', 'ref_cpi', 'ref_cpi_on_dated_date'],
+        decimalPlaces: 6,
+      },
+      {
+        type: 'STRING',
+        fields: ['additional_issue_date'],
+        breakChar: ',',
+        customType: 'dateList',
+      },
+    ],
+    selectColumns: ['index_date', 'ref_cpi', 'index_ratio', 'pdf_link', 'xml_link'],
+  },
   //FRN Daily Indexes V2
   334: {
     endpoint: 'v1/accounting/od/frn_daily_indexes_v2',
