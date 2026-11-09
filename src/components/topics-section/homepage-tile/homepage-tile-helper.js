@@ -223,11 +223,11 @@ export const pageTileMap = {
          },
          'treasury-auctions-data': {
            title: 'Treasury Auctions Data Updates and Enhancements',
-           body: 'Check out a quick overview of the enhancements and changes made to four Treasury Securities Auctions datasets',
+           body: 'Check out a quick overview of the enhancements and changes made to four Treasury Securities Auctions datasets.',
            altText: 'Illustration with auctions-related imagery and the words “Featured Content: Treasury Auctions Data Updates & Enhancements” ',
            desktopImage: 'treasury-auctions-data',
            mobileImage: 'treasury-auctions-data',
-           path: '/featured-content/treasury-auctions-data-updates-enhancements/ ',
+           path: '/featured-content/treasury-auctions-data-updates-enhancements/',
            analyticsName: 'Treasury Auctions Data Updates and Enhancements',
          },
        };
