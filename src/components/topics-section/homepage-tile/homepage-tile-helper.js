@@ -233,7 +233,8 @@ export const pageTileMap = {
          'featured-content': {
            title: 'Introducing Featured Content',
            body: 'Explore our collection of current data-related government financial topics and check back for new articles in the future.',
-           altText: 'Introducing Featured Content',
+           altText:
+             'Illustration with images including the Fiscal Data logo and the text, “Introducing: Featured Content. A Collection of Current Data-related Government Financial Topics”',
            desktopImage: 'featured-content-tile',
            mobileImage: 'featured-content-tile',
            path: '/featured-content/',
@@ -242,7 +243,7 @@ export const pageTileMap = {
          'treasury-auctions-data': {
            title: 'Treasury Auctions Data Updates and Enhancements',
            body: 'Check out a quick overview of the enhancements and changes made to four Treasury Securities Auctions datasets',
-           altText: 'Treasury Auctions Data Updates and Enhancements',
+           altText: 'Illustration with auctions-related imagery and the words “Featured Content: Treasury Auctions Data Updates & Enhancements” ',
            desktopImage: 'treasury-auctions-data',
            mobileImage: 'treasury-auctions-data',
            path: '/featured-content/treasury-auctions-data-updates-enhancements/ ',
