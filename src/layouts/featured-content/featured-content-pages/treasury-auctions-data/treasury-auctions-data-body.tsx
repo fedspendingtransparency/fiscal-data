@@ -1,5 +1,40 @@
 import React, { ReactElement } from 'react';
 import { featuredContentCitationsMap } from '../../featured-content-helpers';
+import ContentTable, { ContentTableColumn } from '../../../../components/content-table/content-table';
+
+const datasetChangesColumns: ContentTableColumn[] = [
+  {
+    header: 'Dataset',
+    cells: ['Treasury Securities Auctions Data', 'Treasury Securities Auctions Data', 'FRN Daily Indexes', 'Upcoming Auctions', 'TIPs and CPI'],
+    urls: [
+      '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
+      '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
+      '/datasets/frn-daily-indexes/frn-daily-indexes-updated',
+      '/datasets/upcoming-auctions/treasury-securities-upcoming-auctions-updated',
+      '/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table-updated',
+    ],
+  },
+  {
+    header: 'Table',
+    cells: [
+      'Treasury Securities Auctions Data',
+      'Treasury Securities Interest Payments',
+      'FRN Daily Indexes',
+      'Treasury Securities Upcoming Auctions',
+      'Reference CPI Numbers and Daily Index Ratios Summary',
+    ],
+  },
+  {
+    header: 'Summary of Changes',
+    cells: [
+      'Over 70 new fields, field name changes',
+      'New data table',
+      'New XML file, field name changes',
+      'Field name changes',
+      'Field name changes',
+    ],
+  },
+];
 
 export const TreasuryAuctionsDataBody = (): ReactElement => {
   const { treasurySecuritiesAuctionsDataLink, frnDailyIndexesLink, upcomingAuctions, tipsAndCpi } = featuredContentCitationsMap[
@@ -22,6 +57,7 @@ export const TreasuryAuctionsDataBody = (): ReactElement => {
         each dataset will include data beginning with October 1, 2026. Historical data will be added soon. To aid in the transition to the new APIs
         and data tables, the old APIs will continue to be available until spring 2027. A summary of the changes is included below:{' '}
       </p>
+      <ContentTable columns={datasetChangesColumns} data-testid="treasury-auctions-changes-table" />
     </div>
   );
 };
