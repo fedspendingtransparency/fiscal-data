@@ -30,8 +30,8 @@ const datasetChangesColumns: ContentTableColumn[] = [
       'Over 70 new fields, field name changes',
       'New data table',
       'New XML file, field name changes',
-      'Field Name Changes',
-      'Field Name Changes',
+      'Field name changes',
+      'Field name changes',
     ],
   },
 ];
