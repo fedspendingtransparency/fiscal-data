@@ -9,7 +9,7 @@ const datasetChangesColumns: ContentTableColumn[] = [
     urls: [
       '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
       '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
-      '/datasets/treasury-securities-auctions-data/treasury-securities-auctions-data-updated',
+      '/datasets/frn-daily-indexes/frn-daily-indexes-updated',
       '/datasets/upcoming-auctions/treasury-securities-upcoming-auctions-updated',
       '/datasets/tips-cpi-data/reference-cpi-numbers-and-daily-index-ratios-summary-table-updated',
     ],
