@@ -210,33 +210,24 @@ export const pageTileMap = {
            path: '/treasury-savings-bonds/',
            analyticsName: 'Treasury Savings Bonds',
          },
-         'story-of-data-transparency': {
-           title: 'The Story of Data Transparency',
-           body: 'From the very beginning, transparency into government finances has been a critical part of government accounting.',
-           altText: 'The Story of Data Transparency',
-           desktopImage: 'story-of-data-transparency',
-           mobileImage: 'story-of-data-transparency',
-           path: 'featured-content/story-of-data-transparency/',
-           analyticsName: 'The Story of Data Transparency',
-         },
-         'historic-data-now-available': {
-           title: 'Historic Data Now Available',
-           body:
-             "In celebration of America's 250th Anniversary, Federal receipts and expenditure data dating back to 1793 " +
-             "is now available on FiscalData.Treasury.gov.",
-           altText: 'Historic Data Now Available',
-           desktopImage: 'historic-data-now-available',
-           mobileImage: 'historic-data-now-available',
-           path: 'featured-content/historic-data-announcement/',
-           analyticsName: 'Historic Data Now Available',
-         },
          'featured-content': {
            title: 'Introducing Featured Content',
            body: 'Explore our collection of current data-related government financial topics and check back for new articles in the future.',
-           altText: 'Introducing Featured Content',
+           altText:
+             'Illustration with images including the Fiscal Data logo and the text, ' +
+             '“Introducing: Featured Content. A Collection of Current Data-related Government Financial Topics”',
            desktopImage: 'featured-content-tile',
            mobileImage: 'featured-content-tile',
            path: '/featured-content/',
            analyticsName: 'Introducing Featured Content',
+         },
+         'treasury-auctions-data': {
+           title: 'Treasury Auctions Data Updates and Enhancements',
+           body: 'Check out a quick overview of the enhancements and changes made to four Treasury Securities Auctions datasets.',
+           altText: 'Illustration with auctions-related imagery and the words “Featured Content: Treasury Auctions Data Updates & Enhancements” ',
+           desktopImage: 'treasury-auctions-data',
+           mobileImage: 'treasury-auctions-data',
+           path: '/featured-content/treasury-auctions-data-updates-enhancements/',
+           analyticsName: 'Treasury Auctions Data Updates and Enhancements',
          },
        };
