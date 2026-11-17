@@ -6,6 +6,12 @@ import { waitFor } from '@testing-library/dom';
 import { useStaticQuery } from 'gatsby';
 import mockDatasetDetails from './mockDatasetDetails';
 
+jest.mock('gatsby-env-variables', () => ({
+  ENV_ID: 'dev',
+  API_BASE_URL: 'https://www.transparency.treasury.gov',
+  ADDITIONAL_DATASETS: {},
+}));
+
 const pageTitle = 'Some Page';
 const titleAppend = 'U.S. Treasury Fiscal Data';
 const baseUrl = globalConstants.BASE_SITE_URL;
@@ -49,7 +55,7 @@ describe('page helmet', () => {
       expect(dap.src).toBe('https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=FS');
     });
 
-    it('includes version-info', () => {
+    it('includes version-info in non-production environments', () => {
       const versionInfoScript = document.head.querySelector('meta[data-testid="version-info"]').content;
       expect(versionInfoScript).toBeDefined();
       expect(versionInfoScript).toContain('TAG: 2021.5.1');
@@ -57,7 +63,7 @@ describe('page helmet', () => {
       expect(versionInfoScript).toContain('COMMIT HASH: 123abc');
       expect(versionInfoScript).toContain('COMMIT MESSAGE: mock commit msg');
       expect(versionInfoScript).toContain('COMMIT DATE: date of commit');
-      expect(versionInfoScript).toContain('ENV ID: production');
+      expect(versionInfoScript).toContain('ENV ID: dev');
     });
 
     it('does not include structured data when not needed', () => {
