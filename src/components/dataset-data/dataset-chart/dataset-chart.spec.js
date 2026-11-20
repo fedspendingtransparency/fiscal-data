@@ -1,5 +1,11 @@
 import React from 'react';
-import DatasetChart, { determineFormat, dataTableChartNotesText, callbacks, chartHooks, setFieldsToChart } from './dataset-chart';
+import DatasetChart, {
+  callbacks,
+  chartHooks,
+  dataTableChartNotesText,
+  determineFormat,
+  setFieldsToChart
+} from './dataset-chart';
 import globalConstants from '../../../helpers/constants';
 import { chartCitationText } from './chart-citation/chart-citation';
 import * as Helpers from '../dataset-data-helper/dataset-data-helper';
@@ -61,6 +67,35 @@ const mockData = {
       c: 'C',
       d: 'D',
       e: 'E',
+    },
+  },
+};
+
+const mockData_2 = {
+  data: [
+    {
+      reporting_date: `${mockYears.from}-01-01`,
+      f: 1,
+      g: 2,
+      h: 3,
+    },
+    {
+      reporting_date: `${mockYears.to}-01-01`,
+      f: 11,
+      g: 12,
+      h: 13,
+    },
+  ],
+  meta: {
+    dataTypes: {
+      f: 'CURRENCY',
+      g: 'NUMBER',
+      h: 'NUMBER',
+    },
+    labels: {
+      f: 'F',
+      g: 'G',
+      h: 'H',
     },
   },
 };
@@ -537,5 +572,42 @@ describe('Dataset Chart', () => {
     onFieldUpdatesSpy.mockClear();
     fireEvent.click(checkboxInputs[0]);
     expect(onFieldUpdatesSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('rebuilds the legend fields when the data changes for a new pivot', async () => {
+    const { rerender, findByText, queryByText } = render(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivot}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+    expect(await findByText('Legend (4)')).toBeInTheDocument();
+    expect(queryByText('A')).toBeInTheDocument();
+
+    rerender(
+      <DatasetChart
+        config={mockConfig}
+        data={mockData_2}
+        dateField={mockDateField}
+        dateRange={mockDateRange}
+        selectedPivot={mockPivotWithRounded}
+        slug={mockSlug}
+        currentTable={mockTable}
+        isVisible
+        legend
+      />
+    );
+
+    expect(await findByText('Legend (3)')).toBeInTheDocument();
+    expect(queryByText('F')).toBeInTheDocument();
+    expect(queryByText('G')).toBeInTheDocument();
+    expect(queryByText('A')).not.toBeInTheDocument();
   });
 });
