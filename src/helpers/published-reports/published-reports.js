@@ -37,6 +37,7 @@ const allowlistDatasetIds = [
   '015-BFS-2025Q2-001',
   '015-BFS-2026Q1-002',
   '015-BFS-2026Q1-001',
+  '015-BFS-2014Q3-049',
 ];
 exports.allowListIds = allowlistDatasetIds;
 
