@@ -85,17 +85,15 @@ const DatasetChart = ({ data, slug, currentTable, isVisible, legend, selectedPiv
   const viz = useRef();
 
   const buildLegendConfig = fields => {
-    if (chartFields.length === 0 && fields.length !== 0) {
-      setChartFields(
-        fields.map(f => {
-          return {
-            field: f,
-            active: true,
-            label: data.meta.labels[f],
-          };
-        })
-      );
-    }
+    setChartFields(
+      fields.map(f => {
+        return {
+          field: f,
+          active: true,
+          label: data.meta.labels[f],
+        };
+      })
+    );
   };
 
   useEffect(() => {
