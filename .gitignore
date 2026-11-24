@@ -87,3 +87,7 @@ yarn-error.log
 
 # scss type definitions
 *.scss.d.ts
+
+# Claude Code Peronal files
+CLAUDE.local.md
+.claude/settings.lcoal.json
