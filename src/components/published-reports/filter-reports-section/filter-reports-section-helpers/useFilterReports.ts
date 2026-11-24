@@ -67,7 +67,10 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
       }
 
       let isoDates: string[] = [];
-      const { endpoint } = apis[0];
+      // const { endpoint } = apis[0];
+      // TODO: Calculate once per page
+      const endpoints = apis.map(api => api.endpoint);
+      console.log(endpoints)
 
       try {
         if (isSpecial) {
@@ -75,14 +78,21 @@ export const useFilterReports = (dataset: any, reportConfig: any) => {
           const res = await basicFetch(url);
           isoDates = Array.isArray(res) ? Array.from(new Set(res.map((r: any) => r?.report_date).filter(Boolean))) : [];
         } else if (dataTableRequest) {
-          const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${encodeURIComponent(
-            `${filterField}:eq:${selection.value}`
-          )}&fields=${encodeURIComponent(dataTableRequest.dateField)}&sort=-${encodeURIComponent(dataTableRequest.dateField)}&page[size]=10000`;
-          const res = await basicFetch(url);
-          isoDates = Array.isArray(res?.data)
-            ? Array.from(new Set(res.data.map((row: any) => row?.[dataTableRequest.dateField]).filter(Boolean)))
-            : [];
-        }
+                                       // TODO: Get dates from both endpoints
+                                       for (const endpoint of endpoints) {
+                                         const url = `${API_BASE_URL}/services/api/fiscal_service/${endpoint}?filter=${encodeURIComponent(
+                                           `${filterField}:eq:${selection.value}`
+                                         )}&fields=${encodeURIComponent(dataTableRequest.dateField)}&sort=-${encodeURIComponent(
+                                           dataTableRequest.dateField
+                                         )}&page[size]=10000`;
+                                         const res = await basicFetch(url);
+                                         isoDates = isoDates.concat(Array.isArray(res?.data)
+                                           ? Array.from(new Set(res.data.map((row: any) => row?.[dataTableRequest.dateField]).filter(Boolean)))
+                                           : []);
+                                       }
+                                       console.log(isoDates)
+
+                                     }
         setDateOptionsNested(buildNestedDateOptions(isoDates, dateFilterType === 'byDay'));
       } catch {
         setDateOptionsNested([]);
