@@ -467,7 +467,7 @@
       },
       "dataTableRequest" : {
         "fields": "pdf_filenm_announcemt,pdf_filenm_comp_results,pdf_filenm_noncomp_results,xml_filenm_announcemt,xml_filenm_comp_results,pdf_filenm_spec_announcemt",
-        "dateField": "auction_date"
+        "dateField": "issue_date"
       },
       "dateFilterLabel": "Issue Date",
       "dateFilterType": "byDay",
@@ -475,8 +475,7 @@
       "unmatchedMessage": "Select a different CUSIP and/or date in order to preview the data.",
       "defaultHeader": "This table requires additional filters.",
       "defaultMessage": "Select a CUSIP in the filter section above to display the reports.",
-      "cusipFirst": true,
-      "experimental": true
+      "cusipFirst": true
     }
   },
   "015-BFS-2014Q3-046": {
