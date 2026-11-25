@@ -90,4 +90,4 @@ yarn-error.log
 
 # Claude Code Peronal files
 CLAUDE.local.md
-.claude/settings.lcoal.json
+.claude/settings.local.json
